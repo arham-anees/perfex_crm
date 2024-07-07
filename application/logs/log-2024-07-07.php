@@ -1,0 +1,46 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-07-07 12:33:17 --> Severity: Compile Error --> Cannot redeclare appointly_register_permissions() (previously declared in /Applications/XAMPP/xamppfiles/htdocs/perfex_crm/modules/leads/leads.php:34) /Applications/XAMPP/xamppfiles/htdocs/perfex_crm/modules/appointly/appointly.php 123
+ERROR - 2024-07-07 09:35:04 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:35:04 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:35:12 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:35:12 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:35:16 --> 404 Page Not Found: admin/Leads-report/index
+ERROR - 2024-07-07 09:36:29 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:36:29 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:36:53 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:36:53 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:37:26 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:37:26 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:44:03 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:44:03 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:44:05 --> 404 Page Not Found: admin/Leads-report/index
+ERROR - 2024-07-07 09:44:18 --> 404 Page Not Found: admin/Leadsreport/index
+ERROR - 2024-07-07 09:45:11 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:45:15 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:45:20 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:47:23 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:48:04 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:48:09 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:48:12 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:48:16 --> 404 Page Not Found: ../../modules/leads/controllers/Leads_report/index
+ERROR - 2024-07-07 09:48:21 --> 404 Page Not Found: ../../modules/leads/controllers//index
+ERROR - 2024-07-07 09:48:41 --> 404 Page Not Found: ../../modules/leads/controllers/Leads_report/index
+ERROR - 2024-07-07 09:48:44 --> 404 Page Not Found: ../../modules/leads/controllers/Leads_report/index
+ERROR - 2024-07-07 09:48:48 --> 404 Page Not Found: admin/Leads_report/index
+ERROR - 2024-07-07 09:50:38 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:50:38 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:50:42 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:50:42 --> 404 Page Not Found: /index
+ERROR - 2024-07-07 09:52:57 --> 404 Page Not Found: admin/Leads-report/index
+ERROR - 2024-07-07 09:53:03 --> 404 Page Not Found: admin/Leads-reporting/index
+ERROR - 2024-07-07 09:53:09 --> 404 Page Not Found: admin/Leads-reporting/leads-report
+ERROR - 2024-07-07 10:05:08 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:05:49 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:06:05 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:06:09 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:07:43 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:07:50 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:07:56 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:07:59 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
+ERROR - 2024-07-07 10:09:16 --> 404 Page Not Found: ../../modules/leads_reporting/controllers//index
