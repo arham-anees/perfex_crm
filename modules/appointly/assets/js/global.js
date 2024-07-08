@@ -157,3 +157,50 @@ function preventDoubleClicksModal() {
         $('.modal-backdrop.fade').remove();
     }
 }
+
+function renderCalendar2(month, year) {
+    const calendar = document.getElementById('calendar');
+    const currentMonthYear = document.getElementById('current-month-year');
+    const prevMonthButton = document.getElementById('prev-month');
+    const nextMonthButton = document.getElementById('next-month');
+    const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    let date = new Date();
+    calendar.innerHTML = '';
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+
+    // Add days of week headers
+    daysOfWeek.forEach(day => {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'disabled';
+        dayElement.textContent = day;
+        calendar.appendChild(dayElement);
+    });
+
+    // Add empty elements for days before the first day of the month
+    const startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
+    for (let i = 0; i < startDay; i++) {
+        const emptyElement = document.createElement('div');
+        emptyElement.className = 'disabled';
+        calendar.appendChild(emptyElement);
+    }
+
+    // Add days of the month
+    for (let i = 1; i <= daysInMonth; i++) {
+        const dayElement = document.createElement('div');
+        dayElement.textContent = i;
+        dayElement.setAttribute('data-day', i);
+        calendar.appendChild(dayElement);
+
+        dayElement.addEventListener('click', function () {
+            document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    }
+}

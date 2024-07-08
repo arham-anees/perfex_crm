@@ -172,6 +172,7 @@ $route['admin/modules/(:any)/(:any)'] = 'admin/mods/$1/$2';
 
 // Public single ticket route
 $route['forms/tickets/(:any)'] = 'forms/public_ticket/$1';
+$route['(:any)'] = 'admin/appointly/custom_scheduler/$1';
 
 /**
  * @since  2.3.0
