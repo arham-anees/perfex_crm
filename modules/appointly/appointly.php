@@ -190,6 +190,26 @@ function appointly_register_menu_items()
             'position'        => 25,
             'icon'            => 'fa-brands fa-wpforms',
         ]);
+        $CI->app_menu->add_setup_menu_item('appointly', [
+            'collapse' => true,
+            'name'     => _l('setup_appointments'),
+            'position' => 20,
+            'badge'    => [],
+        ]);
+        $CI->app_menu->add_setup_children_item('appointly', [
+            'slug'     => 'appointly-status',
+            'name'     => _l('setup_appointments_status'),
+            'href'     => admin_url('appointly/statuses'),
+            'position' => 5,
+            'badge'    => [],
+        ]);
+        $CI->app_menu->add_setup_children_item('appointly', [
+            'slug'     => 'appointly-subjects',
+            'name'     => _l('setup_appointments_subjects'),
+            'href'     => admin_url('appointly/subjects'),
+            'position' => 5,
+            'badge'    => [],
+        ]);
     }
 }
 

@@ -1162,6 +1162,14 @@ if (!function_exists('get_subjects')) {
         return $CI->Appointments_subject_model->get_all();
     }
 }
+
+if (!function_exists('get_statuses')) {
+    function get_statuses() {
+        $CI =& get_instance();
+        $CI->load->model('Appointly/Appointments_status_model'); // Load your model
+        return $CI->Appointments_status_model->get_all();
+    }
+}
 /**
  * Get appointment default feedbacks.
  *
