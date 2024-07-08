@@ -7,6 +7,11 @@
          <div class="col-md-12">
             <div class="panel_s">
                <div class="panel-body">
+                  <div>
+                     <span> icon</span>
+                     <label> You are scheduled. </label>
+
+                  </div>
                </div>
             </div>
          </div>

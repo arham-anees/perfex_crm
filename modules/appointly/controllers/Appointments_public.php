@@ -84,7 +84,7 @@ class Appointments_public extends ClientsController
 
         $data['form'] = $form;
         $data['form']->recaptcha = 1;
-
+        
         $this->load->view('forms/appointments_form', $data);
     }
 
