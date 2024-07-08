@@ -43,6 +43,7 @@ applyAdditionalCssStyles($clientUserData);
 
                     <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 
+                  
                     <div class="text-center">
                         <h4 class="text-center"><?= _l('appointment_create_new_appointment'); ?></h4>
                     </div>
