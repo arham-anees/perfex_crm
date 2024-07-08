@@ -104,7 +104,7 @@ $appointly_show_summary = get_option('appointly_show_summary');
                     <?php } ?>
                 </select>
             </div>
-            <hr />
+            <hr/>
             <h4>Google Calendar API</h4>
             <div class="form-group">
                 <label for="google_client_id"><?= _l('appointments_google_calendar_client_id'); ?></label>
@@ -318,6 +318,13 @@ $appointly_show_summary = get_option('appointly_show_summary');
             <span class="label label-default">
                     <a href="<?= site_url('appointly/appointments_public/form'); ?>" target="_blank">
                         <?= site_url('appointly/appointments_public/form'); ?>
+                    </a>
+                </span>
+        </p>
+        <p><b>Form Subjects:</b>
+            <span class="label ">
+                    <a href="<?= site_url('appointly/subjects'); ?>" >
+                        List of Subjects
                     </a>
                 </span>
         </p>

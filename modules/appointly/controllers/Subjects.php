@@ -1,0 +1,77 @@
+<?php defined('BASEPATH') or exit('No direct script access allowed');
+
+class Subjects extends AdminController {
+
+    public function __construct() {
+        parent::__construct();
+        // Load any necessary models, libraries, helpers, etc.
+        $this->load->model('Appointments_subject_model');
+    }
+
+    public function index() {
+        // $data['subjects'] = $this.Appointments_subject_model->get_all();
+        $this->load->view('subjects/index');
+    }
+
+    public function delete() {
+        // Check if the request method is POST
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            // Retrieve POST data
+            $subject_id = $this->input->post('subject_id');
+
+            // Validate the input data
+            if (empty($subject_id)) {
+                // Redirect with an error if validation fails
+                $this->session->set_flashdata('error', 'Invalid subject ID.');
+                redirect('..');
+            }
+
+            // Process the data (e.g., delete from the database)
+            $deleted = $this->Appointments_subject_model->delete($subject_id);
+
+            // Redirect with a success or error message
+            if ($deleted) {
+                $this->session->set_flashdata('success', 'Subject deleted successfully.');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to delete subject.');
+            }
+
+            redirect('/admin/appointly/subjects');
+        } else {
+            // Redirect with an error if the request method is not POST
+            $this->session->set_flashdata('error', 'Invalid request method.');
+            redirect('/admin/appointly/subjects');
+        }
+    }
+
+    public function create() {
+        // Check if the request method is POST
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            // Retrieve POST data
+            $subject = $this->input->post('subject');
+
+            // Validate the input data
+            if (empty($subject)) {
+                // Redirect with an error if validation fails
+                $this->session->set_flashdata('error', 'Subject is required.');
+                redirect('/admin/appointly/subjects');
+            }
+
+            // Process the data (e.g., insert into the database)
+            $inserted = $this->Appointments_subject_model->create($subject);
+
+            // Redirect with a success or error message
+            if ($inserted) {
+                $this->session->set_flashdata('success', 'Subject added successfully.');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to add subject.');
+            }
+
+            redirect('/admin/appointly/subjects');
+        } else {
+            // Redirect with an error if the request method is not POST
+            $this->session->set_flashdata('error', 'Invalid request method.');
+            redirect('/admin/appointly/subjects');
+        }
+    }
+}

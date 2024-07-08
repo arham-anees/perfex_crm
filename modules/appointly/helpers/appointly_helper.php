@@ -1154,6 +1154,14 @@ if ( ! function_exists('getAppointmentHours')) {
     }
 }
 
+
+if (!function_exists('get_subjects')) {
+    function get_subjects() {
+        $CI =& get_instance();
+        $CI->load->model('Appointly/Appointments_subject_model'); // Load your model
+        return $CI->Appointments_subject_model->get_all();
+    }
+}
 /**
  * Get appointment default feedbacks.
  *
