@@ -318,3 +318,6 @@ $lang['appointly_view_all_in_calendar'] = 'Permitir que a pessoa responsável vi
 $lang['appointly_google_maps_not_shown'] = 'Os mapas do Google não serão exibidos.';
 $lang['appointly_google_api_key_notset'] = 'A chave de API do Google não está definida, defina a chave de API do Google em';
 $lang['appointly_message_will_hide'] = 'Esta mensagem será ocultada em 5 segundos';
+$lang['setup_appointments'] = 'Appointly';
+$lang['setup_appointments_status'] = 'Statuses';
+$lang['setup_appointments_subjects'] = 'Subjects';

@@ -320,3 +320,6 @@ $lang['appointly_view_all_in_calendar'] = 'Allow Responsible person to view all 
 $lang['appointly_google_maps_not_shown'] = 'Google maps will not be shown.';
 $lang['appointly_google_api_key_notset'] = 'Google API Key is not set please set Google API key in';
 $lang['appointly_message_will_hide'] = 'This message will be hidden in 5 seconds';
+$lang['setup_appointments'] = 'Appointly';
+$lang['setup_appointments_status'] = 'Statuses';
+$lang['setup_appointments_subjects'] = 'Subjects';
