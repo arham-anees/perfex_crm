@@ -172,7 +172,6 @@ $route['admin/modules/(:any)/(:any)'] = 'admin/mods/$1/$2';
 
 // Public single ticket route
 $route['forms/tickets/(:any)'] = 'forms/public_ticket/$1';
-$route['(:any)'] = 'admin/appointly/custom_scheduler/$1';
 
 /**
  * @since  2.3.0
@@ -184,6 +183,8 @@ $route['authentication/set_password/(:num)/(:num)/(:any)'] = 'admin/authenticati
 
 // For backward compatilibilty
 $route['survey/(:num)/(:any)'] = 'surveys/participate/index/$1/$2';
+
+$route['(:any)'] = 'admin/appointly/custom_scheduler/$1';
 
 if (file_exists(APPPATH . 'config/my_routes.php')) {
     include_once(APPPATH . 'config/my_routes.php');
