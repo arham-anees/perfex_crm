@@ -3,13 +3,14 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $aColumns = [
-    'id',
+    db_prefix() . 'appointly_appointments.id as id',
     'subject',
     'CAST(CONCAT(date, \' \', start_hour) AS DATETIME) as date',
     'firstname as creator_firstname',
-    'description',
+    db_prefix() . 'appointly_appointments.description as description',
     'finished',
-    'source'
+    'source',
+    'status_id'
 ];
 
 $sIndexColumn = 'id';
@@ -66,15 +67,17 @@ if (count($filters) > 0) {
 
 $join = [
     'LEFT JOIN ' . db_prefix() . 'staff ON ' . db_prefix() . 'staff.staffid = ' . db_prefix() . 'appointly_appointments.created_by',
+    'LEFT JOIN ' . db_prefix() . 'appointly_appointments_statuses ON ' . db_prefix() . 'appointly_appointments.status_id = ' . db_prefix() . 'appointly_appointments_statuses.id',
 ];
 
 $additionalSelect = [
     'approved',
     'created_by',
     'lastname as creator_lastname',
-    'name',
+    db_prefix() . 'appointly_appointments.name as name',
     db_prefix() . 'appointly_appointments.email as contact_email',
     db_prefix() . 'appointly_appointments.phone',
+    db_prefix() . 'appointly_appointments_statuses.name as status_name',
     'cancelled',
     'contact_id',
     'google_calendar_link',
@@ -175,10 +178,17 @@ foreach ($rResult as $aRow) {
         $outputStatus = '<div class="dropdown inline-block mleft5">';
         $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="appointmentStatusesDropdown' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 
-        $outputStatus .= checkAppointlyStatus($aRow);
-
+        $outputStatus .=  checkAppointlyStatus($aRow);
+        
         $outputStatus .= '</a>';
 
+        $customStatuses=get_statuses();
+        $statusHtml='';
+        foreach($customStatuses as $status){
+            if($status['id']!=$aRow['status_id']){
+                $statusHtml .= '<li><a href="" onclick="markAppointmentStatus(' . $aRow['id'] . ', ' . $status['id'] .'); return false" href="">' . _l('task_mark_as', $status['name']) . '</a></li>';
+            }
+        }
         if ($aRow['finished'] != 1) {
             $outputStatus .= '<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="appointmentStatusesDropdown' . $aRow['id'] . '">';
         }
@@ -190,7 +200,7 @@ foreach ($rResult as $aRow) {
 
         if ($aRow['cancelled'] == 0 && $aRow['finished'] == 0) {
             if ($aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
-                $outputStatus .= '<li><a href="" onclick="markAppointmentAsCancelled(' . $aRow['id'] . '); return false" id-"cancelAppointment">' . _l('task_mark_as', 'Cancelled') . '</a></li>';
+                $outputStatus .= '<li><a href="" onclick="markAppointmentAsCancelled(' . $aRow['id'] . '); return false" id-"cancelAppointment">' . _l('task_mark_as', 'Cancelled') . '</a></li>'. $statusHtml;
             }
         }
 

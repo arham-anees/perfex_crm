@@ -278,6 +278,23 @@
             $(".table-appointments").find(".dt-loader").remove();
         });
     }
+    function markAppointmentStatus(id, status_id) {
+        var url = window.location.search;
+        $.post("appointments/status", {
+            appointment_id: id,
+            status_id:status_id,
+            beforeSend: function () {
+                $(".table-appointments").append("<div class=\"dt-loader\"></div>");
+            }
+        }).done(function (r) {
+            r = JSON.parse(r);
+            if (r.result == true) {
+                alert_float("success", appointly_lang_approved);
+                $(".table-appointments").DataTable().ajax.reload();
+            }
+            $(".table-appointments").find(".dt-loader").remove();
+        });
+    }
 
     // Cancel appointment
     function markAppointmentAsCancelled(id) {

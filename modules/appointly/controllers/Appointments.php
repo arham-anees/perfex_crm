@@ -383,6 +383,27 @@ class Appointments extends AdminController
         return false;
     }
 
+        /**
+     * Approve new appointment
+     *
+     * @return void
+     */
+    public function status()
+    {
+        if (!is_admin() && !staff_appointments_responsible()) {
+            access_denied();
+        }
+
+        if ($this->input->is_ajax_request()) {
+            echo json_encode(['result' => $this->apm->appointment_status($this->input->post('appointment_id'),$this->input->post('status_id'))]);
+            die;
+        }
+
+        if ($this->apm->appointment_status($this->input->get('appointment_id'),$this->input->post('status_id'))) {
+            appointly_redirect_after_event('success', _l('appointment_appointment_approved'));
+        }
+    }
+
     /**
      * Get today's appointments
      *

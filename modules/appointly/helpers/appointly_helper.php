@@ -1431,8 +1431,9 @@ if ( ! function_exists('checkAppointlyStatus')) {
         if ($aRow['finished']!=1) {
             $icon = ' <i class="fa fa-caret-down" aria-hidden="true"></i>';
         }
-
-        if ($aRow['cancelled'] && $aRow['finished']==0) {
+        if($aRow['status_name']){
+            $outputStatus .= '<span class="label label-info">'.$aRow['status_name'].' '.$icon.' </span>';
+        } elseif ($aRow['cancelled'] && $aRow['finished']==0) {
             $outputStatus .= '<span class="label label-danger">'.strtoupper(_l('appointment_cancelled')).' '.$icon.' </span>';
         } elseif ( ! $aRow['finished'] && ! $aRow['cancelled'] && date('Y-m-d H:i', strtotime($aRow['date'])) < date('Y-m-d H:i') && $aRow['approved']==1) {
             $outputStatus .= '<span class="label label-danger">'.strtoupper(_l('appointment_missed_label')).' '.$icon.' </span>';

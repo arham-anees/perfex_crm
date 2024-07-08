@@ -603,17 +603,24 @@ class Appointly_model extends App_Model
     {
         $date = new DateTime();
         $today = $date->format('Y-m-d');
-
-        $staff_has_permissions = ! staff_can('view', 'appointments') || ! staff_can('view_own', 'appointments');
-
+        
+        $staff_has_permissions = !staff_can('view', 'appointments') || !staff_can('view_own', 'appointments');
+        
+        // Start building your query
+        $this->db->select(db_prefix() . 'appointly_appointments.*, ' . db_prefix() . 'appointly_appointments_statuses.name as status_name');
+        $this->db->from(db_prefix() . 'appointly_appointments');
+        $this->db->join(db_prefix() . 'appointly_appointments_statuses', db_prefix() . 'appointly_appointments_statuses.id = ' . db_prefix() . 'appointly_appointments.status_id', 'left');
+        $this->db->where('date', $today);
+        $this->db->where('approved', 1);
+        
         if ($staff_has_permissions) {
             $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
         }
-
-        $this->db->where('date', $today);
-        $this->db->where('approved', 1);
-
-        return $this->db->get(db_prefix() . 'appointly_appointments')->result_array();
+        
+        // Execute the query and return the result array
+        $query = $this->db->get();
+        return $query->result_array();
+               
     }
 
 
@@ -821,7 +828,7 @@ class Appointly_model extends App_Model
         $template->send();
 
         $this->db->where('id', $appointment_id);
-        $this->db->update(db_prefix() . 'appointly_appointments', ['cancelled' => 1]);
+        $this->db->update(db_prefix() . 'appointly_appointments', ['status_id' => NULL, 'cancelled' => 1]);
 
         header('Content-Type: application/json');
 
@@ -844,7 +851,24 @@ class Appointly_model extends App_Model
         $this->appointment_approve_notification_and_sms_triggers($appointment_id);
 
         $this->db->where('id', $appointment_id);
-        $this->db->update(db_prefix() . 'appointly_appointments', ['finished' => 0, 'approved' => 1, 'external_notification_date' => date('Y-m-d')]);
+        $this->db->update(db_prefix() . 'appointly_appointments', ['status_id' => NULL, 'finished' => 0, 'approved' => 1, 'external_notification_date' => date('Y-m-d')]);
+
+        return true;
+    }
+        /**
+     * Approve appointment
+     *
+     * @param string $appointment_id
+     *
+     * @return bool
+     */
+    public function appointment_status($appointment_id, $status_id)
+    {
+        //TODO: update this notification
+        // $this->appointment_approve_notification_and_sms_triggers($appointment_id);
+
+        $this->db->where('id', $appointment_id);
+        $this->db->update(db_prefix() . 'appointly_appointments', ['status_id' => $status_id, 'external_notification_date' => date('Y-m-d')]);
 
         return true;
     }
@@ -886,7 +910,7 @@ class Appointly_model extends App_Model
     public function mark_as_finished($id)
     {
         $this->db->where('id', $id);
-        $this->db->update(db_prefix() . 'appointly_appointments', ['finished' => 1]);
+        $this->db->update(db_prefix() . 'appointly_appointments', ['status_id' =>NULL, 'finished' => 1]);
 
         header('Content-Type: application/json');
         if ($this->db->affected_rows() !== 0) {
@@ -969,6 +993,48 @@ class Appointly_model extends App_Model
 
         $template->send();
     }
+
+    // private function appointment_approve_notification_and_sms_triggers($appointment_id)
+    // {
+    //     $appointment = $this->get_appointment_data($appointment_id);
+
+    //     $notified_users = [];
+
+    //     $attendees = $appointment['attendees'];
+
+    //     if (count($attendees) == 0) {
+    //         $this->atm->create($appointment_id, [get_staff_user_id()]);
+    //         $attendees = $this->atm->get($appointment_id);
+    //     }
+
+    //     foreach ($attendees as $staff) {
+    //         if ($staff['staffid'] === get_staff_user_id()) {
+    //             continue;
+    //         }
+
+    //         add_notification([
+    //             'description' => 'appointment_is_approved',
+    //             'touserid'    => $staff['staffid'],
+    //             'fromcompany' => true,
+    //             'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+    //         ]);
+
+
+    //         $notified_users[] = $staff['staffid'];
+    //         send_mail_template('appointly_appointment_approved_to_staff_attendees', 'appointly', array_to_object($appointment), array_to_object($staff));
+    //     }
+
+    //     pusher_trigger_notification(array_unique($notified_users));
+
+    //     $template = mail_template('appointly_appointment_approved_to_contact', 'appointly', array_to_object($appointment));
+
+    //     if ( ! empty($appointment['phone'])) {
+    //         $merge_fields = $template->get_merge_fields();
+    //         $this->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPROVED_TO_CLIENT, $appointment['phone'], $merge_fields);
+    //     }
+
+    //     $template->send();
+    // }
 
     /**
      * External appointment cancellation handler
