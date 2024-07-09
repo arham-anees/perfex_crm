@@ -41,18 +41,25 @@ if (!function_exists('get_appointment_types')) {
                 <div class="row main_wrapper">
                 <div class=" <?= 'col-md-4'; ?>">
                     <div class="logo">
-                        <h2>Pole Demarches</h2>
+                    <img src="logo.png" alt="Pôle Démarches" style="width:100%;">
                     </div>
                     <hr>
                     <br>
 
                     <p>Pole Demarches</p>
-                    <h3>Validation of Video Appointments</h3>
-                    <p>10 min</p>
+                    <h3>Validation of Appointment by Video</h3>
+                    <p><strong>Duration:</strong> 10 min</p>
                     <p>Online Conference Confirmation</p>
-                    <p>89 EUR</p>
+                    <p><strong>Cost:</strong> 89 EUR</p>
                     <p>2:20 - 3:20, Monday 1 July, 2024</p>
                     <p>Pacafic Time - USA and Canada</p>
+                    <br>
+                    <p><strong>Documents to Provide:</strong></p>
+        <ul>
+            <li>Identity Documents</li>
+            <li>Proof of Residence</li>
+            <li>Any document related to your situation</li>
+        </ul>
 
 
                </div>
