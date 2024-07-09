@@ -34,9 +34,26 @@ class Appointments extends AdminController
         if ($this->staff_no_view_permissions) {
             access_denied('Appointments');
         }
-        $start_date = '2024-06-01';
-        $end_date = '2024-07-30';
-        $attendees = '2';
+        if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
+        $start_date = $_GET['start_date'];
+        $end_date = $_GET['end_date'];
+        }
+        else{
+            $end_date =  date('Y-m-d');
+
+            // Subtract 30 days from today's date
+            $thirtyDaysAgo =( new DateTime())->sub(new DateInterval('P30D'));
+
+            // Format the date as YYYY-MM-DD
+            $start_date = $thirtyDaysAgo->format('Y-m-d');
+        }
+        if(isset($_GET['attendees'])){
+            $att=isset($_GET['attendees']) ? $_GET['attendees'] : [];
+            $attendees =$_GET['attendees'] ;//implode(',',$att);
+        }
+        else{
+            $attendees = '';
+        }
         // Create DateTime objects
         $startDateTime = new DateTime($start_date);
         $endDateTime = new DateTime($end_date);
@@ -47,12 +64,13 @@ class Appointments extends AdminController
         // Get the difference in days
         $daysDifference = $interval->days;
 
+
         $sql_internal='SELECT * FROM 
-        `tblappointly_appointments` 
-        WHERE date >= ? AND date <= ?';
-               $sql_internal2='SELECT * FROM 
-               `tblappointly_appointments` 
-               WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)';
+            `tblappointly_appointments` 
+            WHERE date >= ? AND date <= ?';
+        $sql_internal2='SELECT * FROM 
+            `tblappointly_appointments` 
+            WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)';
         if(strlen($attendees)>0){
             $sql_internal .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
             $sql_internal2 .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
@@ -76,37 +94,51 @@ class Appointments extends AdminController
             FROM
             (". $sql_internal2 .") a";
 
-// -- SUM(CASE WHEN a.date >= DATE_SUB(?DATE_SUB( AND a.date < ? THEN 1 ELSE 0 END) AS total_prior_filtered,
-// -- SUM(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? AND a.finished = 1 THEN 1 ELSE 0 END) AS completed_prior_filtered,
-// -- SUM(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? AND a.cancelled = 1 THEN 1 ELSE 0 END) AS cancelled_prior_filtered,
-// -- MIN(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? THEN a.date END) AS first_date_prior_filtered,
-// -- MAX(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? THEN a.date END) AS last_date_prior_filtered
-$query2 = $this->db->query($sql2,[$start_date, $end_date   // Base date for prior range calculations
-]);
-    $query = $this->db->query($sql,[
-            // $start_date, $end_date,  // For current range
-            // $start_date, $end_date,  // For completed in current range
-            // $start_date, $end_date,  // For cancelled in current range
-            // $start_date, $end_date,  // For min date in current range
-            // $start_date, $end_date,  // For max date in current range
-    
-            // $start_date, $end_date,  // For total in prior range
-            // $start_date, $end_date,  // For completed in prior range
-            // $start_date, $end_date,  // For cancelled in prior range
-            // $start_date, $end_date,  // For min date in prior range
-            // $start_date, $end_date,  // For max date in prior range
-    
-            $start_date, $end_date   // Base date for prior range calculations
+        $query2 = $this->db->query($sql2,[$start_date, $end_date   // Base date for prior range calculations
         ]);
+        $query = $this->db->query($sql,[
+                $start_date, $end_date   // Base date for prior range calculations
+            ]);
 
-        // Fetch the result
-        // $data['stats']= $query->result_array();
+            $sql_completed_by_dates="WITH RECURSIVE dates_cte AS (
+                SELECT DATE('". $start_date ."') AS date
+                UNION ALL
+                SELECT date + INTERVAL 1 DAY
+                FROM dates_cte
+                WHERE date < '" . $end_date . "'
+            )
+            SELECT 
+                d.date,
+                COUNT(a.date) AS completed_appointments
+            FROM 
+                dates_cte d
+            LEFT JOIN 
+                tblappointly_appointments a ON d.date = a.date AND a.finished = 1
+            GROUP BY 
+                d.date
+            ORDER BY 
+                d.date;";
+            $sql_internal_attendees="SELECT * FROM 
+            tblappointly_appointments 
+            WHERE date >= ? AND date <= ? AND finished = 1";
+            $sql_attendees_appointments ="SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
+            LEFT JOIN tblappointly_attendees att ON att.staff_id = s.staffid
+            LEFT JOIN (". $sql_internal_attendees .") AS ap ON ap.id = att.appointment_id
+            GROUP By att.staff_id;";
 
-    $data['summary'] = $query->result_array();
-    $data['summary2'] = $query2->result_array();
-    $data['prior_days'] = $daysDifference;
+        $data['completed_by_staff'] = ($this->db->query($sql_attendees_appointments,[
+            $start_date, $end_date   // Base date for prior range calculations
+        ]))->result_array();
+        $data['completed_by_date'] = ($this->db->query($sql_completed_by_dates))->result_array();
+        $data['summary'] = $query->result_array();
+        $data['summary2'] = $query2->result_array();
+        $data['prior_days'] = $daysDifference;    
+        $data['attendees'] = explode(',',$attendees);
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
 
-        $this->load->view('statistics', $data);
+        $this->load->view('statistics2', $data);
     }
 
     /**

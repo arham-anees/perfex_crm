@@ -322,3 +322,6 @@ $lang['setup_appointments'] = 'Appointly';
 $lang['setup_appointments_status'] = 'Statuses';
 $lang['setup_appointments_subjects'] = 'Subjects';
 $lang['appointment_menu_statistics'] = 'Statistics';
+
+$lang['appointment_statistics_start_date'] = 'Start Date';
+$lang['appointment_statistics_end_date'] = 'End Date';
