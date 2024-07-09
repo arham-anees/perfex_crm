@@ -190,6 +190,14 @@ function appointly_register_menu_items()
             'position'        => 25,
             'icon'            => 'fa-brands fa-wpforms',
         ]);
+
+        $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
+            'slug'            => 'appointly-link-statistics',
+            'name'            => 'appointment_menu_statistics',
+            'href'            => site_url('appointly/appointments/statistics'),
+            'position'        => 25,
+            'icon'            => 'fa-brands fa-th-list',
+        ]);
         $CI->app_menu->add_setup_menu_item('appointly', [
             'collapse' => true,
             'name'     => _l('setup_appointments'),

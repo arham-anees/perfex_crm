@@ -11,6 +11,7 @@ class Appointments extends AdminController
         $this->staff_no_view_permissions = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
 
         $this->load->model('appointly_model', 'apm');
+        $this->load->database();
     }
 
     /**
@@ -27,6 +28,84 @@ class Appointments extends AdminController
         $data['td_appointments'] = $this->getTodaysAppointments();
 
         $this->load->view('index', $data);
+    }
+
+    public function statistics(){
+        if ($this->staff_no_view_permissions) {
+            access_denied('Appointments');
+        }
+        $start_date = '2024-06-01';
+        $end_date = '2024-07-30';
+        $attendees = '2';
+        // Create DateTime objects
+        $startDateTime = new DateTime($start_date);
+        $endDateTime = new DateTime($end_date);
+
+        // Calculate the difference
+        $interval = $startDateTime->diff($endDateTime);
+
+        // Get the difference in days
+        $daysDifference = $interval->days;
+
+        $sql_internal='SELECT * FROM 
+        `tblappointly_appointments` 
+        WHERE date >= ? AND date <= ?';
+               $sql_internal2='SELECT * FROM 
+               `tblappointly_appointments` 
+               WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)';
+        if(strlen($attendees)>0){
+            $sql_internal .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
+            $sql_internal2 .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
+        }
+        $sql = "SELECT 
+            COUNT(*) total_filtered,
+            IFNULL(SUM(CASE WHEN  a.finished = 1 THEN 1 ELSE 0 END),0) AS completed_filtered,
+            IFNULL(SUM(CASE WHEN  a.cancelled = 1 THEN 1 ELSE 0 END),0) AS cancelled_filtered,
+            '" . $start_date . "' AS first_date_filtered,
+            '". $end_date ."' AS last_date_filtered
+            FROM
+            (". $sql_internal .") a";
+
+
+            $sql2 = "SELECT 
+            IFNULL(COUNT(*),0) AS total_prior_filtered,
+            IFNULL(SUM(CASE WHEN a.finished = 1 THEN 1 ELSE 0 END),0) AS completed_prior_filtered,
+            IFNULL(SUM(CASE WHEN a.cancelled = 1 THEN 1 ELSE 0 END),0) AS cancelled_prior_filtered,
+            DATE_SUB('" . $start_date . "', INTERVAL ". $daysDifference ." DAY)  AS first_date_prior_filtered,
+            DATE_SUB('". $end_date ."', INTERVAL ". $daysDifference ." DAY) AS last_date_prior_filtered
+            FROM
+            (". $sql_internal2 .") a";
+
+// -- SUM(CASE WHEN a.date >= DATE_SUB(?DATE_SUB( AND a.date < ? THEN 1 ELSE 0 END) AS total_prior_filtered,
+// -- SUM(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? AND a.finished = 1 THEN 1 ELSE 0 END) AS completed_prior_filtered,
+// -- SUM(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? AND a.cancelled = 1 THEN 1 ELSE 0 END) AS cancelled_prior_filtered,
+// -- MIN(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? THEN a.date END) AS first_date_prior_filtered,
+// -- MAX(CASE WHEN a.date >= DATE_SUB(?, INTERVAL 30 DAY) AND a.date < ? THEN a.date END) AS last_date_prior_filtered
+$query2 = $this->db->query($sql2,[$start_date, $end_date   // Base date for prior range calculations
+]);
+    $query = $this->db->query($sql,[
+            // $start_date, $end_date,  // For current range
+            // $start_date, $end_date,  // For completed in current range
+            // $start_date, $end_date,  // For cancelled in current range
+            // $start_date, $end_date,  // For min date in current range
+            // $start_date, $end_date,  // For max date in current range
+    
+            // $start_date, $end_date,  // For total in prior range
+            // $start_date, $end_date,  // For completed in prior range
+            // $start_date, $end_date,  // For cancelled in prior range
+            // $start_date, $end_date,  // For min date in prior range
+            // $start_date, $end_date,  // For max date in prior range
+    
+            $start_date, $end_date   // Base date for prior range calculations
+        ]);
+
+        // Fetch the result
+        // $data['stats']= $query->result_array();
+
+    $data['summary'] = $query->result_array();
+    $data['summary2'] = $query2->result_array();
+
+        $this->load->view('statistics', $data);
     }
 
     /**

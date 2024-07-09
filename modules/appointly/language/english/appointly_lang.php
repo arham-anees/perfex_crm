@@ -321,3 +321,4 @@ $lang['appointly_message_will_hide'] = 'This message will be hidden in 5 seconds
 $lang['setup_appointments'] = 'Appointly';
 $lang['setup_appointments_status'] = 'Statuses';
 $lang['setup_appointments_subjects'] = 'Subjects';
+$lang['appointment_menu_statistics'] = 'Statistics';
