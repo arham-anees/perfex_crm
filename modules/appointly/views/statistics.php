@@ -7,7 +7,20 @@
       <div class="col-md-12">
          <div class="panel_s">
             <div class="panel-body">
+            <form method="GET" action="process_filter.php">
+        <label for="staff_id">Select Staff:</label>
+        <select name="staff_id" id="staff_id">
+            <option value="">All</option>
+            <option value="1">Staff 1</option>
+            <option value="2">Staff 2</option>
+            <!-- Add more options as needed -->
+        </select>
 
+        <label for="date">Select Date:</label>
+        <input type="date" name="date" id="date">
+
+        <button type="submit">Filter</button>
+    </form>
            <?php if (isset($summary)): ?>
                 <h3>Filtered by Date Range (Current)</h3>
                 <p>Total Appointments: <?php echo $summary[0]['total_filtered']; ?></p>
@@ -16,7 +29,7 @@
                 <p>First Date: <?php echo $summary[0]['first_date_filtered']; ?></p>
                 <p>Last Date: <?php echo $summary[0]['last_date_filtered']; ?></p>
                 
-                <h3>Filtered by Date Range (Prior)</h3>
+                <h3>Filtered by Date Range (Prior) <?php echo $prior_days ?> days</h3>
                 <p>Total Appointments: <?php echo $summary2[0]['total_prior_filtered']; ?></p>
                 <p>Completed Appointments: <?php echo $summary2[0]['completed_prior_filtered']; ?></p>
                 <p>Cancelled Appointments: <?php echo $summary2[0]['cancelled_prior_filtered']; ?></p>

@@ -104,6 +104,7 @@ $query2 = $this->db->query($sql2,[$start_date, $end_date   // Base date for prio
 
     $data['summary'] = $query->result_array();
     $data['summary2'] = $query2->result_array();
+    $data['prior_days'] = $daysDifference;
 
         $this->load->view('statistics', $data);
     }
