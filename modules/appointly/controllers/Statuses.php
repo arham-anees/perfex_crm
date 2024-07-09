@@ -74,4 +74,21 @@ class Statuses extends AdminController {
             redirect('/admin/appointly/statuses');
         }
     }
+    public function json()
+    {
+        $statuses = get_statuses();
+        $data = [];
+        foreach ($statuses as $status) {
+            $row = [];
+            $row[] = $status['name'];
+            $row[] = '<form method="POST" action="statuses/delete">
+                        <input type="hidden" name="' . $this->security->get_csrf_token_name() . '" value="' . $this->security->get_csrf_hash() . '">
+                        <input type="hidden" name="status_id" value="' . $status['id'] . '">
+                        <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button>
+                    </form>';
+            $data[] = $row;
+        }
+        echo json_encode(['data' => $data]);
+    }
+
 }

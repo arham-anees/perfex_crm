@@ -74,4 +74,20 @@ class Subjects extends AdminController {
             redirect('/admin/appointly/subjects');
         }
     }
+
+    public function json() {
+        $subjects = $this->Appointments_subject_model->get_all(); // Assuming this method fetches all subjects from the database
+        $data = [];
+        foreach ($subjects as $subject) {
+            $row = [];
+            $row[] = $subject['subject'];
+            $row[] = '<form method="POST" action="'.base_url('admin/appointly/subjects/delete').'">
+                        <input type="hidden" name="'.$this->security->get_csrf_token_name().'" value="'.$this->security->get_csrf_hash().'">
+                        <input type="hidden" name="subject_id" value="'.$subject['id'].'">
+                        <button type="submit" class="btn btn-danger btn-xs btn-delete-subject"><i class="fa fa-trash"></i></button>
+                    </form>';
+            $data[] = $row;
+        }
+        echo json_encode(['data' => $data]);
+    }
 }
