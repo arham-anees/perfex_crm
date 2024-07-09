@@ -68,9 +68,9 @@ class Appointments extends AdminController
         $sql_internal='SELECT * FROM 
             `tblappointly_appointments` 
             WHERE date >= ? AND date <= ?';
-        $sql_internal2='SELECT * FROM 
+        $sql_internal2="SELECT * FROM 
             `tblappointly_appointments` 
-            WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)';
+            WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)";
         if(strlen($attendees)>0){
             $sql_internal .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
             $sql_internal2 .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
