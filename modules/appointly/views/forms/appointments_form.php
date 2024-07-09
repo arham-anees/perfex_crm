@@ -38,39 +38,68 @@ if (!function_exists('get_appointment_types')) {
 
                 <input type="text" hidden name="rel_type" value="external">
 
-                <div class="row">
+                <div class="row main_wrapper">
+                <div class=" <?= 'col-md-4'; ?>">
+                    <div class="logo">
+                        <h2>Pole Demarches</h2>
+                    </div>
+                    <hr>
+                    <br>
 
-                    <div
-                        class="main_wrapper mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
+                    <p>Pole Demarches</p>
+                    <h3>Validation of Video Appointments</h3>
+                    <p>10 min</p>
+                    <p>Online Conference Confirmation</p>
+                    <p>89 EUR</p>
+                    <p>2:20 - 3:20, Monday 1 July, 2024</p>
+                    <p>Pacafic Time - USA and Canada</p>
+
+
+               </div>
+
+                    <div class="mbot20 <?= 'col-md-8'; ?>">
 
                         <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 
 
-                        <div class="text-center">
-                            <h4 class="text-center"><?= _l('appointment_create_new_appointment'); ?></h4>
+                        <div>
+                            <h4 ><?= _l('appointment_create_new_appointment'); ?></h4>
                         </div>
 
-                        <?php $subjects = get_subjects();
+                        <br>
+                        <div class="form-group">
+                            <label for="name"><?= _l('appointment_name'); ?></label>
+                            <input type="text" class="form-control"
+                                value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_full_name($clientUserData['contact_user_id']) : ''; ?>"
+                                name="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><?= _l('appointment_email'); ?></label>
+                            <input type="email" class="form-control"
+                                value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'email') : ''; ?>"
+                                name="email" id="email">
+                        </div>
 
-                        if (count($subjects) > 0) { ?>
-                            <div class="form-group appointment_type_holder">
-                                <label for="appointment_select_type"
-                                    class="control-label"><?= _l('appointment_subject'); ?></label>
-                                <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
-                                    <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
-                                    <?php foreach ($subjects as $app_type) { ?>
-                                        <option class="form-control" 
-                                            value="<?= $app_type['id']; ?>"><?= $app_type['subject']; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class=" clearfix mtop15"></div>
-                            <br>
-                        <?php } ?>
+                        <?php echo render_textarea('description', 'Please share helpful material for meeting', '', ['rows' => 5]); ?>
 
-
-                        <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
+                        <div class="form-group">
+                        <label for="option1">What is purpose of appointment</label><br>
+                        <input type="checkbox" name="option1" id="option1" value="Option 1">
+                        <label class="grey-text" for="option1">Renewal of resident permit</label><br>
+    
+                        <input type="checkbox" name="option2" id="option2" value="Option 2">
+                        <label class="grey-text" for="option2">Refusal of resident permit</label><br>
+    
+                        <input type="checkbox" name="option3" id="option3" value="Option 3">
+                        <label class="grey-text" for="option3">Refugee</label><br>
+    
+                        <input type="checkbox" name="option4" id="option4" value="Option 4">
+                        <label class="grey-text" for="option4">Family Reunion</label><br>
+    
+                        <input type="checkbox" name="option5" id="option5" value="Option 5">
+                        <label class="grey-text" for="option5">Other</label><br>
+                        </div>
+                        
 
                         <?php $appointment_types = get_appointment_types();
 
@@ -90,36 +119,38 @@ if (!function_exists('get_appointment_types')) {
                             <div class=" clearfix mtop15"></div>
                         <?php } ?>
 
-                        <br>
+
+
                         <div class="form-group">
-                            <label for="name"><?= _l('appointment_full_name'); ?></label>
-                            <input type="text" class="form-control"
-                                value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_full_name($clientUserData['contact_user_id']) : ''; ?>"
-                                name="name" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email"><?= _l('appointment_your_email'); ?></label>
-                            <input type="email" class="form-control"
-                                value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'email') : ''; ?>"
-                                name="email" id="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone"><?= _l('appointment_phone'); ?>
+                            <label for="phone"><?= _l('appointment_send_an_sms'); ?>
                                 (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
                             <input type="text" class="form-control"
                                 value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>"
                                 name="phone" id="phone">
                         </div>
-                        <div class="hours_wrapper">
-                            <span class="available_time_info hwp"><?= _l('appointment_available_hours'); ?></span>
-                            <span class="busy_time_info hwp"><?= _l('appointment_busy_hours'); ?></span>
-                        </div>
-                        <?php echo render_datetime_input('date', 'appointment_date_and_time', '', ['readonly' => "readonly"], [], '', 'appointment-date'); ?>
-                        <div class="form-group">
+
+                        <label><?= _l('Payment Information'); ?></label>
+                                        <br><br>
+                                  <div class="border">  
+                        <label><?= _l('Price'); ?></label><br>
+                        <label class="grey-text"><?= _l('89 EUR'); ?></label>
+                                        
+                                <div class="form-group">
+                                            
+                                            <label
+                                for="cardName"><?= _l('Name on Card'); ?></label>
+                            <input type="text" class="form-control" value="" name="cardName" id="cardName">
+                                    </div>
+                            <div class="form-group">
                             <label
-                                for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
-                            <input type="text" class="form-control" value="" name="address" id="address">
+                                for="cardNumber"><?= _l('Card Number'); ?></label>
+                            <input type="Number" class="form-control" value="" name="cardNumber" id="cardNumber">
                         </div>
+                        <label class="grey-text"><?= _l('Your Payments are securely processed by stripe'); ?></label><br>
+                        <label class="powered"><?= _l('Powered by stripe'); ?></label>
+                        </div>
+
+                    
                         <?php
                         $rel_cf_id = (isset($appointment) ? $appointment['apointment_id'] : false);
                         echo render_custom_fields('appointly', $rel_cf_id);

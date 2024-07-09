@@ -155,7 +155,7 @@ $lang['appointment_add_to_google_calendar_external'] = 'Include this external ap
 $lang['appointment_open_google_calendar'] = 'Open in Google Calendar';
 $lang['appointment_google_not_added_yet'] = 'Seems like this appointment is not added to any staff members Google Calendar. Would you like to add this appointment to your Google Calendar?';
 $lang['appointment_add_to_calendar'] = 'Add to Calendar';
-$lang['appointment_send_an_sms'] = 'Send and SMS';
+$lang['appointment_send_an_sms'] = 'Send an SMS';
 $lang['appointment_call_number'] = 'Call number';
 $lang['appointments_your_settings'] = 'Own Settings';
 
