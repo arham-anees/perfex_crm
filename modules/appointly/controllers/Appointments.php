@@ -11,6 +11,7 @@ class Appointments extends AdminController
         $this->staff_no_view_permissions = !staff_can('view', 'appointments') && !staff_can('view_own', 'appointments');
 
         $this->load->model('appointly_model', 'apm');
+        $this->load->model('leads_model');
         $this->load->database();
     }
 
@@ -362,6 +363,15 @@ class Appointments extends AdminController
 
         if (!empty($data)) {
             if ($this->apm->insert_appointment($data)) {
+                $log = [
+                    'date'            => date('Y-m-d H:i:s'),
+                    'description'     => _l('lead_appointment_create'),
+                    'leadid'          => $data['rel_id'],
+                    'staffid'         => get_staff_user_id(),
+                    'full_name'       => get_staff_full_name($data['rel_id']),
+                ];
+                
+                $this->db->insert(db_prefix() . 'lead_activity_log', $log);
                 header('Content-Type: application/json');
                 echo json_encode(['result' => true]);
             }

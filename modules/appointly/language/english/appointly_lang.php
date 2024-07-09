@@ -325,3 +325,4 @@ $lang['appointment_menu_statistics'] = 'Statistics';
 
 $lang['appointment_statistics_start_date'] = 'Start Date';
 $lang['appointment_statistics_end_date'] = 'End Date';
+$lang['lead_appointment_create'] = 'New appointment created';
