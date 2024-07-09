@@ -603,24 +603,17 @@ class Appointly_model extends App_Model
     {
         $date = new DateTime();
         $today = $date->format('Y-m-d');
-        
-        $staff_has_permissions = !staff_can('view', 'appointments') || !staff_can('view_own', 'appointments');
-        
-        // Start building your query
-        $this->db->select(db_prefix() . 'appointly_appointments.*, ' . db_prefix() . 'appointly_appointments_statuses.name as status_name');
-        $this->db->from(db_prefix() . 'appointly_appointments');
-        $this->db->join(db_prefix() . 'appointly_appointments_statuses', db_prefix() . 'appointly_appointments_statuses.id = ' . db_prefix() . 'appointly_appointments.status_id', 'left');
-        $this->db->where('date', $today);
-        $this->db->where('approved', 1);
-        
+
+        $staff_has_permissions = ! staff_can('view', 'appointments') || ! staff_can('view_own', 'appointments');
+
         if ($staff_has_permissions) {
             $this->db->where('id IN (SELECT appointment_id FROM ' . db_prefix() . 'appointly_attendees WHERE staff_id=' . get_staff_user_id() . ')');
         }
-        
-        // Execute the query and return the result array
-        $query = $this->db->get();
-        return $query->result_array();
-               
+
+        $this->db->where('date', $today);
+        $this->db->where('approved', 1);
+
+        return $this->db->get(db_prefix() . 'appointly_appointments')->result_array();
     }
 
 
