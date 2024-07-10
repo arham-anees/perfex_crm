@@ -26,7 +26,19 @@ $appointly_show_summary = get_option('appointly_show_summary');
 </div>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="general">
-      
+        <!-- Booking Page Settings -->
+        <div class="form-group">
+                                    <label for="booking_page_name"><?= _l('booking page name'); ?></label>
+                                    <input type="text" class="form-control"
+                                        value="<?= get_option('booking_page_name'); ?>" id="booking_page_name"
+                                        name="settings[booking_page_name]">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="booking_page_description"><?= _l('booking page description'); ?></label>
+                                    <textarea class="form-control" id="booking_page_description"
+                                        name="settings[booking_page_description]"><?= get_option('booking_page_description'); ?></textarea>
+                                </div>
         <!-- Only shown for system admins -->
         <?php if (is_admin()) {
 
