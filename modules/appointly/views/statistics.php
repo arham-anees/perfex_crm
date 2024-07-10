@@ -74,8 +74,12 @@
                                 </div>
                             </div>
 
-
-                            <button type="submit" class="btn btn-outline-primary">Filter</button>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <button type="submit" class="btn btn-outline-primary">Filter</button>
+                                </div>
+                            </div>
+                            <!-- <button type="submit" class="btn btn-outline-primary">Filter</button> -->
                         </form>
                         <!-- Cards for summary data (e.g., total appointments, completed appointments, etc.) -->
                         <!-- <div class="container justify-content-start no-padding">
@@ -115,7 +119,7 @@
                                     echo '(' . ($percentageChange >= 0 ? '+' : '') . number_format($percentageChange, 1) . '%)';
                                     ?>
                                 </div>
-                                <div class="stat-period">vs prior 30 days</div>
+                                <div class="stat-period">vs prior <?php echo $prior_days ?> days</div>
                             </div>
                         </div>
                         <!-- <div class="col-md-3 no-padding">
@@ -145,7 +149,7 @@
                                     echo '(' . ($percentageChange >= 0 ? '+' : '') . number_format($percentageChange, 1) . '%)';
                                     ?>
                                 </div>
-                                <div class="stat-period">vs prior 30 days</div>
+                                <div class="stat-period">vs prior <?php echo $prior_days ?> days</div>
                             </div>
                         </div>
                         <!-- </div>
@@ -154,7 +158,7 @@
 
 
 
-                        <?php if (isset($summary)) : ?>
+                        <!-- <?php if (isset($summary)) : ?>
                             <h3>Filtered by Date Range (Current)</h3>
                             <p>Total Appointments: <?php echo $summary[0]['total_filtered']; ?></p>
                             <p>Completed Appointments: <?php echo $summary[0]['completed_filtered']; ?></p>
@@ -170,7 +174,7 @@
                             <p>Last Date: <?php echo $summary2[0]['last_date_prior_filtered']; ?></p>
                         <?php else : ?>
                             <p>No data available.</p>
-                        <?php endif; ?>
+                        <?php endif; ?> -->
                         <div class="col-md-6">
                             <div class="chart-card">
                                 <h3>Completed Appointments</h3>
