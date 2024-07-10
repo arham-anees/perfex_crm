@@ -108,6 +108,7 @@
                                 <option value="tickets" <?php if (isset($custom_field) && $custom_field->fieldto == 'tickets') {
                                 echo 'selected';
                             } ?>><?php echo _l('tickets'); ?></option>
+                                                        
                                 <?php hooks()->do_action('after_custom_fields_select_options', isset($custom_field) ? $custom_field : null); ?>
                             </select>
                         </div>

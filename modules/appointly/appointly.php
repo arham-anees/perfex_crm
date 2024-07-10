@@ -49,6 +49,7 @@ function appointly_register_appointments_on_calendar($data, $config)
 
 
 hooks()->add_action('after_custom_fields_select_options', 'appointly_custom_fields');
+hooks()->add_action('after_custom_fields_select_options', 'appointly_booking_fields');
 /**
  * Register new custom fields for
  *
@@ -58,6 +59,10 @@ function appointly_custom_fields($custom_field)
 {
     $selected = (isset($custom_field) && $custom_field->fieldto == 'appointly') ? 'selected' : '';
     echo '<option value="appointly"  ' . ($selected) . '>' . _l('appointment_appointments') . '</option>';
+}function appointly_booking_fields($custom_field)
+{
+    $selected = (isset($custom_field) && $custom_field->fieldto == 'bookings') ? 'selected' : '';
+    echo '<option value="bookings"  ' . ($selected) . '>' . _l('bookings') . '</option>';
 }
 
 /**

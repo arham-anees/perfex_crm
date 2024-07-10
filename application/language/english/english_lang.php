@@ -539,6 +539,7 @@ $lang['acs_settings']                          = 'Settings';
 # Tickets
 $lang['new_ticket']                                          = 'Open New Ticket';
 $lang['tickets']                                             = 'Tickets';
+$lang['bookings']                                            = 'Bookings';
 $lang['ticket']                                              = 'Ticket';
 $lang['ticket_lowercase']                                    = 'ticket';
 $lang['support_tickets']                                     = 'Support Tickets';

@@ -582,6 +582,7 @@ $lang['acs_settings']                          = 'Configuració';
 # Tickets
 $lang['new_ticket']                                          = 'Obrir nou tiquet';
 $lang['tickets']                                             = 'Entrades';
+$lang['bookings']                                            = 'Bookings';
 $lang['ticket']                                              = 'Tiquet';
 $lang['ticket_lowercase']                                    = 'tiquet';
 $lang['support_tickets']                                     = 'Tiquets suport tècnic';

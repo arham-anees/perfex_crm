@@ -25,6 +25,14 @@ $appointly_show_summary = get_option('appointly_show_summary');
 </div>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="general">
+        <!-- Custom Fields -->
+        
+        <?php $rel_id = (isset($bookings) ? $bookings->id : false); ?>
+        <?php echo render_custom_fields('bookings', $rel_id); ?>
+
+   
+
+
         <!-- Only shown for system admins -->
         <?php if (is_admin()) {
 

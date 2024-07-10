@@ -542,6 +542,7 @@ $lang['acs_settings']                          = 'Настройки';
 # Tickets
 $lang['new_ticket']                                          = 'Нов Тикет';
 $lang['tickets']                                             = 'Тикети';
+$lang['bookings']                                            = 'Bookings';
 $lang['ticket']                                              = 'Тикет';
 $lang['ticket_lowercase']                                    = 'тикет';
 $lang['support_tickets']                                     = 'Тикети';
