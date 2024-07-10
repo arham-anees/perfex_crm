@@ -31,28 +31,27 @@ class Appointments extends AdminController
         $this->load->view('index', $data);
     }
 
-    public function statistics(){
+    public function statistics()
+    {
         if ($this->staff_no_view_permissions) {
             access_denied('Appointments');
         }
         if (isset($_GET['start_date']) && isset($_GET['end_date'])) {
-        $start_date = $_GET['start_date'];
-        $end_date = $_GET['end_date'];
-        }
-        else{
+            $start_date = $_GET['start_date'];
+            $end_date = $_GET['end_date'];
+        } else {
             $end_date =  date('Y-m-d');
 
             // Subtract 30 days from today's date
-            $thirtyDaysAgo =( new DateTime())->sub(new DateInterval('P30D'));
+            $thirtyDaysAgo = (new DateTime())->sub(new DateInterval('P30D'));
 
             // Format the date as YYYY-MM-DD
             $start_date = $thirtyDaysAgo->format('Y-m-d');
         }
-        if(isset($_GET['attendees'])){
-            $att=isset($_GET['attendees']) ? $_GET['attendees'] : [];
-            $attendees =$_GET['attendees'] ;//implode(',',$att);
-        }
-        else{
+        if (isset($_GET['attendees'])) {
+            $att = isset($_GET['attendees']) ? $_GET['attendees'] : [];
+            $attendees = $_GET['attendees']; //implode(',',$att);
+        } else {
             $attendees = '';
         }
         // Create DateTime objects
@@ -66,13 +65,13 @@ class Appointments extends AdminController
         $daysDifference = $interval->days;
 
 
-        $sql_internal='SELECT * FROM 
+        $sql_internal = 'SELECT * FROM 
             `tblappointly_appointments` 
             WHERE date >= ? AND date <= ?';
-        $sql_internal2="SELECT * FROM 
+        $sql_internal2 = "SELECT * FROM 
             `tblappointly_appointments` 
-            WHERE date >= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY) AND date <= DATE_SUB(?, INTERVAL ". $daysDifference ." DAY)";
-        if(strlen($attendees)>0){
+            WHERE date >= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY) AND date <= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY)";
+        if (strlen($attendees) > 0) {
             $sql_internal .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
             $sql_internal2 .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
         }
@@ -81,28 +80,29 @@ class Appointments extends AdminController
             IFNULL(SUM(CASE WHEN  a.finished = 1 THEN 1 ELSE 0 END),0) AS completed_filtered,
             IFNULL(SUM(CASE WHEN  a.cancelled = 1 THEN 1 ELSE 0 END),0) AS cancelled_filtered,
             '" . $start_date . "' AS first_date_filtered,
-            '". $end_date ."' AS last_date_filtered
+            '" . $end_date . "' AS last_date_filtered
             FROM
-            (". $sql_internal .") a";
+            (" . $sql_internal . ") a";
 
 
-            $sql2 = "SELECT 
+        $sql2 = "SELECT 
             IFNULL(COUNT(*),0) AS total_prior_filtered,
             IFNULL(SUM(CASE WHEN a.finished = 1 THEN 1 ELSE 0 END),0) AS completed_prior_filtered,
             IFNULL(SUM(CASE WHEN a.cancelled = 1 THEN 1 ELSE 0 END),0) AS cancelled_prior_filtered,
-            DATE_SUB('" . $start_date . "', INTERVAL ". $daysDifference ." DAY)  AS first_date_prior_filtered,
-            DATE_SUB('". $end_date ."', INTERVAL ". $daysDifference ." DAY) AS last_date_prior_filtered
+            DATE_SUB('" . $start_date . "', INTERVAL " . $daysDifference . " DAY)  AS first_date_prior_filtered,
+            DATE_SUB('" . $end_date . "', INTERVAL " . $daysDifference . " DAY) AS last_date_prior_filtered
             FROM
-            (". $sql_internal2 .") a";
+            (" . $sql_internal2 . ") a";
 
-        $query2 = $this->db->query($sql2,[$start_date, $end_date   // Base date for prior range calculations
+        $query2 = $this->db->query($sql2, [
+            $start_date, $end_date   // Base date for prior range calculations
         ]);
-        $query = $this->db->query($sql,[
-                $start_date, $end_date   // Base date for prior range calculations
-            ]);
+        $query = $this->db->query($sql, [
+            $start_date, $end_date   // Base date for prior range calculations
+        ]);
 
-            $sql_completed_by_dates="WITH RECURSIVE dates_cte AS (
-                SELECT DATE('". $start_date ."') AS date
+        $sql_completed_by_dates = "WITH RECURSIVE dates_cte AS (
+                SELECT DATE('" . $start_date . "') AS date
                 UNION ALL
                 SELECT date + INTERVAL 1 DAY
                 FROM dates_cte
@@ -119,27 +119,27 @@ class Appointments extends AdminController
                 d.date
             ORDER BY 
                 d.date;";
-            $sql_internal_attendees="SELECT * FROM 
+        $sql_internal_attendees = "SELECT * FROM 
             tblappointly_appointments 
             WHERE date >= ? AND date <= ? AND finished = 1";
-            $sql_attendees_appointments ="SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
+        $sql_attendees_appointments = "SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
             LEFT JOIN tblappointly_attendees att ON att.staff_id = s.staffid
-            LEFT JOIN (". $sql_internal_attendees .") AS ap ON ap.id = att.appointment_id
+            LEFT JOIN (" . $sql_internal_attendees . ") AS ap ON ap.id = att.appointment_id
             GROUP By att.staff_id;";
 
-        $data['completed_by_staff'] = ($this->db->query($sql_attendees_appointments,[
+        $data['completed_by_staff'] = ($this->db->query($sql_attendees_appointments, [
             $start_date, $end_date   // Base date for prior range calculations
         ]))->result_array();
         $data['completed_by_date'] = ($this->db->query($sql_completed_by_dates))->result_array();
         $data['summary'] = $query->result_array();
         $data['summary2'] = $query2->result_array();
-        $data['prior_days'] = $daysDifference;    
-        $data['attendees'] = explode(',',$attendees);
+        $data['prior_days'] = $daysDifference;
+        $data['attendees'] = explode(',', $attendees);
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
 
-        $this->load->view('statistics2', $data);
+        $this->load->view('statistics', $data);
     }
 
     /**
@@ -363,16 +363,15 @@ class Appointments extends AdminController
 
         if (!empty($data)) {
             if ($this->apm->insert_appointment($data)) {
-                if(!isset($data['rel_id'])){
-                    $sql = "SELECT * FROM ". db_prefix() ."leads WHERE email LIKE '". $data['email'] ."'";
+                if (!isset($data['rel_id'])) {
+                    $sql = "SELECT * FROM " . db_prefix() . "leads WHERE email LIKE '" . $data['email'] . "'";
                     $query  = $this->db->query($sql);
                     $lead =  $query->row_array();
-                    if(isset($lead['id'])){
-                        $data['rel_id']=$lead['id'];
-                    }
-                    else{
+                    if (isset($lead['id'])) {
+                        $data['rel_id'] = $lead['id'];
+                    } else {
                         // create lead
-                        $lead_data=[];
+                        $lead_data = [];
                         $lead_data['email'] = $data['email'];
                         $lead_data['name'] = $data['name'];
                         $lead_data['description'] = '';
@@ -381,24 +380,24 @@ class Appointments extends AdminController
                         $lead_data['source'] = '1';
                         $lead_data['assigned'] = get_staff_user_id();
                         $this->leads_model->add($lead_data);
-                        $sql = "SELECT * FROM ". db_prefix() ."leads WHERE email LIKE '". $data['email'] ."'";
+                        $sql = "SELECT * FROM " . db_prefix() . "leads WHERE email LIKE '" . $data['email'] . "'";
                         $query  = $this->db->query($sql);
                         $lead =  $query->row_array();
-                        $data['rel_id']=$lead['id'];
+                        $data['rel_id'] = $lead['id'];
                     }
                 }
-                    if(isset($data['rel_id'])){
-                $log = [
-                    'date'            => date('Y-m-d H:i:s'),
-                    'description'     => _l('lead_appointment_create'),
-                    'leadid'          => $data['rel_id'],
-                    'staffid'         => get_staff_user_id(),
-                    'full_name'       => get_staff_full_name($data['rel_id']),
-                ];
-                
-                $this->db->insert(db_prefix() . 'lead_activity_log', $log);
-            }
-         
+                if (isset($data['rel_id'])) {
+                    $log = [
+                        'date'            => date('Y-m-d H:i:s'),
+                        'description'     => _l('lead_appointment_create'),
+                        'leadid'          => $data['rel_id'],
+                        'staffid'         => get_staff_user_id(),
+                        'full_name'       => get_staff_full_name($data['rel_id']),
+                    ];
+
+                    $this->db->insert(db_prefix() . 'lead_activity_log', $log);
+                }
+
                 header('Content-Type: application/json');
                 echo json_encode(['result' => true]);
             }
@@ -532,7 +531,7 @@ class Appointments extends AdminController
         return false;
     }
 
-        /**
+    /**
      * Approve new appointment
      *
      * @return void
@@ -544,11 +543,11 @@ class Appointments extends AdminController
         }
 
         if ($this->input->is_ajax_request()) {
-            echo json_encode(['result' => $this->apm->appointment_status($this->input->post('appointment_id'),$this->input->post('status_id'))]);
+            echo json_encode(['result' => $this->apm->appointment_status($this->input->post('appointment_id'), $this->input->post('status_id'))]);
             die;
         }
 
-        if ($this->apm->appointment_status($this->input->get('appointment_id'),$this->input->post('status_id'))) {
+        if ($this->apm->appointment_status($this->input->get('appointment_id'), $this->input->post('status_id'))) {
             appointly_redirect_after_event('success', _l('appointment_appointment_approved'));
         }
     }
@@ -805,5 +804,4 @@ class Appointments extends AdminController
 
         echo json_encode(['success' => false]);
     }
-
 }
