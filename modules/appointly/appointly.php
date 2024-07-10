@@ -238,6 +238,7 @@ function appointly_register_menu_items()
  * Register activation hook
  */
 register_activation_hook(APPOINTLY_MODULE_NAME, 'appointly_activation_hook');
+register_deactivation_hook(APPOINTLY_MODULE_NAME, 'appointly_deactivation_hook');
 
 /**
  * The activation function.
@@ -246,7 +247,10 @@ function appointly_activation_hook()
 {
     require __DIR__ . '/install.php';
 }
-
+function appointly_deactivation_hook()
+{
+    require __DIR__ . '/uninstall.php';
+}
 /*
  * Register module language files
  */

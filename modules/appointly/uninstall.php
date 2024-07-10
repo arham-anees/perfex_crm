@@ -3,7 +3,7 @@
     $CI =& get_instance(); // Assuming you're in a CodeIgniter context
 
     // Remove custom route
-    $route = "\n\$route['(:any)'] = '".admin_url('appointly/appointments_public/create_external_appointment_booking_page/$1')."';\n";
+    $route = "\n\$route['(:any)'] = '".admin_url('appointly/appointments_public/create_external_appointment_booking_page/\$1').";\n";
     $routesPath = APPPATH . 'config/routes.php';
 
     // Read the current routes file content
@@ -16,17 +16,17 @@
     file_put_contents($routesPath, $updatedRoutesContent, LOCK_EX);
 
     
+    // Execute the ALTER TABLE statement to drop the foreign key constraint
+    $CI->db->query("
+    ALTER TABLE " . db_prefix() . "appointly_appointments
+    DROP FOREIGN KEY `fk_status_id`
+    ");
 
     $CI->db->query("
         ALTER TABLE " . db_prefix() . "appointly_appointments
         DROP COLUMN status_id"
     );
 
-    // Execute the ALTER TABLE statement to drop the foreign key constraint
-    $CI->db->query("
-    ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP FOREIGN KEY `fk_status_id`
-    ");
 
     $CI->db->query("
     DROP TABLE " . db_prefix() . "appointly_appointments_subjects
@@ -35,16 +35,18 @@
     DROP TABLE " . db_prefix() . "appointly_appointments_statuses
     ");
 
-    $CI->db->query("
-    ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP COLUMN booking_page_id"
-    );
-
     // Execute the ALTER TABLE statement to drop the foreign key constraint
     $CI->db->query("
     ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP FOREIGN KEY `fk_booking_page`
+    DROP FOREIGN KEY `fk_booking_page_id`
     ");
+
+    $CI->db->query("
+    ALTER TABLE " . db_prefix() . "appointly_appointments
+    DROP COLUMN booking_page_id
+    ");
+
+ 
     $CI->db->query("
     DROP TABLE " . db_prefix() . "appointly_booking_pages
     ");

@@ -71,14 +71,14 @@ class Appointments extends AdminController
 
 
         $sql_internal = 'SELECT * FROM 
-            `tblappointly_appointments` 
+            `'. db_prefix() .'appointly_appointments` 
             WHERE date >= ? AND date <= ?';
         $sql_internal2 = "SELECT * FROM 
-            `tblappointly_appointments` 
+            `". db_prefix() ."appointly_appointments` 
             WHERE date >= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY) AND date <= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY)";
         if (strlen($attendees) > 0) {
-            $sql_internal .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
-            $sql_internal2 .= " AND id IN (SELECT a.appointment_id from tblappointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
+            $sql_internal .= " AND id IN (SELECT a.appointment_id from ". db_prefix() ."appointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
+            $sql_internal2 .= " AND id IN (SELECT a.appointment_id from " . db_prefix() . "appointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
         }
         $sql = "SELECT 
             COUNT(*) total_filtered,
@@ -119,16 +119,16 @@ class Appointments extends AdminController
             FROM 
                 dates_cte d
             LEFT JOIN 
-                tblappointly_appointments a ON d.date = a.date AND a.finished = 1
+                ". db_prefix() ."appointly_appointments a ON d.date = a.date AND a.finished = 1
             GROUP BY 
                 d.date
             ORDER BY 
                 d.date;";
         $sql_internal_attendees = "SELECT * FROM 
-            tblappointly_appointments 
+            ". db_prefix() ."appointly_appointments 
             WHERE date >= ? AND date <= ? AND finished = 1";
         $sql_attendees_appointments = "SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
-            LEFT JOIN tblappointly_attendees att ON att.staff_id = s.staffid
+            LEFT JOIN ". db_prefix() ."appointly_attendees att ON att.staff_id = s.staffid
             LEFT JOIN (" . $sql_internal_attendees . ") AS ap ON ap.id = att.appointment_id
             GROUP By att.staff_id;";
 
