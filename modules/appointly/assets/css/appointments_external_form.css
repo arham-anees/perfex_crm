@@ -142,14 +142,106 @@ body input {
     color: gray;
 }
 
-.powered {
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 7px;
+.flex{
+    display: flex;
+    justify-content: space-around;
 }
 
-.logo{
-    text-align: center;
+.right .calendar-container {
+    width: 280px;
 }
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 25vw;
+}
+
+.calendar div {
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-size: 10px;
+
+}
+
+.calendar div.selected {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.calendar div.disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.calendar div.disabled:empty {
+    background: transparent;
+}
+
+.timezone {
+    margin-top: 20px;
+}
+
+.month-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 22vw;
+}
+
+.month-switch button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.timeslots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 30px
+}
+
+.timeslots button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.timeslot {
+    min-width: 135px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    color: #007bff;
+    margin: 5px 0;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.timeslot.selected {
+    background-color: #007bff;
+    color: white;
+}
+
 
 /* Callbacks Popup */
