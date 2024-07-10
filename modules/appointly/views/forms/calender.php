@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,43 +9,51 @@
 </head>
 
 <style>
-
     .container {
         display: flex;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         background-color: #fff;
         border-radius: 8px;
         overflow: hidden;
         width: inherit;
     }
-    .left, .right {
+
+    .left,
+    .right {
         padding: 20px;
     }
+
     .left {
         width: 40%;
         border-right: 1px solid #e0e0e0;
     }
+
     .right {
         width: 60%;
-        display:flex;
+        display: flex;
         justify-content: space-around;
     }
-    .right .calendar-container{
-        width:280px;
+
+    .right .calendar-container {
+        width: 280px;
     }
+
     h1 {
         font-size: 24px;
         margin-bottom: 20px;
     }
+
     p {
         margin: 10px 0;
     }
+
     .calendar {
         display: flex;
         flex-wrap: wrap;
         margin-top: 10px;
         width: 25vw;
     }
+
     .calendar div {
         width: 40px;
         height: 40px;
@@ -55,35 +64,42 @@
         border-radius: 50%;
         background-color: #e0e0e0;
         cursor: pointer;
-        font-size:10px;
-        
+        font-size: 10px;
+
     }
+
     .calendar div.selected {
         background-color: #007bff;
         color: #fff;
     }
+
     .calendar div.disabled {
         background-color: #f0f0f0;
         cursor: not-allowed;
     }
+
     .calendar div.disabled:empty {
         background: transparent;
     }
+
     .timezone {
         margin-top: 20px;
     }
+
     .month-switch {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 22vw;
     }
+
     .month-switch button {
         background-color: transparent;
         border: none;
         cursor: pointer;
         font-size: 16px;
     }
+
     .timeslots {
         display: flex;
         flex-direction: column;
@@ -91,6 +107,7 @@
         margin-top: 20px;
         margin-left: 30px
     }
+
     .timeslots button {
         background-color: #007bff;
         color: white;
@@ -100,6 +117,7 @@
         cursor: pointer;
         margin-bottom: 10px;
     }
+
     .timeslot {
         min-width: 135px;
         border: 1px solid #007bff;
@@ -110,6 +128,7 @@
         text-align: center;
         cursor: pointer;
     }
+
     .timeslot.selected {
         background-color: #007bff;
         color: white;
@@ -118,51 +137,51 @@
 
 <body>
 
-<div class="container">
-    <div class="left">
-        <img src="logo.png" alt="Pôle Démarches" style="width:100%;">
-        <h1>Validation of Appointment by Video</h1>
-        <p><strong>Duration:</strong> 10 min</p>
-        <p>Online Conference Confirmation</p>
-        <p><strong>Cost:</strong> 89 EUR</p>
-        <p>2:20 - 3:20, Monday 1 July, 2024</p>
-        <p>Pacafic Time - USA and Canada</p>
-        <br>
-        <p><strong>Documents to Provide:</strong></p>
-        <ul>
-        <ul>
-            <li>Identity Documents</li>
-            <li>Proof of Residence</li>
-            <li>Any document related to your situation</li>
-        </ul>
-    </div>
-    <div class="right">
-        <div>
-            <h2>Select Date and Time</h2>
-            <div class="calendar-container">
-                <div class="month-switch">
-                    <button type="button" id="prev-month">&lt;</button>
-                    <span id="current-month-year"></span>
-                    <button type="button" id="next-month">&gt;</button>
-                </div>
-                <div class="calendar" id="calendar">
-                    <!-- Calendar days will be generated here -->
-                </div>
-                <div class="timezone">
-                    <p><strong>Time Zone:</strong></p>
-                    <p>USA and Canada (10:53)</p>
+    <div class="container">
+        <div class="left">
+            <img src="logo.png" alt="Pôle Démarches" style="width:100%;">
+            <h1>Validation of Appointment by Video</h1>
+            <p><strong>Duration:</strong> 10 min</p>
+            <p>Online Conference Confirmation</p>
+            <p><strong>Cost:</strong> 89 EUR</p>
+            <p>2:20 - 3:20, Monday 1 July, 2024</p>
+            <p>Pacafic Time - USA and Canada</p>
+            <br>
+            <p><strong>Documents to Provide:</strong></p>
+            <ul>
+                <ul>
+                    <li>Identity Documents</li>
+                    <li>Proof of Residence</li>
+                    <li>Any document related to your situation</li>
+                </ul>
+        </div>
+        <div class="right">
+            <div>
+                <h2>Select Date and Time</h2>
+                <div class="calendar-container">
+                    <div class="month-switch">
+                        <button type="button" id="prev-month">&lt;</button>
+                        <span id="current-month-year"></span>
+                        <button type="button" id="next-month">&gt;</button>
+                    </div>
+                    <div class="calendar" id="calendar">
+                        <!-- Calendar days will be generated here -->
+                    </div>
+                    <div class="timezone">
+                        <p><strong>Time Zone:</strong></p>
+                        <p>USA and Canada (10:53)</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="timeslots" id="timeslots">
-            <p id="selected-date"></p>
-            <div id="timeslot-list"></div>
+            <div class="timeslots" id="timeslots">
+                <p id="selected-date"></p>
+                <div id="timeslot-list"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-   
+    <script>
+
         const calendar = document.getElementById('calendar');
         const currentMonthYear = document.getElementById('current-month-year');
         const prevMonthButton = document.getElementById('prev-month');
@@ -172,10 +191,10 @@
         const selectedDateElem = document.getElementById('selected-date');
 
         let date = new Date();
-        
+
         const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June', 
+            'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
         ];
 
@@ -185,7 +204,7 @@
             const month = date.getMonth();
             const firstDayOfMonth = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            
+
             currentMonthYear.textContent = `${monthNames[month]} ${year}`;
 
             // Add days of week headers
@@ -214,7 +233,7 @@
                 dayElement.addEventListener('click', function () {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
                     this.classList.add('selected');
-   
+
                     // Display timeslots and update the selected date
                     const selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
                     selectedDateElem.textContent = selectedDate;
@@ -239,7 +258,35 @@
                 slotElement.addEventListener('click', function () {
                     document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
                     this.classList.add('selected');
+
+                    // When a timeslot is selected, submit the date and time
+                    const selectedDateTime = {
+                        date: selectedDateElem.textContent.trim(),
+                        time: slot
+                    };
+
+                    // Send the selectedDateTime to the server via fetch or AJAX
+                    submitDateTime(selectedDateTime);
                 });
+            });
+        }
+
+        function submitDateTime(dateTime) {
+            fetch('/calender/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dateTime),
+            }).then(response => {
+                if (response.ok) {
+                    console.log('DateTime submitted successfully');
+                    // Optionally, you can redirect or show a success message here
+                } else {
+                    console.error('Failed to submit DateTime');
+                }
+            }).catch(error => {
+                console.error('Error submitting DateTime:', error);
             });
         }
 
@@ -255,19 +302,11 @@
 
         renderCalendar();
 
-</script>
-
-
-
-
-
-
-
-
-<script>
+    </script>
+    <script>
 
         const calendarDays = document.querySelectorAll('.calendar div[data-day]');
-        
+
         calendarDays.forEach(day => {
             day.addEventListener('click', function () {
                 // Remove 'selected' class from all days
@@ -277,16 +316,10 @@
             });
         });
 
-</script>
-
-
-
-
-
-
-
+    </script>
     </div>
-                        </div>
-    
+    </div>
+
 </body>
+
 </html>
