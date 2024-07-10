@@ -119,7 +119,15 @@ class Appointly_model extends App_Model
             }
         }
 
-        return $this->insertHandleCustomFieldsAndNotifications($data, $attendees);
+        
+        //findmehere 
+        // send SMS and emails
+        $data['id'] = $this->insertHandleCustomFieldsAndNotifications($data, $attendees);
+        if($data['id']>0){
+        $this->appointly_send_email_templates_instant($data);
+        return true;
+        }
+        return false;
     }
 
 
@@ -161,7 +169,10 @@ class Appointly_model extends App_Model
             }
         }
 
-        return $this->insertHandleCustomFieldsAndNotifications($data, $attendees);
+        if( $this->insertHandleCustomFieldsAndNotifications($data, $attendees)>0){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -208,7 +219,7 @@ class Appointly_model extends App_Model
             ]);
             pusher_trigger_notification(array_unique([$responsiblePerson]));
         }
-        return true;
+        return $appointment_id;
     }
 
 
@@ -1414,5 +1425,48 @@ class Appointly_model extends App_Model
         unset($data['repeat_every_custom']);
         return $data;
     }
+
+    /**
+ * Register cron email templates.
+ */
+function appointly_send_email_templates_instant($appointment)
+{
+    $CI = &get_instance();
+    $CI->load->model('appointly/appointly_attendees_model', 'atm');
+
+    $notified_users = [];
+
+    $attendees = $CI->atm->get($appointment['id']);
+
+    foreach ($attendees as $staff) {
+        if($staff['staffid']!=get_staff_user_id()){
+            add_notification([
+                'description' => 'appointment_you_have_new_appointment',
+                'touserid'    => $staff['staffid'],
+                'fromcompany' => true,
+                'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+            ]);
+
+            $notified_users[] = $staff['staffid'];
+
+            send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
+        }
+    }
+
+    $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
+
+    $merge_fields = $template->get_merge_fields();
+
+    $template->send();
+
+    if ($appointment['by_sms']) {
+        $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
+    }
+
+    $CI->db->where('id', $appointment['id']);
+    $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
+    pusher_trigger_notification(array_unique($notified_users));
+}
+
 
 }

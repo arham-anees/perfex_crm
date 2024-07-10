@@ -31,6 +31,11 @@ class Appointments extends AdminController
         $this->load->view('index', $data);
     }
 
+    public function booking_pages(){
+        
+        $this->load->view('booking_pages');
+    }
+
     public function statistics(){
         if ($this->staff_no_view_permissions) {
             access_denied('Appointments');

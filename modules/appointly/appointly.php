@@ -20,6 +20,7 @@ define('APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT', 'appointly_ap
 hooks()->add_action('admin_init', 'appointly_register_permissions');
 hooks()->add_action('admin_init', 'appointly_register_menu_items');
 hooks()->add_action('after_cron_run', 'appointly_send_email_templates');
+hooks()->add_action('after_cron_run', 'appointly_send_email_templates_auto');
 hooks()->add_action('after_cron_run', 'appointly_recurring_events');
 
 register_merge_fields('appointly/merge_fields/appointly_merge_fields');
@@ -198,6 +199,13 @@ function appointly_register_menu_items()
             'position'        => 25,
             'icon'            => 'fa-brands fa-th-list',
         ]);
+        $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
+            'slug'            => 'appointly-link-booking-page',
+            'name'            => 'appointment_menu_booking_page',
+            'href'            => admin_url('appointly/booking_pages'),
+            'position'        => 25,
+            'icon'            => 'fa-brands fa-th-list',
+        ]);
         $CI->app_menu->add_setup_menu_item('appointly', [
             'collapse' => true,
             'name'     => _l('setup_appointments'),
@@ -300,6 +308,69 @@ function appointly_send_email_templates()
     }
     pusher_trigger_notification(array_unique($notified_users));
 }
+/**
+ * Register cron email templates.
+ */
+function appointly_send_email_templates_auto()
+{
+    $CI = &get_instance();
+    $CI->load->model('appointly/appointly_attendees_model', 'atm');
+
+    // User events
+    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0)');
+
+    $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
+    $notified_users = [];
+
+    $reminder_times=['10 minutes', '4 hours', '24 hours'];
+    foreach ($appointments as $appointment) {
+        $date_compare1 = date('Y-m-d H:i', strtotime('+' . $reminder_times[0]));
+        $date_compare2 = date('Y-m-d H:i', strtotime('+' . $reminder_times[1]));
+        $date_compare3 = date('Y-m-d H:i', strtotime('+' . $reminder_times[2]));
+
+        if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
+            ||$appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
+            ||$appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3
+            ) {
+            if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
+                /*
+                 * If appointment is missed then skip
+                 */
+                continue;
+            }
+
+            $attendees = $CI->atm->get($appointment['id']);
+
+            foreach ($attendees as $staff) {
+                add_notification([
+                    'description' => 'appointment_you_have_new_appointment',
+                    'touserid'    => $staff['staffid'],
+                    'fromcompany' => true,
+                    'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                ]);
+
+                $notified_users[] = $staff['staffid'];
+
+                send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
+            }
+
+            $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
+
+            $merge_fields = $template->get_merge_fields();
+
+            $template->send();
+
+            if ($appointment['by_sms']) {
+                $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
+            }
+
+            $CI->db->where('id', $appointment['id']);
+            $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
+        }
+    }
+    pusher_trigger_notification(array_unique($notified_users));
+}
+
 
 
 function appointly_recurring_events()
