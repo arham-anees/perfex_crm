@@ -36,30 +36,18 @@ if (!function_exists('get_appointment_types')) {
 
                 <?php echo form_open('appointly/appointments_public/create_external_appointment_booking_page/'. $booking_page['url'], ['id' => 'appointments-form']); ?>
 
-                <input type="text" hidden name="rel_type" value="external">
+                <input type="text" hidden name="rel_type" value="booking_page">
+                <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
                 <div class="row main_wrapper">
                     <div class=" <?= 'col-md-4'; ?>">
-                        <div class="logo">
-                            <img src="logo.png" alt="Pôle Démarches" style="width:100%;">
-                        </div>
-                        <hr>
                         <br>
-
-                        <p>Pole Demarches</p>
-                        <h3>Validation of Appointment by Video</h3>
-                        <p><strong>Duration:</strong> 10 min</p>
-                        <p>Online Conference Confirmation</p>
-                        <p><strong>Cost:</strong> 89 EUR</p>
-                        <p>2:20 - 3:20, Monday 1 July, 2024</p>
-                        <p>Pacafic Time - USA and Canada</p>
-                        <br>
-                        <p><strong>Documents to Provide:</strong></p>
-                        <ul>
-                            <li>Identity Documents</li>
-                            <li>Proof of Residence</li>
-                            <li>Any document related to your situation</li>
-                        </ul>
+                        <h3><?= $booking_page['name'] ?></h3>
+                        <p><strong>Duration:</strong> <?= $booking_page['duration_minutes'] ?> min</p>
+                        <p><strong>Description</strong>
+                    <br/>
+                    <?= $booking_page['description'] ?></p>
+                        
 
 
                     </div>
@@ -76,10 +64,6 @@ if (!function_exists('get_appointment_types')) {
                                 </div>
                                 <div class="calendar" id="calendar">
                                     <!-- Calendar days will be generated here -->
-                                </div>
-                                <div class="timezone">
-                                    <p><strong>Time Zone:</strong></p>
-                                    <p>USA and Canada (10:53)</p>
                                 </div>
                             </div>
 
@@ -123,7 +107,7 @@ if (!function_exists('get_appointment_types')) {
                             <br>
                         <?php } ?>
 
-                        <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
+                        <!-- <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?> -->
 
                         <br>
                         <div class="form-group">
@@ -210,7 +194,6 @@ if (!function_exists('get_appointment_types')) {
             </div>
         </div>
     </div>
-
     <?php
     app_external_form_footer($form);
     ?>
@@ -225,7 +208,7 @@ if (!function_exists('get_appointment_types')) {
     <?php require ('modules/appointly/assets/js/appointments_external_form.php'); ?>
 
     <!-- If callbacks is enabled load on appointments external form -->
-    <?php if (get_option('callbacks_mode_enabled') == 1)
+    <?php if ($booking_page['callbacks_mode_enabled'] == 1)
         require ('modules/appointly/views/forms/callbacks_form.php'); ?>
 
     <script>
@@ -276,10 +259,17 @@ if (!function_exists('get_appointment_types')) {
                 const dayElement = document.createElement('div');
                 dayElement.textContent = i;
                 dayElement.setAttribute('data-day', i);
+                if(<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7]=='SUN' || daysOfWeek[(startDay + i - 1) % 7]=='SAT')){
+                    dayElement.className = 'disabled';
+                }
+                if(!<?= $booking_page['appointments_show_past_times'] ?> && (daysOfWeek[(startDay + i - 1) % 7]=='SUN' || daysOfWeek[(startDay + i - 1) % 7]=='SAT')){
+                    dayElement.className = 'disabled';
+                }
                 calendar.appendChild(dayElement);
 
                 dayElement.addEventListener('click', function () {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
+
                     this.classList.add('selected');
 
                     // Display timeslots and update the selected date
@@ -294,7 +284,7 @@ if (!function_exists('get_appointment_types')) {
         function loadTimeSlots(date) {
             // This is a placeholder for dynamic slot loading logic.
             // You can replace it with an actual API call to fetch available time slots.
-            const availableTimeSlots = ['02:40', '02:50', '03:10', '03:20', '03:40', '03:50', '04:00', '04:20'];
+            const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
 
             timeslotList.innerHTML = '';
             availableTimeSlots.forEach(slot => {
@@ -319,6 +309,70 @@ if (!function_exists('get_appointment_types')) {
             });
         }
 
+        function initAppointmentScheduledDates2() {
+            let url = '<?= admin_url("/appointly/appointments_public/busyDates") ?>';
+            $.post(url).done(function (r) {
+                r = JSON.parse(r);
+                var dateFormat = app.options.date_format;
+                var appointmentDatePickerOptionsExternal = {
+                    dayOfWeekStart: app.options.calendar_first_day,
+                    daysOfWeekDisabled: [0, 5],
+                    minDate: 0,
+                    format: dateFormat,
+                    defaultTime: "09:00",
+                    allowTimes: allowedHours,
+                    closeOnDateSelect: 0,
+                    closeOnTimeSelect: 1,
+                    validateOnBlur: false,
+                    minTime: appMinTime,
+                    disabledWeekDays: appWeekends,
+                    onGenerate: function (ct) {
+                       if (is_busy_times_enabled == 1) {
+                            var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
+                            $(r).each(function (i, el) {
+                                if (el.date == selectedDate) {
+                                    var currentTime = $("body")
+                                        .find(".xdsoft_time:contains(\"" + el.start_hour + "\")");
+                                    currentTime.addClass("busy_time");
+                                }
+                            });
+                        }
+                    },
+                    onSelectDate: function (ct, $input) {
+                        $input.val("");
+                        var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
+
+                        setTimeout(function () {
+                            $("body").find(".xdsoft_time").removeClass("xdsoft_current xdsoft_today");
+
+                            if (currentDate !== selectedDate) {
+                                $("body").find(".xdsoft_time.xdsoft_disabled").removeClass("xdsoft_disabled");
+                            }
+                        }, 200);
+                    },
+                    onChangeDateTime: function () {
+                        var currentTime = $("body").find(".xdsoft_time");
+                        currentTime.removeClass("busy_time");
+                    }
+                };
+
+                if (app.options.time_format == 24) {
+                    dateFormat = dateFormat + " H:i";
+                } else {
+                    dateFormat = dateFormat + " g:i A";
+                    appointmentDatePickerOptionsExternal.formatTime = "g:i A";
+                }
+
+                appointmentDatePickerOptionsExternal.format = dateFormat;
+
+                $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
+            });
+
+            jQuery.datetimepicker.setLocale(app.locale);
+        }
+
+
+        initAppointmentScheduledDates2();
         function submitDateTime(dateTime) {
             console.log(dateTime);
             const dataInput = document.getElementById('date');
