@@ -30,6 +30,24 @@
     .stat-card .stat-percentage {
         color: #6c757d;
     }
+
+    .chart-card {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .chart-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 300px;
+    }
 </style>
 
 <div id="wrapper">
@@ -62,39 +80,71 @@
                         <!-- Cards for summary data (e.g., total appointments, completed appointments, etc.) -->
                         <!-- <div class="container justify-content-start no-padding">
                             <div class="row"> -->
-                        <div class="col-md-3 no-padding">
+                        <div class="col-md-4 no-padding">
                             <div class="stat-card">
                                 <h4>Created events</h4>
                                 <div class="stat-number"> <?php echo $summary[0]['total_filtered']; ?></div>
-                                <div class="stat-change">+255</div>
-                                <div class="stat-percentage">(+117%)</div>
+                                <div class="stat-change"><?php
+                                                            $currentTotal = $summary[0]['total_filtered'];
+                                                            $priorTotal = $summary2[0]['total_prior_filtered'];
+                                                            $change = $currentTotal - $priorTotal;
+                                                            $percentageChange = $priorTotal > 0 ? ($change / $priorTotal) * 100 : 0;
+                                                            echo ($change >= 0 ? '+' : '') . $change;
+                                                            ?></div>
+                                <div class="stat-percentage"><?php
+                                                                echo '(' . ($percentageChange >= 0 ? '+' : '') . number_format($percentageChange, 1) . '%)';
+                                                                ?></div>
                                 <div class="stat-period">vs prior <?php echo $prior_days ?> days</div>
                             </div>
                         </div>
-                        <div class="col-md-3 no-padding">
+                        <div class="col-md-4 no-padding">
                             <div class="stat-card">
                                 <h4>Completed events</h4>
                                 <div class="stat-number"><?php echo $summary[0]['completed_filtered']; ?></div>
-                                <div class="stat-change">+116</div>
-                                <div class="stat-percentage">(+59.2%)</div>
+                                <div class="stat-change">
+                                    <?php
+                                    $currentTotal = $summary[0]['completed_filtered'];
+                                    $priorTotal = $summary2[0]['completed_prior_filtered'];
+                                    $change = $currentTotal - $priorTotal;
+                                    $percentageChange = $priorTotal > 0 ? ($change / $priorTotal) * 100 : 0;
+                                    echo ($change >= 0 ? '+' : '') . $change;
+                                    ?>
+                                </div>
+                                <div class="stat-percentage">
+                                    <?php
+                                    echo '(' . ($percentageChange >= 0 ? '+' : '') . number_format($percentageChange, 1) . '%)';
+                                    ?>
+                                </div>
                                 <div class="stat-period">vs prior 30 days</div>
                             </div>
                         </div>
-                        <div class="col-md-3 no-padding">
+                        <!-- <div class="col-md-3 no-padding">
                             <div class="stat-card">
                                 <h4>Rescheduled events</h4>
-                                <div class="stat-number">20</div>
-                                <div class="stat-change">+7</div>
-                                <div class="stat-percentage">(+53.8%)</div>
-                                <div class="stat-period">vs prior 30 days</div>
+                                <div class="stat-number">0</div>
+                                <div class="stat-change">+0</div>
+                                <div class="stat-percentage">(+0.0%)</div>
+                                <div class="stat-period">vs prior 0 days</div>
                             </div>
-                        </div>
-                        <div class="col-md-3 no-padding">
+                        </div> -->
+                        <div class="col-md-4 no-padding">
                             <div class="stat-card">
                                 <h4>Canceled events</h4>
                                 <div class="stat-number"> <?php echo $summary[0]['cancelled_filtered']; ?></div>
-                                <div class="stat-change">+43</div>
-                                <div class="stat-percentage">(+148.3%)</div>
+                                <div class="stat-change">
+                                    <?php
+                                    $currentTotal = $summary[0]['cancelled_filtered'];
+                                    $priorTotal = $summary2[0]['cancelled_prior_filtered'];
+                                    $change = $currentTotal - $priorTotal;
+                                    $percentageChange = $priorTotal > 0 ? ($change / $priorTotal) * 100 : 0;
+                                    echo ($change >= 0 ? '+' : '') . $change;
+                                    ?>
+                                </div>
+                                <div class="stat-percentage">
+                                    <?php
+                                    echo '(' . ($percentageChange >= 0 ? '+' : '') . number_format($percentageChange, 1) . '%)';
+                                    ?>
+                                </div>
                                 <div class="stat-period">vs prior 30 days</div>
                             </div>
                         </div>
@@ -123,15 +173,45 @@
                         <?php endif; ?>
                         <div class="col-md-6">
                             <div class="chart-card">
-                                <h3>Completed events trend</h3>
+                                <h3>Completed Appointments</h3>
+                                <?php
+                                // Example dates from the summary array
+                                $firstDate = $summary[0]['first_date_filtered'];
+                                $lastDate = $summary[0]['last_date_filtered'];
+
+                                // Convert the dates to DateTime objects
+                                $firstDateObj = new DateTime($firstDate);
+                                $lastDateObj = new DateTime($lastDate);
+
+                                // Format the dates
+                                $firstDateFormatted = $firstDateObj->format('j F');
+                                $lastDateFormatted = $lastDateObj->format('j F');
+                                ?>
+                                <div class="text-right text-muted">
+                                    <?php echo $firstDateFormatted; ?> – <?php echo $lastDateFormatted; ?>
+                                </div>
+
                                 <div class="chart-container">
                                     <canvas id="myChart"></canvas>
                                 </div>
-                                <div class="text-right text-muted">1 Jun – 30 Jun</div>
+                                <!-- <div class="text-right text-muted">1 Jun – 30 Jun</div> -->
                             </div>
                         </div>
-                        <canvas id="myChart" width="400" height="200"></canvas>
-                        <canvas id="staff_completed_chart" width="400" height="200"></canvas>
+                        <div class="col-md-6">
+                            <div class="chart-card">
+                                <h3>Assigned Appointments</h3>
+                                <div class="text-right text-muted">
+                                    <?php echo $firstDateFormatted; ?> – <?php echo $lastDateFormatted; ?>
+                                </div>
+
+                                <div class="chart-container">
+                                    <canvas id="staff_completed_chart"></canvas>
+                                </div>
+                                <!-- <div class="text-right text-muted">1 Jun – 30 Jun</div> -->
+                            </div>
+                        </div>
+                        <!-- <canvas id="myChart" width="400" height="200"></canvas> -->
+                        <!-- <canvas id="staff_completed_chart" width="400" height="200"></canvas> -->
                     </div>
                 </div>
             </div>
@@ -205,7 +285,7 @@
                     data: data_staff,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    borderWidth: 2
                 }]
             },
             options: {
