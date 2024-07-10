@@ -4,6 +4,18 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
+            <div class="_buttons">
+                    <?php  { ?>
+                    <a href="<?php echo admin_url('appointly/booking_pages/create'); ?>"
+                        class="btn btn-primary pull-left display-block tw-mb-2 sm:tw-mb-4">
+                        <i class="fa-regular fa-plus tw-mr-1"></i>
+                        <?php echo _l('new_booking'); ?>
+                    </a>
+                    <?php } ?>
+    
+                    <div class="clearfix"></div>
+       
+                </div>
                 <div class="panel_s">
                     <div class="panel-body panel-table-full">
                         <table class="table table-statuses">
