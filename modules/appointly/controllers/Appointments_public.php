@@ -164,6 +164,35 @@ class Appointments_public extends ClientsController
         }
     }
     else{
+        $form = new stdClass();
+
+        $form->language = get_option('active_language');
+
+        
+        $this->lang->load($form->language . '_lang', $form->language);
+
+        if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
+            $this->lang->load('custom_lang', $form->language);
+        }
+
+        if ($this->input->post() && $this->input->is_ajax_request()) {
+
+            $post_data = $this->input->post();
+
+            $required = ['subject', 'description', 'name', 'email'];
+
+            foreach ($required as $field) {
+                if (!isset($post_data[$field]) || isset($post_data[$field]) && empty($post_data[$field])) {
+                    $this->output->set_status_header(422);
+                    die;
+                }
+            }
+            die;
+        }
+
+        $data['form'] = $form;
+        $data['form']->recaptcha = 1;
+        
         $data['booking_page'] = $this->booking_page_model->get_by_url('firstbookingpage');
         $this->load->view('booking_pages/book_appointment', $data);
     }

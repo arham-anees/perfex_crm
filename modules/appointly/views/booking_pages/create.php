@@ -3,13 +3,14 @@ $appointly_show_clients_schedule_button = get_option('appointly_show_clients_sch
 $appointly_tab_on_clients_page = get_option('appointly_tab_on_clients_page');
 $appointly_show_summary = get_option('appointly_show_summary');
 ?>
-<?php init_head(); 
-?><div id="wrapper">
-<div class="content">
-   <div class="row">
-      <div class="col-md-12">
-         <div class="panel_s">
-            <div class="panel-body">
+<?php init_head();
+?>
+<div id="wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
 
 <div class="horizontal-scrollable-tabs">
     <div class="horizontal-tabs">
@@ -27,6 +28,7 @@ $appointly_show_summary = get_option('appointly_show_summary');
     <div role="tabpanel" class="tab-pane active" id="general">
         <!-- Custom Fields -->
         
+
         <?php $rel_id = (isset($bookings) ? $bookings->id : false); ?>
         <?php echo render_custom_fields('bookings', $rel_id); ?>
 
