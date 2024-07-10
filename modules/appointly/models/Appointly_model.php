@@ -616,6 +616,25 @@ class Appointly_model extends App_Model
         return $this->db->get(db_prefix() . 'appointly_appointments')->result_array();
     }
 
+    /**
+     * Get lead's appointments
+     *
+     * @return array
+     */
+    public function fetch_lead_appointments($lead_id)
+    {
+        $date = new DateTime();
+        $today = $date->format('Y-m-d');
+
+        $staff_has_permissions = ! staff_can('view', 'appointments') || ! staff_can('view_own', 'appointments');
+
+
+        $this->db->where('contact_id', $lead_id);
+        $this->db->where('approved', 1);
+
+        return $this->db->get(db_prefix() . 'appointly_appointments')->result_array();
+    }
+
 
     /**
      * Get all busy appointment dates
