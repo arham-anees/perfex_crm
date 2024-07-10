@@ -175,6 +175,9 @@ if (!function_exists('get_appointment_types')) {
                             for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
                         <input type="text" class="form-control" value="" name="address" id="address">
 
+                        <?php $rel_id = (isset($bookings) ? $bookings->id : false); ?>
+                        <?php echo render_custom_fields('bookings', $rel_id); ?>
+
                         <?php
                         $rel_cf_id = (isset($appointment) ? $appointment['apointment_id'] : false);
                         echo render_custom_fields('appointly', $rel_cf_id);
