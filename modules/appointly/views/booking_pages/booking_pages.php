@@ -6,8 +6,7 @@
       <div class="col-md-12">
          <div class="panel_s">
             <div class="panel-body">
-           
-          
+           <?php echo $booking_pages[0]['url'] ?>
            
             </div>
          </div>
