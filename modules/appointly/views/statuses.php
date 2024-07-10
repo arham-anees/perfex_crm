@@ -41,7 +41,7 @@ $statuses = $this->Appointments_status_model->get_all();
 
 
 
-
+            <!-- Render the statuses table -->
             <div class="panel_s">
                <div class="panel-body">
                   <div class="_buttons">
@@ -76,7 +76,7 @@ $statuses = $this->Appointments_status_model->get_all();
                         </tbody>
                      </table>
                   <?php else : ?>
-                     <p><?php echo _l('No booking pages found.'); ?></p>
+                     <p><?php echo _l('No statuses found.'); ?></p>
                   <?php endif; ?>
                </div>
             </div>

@@ -1,33 +1,36 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<?php
+// load the subjects data from the controller
+$subjects = $this->Appointments_subject_model->get_all()
+?>
 <div id="wrapper">
    <div class="content">
       <div class="row">
          <div class="col-md-12">
             <div class="tw-mb-2 sm:tw-mb-4">
-                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#subject_modal">
-                    <i class="fa-regular fa-plus tw-mr-1"></i>
-                    Add New Subject
-                 </a>
+               <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#subject_modal">
+                  <i class="fa-regular fa-plus tw-mr-1"></i>
+                  Add New Subject
+               </a>
             </div>
-                  
-                  
-                  <div class="panel_s">
-                     <div class="panel-body panel-table-full">
-                        <table class="table table-subjects">
-                           <thead>
-                              <tr>
-                                 <th><?php echo _l('Subject'); ?></th>
-                                 <th><?php echo _l('Options'); ?></th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <!-- Data will be populated by DataTable -->
-                           </tbody>
-                        </table>
-                     </div>
-                  </div>
-              
+            <!-- Render the subjects table -->
+            <div class="panel_s">
+               <div class="panel-body panel-table-full">
+                  <table class="table table-subjects">
+                     <thead>
+                        <tr>
+                           <th><?php echo _l('Subject'); ?></th>
+                           <th><?php echo _l('Options'); ?></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <!-- Data will be populated by DataTable -->
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+
          </div>
       </div>
    </div>
@@ -38,11 +41,11 @@
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title" id="subject_modal_label">Add New Subject</h4>
-            
+
          </div>
          <div class="modal-body">
             <form method="POST" action="<?php echo base_url('admin/appointly/subjects/create'); ?>">
@@ -64,8 +67,8 @@
 
 <?php init_tail(); ?>
 
-<script> 
-   $(function(){
+<script>
+   $(function() {
       initDataTable('.table-subjects', '<?php echo base_url('admin/appointly/subjects/json'); ?>', [], [], [], {
          "fnRowCallback": function(nRow, aData, iDisplayIndex) {
             $(nRow).find('td:eq(1)').addClass('dt-column-options');
@@ -77,11 +80,12 @@
       $(document).on('click', '.btn-delete-subject', function(e) {
          e.preventDefault();
          var form = $(this).closest('form');
-         if(confirm('Are you sure you want to delete this subject?')) {
+         if (confirm('Are you sure you want to delete this subject?')) {
             form.submit();
          }
       });
    });
 </script>
 </body>
+
 </html>
