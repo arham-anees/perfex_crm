@@ -9,6 +9,7 @@ class Appointments_public extends ClientsController
         parent::__construct();
         $this->load->model('appointly_model', 'apm');
         $this->load->model('staff_model');
+        $this->load->model('booking_page_model');
     }
 
     /**
@@ -125,6 +126,47 @@ class Appointments_public extends ClientsController
                 'message' => _l('appointment_sent_successfully')
             ]);
         }
+    }
+    public function create_external_appointment_booking_page($url='')
+    {
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $data = $this->input->post();
+
+        $booking_page = $this->booking_page_model->get_by_url($data['url']);
+        if (!$data) {
+            show_404();
+        }
+
+        $data['source'] = $data['rel_type'];
+        unset($data['rel_type']);
+
+        if (isset($data['g-recaptcha-response'])) {
+            if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '') {
+                if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
+                    echo json_encode([
+                        'success'   => false,
+                        'recaptcha' => false,
+                        'message'   => _l('recaptcha_error'),
+                    ]);
+                    die;
+                }
+            }
+        }
+
+        if (isset($data['g-recaptcha-response'])) unset($data['g-recaptcha-response']);
+
+        if ($this->apm->insert_external_appointment($data)) {
+            echo json_encode([
+                'success' => true,
+                'message' => _l('appointment_sent_successfully')
+            ]);
+        }
+    }
+    else{
+        $data['booking_page'] = $this->booking_page_model->get_by_url('firstbookingpage');
+        $this->load->view('booking_pages/book_appointment', $data);
+    }
     }
 
     /**
