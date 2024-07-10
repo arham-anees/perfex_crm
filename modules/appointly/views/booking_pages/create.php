@@ -14,7 +14,7 @@
                         <div class="alert alert-danger"><?= $error_message ?></div>
                         <?php } ?>
 
-                        <div class="horizontal-scrollable-tabs">
+                        <!-- <div class="horizontal-scrollable-tabs">
                            <div class="horizontal-tabs">
                               <ul class="nav nav-tabs nav-tabs-horizontal" role="tablist">
                                     <li role="presentation" class="active">
@@ -25,8 +25,8 @@
                                     </li>
                               </ul>
                            </div>
-                        </div>
-                        <div class="tab-content">
+                        </div> -->
+                        <div >
                            <div role="tabpanel" class="tab-pane active" id="general">
                                     <!-- Booking Page Settings -->
                                     <div class="form-group">
@@ -303,11 +303,41 @@
                                     <hr />
 
                               <?php } ?>
+                              <div class="form-group mtop10">
+                                    <label for="callbacks_mode_enabled" class="control-label clearfix">
+                                       <?= _l('callbacks_enable_on_external_form'); ?>
+                                    </label>
+                                    <div class="radio radio-primary radio-inline">
+                                       <input type="radio" id="y_opt_1_callbacks_mode_enabled" name="callbacks_mode_enabled" value="1" <?= ($callbacks_mode_enabled == '1') ? ' checked' : '' ?>>
+                                       <label for="y_opt_1_callbacks_mode_enabled"><?= _l('settings_yes'); ?></label>
+                                    </div>
+                                    <div class="radio radio-primary radio-inline">
+                                       <input type="radio" id="y_opt_2_callbacks_mode_enabled" name="callbacks_mode_enabled" value="0" <?= ($callbacks_mode_enabled == '0') ? ' checked' : '' ?>>
+                                       <label for="y_opt_2_callbacks_mode_enabled">
+                                          <?= _l('settings_no'); ?>
+                                       </label>
+                                    </div>
+                                    <hr>
+                                    <p><b>Form url:</b>
+                                    <span class="label label-default">
+                                          <a href="<?= site_url( $url); ?>"><?= site_url( $url); ?>
+                                          <input type="text" name="url" required/>
+                              </a>
+                                       </span>
+                              </p>
+                              <p><b>Form Subjects:</b>
+                                    <span class="label label-info">
+                                          <a href="<?= site_url('appointly/subjects'); ?>" >
+                                                List of Subjects
+                                          </a>
+                                       </span>
+                              </p>
+                                    
                               <div class="mtop10">
                                     <span class="label label-info"><strong><?= get_appointly_version(); ?></strong></span>
                               </div>
                            </div>
-                           <?php if (is_admin()) { ?>
+                           <!-- <?php if (is_admin()) { ?>
                            <div role="tabpanel" class="tab-pane" id="form">
                               <div class="form-group mtop10">
                                     <label for="callbacks_mode_enabled" class="control-label clearfix">
@@ -341,41 +371,8 @@
                                           </a>
                                        </span>
                               </p>
-                              <hr />
-
-                              <h4 class="bold">Embed form</h4>
-                              <p><?= _l('form_integration_code_help'); ?></p>
-                              <textarea class="form-control" rows="1"><iframe width="600" height="850" src="<?= site_url('appointly/appointments_public/form'); ?>" frameborder="0" allowfullscreen></iframe></textarea>
-                              <p class="bold mtop15">When placing the iframe snippet code consider the following:</p>
-                              <p class="<?php if (strpos(site_url(), 'http://') !== false) {
-                                    echo 'bold text-success';
-                              } ?>">1. If the protocol of your installation is http use a http page inside the iframe.</p>
-                              <p class="<?php if (strpos(site_url(), 'https://') !== false) {
-                                    echo 'bold text-success';
-                              } ?>">2. If the protocol of your installation is https use a https page inside the iframe.</p>
-                              <p>None SSL installation will need to place the link in non ssl eq. landing page and backwards.</p>
-                              <hr />
-                              <h4 class="bold">Change form container column (Bootstrap)</h4>
-                              <p>
-                                       <span class="label label-default">
-                                          <a href="<?= site_url('appointly/appointments_public/form?col=col-md-8'); ?>" target="_blank">
-                                                <?= site_url('appointly/appointments_public/form?col=col-md-8'); ?>
-                                          </a>
-                                       </span>
-                              </p>
-                              <p>
-                                       <span class="label label-default">
-                                          <a href="<?= site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'); ?>" target="_blank"><?= site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'); ?></a>
-                                       </span>
-                              </p>
-                              <p>
-                                       <span class="label label-default">
-                                          <a href="<?= site_url('appointly/appointments_public/form?col=col-md-5'); ?>" target="_blank">
-                                                <?= site_url('appointly/appointments_public/form?col=col-md-5'); ?>
-                                          </a>
-                                       </span>
-                              </p>
-                           </div>
+                            
+                           </div> -->
                         </div>
                         <input type='submit' class="btn btn-primary pull-right" value='Submit'/>
                      

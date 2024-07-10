@@ -46,7 +46,7 @@
                                             <td><?php echo $page['name']; ?>
                                                 <div class="row-options" style="display: none;">
                                                     <!-- <a href="edit_url">Edit</a> | -->
-                                                    <a href="view_url">View</a>
+                                                    <a href="<?= admin_url('appointly/booking_pages/booking_page/' . $page['url']) ?>">View</a>
                                                 </div>
                                             </td>
                                             <td><?php echo $page['description']; ?></td>
