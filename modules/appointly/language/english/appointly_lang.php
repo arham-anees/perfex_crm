@@ -327,3 +327,6 @@ $lang['appointment_statistics_start_date'] = 'Start Date';
 $lang['appointment_statistics_end_date'] = 'End Date';
 $lang['lead_appointment_create'] = 'New appointment created';
 $lang['appointment_menu_booking_page'] = 'Booking Page Management';
+$lang['booking_page_created'] = 'New booking page was succesfully created';
+$lang['booking_page_name_field'] = 'Name';
+$lang['booking_page_description'] = 'Description';
