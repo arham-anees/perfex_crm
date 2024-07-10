@@ -64,7 +64,37 @@ if (!function_exists('get_appointment_types')) {
 
                     </div>
 
-                    <div class="mbot20 <?= 'col-md-8'; ?>">
+                    <div id="step1" class="mbot20 <?= 'col-md-8'; ?>">
+
+                        <h2>Select Date and Time</h2>
+                        <div class="flex">
+                            <div class="calendar-container">
+                                <div class="month-switch">
+                                    <button type="button" id="prev-month">&lt;</button>
+                                    <span id="current-month-year"></span>
+                                    <button type="button" id="next-month">&gt;</button>
+                                </div>
+                                <div class="calendar" id="calendar">
+                                    <!-- Calendar days will be generated here -->
+                                </div>
+                                <div class="timezone">
+                                    <p><strong>Time Zone:</strong></p>
+                                    <p>USA and Canada (10:53)</p>
+                                </div>
+                            </div>
+
+                            <div class="timeslots" id="timeslots">
+                                <p id="selected-date"></p>
+                                <div id="timeslot-list"></div>
+                            </div>
+                        </div>
+                        <div class="pull-right">
+                            <button type="button" id="nextButton" onclick="nextStep()"
+                                class="btn btn-primary"><?php echo _l('next'); ?></button>
+                        </div>
+                    </div>
+
+                    <div id="step2" style="display: none;" class="<?= 'col-md-8'; ?>">
 
                         <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 
@@ -86,16 +116,16 @@ if (!function_exists('get_appointment_types')) {
                                         <option class="form-control" value="<?= $app_type['id']; ?>">
                                             <?= $app_type['subject']; ?>
                                         </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class=" clearfix mtop15"></div>
-                                <br>
-                                <?php } ?>
-                                
-                                <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class=" clearfix mtop15"></div>
+                            <br>
+                        <?php } ?>
 
-                                <br>
+                        <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
+
+                        <br>
                         <div class="form-group">
                             <label for="name"><?= _l('appointment_full_name'); ?></label>
                             <input type="text" class="form-control"
@@ -138,16 +168,12 @@ if (!function_exists('get_appointment_types')) {
                                 name="phone" id="phone">
                         </div>
 
-                        <div class="hours_wrapper">
-                            <span class="available_time_info hwp"><?= _l('appointment_available_hours'); ?></span>
-                            <span class="busy_time_info hwp"><?= _l('appointment_busy_hours'); ?></span>
-                        </div>
-                        <?php echo render_datetime_input('date', 'appointment_date_and_time', '', ['readonly' => "readonly"], [], '', 'appointment-date'); ?>
+                        <?php echo render_datetime_input('date', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
                         <div class="form-group"></div>
 
                         <label
-                                for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
-                            <input type="text" class="form-control" value="" name="address" id="address">
+                            for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
+                        <input type="text" class="form-control" value="" name="address" id="address">
 
                         <?php
                         $rel_cf_id = (isset($appointment) ? $appointment['apointment_id'] : false);
@@ -169,6 +195,8 @@ if (!function_exists('get_appointment_types')) {
                             </div>
                         <?php } ?>
                         <div class="pull-right">
+                            <button type="button" id="backButton" onclick="prevStep()"
+                                class="btn btn-primary"><?php echo _l('back'); ?></button>
                             <button type="submit" id="form_submit"
                                 class="btn btn-primary"><?php echo _l('appointment_submit'); ?></button>
                         </div>
@@ -196,6 +224,141 @@ if (!function_exists('get_appointment_types')) {
     <!-- If callbacks is enabled load on appointments external form -->
     <?php if (get_option('callbacks_mode_enabled') == 1)
         require ('modules/appointly/views/forms/callbacks_form.php'); ?>
+
+    <script>
+
+        const calendar = document.getElementById('calendar');
+        const currentMonthYear = document.getElementById('current-month-year');
+        const prevMonthButton = document.getElementById('prev-month');
+        const nextMonthButton = document.getElementById('next-month');
+        const timeslots = document.getElementById('timeslots');
+        const timeslotList = document.getElementById('timeslot-list');
+        const selectedDateElem = document.getElementById('selected-date');
+
+        let date = new Date();
+
+        const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        function renderCalendar() {
+            calendar.innerHTML = '';
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const firstDayOfMonth = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+
+            // Add days of week headers
+            daysOfWeek.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'disabled';
+                dayElement.textContent = day;
+                calendar.appendChild(dayElement);
+            });
+
+            // Add empty elements for days before the first day of the month
+            const startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
+            for (let i = 0; i < startDay; i++) {
+                const emptyElement = document.createElement('div');
+                emptyElement.className = 'disabled';
+                calendar.appendChild(emptyElement);
+            }
+
+            // Add days of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = i;
+                dayElement.setAttribute('data-day', i);
+                calendar.appendChild(dayElement);
+
+                dayElement.addEventListener('click', function () {
+                    document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Display timeslots and update the selected date
+                    const selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
+                    selectedDateElem.textContent = selectedDate;
+                    timeslots.style.display = 'flex';
+                    // Load time slots dynamically
+                    loadTimeSlots(selectedDate);
+                });
+            }
+        }
+        function loadTimeSlots(date) {
+            // This is a placeholder for dynamic slot loading logic.
+            // You can replace it with an actual API call to fetch available time slots.
+            const availableTimeSlots = ['02:40', '02:50', '03:10', '03:20', '03:40', '03:50', '04:00', '04:20'];
+
+            timeslotList.innerHTML = '';
+            availableTimeSlots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.className = 'timeslot';
+                slotElement.textContent = slot;
+                timeslotList.appendChild(slotElement);
+
+                slotElement.addEventListener('click', function () {
+                    document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // When a timeslot is selected, submit the date and time
+                    const selectedDateTime = {
+                        date: `${selectedDateElem.textContent.trim()} ${slot}`
+
+                    };
+
+                    // Send the selectedDateTime to the server via fetch or AJAX
+                    submitDateTime(selectedDateTime);
+                });
+            });
+        }
+
+        function submitDateTime(dateTime) {
+            console.log(dateTime);
+            const dataInput = document.getElementById('date');
+            dataInput.value = dateTime.date
+        }
+
+        prevMonthButton.addEventListener('click', function () {
+            date.setMonth(date.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextMonthButton.addEventListener('click', function () {
+            date.setMonth(date.getMonth() + 1);
+            renderCalendar();
+        });
+
+        renderCalendar();
+
+    </script>
+    <script>
+
+        const calendarDays = document.querySelectorAll('.calendar div[data-day]');
+
+        calendarDays.forEach(day => {
+            day.addEventListener('click', function () {
+                // Remove 'selected' class from all days
+                calendarDays.forEach(d => d.classList.remove('selected'));
+                // Add 'selected' class to clicked day
+                this.classList.add('selected');
+            });
+        });
+    </script>
+    <script>
+        function nextStep() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+        }
+
+        function prevStep() {
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+        }
+    </script>
 
 </body>
 
