@@ -50,9 +50,9 @@ class Forms extends ClientsController
                     if (isset($field->name)) {
                         if ($field->name == 'file-input') {
                             $submission[] = [
-                            'label' => $field->label,
-                            'name'  => $field->name,
-                            'value' => null,
+                                'label' => $field->label,
+                                'name'  => $field->name,
+                                'value' => null,
                             ];
 
                             continue;
@@ -60,9 +60,9 @@ class Forms extends ClientsController
 
                         if (!isset($post_data[$field->name])) {
                             $submission[] = [
-                            'label' => property_exists($field, 'label') ? $field->label : $field->name,
-                            'name'  => $field->name,
-                            'value' => '',
+                                'label' => property_exists($field, 'label') ? $field->label : $field->name,
+                                'name'  => $field->name,
+                                'value' => '',
                             ];
 
                             continue;
@@ -149,7 +149,8 @@ class Forms extends ClientsController
 
                 if (show_recaptcha() && $form->recaptcha == 1) {
                     if (!do_recaptcha_validation($post_data['g-recaptcha-response'])) {
-                        echo json_encode(['success' => false,
+                        echo json_encode([
+                            'success' => false,
                             'message'               => _l('recaptcha_error'),
                         ]);
                         die;
@@ -196,7 +197,7 @@ class Forms extends ClientsController
 
                             if (is_array($ids) && count($ids) > 0) {
                                 $this->db->where('active', 1)
-                                ->where_in($form->notify_type == 'specific_staff' ? 'staffid' : 'role', $ids);
+                                    ->where_in($form->notify_type == 'specific_staff' ? 'staffid' : 'role', $ids);
 
                                 $staff = $this->db->get(db_prefix() . 'staff')->result_array();
                             }
@@ -213,15 +214,15 @@ class Forms extends ClientsController
 
                         foreach ($staff as $member) {
                             if (add_notification([
-                                    'description' => 'new_estimate_request_submitted_from_form',
-                                    'touserid' => $member['staffid'],
-                                    'fromcompany' => 1,
-                                    'fromuserid' => 0,
-                                    'additional_data' => serialize([
-                                        $form->name,
-                                    ]),
-                                    'link' => 'estimate_request/view/' . $estimate_request_id,
-                                ])) {
+                                'description' => 'new_estimate_request_submitted_from_form',
+                                'touserid' => $member['staffid'],
+                                'fromcompany' => 1,
+                                'fromuserid' => 0,
+                                'additional_data' => serialize([
+                                    $form->name,
+                                ]),
+                                'link' => 'estimate_request/view/' . $estimate_request_id,
+                            ])) {
                                 array_push($notifiedUsers, $member['staffid']);
                             }
 
@@ -522,29 +523,29 @@ class Forms extends ClientsController
 
                                 if (is_array($ids) && count($ids) > 0) {
                                     $this->db->where('active', 1)
-                                    ->where_in($form->notify_type == 'specific_staff' ? 'staffid' : 'role', $ids);
+                                        ->where_in($form->notify_type == 'specific_staff' ? 'staffid' : 'role', $ids);
                                     $staff = $this->db->get(db_prefix() . 'staff')->result_array();
                                 }
                             } elseif ($form->responsible) {
                                 $staff = [
-                                [
-                                    'staffid' => $form->responsible,
-                                ],
-                            ];
+                                    [
+                                        'staffid' => $form->responsible,
+                                    ],
+                                ];
                             }
 
                             $notifiedUsers = [];
                             foreach ($staff as $member) {
                                 if (add_notification([
-                                        'description' => 'not_lead_imported_from_form',
-                                        'touserid' => $member['staffid'],
-                                        'fromcompany' => 1,
-                                        'fromuserid' => 0,
-                                        'additional_data' => serialize([
-                                            $form->name,
-                                        ]),
-                                        'link' => '#leadid=' . $lead_id,
-                                    ])) {
+                                    'description' => 'not_lead_imported_from_form',
+                                    'touserid' => $member['staffid'],
+                                    'fromcompany' => 1,
+                                    'fromuserid' => 0,
+                                    'additional_data' => serialize([
+                                        $form->name,
+                                    ]),
+                                    'link' => '#leadid=' . $lead_id,
+                                ])) {
                                     array_push($notifiedUsers, $member['staffid']);
                                 }
                             }
