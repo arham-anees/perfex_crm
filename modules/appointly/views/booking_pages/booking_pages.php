@@ -4,50 +4,71 @@
     <div class="content">
         <div class="row">
             <div class="col-md-12">
-            <div class="_buttons">
-                    <?php  { ?>
-                    <a href="<?php echo admin_url('appointly/booking_pages/create'); ?>"
-                        class="btn btn-primary pull-left display-block tw-mb-2 sm:tw-mb-4">
-                        <i class="fa-regular fa-plus tw-mr-1"></i>
-                        <?php echo _l('new_booking'); ?>
-                    </a>
+                <div class="_buttons">
+                    <?php { ?>
+                        <a href="<?php echo admin_url('appointly/booking_pages/create'); ?>" class="btn btn-primary pull-left display-block tw-mb-2 sm:tw-mb-4">
+                            <i class="fa-regular fa-plus tw-mr-1"></i>
+                            <?php echo _l('new_booking'); ?>
+                        </a>
                     <?php } ?>
-    
+
                     <div class="clearfix"></div>
-       
+
                 </div>
+
+
+
+
                 <div class="panel_s">
-                    <div class="panel-body panel-table-full">
-                        <table class="table table-statuses">
-                            <thead>
-                                <tr>
-                                    <th><?php echo _l('Name'); ?></th>
-                                    <th><?php echo _l('Description'); ?></th>
-                                    <th><?php echo _l('Url'); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($booking_pages)): ?>
-                                    <?php foreach ($booking_pages as $page): ?>
+                    <div class="panel-body">
+                        <div class="_buttons">
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr class="hr-panel-heading" />
+                        <?php if (!empty($booking_pages)) : ?>
+                            <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo _l('Name'); ?></th>
+                                        <th><?php echo _l('Description'); ?></th>
+                                        <th><?php echo _l('Url'); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($booking_pages as $page) : ?>
                                         <tr>
                                             <td><?php echo $page['name']; ?></td>
                                             <td><?php echo $page['description']; ?></td>
                                             <td><?php echo $page['url']; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="2"><?php echo _l('No booking pages found.'); ?></td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        <?php else : ?>
+                            <p><?php echo _l('No booking pages found.'); ?></p>
+                        <?php endif; ?>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>
