@@ -6,7 +6,7 @@
             <div class="col-md-12">
             <div class="_buttons">
                     <?php  { ?>
-                    <a href="<?php echo admin_url('appointly/appointments_public/create_external_appointment_booking_page'); ?>"
+                    <a href="<?php echo admin_url('appointly/booking_pages/create'); ?>"
                         class="btn btn-primary pull-left display-block tw-mb-2 sm:tw-mb-4">
                         <i class="fa-regular fa-plus tw-mr-1"></i>
                         <?php echo _l('new_booking'); ?>
