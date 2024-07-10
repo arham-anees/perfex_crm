@@ -107,9 +107,9 @@ body .busy_google_time {
     color: #fff;
 }
 
-body input {
+/* body input {
     height: 38px !important;
-}
+} */
 
 body textarea,
 body input {

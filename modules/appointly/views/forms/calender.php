@@ -27,6 +27,7 @@
     .right {
         width: 60%;
         display:flex;
+        justify-content: space-around;
     }
     .right .calendar-container{
         width:280px;
@@ -42,10 +43,11 @@
         display: flex;
         flex-wrap: wrap;
         margin-top: 10px;
+        width: 25vw;
     }
     .calendar div {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
         margin: 5px;
         display: flex;
         justify-content: center;
@@ -53,6 +55,8 @@
         border-radius: 50%;
         background-color: #e0e0e0;
         cursor: pointer;
+        font-size:10px;
+        
     }
     .calendar div.selected {
         background-color: #007bff;
@@ -72,6 +76,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 22vw;
     }
     .month-switch button {
         background-color: transparent;

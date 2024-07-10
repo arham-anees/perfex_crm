@@ -91,19 +91,21 @@ if (!function_exists('get_appointment_types')) {
 
                         <div class="form-group">
                         <label for="option1">What is purpose of appointment</label><br>
-                        <input type="checkbox" name="option1" id="option1" value="Option 1">
+                        <div>
+                        <input type="checkbox" name="option1" id="option1" value="Renewal of resident permit">
                         <label class="grey-text" for="option1">Renewal of resident permit</label><br>
-    
-                        <input type="checkbox" name="option2" id="option2" value="Option 2">
+                        </div>
+                        
+                        <input type="checkbox" name="option2" id="option2" value="Refusal of resident permit">
                         <label class="grey-text" for="option2">Refusal of resident permit</label><br>
     
-                        <input type="checkbox" name="option3" id="option3" value="Option 3">
+                        <input type="checkbox" name="option3" id="option3" value="Refugee">
                         <label class="grey-text" for="option3">Refugee</label><br>
     
-                        <input type="checkbox" name="option4" id="option4" value="Option 4">
+                        <input type="checkbox" name="option4" id="option4" value="Family Reunion">
                         <label class="grey-text" for="option4">Family Reunion</label><br>
     
-                        <input type="checkbox" name="option5" id="option5" value="Option 5">
+                        <input type="checkbox" name="option5" id="option5" value="Other">
                         <label class="grey-text" for="option5">Other</label><br>
                         </div>
                         
