@@ -1,5 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<style>
+    .table-statuses tbody tr:hover .row-options {
+        display: block;
+        /* Show the options on hover */
+    }
+</style>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -37,7 +43,12 @@
                                 <tbody>
                                     <?php foreach ($booking_pages as $page) : ?>
                                         <tr>
-                                            <td><?php echo $page['name']; ?></td>
+                                            <td><?php echo $page['name']; ?>
+                                                <div class="row-options" style="display: none;">
+                                                    <!-- <a href="edit_url">Edit</a> | -->
+                                                    <a href="view_url">View</a>
+                                                </div>
+                                            </td>
                                             <td><?php echo $page['description']; ?></td>
                                             <td><?php echo $page['url']; ?></td>
                                         </tr>
@@ -69,6 +80,18 @@
     </div>
 </div>
 <?php init_tail(); ?>
+<script>
+    $(document).ready(function() {
+        $('.table-statuses tbody tr').hover(
+            function() {
+                $(this).find('.row-options').show();
+            },
+            function() {
+                $(this).find('.row-options').hide();
+            }
+        );
+    });
+</script>
 </body>
 
 </html>
