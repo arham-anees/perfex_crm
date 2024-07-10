@@ -80,6 +80,80 @@ if (!function_exists('init_appointly_database_tables')) {
                 PRIMARY KEY (`id`)
                 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_appointments_statuses (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'0',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        
+        // Add a new column with an optional relationship
+        $CI->db->query(
+            "ALTER TABLE " . db_prefix() . "appointly_appointments 
+            ADD COLUMN `status_id` int(11) UNSIGNED DEFAULT NULL;"
+        );
+
+        // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
+        $CI->db->query(
+            "ALTER TABLE " . db_prefix() . "appointly_appointments 
+            ADD CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) 
+            REFERENCES " . db_prefix() . "appointly_appointments_statuses(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
+        );
+        
+            // Create the subjects table
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_appointments_subjects (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `subject` varchar(191) DEFAULT NULL,         
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `url` varchar(191) DEFAULT NULL,
+                `duration_minutes` varchar(191) DEFAULT NULL,
+                `appointly_responsible_person` int(11) DEFAULT NULL,
+                `callbacks_responsible_person` int(11) DEFAULT NULL,
+                `appointly_available_hours` varchar(191) DEFAULT NULL,
+                `appointly_default_feedbacks` varchar(191) DEFAULT NULL,
+                `google_api_key` varchar(191) DEFAULT NULL,
+                `google_client_id` varchar(191) DEFAULT NULL,
+                `appointly_google_client_secret` varchar(191) DEFAULT NULL,
+                `appointly_outlook_client_id` varchar(191) DEFAULT NULL,
+                `appointly_appointments_recaptcha` bit DEFAULT NULL,
+                `appointly_busy_times_enabled` bit DEFAULT NULL,
+                `appointly_also_delete_in_google_calendar` bit DEFAULT NULL,
+                `appointments_disable_weekends` bit DEFAULT NULL,
+                `appointly_view_all_in_calendar` bit DEFAULT NULL,
+                `appointly_client_meeting_approved_default` bit DEFAULT 0,
+                `appointly_tab_on_clients_page` bit DEFAULT 0,
+                `appointly_show_clients_schedule_button` bit DEFAULT 0,
+                `appointments_show_past_times` bit DEFAULT 0,
+                `callbacks_mode_enabled` bit DEFAULT 0,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+             // Add a new column with an optional relationship
+             $CI->db->query(
+                "ALTER TABLE " . db_prefix() . "appointly_appointments 
+                ADD COLUMN `booking_page_id` int(11) UNSIGNED DEFAULT NULL;"
+            );
+    
+            // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
+            $CI->db->query(
+                "ALTER TABLE " . db_prefix() . "appointly_appointments 
+                ADD CONSTRAINT `fk_booking_page_id` FOREIGN KEY (`booking_page_id`) 
+                REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
+            );
+        
 
         $CI->db->query(
             "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_attendees (
