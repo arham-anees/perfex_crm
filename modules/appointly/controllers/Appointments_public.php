@@ -133,7 +133,7 @@ class Appointments_public extends ClientsController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = $this->input->post();
 
-        $booking_page = $this->booking_page_model->get_by_url($data['url']);
+        $booking_page = $this->booking_page_model->get_by_url($url);
         if (!$data) {
             show_404();
         }

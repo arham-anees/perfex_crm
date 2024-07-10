@@ -34,7 +34,7 @@ if (!function_exists('get_appointment_types')) {
 
                 <div id="response"></div>
 
-                <?php echo form_open('appointly/appointments_public/create_external_appointment', ['id' => 'appointments-form']); ?>
+                <?php echo form_open('appointly/appointments_public/create_external_appointment_booking_page/'. $booking_page['url'], ['id' => 'appointments-form']); ?>
 
                 <input type="text" hidden name="rel_type" value="external">
 
@@ -183,8 +183,8 @@ if (!function_exists('get_appointment_types')) {
                         echo render_custom_fields('appointly', $rel_cf_id);
                         ?>
                         <?php if (
-                            $booking_page['recaptcha_secret_key'] != ''
-                            && $booking_page['recaptcha_site_key'] != ''
+                            get_option('recaptcha_secret_key') != ''
+                            && get_option('recaptcha_site_key') != ''
                             && $booking_page['appointly_appointments_recaptcha'] == 1
                         ) { ?>
                             <div class="row">
