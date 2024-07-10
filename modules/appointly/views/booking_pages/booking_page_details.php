@@ -371,9 +371,6 @@
                               </p>
                            </div>
                         </div>
-                        <input type='submit' class="btn btn-primary pull-right" value='Submit'/>
-                     
-                <?php echo form_close(); ?>
                   </div>
                </div>
             </div>

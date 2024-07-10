@@ -285,7 +285,7 @@
             data: {
                 labels: labels_staff,
                 datasets: [{
-                    label: '# of Completed Appointments',
+                    label: 'Appointments',
                     data: data_staff,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',

@@ -28,6 +28,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
+                            <h4>Booking Pages</h4>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
