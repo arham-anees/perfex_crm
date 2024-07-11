@@ -31,7 +31,9 @@ if (!function_exists('get_appointment_types')) {
     <div id="wrapper">
         <div id="content">
             <div class="container">
-
+<?php if(!isset($booking_page['id'])) {?>
+    <p>Booking page not found</p>
+    <?php } else {?>
                 <div id="response"></div>
 
                 <?php echo form_open('appointly/appointments_public/create_external_appointment_booking_page/'. $booking_page['url'], ['id' => 'appointments-form']); ?>
@@ -191,6 +193,7 @@ if (!function_exists('get_appointment_types')) {
                     </div>
                 </div>
                 <?php echo form_close(); ?>
+                <?php }?>
             </div>
         </div>
     </div>
