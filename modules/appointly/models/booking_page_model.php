@@ -6,6 +6,7 @@
  */
 class Booking_page_model extends App_Model
 {
+    
     public function __construct() {
         parent::__construct();
         // Load any necessary libraries, helpers, or initialize settings
