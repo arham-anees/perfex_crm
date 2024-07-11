@@ -192,10 +192,10 @@ if (!function_exists('get_appointment_types')) {
                             <?php $rel_id = (isset($bookings) ? $bookings->id : false); ?>
                             <?php echo render_custom_fields('bookings', $rel_id); ?>
 
-                            <?php
+                            <!-- <?php
                             $rel_cf_id = (isset($appointment) ? $appointment['apointment_id'] : false);
-                            echo render_custom_fields('appointly', $rel_cf_id);
-                            ?>
+                            echo render_custom_fields('bookings', $rel_cf_id);
+                            ?> -->
                             <?php if (
                                 get_option('recaptcha_secret_key') != ''
                                 && get_option('recaptcha_site_key') != ''

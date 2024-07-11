@@ -301,11 +301,13 @@
                                     </div>
                                 </div>
                                 <?php
-                                $custom_fields = get_custom_fields('appointly');
+                                $custom_field_type=isset($appointment['id'])?'bookings':'appointly';
+                                $custom_fields = get_custom_fields($custom_field_type);
+                                
                                 $allFieldsEmpty = [];
                                 if ($custom_fields) {
                                 foreach ($custom_fields as $f) {
-                                    $value = get_custom_field_value($appointment['id'], $f['id'], 'appointly');
+                                    $value = get_custom_field_value($appointment['id'], $f['id'], $custom_field_type);
                                     if ($value != '') {
                                         $allFieldsEmpty[] = $value;
                                     }
@@ -315,7 +317,7 @@
                                     echo '<div class="col-lg-12 col-xs-12" id="cf_appointly">';
                                 }
                                 foreach ($custom_fields as $field) {
-                                    $value = get_custom_field_value($appointment['id'], $field['id'], 'appointly'); ?>
+                                    $value = get_custom_field_value($appointment['id'], $field['id'], $custom_field_type); ?>
                                     <?php if ($value != '') { ?>
                                         <span class="spmodified col-md-12 mtop15">
                                                     <boldit><?= $field['name'] ?></boldit>

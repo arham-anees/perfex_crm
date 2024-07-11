@@ -29,12 +29,12 @@ class Booking_pages extends AdminController
         $this->load->view('booking_pages/booking_pages', $data);
     }
 
-    public function booking_page($link=''){
-        if ($link=='') {
+    public function booking_page($id=''){
+        if ($id=='') {
             redirect(admin_url('appointly/booking_pages'));
         }
-        $data['booking_page'] = $this->booking_page_model->get_by_url( $link);
-        $data['link'] = $link;
+        $data['booking_page'] = $this->booking_page_model->get( $id);
+        // $data['link'] = $link;
         $this->load->view('booking_pages/booking_page_details', $data);
     }
     function arrayToStringWithQuotes($array) {
