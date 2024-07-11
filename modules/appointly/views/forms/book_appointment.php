@@ -96,7 +96,7 @@ if (!function_exists('get_appointment_types')) {
                             <div class="form-group appointment_type_holder">
                                 <label for="appointment_select_type"
                                     class="control-label"><?= _l('appointment_subject'); ?></label>
-                                <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
+                                <select class="form-control selectpicker" name="subject" id="appointment_select_type">
                                     <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
                                     <?php foreach ($subjects as $app_type) { ?>
                                         <option class="form-control" value="<?= $app_type['id']; ?>">
@@ -154,8 +154,9 @@ if (!function_exists('get_appointment_types')) {
                                 name="phone" id="phone">
                         </div>
 
-                        <?php echo render_datetime_input('date', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
+                        <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
                         <div class="form-group"></div>
+                        <input type="hidden" name="date" value="" />
 
                         <label
                             for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
@@ -208,7 +209,7 @@ if (!function_exists('get_appointment_types')) {
     <?php endif; ?>
 
     <!-- Javascript functionality -->
-    <?php require ('modules/appointly/assets/js/appointments_external_form.php'); ?>
+    <?php require ('modules/appointly/assets/js/appointments_external_form_booking.php'); ?>
 
     <!-- If callbacks is enabled load on appointments external form -->
     <?php if (isset($booking_page['callbacks_mode_enabled']) &&$booking_page['callbacks_mode_enabled'] == 1)
@@ -404,8 +405,10 @@ if (!function_exists('get_appointment_types')) {
         initAppointmentScheduledDates2();
         function submitDateTime(dateTime) {
             console.log(dateTime);
-            const dataInput = document.getElementById('date');
+            const dataInput = document.getElementsByName('date')[0];
+            const dataShowInput = document.getElementsByName('date_show')[0];
             dataInput.value = dateTime.date
+            dataShowInput.value = dateTime.date
         }
 
         prevMonthButton.addEventListener('click', function () {

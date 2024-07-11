@@ -35,6 +35,11 @@ class Appointments_subject_model extends App_Model
         $this->db->where('subject', $subject);
         return $this->db->get('appointly_appointments_subjects')->result_array();
     }
+    public function get_by_id($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->get('appointly_appointments_subjects')->row_array();
+    }
 
     /**
      * Get all subjects

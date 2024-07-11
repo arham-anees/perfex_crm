@@ -10,6 +10,7 @@ class Appointments_public extends ClientsController
         $this->load->model('appointly_model', 'apm');
         $this->load->model('staff_model');
         $this->load->model('booking_page_model');
+        $this->load->model('Appointments_subject_model');
     }
 
     /**
@@ -139,6 +140,13 @@ class Appointments_public extends ClientsController
         }
 
         $data['source'] = $data['rel_type'];
+        $subject= $this->Appointments_subject_model->get_by_id($data['subject']);
+        if(isset($subject)){
+            $data['subject'] =$subject['subject'];
+        }
+        else{
+            $data['subject']='';
+        }
         unset($data['rel_type']);
 
         if (isset($data['g-recaptcha-response'])) {
@@ -155,7 +163,9 @@ class Appointments_public extends ClientsController
         }
 
         if (isset($data['g-recaptcha-response'])) unset($data['g-recaptcha-response']);
-
+            if(isset($data['Array'])){
+                unset($data['Array']);
+            }
         if ($this->apm->insert_external_appointment($data)) {
             echo json_encode([
                 'success' => true,
