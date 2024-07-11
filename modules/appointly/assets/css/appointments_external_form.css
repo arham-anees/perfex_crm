@@ -161,6 +161,7 @@ h1 {
     flex-wrap: wrap;
     margin-top: 10px;
     width: 25vw;
+    min-width: 350px;
 }
 
 .calendar div {
