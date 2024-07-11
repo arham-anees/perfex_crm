@@ -212,15 +212,20 @@ $(document).ready(function () {
         var leadId = $($('.lead-modal .modal-title')[0]).text().split('#')[1].trim().split(' ')[0];
         if ($('a[href=#lead_appointments]').length === 0) { // Check if button doesn't already exist
             $('#lead-modal .nav-tabs-horizontal.nav.nav-tabs').append(`<li role="presentation">
-                <a href="#lead_appointments" aria-controls="lead_appointments" role="tab" data-toggle="tab">Rendez-vous</a></li>`);
+                        <a href="#lead_appointments" aria-controls="lead_appointments" role="tab" data-toggle="tab">
+                            Rendez-vous                                </a>
+                    </li>`);
+
+
+
             // Make an AJAX call to fetch the lead profile content
             $.ajax({
                 url: admin_url + 'appointly/appointments/get_lead_profile_content/' + leadId,
                 method: 'GET',
                 success: function (response) {
+                    var data = JSON.parse(response);
                     // Inject the content into the lead profile modal
                     let previousHtml = $('#lead-modal .tab-content').html();
-                    console.log(data.content)
                     $('#lead-modal .tab-content').html(`${previousHtml} <div role="tabpanel" class="tab-pane" id="lead_appointments"> 
             ${data.content}                                                                                                       
               <div class="clearfix"></div>
