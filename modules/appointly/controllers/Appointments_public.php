@@ -193,8 +193,7 @@ class Appointments_public extends ClientsController
         $data['form'] = $form;
         $data['form']->recaptcha = 1;
         
-        $data['booking_page'] = $this->booking_page_model->get_by_url('firstbookingpage');
-        $this->load->view('booking_pages/book_appointment', $data);
+        $this->load->view('forms/book_appointment', $data);
     }
     }
 
