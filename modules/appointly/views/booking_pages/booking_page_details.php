@@ -325,12 +325,12 @@
                                     <span class="label label-default">
                                           <a href="<?= site_url( $booking_page['url']); ?>">
                                              <?= site_url($booking_page['url']); ?>
-                                          </p>
+                                          </a>
                                        </span>
                               </p>
                               <p><b>Form Subjects:</b>
                                     <span class="label ">
-                                          <a href="<?= site_url('appointly/subjects'); ?>" >
+                                          <a href="<?= admin_url('appointly/subjects'); ?>" >
                                                 List of Subjects
                                           </a>
                                        </span>
