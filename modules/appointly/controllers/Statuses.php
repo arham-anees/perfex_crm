@@ -36,11 +36,11 @@ class Statuses extends AdminController {
                 $this->session->set_flashdata('error', 'Failed to delete subject.');
             }
 
-            redirect('/admin/appointly/statuses');
+            redirect(admin_url('/appointly/statuses'));
         } else {
             // Redirect with an error if the request method is not POST
             $this->session->set_flashdata('error', 'Invalid request method.');
-            redirect('/admin/appointly/statuses');
+            redirect(admin_url('/appointly/statuses'));
         }
     }
 

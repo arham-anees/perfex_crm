@@ -86,7 +86,7 @@
                             <div class="row"> -->
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4>Created events</h4>
+                                <h4><?= _l('appointments_created_appointments')?></h4>
                                 <div class="stat-number"> <?php echo $summary[0]['total_filtered']; ?></div>
                                 <div class="stat-change"><?php
                                                             $currentTotal = $summary[0]['total_filtered'];
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4>Completed events</h4>
+                                <h4><?= _l('appointments_finished_appointments')?></h4>
                                 <div class="stat-number"><?php echo $summary[0]['completed_filtered']; ?></div>
                                 <div class="stat-change">
                                     <?php
@@ -133,7 +133,7 @@
                         </div> -->
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4>Canceled events</h4>
+                                <h4><?= _l('appointments_cancelled_appointments')?></h4>
                                 <div class="stat-number"> <?php echo $summary[0]['cancelled_filtered']; ?></div>
                                 <div class="stat-change">
                                     <?php
