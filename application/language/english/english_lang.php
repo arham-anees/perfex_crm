@@ -93,7 +93,6 @@ $lang['clients_list_last_login']                 = 'Last Login';
 $lang['contracts']                = 'Contracts';
 $lang['contract']                 = 'Contract';
 $lang['new_contract']             = 'New Contract';
-$lang['new_booking']              = 'New Booking';
 $lang['contract_lowercase']       = 'contract';
 $lang['contract_start_date']      = 'Start Date';
 $lang['contract_end_date']        = 'End Date';

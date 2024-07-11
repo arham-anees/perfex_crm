@@ -330,3 +330,5 @@ $lang['appointment_menu_booking_page'] = 'Booking Pages';
 $lang['booking_page_created'] = 'New booking page was succesfully created';
 $lang['booking_page_name_field'] = 'Name';
 $lang['booking_page_description'] = 'Description';
+$lang['appointly_new_booking'] = 'New Booking';
+$lang['appointly_general'] = 'General';

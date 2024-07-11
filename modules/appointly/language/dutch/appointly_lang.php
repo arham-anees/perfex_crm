@@ -323,3 +323,13 @@ $lang['appointly_message_will_hide'] = 'This message will be hidden in 5 seconds
 $lang['setup_appointments'] = 'Appointly';
 $lang['setup_appointments_status'] = 'Statuses';
 $lang['setup_appointments_subjects'] = 'Subjects';
+$lang['appointment_menu_statistics'] = 'Statistics';
+
+$lang['appointment_statistics_start_date'] = 'Start Date';
+$lang['appointment_statistics_end_date'] = 'End Date';
+$lang['lead_appointment_create'] = 'New appointment created';
+$lang['appointment_menu_booking_page'] = 'Booking Pages';
+$lang['booking_page_created'] = 'New booking page was succesfully created';
+$lang['booking_page_name_field'] = 'Name';
+$lang['booking_page_description'] = 'Description';
+$lang['appointly_new_booking'] = 'New Booking';
