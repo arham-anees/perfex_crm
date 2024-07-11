@@ -170,6 +170,7 @@ h1 {
     margin-top: 10px;
     width: 25vw;
     min-width: 350px;
+    max-width: 390px;
 }
 
 .calendar div {
@@ -225,6 +226,12 @@ h1 {
     border: none;
     cursor: pointer;
     font-size: 16px;
+}
+.month-switch button:focus,
+.month-switch button:active,
+.month-switch button:hover {
+    background-color:#2663eb !important;
+    color: #ffffff  !important; 
 }
 
 .timelabel{
