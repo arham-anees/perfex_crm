@@ -211,7 +211,7 @@ if (!function_exists('get_appointment_types')) {
     <?php require ('modules/appointly/assets/js/appointments_external_form.php'); ?>
 
     <!-- If callbacks is enabled load on appointments external form -->
-    <?php if ($booking_page['callbacks_mode_enabled'] == 1)
+    <?php if (isset($booking_page['callbacks_mode_enabled']) &&$booking_page['callbacks_mode_enabled'] == 1)
         require ('modules/appointly/views/forms/callbacks_form.php'); ?>
 
     <script>
