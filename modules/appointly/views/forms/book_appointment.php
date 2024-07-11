@@ -300,8 +300,8 @@ if (!function_exists('get_appointment_types')) {
             const year = currentMonthYear.split(' ')[1];
             const dateNumber = date.split(' ')[1];
             const busySlots=[];
-            if (is_busy_times_enabled == 1 || true) {
-                busySlots.push(...busyDates.filter(x=>new Date(x.date)==new Date(`${year}-${monthNumber}-${dateNumber}`)));
+            if (is_busy_times_enabled == 1 ) {
+                busySlots.push(...busyDates.filter(x=>new Date(x.date).getDate()==new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
             }
 
             // This is a placeholder for dynamic slot loading logic.
@@ -317,7 +317,7 @@ if (!function_exists('get_appointment_types')) {
                 timeslotList.appendChild(slotElement);
                 if(busySlots.filter(x=>x.start_hour==slot).length>0){
 
-                slotElement.className = 'busy_time';
+                slotElement.className = 'timeslot busy_time';
                 }
 
                 slotElement.addEventListener('click', function () {
