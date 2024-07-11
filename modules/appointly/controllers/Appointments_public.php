@@ -130,10 +130,10 @@ class Appointments_public extends ClientsController
     public function create_external_appointment_booking_page($url='')
     {
         
+        $booking_page = $this->booking_page_model->get_by_url($url);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = $this->input->post();
 
-        $booking_page = $this->booking_page_model->get_by_url($url);
         if (!$data) {
             show_404();
         }
@@ -174,12 +174,13 @@ class Appointments_public extends ClientsController
         if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
             $this->lang->load('custom_lang', $form->language);
         }
+        $data['booking_page'] = $booking_page;
 
         if ($this->input->post() && $this->input->is_ajax_request()) {
 
             $post_data = $this->input->post();
 
-            $required = ['subject', 'description', 'name', 'email'];
+            $required = ['subject',  'email'];
 
             foreach ($required as $field) {
                 if (!isset($post_data[$field]) || isset($post_data[$field]) && empty($post_data[$field])) {

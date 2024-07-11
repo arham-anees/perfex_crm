@@ -284,7 +284,26 @@ if (!function_exists('get_appointment_types')) {
                 });
             }
         }
+        var busyDates=[];
         function loadTimeSlots(date) {
+            console.log(date);
+
+            // Array of month names (zero-based index)
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                                'August', 'September', 'October', 'November', 'December'];
+
+            // Get the month number (1-based index)
+            
+            const currentMonthYear=$($('#current-month-year')[0]).text()
+            const month = currentMonthYear.split(' ')[0];
+            const monthNumber = monthNames.indexOf(month) + 1;
+            const year = currentMonthYear.split(' ')[1];
+            const dateNumber = date.split(' ')[1];
+            const busySlots=[];
+            if (is_busy_times_enabled == 1 || true) {
+                busySlots.push(...busyDates.filter(x=>new Date(x.date)==new Date(`${year}-${monthNumber}-${dateNumber}`)));
+            }
+
             // This is a placeholder for dynamic slot loading logic.
             // You can replace it with an actual API call to fetch available time slots.
             const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
@@ -293,8 +312,13 @@ if (!function_exists('get_appointment_types')) {
             availableTimeSlots.forEach(slot => {
                 const slotElement = document.createElement('div');
                 slotElement.className = 'timeslot';
+                slotElement.setAttribute('time',slot);
                 slotElement.textContent = slot;
                 timeslotList.appendChild(slotElement);
+                if(busySlots.filter(x=>x.start_hour==slot).length>0){
+
+                slotElement.className = 'busy_time';
+                }
 
                 slotElement.addEventListener('click', function () {
                     document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
@@ -316,6 +340,7 @@ if (!function_exists('get_appointment_types')) {
             let url = '<?= admin_url("/appointly/appointments_public/busyDates") ?>';
             $.post(url).done(function (r) {
                 r = JSON.parse(r);
+                busyDates = r;
                 var dateFormat = app.options.date_format;
                 var appointmentDatePickerOptionsExternal = {
                     dayOfWeekStart: app.options.calendar_first_day,
@@ -339,6 +364,7 @@ if (!function_exists('get_appointment_types')) {
                                     currentTime.addClass("busy_time");
                                 }
                             });
+                            // busy dates
                         }
                     },
                     onSelectDate: function (ct, $input) {
