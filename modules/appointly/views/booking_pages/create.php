@@ -307,8 +307,8 @@
                                     <hr>
                                     <p><b>Form url:</b>
                                     <span class="label label-default">
-                                          <span><?= site_url( $url); ?>
-                                          <input type="text" name="url" required/>
+                                          <span><?= site_url( ''); ?>
+                                          <input type="text" name="url" value="<?= $url ?>" required/>
                               </span>
                                        </span>
                               </p>

@@ -48,7 +48,6 @@ class Booking_pages extends AdminController
     }
 
     public function create() {
-        $data['error_message']='';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data['name'] = $this->input->post('name');
             $data['description'] = $this->input->post('description');
@@ -83,17 +82,20 @@ class Booking_pages extends AdminController
             }
             else{
                $existing = $this->booking_page_model->get_by_url($data['url']);
-               if(count($existing)>0){
+               if(isset($existing) && count($existing)>0){
                    //redirect(admin_url('appointly/booking_pages/create'));
               $data['error_message']='URL already in use. Please use another url.';
                }
                else{
+                unset( $data['error_message']);
+                unset( $data['google_client_id']);
                $this->booking_page_model->create($data);
                redirect(admin_url('appointly/booking_pages'));
                }
            }
         }
         else{
+            $data['error_message']='';
             // Set default values for GET request
             $data['name'] = '';
             $data['description'] = '';
@@ -119,7 +121,9 @@ class Booking_pages extends AdminController
             $data['callbacks_mode_enabled'] =get_option('callbacks_mode_enabled');
             $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         }
-    
+    if(!isset($data['error_message'])){
+        $data['error_message']='';
+        }
         // Load the view with the data
         $this->load->view('booking_pages/create', $data);
     }
