@@ -14,7 +14,7 @@
                     <?php { ?>
                         <a href="<?php echo admin_url('appointly/booking_pages/create'); ?>" class="btn btn-primary pull-left display-block tw-mb-2 sm:tw-mb-4">
                             <i class="fa-regular fa-plus tw-mr-1"></i>
-                            <?php echo _l('new_booking'); ?>
+                            <?php echo _l('appointly_new_booking'); ?>
                         </a>
                     <?php } ?>
 

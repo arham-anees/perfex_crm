@@ -102,7 +102,7 @@ if (!function_exists('get_appointment_types')) {
                             </div>
                             <div class="pull-right">
                                 <button type="button" id="nextButton" onclick="nextStep()"
-                                    class="btn btn-primary"><?php echo _l('next'); ?></button>
+                                    class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
                             </div>
                         </div>
                                     </div>
