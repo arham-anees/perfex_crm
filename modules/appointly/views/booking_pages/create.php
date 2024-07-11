@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                     <?php echo form_open(admin_url('appointly/booking_pages/create'), ['id' => 'booking-page-form']); ?>
+                     <?php echo form_open(admin_url('appointly/booking_pages/'. (isset($id)?'update/'.$id:'create')), ['id' => 'booking-page-form']); ?>
 
                      <?php if(isset($error_message) && $error_message != ''){?>
                         <div class="alert alert-danger"><?= $error_message ?></div>
@@ -61,8 +61,7 @@
                                     }
 
                                     $appointmentHours = getAppointmentHours();
-
-                                    $savedHours = json_decode($appointly_available_hours);
+                                    $savedHours = isset($appointly_available_hours)?json_decode($appointly_available_hours):[];
                                     ?>
                                     <div class="form-group">
                                        <label for="appointment_hours"><?= _l('appointments_default_hours_label'); ?></label>
@@ -85,7 +84,7 @@
                                     foreach ($appointmentFeedbacks as $fb) {
                                        echo $fb['name'];
                                     }
-                                    $savedFeedbacks = json_decode($appointly_default_feedbacks);
+                                    $savedFeedbacks = isset($appointly_default_feedbacks)?json_decode($appointly_default_feedbacks):[];
 
                                     ?>
 
@@ -375,7 +374,7 @@
       let error_message = '<?= $error_message ?>';
       console.log(error_message);
       if(error_message.length>0){
-         alert_float('error', error_message);
+         // alert_float('error', error_message);
       }
     $(function() {
         appValidateForm($("#booking-page-form"), {

@@ -40,7 +40,7 @@ class Booking_pages extends AdminController
     function arrayToStringWithQuotes($array) {
         // Convert each integer to a string and wrap it in single quotes
         $stringArray = array_map(function($value) {
-            return "'" . (string)$value . "'";
+            return '"' . (string)$value . '"';
         }, $array);
     
         // Convert the array to a string with comma as the delimiter
@@ -184,48 +184,52 @@ class Booking_pages extends AdminController
             }
             else{
                $existing = $this->booking_page_model->get_by_url($data['url']);
-               if(isset($existing) && count($existing)>0){
+               if(isset($existing) && count($existing)>0 && $existing['id'] != $id){
                    //redirect(admin_url('appointly/booking_pages/create'));
               $data['error_message']='URL already in use. Please use another url.';
                }
                else{
                 unset( $data['error_message']);
                 unset( $data['google_client_id']);
-               $this->booking_page_model->create($data);
+               $this->booking_page_model->update($data, $id);
                redirect(admin_url('appointly/booking_pages'));
                }
            }
         }
         else{
-            $data['error_message']='';
+            if(!isset($data['error_message'])){
+                $data['error_message']='';
+                }
+        }
+            $booking_page = $this->booking_page_model->get($id);
+            $data['id']=$id;
             // Set default values for GET request
-            $data['name'] = '';
-            $data['description'] = '';
-            $data['url'] = '';
-            $data['duration_minutes'] = 30;
-            $data['appointly_responsible_person'] =get_option('appointly_responsible_person');
-            $data['callbacks_responsible_person'] =get_option('callbacks_responsible_person');
-            $data['appointly_available_hours'] =get_option('appointly_available_hours');
-            $data['appointly_default_feedbacks'] =get_option('appointly_default_feedbacks');
-            $data['google_api_key'] =get_option('google_api_key');
-            $data['google_client_id'] = get_option('google_client_id');
-            $data['appointly_google_client_secret'] =get_option('appointly_google_client_secret');
-            $data['appointly_outlook_client_id'] =get_option('appointly_outlook_client_id');
-            $data['appointly_appointments_recaptcha'] =get_option('appointly_appointments_recaptcha');
-            $data['appointly_busy_times_enabled'] =get_option('appointly_busy_times_enabled');
-            $data['appointly_also_delete_in_google_calendar'] =get_option('appointly_also_delete_in_google_calendar');
-            $data['appointments_disable_weekends'] =get_option('appointments_disable_weekends');
-            $data['appointly_view_all_in_calendar'] =get_option('appointly_view_all_in_calendar');
-            $data['appointly_client_meeting_approved_default'] =get_option('appointly_client_meeting_approved_default');
-            $data['appointly_tab_on_clients_page'] =get_option('appointly_tab_on_clients_page');
-            $data['appointly_show_clients_schedule_button'] =get_option('appointly_show_clients_schedule_button');
-            $data['appointments_show_past_times'] =get_option('appointments_show_past_times');
-            $data['callbacks_mode_enabled'] =get_option('callbacks_mode_enabled');
+            $data['name'] = $booking_page['name'];
+            $data['description'] = $booking_page['description'];
+            $data['url'] = $booking_page['url'];
+            $data['duration_minutes'] = $booking_page['duration_minutes'];
+            $data['appointly_responsible_person'] = $booking_page['appointly_responsible_person'];
+            $data['callbacks_responsible_person'] = $booking_page['callbacks_responsible_person'];
+            $data['appointly_available_hours'] = $booking_page['appointly_available_hours'];
+            $data['appointly_default_feedbacks'] = $booking_page['appointly_default_feedbacks'];
+            $data['google_api_key'] = $booking_page['google_api_key'];
+            // $data['google_client_id'] =  $booking_page['google_client_id'];
+            $data['appointly_google_client_secret'] = $booking_page['appointly_google_client_secret'];
+            $data['appointly_outlook_client_id'] = $booking_page['appointly_outlook_client_id'];
+            $data['appointly_appointments_recaptcha'] = $booking_page['appointly_appointments_recaptcha'];
+            $data['appointly_busy_times_enabled'] = $booking_page['appointly_busy_times_enabled'];
+            $data['appointly_also_delete_in_google_calendar'] = $booking_page['appointly_also_delete_in_google_calendar'];
+            $data['appointments_disable_weekends'] = $booking_page['appointments_disable_weekends'];
+            $data['appointly_view_all_in_calendar'] = $booking_page['appointly_view_all_in_calendar'];
+            $data['appointly_client_meeting_approved_default'] = $booking_page['appointly_client_meeting_approved_default'];
+            $data['appointly_tab_on_clients_page'] = $booking_page['appointly_tab_on_clients_page'];
+            $data['appointly_show_clients_schedule_button'] = $booking_page['appointly_show_clients_schedule_button'];
+            $data['appointments_show_past_times'] = $booking_page['appointments_show_past_times'];
+            $data['callbacks_mode_enabled'] = $booking_page['callbacks_mode_enabled'];
+            $data['google_client_id']='';
             $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
-        }
-    if(!isset($data['error_message'])){
-        $data['error_message']='';
-        }
+        // }
+   
         // Load the view with the data
         $this->load->view('booking_pages/create', $data);
     }
