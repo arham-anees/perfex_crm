@@ -10,22 +10,9 @@
                     <div class="panel-body">
                      <?php echo form_open(admin_url('appointly/booking_pages/create'), ['id' => 'booking-page-form']); ?>
 
-                     <?php if(isset($error_message)){?>
+                     <?php if(isset($error_message) && $error_message != ''){?>
                         <div class="alert alert-danger"><?= $error_message ?></div>
                         <?php } ?>
-
-                        <!-- <div class="horizontal-scrollable-tabs">
-                           <div class="horizontal-tabs">
-                              <ul class="nav nav-tabs nav-tabs-horizontal" role="tablist">
-                                    <li role="presentation" class="active">
-                                       <a href="#general" aria-controls="general" role="tab" data-toggle="tab" aria-expanded="true"><?= ucfirst(_l('general')); ?></a>
-                                    </li>
-                                    <li role="presentation" class="">
-                                       <a href="#form" aria-controls="form" role="tab" data-toggle="tab" aria-expanded="false"><?= ucfirst(_l('form')); ?></a>
-                                    </li>
-                              </ul>
-                           </div>
-                        </div> -->
                         <div >
                            <div role="tabpanel" class="tab-pane active" id="general">
                                     <!-- Booking Page Settings -->
@@ -320,9 +307,9 @@
                                     <hr>
                                     <p><b>Form url:</b>
                                     <span class="label label-default">
-                                          <a href="<?= site_url( $url); ?>"><?= site_url( $url); ?>
+                                          <span><?= site_url( $url); ?>
                                           <input type="text" name="url" required/>
-                              </a>
+                              </span>
                                        </span>
                               </p>
                               <p><b>Form Subjects:</b>
