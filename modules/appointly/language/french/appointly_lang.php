@@ -335,3 +335,4 @@ $lang['booking_page_description'] = 'Description';
 $lang['appointly_new_booking'] = 'New Booking';
 $lang['appointment_lead_tab'] = 'Upcoming appointments';
 $lang['appointment_lead_no_appointments'] = 'Lead has no appointments';
+$lang['appointment_next'] = 'Suivant';
