@@ -1459,7 +1459,7 @@ function appointly_send_email_templates_instant($appointment)
 
     $template->send();
 
-    if ($appointment['by_sms']) {
+    if (isset($appointment['by_sms']) && $appointment['by_sms'] ) {
         $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
     }
 
