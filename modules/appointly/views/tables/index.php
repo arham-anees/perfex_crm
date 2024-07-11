@@ -42,6 +42,9 @@ if ($this->ci->input->post('external')) {
 if ($this->ci->input->post('lead_related')) {
     $filters[] = 'AND (source= "lead_related")';
 }
+if ($this->ci->input->post('booking_page')) {
+    $filters[] = 'AND (source= "booking_page")';   
+}
 if ($this->ci->input->post('internal_staff')) {
     $filters[] = 'AND (source= "internal_staff_crm")';
 }
@@ -239,6 +242,9 @@ foreach ($rResult as $aRow) {
     }
     if ($aRow['source'] == 'internal_staff_crm') {
         $row[] = _l('appointment_internal_staff');
+    }
+    if ($aRow['source'] == 'booking_page') {
+        $row[] = _l('appointment_by_booking_page');
     }
 
     $options = '';
