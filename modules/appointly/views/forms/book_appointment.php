@@ -42,7 +42,7 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
                     <div class="row main_wrapper">
-                        <div class=" <?= 'col-md-4'; ?>">
+                        <div class=" <?= 'col-md-5'; ?>">
                             <br>
                             <h3><?= $booking_page['name'] ?></h3>
                             <p><strong>Duration:</strong> <?= $booking_page['duration_minutes'] ?> min</p>
@@ -55,7 +55,7 @@ if (!function_exists('get_appointment_types')) {
 
                         </div>
 
-                        <div id="step1" class="mbot20 col-md-8">
+                        <div id="step1" class="mbot20 col-md-7" style="border-left: 1px solid #a1a1a1">
 
                         <?php $appointment_types = get_appointment_types();
 
@@ -81,7 +81,7 @@ if (!function_exists('get_appointment_types')) {
                                             data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
                                         <div id="recaptcha_response_field" class="text-danger"></div>
 
-                            <h2>Select Date and Time</h2>
+                            <h2 class="heading">Select Date and Time</h2>
                             <div class="flex">
                                 <div class="calendar-container">
                                     <div class="month-switch">
@@ -108,7 +108,7 @@ if (!function_exists('get_appointment_types')) {
                                     </div>
                                     </div>
                                     </div>
-                        <div id="step2" style="display: none;" class="col-md-8">
+                        <div id="step2" style="display: none;" class="col-md-7">
 
                             <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 

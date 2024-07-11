@@ -147,6 +147,10 @@ body input {
     justify-content: space-around;
 }
 
+.heading{
+    font-size: 18px;
+}
+
 .right .calendar-container {
     width: 280px;
 }
