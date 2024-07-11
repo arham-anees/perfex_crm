@@ -31,11 +31,17 @@ class Appointments extends AdminController
         $this->load->view('index', $data);
     }
 
-    public function booking_pages(){
+    public function get_lead_profile_content($lead_id)
+    {
+        // Fetch data from the database or model
+        $data['td_appointments'] = $this->apm->fetch_lead_appointments($lead_id);
         
-        $this->load->view('booking_pages');
-    }
+        // Load the view content into a variable
+        $view_content = $this->load->view('appointly/lead_profile_content', $data, TRUE);
 
+        // Return the view content as JSON response
+        echo json_encode(['content' => $view_content]);
+    }
     public function statistics()
     {
         if ($this->staff_no_view_permissions) {

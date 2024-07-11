@@ -332,3 +332,5 @@ $lang['booking_page_name_field'] = 'Name';
 $lang['booking_page_description'] = 'Description';
 $lang['appointly_new_booking'] = 'New Booking';
 $lang['appointly_general'] = 'General';
+$lang['appointment_lead_tab'] = 'Upcoming appointments';
+$lang['appointment_lead_no_appointments'] = 'Lead has no appointments';

@@ -26,7 +26,7 @@ class Booking_pages extends AdminController
 
          $data['booking_pages'] = $this->booking_page_model->get_all();
 
-        $this->load->view('bookings/index', $data);
+        $this->load->view('booking_pages/booking_pages', $data);
     }
 
     public function booking_page($link=''){
@@ -35,7 +35,7 @@ class Booking_pages extends AdminController
         }
         $data['booking_page'] = $this->booking_page_model->get_by_url( $link);
         $data['link'] = $link;
-        $this->load->view('bookings/booking_page_details', $data);
+        $this->load->view('booking_pages/booking_page_details', $data);
     }
     function arrayToStringWithQuotes($array) {
         // Convert each integer to a string and wrap it in single quotes
@@ -122,7 +122,7 @@ class Booking_pages extends AdminController
         }
     
         // Load the view with the data
-        $this->load->view('bookings/create', $data);
+        $this->load->view('booking_pages/create', $data);
     }
 
 }
