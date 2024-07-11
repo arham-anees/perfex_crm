@@ -138,17 +138,21 @@ body input {
     margin-bottom: 5px;
 }
 
-.grey-text{
+.grey-text {
     color: gray;
 }
 
-.flex{
+.flex {
     display: flex;
     justify-content: space-around;
 }
 
 .right .calendar-container {
     width: 280px;
+}
+
+.calendar-container {
+    text-align: -webkit-center;
 }
 
 h1 {
@@ -172,9 +176,10 @@ h1 {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    background-color: #e0e0e0;
+    background-color: #dae7f5;
+    color: #0077ff;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px;
 
 }
 
@@ -184,9 +189,17 @@ h1 {
 }
 
 .calendar div.disabled {
-    background-color: #f0f0f0;
+    background-color: #ffffff;
+    color: #a1a1a1;
     cursor: not-allowed;
 }
+
+.calendar div.weekdays{
+    background-color: #ffffff;
+    color: #000000;
+    cursor: not-allowed;
+}
+
 
 .calendar div.disabled:empty {
     background: transparent;
@@ -200,7 +213,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 22vw;
+    width: 15vw;
 }
 
 .month-switch button {
@@ -209,6 +222,18 @@ h1 {
     cursor: pointer;
     font-size: 16px;
 }
+
+.timelabel{
+    background: #2663eb;
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    max-width: 135px;
+    font-size: 11px;
+    font-weight: 600;
+
+}
+
 
 .timeslots {
     display: flex;
