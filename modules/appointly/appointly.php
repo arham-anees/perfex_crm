@@ -59,7 +59,8 @@ function appointly_custom_fields($custom_field)
 {
     $selected = (isset($custom_field) && $custom_field->fieldto == 'appointly') ? 'selected' : '';
     echo '<option value="appointly"  ' . ($selected) . '>' . _l('appointment_appointments') . '</option>';
-}function appointly_booking_fields($custom_field)
+}
+function appointly_booking_fields($custom_field)
 {
     $selected = (isset($custom_field) && $custom_field->fieldto == 'bookings') ? 'selected' : '';
     echo '<option value="bookings"  ' . ($selected) . '>' . _l('bookings') . '</option>';
@@ -202,14 +203,14 @@ function appointly_register_menu_items()
             'name'            => 'appointment_menu_statistics',
             'href'            => admin_url('appointly/appointments/statistics'),
             'position'        => 25,
-            'icon'            => 'fa-brands fa-th-list',
+            'icon'            => 'fas fa-th-list',
         ]);
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
             'slug'            => 'appointly-link-booking-page',
             'name'            => 'appointment_menu_booking_page',
             'href'            => admin_url('appointly/booking_pages'),
             'position'        => 25,
-            'icon'            => 'fa-brands fa-th-list',
+            'icon'            => 'fa-solid fa-book',
         ]);
         $CI->app_menu->add_setup_menu_item('appointly', [
             'collapse' => true,
@@ -331,16 +332,17 @@ function appointly_send_email_templates_auto()
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];
 
-    $reminder_times=['10 minutes', '4 hours', '24 hours'];
+    $reminder_times = ['10 minutes', '4 hours', '24 hours'];
     foreach ($appointments as $appointment) {
         $date_compare1 = date('Y-m-d H:i', strtotime('+' . $reminder_times[0]));
         $date_compare2 = date('Y-m-d H:i', strtotime('+' . $reminder_times[1]));
         $date_compare3 = date('Y-m-d H:i', strtotime('+' . $reminder_times[2]));
 
-        if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
-            ||$appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
-            ||$appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3
-            ) {
+        if (
+            $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
+            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
+            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3
+        ) {
             if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
                 /*
                  * If appointment is missed then skip
@@ -407,7 +409,7 @@ function appointly_recurring_events()
         // Current date
         $date = new DateTime(date('Y-m-d'));
         // Check if is first recurring
-        if ( ! $last_recurring_date) {
+        if (!$last_recurring_date) {
             $last_recurring_date = date('Y-m-d', strtotime($appointment_date));
         } else {
             $last_recurring_date = date('Y-m-d', strtotime($last_recurring_date));
@@ -516,7 +518,7 @@ function appointly_recurring_events()
 
                     $googleInsertData = $CI->appointly_model->recurringAddGoogleNewEvent($lastInsertedAppointment, $googleAttendees);
 
-                    if ( ! empty($googleInsertData)) {
+                    if (!empty($googleInsertData)) {
                         // update appointment wih new google event data
                         $CI->db->where('id', $insert_id);
                         $CI->db->update($table, $googleInsertData);
@@ -525,7 +527,7 @@ function appointly_recurring_events()
 
                 newRecurringAppointmentNotifications($insert_id);
 
-                if ( ! empty($responsiblePerson)) {
+                if (!empty($responsiblePerson)) {
 
                     add_notification([
                         'description' => 'appointment_recurring_re_created',
@@ -536,7 +538,6 @@ function appointly_recurring_events()
 
                     pusher_trigger_notification([$responsiblePerson]);
                 }
-
             }
         }
     }
