@@ -55,7 +55,7 @@ if (!function_exists('get_appointment_types')) {
 
                         </div>
 
-                        <div id="step1" class="mbot20 <?= 'col-md-8'; ?>">
+                        <div id="step1" class="mbot20 col-md-8">
 
                         <?php $appointment_types = get_appointment_types();
 
@@ -73,44 +73,14 @@ if (!function_exists('get_appointment_types')) {
                                 </select>
                             </div>
                             <div class=" clearfix mtop15"></div>
-                        <?php } ?>
-
-
-
-                        <div class="form-group">
-                            <label for="phone"><?= _l('appointment_phone'); ?>
-                                (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
-                            <input type="text" class="form-control"
-                                value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>"
-                                name="phone" id="phone">
-                        </div>
-
-                        <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
-                        <div class="form-group"></div>
-                        <input type="hidden" name="date" value="" />
-
-                        <label
-                            for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
-                        <input type="text" class="form-control" value="" name="address" id="address">
-
-                        <?php $rel_id = (isset($bookings) ? $bookings->id : false); ?>
-                        <?php echo render_custom_fields('bookings', $rel_id); ?>
-
-                        <?php
-                        $rel_cf_id = (isset($appointment) ? $appointment['apointment_id'] : false);
-                        echo render_custom_fields('appointly', $rel_cf_id);
-                        ?>
-                        <?php if (
-                            get_option('recaptcha_secret_key') != ''
-                            && get_option('recaptcha_site_key') != ''
-                            && $booking_page['appointly_appointments_recaptcha'] == 1
-                        ) { ?>
+                            <?php } ?>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="g-recaptcha"
                                             data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
                                         <div id="recaptcha_response_field" class="text-danger"></div>
+
                             <h2>Select Date and Time</h2>
                             <div class="flex">
                                 <div class="calendar-container">
@@ -135,8 +105,10 @@ if (!function_exists('get_appointment_types')) {
                                     class="btn btn-primary"><?php echo _l('next'); ?></button>
                             </div>
                         </div>
-
-                        <div id="step2" style="display: none;" class="<?= 'col-md-8'; ?>">
+                                    </div>
+                                    </div>
+                                    </div>
+                        <div id="step2" style="display: none;" class="col-md-8">
 
                             <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
 
@@ -152,7 +124,7 @@ if (!function_exists('get_appointment_types')) {
                                 <div class="form-group appointment_type_holder">
                                     <label for="appointment_select_type"
                                         class="control-label"><?= _l('appointment_subject'); ?></label>
-                                    <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
+                                    <select class="form-control selectpicker" name="subject" id="appointment_select_type">
                                         <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
                                         <?php foreach ($subjects as $app_type) { ?>
                                             <option class="form-control" value="<?= $app_type['id']; ?>">
@@ -210,9 +182,9 @@ if (!function_exists('get_appointment_types')) {
                                     name="phone" id="phone">
                             </div>
 
-                            <?php echo render_datetime_input('date', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
+                            <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
                             <div class="form-group"></div>
-
+<input type="hidden" name="date" />
                             <label
                                 for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
                             <input type="text" class="form-control" value="" name="address" id="address">
@@ -239,6 +211,7 @@ if (!function_exists('get_appointment_types')) {
                                     </div>
                                 </div>
                             <?php } ?>
+                            
                             <div class="pull-right">
                                 <button type="button" id="backButton" onclick="prevStep()"
                                     class="btn btn-primary"><?php echo _l('back'); ?></button>

@@ -233,6 +233,9 @@ h1 {
     font-weight: 600;
 
 }
+.timelabel:empty{
+    background-color: transparent;
+}
 
 
 .timeslots {
