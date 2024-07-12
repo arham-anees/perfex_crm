@@ -5,8 +5,9 @@
         display: block;
         /* Show the options on hover */
     }
-    .row-options{
-        min-height:20px;
+
+    .row-options {
+        min-height: 20px;
     }
 </style>
 <div id="wrapper">
@@ -33,21 +34,21 @@
                             <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc">
                                 <thead>
                                     <tr>
-                                        <th><?php echo _l('Name'); ?></th>
-                                        <th><?php echo _l('Description'); ?></th>
-                                        <th><?php echo _l('Url'); ?></th>
+                                        <th><?php echo _l('appointment_name'); ?></th>
+                                        <th><?php echo _l('appointment_description'); ?></th>
+                                        <th><?php echo _l('appointment_url'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($booking_pages as $page) : ?>
                                         <tr>
                                             <td><?php echo $page['name']; ?>
-                                                <div class="row-options" >
+                                                <div class="row-options">
                                                     <div style="display: none;">
-                                                    <!-- <a href="edit_url">Edit</a> | -->
-                                                    <a href="<?= admin_url('appointly/booking_pages/booking_page/' . $page['id']) ?>">View</a>
-                                                    |<a href="<?= admin_url('appointly/booking_pages/update/' . $page['id']) ?>">Edit</a>
-                                                    |<a data-toggle="tooltip" class="text-danger"  href="" onclick="deleteBooking(<?= $page['id'] ?>, this);return false" >Delete</a>
+                                                        <!-- <a href="edit_url">Edit</a> | -->
+                                                        <a href="<?= admin_url('appointly/booking_pages/booking_page/' . $page['id']) ?>">View</a>
+                                                        |<a href="<?= admin_url('appointly/booking_pages/update/' . $page['id']) ?>">Edit</a>
+                                                        |<a data-toggle="tooltip" class="text-danger" href="" onclick="deleteBooking(<?= $page['id'] ?>, this);return false">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -58,21 +59,21 @@
                                 </tbody>
                             </table>
                             <?php render_datatable([
-                            _l('id'),
-                            [
-                                'th_attrs' => ['width' => '300px'],
-                                'name'     => _l('appointment_subject')
-                            ],
-                            _l('appointment_meeting_date'),
-                            _l('appointment_initiated_by'),
-                            _l('appointment_description'),
-                            _l('appointment_status'),
-                            _l('appointment_source'),
-                            [
-                                'th_attrs' => ['width' => '120px'],
-                                'name'     => _l('appointments_table_calendar')
-                            ]
-                        ], 'appointments'); ?>
+                                _l('id'),
+                                [
+                                    'th_attrs' => ['width' => '300px'],
+                                    'name'     => _l('appointment_subject')
+                                ],
+                                _l('appointment_meeting_date'),
+                                _l('appointment_initiated_by'),
+                                _l('appointment_description'),
+                                _l('appointment_status'),
+                                _l('appointment_source'),
+                                [
+                                    'th_attrs' => ['width' => '120px'],
+                                    'name'     => _l('appointments_table_calendar')
+                                ]
+                            ], 'appointments'); ?>
                         <?php else : ?>
                             <p><?php echo _l('No booking pages found.'); ?></p>
                         <?php endif; ?>
@@ -94,17 +95,18 @@
             }
         );
     });
+
     function deleteBooking(id, el) {
         if (confirm("<?= _l("booking_are_you_sure"); ?>")) {
-           
-            $.post('<?= admin_url("appointly/booking_pages/delete/")?>'+id).done(function (res) {
+
+            $.post('<?= admin_url("appointly/booking_pages/delete/") ?>' + id).done(function(res) {
                 res = JSON.parse(res);
                 if (res.success) {
                     alert_float("success", res.message);
                     setTimeout(() => {
                         location.reload();
                     }, 500);
-                }else{
+                } else {
 
                     alert_float("danger", res.message);
                 }

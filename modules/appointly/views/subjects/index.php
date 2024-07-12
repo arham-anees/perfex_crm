@@ -32,29 +32,6 @@ $subjects = $this->Appointments_subject_model->get_all();
    .btn-delete-subject:hover {
       color: #c9302c;
    }
-
-
-
-
-
-   .btn-delete-wrapper {
-      text-align: left;
-      /* Aligns the delete button to the left */
-   }
-
-   .btn-delete-status {
-      background: none;
-      border: none;
-      color: #d9534f;
-      /* Adjust color as needed */
-      cursor: pointer;
-      padding: 0;
-   }
-
-   .btn-delete-status:hover {
-      color: #c9302c;
-      /* Adjust hover color as needed */
-   }
 </style>
 <div id="wrapper">
    <div class="content">
@@ -84,12 +61,12 @@ $subjects = $this->Appointments_subject_model->get_all();
                                  <td class="text-right">
                                     <div class="btn-action-wrapper">
                                        <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>" data-name="<?php echo $subject['subject']; ?>" data-toggle="modal" data-target="#edit_subject_modal">
-                                          <i class="fa fa-pencil"></i>
+                                          <i class="fa-regular fa-pen-to-square fa-lg"></i>
                                        </button>
-                                       <form method="POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
+                                       <form method=" POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
                                           <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                                           <input type="hidden" name="subject_id" value="<?php echo $subject['id']; ?>">
-                                          <button type="submit" class="btn-delete-subject"><i class="fa fa-trash"></i></button>
+                                          <button type="submit" class="btn-delete-subject"><i class="fa-regular fa-trash-can fa-lg"></i></button>
                                        </form>
                                     </div>
                                  </td>
