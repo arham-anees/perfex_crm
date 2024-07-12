@@ -219,6 +219,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 15vw;
+    min-width: 200px;
 }
 
 .month-switch button {
@@ -228,10 +229,12 @@ h1 {
     font-size: 16px;
 }
 .month-switch button:focus,
-.month-switch button:active,
-.month-switch button:hover {
-    background-color:#2663eb !important;
-    color: #ffffff  !important; 
+.month-switch button:active {
+    background-color: #dae7f5;
+    color: #0077ff;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
 }
 
 .timelabel{
