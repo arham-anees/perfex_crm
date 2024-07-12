@@ -121,6 +121,7 @@ class Booking_pages extends AdminController
             $data['appointly_show_clients_schedule_button'] =get_option('appointly_show_clients_schedule_button');
             $data['appointments_show_past_times'] =get_option('appointments_show_past_times');
             $data['callbacks_mode_enabled'] =get_option('callbacks_mode_enabled');
+            $data['simultaneous_appointments'] =get_option('simultaneous_appointments');
             $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         }
     if(!isset($data['error_message'])){
