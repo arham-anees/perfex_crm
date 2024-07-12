@@ -145,6 +145,7 @@ body input {
 .flex {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .heading{
@@ -219,6 +220,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     width: 15vw;
+    min-width: 200px;
 }
 
 .month-switch button {
@@ -228,10 +230,12 @@ h1 {
     font-size: 16px;
 }
 .month-switch button:focus,
-.month-switch button:active,
-.month-switch button:hover {
-    background-color:#2663eb !important;
-    color: #ffffff  !important; 
+.month-switch button:active {
+    background-color: #dae7f5;
+    color: #0077ff;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
 }
 
 .timelabel{
@@ -254,7 +258,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    margin-left: 30px
+    margin-left: 30px;
 }
 
 .timeslots button {
@@ -276,12 +280,36 @@ h1 {
     padding: 10px;
     text-align: center;
     cursor: pointer;
+    margin-right:5px;
 }
 
 .timeslot.selected {
     background-color: #007bff;
     color: white;
 }
+
+
+    /* width */
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 25px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
 
 
 /* Callbacks Popup */

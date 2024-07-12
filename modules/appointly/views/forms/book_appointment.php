@@ -9,6 +9,7 @@ if (!function_exists('get_appointment_types')) {
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
@@ -42,14 +43,16 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
                     <div class="row main_wrapper">
-                        <div class=" <?= 'col-md-5'; ?>">
+                        <div class=" <?= 'col-md-5'; ?>" style="margin-bottom:15px">
                             <br>
+                            <hr>
                             <h3><?= $booking_page['name'] ?></h3>
-                            <p><strong>Duration:</strong> <?= $booking_page['duration_minutes'] ?> min</p>
-                            <p><strong>Description</strong>
-                                <br />
-                                <?= $booking_page['description'] ?>
-                            </p>
+                            <p style="color:#a1a1a1"><i class="far fa-clock"
+                                    style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
+                            <span style="color:#a1a1a1">Description: </span>
+                            <span>
+                                <strong> <?= $booking_page['description'] ?></strong>
+                            </span>
 
 
 
@@ -57,22 +60,22 @@ if (!function_exists('get_appointment_types')) {
 
                         <div id="step1" class="mbot20 col-md-7" style="border-left: 1px solid #a1a1a1">
 
-                        <?php $appointment_types = get_appointment_types();
+                            <?php $appointment_types = get_appointment_types();
 
-                        if (count($appointment_types) > 0) { ?>
-                            <div class="form-group appointment_type_holder">
-                                <label for="appointment_select_type"
-                                    class="control-label"><?= _l('appointments_type_heading'); ?></label>
-                                <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
-                                    <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
-                                    <?php foreach ($appointment_types as $app_type) { ?>
-                                        <option class="form-control" data-color="<?= $app_type['color']; ?>"
-                                            value="<?= $app_type['id']; ?>"><?= $app_type['type']; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                            <div class=" clearfix mtop15"></div>
+                            if (count($appointment_types) > 0) { ?>
+                                <div class="form-group appointment_type_holder">
+                                    <label for="appointment_select_type"
+                                        class="control-label"><?= _l('appointments_type_heading'); ?></label>
+                                    <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
+                                        <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
+                                        <?php foreach ($appointment_types as $app_type) { ?>
+                                            <option class="form-control" data-color="<?= $app_type['color']; ?>"
+                                                value="<?= $app_type['id']; ?>"><?= $app_type['type']; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class=" clearfix mtop15"></div>
                             <?php } ?>
                             <div class="row">
                                 <div class="col-md-12">
@@ -81,33 +84,33 @@ if (!function_exists('get_appointment_types')) {
                                             data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
                                         <div id="recaptcha_response_field" class="text-danger"></div>
 
-                            <h2 class="heading">Select Date and Time</h2>
-                            <div class="flex">
-                                <div class="calendar-container">
-                                    <div class="month-switch">
-                                        <button type="button" id="prev-month">&lt;</button>
-                                        <span id="current-month-year"></span>
-                                        <button type="button" id="next-month">&gt;</button>
-                                    </div>
-                                    <div class="calendar" id="calendar">
-                                        <!-- Calendar days will be generated here -->
-                                    </div>
-                                </div>
+                                        <h2 class="heading">Select Date and Time</h2>
+                                        <div class="flex">
+                                            <div class="calendar-container">
+                                                <div class="month-switch">
+                                                    <button type="button" id="prev-month">&lt;</button>
+                                                    <span id="current-month-year"></span>
+                                                    <button type="button" id="next-month">&gt;</button>
+                                                </div>
+                                                <div class="calendar" id="calendar">
+                                                    <!-- Calendar days will be generated here -->
+                                                </div>
+                                            </div>
 
-                                <div class="timeslots" id="timeslots">
-                                    <p id="selected-date"></p>
-                                    <p id="timelabel" class="timelabel"></p>
-                                    <div id="timeslot-list"></div>
+                                            <div class="timeslots" id="timeslots">
+                                                <p id="selected-date"></p>
+                                                <p id="timelabel" class="timelabel"></p>
+                                                <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 190px;}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="pull-right">
+                                            <button type="button" id="nextButton" onclick="nextStep()"
+                                                class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="pull-right">
-                                <button type="button" id="nextButton" onclick="nextStep()"
-                                    class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
                             </div>
                         </div>
-                                    </div>
-                                    </div>
-                                    </div>
                         <div id="step2" style="display: none;" class="col-md-7">
 
                             <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?></div>
@@ -184,7 +187,7 @@ if (!function_exists('get_appointment_types')) {
 
                             <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
                             <div class="form-group"></div>
-<input type="hidden" name="date" />
+                            <input type="hidden" name="date" />
                             <label
                                 for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
                             <input type="text" class="form-control" value="" name="address" id="address">
@@ -211,7 +214,7 @@ if (!function_exists('get_appointment_types')) {
                                     </div>
                                 </div>
                             <?php } ?>
-                            
+
                             <div class="pull-right">
                                 <button type="button" id="backButton" onclick="prevStep()"
                                     class="btn btn-primary"><?php echo _l('back'); ?></button>
@@ -316,7 +319,7 @@ if (!function_exists('get_appointment_types')) {
                     // Display timeslots and update the selected date
                     const selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
                     selectedDateElem.textContent = selectedDate;
-                    selectedLabel.textContent="View times where you are available";
+                    selectedLabel.textContent = "View times where you are available";
                     timeslots.style.display = 'flex';
                     // Load time slots dynamically
                     loadTimeSlots(selectedDate);
@@ -330,9 +333,9 @@ if (!function_exists('get_appointment_types')) {
             const monthNumber = monthNames.indexOf(month) + 1;
             const year = currentMonthYear.split(' ')[1];
             const dateNumber = date.split(' ')[1];
-            const busySlots=[];
-            if (is_busy_times_enabled == 1 ) {
-                busySlots.push(...busyDates.filter(x=>new Date(x.date).getDate()==new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
+            const busySlots = [];
+            if (is_busy_times_enabled == 1) {
+                busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
             }
 
             // This is a placeholder for dynamic slot loading logic.
@@ -343,12 +346,12 @@ if (!function_exists('get_appointment_types')) {
             availableTimeSlots.forEach(slot => {
                 const slotElement = document.createElement('div');
                 slotElement.className = 'timeslot';
-                slotElement.setAttribute('time',slot);
+                slotElement.setAttribute('time', slot);
                 slotElement.textContent = slot;
                 timeslotList.appendChild(slotElement);
-                if(busySlots.filter(x=>x.start_hour==slot).length>0){
+                if (busySlots.filter(x => x.start_hour == slot).length > 0) {
 
-                slotElement.className = 'timeslot busy_time';
+                    slotElement.className = 'timeslot busy_time';
                 }
 
                 slotElement.addEventListener('click', function () {
