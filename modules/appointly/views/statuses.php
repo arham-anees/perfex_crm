@@ -9,23 +9,35 @@ $statuses = $this->Appointments_status_model->get_all();
 
 ?>
 <style>
-   .btn-delete-wrapper {
+   .btn-action-wrapper {
+      display: flex;
+      /* justify-content: flex-end; */
+      gap: 10px;
       text-align: left;
-      /* Aligns the delete button to the left */
    }
 
+   .btn-edit-status,
    .btn-delete-status {
       background: none;
       border: none;
-      color: #d9534f;
-      /* Adjust color as needed */
       cursor: pointer;
       padding: 0;
+      color: #5bc0de;
+      /* Adjust color as needed */
+   }
+
+   .btn-edit-status:hover,
+   .btn-delete-status:hover {
+      color: #31b0d5;
+      /* Adjust hover color as needed */
+   }
+
+   .btn-delete-status {
+      color: #d9534f;
    }
 
    .btn-delete-status:hover {
       color: #c9302c;
-      /* Adjust hover color as needed */
    }
 </style>
 <div id="wrapper">
@@ -62,15 +74,20 @@ $statuses = $this->Appointments_status_model->get_all();
                                  <td><?php echo $status['name']; ?></td>
                                  <td class="text-right">
 
-                                    <form method="POST" action="<?php echo admin_url('appointly/statuses/delete'); ?>">
-                                       <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                                       <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
-                                       <div class="btn-delete-wrapper">
-                                          <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button>
-                                       </div>
-                                       <!-- <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button> -->
+                                    <div class="btn-action-wrapper">
+                                       <button type="button" class="btn-edit-status" data-id="<?php echo $status['id']; ?>" data-name="<?php echo $status['name']; ?>" data-toggle="modal" data-target="#edit_status_modal">
+                                          <i class="fa fa-pencil"></i>
+                                       </button>
+                                       <form method="POST" action="<?php echo admin_url('appointly/statuses/delete'); ?>">
+                                          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                          <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
 
-                                    </form>
+                                          <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button>
+
+                                          <!-- <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button> -->
+
+                                       </form>
+                                    </div>
                               </tr>
                            <?php endforeach; ?>
                         </tbody>
@@ -86,7 +103,7 @@ $statuses = $this->Appointments_status_model->get_all();
    </div>
 </div>
 
-<!-- Modal -->
+<!--  Create status Modal -->
 <div class="modal fade" id="status_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -116,6 +133,35 @@ $statuses = $this->Appointments_status_model->get_all();
    </div>
 </div>
 
+<!-- Edit Status Modal -->
+<div class="modal fade" id="edit_status_modal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="editModalLabel">Edit Status</h4>
+         </div>
+         <div class="modal-body">
+            <form method="POST" action="statuses/update">
+               <!-- Include CSRF Token -->
+               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+               <input type="hidden" name="status_id" id="edit_status_id">
+               <div class="form-group">
+                  <label for="edit_appointment_status_name">Status Name</label>
+                  <input type="text" class="form-control" name="name" placeholder="Enter Name" id="edit_appointment_status_name" required />
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
 <?php init_tail(); ?>
 
 <script>
@@ -135,6 +181,14 @@ $statuses = $this->Appointments_status_model->get_all();
             form.submit();
          }
       });
+      // Update status modal with the selected status data
+      $(document).on('click', '.btn-edit-status', function() {
+         var id = $(this).data('id');
+         var name = $(this).data('name');
+         $('#edit_status_id').val(id);
+         $('#edit_appointment_status_name').val(name);
+      });
+
    });
 </script>
 </body>

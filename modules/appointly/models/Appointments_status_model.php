@@ -6,7 +6,8 @@
  */
 class Appointments_status_model extends App_Model
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         // Load any necessary libraries, helpers, or initialize settings
         $this->load->database();
@@ -49,6 +50,12 @@ class Appointments_status_model extends App_Model
         return $this->db->get('appointly_appointments_statuses')->result_array();
     }
 
+    public function update($id, $name)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tblappointly_appointments_statuses', ['name' => $name]);
+    }
+
 
     /**
      * delete subject
@@ -58,13 +65,11 @@ class Appointments_status_model extends App_Model
      */
     public function delete($subject_id)
     {
-       // Use delete query directly to delete records based on subject
+        // Use delete query directly to delete records based on subject
         $this->db->where('id', $subject_id);
         $this->db->delete('appointly_appointments_statuses');
-        
+
         // Optionally, return true or false based on deletion success
         return $this->db->affected_rows() > 0;
     }
-
-
 }
