@@ -327,7 +327,7 @@ function appointly_send_email_templates_auto()
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0)');
+    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0 AND booking_page_id IS NOT NULL)');
 
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];

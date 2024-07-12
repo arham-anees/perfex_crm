@@ -140,8 +140,7 @@ if (!function_exists('get_appointment_types')) {
                                 <br>
                             <?php } ?>
 
-                            <!-- <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?> -->
-
+                          
                             <br>
                             <div class="form-group">
                                 <label for="name"><?= _l('appointment_full_name'); ?></label>
@@ -349,7 +348,7 @@ if (!function_exists('get_appointment_types')) {
                 slotElement.setAttribute('time', slot);
                 slotElement.textContent = slot;
                 timeslotList.appendChild(slotElement);
-                if (busySlots.filter(x => x.start_hour == slot).length > 0) {
+                if (<?= $booking_page['appointly_busy_times_enabled'] ?>&& busySlots.filter(x => x.start_hour == slot).length > 0) {
 
                     slotElement.className = 'timeslot busy_time';
                 }
