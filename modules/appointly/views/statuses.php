@@ -22,7 +22,7 @@ $statuses = $this->Appointments_status_model->get_all();
       border: none;
       cursor: pointer;
       padding: 0;
-      color: #5bc0de;
+      /* color: #5bc0de; */
 
    }
 
@@ -30,10 +30,6 @@ $statuses = $this->Appointments_status_model->get_all();
    .btn-delete-status:hover {
       color: #31b0d5;
       /* Adjust hover color as needed */
-   }
-
-   .btn-delete-status {
-      color: #d9534f;
    }
 
    .btn-delete-status:hover {
@@ -47,7 +43,7 @@ $statuses = $this->Appointments_status_model->get_all();
             <div class="tw-mb-2 sm:tw-mb-4">
                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#status_modal">
                   <i class="fa-regular fa-plus tw-mr-1"></i>
-                  Add New Status
+                  <?php echo _l('appointment_add_status'); ?>
                </a>
             </div>
 
@@ -55,17 +51,13 @@ $statuses = $this->Appointments_status_model->get_all();
 
             <!-- Render the statuses table -->
             <div class="panel_s">
-               <div class="panel-body">
-                  <div class="_buttons">
-                  </div>
-                  <div class="clearfix"></div>
-                  <hr class="hr-panel-heading" />
+               <div class="panel-body panel-table-full">
                   <?php if (!empty($statuses)) : ?>
                      <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc">
                         <thead>
                            <tr>
-                              <th><?php echo _l('Name'); ?></th>
-                              <th><?php echo _l('Option'); ?></th>
+                              <th><?php echo _l('appointment_name'); ?></th>
+                              <th><?php echo _l('appointment_options'); ?></th>
                            </tr>
                         </thead>
                         <tbody>

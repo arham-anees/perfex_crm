@@ -17,7 +17,7 @@ $subjects = $this->Appointments_subject_model->get_all();
       border: none;
       cursor: pointer;
       padding: 0;
-      color: #5bc0de;
+      /* color: #5bc0de; */
    }
 
    .btn-edit-subject:hover,
@@ -25,9 +25,9 @@ $subjects = $this->Appointments_subject_model->get_all();
       color: #31b0d5;
    }
 
-   .btn-delete-subject {
+   /* .btn-delete-subject {
       color: #d9534f;
-   }
+   } */
 
    .btn-delete-subject:hover {
       color: #c9302c;
@@ -40,7 +40,7 @@ $subjects = $this->Appointments_subject_model->get_all();
             <div class="tw-mb-2 sm:tw-mb-4">
                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#subject_modal">
                   <i class="fa-regular fa-plus tw-mr-1"></i>
-                  Add New Subject
+                  <?php echo _l('appointment_add_subject'); ?>
                </a>
             </div>
             <!-- Render the subjects table -->
@@ -50,8 +50,8 @@ $subjects = $this->Appointments_subject_model->get_all();
                      <table class="table dt-table table-subjects" data-order-col="0" data-order-type="asc">
                         <thead>
                            <tr>
-                              <th><?php echo _l('Subject'); ?></th>
-                              <th><?php echo _l('Options'); ?></th>
+                              <th><?php echo _l('appointment_subject'); ?></th>
+                              <th><?php echo _l('appointment_options'); ?></th>
                            </tr>
                         </thead>
                         <tbody>
