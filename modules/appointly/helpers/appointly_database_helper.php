@@ -119,6 +119,7 @@ if (!function_exists('init_appointly_database_tables')) {
                 `description` varchar(191) DEFAULT NULL,
                 `url` varchar(191) DEFAULT NULL,
                 `duration_minutes` varchar(191) DEFAULT NULL,
+                `simultaneous_appointments` int(11) UNSIGNED DEFAULT 1,
                 `appointly_responsible_person` int(11) DEFAULT NULL,
                 `callbacks_responsible_person` int(11) DEFAULT NULL,
                 `appointly_available_hours` varchar(191) DEFAULT NULL,

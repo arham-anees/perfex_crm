@@ -31,6 +31,13 @@
                                     <textarea class="form-control" id="booking_page_description"
                                        name="description"><?= $description; ?></textarea>
                               </div>
+
+                              <div class="form-group">
+                                <label for="simultaneous_appointments"><?= _l('appointment_simultaneous_appointments'); ?></label>
+                                <input type="int" class="form-control"
+                                    value="<?= $simultaneous_appointments ?>"
+                                    name="simultaneous_appointments" id="simultaneous_appointments">
+                            </div>
                                     <!-- Only shown for system admins -->
                                     <?php if (is_admin()) {
 

@@ -344,3 +344,4 @@ $lang['booking_are_you_sure'] = 'Are you sure you want to delete this booking pa
 $lang['booking_failed_delete'] = 'Failed to delete the booking page.';
 $lang['booking_successful_delete'] = 'The booking page successfully deleted.';
 $lang['booking_invalid_id'] = 'Invalid booking page ID.';
+$lang['appointment_simultaneous_appointments'] = 'Simultaneous Appointments Allowed';
