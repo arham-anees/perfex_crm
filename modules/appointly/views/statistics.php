@@ -48,6 +48,9 @@
         position: relative;
         height: 300px;
     }
+    .mt-22{
+        margin-top: 22px;
+    }
 </style>
 
 <div id="wrapper">
@@ -59,24 +62,33 @@
                     <div class="panel-body">
                         <form method="GET" action="<?php echo admin_url('/appointly/appointments/statistics') ?>">
                             <div class="col-md-12 no-padding">
-                                <div class="col-md-4 no-padding">
+                                <div class="col-md-3 no-padding">
                                     <?php echo render_datetime_input('start_date', 'appointment_statistics_start_date', $start_date, ['readonly' => "readonly"], [], '', 'appointment-date'); ?>
                                 </div>
-                                <div class="col-md-4 ">
+                                <div class="col-md-3 ">
                                     <?php echo render_datetime_input('end_date', 'appointment_statistics_end_date', $end_date, ['readonly' => "readonly"], [], '', 'appointment-date'); ?>
                                 </div>
-                                <div class="col-md-4 ">
+                                <div class="col-md-3 ">
                                     <?php if (isset($staff)) : ?>
                                         <div class="form-group">
                                             <?php echo render_select('attendees', $staff, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', $attendees, ['multiple' => true], [], '', '', false); ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
+                                <div class="col-md-3">
+                                <?php if (isset($staff)) : ?>
+                                        <div class="form-group">
+                                            <?php echo render_select('Booking Page', $staff, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', $attendees, ['multiple' => true], [], '', '', false); ?>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
                             </div>
 
-                            <div class="row">
+                            <<div class="row">
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-outline-primary">Filter</button>
+                                    <button type="submit" class="btn btn-primary">Apply Filter</button>
+                                    <button type="submit" class="btn  btn-danger">Clear Filter</button>
                                 </div>
                             </div>
                             <!-- <button type="submit" class="btn btn-outline-primary">Filter</button> -->
