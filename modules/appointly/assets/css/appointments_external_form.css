@@ -310,6 +310,18 @@ h1 {
     background: #555; 
   }
 
+  .appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.appointments-table th, .appointments-table td {
+   
+    padding: 8px; 
+    text-align: start; 
+}
+
+
 
 
 /* Callbacks Popup */

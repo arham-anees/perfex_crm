@@ -47,14 +47,15 @@ if (!function_exists('get_appointment_types')) {
                             <br>
                             <hr>
                             <h3><?= $booking_page['name'] ?></h3>
-                            <p style="color:#a1a1a1"><i class="far fa-clock"
-                                    style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
+                            <p style="color:#a1a1a1"><i class="far fa-clock" style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
+                            <p style="color:#a1a1a1"> Allowed Appointments : <span style="color: #000;"><?= $booking_page['simultaneous_appointments'] ?></span></p>
                             <span style="color:#a1a1a1">Description: </span>
                             <span>
                                 <strong> <?= $booking_page['description'] ?></strong>
                             </span>
 
-
+                            <h3>Appointments List</h3>
+                            <div id="appointmentsContainer"></div>
 
                         </div>
 
@@ -100,12 +101,17 @@ if (!function_exists('get_appointment_types')) {
                                             <div class="timeslots" id="timeslots">
                                                 <p id="selected-date"></p>
                                                 <p id="timelabel" class="timelabel"></p>
-                                                <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 190px;}"></div>
+                                                <div id="timeslot-list" class="scroll"
+                                                    style="overflow-y: auto;height: 190px;}"></div>
                                             </div>
                                         </div>
+
                                         <div class="pull-right">
+                                            <button type="button" id="appointmentButton" onclick="addAppointment()"
+                                                class="btn btn-primary">Add Appointment</button>
                                             <button type="button" id="nextButton" onclick="nextStep()"
                                                 class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +146,7 @@ if (!function_exists('get_appointment_types')) {
                                 <br>
                             <?php } ?>
 
-                          
+
                             <br>
                             <div class="form-group">
                                 <label for="name"><?= _l('appointment_full_name'); ?></label>
@@ -255,14 +261,56 @@ if (!function_exists('get_appointment_types')) {
         const timeslotList = document.getElementById('timeslot-list');
         const selectedDateElem = document.getElementById('selected-date');
         const selectedLabel = document.getElementById('timelabel');
+        const nextButton = document.getElementById('nextButton').disabled = true;
+        var selectedDateTime = '';
 
         let date = new Date();
-        var busyDates=[];
-         // Array of month names (zero-based index)
-         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                                'August', 'September', 'October', 'November', 'December'];
+        var busyDates = [];
+        // Array of month names (zero-based index)
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'];
 
         const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+        const no_of_appointments = [];
+        var total_appointments = <?= $booking_page['simultaneous_appointments'] ?>;
+
+        function addAppointment() {
+            no_of_appointments.push(selectedDateTime);
+            console.log("*********************** appointments", no_of_appointments);
+            createList();
+            if (no_of_appointments.length >= total_appointments) {
+                document.getElementById('appointmentButton').disabled = true;
+                document.getElementById('nextButton').disabled = false;
+                console.log("Maximum number of appointments reached.");
+            }
+        }
+
+        function createList() {
+            // Clear previous content in the appointments container div
+            var appointmentsContainer = document.getElementById('appointmentsContainer');
+            appointmentsContainer.innerHTML = '';
+
+            // Create a new table element
+            var table = document.createElement('table');
+            table.classList.add('appointments-table'); // Add a class for styling if needed
+
+            // Create table header row
+            var headerRow = table.createTHead().insertRow();
+            headerRow.innerHTML = '<th>#</th><th>Date/Time</th>';
+
+            // Create table body rows
+            var tbody = table.createTBody();
+            no_of_appointments.forEach(function (appointment, index) {
+                var row = tbody.insertRow();
+                row.innerHTML = `<td>${index + 1}</td><td>${appointment.date}</td><td><span class="close">&times;</span></td>`;
+            });
+
+            // Append the table to the appointments container div
+            appointmentsContainer.appendChild(table);
+        }
+
+
 
         function renderCalendar() {
             calendar.innerHTML = '';
@@ -292,27 +340,27 @@ if (!function_exists('get_appointment_types')) {
 
             // Add days of the month
             for (let i = 1; i <= daysInMonth; i++) {
-                
+
                 const dayElement = document.createElement('div');
                 dayElement.textContent = i;
                 dayElement.setAttribute('data-day', i);
                 if (<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
                     dayElement.className = 'disabled';
                 }
-                if (!<?= $booking_page['appointments_show_past_times'] ?>){
-                    const currentMonthYear=$($('#current-month-year')[0]).text()
+                if (!<?= $booking_page['appointments_show_past_times'] ?>) {
+                    const currentMonthYear = $($('#current-month-year')[0]).text()
                     const month = currentMonthYear.split(' ')[0];
                     const monthNumber = monthNames.indexOf(month) + 1;
                     const year = currentMonthYear.split(' ')[1];
                     let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
-                    if(selectedDate.getDate() < (new Date()).getDate())
+                    if (selectedDate.getDate() < (new Date()).getDate())
                         dayElement.className = 'disabled';
                 }
                 calendar.appendChild(dayElement);
 
                 dayElement.addEventListener('click', function () {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
-                    if(this.classList.contains('disabled'))return;
+                    if (this.classList.contains('disabled')) return;
                     this.classList.add('selected');
 
                     // Display timeslots and update the selected date
@@ -325,14 +373,15 @@ if (!function_exists('get_appointment_types')) {
                 });
             }
         }
-       
+
         function loadTimeSlots(date) {
-            const currentMonthYear=$($('#current-month-year')[0]).text()
+            const currentMonthYear = $($('#current-month-year')[0]).text()
             const month = currentMonthYear.split(' ')[0];
             const monthNumber = monthNames.indexOf(month) + 1;
             const year = currentMonthYear.split(' ')[1];
             const dateNumber = date.split(' ')[1];
             const busySlots = [];
+
             if (is_busy_times_enabled == 1) {
                 busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
             }
@@ -348,7 +397,7 @@ if (!function_exists('get_appointment_types')) {
                 slotElement.setAttribute('time', slot);
                 slotElement.textContent = slot;
                 timeslotList.appendChild(slotElement);
-                if (<?= $booking_page['appointly_busy_times_enabled'] ?>&& busySlots.filter(x => x.start_hour == slot).length > 0) {
+                if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length > 0) {
 
                     slotElement.className = 'timeslot busy_time';
                 }
@@ -358,13 +407,14 @@ if (!function_exists('get_appointment_types')) {
                     this.classList.add('selected');
 
                     // When a timeslot is selected, submit the date and time
-                    const selectedDateTime = {
+                    selectedDateTime = {
                         date: `${selectedDateElem.textContent.trim()} ${slot}`
 
                     };
 
                     // Send the selectedDateTime to the server via fetch or AJAX
                     submitDateTime(selectedDateTime);
+
                 });
             });
         }
@@ -435,6 +485,7 @@ if (!function_exists('get_appointment_types')) {
 
 
         initAppointmentScheduledDates2();
+
         function submitDateTime(dateTime) {
             console.log(dateTime);
             const dataInput = document.getElementsByName('date')[0];
@@ -480,6 +531,7 @@ if (!function_exists('get_appointment_types')) {
             document.getElementById('step2').style.display = 'none';
         }
     </script>
+
 
 </body>
 
