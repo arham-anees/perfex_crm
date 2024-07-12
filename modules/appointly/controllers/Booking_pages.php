@@ -60,18 +60,18 @@ class Booking_pages extends AdminController
             $data['google_api_key'] = $this->input->post('google_api_key');
             $data['appointly_google_client_secret'] = $this->input->post('appointly_google_client_secret');
             $data['appointly_outlook_client_id'] = $this->input->post('appointly_outlook_client_id');
-            $data['appointly_appointments_recaptcha'] = $this->input->post('appointly_appointments_recaptcha');
-            $data['appointly_busy_times_enabled'] = $this->input->post('appointly_busy_times_enabled');
-            $data['appointly_also_delete_in_google_calendar'] = $this->input->post('appointly_also_delete_in_google_calendar');
-            $data['appointments_disable_weekends'] = $this->input->post('appointments_disable_weekends');
-            $data['appointly_view_all_in_calendar'] = $this->input->post('appointly_view_all_in_calendar');
-            $data['appointly_client_meeting_approved_default'] = $this->input->post('appointly_client_meeting_approved_default');
-            $data['appointly_tab_on_clients_page'] = $this->input->post('appointly_tab_on_clients_page');
-            $data['appointly_show_clients_schedule_button'] = $this->input->post('appointly_show_clients_schedule_button');
-            $data['appointments_show_past_times'] = $this->input->post('appointments_show_past_times');
-            $data['callbacks_mode_enabled'] = $this->input->post('callbacks_mode_enabled');
+            $data['appointly_appointments_recaptcha'] = (bool)$this->input->post('appointly_appointments_recaptcha');
+            $data['appointly_busy_times_enabled'] = (bool)$this->input->post('appointly_busy_times_enabled');
+            $data['appointly_also_delete_in_google_calendar'] = (bool)$this->input->post('appointly_also_delete_in_google_calendar');
+            $data['appointments_disable_weekends'] = (bool)$this->input->post('appointments_disable_weekends');
+            $data['appointly_view_all_in_calendar'] = (bool)$this->input->post('appointly_view_all_in_calendar');
+            $data['appointly_client_meeting_approved_default'] = (bool)$this->input->post('appointly_client_meeting_approved_default');
+            $data['appointly_tab_on_clients_page'] = (bool)$this->input->post('appointly_tab_on_clients_page');
+            $data['appointly_show_clients_schedule_button'] = (bool)$this->input->post('appointly_show_clients_schedule_button');
+            $data['appointments_show_past_times'] = (bool)$this->input->post('appointments_show_past_times');
+            $data['callbacks_mode_enabled'] = (bool)$this->input->post('callbacks_mode_enabled');
             $data['google_client_id'] = $this->input->post('google_client_id');
-            $data['is_active'] = 1;
+            $data['is_active'] = (bool)1;
             if(is_array($data['appointly_available_hours'])){
                 $data['appointly_available_hours'] = $this->arrayToStringWithQuotes($data['appointly_available_hours']);// '[' .implode(',',$data['appointly_available_hours']).']';
             }
@@ -163,16 +163,16 @@ class Booking_pages extends AdminController
             $data['google_api_key'] = $this->input->post('google_api_key');
             $data['appointly_google_client_secret'] = $this->input->post('appointly_google_client_secret');
             $data['appointly_outlook_client_id'] = $this->input->post('appointly_outlook_client_id');
-            $data['appointly_appointments_recaptcha'] = $this->input->post('appointly_appointments_recaptcha');
-            $data['appointly_busy_times_enabled'] = $this->input->post('appointly_busy_times_enabled');
-            $data['appointly_also_delete_in_google_calendar'] = $this->input->post('appointly_also_delete_in_google_calendar');
-            $data['appointments_disable_weekends'] = $this->input->post('appointments_disable_weekends');
-            $data['appointly_view_all_in_calendar'] = $this->input->post('appointly_view_all_in_calendar');
-            $data['appointly_client_meeting_approved_default'] = $this->input->post('appointly_client_meeting_approved_default');
-            $data['appointly_tab_on_clients_page'] = $this->input->post('appointly_tab_on_clients_page');
-            $data['appointly_show_clients_schedule_button'] = $this->input->post('appointly_show_clients_schedule_button');
-            $data['appointments_show_past_times'] = $this->input->post('appointments_show_past_times');
-            $data['callbacks_mode_enabled'] = $this->input->post('callbacks_mode_enabled');
+            $data['appointly_appointments_recaptcha'] = (bool)$this->input->post('appointly_appointments_recaptcha');
+            $data['appointly_busy_times_enabled'] = (bool)$this->input->post('appointly_busy_times_enabled');
+            $data['appointly_also_delete_in_google_calendar'] = (bool)$this->input->post('appointly_also_delete_in_google_calendar');
+            $data['appointments_disable_weekends'] = (bool)$this->input->post('appointments_disable_weekends');
+            $data['appointly_view_all_in_calendar'] = (bool)$this->input->post('appointly_view_all_in_calendar');
+            $data['appointly_client_meeting_approved_default'] = (bool)$this->input->post('appointly_client_meeting_approved_default');
+            $data['appointly_tab_on_clients_page'] = (bool)$this->input->post('appointly_tab_on_clients_page');
+            $data['appointly_show_clients_schedule_button'] = (bool)$this->input->post('appointly_show_clients_schedule_button');
+            $data['appointments_show_past_times'] = (bool)$this->input->post('appointments_show_past_times');
+            $data['callbacks_mode_enabled'] = (bool)$this->input->post('callbacks_mode_enabled');
             $data['google_client_id'] = $this->input->post('google_client_id');
             if(is_array($data['appointly_available_hours'])){
                 $data['appointly_available_hours'] = $this->arrayToStringWithQuotes($data['appointly_available_hours']);// '[' .implode(',',$data['appointly_available_hours']).']';
