@@ -369,6 +369,75 @@ class Appointly_model extends App_Model
         return true;
     }
 
+    public function insert_external_appointment_booking_page($data, $booking_page)
+    {
+        $data['hash'] = app_generate_hash();
+
+        if ($data['phone']) {
+            $data['phone'] = preg_replace('/\s+/', '', $data['phone']);
+        }
+
+
+        $data = array_merge($data, convertDateForDatabase($data['date']));
+
+        $responsiblePerson = $booking_page['appointly_responsible_person'];
+        $isAppointmentApprovedByDefault = $booking_page['appointly_client_meeting_approved_default'];
+
+
+        if ($isAppointmentApprovedByDefault) $data['approved'] = 1;
+
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            unset($data['custom_fields']);
+        }
+
+        $this->db->insert(db_prefix() . 'appointly_appointments', $data);
+        $appointment_id = $this->db->insert_id();
+
+        if (isset($custom_fields)) handle_custom_fields_post($appointment_id, $custom_fields);
+
+        if ($isAppointmentApprovedByDefault) {
+            /**
+             * If is set appointment to be automatically approved send email to contact who requested the appointment
+             */
+            $data['id'] = $appointment_id;
+            $this->atm->send_notifications_to_appointment_contact($data);
+
+
+            /**
+             * If responsible person is set add as main attendee else first admin created with id 1
+             */
+            $this->atm->create($appointment_id, [($responsiblePerson) ? $responsiblePerson : '1']);
+        }
+
+
+        if ($responsiblePerson !== '') {
+            $notified_users = [];
+            $notified_users[] = $responsiblePerson;
+
+            $appointment = $this->apm->get_appointment_data($appointment_id);
+
+            $staff = appointly_get_staff($responsiblePerson);
+
+            send_mail_template('appointly_appointment_new_appointment_submitted', 'appointly', array_to_object($staff), array_to_object($appointment));
+
+            add_notification([
+                'description' => 'appointment_new_appointment_submitted',
+                'touserid'    => $responsiblePerson,
+                'fromcompany' => true,
+                'link'        => 'appointly/appointments/view?appointment_id=' . $appointment_id,
+            ]);
+
+            pusher_trigger_notification($notified_users);
+        }
+
+        $appointment_link = site_url() . 'appointly/appointments/view?appointment_id=' . $appointment_id;
+
+        hooks()->do_action('send_sms_after_external_appointment_submitted', $appointment_link);
+
+        return true;
+    }
+
     /**
      * Update existing appointment
      *
@@ -909,7 +978,14 @@ class Appointly_model extends App_Model
         $this->db->where('hash', $hash);
         $appointment = $this->db->get('appointly_appointments')->row_array();
         if ($appointment) {
-            $appointment['feedbacks'] = json_decode(get_option('appointly_default_feedbacks'));
+            if(isset($appointment['booking_page_id'])){
+                $this->db->where('id',$appointment['booking_page_id']);
+                $booking_page = $this->db->get('appointly_booking_pages');
+                $appointment['feedbacks'] = json_decode($booking_page('appointly_default_feedbacks'));
+            }
+            else{
+                $appointment['feedbacks'] = json_decode(get_option('appointly_default_feedbacks'));
+            }
 
             $appointment['selected_contact'] = $appointment['contact_id'];
 
