@@ -5,6 +5,38 @@
 $subjects = $this->Appointments_subject_model->get_all();
 ?>
 <style>
+   .btn-action-wrapper {
+      display: flex;
+      gap: 10px;
+      text-align: left;
+   }
+
+   .btn-edit-subject,
+   .btn-delete-subject {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      color: #5bc0de;
+   }
+
+   .btn-edit-subject:hover,
+   .btn-delete-subject:hover {
+      color: #31b0d5;
+   }
+
+   .btn-delete-subject {
+      color: #d9534f;
+   }
+
+   .btn-delete-subject:hover {
+      color: #c9302c;
+   }
+
+
+
+
+
    .btn-delete-wrapper {
       text-align: left;
       /* Aligns the delete button to the left */
@@ -50,13 +82,16 @@ $subjects = $this->Appointments_subject_model->get_all();
                               <tr>
                                  <td><?php echo $subject['subject']; ?></td>
                                  <td class="text-right">
-                                    <form method="POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
-                                       <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-                                       <input type="hidden" name="subject_id" value="<?php echo $subject['id']; ?>">
-                                       <div class="btn-delete-wrapper">
-                                          <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button>
-                                       </div>
-                                    </form>
+                                    <div class="btn-action-wrapper">
+                                       <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>" data-name="<?php echo $subject['subject']; ?>" data-toggle="modal" data-target="#edit_subject_modal">
+                                          <i class="fa fa-pencil"></i>
+                                       </button>
+                                       <form method="POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
+                                          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                          <input type="hidden" name="subject_id" value="<?php echo $subject['id']; ?>">
+                                          <button type="submit" class="btn-delete-subject"><i class="fa fa-trash"></i></button>
+                                       </form>
+                                    </div>
                                  </td>
                               </tr>
                            <?php endforeach; ?>
@@ -72,7 +107,7 @@ $subjects = $this->Appointments_subject_model->get_all();
    </div>
 </div>
 
-<!-- Modal -->
+<!-- Create subject Modal -->
 <div class="modal fade" id="subject_modal" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -100,17 +135,54 @@ $subjects = $this->Appointments_subject_model->get_all();
    </div>
 </div>
 
+<!-- Edit Subject Modal -->
+<div class="modal fade" id="edit_subject_modal" tabindex="-1" role="dialog" aria-labelledby="edit_subject_modal_label" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="edit_subject_modal_label">Edit Subject</h4>
+         </div>
+         <div class="modal-body">
+            <form method="POST" action="<?php echo base_url('admin/appointly/subjects/update'); ?>">
+               <!-- Include CSRF Token -->
+               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+               <input type="hidden" name="subject_id" id="edit_subject_id">
+               <div class="form-group">
+                  <label for="edit_subject_name">Subject Name</label>
+                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="edit_subject_name" required />
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+
 <?php init_tail(); ?>
 
 <script>
    $(function() {
       // Confirmation dialog for delete
-      $(document).on('click', '.btn-delete-status', function(e) {
+      $(document).on('click', '.btn-delete-subject', function(e) {
          e.preventDefault();
          var form = $(this).closest('form');
          if (confirm('Are you sure you want to delete this subject?')) {
             form.submit();
          }
+      });
+      // Update subject modal with the selected subject data
+      $(document).on('click', '.btn-edit-subject', function() {
+         var id = $(this).data('id');
+         var name = $(this).data('name');
+         $('#edit_subject_id').val(id);
+         $('#edit_subject_name').val(name);
       });
    });
 </script>

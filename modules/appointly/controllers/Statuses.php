@@ -1,19 +1,23 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Statuses extends AdminController {
+class Statuses extends AdminController
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         // Load any necessary models, libraries, helpers, etc.
         $this->load->model('Appointments_status_model');
     }
 
-    public function index() {
+    public function index()
+    {
         // $data['subjects'] = $this.Appointments_status_model->get_all();
         $this->load->view('statuses');
     }
 
-    public function delete() {
+    public function delete()
+    {
         // Check if the request method is POST
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             // Retrieve POST data
@@ -44,7 +48,8 @@ class Statuses extends AdminController {
         }
     }
 
-    public function create() {
+    public function create()
+    {
         // Check if the request method is POST
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             // Retrieve POST data
@@ -74,6 +79,34 @@ class Statuses extends AdminController {
             redirect('/admin/appointly/statuses');
         }
     }
+
+    // update status name 
+    public function update()
+    {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            $status_id = $this->input->post('status_id');
+            $name = $this->input->post('name');
+
+            if (empty($status_id) || empty($name)) {
+                $this->session->set_flashdata('error', 'Invalid input.');
+                redirect(admin_url('/appointly/statuses'));
+            }
+
+            $updated = $this->Appointments_status_model->update($status_id, $name);
+
+            if ($updated) {
+                $this->session->set_flashdata('success', 'Status updated successfully.');
+            } else {
+                $this->session->set_flashdata('error', 'Failed to update status.');
+            }
+
+            redirect(admin_url('/appointly/statuses'));
+        } else {
+            $this->session->set_flashdata('error', 'Invalid request method.');
+            redirect(admin_url('/appointly/statuses'));
+        }
+    }
+
     public function json()
     {
         $statuses = get_statuses();
@@ -90,5 +123,4 @@ class Statuses extends AdminController {
         }
         echo json_encode(['data' => $data]);
     }
-
 }
