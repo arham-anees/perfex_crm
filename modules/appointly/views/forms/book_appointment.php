@@ -255,12 +255,12 @@ if (!function_exists('get_appointment_types')) {
         const selectedLabel = document.getElementById('timelabel');
 
         let date = new Date();
+        var busyDates=[];
+         // Array of month names (zero-based index)
+         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                                'August', 'September', 'October', 'November', 'December'];
 
         const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-        const monthNames = [
-            'January', 'February', 'March', 'April', 'May', 'June',
-            'July', 'August', 'September', 'October', 'November', 'December'
-        ];
 
         function renderCalendar() {
             calendar.innerHTML = '';
@@ -287,22 +287,30 @@ if (!function_exists('get_appointment_types')) {
                 calendar.appendChild(emptyElement);
             }
 
+
             // Add days of the month
             for (let i = 1; i <= daysInMonth; i++) {
+                
                 const dayElement = document.createElement('div');
                 dayElement.textContent = i;
                 dayElement.setAttribute('data-day', i);
                 if (<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
                     dayElement.className = 'disabled';
                 }
-                if (!<?= $booking_page['appointments_show_past_times'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
-                    dayElement.className = 'disabled';
+                if (!<?= $booking_page['appointments_show_past_times'] ?>){
+                    const currentMonthYear=$($('#current-month-year')[0]).text()
+                    const month = currentMonthYear.split(' ')[0];
+                    const monthNumber = monthNames.indexOf(month) + 1;
+                    const year = currentMonthYear.split(' ')[1];
+                    let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
+                    if(selectedDate.getDate() < (new Date()).getDate())
+                        dayElement.className = 'disabled';
                 }
                 calendar.appendChild(dayElement);
 
                 dayElement.addEventListener('click', function () {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
-
+                    if(this.classList.contains('disabled'))return;
                     this.classList.add('selected');
 
                     // Display timeslots and update the selected date
@@ -315,16 +323,8 @@ if (!function_exists('get_appointment_types')) {
                 });
             }
         }
-        var busyDates=[];
+       
         function loadTimeSlots(date) {
-            console.log(date);
-
-            // Array of month names (zero-based index)
-            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-                                'August', 'September', 'October', 'November', 'December'];
-
-            // Get the month number (1-based index)
-            
             const currentMonthYear=$($('#current-month-year')[0]).text()
             const month = currentMonthYear.split(' ')[0];
             const monthNumber = monthNames.indexOf(month) + 1;

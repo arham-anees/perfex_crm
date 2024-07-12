@@ -337,3 +337,4 @@ $lang['appointment_lead_tab'] = 'Upcoming appointments';
 $lang['appointment_lead_no_appointments'] = 'Lead has no appointments';
 $lang['appointment_by_booking_page']  = 'Booking Page';
 $lang['appointment_next'] = 'Suivant';
+$lang['booking_are_you_sure']='Are you sure you want to delete this booking page?';
