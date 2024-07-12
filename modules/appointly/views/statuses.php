@@ -23,7 +23,7 @@ $statuses = $this->Appointments_status_model->get_all();
       cursor: pointer;
       padding: 0;
       color: #5bc0de;
-      /* Adjust color as needed */
+
    }
 
    .btn-edit-status:hover,
@@ -76,13 +76,13 @@ $statuses = $this->Appointments_status_model->get_all();
 
                                     <div class="btn-action-wrapper">
                                        <button type="button" class="btn-edit-status" data-id="<?php echo $status['id']; ?>" data-name="<?php echo $status['name']; ?>" data-toggle="modal" data-target="#edit_status_modal">
-                                          <i class="fa fa-pencil"></i>
+                                          <i class="fa-regular fa-pen-to-square fa-lg"></i>
                                        </button>
                                        <form method="POST" action="<?php echo admin_url('appointly/statuses/delete'); ?>">
                                           <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
                                           <input type="hidden" name="status_id" value="<?php echo $status['id']; ?>">
 
-                                          <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button>
+                                          <button type="submit" class="btn-delete-status"><i class="fa-regular fa-trash-can fa-lg"></i></button>
 
                                           <!-- <button type="submit" class="btn-delete-status"><i class="fa fa-trash"></i></button> -->
 
