@@ -71,6 +71,7 @@ class Booking_pages extends AdminController
             $data['appointments_show_past_times'] = $this->input->post('appointments_show_past_times');
             $data['callbacks_mode_enabled'] = $this->input->post('callbacks_mode_enabled');
             $data['google_client_id'] = $this->input->post('google_client_id');
+            $data['is_active'] = 1;
             if(is_array($data['appointly_available_hours'])){
                 $data['appointly_available_hours'] = $this->arrayToStringWithQuotes($data['appointly_available_hours']);// '[' .implode(',',$data['appointly_available_hours']).']';
             }

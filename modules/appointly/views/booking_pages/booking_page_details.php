@@ -147,11 +147,11 @@
                                           <?= _l('appointly_recaptcha_label'); ?>
                                        </label>
                                        <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_1_appointly_recaptcha" name="appointly_appointments_recaptcha" value="1" <?= (get_option('appointly_recaptcha') == '1') ? ' checked' : '' ?>>
+                                          <input type="radio" id="y_opt_1_appointly_recaptcha" name="appointly_appointments_recaptcha" value="1" <?= ($booking_page['appointly_appointments_recaptcha'] == '1') ? ' checked' : '' ?>>
                                           <label for="y_opt_1_appointly_recaptcha"><?= _l('settings_yes'); ?></label>
                                        </div>
                                        <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_2_appointly_recaptcha" name="appointly_appointments_recaptcha" value="0" <?= (get_option('appointly_recaptcha') == '0') ? ' checked' : '' ?>>
+                                          <input type="radio" id="y_opt_2_appointly_recaptcha" name="appointly_appointments_recaptcha" value="0" <?= ($booking_page['appointly_appointments_recaptcha'] == '0') ? ' checked' : '' ?>>
                                           <label for="y_opt_2_appointly_recaptcha">
                                                 <?= _l('settings_no'); ?>
                                           </label>
