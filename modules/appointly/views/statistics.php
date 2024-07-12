@@ -48,8 +48,9 @@
         position: relative;
         height: 300px;
     }
-    .mt-22{
-        margin-top: 22px;
+
+    .mt-22 {
+        margin-top: 23px;
     }
 </style>
 
@@ -76,7 +77,7 @@
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-md-3">
-                                <?php if (isset($staff)) : ?>
+                                    <?php if (isset($staff)) : ?>
                                         <div class="form-group">
                                             <?php echo render_select('booking_pages', $booking_pages, ['id', ['name']], 'appointment_by_booking_page', $selected_booking_pages, ['multiple' => true], [], '', '', false); ?>
                                         </div>
@@ -85,7 +86,7 @@
                                 </div>
                             </div>
 
-                            <<div class="row">
+                            <div class="row">
                                 <div class="col-md-12 text-right">
                                     <button type="submit" class="btn btn-primary">Apply Filter</button>
                                     <button type="submit" class="btn  btn-danger">Clear Filter</button>
@@ -98,7 +99,7 @@
                             <div class="row"> -->
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4><?= _l('appointments_created_appointments')?></h4>
+                                <h4><?= _l('appointments_created_appointments') ?></h4>
                                 <div class="stat-number"> <?php echo $summary[0]['total_filtered']; ?></div>
                                 <div class="stat-change"><?php
                                                             $currentTotal = $summary[0]['total_filtered'];
@@ -115,7 +116,7 @@
                         </div>
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4><?= _l('appointments_finished_appointments')?></h4>
+                                <h4><?= _l('appointments_finished_appointments') ?></h4>
                                 <div class="stat-number"><?php echo $summary[0]['completed_filtered']; ?></div>
                                 <div class="stat-change">
                                     <?php
@@ -145,7 +146,7 @@
                         </div> -->
                         <div class="col-md-4 no-padding">
                             <div class="stat-card">
-                                <h4><?= _l('appointments_cancelled_appointments')?></h4>
+                                <h4><?= _l('appointments_cancelled_appointments') ?></h4>
                                 <div class="stat-number"> <?php echo $summary[0]['cancelled_filtered']; ?></div>
                                 <div class="stat-change">
                                     <?php
