@@ -12,6 +12,7 @@ class Appointments extends AdminController
 
         $this->load->model('appointly_model', 'apm');
         $this->load->model('leads_model');
+        $this->load->model('booking_page_model');
         $this->load->database();
     }
 
@@ -149,6 +150,7 @@ class Appointments extends AdminController
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+        $data['booking_pages'] = $this->booking_page_model->get_all();
 
         $this->load->view('statistics', $data);
     }
