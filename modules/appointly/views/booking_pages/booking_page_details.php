@@ -51,21 +51,22 @@
                                     if (isset($staff_members)) {
                                        echo render_select(
                                           'appointly_responsible_person',
-                                          $booking_page['staff_members'],
+                                          $staff_members,
                                           ['staffid', ['firstname', 'lastname']],
                                           'appointment_responsible_person',
-                                          $appointly_responsible_person,
-                                          [],
+                                          $booking_page['appointly_responsible_person'],
+                                          ['disabled'=>"true"],
                                           [],
                                           'mtop15'
                                        );
                                        echo '<hr />';
                                        echo render_select(
                                           'callbacks_responsible_person',
-                                          $booking_page['staff_members'],
+                                          $staff_members,
                                           ['staffid', ['firstname', 'lastname']],
                                           'callbacks_responsible_person',
-                                          $callbacks_responsible_person
+                                          $booking_page['callbacks_responsible_person'],
+                                          ['disabled'=>"true"]
                                        );
                                        echo '<hr />';
                                     } else {

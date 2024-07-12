@@ -34,7 +34,8 @@ class Booking_pages extends AdminController
             redirect(admin_url('appointly/booking_pages'));
         }
         $data['booking_page'] = $this->booking_page_model->get( $id);
-        // $data['link'] = $link;
+        $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
+
         $this->load->view('booking_pages/booking_page_details', $data);
     }
     function arrayToStringWithQuotes($array) {
@@ -227,6 +228,7 @@ class Booking_pages extends AdminController
             $data['appointly_show_clients_schedule_button'] = $booking_page['appointly_show_clients_schedule_button'];
             $data['appointments_show_past_times'] = $booking_page['appointments_show_past_times'];
             $data['callbacks_mode_enabled'] = $booking_page['callbacks_mode_enabled'];
+            $data['simultaneous_appointments'] = $booking_page['simultaneous_appointments'];
             $data['google_client_id']='';
             $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         // }
