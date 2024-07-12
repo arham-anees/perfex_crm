@@ -147,6 +147,7 @@ class Appointments extends AdminController
         $data['summary2'] = $query2->result_array();
         $data['prior_days'] = $daysDifference;
         $data['attendees'] = explode(',', $attendees);
+        $data['selected_booking_pages'] = explode(',', '');
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);
