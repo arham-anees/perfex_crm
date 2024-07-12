@@ -86,7 +86,7 @@ class Appointments_public extends ClientsController
 
         $data['form'] = $form;
         $data['form']->recaptcha = 1;
-        
+
         $this->load->view('forms/appointments_form', $data);
     }
 
@@ -128,9 +128,9 @@ class Appointments_public extends ClientsController
             ]);
         }
     }
-    public function create_external_appointment_booking_page($url='')
+    public function create_external_appointment_booking_page($url = '')
     {
-        
+
         $booking_page = $this->booking_page_model->get_by_url($url);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $this->input->post();
@@ -138,15 +138,15 @@ class Appointments_public extends ClientsController
             if (!$data) {
                 show_404();
             }
-            
-            $data['description']='';
+
+
+            $data['description'] = '';
             $data['source'] = $data['rel_type'];
-            $subject= $this->Appointments_subject_model->get_by_id($data['subject']);
-            if(isset($subject)){
-                $data['subject'] =$subject['subject'];
-            }
-            else{
-                $data['subject']='';
+            $subject = $this->Appointments_subject_model->get_by_id($data['subject']);
+            if (isset($subject)) {
+                $data['subject'] = $subject['subject'];
+            } else {
+                $data['subject'] = '';
             }
             unset($data['rel_type']);
 
@@ -163,24 +163,23 @@ class Appointments_public extends ClientsController
                 }
             }
 
-            if(isset($data['g-recaptcha-response'])) 
+            if (isset($data['g-recaptcha-response']))
                 unset($data['g-recaptcha-response']);
-            if(isset($data['Array'])){
+            if (isset($data['Array'])) {
                 unset($data['Array']);
             }
             if ($this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
+
                 echo json_encode([
                     'success' => true,
                     'message' => _l('appointment_sent_successfully')
                 ]);
             }
-        }
-        else{
+        } else {
             $form = new stdClass();
 
             $form->language = get_option('active_language');
 
-            
             $this->lang->load($form->language . '_lang', $form->language);
 
             if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
@@ -205,7 +204,7 @@ class Appointments_public extends ClientsController
 
             $data['form'] = $form;
             $data['form']->recaptcha = 1;
-            
+
             $this->load->view('forms/book_appointment', $data);
         }
     }
@@ -321,5 +320,4 @@ class Appointments_public extends ClientsController
             echo json_encode(['success' => false]);
         }
     }
-
 }

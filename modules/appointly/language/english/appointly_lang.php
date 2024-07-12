@@ -98,6 +98,9 @@ $lang['appointment_submit'] = 'Submit';
 $lang['appointment_pending_cancellation'] = 'Pending Cancellation';
 $lang['appointment_no_staff_members'] = 'No staff members were found, you should add staff member and reload this view in order to select a responsible person for new appointments submitted via iFrame form.';
 $lang['appointment_request_cancellation'] = 'Client has requested appointment cancellation';
+$lang['appointment_options'] = 'Options';
+$lang['appointment_add_status'] = 'Add New Status';
+$lang['appointment_add_subject'] = 'Add New Subject';
 
 // Version 1.1
 $lang['appointly_schedule_new_appointment'] = 'Schedule Appointment';
