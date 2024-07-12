@@ -133,79 +133,81 @@ class Appointments_public extends ClientsController
         
         $booking_page = $this->booking_page_model->get_by_url($url);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $data = $this->input->post();
+            $data = $this->input->post();
 
-        if (!$data) {
-            show_404();
-        }
+            if (!$data) {
+                show_404();
+            }
+            
+            $data['description']='';
+            $data['source'] = $data['rel_type'];
+            $subject= $this->Appointments_subject_model->get_by_id($data['subject']);
+            if(isset($subject)){
+                $data['subject'] =$subject['subject'];
+            }
+            else{
+                $data['subject']='';
+            }
+            unset($data['rel_type']);
 
-        $data['source'] = $data['rel_type'];
-        $subject= $this->Appointments_subject_model->get_by_id($data['subject']);
-        if(isset($subject)){
-            $data['subject'] =$subject['subject'];
-        }
-        else{
-            $data['subject']='';
-        }
-        unset($data['rel_type']);
-
-        if (isset($data['g-recaptcha-response'])) {
-            if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '') {
-                if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
-                    echo json_encode([
-                        'success'   => false,
-                        'recaptcha' => false,
-                        'message'   => _l('recaptcha_error'),
-                    ]);
-                    die;
+            if (isset($data['g-recaptcha-response'])) {
+                if (get_option('recaptcha_secret_key') != '' && get_option('recaptcha_site_key') != '') {
+                    if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
+                        echo json_encode([
+                            'success'   => false,
+                            'recaptcha' => false,
+                            'message'   => _l('recaptcha_error'),
+                        ]);
+                        die;
+                    }
                 }
             }
-        }
 
-        if (isset($data['g-recaptcha-response'])) unset($data['g-recaptcha-response']);
+            if(isset($data['g-recaptcha-response'])) 
+                unset($data['g-recaptcha-response']);
             if(isset($data['Array'])){
                 unset($data['Array']);
             }
-        if ($this->apm->insert_external_appointment($data)) {
-            echo json_encode([
-                'success' => true,
-                'message' => _l('appointment_sent_successfully')
-            ]);
-        }
-    }
-    else{
-        $form = new stdClass();
-
-        $form->language = get_option('active_language');
-
-        
-        $this->lang->load($form->language . '_lang', $form->language);
-
-        if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
-            $this->lang->load('custom_lang', $form->language);
-        }
-        $data['booking_page'] = $booking_page;
-
-        if ($this->input->post() && $this->input->is_ajax_request()) {
-
-            $post_data = $this->input->post();
-
-            $required = ['subject',  'email'];
-
-            foreach ($required as $field) {
-                if (!isset($post_data[$field]) || isset($post_data[$field]) && empty($post_data[$field])) {
-                    $this->output->set_status_header(422);
-                    die;
-                }
+            if ($this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
+                echo json_encode([
+                    'success' => true,
+                    'message' => _l('appointment_sent_successfully')
+                ]);
             }
-            die;
         }
+        else{
+            $form = new stdClass();
 
-        $data['form'] = $form;
-        $data['form']->recaptcha = 1;
-        
-        $this->load->view('forms/book_appointment', $data);
-    }
+            $form->language = get_option('active_language');
+
+            
+            $this->lang->load($form->language . '_lang', $form->language);
+
+            if (file_exists(APPPATH . 'language/' . $form->language . '/custom_lang.php')) {
+                $this->lang->load('custom_lang', $form->language);
+            }
+            $data['booking_page'] = $booking_page;
+
+            if ($this->input->post() && $this->input->is_ajax_request()) {
+
+                $post_data = $this->input->post();
+
+                $required = ['subject',  'email'];
+
+                foreach ($required as $field) {
+                    if (!isset($post_data[$field]) || isset($post_data[$field]) && empty($post_data[$field])) {
+                        $this->output->set_status_header(422);
+                        die;
+                    }
+                }
+                die;
+            }
+
+            $data['form'] = $form;
+            $data['form']->recaptcha = 1;
+            
+            $this->load->view('forms/book_appointment', $data);
+        }
     }
 
     /**
