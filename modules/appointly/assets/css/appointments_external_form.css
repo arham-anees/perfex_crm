@@ -170,7 +170,7 @@ h1 {
     flex-wrap: wrap;
     margin-top: 10px;
     width: 25vw;
-    min-width: 349px;
+    min-width: 350px;
     max-width: 390px;
 }
 
@@ -258,7 +258,7 @@ h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    margin-left: 30px
+    margin-left: 30px;
 }
 
 .timeslots button {
@@ -280,12 +280,36 @@ h1 {
     padding: 10px;
     text-align: center;
     cursor: pointer;
+    margin-right:5px;
 }
 
 .timeslot.selected {
     background-color: #007bff;
     color: white;
 }
+
+
+    /* width */
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 25px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
 
 
 /* Callbacks Popup */

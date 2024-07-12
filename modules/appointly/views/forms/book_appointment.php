@@ -47,10 +47,11 @@ if (!function_exists('get_appointment_types')) {
                             <br>
                             <hr>
                             <h3><?= $booking_page['name'] ?></h3>
-                            <p style="color:#a1a1a1"><i class="far fa-clock" style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
+                            <p style="color:#a1a1a1"><i class="far fa-clock"
+                                    style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
                             <span style="color:#a1a1a1">Description: </span>
                             <span>
-                               <strong> <?= $booking_page['description'] ?></strong>
+                                <strong> <?= $booking_page['description'] ?></strong>
                             </span>
 
 
@@ -99,7 +100,7 @@ if (!function_exists('get_appointment_types')) {
                                             <div class="timeslots" id="timeslots">
                                                 <p id="selected-date"></p>
                                                 <p id="timelabel" class="timelabel"></p>
-                                                <div id="timeslot-list"></div>
+                                                <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 190px;}"></div>
                                             </div>
                                         </div>
                                         <div class="pull-right">
