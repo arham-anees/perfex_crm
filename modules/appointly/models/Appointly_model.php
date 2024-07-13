@@ -979,9 +979,15 @@ class Appointly_model extends App_Model
         $appointment = $this->db->get('appointly_appointments')->row_array();
         if ($appointment) {
             if(isset($appointment['booking_page_id'])){
-                $this->db->where('id',$appointment['booking_page_id']);
-                $booking_page = $this->db->get('appointly_booking_pages');
-                $appointment['feedbacks'] = json_decode($booking_page('appointly_default_feedbacks'));
+                $this->db->where('id', $appointment['booking_page_id']);
+                $query = $this->db->get('appointly_booking_pages');
+
+                if ($query->num_rows() > 0) {
+                    $booking_page = $query->row(); // Fetch the first row of the result as an object
+                    $appointment['feedbacks'] = json_decode($booking_page->appointly_default_feedbacks);
+                } else {
+                    $appointment['feedbacks'] = []; // Handle the case where no results are found
+                }
             }
             else{
                 $appointment['feedbacks'] = json_decode(get_option('appointly_default_feedbacks'));
