@@ -182,17 +182,17 @@ if (!function_exists('get_appointment_types')) {
 
 
 
-                            <div class="form-group">
+                           <div class="form-group">
                                 <label for="phone"><?= _l('appointment_phone'); ?>
                                     (Ex: <?= _l('appointment_your_phone_example'); ?>)</label>
                                 <input type="text" class="form-control"
                                     value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>"
                                     name="phone" id="phone">
                             </div>
-
+ <!-- 
                             <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
-                            <div class="form-group"></div>
-                            <input type="hidden" name="date" />
+                            <div class="form-group"></div> -->
+                            <!-- <input type="hidden" name="date" /> -->
                             <label
                                 for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
                             <input type="text" class="form-control" value="" name="address" id="address">
@@ -272,13 +272,27 @@ if (!function_exists('get_appointment_types')) {
 
         const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-        const no_of_appointments = [];
+        var no_of_appointments = [];
+        // used to store dates selected
+        const appointmentDates = [];
         var total_appointments = <?= $booking_page['simultaneous_appointments'] ?>;
 
         function addAppointment() {
-            no_of_appointments.push(selectedDateTime);
-            console.log("*********************** appointments", no_of_appointments);
+            const currentMonthYear = $($('#current-month-year')[0]).text()
+            const month = currentMonthYear.split(' ')[0];
+            const monthNumber = monthNames.indexOf(month) + 1;
+            const year = currentMonthYear.split(' ')[1];
+            const date = $($('div[data-day].selected')[0]).text();
+            const slot = $($('.timeslot.selected')[0]).text();
+            if(slot=='' || no_of_appointments.filter(x=>x.dateStr==selectedDateTime.date).length>0){
+                return;
+            }
+
+            no_of_appointments.push({dateStr:selectedDateTime.date, dateFormatted:`${year}-${monthNumber}-${date} ${slot}:00`});
             createList();
+            if(no_of_appointments.length>0){
+                document.getElementById('nextButton').disabled = false;
+            }
             if (no_of_appointments.length >= total_appointments) {
                 document.getElementById('appointmentButton').disabled = true;
                 document.getElementById('nextButton').disabled = false;
@@ -303,11 +317,18 @@ if (!function_exists('get_appointment_types')) {
             var tbody = table.createTBody();
             no_of_appointments.forEach(function (appointment, index) {
                 var row = tbody.insertRow();
-                row.innerHTML = `<td>${index + 1}</td><td>${appointment.date}</td><td><span class="close">&times;</span></td>`;
+                row.setAttribute('appointment-index', index);
+                row.innerHTML = `<td>${index + 1}</td><td>${appointment.dateStr}</td><td><span onclick='removeAppointment(${index})' class="close">&times;</span><input type="hidden" name="dates[]" value="${appointment.dateFormatted}"/></td>`;
             });
 
             // Append the table to the appointments container div
             appointmentsContainer.appendChild(table);
+        }
+        function removeAppointment(index){
+            let elem=$($(`.appointments-table tr[appointment-index=${index}]`)[0]);
+            let content=elem.children()[1].textContent;
+            no_of_appointments=no_of_appointments.filter(x=>x.dateStr!=content);
+            elem.remove();
         }
 
 
@@ -411,7 +432,6 @@ if (!function_exists('get_appointment_types')) {
                         date: `${selectedDateElem.textContent.trim()} ${slot}`
 
                     };
-
                     // Send the selectedDateTime to the server via fetch or AJAX
                     submitDateTime(selectedDateTime);
 
@@ -419,79 +439,9 @@ if (!function_exists('get_appointment_types')) {
             });
         }
 
-        function initAppointmentScheduledDates2() {
-            let url = '<?= admin_url("/appointly/appointments_public/busyDates") ?>';
-            $.post(url).done(function (r) {
-                r = JSON.parse(r);
-                busyDates = r;
-                var dateFormat = app.options.date_format;
-                var appointmentDatePickerOptionsExternal = {
-                    dayOfWeekStart: app.options.calendar_first_day,
-                    daysOfWeekDisabled: [0, 5],
-                    minDate: 0,
-                    format: dateFormat,
-                    defaultTime: "09:00",
-                    allowTimes: allowedHours,
-                    closeOnDateSelect: 0,
-                    closeOnTimeSelect: 1,
-                    validateOnBlur: false,
-                    minTime: appMinTime,
-                    disabledWeekDays: appWeekends,
-                    onGenerate: function (ct) {
-                        if (is_busy_times_enabled == 1) {
-                            var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
-                            $(r).each(function (i, el) {
-                                if (el.date == selectedDate) {
-                                    var currentTime = $("body")
-                                        .find(".xdsoft_time:contains(\"" + el.start_hour + "\")");
-                                    currentTime.addClass("busy_time");
-                                }
-                            });
-                            // busy dates
-                        }
-                    },
-                    onSelectDate: function (ct, $input) {
-                        $input.val("");
-                        var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
-
-                        setTimeout(function () {
-                            $("body").find(".xdsoft_time").removeClass("xdsoft_current xdsoft_today");
-
-                            if (currentDate !== selectedDate) {
-                                $("body").find(".xdsoft_time.xdsoft_disabled").removeClass("xdsoft_disabled");
-                            }
-                        }, 200);
-                    },
-                    onChangeDateTime: function () {
-                        var currentTime = $("body").find(".xdsoft_time");
-                        currentTime.removeClass("busy_time");
-                    }
-                };
-
-                if (app.options.time_format == 24) {
-                    dateFormat = dateFormat + " H:i";
-                } else {
-                    dateFormat = dateFormat + " g:i A";
-                    appointmentDatePickerOptionsExternal.formatTime = "g:i A";
-                }
-
-                appointmentDatePickerOptionsExternal.format = dateFormat;
-
-                $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
-            });
-
-            jQuery.datetimepicker.setLocale(app.locale);
-        }
-
-
-        initAppointmentScheduledDates2();
 
         function submitDateTime(dateTime) {
-            console.log(dateTime);
-            const dataInput = document.getElementsByName('date')[0];
-            const dataShowInput = document.getElementsByName('date_show')[0];
-            dataInput.value = dateTime.date
-            dataShowInput.value = dateTime.date
+           
         }
 
         prevMonthButton.addEventListener('click', function () {

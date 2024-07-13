@@ -348,3 +348,5 @@ $lang['booking_failed_delete'] = 'Failed to delete the booking page.';
 $lang['booking_successful_delete'] = 'The booking page successfully deleted.';
 $lang['booking_invalid_id'] = 'Invalid booking page ID.';
 $lang['appointment_simultaneous_appointments'] = 'Simultaneous Appointments Allowed';
+$land['appointment_dates_required'] = 'Date is required';
+$lang['appointment_failed_create_all'] = 'Failed to create all appointments. You will receive email for created appointments';

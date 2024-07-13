@@ -134,12 +134,18 @@ class Appointments_public extends ClientsController
         $booking_page = $this->booking_page_model->get_by_url($url);
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $this->input->post();
-
+            
+            $dates = $data['dates'];
+            if(!isset($dates) || count($dates)==0){
+                echo json_encode([
+                    'success' => false,
+                    'message' => _l('appointment_dates_required')
+                ]);
+                die;
+            }
             if (!$data) {
                 show_404();
             }
-
-
             $data['description'] = '';
             $data['source'] = $data['rel_type'];
             $subject = $this->Appointments_subject_model->get_by_id($data['subject']);
@@ -168,13 +174,23 @@ class Appointments_public extends ClientsController
             if (isset($data['Array'])) {
                 unset($data['Array']);
             }
-            if ($this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
-
-                echo json_encode([
-                    'success' => true,
-                    'message' => _l('appointment_sent_successfully')
-                ]);
+            // for each on dates
+            unset($data['date']);
+            unset($data['dates']);
+            foreach ($dates as $date) {
+                $data['date'] = $date;
+                ;
+                if (!$this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
+                    echo json_encode([
+                        'success' => false,
+                        'message' => _l('appointment_failed_create_all')
+                    ]);
+                }
             }
+            echo json_encode([
+                'success' => true,
+                'message' => _l('appointment_sent_successfully')
+            ]);
         } else {
             $form = new stdClass();
 
