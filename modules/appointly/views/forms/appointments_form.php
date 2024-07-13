@@ -49,28 +49,9 @@ if (!function_exists('get_appointment_types')) {
                         </div>
 
                         <br>
-                        <?php $subjects = get_subjects();
-
-                        if (count($subjects) > 0) { ?>
-                            <div class="form-group appointment_type_holder">
-                                <label for="appointment_select_type"
-                                    class="control-label"><?= _l('appointment_subject'); ?></label>
-                                <select class="form-control selectpicker" name="type_id" id="appointment_select_type">
-                                    <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
-                                    <?php foreach ($subjects as $app_type) { ?>
-                                        <option class="form-control" value="<?= $app_type['id']; ?>">
-                                            <?= $app_type['subject']; ?>
-                                        </option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class=" clearfix mtop15"></div>
-                                <br>
-                                <?php } ?>
-                                
-                                <?php echo render_textarea('description', 'appointment_description', '', ['rows' => 5]); ?>
-
-                                <br>
+                       
+                        <?php echo render_input('subject', 'appointment_subject'); ?>
+                        
                         <div class="form-group">
                             <label for="name"><?= _l('appointment_full_name'); ?></label>
                             <input type="text" class="form-control"
