@@ -50,7 +50,7 @@ if (!function_exists('get_appointment_types')) {
                             <br>
                             <hr>
                             <h3><?= $booking_page['name'] ?></h3>
-                            <p style="color:#a1a1a1"><i class="far fa-clock" style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p>
+                            <?php if(isset($booking_page['duration_minutes'])) {?><p style="color:#a1a1a1"><i class="far fa-clock" style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p><?php } ?>
                             <p style="color:#a1a1a1"> Allowed Appointments : <span style="color: #000;"><?= $booking_page['simultaneous_appointments'] ?></span></p>
                             <span style="color:#a1a1a1">Description: </span>
                             <span>
@@ -111,7 +111,7 @@ if (!function_exists('get_appointment_types')) {
 
                                         <div class="pull-right">
                                             <button type="button" id="appointmentButton" onclick="addAppointment()"
-                                                class="btn btn-primary">Add Appointment</button>
+                                                class="btn btn-primary"><?= _l('booking_add_appointment')?></button>
                                             <button type="button" id="nextButton" onclick="nextStep()"
                                                 class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
 
@@ -222,7 +222,7 @@ if (!function_exists('get_appointment_types')) {
 
                             <div class="pull-right">
                                 <button type="button" id="backButton" onclick="prevStep()"
-                                    class="btn btn-primary"><?php echo _l('back'); ?></button>
+                                    class="btn btn-primary"><?php echo _l('appointment_booking_back'); ?></button>
                                 <button type="submit" id="form_submit"
                                     class="btn btn-primary"><?php echo _l('appointment_submit'); ?></button>
                             </div>

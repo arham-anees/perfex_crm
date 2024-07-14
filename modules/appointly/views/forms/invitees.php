@@ -25,6 +25,7 @@
             background-color: white;
             display: inline-block;
             text-align: left;
+            min-width:350px;
         }
         .event-details div {
             margin-bottom: 10px;
