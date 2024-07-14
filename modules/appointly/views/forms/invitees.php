@@ -46,13 +46,17 @@
         
     </div>
     <div class="container">
-        <h1><i class="fa-solid fa-circle-check"></i> You are scheduled for <?php echo $eventName; ?></h1>
+        <h1><i class="fa-solid fa-circle-check"></i> You are scheduled for <?php echo $appointment['name']; ?></h1>
         <p>A calendar invitation has been sent to your email address.</p>
         <div class="event-details">
-            <h2 style="color:black"><strong><?php echo $eventName; ?></strong></h2>
-            <div><i class="fas fa-user"></i><?php echo $organizer; ?></div>
-            <div><i class="fas fa-calendar-alt"></i><?php echo $startTime; ?> - <?php echo $endTime; ?>, <?php echo $date; ?></div>
-            <div><i class="fas fa-globe"></i><?php echo $timezone; ?></div>
+            <h2 style="color:black"><strong><?php echo $appointment['subject']; ?></strong></h2>
+            <!-- <p style="color:black"><?php echo $appointment['description']; ?></p> -->
+            <div><i class="fas fa-user"></i><?php echo $appointment['attendee']; ?></div>
+            <!-- <div><i class="fas fa-calendar-alt"></i><?php echo $startTime; ?> - <?php echo $endTime; ?>, <?php echo $date; ?></div> -->
+            <?php foreach ($appointment['dates'] as $date): ?>
+                <div><i class="fas fa-calendar-alt"></i><?php echo $date; ?></div>
+            <?php endforeach; ?>
+            <!-- <div><i class="fas fa-globe"></i><?php echo $timezone; ?></div> -->
         </div>
     </div>
 </body>

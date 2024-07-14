@@ -36,6 +36,22 @@ class Appointments_public extends ClientsController
 
         $this->load->view('clients/clients_hash', ['appointment' => $appointment]);
     }
+    public function thank_you()
+    {
+        $hash = $this->input->get('hash');
+        //$hash='YToxMjp7czoxNToiYm9va2luZ19wYWdlX2lkIjtzOjI6IjI3IjtzOjc6InN1YmplY3QiO3M6MTQ6IlRlc3Qgc3ViamVjdCAzIjtzOjQ6Im5hbWUiO3M6NDoiYXNkZiI7czo1OiJlbWFpbCI7czoxNDoiYWZ0YWJAbWFpbC5jb20iO3M6NToicGhvbmUiO3M6MTE6IjAzMDMxMjEyMTIzIjtzOjc6ImFkZHJlc3MiO3M6MDoiIjtzOjEzOiJjdXN0b21fZmllbGRzIjthOjE6e3M6ODoiYm9va2luZ3MiO2E6MTp7aToxO3M6MDoiIjt9fXM6MTE6ImRlc2NyaXB0aW9uIjtzOjA6IiI7czo2OiJzb3VyY2UiO3M6MTI6ImJvb2tpbmdfcGFnZSI7czo0OiJkYXRlIjtzOjE4OiIyMDI0LTctMTEgMDg6MDA6MDAiO3M6ODoiYXR0ZW5kZWUiO3M6MTA6IkltcmFuIEtoYW4iO3M6NToiZGF0ZXMiO2E6MTp7aTowO3M6MTg6IjIwMjQtNy0xMSAwODowMDowMCI7fX0=';
+        if (!$hash) show_404();
+
+        // Decode the Base64 string
+        $decodedData = base64_decode($hash);
+
+        // Unserialize the decoded string to get the original data
+        $data['appointment'] = unserialize($decodedData);
+
+        log_message('error',$decodedData);
+
+        $this->load->view('forms/invitees', $data);
+    }
 
     /**
      * Fetches contact data if client who requested meeting is already in the system.
@@ -177,9 +193,9 @@ class Appointments_public extends ClientsController
             // for each on dates
             unset($data['date']);
             unset($data['dates']);
+
             foreach ($dates as $date) {
                 $data['date'] = $date;
-                ;
                 if (!$this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
                     echo json_encode([
                         'success' => false,
@@ -187,9 +203,26 @@ class Appointments_public extends ClientsController
                     ]);
                 }
             }
+            if($booking_page['appointly_responsible_person']>0){
+                
+                // Assuming get() method of staff_model returns an object
+                $staff = $this->staff_model->get($booking_page['appointly_responsible_person']);
+
+                if ($staff) {
+                    $data['attendee'] = $staff->firstname . ' ' . $staff->lastname;
+                }
+            }
+            $data['dates'] = $dates;
+            $serializedObject = serialize($data);
+
+// Encode the serialized string to Base64
+$encodedData = base64_encode($serializedObject);
+            // Hash the serialized string
+        //$hashString = hash('sha256', $serializedObject);
             echo json_encode([
                 'success' => true,
-                'message' => _l('appointment_sent_successfully')
+                'message' => _l('appointment_sent_successfully'),
+                'data'=>$encodedData
             ]);
         } else {
             $form = new stdClass();

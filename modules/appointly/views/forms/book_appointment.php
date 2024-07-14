@@ -43,7 +43,10 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
                     <div class="row main_wrapper">
-                        <div class=" <?= 'col-md-5'; ?>" style="margin-bottom:15px">
+                        <div class="mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
+
+                            <div class="row">
+                        <div class="col-md-5" style="margin-bottom:15px">
                             <br>
                             <hr>
                             <h3><?= $booking_page['name'] ?></h3>
@@ -189,10 +192,7 @@ if (!function_exists('get_appointment_types')) {
                                     value="<?= (isset($clientUserData['client_logged_in'])) ? get_contact_detail($clientUserData['contact_user_id'], 'phonenumber') : ''; ?>"
                                     name="phone" id="phone">
                             </div>
- <!-- 
-                            <?php echo render_datetime_input('date_show', 'appointment_date_and_time', '', ['readonly' => "readonly", 'disabled' => 'disabled'], [], '', 'appointment-date'); ?>
-                            <div class="form-group"></div> -->
-                            <!-- <input type="hidden" name="date" /> -->
+
                             <label
                                 for="address"><?= _l('appointment_meeting_location') . ' ' . _l('appointment_optional'); ?></label>
                             <input type="text" class="form-control" value="" name="address" id="address">
@@ -227,6 +227,9 @@ if (!function_exists('get_appointment_types')) {
                                     class="btn btn-primary"><?php echo _l('appointment_submit'); ?></button>
                             </div>
                             <div class="clearfix mtop15"></div>
+                        </div>
+
+                        </div>
                         </div>
                     </div>
                     <?php echo form_close(); ?>
@@ -368,7 +371,7 @@ if (!function_exists('get_appointment_types')) {
                 if (<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
                     dayElement.className = 'disabled';
                 }
-                if (!<?= $booking_page['appointments_show_past_times'] ?>) {
+                if (<?= $booking_page['appointments_show_past_times'] ?>) {
                     const currentMonthYear = $($('#current-month-year')[0]).text()
                     const month = currentMonthYear.split(' ')[0];
                     const monthNumber = monthNames.indexOf(month) + 1;
@@ -403,9 +406,9 @@ if (!function_exists('get_appointment_types')) {
             const dateNumber = date.split(' ')[1];
             const busySlots = [];
 
-            if (is_busy_times_enabled == 1) {
+
                 busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
-            }
+            
 
             // This is a placeholder for dynamic slot loading logic.
             // You can replace it with an actual API call to fetch available time slots.

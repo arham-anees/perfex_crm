@@ -120,36 +120,7 @@
                                        </select>
                                     </div>
                                     <hr/>
-                                    <h4>Google Calendar API</h4>
-                                    <div class="form-group">
-                                       <label for="google_client_id"><?= _l('appointments_google_calendar_client_id'); ?></label>
-                                       <!-- <input type="text" class="form-control" value="<?= $booking_page['google_client_id']; ?>" id="google_client_id" name="google_client_id"> -->
-                                    </div>
-                                    <div class="form-group">
-                                       <label for="appointly_google_client_secret"><?= _l('appointments_google_calendar_client_secret'); ?></label>
-                                       <input type="text" class="form-control" value="<?= $booking_page['appointly_google_client_secret']; ?>" id="appointly_google_client_secret" name="appointly_google_client_secret" disabled="true">
-                                    </div>
-                                    <div class="alert alert-info alert-dismissible" role="alert">
-                                       <?= _l('appointments_redirect_url'); ?>:
-                                       <strong> <?= base_url() . 'appointly/google/auth/oauth'; ?></strong>
-                                       <button type="button" class="close" data-dismiss="alert" aria-label="<?= _l('close'); ?>">
-                                          <span aria-hidden="true">&times;</span>
-                                       </button>
-                                    </div>
-                                    <hr>
-                                    <h4><?= _l('appointment_outlook_api_label'); ?></h4>
-                                    <div class="form-group">
-                                       <label for="appointly_outlook_client_id"><?= _l('appointment_outlook_client_id'); ?></label>
-                                       <input type="text" class="form-control" value="<?= $booking_page['appointly_outlook_client_id']; ?>" id="appointly_outlook_client_id" name="sappointly_outlook_client_id" disabled="true">
-                                    </div>
-                                    <div class="alert alert-info alert-dismissible" role="alert">
-                                       <?= _l('appointment_redirect_url_logout'); ?>:
-                                       <strong> <?= base_url() . 'admin/appointly/appointments'; ?></strong>
-                                       <button type="button" class="close" data-dismiss="alert" aria-label="<?= _l('close'); ?>">
-                                          <span aria-hidden="true">&times;</span>
-                                       </button>
-                                    </div>
-                                    <hr />
+                                    
                                     <div class="form-group">
                                        <label for="appointly_recaptcha" class="control-label clearfix">
                                           <?= _l('appointly_recaptcha_label'); ?>
@@ -269,42 +240,6 @@
                                     <!-- End if is admin -->
                               <?php } ?>
 
-                              <?php if (staff_can('edit', 'settings')) { ?>
-                                    <div class="form-group">
-                                       <label for="appointly_show_clients_schedule_button" class="control-label clearfix">
-                                          <?= _l('appointly_allow_non_logged_clients_appointment'); ?>
-                                       </label>
-                                       <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_1_appointly_show_clients_schedule_button" name="appointly_show_clients_schedule_button" value="1" <?= ($booking_page['appointly_show_clients_schedule_button'] == '1') ? ' checked' : '' ?> disabled="true">
-                                          <label for="y_opt_1_appointly_show_clients_schedule_button"><?= _l('settings_yes'); ?></label>
-                                       </div>
-                                       <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_2_appointly_show_clients_schedule_button" name="appointly_show_clients_schedule_button" value="0" <?= ($booking_page['appointly_show_clients_schedule_button'] == '0') ? ' checked' : '' ?> disabled="true">
-                                          <label for="y_opt_2_appointly_show_clients_schedule_button">
-                                                <?= _l('settings_no'); ?>
-                                          </label>
-                                       </div>
-                                    </div>
-                                    <hr />
-
-                                    <div class="form-group">
-                                       <label for="appointly_tab_on_clients_page" class="control-label clearfix">
-                                          <?= _l('appointly_show_appointments_menu_item_in_clients_area'); ?>
-                                       </label>
-                                       <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_1_appointly_tab_on_clients_page" name="appointly_tab_on_clients_page" value="1" <?= ($booking_page['appointly_tab_on_clients_page'] == '1') ? ' checked' : '' ?> disabled="true">
-                                          <label for="y_opt_1_appointly_tab_on_clients_page"><?= _l('settings_yes'); ?></label>
-                                       </div>
-                                       <div class="radio radio-primary radio-inline">
-                                          <input type="radio" id="y_opt_2_appointly_tab_on_clients_page" name="appointly_tab_on_clients_page" value="0" <?= ($booking_page['appointly_tab_on_clients_page'] == '0') ? ' checked' : '' ?> disabled="true">
-                                          <label for="y_opt_2_appointly_tab_on_clients_page">
-                                                <?= _l('settings_no'); ?>
-                                          </label>
-                                       </div>
-                                    </div>
-                                    <hr />
-
-                              <?php } ?>
                               <div class="mtop10">
                                     <span class="label label-info"><strong><?= get_appointly_version(); ?></strong></span>
                               </div>

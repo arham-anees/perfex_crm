@@ -1,12 +1,11 @@
 <script>
     var form_id = "#appointments-form";
-    var is_busy_times_enabled = "<?= get_option('appointly_busy_times_enabled'); ?>";
 
     $(function () {
 
-        var allowedHours = <?= json_encode(json_decode(get_option('appointly_available_hours'))); ?>;
-        var appMinTime = <?= get_option('appointments_show_past_times'); ?>;
-        var appWeekends = <?= (get_option('appointments_disable_weekends')) ? "[0, 6]" : "[]"; ?>;
+        var allowedHours = <?= json_encode(json_decode($booking_page['appointly_available_hours'])); ?>;
+        var appMinTime = <?= $booking_page['appointments_show_past_times']; ?>;
+        var appWeekends = <?= ($booking_page['appointments_disable_weekends']) ? "[0, 6]" : "[]"; ?>;
 
         var todaysDate = new Date();
         var currentDate = todaysDate.getFullYear() + "-" + (((todaysDate.getMonth() + 1) < 10) ? "0" : "") + (todaysDate.getMonth() + 1 + "-" + ((todaysDate.getDate() < 10) ? "0" : "") + todaysDate.getDate());
@@ -72,21 +71,21 @@
                         $("#form_submit").html("<i class=\"fa fa-refresh fa-spin fa-fw\"></i>");
                     }
                 }).done(function (response) {
-                    print(response);
                     response = JSON.parse(response);
 
                     if (response.success == true) {
-                        $header = $(".appointment-header");
-                        $(form_id).remove();
-                        $("#response").html($header);
-                        $("#response").append("<div class=\"alert alert-success text-center\" style=\"margin:0 auto;margin-bottom:15px;\">" + response.message + "</div>");
-                        setTimeout(function () {
-                            <?php if (is_client_logged_in()) : ?>
-                            window.location.href = "<?= base_url(); ?>";
-                            <?php else : ?>
-                            location.reload();
-                            <?php endif; ?>
-                        }, 3000);
+                        window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash='+response.data;
+                        // $header = $(".appointment-header");
+                        // $(form_id).remove();
+                        // $("#response").html($header);
+                        // $("#response").append("<div class=\"alert alert-success text-center\" style=\"margin:0 auto;margin-bottom:15px;\">" + response.message + "</div>");
+                        // setTimeout(function () {
+                        //     <?php if (is_client_logged_in()) : ?>
+                        //     window.location.href = "<?= base_url(); ?>";
+                        //     <?php else : ?>
+                        //     location.reload();
+                        //     <?php endif; ?>
+                        // }, 100000);
                     } else if (response.success == false && response.recaptcha == false) {
                         $("#recaptcha_response_field").show().html(response.message);
                         $("#pfxcbsubmit").prop("disabled", false);
