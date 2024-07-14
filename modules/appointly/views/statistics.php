@@ -72,14 +72,14 @@
                                 <div class="col-md-3 ">
                                     <?php if (isset($staff)) : ?>
                                         <div class="form-group">
-                                            <?php echo render_select('attendees', $staff, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', $attendees, ['multiple' => true], [], '', '', false); ?>
+                                            <?php echo render_select('attendees[]', $staff, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', $attendees, ['multiple' => true], [], '', '', false); ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-md-3">
                                     <?php if (isset($staff)) : ?>
                                         <div class="form-group">
-                                            <?php echo render_select('booking_pages', $booking_pages, ['id', ['name']], 'appointment_by_booking_page', $selected_booking_pages, ['multiple' => true], [], '', '', false); ?>
+                                            <?php echo render_select('booking_pages[]', $booking_pages, ['id', ['name']], 'appointment_by_booking_page', $selected_booking_pages, ['multiple' => true], [], '', '', false); ?>
                                         </div>
                                     <?php endif; ?>
 

@@ -411,13 +411,14 @@ class Appointly_model extends App_Model
         }
 
 
-        if ($responsiblePerson !== '') {
+        if ($responsiblePerson !== '' && $responsiblePerson !== '0' ) {
             $notified_users = [];
             $notified_users[] = $responsiblePerson;
 
             $appointment = $this->apm->get_appointment_data($appointment_id);
 
             $staff = appointly_get_staff($responsiblePerson);
+
 
             send_mail_template('appointly_appointment_new_appointment_submitted', 'appointly', array_to_object($staff), array_to_object($appointment));
 

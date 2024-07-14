@@ -60,12 +60,13 @@ class Appointments extends AdminController
             // Format the date as YYYY-MM-DD
             $start_date = $thirtyDaysAgo->format('Y-m-d');
         }
-        if (isset($_GET['attendees'])) {
-            $att = isset($_GET['attendees']) ? $_GET['attendees'] : [];
-            $attendees = $_GET['attendees']; //implode(',',$att);
-        } else {
-            $attendees = '';
-        }
+      
+        $att = isset($_GET['attendees']) ? $_GET['attendees'] : [];
+        $attendees = $att; //implode(',',$att);
+
+        $att = isset($_GET['booking_pages']) ? $_GET['booking_pages'] : [];
+        $booking_pages = $att; //implode(',',$att);
+      
         // Create DateTime objects
         $startDateTime = new DateTime($start_date);
         $endDateTime = new DateTime($end_date);
@@ -83,9 +84,13 @@ class Appointments extends AdminController
         $sql_internal2 = "SELECT * FROM 
             `". db_prefix() ."appointly_appointments` 
             WHERE date >= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY) AND date <= DATE_SUB(?, INTERVAL " . $daysDifference . " DAY)";
-        if (strlen($attendees) > 0) {
-            $sql_internal .= " AND id IN (SELECT a.appointment_id from ". db_prefix() ."appointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
-            $sql_internal2 .= " AND id IN (SELECT a.appointment_id from " . db_prefix() . "appointly_attendees a WHERE a.staff_id IN (" . $attendees . ") )";
+        if (count($attendees) > 0) {
+            $sql_internal .= " AND id IN (SELECT a.appointment_id from ". db_prefix() ."appointly_attendees a WHERE a.staff_id IN (" . implode(',',$attendees) . ") )";
+            $sql_internal2 .= " AND id IN (SELECT a.appointment_id from " . db_prefix() . "appointly_attendees a WHERE a.staff_id IN (" . implode(',',$attendees) . ") )";
+        }
+        if (count($booking_pages) > 0) {
+            $sql_internal .= " AND booking_page_id IN (" . implode(',',$booking_pages) . ")";
+            $sql_internal2 .= " AND booking_page_id IN (" . implode(',',$booking_pages) . ")";
         }
         $sql = "SELECT 
             COUNT(*) total_filtered,
@@ -135,7 +140,7 @@ class Appointments extends AdminController
             ". db_prefix() ."appointly_appointments 
             WHERE date >= ? AND date <= ? AND finished = 1";
         $sql_attendees_appointments = "SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
-            LEFT JOIN ". db_prefix() ."appointly_attendees att ON att.staff_id = s.staffid
+            LEFT JOIN " . db_prefix() . "appointly_attendees att ON att.staff_id = s.staffid
             LEFT JOIN (" . $sql_internal_attendees . ") AS ap ON ap.id = att.appointment_id
             GROUP By att.staff_id;";
 
@@ -146,8 +151,8 @@ class Appointments extends AdminController
         $data['summary'] = $query->result_array();
         $data['summary2'] = $query2->result_array();
         $data['prior_days'] = $daysDifference;
-        $data['attendees'] = explode(',', $attendees);
-        $data['selected_booking_pages'] = explode(',', '');
+        $data['attendees'] =$attendees;// explode(',', $attendees);
+        $data['selected_booking_pages'] = $booking_pages;//explode(',', $booking_pages);
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['staff'] = $this->staff_model->get('', ['active' => 1]);

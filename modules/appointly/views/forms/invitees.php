@@ -52,7 +52,9 @@
         <div class="event-details">
             <h2 style="color:black"><strong><?php echo $appointment['subject']; ?></strong></h2>
             <!-- <p style="color:black"><?php echo $appointment['description']; ?></p> -->
+             <?php if(isset($appointment['attendee'])) { ?>
             <div><i class="fas fa-user"></i><?php echo $appointment['attendee']; ?></div>
+            <?php }?>
             <!-- <div><i class="fas fa-calendar-alt"></i><?php echo $startTime; ?> - <?php echo $endTime; ?>, <?php echo $date; ?></div> -->
             <?php foreach ($appointment['dates'] as $date): ?>
                 <div><i class="fas fa-calendar-alt"></i><?php echo $date; ?></div>
