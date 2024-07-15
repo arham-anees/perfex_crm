@@ -45,7 +45,7 @@ class Booking_page_model extends App_Model
 
     public function get_by_url($url)
     {
-        $this->db->like('url',$url);
+        $this->db->where('url',$url);
         return $this->db->get('appointly_booking_pages')->row_array();
     }
 

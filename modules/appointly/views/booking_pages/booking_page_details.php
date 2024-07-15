@@ -12,10 +12,10 @@
                            <div class="horizontal-tabs">
                               <ul class="nav nav-tabs nav-tabs-horizontal" role="tablist">
                                     <li role="presentation" class="active">
-                                       <a href="#general" aria-controls="general" role="tab" data-toggle="tab" aria-expanded="true"><?= ucfirst(_l('general')); ?></a>
+                                       <a href="#general" aria-controls="general" role="tab" data-toggle="tab" aria-expanded="true"><?= ucfirst(_l('booking_page_tab_general')); ?></a>
                                     </li>
                                     <li role="presentation" class="">
-                                       <a href="#form" aria-controls="form" role="tab" data-toggle="tab" aria-expanded="false"><?= ucfirst(_l('form')); ?></a>
+                                       <a href="#form" aria-controls="form" role="tab" data-toggle="tab" aria-expanded="false"><?= ucfirst(_l('booking_page_tab_form')); ?></a>
                                     </li>
                               </ul>
                            </div>

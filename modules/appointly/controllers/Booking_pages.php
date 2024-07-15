@@ -72,6 +72,7 @@ class Booking_pages extends AdminController
             $data['appointments_show_past_times'] = (bool)$this->input->post('appointments_show_past_times');
             $data['callbacks_mode_enabled'] = (bool)$this->input->post('callbacks_mode_enabled');
             $data['google_client_id'] = $this->input->post('google_client_id');
+            $data['simultaneous_appointments'] = (int)$this->input->post('simultaneous_appointments');
             $data['is_active'] = (bool)1;
             if(is_array($data['appointly_available_hours'])){
                 $data['appointly_available_hours'] = $this->arrayToStringWithQuotes($data['appointly_available_hours']);// '[' .implode(',',$data['appointly_available_hours']).']';
@@ -175,6 +176,7 @@ class Booking_pages extends AdminController
             $data['appointly_show_clients_schedule_button'] = (bool)$this->input->post('appointly_show_clients_schedule_button');
             $data['appointments_show_past_times'] = (bool)$this->input->post('appointments_show_past_times');
             $data['callbacks_mode_enabled'] = (bool)$this->input->post('callbacks_mode_enabled');
+            $data['simultaneous_appointments'] = (int)$this->input->post('simultaneous_appointments');
             $data['google_client_id'] = $this->input->post('google_client_id');
             if(is_array($data['appointly_available_hours'])){
                 $data['appointly_available_hours'] = $this->arrayToStringWithQuotes($data['appointly_available_hours']);// '[' .implode(',',$data['appointly_available_hours']).']';

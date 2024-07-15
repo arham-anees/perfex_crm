@@ -352,3 +352,5 @@ $lang['appointment_dates_required'] = 'Date is required';
 $lang['appointment_failed_create_all'] = 'Failed to create all appointments. You will receive email for created appointments';
 $lang['appointment_booking_back'] = 'Back';
 $lang['booking_add_appointment'] = 'Add Appointment';
+$lang['booking_page_tab_general'] = 'General';
+$lang['booking_page_tab_form'] = 'Form';
