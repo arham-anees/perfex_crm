@@ -23,7 +23,7 @@
                                        name="name" required>
                                        <input type="hidden" class="form-control"
                                        value=""
-                                       name="error_message" required>
+                                       name="error_message" >
                               </div>
 
                               <div class="form-group">
@@ -33,11 +33,17 @@
                               </div>
 
                               <div class="form-group">
+                                <label for="duration_minutes"><?= _l('appointment_duration_minutes'); ?></label>
+                                <input type="int" class="form-control"
+                                    value="<?= $duration_minutes ?>"
+                                    name="duration_minutes" id="duration_minutes" require>
+                              </div>
+                              <div class="form-group">
                                 <label for="simultaneous_appointments"><?= _l('appointment_simultaneous_appointments'); ?></label>
                                 <input type="int" class="form-control"
                                     value="<?= $simultaneous_appointments ?>"
-                                    name="simultaneous_appointments" id="simultaneous_appointments">
-                            </div>
+                                    name="simultaneous_appointments" id="simultaneous_appointments" require>
+                              </div>
                                     <!-- Only shown for system admins -->
                                     <?php if (is_admin()) {
 
@@ -70,7 +76,7 @@
                                     $appointmentHours = getAppointmentHours();
                                     $savedHours = isset($appointly_available_hours)?json_decode($appointly_available_hours):[];
                                     ?>
-                                    <div class="form-group">
+                                    <div class="form-group hours">
                                        <label for="appointment_hours"><?= _l('appointments_default_hours_label'); ?></label>
                                        <select class="selectpicker" name="appointly_available_hours[]" id="appointment_hours" data-width="100%" multiple="true">
                                           <?php foreach ($appointmentHours as $hour) { ?>
@@ -247,7 +253,7 @@
                                     <p><b>Form url:</b>
                                     <span class="label label-default">
                                           <span><?= site_url( ''); ?>
-                                          <input type="text" name="url" value="<?= $url ?>" required/>
+                                          <input type="text" name="url" value="<?= $url ?>" require pattern="^[a-zA-Z0-9_-]+$"/>
                               </span>
                                        </span>
                               </p>
@@ -258,47 +264,7 @@
                                           </a>
                                        </span>
                               </p>
-                                    
-                              <div class="mtop10">
-                                    <span class="label label-info"><strong><?= get_appointly_version(); ?></strong></span>
-                              </div>
                            </div>
-                           <!-- <?php if (is_admin()) { ?>
-                           <div role="tabpanel" class="tab-pane" id="form">
-                              <div class="form-group mtop10">
-                                    <label for="callbacks_mode_enabled" class="control-label clearfix">
-                                       <?= _l('callbacks_enable_on_external_form'); ?>
-                                    </label>
-                                    <div class="radio radio-primary radio-inline">
-                                       <input type="radio" id="y_opt_1_callbacks_mode_enabled" name="callbacks_mode_enabled" value="1" <?= ($callbacks_mode_enabled == '1') ? ' checked' : '' ?>>
-                                       <label for="y_opt_1_callbacks_mode_enabled"><?= _l('settings_yes'); ?></label>
-                                    </div>
-                                    <div class="radio radio-primary radio-inline">
-                                       <input type="radio" id="y_opt_2_callbacks_mode_enabled" name="callbacks_mode_enabled" value="0" <?= ($callbacks_mode_enabled == '0') ? ' checked' : '' ?>>
-                                       <label for="y_opt_2_callbacks_mode_enabled">
-                                          <?= _l('settings_no'); ?>
-                                       </label>
-                                    </div>
-                                    <hr>
-                                    <?php } ?>
-                              </div>
-                              <h4 class="bold">Form Info</h4>
-                              <p><b>Form url:</b>
-                                    <span class="label label-default">
-                                          <p><?= site_url('appointly/' . $url); ?>
-                                          <input type="text" name="url" required/>
-                                          </p>
-                                       </span>
-                              </p>
-                              <p><b>Form Subjects:</b>
-                                    <span class="label ">
-                                          <a href="<?= site_url('appointly/subjects'); ?>" >
-                                                List of Subjects
-                                          </a>
-                                       </span>
-                              </p>
-                            
-                           </div> -->
                         </div>
                         <input type='submit' class="btn btn-primary pull-right" value='Submit'/>
                      
@@ -311,6 +277,9 @@
    </div>
 
    <script>
+
+
+document.addEventListener('DOMContentLoaded',function(){
       let error_message = '<?= $error_message ?>';
       console.log(error_message);
       if(error_message.length>0){
@@ -319,8 +288,7 @@
     $(function() {
         appValidateForm($("#booking-page-form"), {
             name: "required",
-            url: "required",
-            rel_type: "required",
+            url: "required"
         }, apply_appointments_form_data);
 
         function apply_appointments_form_data(form) {
@@ -334,19 +302,43 @@
             var url = form.action;
 
             $.post(url, data).done(function(response) {
-                if (response.result) {
-                    alert_float('success', "<?= _l("booking_page_created"); ?>");
-                    setTimeout(() => window.location.reload(), 1000);
-                }
+               response = JSON.parse(response);
+               if (response.success) {
+            alert_float('success', "New booking page was successfully created");
+            setTimeout(() => window.location.reload(), 1000);
+            } else {
+                  alert_float('error', "Failed to create booking page");
+            }
             });
             return false;
         }
     });
+
+    $('#duration_minutes').on('change', function() {
+        var durationMinutes = $(this).val(); // Get the new value of duration_minutes
+        // AJAX request to execute PHP script and fetch HTML
+        $.ajax({
+            url: 'generate_options', // Replace with your PHP script URL
+            type: 'GET', // Use GET or POST as appropriate
+            dataType: 'html', // Expected data type from server
+            data: { minutes_duration: durationMinutes }, // Pass parameters if needed
+            success: function(response) {
+                // Update the HTML content based on the response
+                $('.form-group.hours').html(response);
+                // If using selectpicker, refresh it after updating options
+                $('.selectpicker').selectpicker('refresh');
+            },
+            error: function(xhr, status, error) {
+                // Handle errors if any
+                console.error('AJAX Error:', error);
+            }
+        });
+      });
+});
 </script>
 
 
 <?php init_tail(); ?>
-
 
 </body>
 </html>

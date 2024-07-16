@@ -354,3 +354,4 @@ $lang['appointment_booking_back'] = 'Back';
 $lang['booking_add_appointment'] = 'Add Appointment';
 $lang['booking_page_tab_general'] = 'General';
 $lang['booking_page_tab_form'] = 'Form';
+$lang['appointment_duration_minutes'] = 'Duration(Minutes)';

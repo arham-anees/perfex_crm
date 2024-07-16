@@ -93,7 +93,8 @@ class Booking_pages extends AdminController
                 unset( $data['error_message']);
                 unset( $data['google_client_id']);
                $this->booking_page_model->create($data);
-               redirect(admin_url('appointly/booking_pages'));
+               echo json_encode(['success' => true, 'message' => _l('booking_page_created')]);
+               return;
                }
            }
         }
@@ -122,11 +123,11 @@ class Booking_pages extends AdminController
             $data['appointly_show_clients_schedule_button'] =get_option('appointly_show_clients_schedule_button');
             $data['appointments_show_past_times'] =get_option('appointments_show_past_times');
             $data['callbacks_mode_enabled'] =get_option('callbacks_mode_enabled');
-            $data['simultaneous_appointments'] =get_option('simultaneous_appointments');
+            $data['simultaneous_appointments'] = 1;
             $data['staff_members'] = $this->staff_model->get('', ['active' => 1]);
         }
-    if(!isset($data['error_message'])){
-        $data['error_message']='';
+        if(!isset($data['error_message'])){
+            $data['error_message']='';
         }
         // Load the view with the data
         $this->load->view('booking_pages/create', $data);
@@ -238,6 +239,45 @@ class Booking_pages extends AdminController
    
         // Load the view with the data
         $this->load->view('booking_pages/create', $data);
+    }
+
+    public function generate_options(){
+
+        // Fetch minutes_duration from the GET request
+        $minutesDuration = isset($_GET['minutes_duration']) ? intval($_GET['minutes_duration']) : 15; // Default to 15 minutes if not provided
+
+        // Logic to generate $appointmentHours and $savedHours based on $minutesDuration
+        // Example:
+        $appointmentHours = array();
+        $savedHours = array();
+
+        // Generate options based on $minutesDuration (replace with your actual logic)
+        for ($minutes = 0; $minutes < 24 *60; $minutes+=$minutesDuration) {
+            $time = sprintf('%02d', ($minutes/60)) . ':'. sprintf('%02d', ($minutes%60));
+            $appointmentHours[] = array(
+                'value' => $time,
+                'name' => $time
+            );
+        }
+
+        // HTML generation
+        $html = '<div class="form-group hours">';
+        $html .= '<label for="appointment_hours">' . _l('appointments_default_hours_label') . '</label>';
+        $html .= '<select class="selectpicker" name="appointly_available_hours[]" id="appointment_hours" data-width="100%" multiple="true">';
+
+        foreach ($appointmentHours as $hour) {
+            $html .= '<option value="' . htmlspecialchars($hour['value']) . '"';
+            if ($savedHours !== null && in_array($hour['value'], $savedHours)) {
+                $html .= ' selected';
+            }
+            $html .= '>' . htmlspecialchars($hour['name']) . '</option>';
+        }
+
+        $html .= '</select>';
+        $html .= '</div>';
+
+        // Output the generated HTML
+        echo $html;
     }
 
 }
