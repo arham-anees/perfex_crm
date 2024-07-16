@@ -50,3 +50,12 @@
     $CI->db->query("
     DROP TABLE " . db_prefix() . "appointly_booking_pages
     ");
+
+
+       // Target path in the Perfex CRM application
+       $target_path = APPPATH . 'views/admin/leads/my_lead.php';
+
+       // Remove the custom view file
+       if (file_exists($target_path)) {
+           @unlink($target_path);
+       }

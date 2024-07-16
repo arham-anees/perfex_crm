@@ -16,3 +16,14 @@ if (strpos($routesContent, $route) === false) {
     file_put_contents($routesPath, $route, FILE_APPEND | LOCK_EX);
 }
 
+
+ // Path to the custom view file in the module
+ $source_path = module_dir_path('appointmy') . 'views/admin/leads/my_lead.php';
+
+ // Target path in the Perfex CRM application
+ $target_path = APPPATH . 'views/admin/leads/my_lead.php';
+
+ // Copy the file
+ if (file_exists($source_path)) {
+     @copy($source_path, $target_path);
+ }
