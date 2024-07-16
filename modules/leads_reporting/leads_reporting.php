@@ -11,6 +11,7 @@ Description: It shows reports of leads with filter
 Version: 1.0.0
 Requires at least: 1.0.*
 */
+register_language_files('leads_reporting', ['leads_reporting']);
 
 hooks()->add_action('app_admin_head', 'leadsReport_head_components');
 hooks()->add_action('app_admin_footer', 'leadsReport_footer_components');

@@ -184,7 +184,7 @@ $route['authentication/set_password/(:num)/(:num)/(:any)'] = 'admin/authenticati
 // For backward compatilibilty
 $route['survey/(:num)/(:any)'] = 'surveys/participate/index/$1/$2';
 
-$route['(:any)'] = 'admin/appointly/appointments_public/create_external_appointment_booking_page/$1';
+$route['(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';
 
 if (file_exists(APPPATH . 'config/my_routes.php')) {
     include_once(APPPATH . 'config/my_routes.php');
