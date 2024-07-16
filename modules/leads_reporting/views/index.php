@@ -238,21 +238,23 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($average_time_spent_per_prospect) && is_array($average_time_spent_per_prospect)) : ?>
+                                    <?php if (!empty($conversion_rate) && is_array($conversion_rate)) : ?>
                                        <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
                                                 <!-- <th><?php echo _l('avg_time'); ?></th> -->
-                                                <th>Average Time</th>
+                                                <th>Average Time(days)</th>
                                              </tr>
                                           </thead>
                                           <tbody>
-                                             <?php foreach ($average_time_spent_per_prospect as $source) : ?>
+                                             <?php foreach ($conversion_rate as $source) : ?>
+                                                <?php if(!is_null($source['avg_conversion_time']) && $source['avg_conversion_time']!=''){?>
                                                 <tr>
-                                                   <td><?php echo get_staff_full_name($source['assigned']); ?></td>
-                                                   <td><?php echo round($source['avg_time'], 2); ?></td>
+                                                   <td><?php echo $source['agent_name']; ?></td>
+                                                   <td><?php echo round($source['avg_conversion_time'], 2); ?></td>
                                                 </tr>
+                                                <?php } ?>
                                              <?php endforeach; ?>
                                           </tbody>
                                        </table>
