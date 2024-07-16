@@ -11,13 +11,13 @@ init_head(); ?>
                <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>">
                             <div class="col-md-12 no-padding">
                                 <div class="col-md-4">
-                                    <?php echo render_datetime_input('start_date', 'appointment_statistics_start_date', $start_date, [], [], '', 'appointment-date'); ?>
+                                    <?php echo render_datetime_input('start_date', 'leads_start_date', $start_date, [], [], '', 'appointment-date'); ?>
                                 </div>
                                 <div class="col-md-4 ">
-                                    <?php echo render_datetime_input('end_date', 'appointment_statistics_end_date', $end_date,[], [], '', 'appointment-date'); ?>
+                                    <?php echo render_datetime_input('end_date', 'leads_end_date', $end_date,[], [], '', 'appointment-date'); ?>
                                 </div>
                                 <div class="col-md-4 ">
-                                    <?php echo render_datetime_input('last_action_date', 'appointment_statistics_last_action_date', $last_action_date, [], [], '', 'appointment-date'); ?>
+                                    <?php echo render_datetime_input('last_action_date', 'leads_last_action_date', $last_action_date, [], [], '', 'appointment-date'); ?>
                                 </div>
                                 <div class="col-md-4 ">
                                     <?php if (isset($staff)) : ?>
@@ -44,8 +44,8 @@ init_head(); ?>
 
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary">Apply Filter</button>
-                                    <button type="submit" class="btn  btn-danger">Clear Filter</button>
+                                    <button type="submit" class="btn btn-primary"><?= _l('leads_apply_filter')?></button>
+                                    <button type="submit" class="btn  btn-danger"><?= _l('leads_clear_filter')?></button>
                                 </div>
                             </div>
                             <!-- <button type="submit" class="btn btn-outline-primary">Filter</button> -->
@@ -56,7 +56,7 @@ init_head(); ?>
                            <div class="panel_s">
                               <div class="panel-body
                                     tw-text-left">
-                                 <h5 class="no-margin tw-text-left tw-font-semibold font">Average Sale Cycle</h5>
+                                 <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('leads_avg_sale_cycle')?></h5>
                                  <h1 class="bold"><?= round($avg_sale_cycle, 2) ?></h1>
                                  <!-- <p class="no-margin">+23(+59.2%)<br>vs prior 30 days</p> -->
                               </div>
@@ -85,8 +85,8 @@ init_head(); ?>
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('conversion_rate'); ?></th> -->
-                                                <th>Conversion Rate</th>
+                                                <th><?php echo _l('leads_conversion_rate'); ?></th>
+                                                <!-- <th>Conversion Rate</th> -->
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -124,8 +124,8 @@ init_head(); ?>
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('conversion_rate'); ?></th> -->
-                                                <th>Attrition Rate</th>
+                                                <th><?php echo _l('leads_attrition_rate'); ?></th>
+                                                <!-- <th>Attrition Rate</th> -->
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -167,7 +167,7 @@ init_head(); ?>
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('lead_count'); ?></th> -->
+                                                <!-- <th><?php echo _l('leads_count_assigned'); ?></th> -->
                                                 <th>Leads Assigned</th>
                                              </tr>
                                           </thead>
@@ -206,7 +206,7 @@ init_head(); ?>
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('total_leads'); ?></th> -->
+                                                <!-- <th><?php echo _l('leads_total_leads_created'); ?></th> -->
                                                 <th>Leads Created</th>
                                              </tr>
                                           </thead>
@@ -249,8 +249,8 @@ init_head(); ?>
                                           <thead>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('avg_time'); ?></th> -->
-                                                <th>Average Time(days)</th>
+                                                <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                                <!-- <th>Average Time(days)</th> -->
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -324,15 +324,15 @@ init_head(); ?>
                            <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                               <thead>
                                  <tr>
-                                    <th><?php echo _l('agent_name'); ?></th>
+                                    <th><?php echo _l('leads_agent_name'); ?></th>
                                     <!-- <th><?php echo _l('source_name'); ?></th> -->
-                                    <th><?php echo _l('avg_conversion_time'); ?></th>
-                                    <th><?php echo _l('conversion_rate'); ?></th>
-                                    <th><?php echo _l('total_leads'); ?></th>
-                                    <th><?php echo _l('total_appointments'); ?></th>
-                                    <th><?php echo _l('appointments_missed'); ?></th>
-                                    <th><?php echo _l('quotes_sent'); ?></th>
-                                    <th><?php echo _l('quotes_signed'); ?></th>
+                                    <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                    <th><?php echo _l('leads_conversion_rate'); ?></th>
+                                    <th><?php echo _l('leads_total_count'); ?></th>
+                                    <th><?php echo _l('leads_total_appointments'); ?></th>
+                                    <th><?php echo _l('leads_missed_appointments'); ?></th>
+                                    <th><?php echo _l('leads_quotes_sent'); ?></th>
+                                    <th><?php echo _l('leads_quotes_signed'); ?></th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -368,14 +368,14 @@ init_head(); ?>
                            <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                               <thead>
                                  <tr>
-                                    <th><?php echo _l('source_name'); ?></th>
-                                    <th><?php echo _l('avg_conversion_time'); ?></th>
-                                    <th><?php echo _l('conversion_rate'); ?></th>
-                                    <th><?php echo _l('total_leads'); ?></th>
+                                    <th><?php echo _l('leads_source_name'); ?></th>
+                                    <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                    <th><?php echo _l('leads_conversion_rate'); ?></th>
+                                    <th><?php echo _l('leads_total_count'); ?></th>
                                     <!-- <th><?php echo _l('total_appointments'); ?></th> -->
                                     <!-- <th><?php echo _l('appointments_missed'); ?></th> -->
-                                    <th><?php echo _l('quotes_sent'); ?></th>
-                                    <th><?php echo _l('quotes_signed'); ?></th>
+                                    <th><?php echo _l('leads_quotes_sent'); ?></th>
+                                    <th><?php echo _l('leads_quotes_signed'); ?></th>
                                  </tr>
                               </thead>
                               <tbody>
