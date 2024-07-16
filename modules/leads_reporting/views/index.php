@@ -22,17 +22,23 @@ init_head(); ?>
                                 <div class="col-md-4 ">
                                     <?php if (isset($staff)) : ?>
                                         <div class="form-group">
-                                            <?php echo render_select('attendees[]', $staff, ['staffid', ['firstname', 'lastname']], 'appointment_select_attendees', $attendees, ['multiple' => true], [], '', '', false); ?>
+                                            <?php echo render_select('attendees[]', $staff, ['staffid', ['firstname', 'lastname']], 'leads_staff_dropdown', $attendees, ['multiple' => true], [], '', '', false); ?>
                                         </div>
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-md-4">
                                     <?php if (isset($statuses)) : ?>
                                         <div class="form-group">
-                                            <?php echo render_select('selected_statuses[]', $statuses, ['id', ['name']], 'appointment_by_booking_page', $selected_statuses, ['multiple' => true], [], '', '', false); ?>
+                                            <?php echo render_select('selected_statuses[]', $statuses, ['id', ['name']], 'leads_status_dropdown', $selected_statuses, ['multiple' => true], [], '', '', false); ?>
                                         </div>
                                     <?php endif; ?>
-
+                                </div> 
+                                <div class="col-md-4">
+                                    <?php if (isset($sources)) : ?>
+                                        <div class="form-group">
+                                            <?php echo render_select('selected_sources[]', $sources, ['id', ['name']], 'leads_source_dropdown', $selected_sources, ['multiple' => true], [], '', '', false); ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div> 
                             </div>
 

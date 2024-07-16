@@ -12,6 +12,7 @@ class LeadsReport extends AdminController
          $this->load->model('leads_report_model');
          $this->load->model('staff_model');
          $this->load->model('appointments_status_model');
+         $this->load->model('leads_model');
 
 
         $this->staff_no_view_permissions = !staff_can('view', 'leads_report');
@@ -42,7 +43,7 @@ class LeadsReport extends AdminController
         $attendees = $att; //implode(',',$att);
 
 
-        $data['leads'] = $this->leads_report_model->get_all_leads();//$start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
+        // $data['leads'] = $this->leads_report_model->get_all_leads();//$start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
         // $data['staff'] = $this->leads_report_model->get_all_staff();
         $data['leads_per_agent'] = $this->leads_report_model->get_leads_assigned_per_agent($start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
         $data['leads_created_per_agent'] = $this->leads_report_model->get_leads_created_per_agent($start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
@@ -51,10 +52,10 @@ class LeadsReport extends AdminController
         $data['average_time_spent_per_prospect'] = $this->leads_report_model->get_average_time_spent_per_prospect($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         // $data['follow_up_rate'] = $this->leads_report_model->get_follow_up_rate();
         // $data['appointments_set'] = $this->leads_report_model->get_appointments_set();
-        $data['prospect_attrition_rate'] = $this->leads_report_model->get_prospect_attrition_rate($start_date, $end_date);
+        // $data['prospect_attrition_rate'] = $this->leads_report_model->get_prospect_attrition_rate($start_date, $end_date);
         $data['average_value_of_won_prospects'] = $this->leads_report_model->get_average_value_of_won_prospects($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         $data['average_sales_cycle_length'] = $this->leads_report_model->calculate_average_sales_cycle();
-        $data['lead_source_effectiveness'] = $this->leads_report_model->get_lead_source_effectiveness($start_date, $end_date);
+        $data['lead_source_effectiveness'] = $this->leads_report_model->get_lead_source_effectiveness($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         $data['agent_effectiveness'] = $this->leads_report_model->get_agent_effectiveness_report($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         
         
@@ -62,8 +63,9 @@ class LeadsReport extends AdminController
         $data['start_date'] = $start_date;
         $data['end_date'] = $end_date;
         $data['last_action_date'] = $last_action_date;
-        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
-        $data['statuses'] = $this->appointments_status_model->get_all();
+        $data['staff'] =$this->staff_model->get('', ['active' => 1]);
+        $data['statuses'] = $this->leads_model->get_status();
+        $data['sources'] = $this->leads_model->get_source();
         $data['attendees'] =$attendees;
         $data['selected_statuses'] = $selected_statuses;
         $data['selected_sources'] = $selected_sources;

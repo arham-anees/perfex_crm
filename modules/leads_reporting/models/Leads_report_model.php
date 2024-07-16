@@ -16,30 +16,30 @@ class Leads_Report_model extends App_Model
         $this->db->select('*');
         $this->db->from(db_prefix() . 'leads');
          // Apply date range filters if provided
-    if (!is_null($startDate) && !is_null($endDate)) {
-        $this->db->where('dateAdded >=', $startDate);
-        $this->db->where('dateAdded <=', $endDate);
-    }
-    
-    // Apply last_action filter if provided
-    if (!is_null($last_action)) {
-        $this->db->where('lastContact', $last_action);
-    }
-    
-    // Apply source filter if provided and not empty
-    if (!empty($source)) {
-        $this->db->where_in('source', $source);
-    }
+        if (!is_null($startDate) && !is_null($endDate)) {
+            $this->db->where('DATE(dateAdded) >= DATE(', $startDate .')');
+            $this->db->where('DATE(dateAdded) <= DATE(', $endDate.')');
+        }
+        
+        // Apply last_action filter if provided
+        if (!is_null($last_action)) {
+            $this->db->where('DATE(lastContact)', 'DATE(' . $last_action . ')');
+        }
+        
+        // Apply source filter if provided and not empty
+        if (!empty($source)) {
+            $this->db->where_in('source', $source);
+        }
 
-    // Apply status filter if provided and not empty
-    if (!empty($status)) {
-        $this->db->where_in('status', $status);
-    }
-    
-    // Apply staff filter if provided and not empty
-    if (!empty($staff)) {
-        $this->db->where_in('assigned', $staff);
-    }
+        // Apply status filter if provided and not empty
+        if (!empty($status)) {
+            $this->db->where_in('status', $status);
+        }
+        
+        // Apply staff filter if provided and not empty
+        if (!empty($staff)) {
+            $this->db->where_in('assigned', $staff);
+        }
         $query = $this->db->get();
 
         return $query->result_array();
@@ -63,13 +63,13 @@ class Leads_Report_model extends App_Model
 
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $sql .= " AND DATE(l.dateAdded) >= '" . $this->db->escape_str($startDate) . "'";
-            $sql .= " AND DATE(l.dateAdded) <= '" . $this->db->escape_str($endDate) . "'";
+            $sql .= " AND DATE(l.dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+            $sql .= " AND DATE(l.dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
         }
 
         // Apply last_action filter if provided
         if (!is_null($last_action) && $last_action!='') {
-            $sql .= " AND DATE(l.lastContact) = '" . $this->db->escape_str($last_action) . "'";
+            $sql .= " AND DATE(l.lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
         }
 
         // Apply source filter if provided and not empty
@@ -107,12 +107,12 @@ class Leads_Report_model extends App_Model
 
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $sql .= " AND DATE(l.dateAdded) >= '" . $this->db->escape_str($startDate) . "'";
-            $sql .= " AND DATE(l.dateAdded) <= '" . $this->db->escape_str($endDate) . "'";
+            $sql .= " AND DATE(l.dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+            $sql .= " AND DATE(l.dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
         }
         // Apply last_action filter if provided
         if (!is_null($last_action) && $last_action!='') {
-            $sql .= " AND DATE(l.lastContact) = '" . $this->db->escape_str($last_action) . "'";
+            $sql .= " AND DATE(l.lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
         }
         // Apply source filter if provided and not empty
         if (!empty($source)) {
@@ -203,13 +203,13 @@ class Leads_Report_model extends App_Model
 
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $sql .= " AND DATE(l.dateadded) >= '" . $this->db->escape_str($startDate) . "'";
-            $sql .= " AND DATE(l.dateadded) <= '" . $this->db->escape_str($endDate) . "'";
+            $sql .= " AND DATE(l.dateadded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+            $sql .= " AND DATE(l.dateadded) <= DATE('" . $this->db->escape_str($endDate) . "')";
         }
 
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-            $sql .= " AND l.lastcontact = '" . $this->db->escape_str($last_action) . "'";
+            $sql .= " AND l.lastcontact = DATE('" . $this->db->escape_str($last_action) . "')";
         }
 
         // Apply source filter if provided and not empty
@@ -326,13 +326,13 @@ $query = $this->db->query($sql);
     
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $sql .= " AND DATE(dateassigned) >= '" . $this->db->escape_str($startDate) . "'";
-            $sql .= " AND DATE(dateassigned) <= '" . $this->db->escape_str($endDate) . "'";
+            $sql .= " AND DATE(dateassigned) >= DATE('" . $this->db->escape_str($startDate) . "')";
+            $sql .= " AND DATE(dateassigned) <= DATE('" . $this->db->escape_str($endDate) . "')";
         }
     
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-                $sql .= " AND last_action = '" . $this->db->escape_str($last_action) . "'";
+                $sql .= " AND lastcontact = DATE('" . $this->db->escape_str($last_action) . "')";
         }
     
         // Apply source filter if provided and not empty
@@ -495,12 +495,12 @@ $query = $this->db->query($sql);
 
         // Apply date range filter if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $this->db->where("DATE(l.dateadded) BETWEEN '" . $this->db->escape_str($startDate) . "' AND '" . $this->db->escape_str($endDate) . "'");
+            $this->db->where("DATE(l.dateadded) BETWEEN DATE('" . $this->db->escape_str($startDate) . "') AND DATE('" . $this->db->escape_str($endDate) . "')");
          }
 
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-            $this->db->where('l.last_action', $last_action);
+            $this->db->where('DATE(l.lastcontact)', 'DATE('.$last_action.')');
         }
 
         // Apply status filter if provided and not empty
@@ -511,6 +511,10 @@ $query = $this->db->query($sql);
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
             $this->db->where_in('l.assigned', $staff);
+        }
+        // Apply staff filter if provided and not empty
+        if (!empty($source)) {
+            $this->db->where_in('l.source', $source);
         }
 
 
@@ -571,12 +575,12 @@ $query = $this->db->query($sql);
 
         // Apply date range filter if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $this->db->where("DATE(l.dateadded) BETWEEN '" . $this->db->escape_str($startDate) . "' AND '" . $this->db->escape_str($endDate) . "'");
+            $this->db->where("DATE(l.dateadded) BETWEEN DATE('" . $this->db->escape_str($startDate) . "') AND DATE('" . $this->db->escape_str($endDate) . "')");
         }
 
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-            $this->db->where('l.last_action', $last_action);
+            $this->db->where('DATE(l.lastcontact)', 'DATE('.$last_action.')');
         }
 
         // Apply status filter if provided and not empty
