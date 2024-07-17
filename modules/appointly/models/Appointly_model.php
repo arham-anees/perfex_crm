@@ -393,6 +393,7 @@ class Appointly_model extends App_Model
 
         $this->db->insert(db_prefix() . 'appointly_appointments', $data);
         $appointment_id = $this->db->insert_id();
+        $data['id'] = $appointment_id;
 
         if (isset($custom_fields)) handle_custom_fields_post($appointment_id, $custom_fields);
 
@@ -436,7 +437,7 @@ class Appointly_model extends App_Model
 
         hooks()->do_action('send_sms_after_external_appointment_submitted', $appointment_link);
 
-        return true;
+        return $data;
     }
 
     /**

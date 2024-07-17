@@ -47,6 +47,7 @@ class Appointments_public extends ClientsController
 
         // Unserialize the decoded string to get the original data
         $data['appointment'] = unserialize($decodedData);
+        $data['hashes'] = $data['appointment']['hashes'];
 
         log_message('error',$decodedData);
 
@@ -195,15 +196,13 @@ class Appointments_public extends ClientsController
             // for each on dates
             unset($data['date']);
             unset($data['dates']);
-
+            
+            $create_appiontments=[];
+            
             foreach ($dates as $date) {
                 $data['date'] = $date;
-                if (!$this->apm->insert_external_appointment_booking_page($data, $booking_page)) {
-                    echo json_encode([
-                        'success' => false,
-                        'message' => _l('appointment_failed_create_all')
-                    ]);
-                }
+                $create_appiontments[] = $this->apm->insert_external_appointment_booking_page($data, $booking_page);
+                   
             }
             if($booking_page['appointly_responsible_person']>0){
                 
@@ -215,12 +214,15 @@ class Appointments_public extends ClientsController
                 }
             }
             $data['dates'] = $dates;
+            foreach($create_appiontments as $appointment){
+                $data['hashes'][]=['date'=>$appointment['date'], 'hash'=>$appointment['hash']];
+            }
             $serializedObject = serialize($data);
 
-// Encode the serialized string to Base64
-$encodedData = base64_encode($serializedObject);
+            // Encode the serialized string to Base64
+            $encodedData = base64_encode($serializedObject);
             // Hash the serialized string
-        //$hashString = hash('sha256', $serializedObject);
+            //$hashString = hash('sha256', $serializedObject);
             echo json_encode([
                 'success' => true,
                 'message' => _l('appointment_sent_successfully'),

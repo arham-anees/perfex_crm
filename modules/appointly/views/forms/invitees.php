@@ -60,6 +60,9 @@
                 <div><i class="fas fa-calendar-alt"></i><?php echo $date; ?></div>
             <?php endforeach; ?>
             <!-- <div><i class="fas fa-globe"></i><?php echo $timezone; ?></div> -->
+            <?php foreach ($hashes as $hash): ?>
+                <a href="<?= site_url('/appointly/appointments_public/client_hash?hash='. $hash['hash'])?>" >Visit Appointment</a>
+            <?php endforeach; ?>
         </div>
     </div>
 </body>
