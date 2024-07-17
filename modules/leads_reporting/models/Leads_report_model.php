@@ -17,12 +17,12 @@ class Leads_Report_model extends App_Model
         $this->db->from(db_prefix() . 'leads');
          // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
-            $this->db->where('DATE(dateAdded) >= DATE(', $startDate .')');
-            $this->db->where('DATE(dateAdded) <= DATE(', $endDate.')');
+            $this->db->where('DATE(dateAdded) >= DATE('. $startDate .')');
+            $this->db->where('DATE(dateAdded) <= DATE('. $endDate.')');
         }
         
         // Apply last_action filter if provided
-        if (!is_null($last_action)) {
+        if (!is_null($last_action) && $last_action != '') {
             $this->db->where('DATE(lastContact)', 'DATE(' . $last_action . ')');
         }
         
@@ -58,7 +58,7 @@ class Leads_Report_model extends App_Model
     {
         $sql = "SELECT COUNT(l.id) as lead_count, l.assigned as agent_id, s.firstname as agent
         FROM `tblleads` l
-        INNER JOIN `tblstaff` s ON l.assigned = s.staffid
+        LEFT JOIN `tblstaff` s ON l.assigned = s.staffid
         WHERE 1=1";
 
         // Apply date range filters if provided
@@ -74,19 +74,22 @@ class Leads_Report_model extends App_Model
 
         // Apply source filter if provided and not empty
         if (!empty($source)) {
-            $source_ids = implode(",", array_map([$this->db, 'escape_str'], $source));
+            
+            $source_ids = implode(",",  $source);
             $sql .= " AND l.source IN (" . $source_ids . ")";
         }
 
         // Apply status filter if provided and not empty
         if (!empty($status)) {
-            $status_ids = implode(",", array_map([$this->db, 'escape_str'], $status));
+            $status_ids = implode(",",  $status);
             $sql .= " AND l.status IN (" . $status_ids . ")";
         }
 
         // Apply staff filter if provided and not empty
+        log_message('error', 'staff');
         if (!empty($staff)) {
-            $staff_ids = implode(",", array_map([$this->db, 'escape_str'], $staff));
+            $staff_ids = implode(",",  $staff);
+            log_message('error', 'staff id'. $staff_ids);
             $sql .= " AND l.assigned IN (" . $staff_ids . ")";
         }
 
@@ -102,7 +105,7 @@ class Leads_Report_model extends App_Model
     {
         $sql = "SELECT COUNT(l.id) as lead_count, l.addedfrom as agent_id, s.firstname as agent
         FROM `tblleads` l
-        INNER JOIN `tblstaff` s ON l.assigned = s.staffid
+        LEFT JOIN `tblstaff` s ON l.assigned = s.staffid
         WHERE 1=1";
 
         // Apply date range filters if provided
@@ -116,12 +119,12 @@ class Leads_Report_model extends App_Model
         }
         // Apply source filter if provided and not empty
         if (!empty($source)) {
-            $source_ids = implode(",", array_map([$this->db, 'escape_str'], $source));
+            $source_ids = implode(",",  $source);
             $sql .= " AND l.source IN (" . $source_ids . ")";
         }
         // Apply status filter if provided and not empty
         if (!empty($status)) {
-            $status_ids = implode(",", array_map([$this->db, 'escape_str'], $status));
+            $status_ids = implode(",", $status);
             $sql .= " AND l.status IN (" . $status_ids . ")";
         }
         // Apply staff filter if provided and not empty
@@ -141,7 +144,7 @@ class Leads_Report_model extends App_Model
         $query = $this->db->query("SELECT COUNT(l.id) as lead_count, 
                                         s.firstname as agent
                                     FROM `tblstaff` s
-                                    INNER JOIN tblleads l
+                                    LEFT JOIN tblleads l
                                     ON s.staffid = l.assigned
                                     GROUP BY s.staffid
        ");
@@ -214,19 +217,19 @@ class Leads_Report_model extends App_Model
 
         // Apply source filter if provided and not empty
         if (!empty($source)) {
-            $source_ids = implode(",", array_map([$this->db, 'escape_str'], $source));
+            $source_ids = implode(",",  $source);
             $sql .= " AND l.source IN (" . $source_ids . ")";
         }
 
         // Apply status filter if provided and not empty
         if (!empty($status)) {
-            $status_ids = implode(",", array_map([$this->db, 'escape_str'], $status));
+            $status_ids = implode(",",  $status);
             $sql .= " AND l.status IN (" . $status_ids . ")";
         }
 
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
-            $staff_ids = implode(",", array_map([$this->db, 'escape_str'], $staff));
+            $staff_ids = implode(",", $staff);
             $sql .= " AND l.assigned IN (" . $staff_ids . ")";
         }
 
@@ -337,19 +340,19 @@ $query = $this->db->query($sql);
     
         // Apply source filter if provided and not empty
         if (!empty($source)) {
-            $source_ids = implode(",", array_map([$this->db, 'escape_str'], $source));
+            $source_ids = implode(",", $source);
             $sql .= " AND source IN (" . $source_ids . ")";
         }
     
         // Apply status filter if provided and not empty
         if (!empty($status)) {
-            $status_ids = implode(",", array_map([$this->db, 'escape_str'], $status));
+            $status_ids = implode(",",  $status);
             $sql .= " AND status IN (" . $status_ids . ")";
         }
     
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
-            $staff_ids = implode(",", array_map([$this->db, 'escape_str'], $staff));
+            $staff_ids = implode(",",  $staff);
             $sql .= " AND assigned IN (" . $staff_ids . ")";
         }
     
@@ -425,19 +428,19 @@ $query = $this->db->query($sql);
 
         // Apply source filter if provided and not empty
         if (!empty($source)) {
-            $source_ids = implode(",", array_map([$this->db, 'escape_str'], $source));
+            $source_ids = implode(",",  $source);
             $sql .= " AND l.source IN (" . $source_ids . ")";
         }
 
         // Apply status filter if provided and not empty
         if (!empty($status)) {
-            $status_ids = implode(",", array_map([$this->db, 'escape_str'], $status));
+            $status_ids = implode(",", $status);
             $sql .= " AND l.status IN (" . $status_ids . ")";
         }
 
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
-            $staff_ids = implode(",", array_map([$this->db, 'escape_str'], $staff));
+            $staff_ids = implode(",",  $staff);
             $sql .= " AND l.assigned IN (" . $staff_ids . ")";
         }
 
@@ -451,11 +454,35 @@ $query = $this->db->query($sql);
     }
 
     // Average Sales Cycle
-    public function calculate_average_sales_cycle()
+    public function calculate_average_sales_cycle($startDate = null, $endDate = null,$last_action = null, $source = [], $status = [], $staff = []) 
     {
         $this->db->select('AVG(TIMESTAMPDIFF(HOUR, dateadded, date_converted)) as avg_sales_cycle');
+        $this->db->from(db_prefix() . 'leads');
+        if (!is_null($startDate) && !is_null($endDate)) {
+            $this->db->where('DATE(dateAdded) >= ', $startDate);
+            $this->db->where('DATE(dateAdded) <= ', $endDate);
+        }
+        
+        // Apply last_action filter if provided
+        if (!is_null($last_action) && $last_action != '') {
+            $this->db->where('DATE(lastContact)', 'DATE(' . $last_action . ')');
+        }
+        
+        // Apply source filter if provided and not empty
+        if (!empty($source)) {
+            $this->db->where_in('source', $source);
+        }
 
-        $query = $this->db->get(db_prefix() . 'leads');
+        // Apply status filter if provided and not empty
+        if (!empty($status)) {
+            $this->db->where_in('status', $status);
+        }
+        
+        // Apply staff filter if provided and not empty
+        if (!empty($staff)) {
+            $this->db->where_in('assigned', $staff);
+        }
+        $query = $this->db->get();
 
         // Check if there are results
         if ($query->num_rows() > 0) {
@@ -549,7 +576,7 @@ $query = $this->db->query($sql);
 
         // From clause for the query
         $this->db->from('tblstaff s');
-        $this->db->join('tblleads l', 's.staffid = l.assigned', 'inner');
+        $this->db->join('tblleads l', 's.staffid = l.assigned', 'left');
 
         // Left join for appointments
         $this->db->join("
