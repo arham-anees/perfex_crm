@@ -36,7 +36,8 @@ class Appointments extends AdminController
     {
         // Fetch data from the database or model
         $data['td_appointments'] = $this->apm->fetch_lead_appointments($lead_id);
-        
+        $booking_pages=$this->booking_page_model->get_all();
+        $data['booking_pages'] =$booking_pages;
         // Load the view content into a variable
         $view_content = $this->load->view('appointly/lead_profile_content', $data, TRUE);
 

@@ -3,7 +3,7 @@
                 <div class="">
                     <div class="">
                         <div class="">
-                            <!-- <span class="label label-info label-big pull-right mtop5"><?= _d(date('Y-m-d')); ?></span> -->
+                        <button type="button" class="btn btn-info">Book an appointment</button>
                             <h4><?= _l('appointment_lead_tab'); ?>
                             </h4>
                             <hr class="mbot0">
@@ -41,3 +41,44 @@
                 </div>
             </div>
         <?php endif; ?>
+
+        <?php if (!empty($booking_pages)) : ?>
+                            <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo _l('appointment_name'); ?></th>
+                                        <th><?php echo _l('appointment_url'); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                            <td><?= _l('booking_page_default_form') ?></td>
+                                            <td><a href="<?php echo site_url('appointly/appointments_public/form'); ?>" target="_blank">appointly/appointments_public/form</a></td>
+                                    </tr>
+                                    <?php foreach ($booking_pages as $page) : ?>
+                                        <tr>
+                                            <td><?php echo $page['name']; ?></td>
+                                            <td><a href="<?php echo site_url($page['url']); ?>" target="_blank"><?php echo ($page['url']); ?></a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <?php render_datatable([
+                                _l('id'),
+                                [
+                                    'th_attrs' => ['width' => '300px'],
+                                    'name'     => _l('appointment_subject')
+                                ],
+                                _l('appointment_meeting_date'),
+                                _l('appointment_initiated_by'),
+                                _l('appointment_description'),
+                                _l('appointment_status'),
+                                _l('appointment_source'),
+                                [
+                                    'th_attrs' => ['width' => '120px'],
+                                    'name'     => _l('appointments_table_calendar')
+                                ]
+                            ], 'appointments'); ?>
+                        <?php else : ?>
+                            <p><?php echo _l('No booking pages found.'); ?></p>
+                        <?php endif; ?>
