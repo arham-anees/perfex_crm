@@ -186,23 +186,23 @@ class Leads_Report_model extends App_Model
     }
 
     // Conversion Rate of Prospects to Customers
-    public function get_conversion_rate($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
+    public function get_attrition_rate($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
     {
         $sql = "SELECT
-            s.staffid AS agent_id,
-            CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
-            COUNT(DISTINCT l.id) AS total_prospects,
-            SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) AS total_customers,
-            CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS conversion_rate,
-            AVG(TIMESTAMPDIFF(DAY, l.dateadded, c.datecreated)) AS avg_conversion_time
-        FROM
-            tblstaff s
-        LEFT JOIN
-            tblleads l ON s.staffid = l.assigned
-        LEFT JOIN
-            tblclients c ON l.id = c.leadid
-        WHERE
-            1=1 ";
+    s.staffid AS agent_id,
+    CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
+    COUNT(DISTINCT l.id) AS total_prospects,
+    SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) AS total_customers,
+    CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS conversion_rate,
+    SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) AS attrited_prospects,
+    CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS attrition_rate
+FROM
+    tblstaff s
+LEFT JOIN
+    tblleads l ON s.staffid = l.assigned
+LEFT JOIN
+    tblclients c ON l.id = c.leadid
+WHERE 1=1 ";
 
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
@@ -236,7 +236,7 @@ class Leads_Report_model extends App_Model
         $sql .= " GROUP BY
                     s.staffid, CONCAT(s.firstname, ' ', s.lastname)
                 ORDER BY
-                    conversion_rate DESC;";
+                    attrition_rate DESC;";
 
 
 
@@ -613,6 +613,11 @@ $query = $this->db->query($sql);
         // Apply status filter if provided and not empty
         if (!empty($status)) {
             $this->db->where_in('l.status', $status);
+        }
+         
+        // Apply status filter if provided and not empty
+        if (!empty($source)) {
+            $this->db->where_in('l.source', $source);
         }
 
         // Apply staff filter if provided and not empty

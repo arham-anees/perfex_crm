@@ -80,7 +80,6 @@ init_head(); ?>
                                     <div class="clearfix"></div> -->
                                     <!-- <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($conversion_rate) && is_array($conversion_rate)) : ?>
                                        <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                                           <thead>
                                              <tr>
@@ -90,7 +89,8 @@ init_head(); ?>
                                              </tr>
                                           </thead>
                                           <tbody>
-                                             <?php foreach ($conversion_rate as $source) : ?>
+                                          <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) { ?>
+                                             <?php foreach ($agent_effectiveness as $source) : ?>
                                                 <?php    if($source['conversion_rate']>0) {?>
                                                 <tr>
                                                    <td><?php echo $source['agent_name']; ?></td>
@@ -98,11 +98,9 @@ init_head(); ?>
                                                 </tr>
                                                 <?php }?>
                                              <?php endforeach; ?>
+                                             <?php }?>
                                           </tbody>
-                                       </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
+                                       </table>                                   
                                  </div>
                               </div>
                            </div>
@@ -119,7 +117,6 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($conversion_rate) && is_array($conversion_rate)) : ?>
                                        <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                                           <thead>
                                              <tr>
@@ -129,17 +126,18 @@ init_head(); ?>
                                              </tr>
                                           </thead>
                                           <tbody>
-                                             <?php foreach ($conversion_rate as $source) : ?>
+                                          <?php if (!empty($attrition_rate) && is_array($attrition_rate)) {?>
+                                             <?php foreach ($attrition_rate as $source) : ?>
+                                                <?php    if($source['attrition_rate']>0) {?>
                                                 <tr>
                                                    <td><?php echo $source['agent_name']; ?></td>
-                                                   <td><?php echo is_null($source['conversion_rate']) ? '-' : round(100 - $source['conversion_rate'], 2) . '%'; ?></td>
+                                                   <td><?php echo is_null($source['attrition_rate']) ? '-' : round($source['attrition_rate'], 2) . '%'; ?></td>
                                                 </tr>
+                                                <?php }?>
                                              <?php endforeach; ?>
+                                             <?php }?>
                                           </tbody>
-                                       </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
+                                       </table> 
                                  </div>
                               </div>
                            </div>
@@ -162,27 +160,25 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($leads_per_agent) && is_array($leads_per_agent)) : ?>
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('leads_count_assigned'); ?></th> -->
-                                                <th>Leads Assigned</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
+                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                                       <thead>
+                                          <tr>
+                                             <th><?php echo _l('custom_field_staff'); ?></th>
+                                             <!-- <th><?php echo _l('leads_count_assigned'); ?></th> -->
+                                             <th>Leads Assigned</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                             <?php if (!empty($leads_per_agent) && is_array($leads_per_agent)) { ?>
                                              <?php foreach ($leads_per_agent as $source) : ?>
                                                 <tr>
                                                    <td><?php echo $source['agent']; ?></td>
                                                    <td><?php echo $source['lead_count']; ?></td>
                                                 </tr>
-                                             <?php endforeach; ?>
+                                             <?php endforeach; ?> 
+                                             <?php }?>
                                           </tbody>
                                        </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
                                  </div>
                               </div>
                            </div>
@@ -201,27 +197,26 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($leads_created_per_agent) && is_array($leads_created_per_agent)) : ?>
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <!-- <th><?php echo _l('leads_total_leads_created'); ?></th> -->
-                                                <th>Leads Created</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
+                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                                       <thead>
+                                          <tr>
+                                             <th><?php echo _l('custom_field_staff'); ?></th>
+                                             <!-- <th><?php echo _l('leads_total_leads_created'); ?></th> -->
+                                             <th>Leads Created</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                             <?php if (!empty($leads_created_per_agent) && is_array($leads_created_per_agent)) { ?>
                                              <?php foreach ($leads_created_per_agent as $source) : ?>
                                                 <tr>
                                                    <td><?php echo $source['agent']; ?></td>
                                                    <td><?php echo $source['lead_count']; ?></td>
                                                 </tr>
                                              <?php endforeach; ?>
+
+                                             <?php }?>
                                           </tbody>
                                        </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
                                  </div>
                               </div>
                            </div>
@@ -244,17 +239,17 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($conversion_rate) && is_array($conversion_rate)) : ?>
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <th><?php echo _l('leads_avg_convertion_time'); ?></th>
-                                                <!-- <th>Average Time(days)</th> -->
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <?php foreach ($conversion_rate as $source) : ?>
+                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                                       <thead>
+                                          <tr>
+                                             <th><?php echo _l('custom_field_staff'); ?></th>
+                                             <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                             <!-- <th>Average Time(days)</th> -->
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                             <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) { ?>
+                                             <?php foreach ($agent_effectiveness as $source) : ?>
                                                 <?php if(!is_null($source['avg_conversion_time']) && $source['avg_conversion_time']!=''){?>
                                                 <tr>
                                                    <td><?php echo $source['agent_name']; ?></td>
@@ -262,11 +257,9 @@ init_head(); ?>
                                                 </tr>
                                                 <?php } ?>
                                              <?php endforeach; ?>
+                                             <?php }?>
                                           </tbody>
                                        </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
                                  </div>
                               </div>
                            </div>
@@ -286,26 +279,25 @@ init_head(); ?>
                                     <div class="clearfix"></div>
                                     <hr class="hr-panel-heading" /> -->
 
-                                    <?php if (!empty($average_value_of_won_prospects) && is_array($average_value_of_won_prospects)) : ?>
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <th><?php echo _l('leads_dt_lead_value'); ?></th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
+                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                                       <thead>
+                                          <tr>
+                                             <th><?php echo _l('custom_field_staff'); ?></th>
+                                             <th><?php echo _l('leads_dt_lead_value'); ?></th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                             <?php if (!empty($average_value_of_won_prospects) && is_array($average_value_of_won_prospects)) { ?>
                                              <?php foreach ($average_value_of_won_prospects as $source) : ?>
                                                 <tr>
                                                    <td><?php echo $source['agent_name']; ?></td>
                                                    <td><?php echo round($source['average_value_won'], 2) . ' $'; ?></td>
                                                 </tr>
                                              <?php endforeach; ?>
+
+                                             <?php }?>
                                           </tbody>
                                        </table>
-                                    <?php else : ?>
-                                       <p>No data available</p>
-                                    <?php endif; ?>
                                  </div>
                               </div>
                            </div>
@@ -320,22 +312,22 @@ init_head(); ?>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                        <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) : ?>
-                           <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                              <thead>
-                                 <tr>
-                                    <th><?php echo _l('leads_agent_name'); ?></th>
-                                    <!-- <th><?php echo _l('source_name'); ?></th> -->
-                                    <th><?php echo _l('leads_avg_convertion_time'); ?></th>
-                                    <th><?php echo _l('leads_conversion_rate'); ?></th>
-                                    <th><?php echo _l('leads_total_count'); ?></th>
-                                    <th><?php echo _l('leads_total_appointments'); ?></th>
-                                    <th><?php echo _l('leads_missed_appointments'); ?></th>
-                                    <th><?php echo _l('leads_quotes_sent'); ?></th>
-                                    <th><?php echo _l('leads_quotes_signed'); ?></th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+                        <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                           <thead>
+                              <tr>
+                                 <th><?php echo _l('leads_agent_name'); ?></th>
+                                 <!-- <th><?php echo _l('source_name'); ?></th> -->
+                                 <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                 <th><?php echo _l('leads_conversion_rate'); ?></th>
+                                 <th><?php echo _l('leads_total_count'); ?></th>
+                                 <th><?php echo _l('leads_total_appointments'); ?></th>
+                                 <th><?php echo _l('leads_missed_appointments'); ?></th>
+                                 <th><?php echo _l('leads_quotes_sent'); ?></th>
+                                 <th><?php echo _l('leads_quotes_signed'); ?></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                                 <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) { ?>
                                  <?php foreach ($agent_effectiveness as $source) : ?>
                                     <tr>
                                        <td><?php echo $source['agent_name']; ?></td>
@@ -349,11 +341,9 @@ init_head(); ?>
                                        <td><?php echo is_null($source['quotes_signed']) ? '-' : $source['quotes_signed']; ?></td>
                                     </tr>
                                  <?php endforeach; ?>
+                                 <?php }?>
                               </tbody>
                            </table>
-                        <?php else : ?>
-                           <p>No data available</p>
-                        <?php endif; ?>
                      </div>
 
 
@@ -363,22 +353,22 @@ init_head(); ?>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                        <?php if (!empty($lead_source_effectiveness) && is_array($lead_source_effectiveness)) : ?>
-
-                           <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                              <thead>
-                                 <tr>
-                                    <th><?php echo _l('leads_source_name'); ?></th>
-                                    <th><?php echo _l('leads_avg_convertion_time'); ?></th>
-                                    <th><?php echo _l('leads_conversion_rate'); ?></th>
-                                    <th><?php echo _l('leads_total_count'); ?></th>
-                                    <!-- <th><?php echo _l('total_appointments'); ?></th> -->
-                                    <!-- <th><?php echo _l('appointments_missed'); ?></th> -->
-                                    <th><?php echo _l('leads_quotes_sent'); ?></th>
-                                    <th><?php echo _l('leads_quotes_signed'); ?></th>
-                                 </tr>
-                              </thead>
-                              <tbody>
+                        
+                        <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
+                           <thead>
+                              <tr>
+                                 <th><?php echo _l('leads_source_name'); ?></th>
+                                 <th><?php echo _l('leads_avg_convertion_time'); ?></th>
+                                 <th><?php echo _l('leads_conversion_rate'); ?></th>
+                                 <th><?php echo _l('leads_total_count'); ?></th>
+                                 <!-- <th><?php echo _l('total_appointments'); ?></th> -->
+                                 <!-- <th><?php echo _l('appointments_missed'); ?></th> -->
+                                 <th><?php echo _l('leads_quotes_sent'); ?></th>
+                                 <th><?php echo _l('leads_quotes_signed'); ?></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                                 <?php if (!empty($lead_source_effectiveness) && is_array($lead_source_effectiveness)) { ?>
                                  <?php foreach ($lead_source_effectiveness as $source) : ?>
                                     <tr>
                                        <td><?php echo $source['source_name']; ?></td>
@@ -391,11 +381,10 @@ init_head(); ?>
                                        <td><?php echo is_null($source['quotes_signed']) ? '-' : $source['quotes_signed']; ?></td>
                                     </tr>
                                  <?php endforeach; ?>
+
+                                 <?php }?>
                               </tbody>
                            </table>
-                        <?php else : ?>
-                           <p>No data available</p>
-                        <?php endif; ?>
                      </div>
                   </div>
 

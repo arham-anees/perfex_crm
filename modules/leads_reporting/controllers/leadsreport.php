@@ -47,38 +47,26 @@ class LeadsReport extends AdminController
             }
         }
 
-log_message('error', '1');
         // $data['leads'] = $this->leads_report_model->get_all_leads();//$start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
         // $data['staff'] = $this->leads_report_model->get_all_staff();
         $data['leads_per_agent'] = $this->leads_report_model->get_leads_assigned_per_agent($start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
         
-log_message('error', '2');
-$data['leads_created_per_agent'] = $this->leads_report_model->get_leads_created_per_agent($start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
+        $data['leads_created_per_agent'] = $this->leads_report_model->get_leads_created_per_agent($start_date, $end_date, $last_action_date, $selected_sources, $attendees, $selected_statuses);
         // $data['leads_created_per_agent'] = $this->leads_report_model->get_leads_created_per_agent();
 
-        log_message('error', '3');
-                $data['conversion_rate'] = $this->leads_report_model->get_conversion_rate($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
+        $data['attrition_rate'] = $this->leads_report_model->get_attrition_rate($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         
-log_message('error', '4');
-$data['average_time_spent_per_prospect'] = $this->leads_report_model->get_average_time_spent_per_prospect($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
+        $data['average_time_spent_per_prospect'] = $this->leads_report_model->get_average_time_spent_per_prospect($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         // $data['follow_up_rate'] = $this->leads_report_model->get_follow_up_rate();
         // $data['appointments_set'] = $this->leads_report_model->get_appointments_set();
         // $data['prospect_attrition_rate'] = $this->leads_report_model->get_prospect_attrition_rate($start_date, $end_date);
 
-        log_message('error', '5');
-                $data['average_value_of_won_prospects'] = $this->leads_report_model->get_average_value_of_won_prospects($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
-        
-log_message('error', '6');
-$data['average_sales_cycle_length'] = $this->leads_report_model->calculate_average_sales_cycle($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
-
-log_message('error', '7');
+        $data['average_value_of_won_prospects'] = $this->leads_report_model->get_average_value_of_won_prospects($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
+        $data['average_sales_cycle_length'] = $this->leads_report_model->calculate_average_sales_cycle($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         $data['lead_source_effectiveness'] = $this->leads_report_model->get_lead_source_effectiveness($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
-
-        log_message('error', '8');
-                $data['agent_effectiveness'] = $this->leads_report_model->get_agent_effectiveness_report($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
+        $data['agent_effectiveness'] = $this->leads_report_model->get_agent_effectiveness_report($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         
-        
-log_message('error', '9');
+    
 
         foreach ($attendees as &$id) {
             if ($id == 0) {
