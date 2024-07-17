@@ -8,7 +8,7 @@ init_head(); ?>
          <div class="col-md-12">
             <div class="panel_s">
                <div class="panel-body">
-               <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>">
+               <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>" id="filter-form">
                             <div class="col-md-12 no-padding">
                                 <div class="col-md-4">
                                     <?php echo render_datetime_input('start_date', 'leads_start_date', $start_date, [], [], '', 'appointment-date'); ?>
@@ -45,7 +45,7 @@ init_head(); ?>
                             <div class="row">
                                 <div class="col-md-12 text-right">
                                     <button type="submit" class="btn btn-primary"><?= _l('leads_apply_filter')?></button>
-                                    <button type="submit" class="btn  btn-danger"><?= _l('leads_clear_filter')?></button>
+                                    <button type="button" class="btn  btn-danger" id="clearButton"><?= _l('leads_clear_filter')?></button>
                                 </div>
                             </div>
                             <!-- <button type="submit" class="btn btn-outline-primary">Filter</button> -->
@@ -396,6 +396,12 @@ init_head(); ?>
 </div>
 </div>
 <?php init_tail(); ?>
+<script>
+           document.getElementById('clearButton').addEventListener('click', function() {
+            document.getElementById('filter-form').reset();
+            document.getElementById('filter-form').submit();
+        });
+    </script>
 </body>
 
 </html>
