@@ -51,13 +51,11 @@ if (!function_exists('get_appointment_types')) {
                             <hr>
                             <h3><?= $booking_page['name'] ?></h3>
                             <?php if(isset($booking_page['duration_minutes'])) {?><p style="color:#a1a1a1"><i class="far fa-clock" style="color: #a1a1a1;"></i><?= $booking_page['duration_minutes'] ?> min</p><?php } ?>
-                            <p style="color:#a1a1a1"> Allowed Appointments : <span style="color: #000;"><?= $booking_page['simultaneous_appointments'] ?></span></p>
                             <span style="color:#a1a1a1">Description: </span>
                             <span>
                                 <strong> <?= $booking_page['description'] ?></strong>
                             </span>
 
-                            <h3>Appointments List</h3>
                             <div id="appointmentsContainer"></div>
 
                         </div>
@@ -110,8 +108,6 @@ if (!function_exists('get_appointment_types')) {
                                         </div>
 
                                         <div class="pull-right">
-                                            <button type="button" id="appointmentButton" onclick="addAppointment()"
-                                                class="btn btn-primary"><?= _l('booking_add_appointment')?></button>
                                             <button type="button" id="nextButton" onclick="nextStep()"
                                                 class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
 
@@ -264,11 +260,10 @@ if (!function_exists('get_appointment_types')) {
         const timeslotList = document.getElementById('timeslot-list');
         const selectedDateElem = document.getElementById('selected-date');
         const selectedLabel = document.getElementById('timelabel');
-        const nextButton = document.getElementById('nextButton').disabled = true;
         var selectedDateTime = '';
 
         let date = new Date();
-        var busyDates = [];
+        var simultaneous_appointments = '<?= $booking_page['simultaneous_appointments'] ?>'==''?1:<?= $booking_page['simultaneous_appointments'] ?>;
         // Array of month names (zero-based index)
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
             'August', 'September', 'October', 'November', 'December'];
@@ -278,30 +273,9 @@ if (!function_exists('get_appointment_types')) {
         var no_of_appointments = [];
         // used to store dates selected
         const appointmentDates = [];
-        var total_appointments = <?= $booking_page['simultaneous_appointments'] ?>;
+        // do not change this
+        var total_appointments = 1;
 
-        function addAppointment() {
-            const currentMonthYear = $($('#current-month-year')[0]).text()
-            const month = currentMonthYear.split(' ')[0];
-            const monthNumber = monthNames.indexOf(month) + 1;
-            const year = currentMonthYear.split(' ')[1];
-            const date = $($('div[data-day].selected')[0]).text();
-            const slot = $($('.timeslot.selected')[0]).text();
-            if(slot=='' || no_of_appointments.filter(x=>x.dateStr==selectedDateTime.date).length>0){
-                return;
-            }
-
-            no_of_appointments.push({dateStr:selectedDateTime.date, dateFormatted:`${year}-${monthNumber}-${date} ${slot}:00`});
-            createList();
-            if(no_of_appointments.length>0){
-                document.getElementById('nextButton').disabled = false;
-            }
-            if (no_of_appointments.length >= total_appointments) {
-                document.getElementById('appointmentButton').disabled = true;
-                document.getElementById('nextButton').disabled = false;
-                console.log("Maximum number of appointments reached.");
-            }
-        }
 
         function createList() {
             // Clear previous content in the appointments container div
@@ -311,7 +285,7 @@ if (!function_exists('get_appointment_types')) {
             // Create a new table element
             var table = document.createElement('table');
             table.classList.add('appointments-table'); // Add a class for styling if needed
-
+            table.style.display = 'none'
             // Create table header row
             var headerRow = table.createTHead().insertRow();
             headerRow.innerHTML = '<th>#</th><th>Date/Time</th>';
@@ -398,50 +372,7 @@ if (!function_exists('get_appointment_types')) {
             }
         }
 
-        function loadTimeSlots(date) {
-            const currentMonthYear = $($('#current-month-year')[0]).text()
-            const month = currentMonthYear.split(' ')[0];
-            const monthNumber = monthNames.indexOf(month) + 1;
-            const year = currentMonthYear.split(' ')[1];
-            const dateNumber = date.split(' ')[1];
-            const busySlots = [];
-
-
-                busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
-            
-
-            // This is a placeholder for dynamic slot loading logic.
-            // You can replace it with an actual API call to fetch available time slots.
-            const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
-
-            timeslotList.innerHTML = '';
-            availableTimeSlots.forEach(slot => {
-                const slotElement = document.createElement('div');
-                slotElement.className = 'timeslot';
-                slotElement.setAttribute('time', slot);
-                slotElement.textContent = slot;
-                timeslotList.appendChild(slotElement);
-                if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length > 0) {
-
-                    slotElement.className = 'timeslot busy_time';
-                }
-
-                slotElement.addEventListener('click', function () {
-                    document.querySelectorAll('.timeslot').forEach(t => t.classList.remove('selected'));
-                    this.classList.add('selected');
-
-                    // When a timeslot is selected, submit the date and time
-                    selectedDateTime = {
-                        date: `${selectedDateElem.textContent.trim()} ${slot}`
-
-                    };
-                    // Send the selectedDateTime to the server via fetch or AJAX
-                    submitDateTime(selectedDateTime);
-
-                });
-            });
-        }
-
+  
 
         function submitDateTime(dateTime) {
            
@@ -475,11 +406,25 @@ if (!function_exists('get_appointment_types')) {
     </script>
     <script>
         function nextStep() {
+            const currentMonthYear = $($('#current-month-year')[0]).text()
+            const month = currentMonthYear.split(' ')[0];
+            const monthNumber = monthNames.indexOf(month) + 1;
+            const year = currentMonthYear.split(' ')[1];
+            const date = $($('div[data-day].selected')[0]).text();
+            const slot = $($('.timeslot.selected')[0]).text();
+            if(slot=='' || no_of_appointments.filter(x=>x.dateStr==selectedDateTime.date).length>0){
+                return;
+            }
+
+            no_of_appointments.push({dateStr:selectedDateTime.date, dateFormatted:`${year}-${monthNumber}-${date} ${slot}:00`});
+            createList();
             document.getElementById('step1').style.display = 'none';
             document.getElementById('step2').style.display = 'block';
         }
 
         function prevStep() {
+            no_of_appointments=[];
+            createList();
             document.getElementById('step1').style.display = 'block';
             document.getElementById('step2').style.display = 'none';
         }
