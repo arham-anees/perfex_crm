@@ -3,7 +3,7 @@
   <div class="">
       <div class="">
           <div class="">
-          <button type="button" class="btn btn-info" id="showAppointmentList">Book an appointment</button>
+          <button type="button" class="btn btn-info hidden" id="showAppointmentList">Book an appointment</button>
                   <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Booking
                       Pages</button>
 
@@ -113,15 +113,19 @@ alert('Failed to fetch lead profile content.');
     }
     </script>
 <script>
-  $(document).ready(function () {
-      $('#showAppointmentList').click(function () {
-          $('#appointmentList').removeClass('hidden');
-          $('#bookingPages').addClass('hidden');
-      });
+    $(document).ready(function () {
+        $('#showAppointmentList').click(function () {
+            $('#appointmentList').removeClass('hidden');
+            $('#bookingPages').addClass('hidden');
+            $('#showAppointmentList').addClass('hidden');
+            $('#showBookingPages').removeClass('hidden');
+        });
 
-      $('#showBookingPages').click(function () {
-          $('#bookingPages').removeClass('hidden');
-          $('#appointmentList').addClass('hidden');
-      });
-  });
+        $('#showBookingPages').click(function () {
+            $('#bookingPages').removeClass('hidden');
+            $('#appointmentList').addClass('hidden');
+            $('#showBookingPages').addClass('hidden');
+            $('#showAppointmentList').removeClass('hidden');
+        });
+    });
 </script>
