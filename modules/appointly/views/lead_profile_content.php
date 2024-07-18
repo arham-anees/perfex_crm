@@ -41,7 +41,7 @@
                   <!-- <span class="label label-info label-big pull-right mtop5"><?= _d(date('Y-m-d')); ?></span> -->
                   <h4><?= _l('appointment_lead_no_appointments'); ?>
                   </h4>
-                  <button type="button" class="btn btn-info" id="showAppointmentList">Book an appointment</button>
+                  <button type="button" class="btn btn-info hidden" id="showAppointmentList">Book an appointment</button>
                   <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Booking
                       Pages</button>
               </div>
