@@ -67,7 +67,7 @@ if (!function_exists('get_appointment_types')) {
 
                                 </div>
 
-                                <div id="step1" class="mbot20 col-md-7" style="border-left: 1px solid #a1a1a1">
+                                <div id="step1" class="mbot20 col-md-7" style="border-left: 1px solid #eee">
 
                                     <?php $appointment_types = get_appointment_types();
 
