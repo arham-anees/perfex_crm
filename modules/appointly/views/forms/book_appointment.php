@@ -341,7 +341,7 @@ if (!function_exists('get_appointment_types')) {
 
 
         function renderCalendar() {
-            calendar.innerHTML = '';
+            var calendar = document.getElementById('calendar');
             const year = date.getFullYear();
             const month = date.getMonth();
             const firstDayOfMonth = new Date(year, month, 1).getDay();
