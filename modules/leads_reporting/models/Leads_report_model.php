@@ -86,7 +86,6 @@ class Leads_Report_model extends App_Model
         }
 
         // Apply staff filter if provided and not empty
-        log_message('error', 'staff');
         if (!empty($staff)) {
             $staff_ids = implode(",",  $staff);
             log_message('error', 'staff id'. $staff_ids);
@@ -666,46 +665,55 @@ $query = $this->db->query($sql);
             'color' => '',
         ];*/
 
+        $sql_internal="SELECT * FROM " . db_prefix() . 'leads WHERE 1=1';
+             // Apply date range filters if provided
+             if (!is_null($startDate) && !is_null($endDate)) {
+                $sql_internal .= " AND DATE(dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+                $sql_internal .= " AND DATE(dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
+            }
+    
+            // Apply last_action filter if provided
+            if (!is_null($last_action) && $last_action!='') {
+                $sql_internal .= " AND DATE(lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
+            }
+    
+            // Apply source filter if provided and not empty
+            if (!empty($source)) {
+                
+                $source_ids = implode(",",  $source);
+                $sql_internal .= " AND source IN (" . $source_ids . ")";
+            }
+    
+            // Apply status filter if provided and not empty
+            if (!empty($status)) {
+                $status_ids = implode(",",  $status);
+                $sql_internal .= " AND status IN (" . $status_ids . ")";
+            }
+    
+            // Apply staff filter if provided and not empty
+            if (!empty($staff)) {
+                $staff_ids = implode(",",  $staff);
+                $sql_internal .= " AND l.assigned IN (" . $staff_ids . ")";
+            }
+    
+
         foreach ($statuses as $status) {
             $sql .= ' SELECT COUNT(*) as total';
             $sql .= ',SUM(lead_value) as value';
-            $sql .= ' FROM ' . db_prefix() . 'leads';
+            $sql .= ' FROM (' . $sql_internal .') a';
 
             if (isset($status['lost'])) {
-                $sql .= ' WHERE lost=1';
+                $sql .= ' WHERE a.lost=1';
             } elseif (isset($status['junk'])) {
-                $sql .= ' WHERE junk=1';
+                $sql .= ' WHERE a.junk=1';
             } else {
-                $sql .= ' WHERE status=' . $status['id'];
+                $sql .= ' WHERE a.status=' . $status['id'];
             }
             if (!$has_permission_view) {
                 $sql .= ' AND ' . $whereNoViewPermission;
             }
             
-            // Apply date range filter if provided
-            if (!is_null($startDate) && !is_null($endDate)) {
-                $this->db->where("DATE(dateadded) BETWEEN DATE('" . $this->db->escape_str($startDate) . "') AND DATE('" . $this->db->escape_str($endDate) . "')");
-            }
-
-            // Apply last_action filter if provided and not empty
-            if (!is_null($last_action) && $last_action !== '') {
-                $this->db->where("DATE(lastcontact) = DATE('". $last_action ." 00:00')");
-            }
-
-            // Apply status filter if provided and not empty
-            if (!empty($status)) {
-                $this->db->where_in('status', $status);
-            }
-            
-            // Apply status filter if provided and not empty
-            if (!empty($source)) {
-                $this->db->where_in('source', $source);
-            }
-
-            // Apply staff filter if provided and not empty
-            if (!empty($staff)) {
-                $this->db->where_in('assigned', $staff);
-            }
+          
             $sql .= ' UNION ALL ';
             $sql = trim($sql);
         }
@@ -714,6 +722,7 @@ $query = $this->db->query($sql);
 
         // Remove the last UNION ALL
         $sql    = substr($sql, 0, -10);
+        log_message('error', $sql);
         $result = $CI->db->query($sql)->result();
 
         if (!$has_permission_view) {
