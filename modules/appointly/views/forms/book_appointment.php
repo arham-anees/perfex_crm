@@ -94,7 +94,7 @@ if (!function_exists('get_appointment_types')) {
                                                     data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
                                                 <div id="recaptcha_response_field" class="text-danger"></div>
 
-                                                <h2 class="heading">Select Date and Time fds</h2>
+                                                <h2 class="heading">Select Date and Time</h2>
                                                 <div class="flex">
                                                     <div class="calendar-container">
                                                         <div class="month-switch">
