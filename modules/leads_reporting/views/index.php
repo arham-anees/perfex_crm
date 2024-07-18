@@ -85,7 +85,7 @@ init_head(); ?>
 
                     </div>
                      <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <div class="panel_s">
                               <div class="panel-body
                                     tw-text-left">
@@ -95,12 +95,12 @@ init_head(); ?>
                               </div>
                            </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                            <div class="panel_s">
                               <div class="panel-body
                                     tw-text-left">
                                  <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('leads_avg_satisfaction_score')?></h5>
-                                 <h1 class="bold"><?= round($satisfaction_score, 2) ?></h1>
+                                 <h1 class="bold"><?= round($satisfaction_score, 2) ?><span style="font-size:12px">/5</span></h1>
                                  <!-- <p class="no-margin">+23(+59.2%)<br>vs prior 30 days</p> -->
                               </div>
                            </div>
@@ -111,172 +111,39 @@ init_head(); ?>
                      </div>
                   </div>
                   <div class="row">
-
-                     <!-- below is the code for conversion and attrsion -->
                      <div class="col-md-12">
                         <div class="row">
-
-                           <!-- Conversion rate of prospects to customers -->
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Conversoion Rate of Prospects to Customers</h4>
-                                    </div>
-                                    <div class="clearfix"></div> -->
-                                    <!-- <hr class="hr-panel-heading" /> -->
-
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <th><?php echo _l('leads_conversion_rate'); ?></th>
-                                                <!-- <th>Conversion Rate</th> -->
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                          <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) { ?>
-                                             <?php foreach ($agent_effectiveness as $source) : ?>
-                                                <?php    if($source['conversion_rate']>0) {?>
-                                                <tr>
-                                                   <td><?php echo $source['agent_name']; ?></td>
-                                                   <td><?php echo is_null($source['conversion_rate']) ? '-' : round($source['conversion_rate'], 2) . '%' ?></td>
-                                                </tr>
-                                                <?php }?>
-                                             <?php endforeach; ?>
-                                             <?php }?>
-                                          </tbody>
-                                       </table>                                   
-                                 </div>
-                              </div>
-                           </div>
-
-
-                           <!-- Prospect attrition rate -->
-                           <div class="col-md-6">
-
-                              <div class="panel_s">
-                                 <div class="panel-body">
-
                                  <canvas id="leads_conversion_attrition" width="400" height="200"></canvas>
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Prospect attrition rate</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr class="hr-panel-heading" /> -->
-
-                                       <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                          <thead>
-                                             <tr>
-                                                <th><?php echo _l('custom_field_staff'); ?></th>
-                                                <th><?php echo _l('leads_attrition_rate'); ?></th>
-                                                <th><?php echo _l('leads_attrition_rate'); ?></th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                          <?php if (!empty($attrition_rate) && is_array($attrition_rate)) {?>
-                                             <?php foreach ($attrition_rate as $source) : ?>
-                                                <?php    if($source['attrition_rate']>0) {?>
-                                                <tr>
-                                                   <td><?php echo $source['agent_name']; ?></td>
-                                                   <td><?php echo is_null($source['attrition_rate']) ? '-' : round($source['attrition_rate'], 2) . '%'; ?></td>
-                                                   <td><?php echo is_null($source['conversion_rate']) ? '-' : round($source['conversion_rate'], 2) . '%'; ?></td>
-                                                </tr>
-                                                <?php }?>
-                                             <?php endforeach; ?>
-                                             <?php }?>
-                                          </tbody>
-                                       </table> 
                                  </div>
                               </div>
                            </div>
-
-                        </div>
-                     </div>
-
-
-
-                     <div class="col-md-12">
-                        <div class="row">
-
-                           <!-- Conversion rate of prospects to customers -->
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
                                  <canvas id="leads_created_assigned" width="400" height="200"></canvas>
-
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Amount of leads assigned per agent</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr class="hr-panel-heading" /> -->
-
-                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                       <thead>
-                                          <tr>
-                                             <th><?php echo _l('custom_field_staff'); ?></th>
-                                             <th><?php echo _l('leads_count_assigned'); ?></th>
-                                             <th>Leads Assigned</th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                             <?php if (!empty($leads_per_agent) && is_array($leads_per_agent)) { ?>
-                                             <?php foreach ($leads_per_agent as $source) : ?>
-                                                <tr>
-                                                   <td><?php echo $source['agent']; ?></td>
-                                                   <td><?php echo $source['lead_count']; ?></td>
-                                                   <td><?php echo $source['leads_created_count']; ?></td>
-                                                </tr>
-                                             <?php endforeach; ?> 
-                                             <?php }?>
-                                          </tbody>
-                                       </table>
                                  </div>
                               </div>
                            </div>
-
-
-
-
-                           <!-- Amount of lead created per agent -->
                            <div class="col-md-6">
-
                               <div class="panel_s">
                                  <div class="panel-body">
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Amount of leads created per agent</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr class="hr-panel-heading" /> -->
-
-                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                       <thead>
-                                          <tr>
-                                             <th><?php echo _l('custom_field_staff'); ?></th>
-                                             <!-- <th><?php echo _l('leads_total_leads_created'); ?></th> -->
-                                             <th>Leads Created</th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                             <?php if (!empty($leads_created_per_agent) && is_array($leads_created_per_agent)) { ?>
-                                             <?php foreach ($leads_created_per_agent as $source) : ?>
-                                                <tr>
-                                                   <td><?php echo $source['agent']; ?></td>
-                                                   <td><?php echo $source['lead_count']; ?></td>
-                                                </tr>
-                                             <?php endforeach; ?>
-
-                                             <?php }?>
-                                          </tbody>
-                                       </table>
+                                 <canvas id="leads_value_won" width="400" height="200"></canvas>
                                  </div>
                               </div>
                            </div>
 
-
+                           <div class="col-md-6">
+                              <div class="panel_s">
+                                 <div class="panel-body">
+                                    <canvas id="timeChart" width="400" height="200"></canvas>
+                                 </div>
+                              </div>
+                           </div>
                         </div>
                      </div>
-
 
                      <div class="col-md-12">
                         <div class="row">
@@ -285,18 +152,11 @@ init_head(); ?>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Average Time Spent per Prospect (Hours)</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr class="hr-panel-heading" /> -->
-
                                     <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
                                        <thead>
                                           <tr>
                                              <th><?php echo _l('custom_field_staff'); ?></th>
                                              <th><?php echo _l('leads_avg_convertion_time'); ?></th>
-                                             <!-- <th>Average Time(days)</th> -->
                                           </tr>
                                        </thead>
                                        <tbody>
@@ -456,6 +316,8 @@ init_head(); ?>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <?php init_tail(); ?>
 <script>
            document.getElementById('clearButton').addEventListener('click', function() {
@@ -489,120 +351,242 @@ init_head(); ?>
     </script>
 
     <script>
-<?php       
-$leads_per_agent_json = json_encode($leads_per_agent);
-?>
+      <?php       
+      $leads_per_agent_json = json_encode($leads_per_agent);
+      ?>
       // Data from the variable
-const data  = <?php echo $leads_per_agent_json; ?>;
+         const data  = <?php echo $leads_per_agent_json; ?>;
 
 
-const agents = data.map(item => item.agent ? item.agent : 'No Staff');
-const leadCounts = data.map(item => item.lead_count);
-const createdLeadCounts = data.map(item => item.leads_created_count);
+         const agents = data.map(item => item.agent ? item.agent : 'No Staff');
+         const leadCounts = data.map(item => item.lead_count);
+         const createdLeadCounts = data.map(item => item.leads_created_count);
 
-const ctx = document.getElementById('leads_created_assigned').getContext('2d');
-const leads_per_agent_chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: agents,
-        datasets: [
-            {
-                label: 'Leads Assigned',
-                data: leadCounts,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
+         const ctx = document.getElementById('leads_created_assigned').getContext('2d');
+         const leads_per_agent_chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+               labels: agents,
+               datasets: [
+                     {
+                        label: 'Leads Assigned',
+                        data: leadCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                     },
+                     {
+                        label: 'Leads Created',
+                        data: createdLeadCounts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                     }
+               ]
             },
-            {
-                label: 'Leads Created',
-                data: createdLeadCounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+            options: {
+                  indexAxis:'y',
+               scales: {
+                     y: {
+                        beginAtZero: true
+                     }
+               },
+               
+               responsive: true,
+               plugins: {
+                     legend: {
+                        position: 'top',
+                     },
+                     title: {
+                        display: true,
+                        text: 'Leads Assigned and Created by Agents'
+                     }
+               }
             }
-        ]
-    },
-    options: {
-         indexAxis:'y',
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        },
-        
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Leads Assigned and Created by Agents'
-            }
-        }
-    }
-});
+         });
       </script>
 
 <script>
 
+            
+         document.addEventListener('DOMContentLoaded', function() {
+            <?php       
+            $attrition_rate_json = json_encode($attrition_rate);
+            ?>
+                  // Data from the variable
+            const attrition_rate_data  = <?php echo $attrition_rate_json; ?>;
+
+
+            const agents = attrition_rate_data.map(item => item.agent_name ? item.agent_name : 'No Staff');
+            const leadCounts = attrition_rate_data.map(item => item.attrition_rate);
+            const createdLeadCounts = attrition_rate_data.map(item => item.conversion_rate);
+
+            const ctx = document.getElementById('leads_conversion_attrition').getContext('2d');
+            const leads_per_agent_chart = new Chart(ctx, {
+               type: 'bar',
+               data: {
+                  labels: agents,
+                  datasets: [
+                        {
+                           label: 'Attrition Rate',
+                           data: leadCounts,
+                           backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+                           borderColor: 'rgba(255, 99, 132, 1)',
+                           borderWidth: 1
+                        },
+                        {
+                           label: 'Conversion Rate',
+                           data: createdLeadCounts,
+                           backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                           borderColor: 'rgba(75, 192, 192, 1)',
+                           borderWidth: 1
+                        }
+                  ]
+               },
+               options: {
+                     indexAxis:'y',
+                  scales: {
+                        y: {
+                           beginAtZero: true
+                        }
+                  },
+                  
+                  responsive: true,
+                  plugins: {
+                        legend: {
+                           position: 'top',
+                        },
+                        title: {
+                           display: true,
+                           text: 'Leads Assigned and Created by Agents'
+                        }
+                  }
+               }
+            });
+         });
+      </script>
+
+
+
+<script>
+   // start of donut chart
+
    
 document.addEventListener('DOMContentLoaded', function() {
-<?php       
-$attrition_rate_json = json_encode($attrition_rate);
-?>
-      // Data from the variable
-const attrition_rate_data  = <?php echo $attrition_rate_json; ?>;
+   <?php       
+   $average_value_json = json_encode($average_value_of_won_prospects);
+   ?>
+         // Data from the variable
+   const averageValueData = <?php echo $average_value_json; ?>;
 
+   const agentNames = averageValueData.map(item => item.agent_name);
+    const averageValues = averageValueData.map(item => item.average_value_won);
 
-const agents = attrition_rate_data.map(item => item.agent_name ? item.agent_name : 'No Staff');
-const leadCounts = attrition_rate_data.map(item => item.attrition_rate);
-const createdLeadCounts = attrition_rate_data.map(item => item.conversion_rate);
-
-const ctx = document.getElementById('leads_conversion_attrition').getContext('2d');
-const leads_per_agent_chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: agents,
-        datasets: [
-            {
-               label: 'Attrition Rate',
-               data: leadCounts,
-               backgroundColor: 'rgba(255, 99, 132, 0.2)', 
-               borderColor: 'rgba(255, 99, 132, 1)',
-               borderWidth: 1
+    const ctx = document.getElementById('leads_value_won').getContext('2d');
+    const myDonutChart = new Chart(ctx, {
+        type: 'bar', // Changed to 'bar'
+        data: {
+            labels: agentNames,
+            datasets: [{
+                label: 'Average Value Won',
+                data: averageValues,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             },
-            {
-               label: 'Conversion Rate',
-               data: createdLeadCounts,
-               backgroundColor: 'rgba(75, 192, 192, 0.2)',
-               borderColor: 'rgba(75, 192, 192, 1)',
-               borderWidth: 1
-            }
-        ]
-    },
-    options: {
-         indexAxis:'y',
-        scales: {
-            y: {
-                beginAtZero: true
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Average Value of Won Prospects by Agent'
+                },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
             }
         },
-        
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top',
+        plugins: [ChartDataLabels]
+    });
+});
+// end of donut chart
+      </script>
+
+
+<script>
+   <?php       
+   $agent_effectiveness_json = json_encode($agent_effectiveness);
+   ?>
+   // start of time taken to convert lead
+   const timeTakenData = <?php echo $agent_effectiveness_json; ?>;
+
+   document.addEventListener('DOMContentLoaded', function() {
+    // Prepare data for Chart.js
+    const agentNames = timeTakenData.map(item => item.agent_name);
+    const timeToConvert = timeTakenData.map(item => item.avg_conversion_time);
+
+    const ctx = document.getElementById('timeChart').getContext('2d');
+    const timeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: agentNames,
+            datasets: [{
+                label: 'Time to Convert (days)',
+                data: timeToConvert,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Change to horizontal bar chart
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
             },
-            title: {
-                display: true,
-                text: 'Leads Assigned and Created by Agents'
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Time Taken to Convert Leads by Agent'
+                }
             }
         }
-    }
+    });
 });
-});
-      </script>
+
+// end of time taken to convert lead
+</script>
 </body>
 
 </html>
