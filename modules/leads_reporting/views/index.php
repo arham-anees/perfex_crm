@@ -144,80 +144,6 @@ init_head(); ?>
                            </div>
                         </div>
                      </div>
-
-                     <div class="col-md-12">
-                        <div class="row">
-
-                           <!-- Average Time Spent per Prospect -->
-                           <div class="col-md-6">
-                              <div class="panel_s">
-                                 <div class="panel-body">
-                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                       <thead>
-                                          <tr>
-                                             <th><?php echo _l('custom_field_staff'); ?></th>
-                                             <th><?php echo _l('leads_avg_convertion_time'); ?></th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                             <?php if (!empty($agent_effectiveness) && is_array($agent_effectiveness)) { ?>
-                                             <?php foreach ($agent_effectiveness as $source) : ?>
-                                                <?php if(!is_null($source['avg_conversion_time']) && $source['avg_conversion_time']!=''){?>
-                                                <tr>
-                                                   <td><?php echo $source['agent_name']; ?></td>
-                                                   <td><?php echo round($source['avg_conversion_time'], 2); ?></td>
-                                                </tr>
-                                                <?php } ?>
-                                             <?php endforeach; ?>
-                                             <?php }?>
-                                          </tbody>
-                                       </table>
-                                 </div>
-                              </div>
-                           </div>
-
-
-
-
-
-                           <!-- Amount of lead created per agent -->
-                           <div class="col-md-6">
-
-                              <div class="panel_s">
-                                 <div class="panel-body">
-                                    <!-- <div class="_buttons">
-                                       <h4 class="no-margin">Average Value of Won Prospects</h4>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr class="hr-panel-heading" /> -->
-
-                                    <table class="table dt-table table-leads-report" data-order-col="0" data-order-type="asc">
-                                       <thead>
-                                          <tr>
-                                             <th><?php echo _l('custom_field_staff'); ?></th>
-                                             <th><?php echo _l('leads_dt_lead_value'); ?></th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                             <?php if (!empty($average_value_of_won_prospects) && is_array($average_value_of_won_prospects)) { ?>
-                                             <?php foreach ($average_value_of_won_prospects as $source) : ?>
-                                                <tr>
-                                                   <td><?php echo $source['agent_name']; ?></td>
-                                                   <td><?php echo round($source['average_value_won'], 2) . ' $'; ?></td>
-                                                </tr>
-                                             <?php endforeach; ?>
-
-                                             <?php }?>
-                                          </tbody>
-                                       </table>
-                                 </div>
-                              </div>
-                           </div>
-
-
-                        </div>
-                     </div>
-
                      <div class="col-md-12">
                      <div class="panel_s">
                      <div class="panel-body">
@@ -325,7 +251,7 @@ init_head(); ?>
             document.getElementsByName('last_action_date')[0].value='';
             document.getElementById('filter-form').submit();
         });
-    </script>
+</script>
 
 <script>
       //   document.addEventListener("DOMContentLoaded", function() {
@@ -348,9 +274,9 @@ init_head(); ?>
             // Initialize auto-submit when the page loads
             setAutoSubmit();
       //   });
-    </script>
+</script>
 
-    <script>
+<script>
       <?php       
       $leads_per_agent_json = json_encode($leads_per_agent);
       ?>
@@ -464,7 +390,7 @@ init_head(); ?>
                }
             });
          });
-      </script>
+</script>
 
 
 
@@ -472,71 +398,71 @@ init_head(); ?>
    // start of donut chart
 
    
-document.addEventListener('DOMContentLoaded', function() {
-   <?php       
-   $average_value_json = json_encode($average_value_of_won_prospects);
-   ?>
-         // Data from the variable
-   const averageValueData = <?php echo $average_value_json; ?>;
+   document.addEventListener('DOMContentLoaded', function() {
+      <?php       
+      $average_value_json = json_encode($average_value_of_won_prospects);
+      ?>
+            // Data from the variable
+      const averageValueData = <?php echo $average_value_json; ?>;
 
-   const agentNames = averageValueData.map(item => item.agent_name);
-    const averageValues = averageValueData.map(item => item.average_value_won);
+      const agentNames = averageValueData.map(item => item.agent_name?item.agent_name:'No Staff');
+      const averageValues = averageValueData.map(item => item.average_value_won);
 
-    const ctx = document.getElementById('leads_value_won').getContext('2d');
-    const myDonutChart = new Chart(ctx, {
-        type: 'bar', // Changed to 'bar'
-        data: {
-            labels: agentNames,
-            datasets: [{
-                label: 'Average Value Won',
-                data: averageValues,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(75, 192, 192, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Average Value of Won Prospects by Agent'
-                },
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        let sum = 0;
-                        let dataArr = ctx.chart.data.datasets[0].data;
-                        dataArr.map(data => {
-                            sum += data;
-                        });
-                        let percentage = (value * 100 / sum).toFixed(2) + "%";
-                        return percentage;
-                    },
-                    color: '#fff',
-                }
-            }
-        },
-        plugins: [ChartDataLabels]
-    });
-});
-// end of donut chart
-      </script>
+      const ctx = document.getElementById('leads_value_won').getContext('2d');
+      const myDonutChart = new Chart(ctx, {
+         type: 'bar', // Changed to 'bar'
+         data: {
+               labels: agentNames,
+               datasets: [{
+                  label: 'Average Value Won',
+                  data: averageValues,
+                  backgroundColor: [
+                     'rgba(255, 99, 132, 0.2)',
+                     'rgba(54, 162, 235, 0.2)',
+                     'rgba(75, 192, 192, 0.2)'
+                  ],
+                  borderColor: [
+                     'rgba(255, 99, 132, 1)',
+                     'rgba(54, 162, 235, 1)',
+                     'rgba(75, 192, 192, 1)'
+                  ],
+                  borderWidth: 1
+               }]
+         },
+         options: {
+               responsive: true,
+               scales: {
+                  y: {
+                     beginAtZero: true
+                  }
+               },
+               plugins: {
+                  legend: {
+                     position: 'top',
+                  },
+                  title: {
+                     display: true,
+                     text: 'Average Value of Won Prospects by Agent'
+                  },
+                  datalabels: {
+                     formatter: (value, ctx) => {
+                           let sum = 0;
+                           let dataArr = ctx.chart.data.datasets[0].data;
+                           dataArr.map(data => {
+                              sum += data;
+                           });
+                           let percentage = (value * 100 / sum).toFixed(2) + "%";
+                           return percentage;
+                     },
+                     color: '#fff',
+                  }
+               }
+         },
+         plugins: [ChartDataLabels]
+      });
+   });
+   // end of donut chart
+</script>
 
 
 <script>
@@ -548,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
    document.addEventListener('DOMContentLoaded', function() {
     // Prepare data for Chart.js
-    const agentNames = timeTakenData.map(item => item.agent_name);
+    const agentNames = timeTakenData.map(item => item.agent_name?item.agent_name:'No Staff');
     const timeToConvert = timeTakenData.map(item => item.avg_conversion_time);
 
     const ctx = document.getElementById('timeChart').getContext('2d');
