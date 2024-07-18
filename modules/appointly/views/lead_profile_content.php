@@ -58,7 +58,7 @@
                                     <?php foreach ($booking_pages as $page) : ?>
                                         <tr>
                                             <td><?php echo $page['name']; ?></td>
-                                            <td><a href="<?php echo site_url($page['url']); ?>" target="_blank"><?php echo ($page['url']); ?></a></td>
+                                            <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')"><?php echo ($page['url']); ?></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -82,3 +82,21 @@
                         <?php else : ?>
                             <p><?php echo _l('No booking pages found.'); ?></p>
                         <?php endif; ?>
+                        <div id="booking_page_form"></div>
+
+                        <script>
+                            function load_booking_page(url){
+                                $.ajax({
+                url: url,
+                method: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    $('#booking_page_form').html(response);
+
+                },
+                error: function () {
+                    alert('Failed to fetch lead profile content.');
+                }
+            });
+                            }
+                            </script>

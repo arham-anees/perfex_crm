@@ -554,9 +554,6 @@ $query = $this->db->query($sql);
         // Order by conversion rate descending
         $this->db->order_by('conversion_rate DESC');
 
-        // Limit to top 5 sources
-        $this->db->limit(5);
-
         // Execute the query
         $query = $this->db->get();
         return $query->result_array();
@@ -634,11 +631,106 @@ $query = $this->db->query($sql);
         // Order by clause
         $this->db->order_by('avg_conversion_time ASC, conversion_rate DESC, total_leads DESC');
 
-        // Limit clause
-        $this->db->limit(5); // Limit to top 5 agents
-
         // Execute the query
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    
+    /**
+     * Get leads summary
+     * @return array
+     */
+    function get_leads_summary($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
+    {
+        $CI = &get_instance();
+        if (!class_exists('leads_model')) {
+            $CI->load->model('leads_model');
+        }
+        $statuses = $CI->leads_model->get_status();
+
+        $totalStatuses         = count($statuses);
+        $has_permission_view   = staff_can('view',  'leads');
+        $sql                   = '';
+        $whereNoViewPermission = '(addedfrom = ' . get_staff_user_id() . ' OR assigned=' . get_staff_user_id() . ' OR is_public = 1)';
+
+        $statuses[] = [
+            'lost'  => true,
+            'name'  => _l('lost_leads'),
+            'color' => '#fc2d42',
+        ];
+
+        /*    $statuses[] = [
+            'junk'  => true,
+            'name'  => _l('junk_leads'),
+            'color' => '',
+        ];*/
+
+        foreach ($statuses as $status) {
+            $sql .= ' SELECT COUNT(*) as total';
+            $sql .= ',SUM(lead_value) as value';
+            $sql .= ' FROM ' . db_prefix() . 'leads';
+
+            if (isset($status['lost'])) {
+                $sql .= ' WHERE lost=1';
+            } elseif (isset($status['junk'])) {
+                $sql .= ' WHERE junk=1';
+            } else {
+                $sql .= ' WHERE status=' . $status['id'];
+            }
+            if (!$has_permission_view) {
+                $sql .= ' AND ' . $whereNoViewPermission;
+            }
+            
+            // Apply date range filter if provided
+            if (!is_null($startDate) && !is_null($endDate)) {
+                $this->db->where("DATE(dateadded) BETWEEN DATE('" . $this->db->escape_str($startDate) . "') AND DATE('" . $this->db->escape_str($endDate) . "')");
+            }
+
+            // Apply last_action filter if provided and not empty
+            if (!is_null($last_action) && $last_action !== '') {
+                $this->db->where("DATE(lastcontact) = DATE('". $last_action ." 00:00')");
+            }
+
+            // Apply status filter if provided and not empty
+            if (!empty($status)) {
+                $this->db->where_in('status', $status);
+            }
+            
+            // Apply status filter if provided and not empty
+            if (!empty($source)) {
+                $this->db->where_in('source', $source);
+            }
+
+            // Apply staff filter if provided and not empty
+            if (!empty($staff)) {
+                $this->db->where_in('assigned', $staff);
+            }
+            $sql .= ' UNION ALL ';
+            $sql = trim($sql);
+        }
+
+        $result = [];
+
+        // Remove the last UNION ALL
+        $sql    = substr($sql, 0, -10);
+        $result = $CI->db->query($sql)->result();
+
+        if (!$has_permission_view) {
+            $CI->db->where($whereNoViewPermission);
+        }
+
+        $total_leads = $CI->db->count_all_results(db_prefix() . 'leads');
+
+        foreach ($statuses as $key => $status) {
+            if (isset($status['lost']) || isset($status['junk'])) {
+                $statuses[$key]['percent'] = ($total_leads > 0 ? number_format(($result[$key]->total * 100) / $total_leads, 2) : 0);
+            }
+
+            $statuses[$key]['total'] = $result[$key]->total;
+            $statuses[$key]['value'] = $result[$key]->value;
+        }
+
+        return $statuses;
     }
 }

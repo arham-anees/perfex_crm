@@ -8,49 +8,80 @@ init_head(); ?>
          <div class="col-md-12">
             <div class="panel_s">
                <div class="panel-body">
-               <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>" id="filter-form">
-                            <div class="col-md-12 no-padding">
-                                <div class="col-md-4">
-                                    <?php echo render_datetime_input('start_date', 'leads_start_date', $start_date, [], [], '', 'appointment-date'); ?>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <?php echo render_datetime_input('end_date', 'leads_end_date', $end_date,[], [], '', 'appointment-date'); ?>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <?php echo render_datetime_input('last_action_date', 'leads_last_action_date', $last_action_date, [], [], '', 'appointment-date'); ?>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <?php if (isset($staff)) : ?>
-                                        <div class="form-group">
-                                            <?php echo render_select('attendees[]', $staff, ['staffid', ['firstname', 'lastname']], 'leads_staff_dropdown', $attendees, ['multiple' => true], [], '', '', false); ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col-md-4">
-                                    <?php if (isset($statuses)) : ?>
-                                        <div class="form-group">
-                                            <?php echo render_select('selected_statuses[]', $statuses, ['id', ['name']], 'leads_status_dropdown', $selected_statuses, ['multiple' => true], [], '', '', false); ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div> 
-                                <div class="col-md-4">
-                                    <?php if (isset($sources)) : ?>
-                                        <div class="form-group">
-                                            <?php echo render_select('selected_sources[]', $sources, ['id', ['name']], 'leads_source_dropdown', $selected_sources, ['multiple' => true], [], '', '', false); ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div> 
-                            </div>
+                  <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>" id="filter-form">
+                     <div class="col-md-12 no-padding">
+                        <div class="col-md-4">
+                           <?php echo render_datetime_input('start_date', 'leads_start_date', $start_date, [], [], '', 'appointment-date'); ?>
+                        </div>
+                        <div class="col-md-4 ">
+                           <?php echo render_datetime_input('end_date', 'leads_end_date', $end_date,[], [], '', 'appointment-date'); ?>
+                        </div>
+                        <div class="col-md-4 ">
+                           <?php echo render_datetime_input('last_action_date', 'leads_last_action_date', $last_action_date, [], [], '', 'appointment-date'); ?>
+                        </div>
+                        <div class="col-md-4 ">
+                           <?php if (isset($staff)) : ?>
+                                 <div class="form-group">
+                                    <?php echo render_select('attendees[]', $staff, ['staffid', ['firstname', 'lastname']], 'leads_staff_dropdown', $attendees, ['multiple' => true], [], '', '', false); ?>
+                                 </div>
+                           <?php endif; ?>
+                        </div>
+                        <div class="col-md-4">
+                           <?php if (isset($statuses)) : ?>
+                                 <div class="form-group">
+                                    <?php echo render_select('selected_statuses[]', $statuses, ['id', ['name']], 'leads_status_dropdown', $selected_statuses, ['multiple' => true], [], '', '', false); ?>
+                                 </div>
+                           <?php endif; ?>
+                        </div> 
+                        <div class="col-md-4">
+                           <?php if (isset($sources)) : ?>
+                                 <div class="form-group">
+                                    <?php echo render_select('selected_sources[]', $sources, ['id', ['name']], 'leads_source_dropdown', $selected_sources, ['multiple' => true], [], '', '', false); ?>
+                                 </div>
+                           <?php endif; ?>
+                        </div> 
+                     </div>
 
-                            <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary"><?= _l('leads_apply_filter')?></button>
-                                    <button type="button" class="btn  btn-danger" id="clearButton"><?= _l('leads_clear_filter')?></button>
-                                </div>
-                            </div>
+                     <div class="row">
+                        <div class="col-md-12 text-right">
+                           <button type="submit" class="btn btn-primary"><?= _l('leads_apply_filter')?></button>
+                           <button type="button" class="btn  btn-danger" id="clearButton"><?= _l('leads_clear_filter')?></button>
+                        </div>
+                     </div>
                             <!-- <button type="submit" class="btn btn-outline-primary">Filter</button> -->
-                        </form>
+                  </form>
+
                   <div class="col-md-12">
+                  <div class="row">
+                     <div class="col-md-12">
+                     <div class="mbot20 leads-overview tw-mt-2 sm:tw-mt-4 tw-mb-4 sm:tw-mb-0">
+                        <h4 class="tw-mt-0 tw-font-semibold tw-text-lg">
+                            <?php echo _l('leads_summary'); ?>
+                        </h4>
+                        <div class="tw-flex tw-flex-wrap tw-flex-col lg:tw-flex-row tw-w-full tw-gap-3 lg:tw-gap-6">
+                            <?php
+                           foreach ($summary as $status) { ?>
+                            <div
+                                class="lg:tw-border-r lg:tw-border-solid lg:tw-border-neutral-300 tw-flex-1 tw-flex tw-items-center last:tw-border-r-0">
+                                <span class="tw-font-semibold tw-mr-3 rtl:tw-ml-3 tw-text-lg">
+                                    <?php
+                                          if (isset($status['percent'])) {
+                                              echo '<span data-toggle="tooltip" data-title="' . $status['total'] . '">' . $status['percent'] . '%</span>';
+                                          } else {
+                                              // Is regular status
+                                              echo $status['total'];
+                                          }
+                                       ?>
+                                </span>
+                                <span style="color:<?php echo e($status['color']); ?>"
+                                    class="<?php echo isset($status['junk']) || isset($status['lost']) ? 'text-danger' : ''; ?>">
+                                    <?php echo e($status['name']); ?>
+                                </span>
+                            </div>
+                            <?php } ?>
+                        </div>
+
+                    </div>
                      <div class="row">
                         <div class="col-md-4">
                            <div class="panel_s">
@@ -62,6 +93,9 @@ init_head(); ?>
                               </div>
                            </div>
                         </div>
+                     </div>
+                  </div>
+                 
                      </div>
                   </div>
                   <div class="row">

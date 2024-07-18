@@ -252,18 +252,37 @@ if (!function_exists('get_appointment_types')) {
 
     <script>
 
-        const calendar = document.getElementById('calendar');
-        const currentMonthYear = document.getElementById('current-month-year');
-        const prevMonthButton = document.getElementById('prev-month');
-        const nextMonthButton = document.getElementById('next-month');
-        const timeslots = document.getElementById('timeslots');
-        const timeslotList = document.getElementById('timeslot-list');
-        const selectedDateElem = document.getElementById('selected-date');
-        const selectedLabel = document.getElementById('timelabel');
+        if(typeof calendar == undefined)
+            var calendar = document.getElementById('calendar');
+        else document.getElementById('calendar');
+        if(typeof currentMonthYear == undefined)
+            var currentMonthYear = document.getElementById('current-month-year');
+        else currentMonthYear = document.getElementById('current-month-year');
+        if(typeof prevMonthButton == undefined)
+            var prevMonthButton = document.getElementById('prev-month');
+        else prevMonthButton = document.getElementById('prev-month');
+        if(typeof nextMonthButton == undefined)
+            var nextMonthButton = document.getElementById('next-month');
+        else nextMonthButton = document.getElementById('next-month');
+        if(typeof timeslots == undefined)
+            var timeslots = document.getElementById('timeslots');
+        else timeslots = document.getElementById('timeslots');
+        if(typeof timeslotList == undefined)
+            var timeslotList = document.getElementById('timeslot-list');
+        else timeslotList = document.getElementById('timeslot-list');
+        if(typeof selectedDateElem == undefined)
+            var selectedDateElem = document.getElementById('selected-date');
+        else selectedDateElem = document.getElementById('selected-date');
+        if(typeof selectedLabel == undefined)
+            var selectedLabel = document.getElementById('timelabel');
+        else selectedLabel = document.getElementById('timelabel');
         var selectedDateTime = '';
-
-        let date = new Date();
-        var simultaneous_appointments = '<?= $booking_page['simultaneous_appointments'] ?>'==''?1:<?= $booking_page['simultaneous_appointments'] ?>;
+        if(typeof selectedLabel == undefined)
+            var date = new Date();
+        else date = new Date();
+        if(typeof selectedLabel == undefined)
+            var simultaneous_appointments='';
+        simultaneous_appointments = '<?= $booking_page['simultaneous_appointments'] ?>'==''?1:<?= $booking_page['simultaneous_appointments'] ?>;
         // Array of month names (zero-based index)
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
             'August', 'September', 'October', 'November', 'December'];
@@ -393,8 +412,9 @@ if (!function_exists('get_appointment_types')) {
     </script>
     <script>
 
-        const calendarDays = document.querySelectorAll('.calendar div[data-day]');
-
+        if(typeof calendarDays == undefined)
+                var calendarDays = document.querySelectorAll('.calendar div[data-day]');
+        else  calendarDays = document.querySelectorAll('.calendar div[data-day]');
         calendarDays.forEach(day => {
             day.addEventListener('click', function () {
                 // Remove 'selected' class from all days
