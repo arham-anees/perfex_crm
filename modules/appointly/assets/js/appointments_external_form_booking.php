@@ -72,7 +72,24 @@
                     response = JSON.parse(response);
 
                     if (response.success == true) {
-                        window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash='+response.data;
+
+                        const lead = document.getElementsByClassName('thankyou-in-lead');
+                        if(lead){
+                            fetch('<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data)
+                        .then(response => response.text())
+                        .then(html => {
+                            // Get the div where you want to render the contßent
+                            const contentDiv = document.getElementById('content');
+
+                            // Set the inner HTML of the div to the response
+                            contentDiv.innerHTML = html;
+                            contentDiv.querySelector('.container').classList.remove('container');
+                        })
+                        .catch(error => console.error('Error fetching and parsing data:', error));
+                        }else {
+                            window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash='+response.data;
+                        }
+
                         // $header = $(".appointment-header");
                         // $(form_id).remove();
                         // $("#response").html($header);

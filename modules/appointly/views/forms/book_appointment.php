@@ -30,7 +30,7 @@ if (!function_exists('get_appointment_types')) {
     applyAdditionalCssStyles($clientUserData);
     ?>
     <div id="">
-        <div id="content">
+        <div id="content" class = "thankyou-in-lead">
             <div class="calendar-section">
                 <?php if (!isset($booking_page['id'])) { ?>
                     <p>Booking page not found</p>
@@ -295,14 +295,14 @@ if (!function_exists('get_appointment_types')) {
             var simultaneous_appointments='';
         simultaneous_appointments = '<?= $booking_page['simultaneous_appointments'] ?>'==''?1:<?= $booking_page['simultaneous_appointments'] ?>;
         // Array of month names (zero-based index)
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
             'August', 'September', 'October', 'November', 'December'];
 
-        const daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+        var daysOfWeek = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
         var no_of_appointments = [];
         // used to store dates selected
-        const appointmentDates = [];
+        var appointmentDates = [];
         // do not change this
         var total_appointments = 1;
 
@@ -342,25 +342,27 @@ if (!function_exists('get_appointment_types')) {
 
         function renderCalendar() {
             var calendar = document.getElementById('calendar');
-            const year = date.getFullYear();
-            const month = date.getMonth();
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            var currentMonthYear = document.getElementById('current-month-year');
+
+            var year = date.getFullYear();
+            var month = date.getMonth();
+            var firstDayOfMonth = new Date(year, month, 1).getDay();
+            var daysInMonth = new Date(year, month + 1, 0).getDate();
 
             currentMonthYear.textContent = `${monthNames[month]} ${year}`;
 
             // Add days of week headers
             daysOfWeek.forEach(day => {
-                const dayElement = document.createElement('div');
+                var dayElement = document.createElement('div');
                 dayElement.className = 'weekdays';
                 dayElement.textContent = day;
                 calendar.appendChild(dayElement);
             });
 
             // Add empty elements for days before the first day of the month
-            const startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
+            var startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
             for (let i = 0; i < startDay; i++) {
-                const emptyElement = document.createElement('div');
+                var emptyElement = document.createElement('div');
                 emptyElement.className = 'disabled';
                 calendar.appendChild(emptyElement);
             }
@@ -369,17 +371,17 @@ if (!function_exists('get_appointment_types')) {
             // Add days of the month
             for (let i = 1; i <= daysInMonth; i++) {
 
-                const dayElement = document.createElement('div');
+                var dayElement = document.createElement('div');
                 dayElement.textContent = i;
                 dayElement.setAttribute('data-day', i);
                 if (<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
                     dayElement.className = 'disabled';
                 }
                 if (<?= $booking_page['appointments_show_past_times'] ?>) {
-                    const currentMonthYear = $($('#current-month-year')[0]).text()
-                    const month = currentMonthYear.split(' ')[0];
-                    const monthNumber = monthNames.indexOf(month) + 1;
-                    const year = currentMonthYear.split(' ')[1];
+                    var currentMonthYear = $($('#current-month-year')[0]).text()
+                    var month = currentMonthYear.split(' ')[0];
+                    var monthNumber = monthNames.indexOf(month) + 1;
+                    var year = currentMonthYear.split(' ')[1];
                     let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
                     if (selectedDate.getDate() < (new Date()).getDate())
                         dayElement.className = 'disabled';
@@ -392,7 +394,7 @@ if (!function_exists('get_appointment_types')) {
                     this.classList.add('selected');
 
                     // Display timeslots and update the selected date
-                    const selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
+                    var selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
                     selectedDateElem.textContent = selectedDate;
                     selectedLabel.textContent = "View times where you are available";
                     timeslots.style.display = 'flex';
@@ -437,12 +439,12 @@ if (!function_exists('get_appointment_types')) {
     </script>
     <script>
         function nextStep() {
-            const currentMonthYear = $($('#current-month-year')[0]).text()
-            const month = currentMonthYear.split(' ')[0];
-            const monthNumber = monthNames.indexOf(month) + 1;
-            const year = currentMonthYear.split(' ')[1];
-            const date = $($('div[data-day].selected')[0]).text();
-            const slot = $($('.timeslot.selected')[0]).text();
+            var currentMonthYear = $($('#current-month-year')[0]).text()
+            var month = currentMonthYear.split(' ')[0];
+            var monthNumber = monthNames.indexOf(month) + 1;
+            var year = currentMonthYear.split(' ')[1];
+            var date = $($('div[data-day].selected')[0]).text();
+            var slot = $($('.timeslot.selected')[0]).text();
             if (slot == '' || no_of_appointments.filter(x => x.dateStr == selectedDateTime.date).length > 0) {
                 return;
             }
