@@ -29,9 +29,9 @@ if (!function_exists('get_appointment_types')) {
     $clientUserData = $this->session->userdata();
     applyAdditionalCssStyles($clientUserData);
     ?>
-    <div id="wrapper">
+    <div id="">
         <div id="content">
-            <div class="container">
+            <div class="calendar-section">
                 <?php if (!isset($booking_page['id'])) { ?>
                     <p>Booking page not found</p>
                 <?php } else { ?>
@@ -48,7 +48,7 @@ if (!function_exists('get_appointment_types')) {
                             <div class="row">
                                 <div class="col-md-5" style="margin-bottom:15px">
                                     <br>
-                                    <div id="logo" class="tw-py-2 tw-px-2 tw-h-[63px] tw-flex tw-items-center">
+                                    <div id="logo" class="tw-py-2 tw-px-2 tw-h-[63px] tw-max-h-[100px] tw-max-w-[200px] tw-flex tw-items-center">
                                         <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
                                     </div>
                                     <br>
@@ -341,7 +341,7 @@ if (!function_exists('get_appointment_types')) {
 
 
         function renderCalendar() {
-            calendar.innerHTML = '';
+            var calendar = document.getElementById('calendar');
             const year = date.getFullYear();
             const month = date.getMonth();
             const firstDayOfMonth = new Date(year, month, 1).getDay();
