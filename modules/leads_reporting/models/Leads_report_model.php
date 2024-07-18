@@ -105,7 +105,7 @@ class Leads_Report_model extends App_Model
     {
         $sql = "SELECT COUNT(l.id) as lead_count, l.addedfrom as agent_id, s.firstname as agent
         FROM `tblleads` l
-        LEFT JOIN `tblstaff` s ON l.assigned = s.staffid
+        LEFT JOIN `tblstaff` s ON l.addedfrom = s.staffid
         WHERE 1=1";
 
         // Apply date range filters if provided
@@ -424,6 +424,9 @@ $query = $this->db->query($sql);
             $sql .= " AND DATE(i.datecreated) >= '" . $this->db->escape_str($startDate) . "'";
             $sql .= " AND DATE(i.datecreated) <= '" . $this->db->escape_str($endDate) . "'";
         }
+        if (!is_null($last_action) && $last_action != '') {
+            $sql .= " AND DATE(l.lastContact) = Date('" . $this->db->escape_str($last_action) . "')";
+        }
 
 
         // Apply source filter if provided and not empty
@@ -456,7 +459,7 @@ $query = $this->db->query($sql);
     // Average Sales Cycle
     public function calculate_average_sales_cycle($startDate = null, $endDate = null,$last_action = null, $source = [], $status = [], $staff = []) 
     {
-        $this->db->select('AVG(TIMESTAMPDIFF(HOUR, dateadded, date_converted)) as avg_sales_cycle');
+        $this->db->select('AVG(TIMESTAMPDIFF(DAY, dateadded, date_converted)) as avg_sales_cycle');
         $this->db->from(db_prefix() . 'leads');
         if (!is_null($startDate) && !is_null($endDate)) {
             $this->db->where('DATE(dateAdded) >= ', $startDate);
@@ -465,7 +468,7 @@ $query = $this->db->query($sql);
         
         // Apply last_action filter if provided
         if (!is_null($last_action) && $last_action != '') {
-            $this->db->where('DATE(lastContact)', 'DATE(' . $last_action . ')');
+            $this->db->where('DATE(lastContact)', 'DATE(' . $this->db->escape_str($last_action) . ')');
         }
         
         // Apply source filter if provided and not empty
@@ -527,7 +530,7 @@ $query = $this->db->query($sql);
 
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-            $this->db->where('DATE(l.lastcontact)', 'DATE('.$last_action.')');
+            $this->db->where("DATE(l.lastcontact) = DATE('". $this->db->escape_str($last_action) ." 00:00')");
         }
 
         // Apply status filter if provided and not empty
@@ -575,8 +578,8 @@ $query = $this->db->query($sql);
         ");
 
         // From clause for the query
-        $this->db->from('tblstaff s');
-        $this->db->join('tblleads l', 's.staffid = l.assigned', 'left');
+        $this->db->from('tblleads l');
+        $this->db->join('tblstaff s', 's.staffid = l.assigned', 'left');
 
         // Left join for appointments
         $this->db->join("
@@ -607,7 +610,7 @@ $query = $this->db->query($sql);
 
         // Apply last_action filter if provided and not empty
         if (!is_null($last_action) && $last_action !== '') {
-            $this->db->where('DATE(l.lastcontact)', 'DATE('.$last_action.')');
+            $this->db->where("DATE(l.lastcontact) = DATE('". $last_action ." 00:00')");
         }
 
         // Apply status filter if provided and not empty

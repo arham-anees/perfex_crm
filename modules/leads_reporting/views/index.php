@@ -399,6 +399,7 @@ init_head(); ?>
 <script>
            document.getElementById('clearButton').addEventListener('click', function() {
             document.getElementById('filter-form').reset();
+            document.getElementsByName('last_action_date')[0].value='';
             document.getElementById('filter-form').submit();
         });
     </script>

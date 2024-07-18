@@ -399,6 +399,7 @@ class Appointments extends AdminController
                         $lead_data['status'] = '2';
                         $lead_data['source'] = '1';
                         $lead_data['assigned'] = get_staff_user_id();
+                        $lead_data['hash'] = app_generate_hash();
                         $this->leads_model->add($lead_data);
                         $sql = "SELECT * FROM " . db_prefix() . "leads WHERE email LIKE '" . $data['email'] . "'";
                         $query  = $this->db->query($sql);
