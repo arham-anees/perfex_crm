@@ -66,6 +66,7 @@ class LeadsReport extends AdminController
         $data['lead_source_effectiveness'] = $this->leads_report_model->get_lead_source_effectiveness($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         $data['agent_effectiveness'] = $this->leads_report_model->get_agent_effectiveness_report($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         $data['summary'] = $this->leads_report_model->get_leads_summary($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
+        $data['satisfaction_score_row'] = $this->leads_report_model->calculate_average_satisfaction_score($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         
     
 

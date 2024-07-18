@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $avg_sale_cycle = is_null($average_sales_cycle_length[0]['avg_sales_cycle'])?0:$average_sales_cycle_length[0]['avg_sales_cycle'];
+$satisfaction_score = isset($satisfaction_score_row[0]['satisfaction_score']) ? $satisfaction_score_row[0]['satisfaction_score'] : 0;
+
 
 init_head(); ?>
 <div id="wrapper">
@@ -93,6 +95,16 @@ init_head(); ?>
                               </div>
                            </div>
                         </div>
+                        <div class="col-md-4">
+                           <div class="panel_s">
+                              <div class="panel-body
+                                    tw-text-left">
+                                 <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('leads_avg_satisfaction_score')?></h5>
+                                 <h1 class="bold"><?= round($satisfaction_score, 2) ?></h1>
+                                 <!-- <p class="no-margin">+23(+59.2%)<br>vs prior 30 days</p> -->
+                              </div>
+                           </div>
+                        </div>
                      </div>
                   </div>
                  
@@ -145,6 +157,8 @@ init_head(); ?>
 
                               <div class="panel_s">
                                  <div class="panel-body">
+
+                                 <canvas id="leads_conversion_attrition" width="400" height="200"></canvas>
                                     <!-- <div class="_buttons">
                                        <h4 class="no-margin">Prospect attrition rate</h4>
                                     </div>
@@ -156,7 +170,7 @@ init_head(); ?>
                                              <tr>
                                                 <th><?php echo _l('custom_field_staff'); ?></th>
                                                 <th><?php echo _l('leads_attrition_rate'); ?></th>
-                                                <!-- <th>Attrition Rate</th> -->
+                                                <th><?php echo _l('leads_attrition_rate'); ?></th>
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -166,6 +180,7 @@ init_head(); ?>
                                                 <tr>
                                                    <td><?php echo $source['agent_name']; ?></td>
                                                    <td><?php echo is_null($source['attrition_rate']) ? '-' : round($source['attrition_rate'], 2) . '%'; ?></td>
+                                                   <td><?php echo is_null($source['conversion_rate']) ? '-' : round($source['conversion_rate'], 2) . '%'; ?></td>
                                                 </tr>
                                                 <?php }?>
                                              <?php endforeach; ?>
@@ -188,6 +203,8 @@ init_head(); ?>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
+                                 <canvas id="leads_created_assigned" width="400" height="200"></canvas>
+
                                     <!-- <div class="_buttons">
                                        <h4 class="no-margin">Amount of leads assigned per agent</h4>
                                     </div>
@@ -198,7 +215,7 @@ init_head(); ?>
                                        <thead>
                                           <tr>
                                              <th><?php echo _l('custom_field_staff'); ?></th>
-                                             <!-- <th><?php echo _l('leads_count_assigned'); ?></th> -->
+                                             <th><?php echo _l('leads_count_assigned'); ?></th>
                                              <th>Leads Assigned</th>
                                           </tr>
                                        </thead>
@@ -208,6 +225,7 @@ init_head(); ?>
                                                 <tr>
                                                    <td><?php echo $source['agent']; ?></td>
                                                    <td><?php echo $source['lead_count']; ?></td>
+                                                   <td><?php echo $source['leads_created_count']; ?></td>
                                                 </tr>
                                              <?php endforeach; ?> 
                                              <?php }?>
@@ -341,6 +359,8 @@ init_head(); ?>
                      </div>
 
                      <div class="col-md-12">
+                     <div class="panel_s">
+                     <div class="panel-body">
                         <div class="_buttons">
                            <h4 class="no-margin">Agent Effectiveness</h4>
                         </div>
@@ -378,10 +398,14 @@ init_head(); ?>
                                  <?php }?>
                               </tbody>
                            </table>
+                     </div>  </div>
                      </div>
 
 
                      <div class="col-md-12">
+
+                     <div class="panel_s">
+                                 <div class="panel-body">
                         <div class="_buttons">
                            <h4 class="no-margin">Lead Source Effectiveness</h4>
                         </div>
@@ -421,6 +445,8 @@ init_head(); ?>
                            </table>
                      </div>
                   </div>
+                  </div>
+                  </div>
 
                </div>
             </div>
@@ -429,6 +455,7 @@ init_head(); ?>
    </div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <?php init_tail(); ?>
 <script>
            document.getElementById('clearButton').addEventListener('click', function() {
@@ -437,6 +464,145 @@ init_head(); ?>
             document.getElementById('filter-form').submit();
         });
     </script>
+
+<script>
+      //   document.addEventListener("DOMContentLoaded", function() {
+            var form = document.getElementById('filter-form');
+            var intervalId;
+
+            function submitForm() {
+                form.submit();
+            }
+
+            function setAutoSubmit() {
+                // Clear the existing interval if already set
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
+                // Set the interval to submit the form every 60 seconds (60000 milliseconds)
+                intervalId = setInterval(submitForm, 60000);
+            }
+
+            // Initialize auto-submit when the page loads
+            setAutoSubmit();
+      //   });
+    </script>
+
+    <script>
+<?php       
+$leads_per_agent_json = json_encode($leads_per_agent);
+?>
+      // Data from the variable
+const data  = <?php echo $leads_per_agent_json; ?>;
+
+
+const agents = data.map(item => item.agent ? item.agent : 'No Staff');
+const leadCounts = data.map(item => item.lead_count);
+const createdLeadCounts = data.map(item => item.leads_created_count);
+
+const ctx = document.getElementById('leads_created_assigned').getContext('2d');
+const leads_per_agent_chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: agents,
+        datasets: [
+            {
+                label: 'Leads Assigned',
+                data: leadCounts,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            },
+            {
+                label: 'Leads Created',
+                data: createdLeadCounts,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }
+        ]
+    },
+    options: {
+         indexAxis:'y',
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Leads Assigned and Created by Agents'
+            }
+        }
+    }
+});
+      </script>
+
+<script>
+
+   
+document.addEventListener('DOMContentLoaded', function() {
+<?php       
+$attrition_rate_json = json_encode($attrition_rate);
+?>
+      // Data from the variable
+const attrition_rate_data  = <?php echo $attrition_rate_json; ?>;
+
+
+const agents = attrition_rate_data.map(item => item.agent_name ? item.agent_name : 'No Staff');
+const leadCounts = attrition_rate_data.map(item => item.attrition_rate);
+const createdLeadCounts = attrition_rate_data.map(item => item.conversion_rate);
+
+const ctx = document.getElementById('leads_conversion_attrition').getContext('2d');
+const leads_per_agent_chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: agents,
+        datasets: [
+            {
+               label: 'Attrition Rate',
+               data: leadCounts,
+               backgroundColor: 'rgba(255, 99, 132, 0.2)', 
+               borderColor: 'rgba(255, 99, 132, 1)',
+               borderWidth: 1
+            },
+            {
+               label: 'Conversion Rate',
+               data: createdLeadCounts,
+               backgroundColor: 'rgba(75, 192, 192, 0.2)',
+               borderColor: 'rgba(75, 192, 192, 1)',
+               borderWidth: 1
+            }
+        ]
+    },
+    options: {
+         indexAxis:'y',
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Leads Assigned and Created by Agents'
+            }
+        }
+    }
+});
+});
+      </script>
 </body>
 
 </html>

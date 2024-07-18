@@ -56,7 +56,39 @@ class Leads_Report_model extends App_Model
 
     public function get_leads_assigned_per_agent($startDate = null, $endDate = null, $last_action = null, $source = [], $staff = [], $status = [])
     {
-        $sql = "SELECT COUNT(l.id) as lead_count, l.assigned as agent_id, s.firstname as agent
+        $sql = "SELECT COUNT(l.id) as lead_count, l.assigned as agent_id, s.firstname as agent,
+        (SELECT COUNT(lc.id) 
+             FROM `tblleads` lc 
+             WHERE lc.addedfrom = l.assigned ";
+              if (!is_null($startDate) && !is_null($endDate)) {
+                $sql .= " AND DATE(lc.dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+                $sql .= " AND DATE(lc.dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
+            }
+             // Apply last_action filter if provided
+        if (!is_null($last_action) && $last_action!='') {
+            $sql .= " AND DATE(lc.lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
+        }
+
+        // Apply source filter if provided and not empty
+        if (!empty($source)) {
+            
+            $source_ids = implode(",",  $source);
+            $sql .= " AND lc.source IN (" . $source_ids . ")";
+        }
+
+        // Apply status filter if provided and not empty
+        if (!empty($status)) {
+            $status_ids = implode(",",  $status);
+            $sql .= " AND lc.status IN (" . $status_ids . ")";
+        }
+
+        // Apply staff filter if provided and not empty
+        if (!empty($staff)) {
+            $staff_ids = implode(",",  $staff);
+            $sql .= " AND lc.assigned IN (" . $staff_ids . ")";
+        }
+
+        $sql .= ") as leads_created_count
         FROM `tblleads` l
         LEFT JOIN `tblstaff` s ON l.assigned = s.staffid
         WHERE 1=1";
@@ -88,7 +120,6 @@ class Leads_Report_model extends App_Model
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
             $staff_ids = implode(",",  $staff);
-            log_message('error', 'staff id'. $staff_ids);
             $sql .= " AND l.assigned IN (" . $staff_ids . ")";
         }
 
@@ -137,71 +168,23 @@ class Leads_Report_model extends App_Model
 
         return $query->result_array();
     }
-    // Get leads per agent
-    public function get_leads_assigned_per_agent2($startDate = null, $endDate = null, $last_action = null, $source = [], $staff = [], $statuses=[])
-    {
-        $query = $this->db->query("SELECT COUNT(l.id) as lead_count, 
-                                        s.firstname as agent
-                                    FROM `tblstaff` s
-                                    LEFT JOIN tblleads l
-                                    ON s.staffid = l.assigned
-                                    GROUP BY s.staffid
-       ");
-       
-//        SELECT COUNT(tblleads.id) as lead_count, 
-
-//        tblstaff.firstname as agent
-//    FROM `" . db_prefix() . "leads`
-//    INNER JOIN " . db_prefix() . "staff
-//    ON " . db_prefix() . "staff.staffid = " . db_prefix() . "leads.assigned
-//    GROUP BY " . db_prefix() . "staff.staffid
-
-
-    //    SELECT COUNT(l.id) as lead_count,
-//        s.firstname as firstname
-// FROM " . db_prefix() . "leads l
-// INNER JOIN " . db_prefix() . "staff s
-// ON s.staffid = l.assigned
-// GROUP BY s.staffid
-        
-        return $query->result_array();
-        // $this->db->select('s.firstname as agent, COUNT(l.id) as lead_count');
-        // $this->db->from(db_prefix() . 'staff s');
-        // $this->db->join(db_prefix() . 'leads l', 's.staffid = l.assigned');
-        // $this->db->group_by('s.staffid');
-        // $query = $this->db->get();
-
-        // return $query->result_array();
-    }
-
-
-    public function get_leads_created_per_agent2()
-    {
-        $this->db->select('addedfrom, COUNT(id) as lead_count');
-        $this->db->from(db_prefix() . 'leads');
-        $this->db->group_by('addedfrom');
-        $query = $this->db->get();
-        return $query->result_array(); // Ensure it returns an array
-    }
 
     // Conversion Rate of Prospects to Customers
     public function get_attrition_rate($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
     {
         $sql = "SELECT
-    s.staffid AS agent_id,
-    CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
-    COUNT(DISTINCT l.id) AS total_prospects,
-    SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) AS total_customers,
-    CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN c.leadid IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS conversion_rate,
-    SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) AS attrited_prospects,
-    CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS attrition_rate
-FROM
-    tblstaff s
-LEFT JOIN
-    tblleads l ON s.staffid = l.assigned
-LEFT JOIN
-    tblclients c ON l.id = c.leadid
-WHERE 1=1 ";
+                    l.assigned AS agent_id,
+                    CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
+                    COUNT(l.id) AS total_prospects,
+                    SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) AS attrited_prospects,
+                    CASE WHEN COUNT(l.id) > 0 THEN SUM(CASE WHEN l.lost = 1 OR l.junk = 1 THEN 1 ELSE 0 END) * 100 / COUNT(l.id) ELSE 0 END AS attrition_rate,
+                    SUM(CASE WHEN l.date_converted IS NOT NULL THEN 1 ELSE 0 END) AS converted_clients,
+                    CASE WHEN COUNT(l.id) > 0 THEN SUM(CASE WHEN l.date_converted IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(l.id) ELSE 0 END AS conversion_rate
+                FROM
+                    tblleads l
+                LEFT JOIN
+                    tblstaff s ON l.assigned = s.staffid
+                WHERE 1=1 ";
 
         // Apply date range filters if provided
         if (!is_null($startDate) && !is_null($endDate)) {
@@ -245,79 +228,79 @@ WHERE 1=1 ";
         // $query = $this->db->get();
 
         // Select clause
-//     $this->db->select("
-//     s.staffid AS agent_id,
-//     CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
-//     COUNT(DISTINCT l.id) AS total_prospects,
-//     SUM(CASE WHEN c.clientid IS NOT NULL THEN 1 ELSE 0 END) AS total_customers,
-//     CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN c.clientid IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS conversion_rate
-// ");
+        //     $this->db->select("
+        //     s.staffid AS agent_id,
+        //     CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
+        //     COUNT(DISTINCT l.id) AS total_prospects,
+        //     SUM(CASE WHEN c.clientid IS NOT NULL THEN 1 ELSE 0 END) AS total_customers,
+        //     CASE WHEN COUNT(DISTINCT l.id) > 0 THEN SUM(CASE WHEN c.clientid IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT l.id) ELSE 0 END AS conversion_rate
+        // ");
 
-// // From clause and joins
-// $this->db->from('tblstaff s');
-// $this->db->join('tblleads l', 's.staffid = l.assigned', 'left');
-// $this->db->join('tblclients c', 'l.id = c.leadid', 'left');
-// $this->db->join('tblinvoices i', 'c.userid = i.clientid', 'left');
+        // // From clause and joins
+        // $this->db->from('tblstaff s');
+        // $this->db->join('tblleads l', 's.staffid = l.assigned', 'left');
+        // $this->db->join('tblclients c', 'l.id = c.leadid', 'left');
+        // $this->db->join('tblinvoices i', 'c.userid = i.clientid', 'left');
 
-// // Apply date range filter if provided
-// if (!is_null($startDate) && !is_null($endDate)) {
-//     $this->db->where("DATE(l.dateadded) BETWEEN", [$startDate, $endDate]);
-// }
+        // // Apply date range filter if provided
+        // if (!is_null($startDate) && !is_null($endDate)) {
+        //     $this->db->where("DATE(l.dateadded) BETWEEN", [$startDate, $endDate]);
+        // }
 
-// // Apply status filter if provided and not empty
-// if (!empty($status)) {
-//     $this->db->where_in('l.status', $status);
-// }
+        // // Apply status filter if provided and not empty
+        // if (!empty($status)) {
+        //     $this->db->where_in('l.status', $status);
+        // }
 
-// // Apply staff filter if provided and not empty
-// if (!empty($staff)) {
-//     $this->db->where_in('s.staffid', $staff);
-// }
+        // // Apply staff filter if provided and not empty
+        // if (!empty($staff)) {
+        //     $this->db->where_in('s.staffid', $staff);
+        // }
 
-// // Group by clause
-// $this->db->group_by('s.staffid, CONCAT(s.firstname, " ", s.lastname)');
+        // // Group by clause
+        // $this->db->group_by('s.staffid, CONCAT(s.firstname, " ", s.lastname)');
 
-// // Order by clause (if needed)
-// // $this->db->order_by('agent_name ASC');
+        // // Order by clause (if needed)
+        // // $this->db->order_by('agent_name ASC');
 
-// // Execute the query
-// $query = $this->db->get();
-$query = $this->db->query($sql);
+        // // Execute the query
+        // $query = $this->db->get();
+        $query = $this->db->query($sql);
 
-// Returning the result array
-// return $query->result_array();
+        // Returning the result array
+        // return $query->result_array();
         return $query->result_array();
     }
 
     // Average Time Spent per Prospect
     public function get_average_time_spent_per_prospect($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
     {
-    //     $this->db->select("
-    //     s.staffid AS agent_id,
-    //     CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
-    //     AVG(ipr.amount) AS average_value_won
-    // ");
+        //     $this->db->select("
+        //     s.staffid AS agent_id,
+        //     CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
+        //     AVG(ipr.amount) AS average_value_won
+        // ");
 
-    // // From clause and joins
-    // $this->db->from('tblstaff s');
-    // $this->db->join('tblclients c', 's.staffid = c.leadid', 'left');
-    // $this->db->join('tblinvoices i', 'c.userid = i.clientid', 'left');
-    // $this->db->join('tblinvoicepaymentrecords ipr', 'i.id = ipr.invoiceid', 'left');
+        // // From clause and joins
+        // $this->db->from('tblstaff s');
+        // $this->db->join('tblclients c', 's.staffid = c.leadid', 'left');
+        // $this->db->join('tblinvoices i', 'c.userid = i.clientid', 'left');
+        // $this->db->join('tblinvoicepaymentrecords ipr', 'i.id = ipr.invoiceid', 'left');
 
-    // // Where clause
-    // $this->db->where('ipr.amount >', 0);
+        // // Where clause
+        // $this->db->where('ipr.amount >', 0);
 
-    // // Apply date range filter if provided
-    // if (!is_null($startDate) && !is_null($endDate)) {
-    //     $this->db->where("(i.date BETWEEN '" . $this->db->escape_str($startDate) . "' AND '" . $this->db->escape_str($endDate) . "')");
-    // }
+        // // Apply date range filter if provided
+        // if (!is_null($startDate) && !is_null($endDate)) {
+        //     $this->db->where("(i.date BETWEEN '" . $this->db->escape_str($startDate) . "' AND '" . $this->db->escape_str($endDate) . "')");
+        // }
 
-    // // Group by and order by clauses
-    // $this->db->group_by('s.staffid, agent_name');
-    // // $this->db->order_by('ipr.amount DESC');
+        // // Group by and order by clauses
+        // $this->db->group_by('s.staffid, agent_name');
+        // // $this->db->order_by('ipr.amount DESC');
 
-    // // Execute query
-    // $query = $this->db->get();
+        // // Execute query
+        // $query = $this->db->get();
 
    
 
@@ -489,6 +472,34 @@ $query = $this->db->query($sql);
         // Check if there are results
         if ($query->num_rows() > 0) {
             return $query->result_array();
+        } else {
+            return array();
+        }
+    }
+
+    public function calculate_average_satisfaction_score($startDate = null, $endDate = null,$last_action = null, $source = [], $status = [], $staff = []) 
+    {
+        $this->db->select('AVG(feedback) as satisfaction_score');
+        $this->db->from(db_prefix() . 'appointly_appointments');
+        if (!is_null($startDate) && !is_null($endDate)) {
+            $this->db->where('DATE(date) >= ', $startDate);
+            $this->db->where('DATE(date) <= ', $endDate);
+        }
+        
+        // Apply source filter if provided and not empty
+        if (!empty($source)) {
+            $this->db->where_in('source', $source);
+        }
+        
+        // Apply staff filter if provided and not empty
+        if (!empty($staff)) {
+            $this->db->where_in('assigned', $staff);
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+        // Check if there are results
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
         } else {
             return array();
         }
@@ -722,7 +733,6 @@ $query = $this->db->query($sql);
 
         // Remove the last UNION ALL
         $sql    = substr($sql, 0, -10);
-        log_message('error', $sql);
         $result = $CI->db->query($sql)->result();
 
         if (!$has_permission_view) {
