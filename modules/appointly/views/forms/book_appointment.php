@@ -27,6 +27,7 @@ if (!function_exists('get_appointment_types')) {
     }
     div#lead-appointments-content .container{
     width: inherit !important;
+    background: #ffff;
 }
 
 </style>
@@ -40,11 +41,11 @@ if (!function_exists('get_appointment_types')) {
     ?>
     <div id="wrapper">
         <div id="content" class = "thankyou-in-lead">
-            <div class="container">
+            <div id="response"></div>
+            <div class="container flex">
                 <?php if (!isset($booking_page['id'])) { ?>
                     <p>Booking page not found</p>
                 <?php } else { ?>
-                    <div id="response"></div>
 
                     <?php echo form_open('appointly/appointments_public/create_external_appointment_booking_page/' . $booking_page['url'], ['id' => 'appointments-form']); ?>
 
@@ -96,8 +97,6 @@ if (!function_exists('get_appointment_types')) {
                                         </div>
                                         <div class=" clearfix mtop15"></div>
                                     <?php } ?>
-                                    <div class="row">
-                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="g-recaptcha"
                                                     data-sitekey="<?php echo get_option('recaptcha_site_key'); ?>"></div>
@@ -116,7 +115,8 @@ if (!function_exists('get_appointment_types')) {
                                                         </div>
                                                     </div>
 
-                                                    <div class="timeslots" id="timeslots">
+                                                    <div class="timeslots" id="timeslots" style="display:none;">
+
                                                         <p id="selected-date"></p>
                                                         <p id="timelabel" class="timelabel"></p>
                                                         <div id="timeslot-list" class="scroll"
@@ -130,8 +130,6 @@ if (!function_exists('get_appointment_types')) {
 
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div id="step2" style="display: none;" class="col-md-7">
 
