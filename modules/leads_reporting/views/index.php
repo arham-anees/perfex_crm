@@ -275,14 +275,20 @@ init_head(); ?>
             const currentDate = new Date();
             const pastDate = new Date(currentDate);
             pastDate.setDate(currentDate.getDate() - 30);
-            document.getElementsByName('end_date')[0].value=`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
-            document.getElementsByName('start_date')[0].value=`${pastDate.getFullYear()}-${pastDate.getMonth()}-${pastDate.getDate()}`;;
+            document.getElementsByName('end_date')[0].value=formatDate(currentDate);
+            document.getElementsByName('start_date')[0].value=formatDate(pastDate);
             document.getElementsByName('last_action_date')[0].value='';
             document.getElementsByName('attendees[]')[0].value='';
             document.getElementsByName('selected_statuses[]')[0].value='';
             document.getElementsByName('selected_sources[]')[0].value='';
             document.getElementById('filter-form').submit();
         });
+        function formatDate(dateTime){
+         const year = dateTime.getFullYear();
+         const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so add 1
+         const date = String(dateTime.getDate()).padStart(2, '0');
+         return `${year}-${month}-${date}`;
+        }
 </script>
 
 
