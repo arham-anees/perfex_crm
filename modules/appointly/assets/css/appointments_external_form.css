@@ -99,6 +99,7 @@ body .busy_google_time {
     border-radius: 4px;
     background: #fff;
     height: max-content;
+    max-width: fit-content;
 }
 
 .hwp {

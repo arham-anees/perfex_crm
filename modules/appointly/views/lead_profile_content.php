@@ -3,9 +3,9 @@
   <div class="">
       <div class="">
           <div class="">
-          <button type="button" class="btn btn-info hidden" id="showAppointmentList">Book an appointment</button>
-                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Booking
-                      Pages</button>
+          <a class="hidden" id="showAppointmentList">Back to appointments</a>
+                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Book an appointment
+                      </button>
 
               <div  id="appointmentList">
 
@@ -41,9 +41,9 @@
                   <!-- <span class="label label-info label-big pull-right mtop5"><?= _d(date('Y-m-d')); ?></span> -->
                   <h4><?= _l('appointment_lead_no_appointments'); ?>
                   </h4>
-                  <button type="button" class="btn btn-info hidden" id="showAppointmentList">Book an appointment</button>
-                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Booking
-                      Pages</button>
+                  <a class="hidden mtop5" id="showAppointmentList">Back to appointments</a>
+                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Book an appointment
+                      </button>
               </div>
           </div>
       </div>
@@ -52,7 +52,7 @@
 
 <div id="bookingPages" class="hidden">
 <?php if (!empty($booking_pages)): ?>
-  <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc">
+  <table class="table dt-table table-statuses" data-order-col="0" data-order-type="asc" id = "bookingPagesTable">
       <thead>
           <tr>
               <th><?php echo _l('appointment_name'); ?></th>
@@ -62,13 +62,12 @@
       <tbody>
           <tr>
               <td><?= _l('booking_page_default_form') ?></td>
-              <td><span onclick="load_booking_page('<?php echo site_url('appointly/appointments_public/form'); ?>')"
-                      target="_blank">appointly/appointments_public/form</a></td>
+              <td><span onclick="load_booking_page('<?php echo site_url('appointly/appointments_public/form'); ?>')" target="_blank">appointly/appointments_public/form</span></td>
           </tr>
           <?php foreach ($booking_pages as $page): ?>
               <tr>
-                  <td><?php echo $page['name']; ?></td>
-                  <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')" ><?php echo ($page['url']); ?></a></td>
+                  <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')" ><?php echo $page['name']; ?></span></td>
+                  <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')" ><?php echo $page['url']; ?></span></td>
               </tr>
           <?php endforeach; ?>
       </tbody>
@@ -94,24 +93,27 @@
 <?php endif; ?>
 </div>
 
-<div id="booking_page_form"></div>
+<div id="booking_page_form" class="hidden"></div>
 
 <script>
-    function load_booking_page(url){
+    function load_booking_page(url) {
         $.ajax({
-url: url,
-method: 'GET',
-success: function (response) {
-console.log(response);
-$('#booking_page_form').html(response);
-
-},
-error: function () {
-alert('Failed to fetch lead profile content.');
-}
-});
+            url: url,
+            method: 'GET',
+            success: function (response) {
+                console.log(response);
+                $('#booking_page_form').html(response);
+                $('#booking_page_form').removeClass('hidden');
+                $('#bookingPagesTable').addClass('hidden'); 
+                $('#bookingPages').addClass('hidden');
+            },
+            error: function () {
+                alert('Failed to fetch lead profile content.');
+            }
+        });
     }
-    </script>
+</script>
+
 <script>
     $(document).ready(function () {
         $('#showAppointmentList').click(function () {
@@ -119,6 +121,7 @@ alert('Failed to fetch lead profile content.');
             $('#bookingPages').addClass('hidden');
             $('#showAppointmentList').addClass('hidden');
             $('#showBookingPages').removeClass('hidden');
+            $('#booking_page_form').addClass('hidden');
         });
 
         $('#showBookingPages').click(function () {
@@ -126,6 +129,8 @@ alert('Failed to fetch lead profile content.');
             $('#appointmentList').addClass('hidden');
             $('#showBookingPages').addClass('hidden');
             $('#showAppointmentList').removeClass('hidden');
+            $('#booking_page_form').addClass('hidden'); 
+            $('#bookingPagesTable').removeClass('hidden'); 
         });
     });
 </script>
