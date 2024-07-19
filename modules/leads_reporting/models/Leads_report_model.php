@@ -346,12 +346,58 @@ class Leads_Report_model extends App_Model
     }
 
     // Follow-up Rate with Prospects
-    public function get_follow_up_rate()
+    public function get_follow_up_rate($startDate = null, $endDate = null, $last_action = null, $source = [], $status = [], $staff = [])
     {
-        $this->db->select('assigned, COUNT(id) as total_leads, SUM(IF(last_status_change IS NOT NULL, 1, 0)) as follow_ups');
-        $this->db->from(db_prefix() . 'leads');
-        $this->db->group_by('assigned');
-        $query = $this->db->get();
+        
+        $sql = "SELECT 
+            s.staffid AS agent_id,
+            CONCAT(s.firstname, ' ', s.lastname) AS agent_name,
+            COUNT(CASE WHEN la.description IN ('not_lead_activity_contacted', 'not_activity_new_reminder_create', 'not_lead_activity_status_updated', 'not_lead_activity_note_added') THEN 1 END) AS follow_ups
+        FROM 
+            " . db_prefix() . "lead_activity_log la
+        LEFT JOIN 
+            " . db_prefix() . "leads l ON la.leadid = l.id
+        LEFT JOIN 
+            " . db_prefix() . "staff s ON l.assigned = s.staffid
+        WHERE 1=1";
+
+         // Apply date range filters if provided
+         if (!is_null($startDate) && !is_null($endDate)) {
+            $sql .= " AND DATE(l.dateadded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+            $sql .= " AND DATE(l.dateadded) <= DATE('" . $this->db->escape_str($endDate) . "')";
+        }
+    
+        // Apply last_action filter if provided and not empty
+        if (!is_null($last_action) && $last_action !== '') {
+                $sql .= " AND l.lastcontact = DATE('" . $this->db->escape_str($last_action) . "')";
+        }
+    
+        // Apply source filter if provided and not empty
+        if (!empty($source)) {
+            $source_ids = implode(",", $source);
+            $sql .= " AND l.source IN (" . $source_ids . ")";
+        }
+    
+        // Apply status filter if provided and not empty
+        if (!empty($status)) {
+            $status_ids = implode(",",  $status);
+            $sql .= " AND l.status IN (" . $status_ids . ")";
+        }
+    
+        // Apply staff filter if provided and not empty
+        if (!empty($staff)) {
+            $staff_ids = implode(",",  $staff);
+            $sql .= " AND l.assigned IN (" . $staff_ids . ")";
+        }
+
+            // " AND l.addeddate BETWEEN " . $this->db->escape($startDate) . " AND " . $this->db->escape($endDate);
+            // "AND l.source IN (" . implode(',', array_map([$this->db, 'escape'], $source)) . ")";
+            // "AND l.assigned IN (" . implode(',', array_map([$this->db, 'escape'], $staff)) . ")";
+        
+            $sql .= "GROUP BY 
+            s.staffid;
+        ";
+        $query = $this->db->query($sql);
         return $query->result_array();
     }
 
@@ -477,13 +523,19 @@ class Leads_Report_model extends App_Model
         }
     }
 
+
     public function calculate_average_satisfaction_score($startDate = null, $endDate = null,$last_action = null, $source = [], $status = [], $staff = []) 
     {
         $this->db->select('AVG(feedback) as satisfaction_score');
         $this->db->from(db_prefix() . 'appointly_appointments');
+        
+        // Join with appointly_attendees table
+        $this->db->join(db_prefix() . 'appointly_attendees', db_prefix() . 'appointly_appointments.id = ' . db_prefix() . 'appointly_attendees.appointment_id', 'left');
+        
         if (!is_null($startDate) && !is_null($endDate)) {
             $this->db->where('DATE(date) >= ', $startDate);
             $this->db->where('DATE(date) <= ', $endDate);
+            // $sql .= " AND (DATE(date) >= '2024-01-01 00:00' AND DATE(date) <= '2024-12-31')";
         }
         
         // Apply source filter if provided and not empty
@@ -493,13 +545,15 @@ class Leads_Report_model extends App_Model
         
         // Apply staff filter if provided and not empty
         if (!empty($staff)) {
-            $this->db->where_in('assigned', $staff);
+            $this->db->where_in(db_prefix() . 'appointly_attendees.staff_id', $staff);
+            // $sql .= " AND tblappointly_attendees.staff_id IN (1);";
         }
-        $query = $this->db->get();
-        return $query->result_array();
-        // Check if there are results
+        $query = 
+        // $query = $this->db->query($sql);
+        $this->db->get();
+        
         if ($query->num_rows() > 0) {
-            return $query->row_array();
+            return $query->result_array();
         } else {
             return array();
         }
@@ -676,29 +730,29 @@ class Leads_Report_model extends App_Model
             'color' => '',
         ];*/
 
-        $sql_internal="SELECT * FROM " . db_prefix() . 'leads WHERE 1=1';
+        $sql_internal="SELECT l.* FROM " . db_prefix() . 'leads l WHERE 1=1';
              // Apply date range filters if provided
              if (!is_null($startDate) && !is_null($endDate)) {
-                $sql_internal .= " AND DATE(dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
-                $sql_internal .= " AND DATE(dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
+                $sql_internal .= " AND DATE(l.dateAdded) >= DATE('" . $this->db->escape_str($startDate) . "')";
+                $sql_internal .= " AND DATE(l.dateAdded) <= DATE('" . $this->db->escape_str($endDate) . "')";
             }
     
             // Apply last_action filter if provided
             if (!is_null($last_action) && $last_action!='') {
-                $sql_internal .= " AND DATE(lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
+                $sql_internal .= " AND DATE(l.lastContact) = DATE('" . $this->db->escape_str($last_action) . "')";
             }
     
             // Apply source filter if provided and not empty
             if (!empty($source)) {
                 
                 $source_ids = implode(",",  $source);
-                $sql_internal .= " AND source IN (" . $source_ids . ")";
+                $sql_internal .= " AND l.source IN (" . $source_ids . ")";
             }
     
             // Apply status filter if provided and not empty
             if (!empty($status)) {
                 $status_ids = implode(",",  $status);
-                $sql_internal .= " AND status IN (" . $status_ids . ")";
+                $sql_internal .= " AND l.status IN (" . $status_ids . ")";
             }
     
             // Apply staff filter if provided and not empty
