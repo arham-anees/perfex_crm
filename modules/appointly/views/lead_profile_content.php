@@ -62,12 +62,12 @@
       <tbody>
           <tr>
               <td><?= _l('booking_page_default_form') ?></td>
-              <td><span onclick="load_booking_page('<?php echo site_url('appointly/appointments_public/form'); ?>')" target="_blank">appointly/appointments_public/form</span></td>
+              <td><span onclick="load_booking_page('<?php echo ('appointly/appointments_public/form'); ?>', true)" target="_blank">appointly/appointments_public/form</span></td>
           </tr>
           <?php foreach ($booking_pages as $page): ?>
               <tr>
-                  <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')" ><?php echo $page['name']; ?></span></td>
-                  <td><span onclick="load_booking_page('<?php echo site_url($page['url']); ?>')" ><?php echo $page['url']; ?></span></td>
+                  <td><span onclick="load_booking_page('<?php echo ($page['url']); ?>', false)" ><?php echo $page['name']; ?></span></td>
+                  <td><span onclick="load_booking_page('<?php echo ($page['url']); ?>', false)" ><?php echo $page['url']; ?></span></td>
               </tr>
           <?php endforeach; ?>
       </tbody>
@@ -81,7 +81,8 @@
 <div id="booking_page_form" class="hidden"></div>
 
 <script>
-    function load_booking_page(url) {
+    function load_booking_page(url, isdefault) {
+        url=isdefault?site_url+url:site_url+'appointly/appointments_public/create_external_appointment_booking_page_modal/'+url
         $.ajax({
             url: url,
             method: 'GET',
