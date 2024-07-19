@@ -275,8 +275,8 @@ init_head(); ?>
             const currentDate = new Date();
             const pastDate = new Date(currentDate);
             pastDate.setDate(currentDate.getDate() - 30);
-            document.getElementsByName('start_date')[0].value=`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
-            document.getElementsByName('end_date')[0].value=`${pastDate.getFullYear()}-${pastDate.getMonth()}-${pastDate.getDate()}`;;
+            document.getElementsByName('end_date')[0].value=`${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
+            document.getElementsByName('start_date')[0].value=`${pastDate.getFullYear()}-${pastDate.getMonth()}-${pastDate.getDate()}`;;
             document.getElementsByName('last_action_date')[0].value='';
             document.getElementsByName('attendees[]')[0].value='';
             document.getElementsByName('selected_statuses[]')[0].value='';
@@ -757,7 +757,7 @@ init_head(); ?>
             clearInterval(intervalId);
          }
          // Set the interval to submit the form every 60 seconds (60000 milliseconds)
-         intervalId = setInterval(fetchDataAndDrawChart, 3000);
+         intervalId = setInterval(fetchDataAndDrawChart, 60000);
    }
 
 
