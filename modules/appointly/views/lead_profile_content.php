@@ -72,22 +72,7 @@
           <?php endforeach; ?>
       </tbody>
   </table>
-  <?php render_datatable([
-      _l('id'),
-      [
-          'th_attrs' => ['width' => '300px'],
-          'name' => _l('appointment_subject')
-      ],
-      _l('appointment_meeting_date'),
-      _l('appointment_initiated_by'),
-      _l('appointment_description'),
-      _l('appointment_status'),
-      _l('appointment_source'),
-      [
-          'th_attrs' => ['width' => '120px'],
-          'name' => _l('appointments_table_calendar')
-      ]
-  ], 'appointments'); ?>
+
 <?php else: ?>
   <p><?php echo _l('No booking pages found.'); ?></p>
 <?php endif; ?>
