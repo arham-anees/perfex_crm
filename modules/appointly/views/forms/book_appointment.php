@@ -21,6 +21,15 @@ if (!function_exists('get_appointment_types')) {
     <link href="<?= module_dir_url('appointly', 'assets/css/appointments_external_form.css'); ?>" rel="stylesheet"
         type="text/css">
 </head>
+<style>
+      div#lead-appointments-content #wrapper{
+        margin: 0;
+    }
+    div#lead-appointments-content .container{
+    width: inherit !important;
+}
+
+</style>
 
 <body class="appointments-external-form" <?php if (is_rtl(true)) {
     echo ' dir="rtl"';
@@ -29,9 +38,9 @@ if (!function_exists('get_appointment_types')) {
     $clientUserData = $this->session->userdata();
     applyAdditionalCssStyles($clientUserData);
     ?>
-    <div id="">
+    <div id="wrapper">
         <div id="content" class = "thankyou-in-lead">
-            <div class="calendar-section">
+            <div class="container">
                 <?php if (!isset($booking_page['id'])) { ?>
                     <p>Booking page not found</p>
                 <?php } else { ?>
@@ -46,7 +55,7 @@ if (!function_exists('get_appointment_types')) {
                         <div class="mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
 
                             <div class="row">
-                                <div class="col-md-5" style="margin-bottom:15px">
+                                <div class="col-md-4" style="margin-bottom:15px">
                                     <br>
                                     <div id="logo" class="tw-py-2 tw-px-2 tw-max-h-[100px] tw-max-w-[200px] tw-flex tw-items-center">
                                         <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
@@ -67,7 +76,7 @@ if (!function_exists('get_appointment_types')) {
 
                                 </div>
 
-                                <div id="step1" class="mbot20 col-md-7" style="border-left: 1px solid #eee">
+                                <div id="step1" class="mbot20 col-md-8" style="border-left: 1px solid #eee">
 
                                     <?php $appointment_types = get_appointment_types();
 

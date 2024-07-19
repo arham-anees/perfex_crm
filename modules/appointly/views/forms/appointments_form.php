@@ -19,6 +19,16 @@ if (!function_exists('get_appointment_types')) {
 
     <link href="<?= module_dir_url('appointly', 'assets/css/appointments_external_form.css'); ?>" rel="stylesheet"
         type="text/css">
+
+        <style>
+    div#lead-appointments-content #wrapper{
+        margin: 0;
+    }
+        div#lead-appointments-content .container{
+    width: inherit !important;
+}
+
+</style>
 </head>
 
 <body class="appointments-external-form" <?php if (is_rtl(true)) {
