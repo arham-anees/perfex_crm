@@ -39,7 +39,7 @@
           <div class="">
               <div class="">
                   <!-- <span class="label label-info label-big pull-right mtop5"><?= _d(date('Y-m-d')); ?></span> -->
-                  <h4><?= _l('appointment_lead_no_appointments'); ?>
+                  <h4 id="no-appointment-message"><?= _l('appointment_lead_no_appointments'); ?>
                   </h4>
                   <a class="hidden mtop5" id="showAppointmentList">Back to appointments</a>
                   <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Book an appointment
@@ -117,6 +117,7 @@
 <script>
     $(document).ready(function () {
         $('#showAppointmentList').click(function () {
+            $('#no-appointment-message').removeClass('hidden');
             $('#appointmentList').removeClass('hidden');
             $('#bookingPages').addClass('hidden');
             $('#showAppointmentList').addClass('hidden');
@@ -125,6 +126,7 @@
         });
 
         $('#showBookingPages').click(function () {
+            $('#no-appointment-message').addClass('hidden');
             $('#bookingPages').removeClass('hidden');
             $('#appointmentList').addClass('hidden');
             $('#showBookingPages').addClass('hidden');

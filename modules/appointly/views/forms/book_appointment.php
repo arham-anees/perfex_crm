@@ -52,7 +52,7 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="rel_type" value="booking_page">
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
-                    <div class="row main_wrapper">
+                    <div class="row">
                         <div class="mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
 
                             <div class="row">
@@ -103,7 +103,7 @@ if (!function_exists('get_appointment_types')) {
                                                 <div id="recaptcha_response_field" class="text-danger"></div>
 
                                                 <h2 class="heading">Select Date and Time</h2>
-                                                <div class="flex">
+                                                <div style="display:flex">
                                                     <div class="calendar-container">
                                                         <div class="month-switch">
                                                             <button type="button" id="prev-month">&lt;</button>
