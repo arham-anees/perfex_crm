@@ -313,6 +313,24 @@ if ( ! function_exists('convertDateForDatabase')) {
         ];
     }
 }
+if ( ! function_exists('getDirectAppointmentsSourceId')) {
+    function getDirectAppointmentsSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Direct Appointment');
+ 
+        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    }
+}
+if ( ! function_exists('getBookingPageSourceId')) {
+    function getBookingPageSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Booking Pages');
+
+        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    }
+}
 
 
 /**

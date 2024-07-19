@@ -208,6 +208,21 @@ if (!function_exists('init_appointly_database_tables')) {
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
         );
 
+        $CI->db->query(
+            "INSERT INTO tblleads_sources (name)
+            SELECT 'Booking Pages'
+            WHERE NOT EXISTS (
+                SELECT 1 FROM tblleads_sources WHERE name = 'Booking Pages'
+            );"
+        );
+        $CI->db->query(
+            "INSERT INTO tblleads_sources (name)
+            SELECT 'Direct Appointment'
+            WHERE NOT EXISTS (
+                SELECT 1 FROM tblleads_sources WHERE name = 'Direct Appointment'
+            );"
+        );
+
         checkForModuleReinstallation();
     }
 }
