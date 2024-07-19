@@ -57,7 +57,7 @@ class LeadsReport extends AdminController
         $data['attrition_rate'] = $this->leads_report_model->get_attrition_rate($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         
         $data['average_time_spent_per_prospect'] = $this->leads_report_model->get_average_time_spent_per_prospect($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
-        // $data['follow_up_rate'] = $this->leads_report_model->get_follow_up_rate();
+        $data['follow_up_rate'] = $this->leads_report_model->get_follow_up_rate($start_date, $end_date, $last_action_date, $selected_sources, $selected_statuses, $attendees);
         // $data['appointments_set'] = $this->leads_report_model->get_appointments_set();
         // $data['prospect_attrition_rate'] = $this->leads_report_model->get_prospect_attrition_rate($start_date, $end_date);
 

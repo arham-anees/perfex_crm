@@ -1,6 +1,16 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 $avg_sale_cycle = is_null($average_sales_cycle_length[0]['avg_sales_cycle'])?0:$average_sales_cycle_length[0]['avg_sales_cycle'];
 $satisfaction_score = isset($satisfaction_score_row[0]['satisfaction_score']) ? $satisfaction_score_row[0]['satisfaction_score'] : 0;
+$follow_up_rate = isset($follow_up_rate[0])?$follow_up_rate:[];
+$total_follow_ups=0;
+$total_leads=0;
+foreach ($follow_up_rate as $result) {
+   $total_follow_ups += $result['follow_ups'];
+   $total_leads += 1; // Each row represents one lead
+}
+
+// Calculate the average follow-up rate
+$average_follow_up_rate = ($total_leads > 0) ? $total_follow_ups / $total_leads : 0;
 
 
 init_head(); ?>
@@ -85,7 +95,7 @@ init_head(); ?>
 
                     </div>
                      <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                            <div class="panel_s">
                               <div class="panel-body
                                     tw-text-left">
@@ -95,12 +105,22 @@ init_head(); ?>
                               </div>
                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                            <div class="panel_s">
                               <div class="panel-body
                                     tw-text-left">
                                  <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('leads_avg_satisfaction_score')?></h5>
                                  <h1 class="bold"><?= round($satisfaction_score, 2) ?><span style="font-size:12px">/5</span></h1>
+                                 <!-- <p class="no-margin">+23(+59.2%)<br>vs prior 30 days</p> -->
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                           <div class="panel_s">
+                              <div class="panel-body
+                                    tw-text-left">
+                                 <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('leads_avg_satisfaction_score')?></h5>
+                                 <h1 class="bold"><?= round($average_follow_up_rate, 2) ?></h1>
                                  <!-- <p class="no-margin">+23(+59.2%)<br>vs prior 30 days</p> -->
                               </div>
                            </div>
@@ -139,6 +159,13 @@ init_head(); ?>
                               <div class="panel_s">
                                  <div class="panel-body">
                                     <canvas id="timeChart" width="400" height="200"></canvas>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="panel_s">
+                                 <div class="panel-body">
+                                    <canvas id="follow_up" width="900" height="200"></canvas>
                                  </div>
                               </div>
                            </div>
@@ -285,8 +312,8 @@ init_head(); ?>
 
 
          const agents = data.map(item => item.agent ? item.agent : 'No Staff');
-         const leadCounts = data.map(item => item.lead_count);
-         const createdLeadCounts = data.map(item => item.leads_created_count);
+         const leadCounts = data.map(item => item.lead_count?item.lead_count:0);
+         const createdLeadCounts = data.map(item => item.leads_created_count?item.leads_created_count:0);
 
          const ctx = document.getElementById('leads_created_assigned').getContext('2d');
          const leads_per_agent_chart = new Chart(ctx, {
@@ -344,8 +371,8 @@ init_head(); ?>
 
 
             const agents = attrition_rate_data.map(item => item.agent_name ? item.agent_name : 'No Staff');
-            const leadCounts = attrition_rate_data.map(item => item.attrition_rate);
-            const createdLeadCounts = attrition_rate_data.map(item => item.conversion_rate);
+            const leadCounts = attrition_rate_data.map(item => item.attrition_rate?item.attrition_rate:0);
+            const createdLeadCounts = attrition_rate_data.map(item => item.conversion_rate?item.conversion_rate:0);
 
             const ctx = document.getElementById('leads_conversion_attrition').getContext('2d');
             const leads_per_agent_chart = new Chart(ctx, {
@@ -406,7 +433,7 @@ init_head(); ?>
       const averageValueData = <?php echo $average_value_json; ?>;
 
       const agentNames = averageValueData.map(item => item.agent_name?item.agent_name:'No Staff');
-      const averageValues = averageValueData.map(item => item.average_value_won);
+      const averageValues = averageValueData.map(item => item.average_value_won?item.average_value_won:0);
 
       const ctx = document.getElementById('leads_value_won').getContext('2d');
       const myDonutChart = new Chart(ctx, {
@@ -416,16 +443,8 @@ init_head(); ?>
                datasets: [{
                   label: 'Average Value Won',
                   data: averageValues,
-                  backgroundColor: [
-                     'rgba(255, 99, 132, 0.2)',
-                     'rgba(54, 162, 235, 0.2)',
-                     'rgba(75, 192, 192, 0.2)'
-                  ],
-                  borderColor: [
-                     'rgba(255, 99, 132, 1)',
-                     'rgba(54, 162, 235, 1)',
-                     'rgba(75, 192, 192, 1)'
-                  ],
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
                   borderWidth: 1
                }]
          },
@@ -475,7 +494,7 @@ init_head(); ?>
    document.addEventListener('DOMContentLoaded', function() {
     // Prepare data for Chart.js
     const agentNames = timeTakenData.map(item => item.agent_name?item.agent_name:'No Staff');
-    const timeToConvert = timeTakenData.map(item => item.avg_conversion_time);
+    const timeToConvert = timeTakenData.map(item => item.avg_conversion_time?item.avg_conversion_time:0);
 
     const ctx = document.getElementById('timeChart').getContext('2d');
     const timeChart = new Chart(ctx, {
@@ -512,6 +531,53 @@ init_head(); ?>
 });
 
 // end of time taken to convert lead
+</script>
+
+<script>
+
+    <?php       
+   $follow_up_json = json_encode($follow_up_rate);
+   ?>
+   // start of time taken to convert lead
+   const follow_up_data = <?php echo $follow_up_json; ?>;
+    const follow_up__agent_names = follow_up_data.map(item => item.agent_name?item.agent_name:'No Staff');
+    const follow_up_time = follow_up_data.map(item => item.follow_ups?item.follow_ups:0);
+
+    // start of follow up
+    const follow_up_ctx = document.getElementById('follow_up').getContext('2d');
+    const follow_up_chart = new Chart(follow_up_ctx, {
+        type: 'bar',
+        data: {
+            labels: follow_up__agent_names,
+            datasets: [{
+                label: 'Follow ups',
+                data: follow_up_time,
+
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Change to horizontal bar chart
+            scales: {
+                x: {
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Time Taken to Convert Leads by Agent'
+                }
+            }
+        }
+    });
+    // end of follow up rate
 </script>
 </body>
 
