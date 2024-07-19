@@ -691,7 +691,8 @@ init_head(); ?>
    // Fetch data from the new endpoint and redraw the chart
    function fetchDataAndDrawChart() {
       const formElement = document.forms['filter-form'];
-      const queryString =window.location.search;// getFormValuesAsQueryString(formElement);
+      const queryString =window.location.search;
+      if(queryString=='') getFormValuesAsQueryString(formElement);
       $.ajax({
          url: '<?= admin_url('leads_reporting/leadsreport/report')?>'+queryString ,
          method: 'GET',

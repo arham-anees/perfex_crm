@@ -37,13 +37,13 @@
   <div class="">
       <div class="">
           <div class="">
-              <div class="">
+              <div style="justify-content:space-between; display:flex;">
                   <!-- <span class="label label-info label-big pull-right mtop5"><?= _d(date('Y-m-d')); ?></span> -->
                   <h4 id="no-appointment-message"><?= _l('appointment_lead_no_appointments'); ?>
                   </h4>
-                  <a class="hidden mtop5" id="showAppointmentList">Back to appointments</a>
-                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">Book an appointment
-                      </button>
+                  <a class="hidden mtop5" id="showAppointmentList"><i class="fa fa-arrow-left"></i>&nbsp;<?= _l('booking_back_to_appointments')?></a>
+                  <button type="button" class="btn btn-info" id="showBookingPages" style="float:right;">
+                    <?=  _l('booking_book_appointments')?></button>
               </div>
           </div>
       </div>
@@ -87,7 +87,6 @@
             url: url,
             method: 'GET',
             success: function (response) {
-                console.log(response);
                 $('#booking_page_form').html(response);
                 $('#booking_page_form').removeClass('hidden');
                 $('#bookingPagesTable').addClass('hidden'); 

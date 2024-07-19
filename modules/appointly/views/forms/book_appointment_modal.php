@@ -23,7 +23,6 @@ if (!function_exists('get_appointment_types')) {
     applyAdditionalCssStyles($clientUserData);
     ?>
     <div id="wrapper">
-        test
         <div id="content" class = "thankyou-in-lead">
             <div id="response"></div>
             <div class="container">
@@ -115,7 +114,7 @@ if (!function_exists('get_appointment_types')) {
                                                 </div>
                                             </div>
                                 </div>
-                                <div id="step2" style="display: none;" class="col-md-7">
+                                <div id="step2" style="display: none;" class="col-md-8">
 
                                     <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?>
                                     </div>
@@ -246,7 +245,7 @@ if (!function_exists('get_appointment_types')) {
     <?php endif; ?>
 
     <!-- Javascript functionality -->
-    <?php require ('modules/appointly/assets/js/appointments_external_form_booking.php'); ?>
+    <?php require ('modules/appointly/assets/js/appointments_external_form_booking_modal.php'); ?>
 
     <!-- If callbacks is enabled load on appointments external form -->
     <?php if (isset($booking_page['callbacks_mode_enabled']) && $booking_page['callbacks_mode_enabled'] == 1)
