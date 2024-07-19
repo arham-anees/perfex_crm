@@ -42,7 +42,7 @@ if (!function_exists('get_appointment_types')) {
     <div id="wrapper">
         <div id="content" class = "thankyou-in-lead">
             <div id="response"></div>
-            <div class="container flex">
+            <div class="container">
                 <?php if (!isset($booking_page['id'])) { ?>
                     <p>Booking page not found</p>
                 <?php } else { ?>
@@ -77,7 +77,7 @@ if (!function_exists('get_appointment_types')) {
 
                                 </div>
 
-                                <div id="step1" class="mbot20 col-md-8" style="border-left: 1px solid #eee">
+                                <div id="step1" class="mbot20 col-md-8 text-center" style="border-left: 1px solid #eee">
 
                                     <?php $appointment_types = get_appointment_types();
 
@@ -103,7 +103,7 @@ if (!function_exists('get_appointment_types')) {
                                                 <div id="recaptcha_response_field" class="text-danger"></div>
 
                                                 <h2 class="heading">Select Date and Time</h2>
-                                                <div style="display:flex">
+                                                <div style="display:flex; justify-content:center;">
                                                     <div class="calendar-container">
                                                         <div class="month-switch">
                                                             <button type="button" id="prev-month">&lt;</button>
