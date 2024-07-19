@@ -29,6 +29,9 @@ if (!function_exists('get_appointment_types')) {
     width: inherit !important;
     background: #ffff;
 }
+.img-responsive{
+    max-width:250px;
+}
 
 </style>
 
@@ -52,16 +55,19 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="rel_type" value="booking_page">
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
-                    <div class="row main_wrapper-in-page">
-                        <div class="mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
+                    <div class="">
+                        <div class="mbot20 ">
 
-                            <div class="row">
-                                <div class="col-md-4" style="margin-bottom:15px">
-                                    <br>
+                            <div class="" style="display:flex;background: #fff;
+    width: fit-content;
+    justify-content: center;
+    margin: auto;
+    padding: 30px;
+    border-radius: 5px; ">
+                                <div class="" style="margin-bottom:15px">
                                     <div id="logo" class="tw-py-2 tw-px-2 tw-max-h-[100px] tw-max-w-[200px] tw-flex tw-items-center">
                                         <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
                                     </div>
-                                    <br>
                                     <hr>
                                     <h3 style="font-size:35px"><?= $booking_page['name'] ?></h3>
                                     <?php if (isset($booking_page['duration_minutes'])) { ?>
@@ -77,7 +83,7 @@ if (!function_exists('get_appointment_types')) {
 
                                 </div>
 
-                                <div id="step1" class="mbot20 col-md-8 text-center" style="border-left: 1px solid #eee">
+                                <div id="step1" class="mbot20" style="border-left: 1px solid #eee; padding-left:20px">
 
                                     <?php $appointment_types = get_appointment_types();
 
@@ -131,7 +137,7 @@ if (!function_exists('get_appointment_types')) {
                                                 </div>
                                             </div>
                                 </div>
-                                <div id="step2" style="display: none;" class="col-md-7">
+                                <div id="step2" style="display: none; padding-left:20px;min-width:516px" class="">
 
                                     <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?>
                                     </div>

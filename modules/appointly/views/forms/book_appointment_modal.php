@@ -44,7 +44,6 @@ if (!function_exists('get_appointment_types')) {
                                     <div id="logo" class="tw-py-2 tw-px-2 tw-max-h-[100px] tw-max-w-[200px] tw-flex tw-items-center">
                                         <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
                                     </div>
-                                    <br>
                                     <hr>
                                     <h3 style="font-size:35px"><?= $booking_page['name'] ?></h3>
                                     <?php if (isset($booking_page['duration_minutes'])) { ?>
