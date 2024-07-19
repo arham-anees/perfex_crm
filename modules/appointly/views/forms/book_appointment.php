@@ -52,7 +52,7 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="rel_type" value="booking_page">
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
 
-                    <div class="row">
+                    <div class="row main_wrapper-in-page">
                         <div class="mbot20 <?= ($this->input->get('col')) ? $this->input->get('col') : 'col-md-12'; ?>">
 
                             <div class="row">

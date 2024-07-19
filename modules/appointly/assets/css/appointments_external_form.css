@@ -102,6 +102,14 @@ body .busy_google_time {
     max-width: fit-content;
 }
 
+.main_wrapper-in-page {
+    padding: 25px;
+    box-shadow: 0px 0px 0px 1px rgb(1 1 1 / 8%);
+    border-radius: 4px;
+    background: #fff;
+    height: max-content;
+}
+
 .hwp {
     border-radius: 4px;
     padding: 4px 10px;
