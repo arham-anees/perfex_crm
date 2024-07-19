@@ -403,7 +403,7 @@ if (!function_exists('get_appointment_types')) {
                     this.classList.add('selected');
 
                     // Display timeslots and update the selected date
-                    var selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${monthNames[month]}`;
+                    var selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${month}`;
                     selectedDateElem.textContent = selectedDate;
                     selectedLabel.textContent = "View times where you are available";
                     timeslots.style.display = 'flex';
