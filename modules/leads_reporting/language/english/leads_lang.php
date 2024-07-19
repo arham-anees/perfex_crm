@@ -23,3 +23,4 @@ $lang['leads_quotes_sent'] = 'Quotes Sent';
 $lang['leads_quotes_signed'] = 'Quotes Signed';
 $lang['leads_source_name'] = 'Source';
 $lang['leads_avg_satisfaction_score'] = 'Satisfaction Score';
+$lang['leads_avg_follow_up'] = 'Average Follow up Rate';
