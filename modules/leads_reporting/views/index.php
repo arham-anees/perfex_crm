@@ -20,7 +20,7 @@ init_head(); ?>
          <div class="col-md-12">
             <div class="panel_s">
                <div class="panel-body">
-                  <form method="GET" action="<?php echo admin_url('/leads_reporting/leadsreport') ?>" id="filter-form">
+                  <form method="GET" action="<?php echo admin_url('leads_reporting/leadsreport') ?>" id="filter-form">
                      <div class="col-md-12 no-padding">
                         <div class="col-md-4">
                            <?php echo render_datetime_input('start_date', 'leads_start_date', $start_date, [], [], '', 'appointment-date'); ?>
@@ -133,21 +133,21 @@ init_head(); ?>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                 <canvas id="leads_conversion_attrition" width="400" height="200"></canvas>
+                                 <canvas id="leads_conversion_attrition" width="400" height="300" ></canvas>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                 <canvas id="leads_created_assigned" width="400" height="200"></canvas>
+                                 <canvas id="leads_created_assigned" width="400" height="300" ></canvas>
                                  </div>
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                 <canvas id="leads_value_won" width="400" height="200"></canvas>
+                                 <canvas id="leads_value_won" width="400"height="300"></canvas>
                                  </div>
                               </div>
                            </div>
@@ -155,7 +155,7 @@ init_head(); ?>
                            <div class="col-md-6">
                               <div class="panel_s">
                                  <div class="panel-body">
-                                    <canvas id="timeChart" width="400" height="200"></canvas>
+                                    <canvas id="timeChart" width="400" height="300"></canvas>
                                  </div>
                               </div>
                            </div>
@@ -229,8 +229,8 @@ init_head(); ?>
                                  <th><?php echo _l('leads_avg_convertion_time'); ?></th>
                                  <th><?php echo _l('leads_conversion_rate'); ?></th>
                                  <th><?php echo _l('leads_total_count'); ?></th>
-                                 <!-- <th><?php echo _l('total_appointments'); ?></th> -->
-                                 <!-- <th><?php echo _l('appointments_missed'); ?></th> -->
+                                 <th><?php echo _l('leads_total_appointments'); ?></th>
+                                 <th><?php echo _l('leads_missed_appointments'); ?></th>
                                  <th><?php echo _l('leads_quotes_sent'); ?></th>
                                  <th><?php echo _l('leads_quotes_signed'); ?></th>
                               </tr>
@@ -243,8 +243,8 @@ init_head(); ?>
                                        <td><?php echo is_null($source['avg_conversion_time']) ? '-' : round($source['avg_conversion_time'], 2); ?></td>
                                        <td><?php echo is_null($source['conversion_rate']) ? '-' : round($source['conversion_rate'], 2) . '%' ?></td>
                                        <td><?php echo is_null($source['total_leads']) ? '-' : $source['total_leads']; ?></td>
-                                       <!-- <td><?php echo is_null($source['total_appointments']) ? '-' : $source['total_appointments']; ?></td> -->
-                                       <!-- <td><?php echo is_null($source['appointments_missed']) ? '-' : $source['appointments_missed']; ?></td> -->
+                                       <td><?php echo is_null($source['total_appointments']) ? '-' : $source['total_appointments']; ?></td>
+                                       <td><?php echo is_null($source['appointments_missed']) ? '-' : $source['appointments_missed']; ?></td>
                                        <td><?php echo is_null($source['quotes_sent']) ? '-' : $source['quotes_sent']; ?></td>
                                        <td><?php echo is_null($source['quotes_signed']) ? '-' : $source['quotes_signed']; ?></td>
                                     </tr>
@@ -311,7 +311,7 @@ init_head(); ?>
 
       // Create a new chart
       leadsPerAgentChart = new Chart(ctx, {
-         type: 'bar',
+         type: 'horizontalBar',
          data: {
                labels: agents,
                datasets: [
@@ -373,7 +373,7 @@ init_head(); ?>
 
       // Create a new chart
       conversionAttritionChart = new Chart(ctx, {
-         type: 'bar',
+         type: 'horizontalBar',
          data: {
                labels: agents,
                datasets: [
@@ -394,7 +394,6 @@ init_head(); ?>
                ]
          },
          options: {
-               indexAxis: 'y', // Change to horizontal bar chart
                scales: {
                   x: {
                      beginAtZero: true
@@ -436,7 +435,7 @@ init_head(); ?>
 
       // Create a new chart
       myBarChart = new Chart(ctx, {
-         type: 'bar', // Changed to 'bar'
+         type: 'horizontalBar', // Changed to 'bar'
          data: {
                labels: agentNames,
                datasets: [{
@@ -448,11 +447,13 @@ init_head(); ?>
                }]
             },
             options: {
+               stacked:true,
                   responsive: true,
                   scales: {
-                     y: {
+                     x: {
                         beginAtZero: true
-                     }
+                     },
+                     
                   },
                   plugins: {
                      legend: {
@@ -501,7 +502,7 @@ init_head(); ?>
 
       // Create a new chart
       timeChart = new Chart(ctx, {
-         type: 'bar',
+         type: 'horizontalBar',
          data: {
                labels: agentNames,
                datasets: [{
@@ -598,6 +599,8 @@ init_head(); ?>
                <td>${source.avg_conversion_time !== null ? round(source.avg_conversion_time, 2) : '-'}</td>
                <td>${source.conversion_rate !== null ? round(source.conversion_rate, 2) + '%' : '-'}</td>
                <td>${source.total_leads !== null ? source.total_leads : '-'}</td>
+               <td>${source.total_appointments !== null ? source.total_appointments : '-'}</td>
+               <td>${source.appointments_missed !== null ? source.appointments_missed : '-'}</td>
                <td>${source.quotes_sent !== null ? source.quotes_sent : '-'}</td>
                <td>${source.quotes_signed !== null ? source.quotes_signed : '-'}</td>
          `;

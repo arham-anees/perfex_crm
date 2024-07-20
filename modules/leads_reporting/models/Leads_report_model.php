@@ -564,19 +564,21 @@ class Leads_Report_model extends App_Model
     {
           // Select clause for the query
           $this->db->select("
-          ls.name AS source_name,
-          AVG(TIMESTAMPDIFF(DAY, l.dateadded, l.date_converted)) AS avg_conversion_time,
-          CASE WHEN COUNT(l.id) > 0 THEN SUM(CASE WHEN l.date_converted IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(l.id) ELSE 0 END AS conversion_rate,
-          COUNT(l.id) AS total_leads,
-          COALESCE(pro.quotes_sent, 0) AS quotes_sent,
-          COALESCE(pro.quotes_signed, 0) AS quotes_signed
+            ls.name AS source_name,
+            AVG(TIMESTAMPDIFF(DAY, l.dateadded, l.date_converted)) AS avg_conversion_time,
+            CASE WHEN COUNT(l.id) > 0 THEN SUM(CASE WHEN l.date_converted IS NOT NULL THEN 1 ELSE 0 END) * 100 / COUNT(l.id) ELSE 0 END AS conversion_rate,
+            COUNT(l.id) AS total_leads,
+            COALESCE(a.total_appointments, 0) AS total_appointments,
+            COALESCE(a.appointments_missed, 0) AS appointments_missed,
+            COALESCE(pro.quotes_sent, 0) AS quotes_sent,
+            COALESCE(pro.quotes_signed, 0) AS quotes_signed
         ");
 
         // From clause for the query with dynamic prefix and table name
         $this->db->from($this->db->dbprefix('leads') . ' l');
 
         // Join with lead_sources table to get source names
-        $this->db->join($this->db->dbprefix('leads_sources') . ' ls', 'ls.id = l.source', 'left');
+        $this->db->join($this->db->dbprefix('leads_sources') . ' ls', 'ls.id = l.source', 'right');
 
         // Left join for proposals
         $this->db->join("
@@ -586,6 +588,16 @@ class Leads_Report_model extends App_Model
             FROM " . $this->db->dbprefix('proposals') . "
             GROUP BY assigned
             ) pro", 'pro.assigned = l.source', 'left');
+
+                    // Left join for appointments
+        $this->db->join("(SELECT email, COUNT(email) AS total_appointments,
+                            SUM( CASE WHEN STR_TO_DATE( CONCAT(DATE, ' ', start_hour),
+                                '%Y-%m-%d %H:%i:%s') > NOW() THEN 0 ELSE 1
+                                END) AS appointments_missed
+                        FROM tblappointly_appointments
+                        WHERE cancelled = 0
+                        GROUP BY email
+                    ) a", 'a.email = l.email', 'left');
 
         // Apply date range filter if provided
         if (!is_null($startDate) && !is_null($endDate)) {
