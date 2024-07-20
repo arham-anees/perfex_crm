@@ -435,7 +435,7 @@ init_head(); ?>
 
       // Create a new chart
       myBarChart = new Chart(ctx, {
-         type: 'horizontalBar', // Changed to 'bar'
+         type: 'bar', // Changed to 'bar'
          data: {
                labels: agentNames,
                datasets: [{
