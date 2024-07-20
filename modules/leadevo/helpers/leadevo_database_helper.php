@@ -63,6 +63,84 @@ if (!function_exists('init_appointly_database_tables')) {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_prospect_types (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_prospect_categories (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_campaign_statuses (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_acquisition_channels (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_industries (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_industry_categories (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_report_lead_statuses (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "leadevo_report_lead_reasons (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `name` varchar(191) DEFAULT NULL,
+                `description` varchar(191) DEFAULT NULL,
+                `is_active` bit DEFAULT b'1',           
+                PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+        
+        
+        
+        
+        
+        
         
         // Add a new column with an optional relationship
         // $CI->db->query(
