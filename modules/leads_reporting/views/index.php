@@ -176,7 +176,7 @@ init_head(); ?>
                         </div>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
-                        <table class="table dt-table table-leads-report" id="agent-effectiveness-table" data-order-col="0" data-order-type="asc">
+                        <table class="table table-leads-report" id="agent-effectiveness-table" data-order-col="0" data-order-type="asc">
                            <thead>
                               <tr>
                                  <th><?php echo _l('leads_agent_name'); ?></th>
@@ -222,7 +222,7 @@ init_head(); ?>
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
                         
-                        <table class="table dt-table table-leads-report" id="lead-source-effectiveness-table" data-order-col="0" data-order-type="asc">
+                        <table class="table table-leads-report" id="lead-source-effectiveness-table" data-order-col="0" data-order-type="asc">
                            <thead>
                               <tr>
                                  <th><?php echo _l('leads_source_name'); ?></th>
@@ -667,6 +667,7 @@ init_head(); ?>
         $('#'+id).DataTable().destroy();
     }
     initDataTableInline($('#'+id));
+    $('#'+id).DataTable().order([2, 'desc']).draw()
    }
 </script>
 
@@ -772,6 +773,12 @@ init_head(); ?>
 
 
    setAutoSubmit();
+   setTimeout(() => {
+      _reinitDataTable('agent-effectiveness-table');
+      _reinitDataTable('lead-source-effectiveness-table')
+      // $('#agent-effectiveness-table').DataTable().order([2, 'desc']).draw()
+      // $('#lead-source-effectiveness-table').DataTable().order([2, 'desc']).draw()
+   }, 200);
 </script>
 </body>
 
