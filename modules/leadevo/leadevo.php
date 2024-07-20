@@ -61,6 +61,26 @@ function leadevo_register_menu_items()
             'icon'     => 'fa-regular fa-chart-bar',
         ]);
     }
+    $CI->app_menu->add_setup_menu_item(LEAD_EVO_MODULE_NAME, [
+        'collapse' => true,
+        'name'     => _l('leadevo_setup_menu'),
+        'position' => 20,
+        'badge'    => [],
+    ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-prospect-status',
+        'name'     => _l('leadevo_setup_prospect_status_menu'),
+        'href'     => admin_url('appointly/statuses'),
+        'position' => 5,
+        'badge'    => [],
+    ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'appointly-subjects',
+        'name'     => _l('setup_appointments_subjects'),
+        'href'     => admin_url('appointly/subjects'),
+        'position' => 5,
+        'badge'    => [],
+    ]);
 }
 
 /**
