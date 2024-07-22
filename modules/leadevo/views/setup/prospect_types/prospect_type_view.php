@@ -21,7 +21,10 @@
                                 <td><?php echo $type->is_active ? 'Active' : 'Inactive'; ?></td>
                             </tr>
                         </table>
-                        <a href="<?php echo admin_url('leadEvo/prospecttypes'); ?>" class="btn btn-primary"><?php echo _l('Back to List'); ?></a>
+                        <a href="<?php echo admin_url('leadevo/prospecttypes/edit/' . $type->id); ?>" class="btn btn-primary">
+                                <?php echo _l('Edit'); ?>
+                            </a>
+                        <a href="<?php echo admin_url('leadEvo/prospecttypes'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>
             </div>

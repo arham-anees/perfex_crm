@@ -90,12 +90,34 @@ function leadevo_register_menu_items()
         'position' => 7,
         'badge'    => [],
     ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-industries',
+        'name'     => _l('leadevo_setup_industries_menu'),
+        'href'     => admin_url('leadevo/industries'),
+        'position' => 8,
+        'badge'    => [],
+    ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-industry_categories',
+        'name'     => _l('leadevo_setup_industry_categories_menu'),
+        'href'     => admin_url('leadevo/industry_categories'),
+        'position' => 9,
+        'badge'    => [],
+    ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-acquisition_channels',
+        'name'     => _l('leadevo_setup_acquisition_channels_menu'),
+        'href'     => admin_url('leadevo/acquisition_channels'),
+        'position' => 10,
+        'badge'    => [],
+    ]);
+    
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
         'slug'     => 'appointly-subjects',
         'name'     => _l('setup_appointments_subjects'),
         'href'     => admin_url('appointly/subjects'),
-        'position' => 8,
+        'position' => 14,
         'badge'    => [],
     ]);
 }
