@@ -11,7 +11,7 @@ class ProspectStatus extends AdminController
     public function index()
     {
         $data['statuses'] = $this->prospect_status_model->get_all();
-        $this->load->view('setup/prospect_status_view', $data);
+        $this->load->view('setup/prospect_status', $data);
     }
 
   
@@ -57,7 +57,7 @@ class ProspectStatus extends AdminController
     public function view($id) // Add this method to handle the view route
     {
         $data['status'] = $this->prospect_status_model->get($id);
-        $this->load->view('setup/prospect_status_view_single', $data); // Create this view file
+        $this->load->view('setup/prospect_status_view', $data); // Create this view file
     }
 }
 ?>
