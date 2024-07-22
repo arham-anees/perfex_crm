@@ -590,14 +590,15 @@ class Leads_Report_model extends App_Model
             ) pro", 'pro.assigned = l.source', 'left');
 
                     // Left join for appointments
-        $this->db->join("(SELECT email, COUNT(email) AS total_appointments,
+        $this->db->join("(SELECT ls.id, COUNT(contact_id) AS total_appointments,
                             SUM( CASE WHEN STR_TO_DATE( CONCAT(DATE, ' ', start_hour),
                                 '%Y-%m-%d %H:%i:%s') > NOW() THEN 0 ELSE 1
                                 END) AS appointments_missed
                         FROM tblappointly_appointments
-                        WHERE cancelled = 0
-                        GROUP BY email
-                    ) a", 'a.email = l.email', 'left');
+ INNER JOIN tblleads  l ON l.id  = contact_id 
+ INNER JOIN tblleads_sources ls ON ls.id = l.source
+ WHERE cancelled = 0 and approved =1  and contact_id IS NOT NULL
+                        GROUP BY ls.id) a", 'a.id = ls.id', 'left');
 
         // Apply date range filter if provided
         if (!is_null($startDate) && !is_null($endDate)) {
@@ -626,6 +627,7 @@ class Leads_Report_model extends App_Model
 
         // Group by source
         $this->db->group_by('l.source');
+        $this->db->group_by('a.id');
 
         // Order by conversion rate descending
         $this->db->order_by('conversion_rate DESC');
