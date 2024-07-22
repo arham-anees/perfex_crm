@@ -111,6 +111,13 @@ function leadevo_register_menu_items()
         'position' => 10,
         'badge'    => [],
     ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-campaign_status',
+        'name'     => _l('leadevo_setup_campaign_status_menu'),
+        'href'     => admin_url('leadevo/campaign_statuses'),
+        'position' => 11,
+        'badge'    => [],
+    ]);
     
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
