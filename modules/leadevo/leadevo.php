@@ -23,10 +23,6 @@ register_language_files(LEAD_EVO_MODULE_NAME, ['leadevo']);
 hooks()->add_action('admin_init', 'leadevo_register_permissions');
 hooks()->add_action('admin_init', 'leadevo_register_menu_items');
 
-
-
-
-
 /**
  * Hook for assigning staff permissions for appointments module.
  */
@@ -45,7 +41,6 @@ function leadevo_register_permissions()
     register_staff_capabilities('appointments', $capabilities, _l('appointment_appointments'));
 }
 
-
 /**
  * Register new menu item in sidebar menu.
  */
@@ -61,24 +56,39 @@ function leadevo_register_menu_items()
             'icon'     => 'fa-regular fa-chart-bar',
         ]);
     }
+
+    // Register setup menu item
     $CI->app_menu->add_setup_menu_item(LEAD_EVO_MODULE_NAME, [
         'collapse' => true,
         'name'     => _l('leadevo_setup_menu'),
         'position' => 20,
         'badge'    => [],
     ]);
+
+    // Register Prospect Status menu item
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
         'slug'     => 'leadevo-setup-prospect-status',
         'name'     => _l('leadevo_setup_prospect_status_menu'),
-        'href'     => admin_url('leadevo/ProspectStatus'),
+        'href'     => admin_url('leadevo/prospectstatus'),
         'position' => 5,
         'badge'    => [],
     ]);
+
+    // Register Prospect Types menu item
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-prospect-types',
+        'name'     => _l('leadevo_setup_prospect_types_menu'),
+
+        'href'     => admin_url('leadevo/prospecttypes'),
+        'position' => 6,
+        'badge'    => [],
+    ]);
+    // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
         'slug'     => 'appointly-subjects',
         'name'     => _l('setup_appointments_subjects'),
         'href'     => admin_url('appointly/subjects'),
-        'position' => 5,
+        'position' => 7,
         'badge'    => [],
     ]);
 }
