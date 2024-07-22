@@ -118,6 +118,20 @@ function leadevo_register_menu_items()
         'position' => 11,
         'badge'    => [],
     ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-lead_reason',
+        'name'     => _l('leadevo_setup_lead_reason_menu'),
+        'href'     => admin_url('leadevo/lead_reasons'),
+        'position' => 12,
+        'badge'    => [],
+    ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-lead_status',
+        'name'     => _l('leadevo_setup_lead_status_menu'),
+        'href'     => admin_url('leadevo/lead_statuses'),
+        'position' => 12,
+        'badge'    => [],
+    ]);
     
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
