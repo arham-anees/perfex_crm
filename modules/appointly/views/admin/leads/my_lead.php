@@ -410,10 +410,8 @@ if (isset($lead)) {
 <?php hooks()->do_action('lead_modal_profile_bottom', (isset($lead) ? $lead->id : '')); ?>
 
 <script>
-    $($('a[href=#lead_appointments]')[0]).on('click',function(event){
-        console.log('test')
-        var leadId = $($('.lead-modal .modal-title')[0]).text().split('#')[1].trim().split(' ')[0];
-      
+        var leadId = <?= $lead->id ?>
+
             // Make an AJAX call to fetch the lead profile content
             $.ajax({
                 url: admin_url + 'appointly/appointments/get_lead_profile_content/' + leadId,
@@ -433,6 +431,4 @@ if (isset($lead)) {
                     alert('Failed to fetch lead profile content.');
                 }
             });
-        }
-    )
     </script>

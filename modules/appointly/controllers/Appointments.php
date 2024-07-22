@@ -32,8 +32,9 @@ class Appointments extends AdminController
         $this->load->view('index', $data);
     }
 
-    public function get_lead_profile_content($lead_id)
+    public function get_lead_profile_content()
     {
+        $lead_id = $this->input->post('id');
         // Fetch data from the database or model
         $data['td_appointments'] = $this->apm->fetch_lead_appointments($lead_id);
         $booking_pages=$this->booking_page_model->get_all();
