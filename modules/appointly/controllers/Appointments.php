@@ -32,11 +32,13 @@ class Appointments extends AdminController
         $this->load->view('index', $data);
     }
 
-    public function get_lead_profile_content()
+    public function get_lead_profile_content( $lead_id = '')
     {
-        $lead_id = $this->input->post('id');
+        // $lead_id = $this->input->post('id');
+        log_message('error', $lead_id);
+
         // Fetch data from the database or model
-        $data['td_appointments'] = $this->apm->fetch_lead_appointments($lead_id);
+        $data['td_appointments'] =is_null($lead_id)?[]: $this->apm->fetch_lead_appointments($lead_id);
         $booking_pages=$this->booking_page_model->get_all();
         $data['booking_pages'] =$booking_pages;
         // Load the view content into a variable
@@ -383,7 +385,8 @@ class Appointments extends AdminController
         $data = $this->input->post();
 
         if (!empty($data)) {
-            if ($this->apm->insert_appointment($data)) {
+            $lead_id =$this->apm->insert_appointment($data);
+            if(isset($lead_id) && $lead_id > 0) {
                 if (!isset($data['rel_id'])) {
                     $sql = "SELECT * FROM " . db_prefix() . "leads WHERE email LIKE '" . $data['email'] . "'";
                     $query  = $this->db->query($sql);
@@ -405,7 +408,13 @@ class Appointments extends AdminController
                         $sql = "SELECT * FROM " . db_prefix() . "leads WHERE email LIKE '" . $data['email'] . "'";
                         $query  = $this->db->query($sql);
                         $lead =  $query->row_array();
+                        $data['contact_id']=$lead['id'];
                         $data['rel_id'] = $lead['id'];
+                        
+
+                        $sql_appointment = "UPDATE " . db_prefix() . "appointly_appointments SET contact_id = ".$lead['id'] . " WHERE id = " .$lead_id;
+                        $query_appointment  = $this->db->query($sql_appointment);
+                        // $query_appointment->row_array();
                     }
                 }
                 if (isset($data['rel_id'])) {
