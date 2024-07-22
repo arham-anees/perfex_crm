@@ -83,12 +83,19 @@ function leadevo_register_menu_items()
         'position' => 6,
         'badge'    => [],
     ]);
+    $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
+        'slug'     => 'leadevo-setup-prospect-categories',
+        'name'     => _l('leadevo_setup_prospect_categories_menu'),
+        'href'     => admin_url('leadevo/prospectcategories'),
+        'position' => 7,
+        'badge'    => [],
+    ]);
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
         'slug'     => 'appointly-subjects',
         'name'     => _l('setup_appointments_subjects'),
         'href'     => admin_url('appointly/subjects'),
-        'position' => 7,
+        'position' => 8,
         'badge'    => [],
     ]);
 }
