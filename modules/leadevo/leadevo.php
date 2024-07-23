@@ -55,8 +55,24 @@ function leadevo_register_menu_items()
             'position' => 21,
             'icon'     => 'fa-regular fa-chart-bar',
         ]);
-    }
 
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'appointly-user-dashboard',
+            'name'     => 'Prospects',
+            'href'     => admin_url('leadevo/prospects'),
+            'position' => 5,
+            'icon'     => 'fa fa-th-list',
+        ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'appointly-user-dashboard',
+            'name'     => 'Campaigns',
+            'href'     => admin_url('leadevo/campaigns'),
+            'position' => 10,
+            'icon'     => 'fa fa-th-list',
+        ]);
+
+
+    }
     // Register setup menu item
     $CI->app_menu->add_setup_menu_item(LEAD_EVO_MODULE_NAME, [
         'collapse' => true,
