@@ -1,6 +1,4 @@
-<?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 Module Name: Menu Setup
@@ -33,6 +31,7 @@ function module_menu_setup_action_links($actions)
 
     return $actions;
 }
+
 /**
 * Load the module helper
 */
