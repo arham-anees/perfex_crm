@@ -125,9 +125,8 @@ class Appointly_model extends App_Model
         $data['id'] = $this->insertHandleCustomFieldsAndNotifications($data, $attendees);
         if($data['id']>0){
         $this->appointly_send_email_templates_instant($data);
-        return true;
         }
-        return false;
+        return $data['id'];
     }
 
 
@@ -705,8 +704,6 @@ class Appointly_model extends App_Model
      */
     public function fetch_lead_appointments($lead_id)
     {
-        $date = new DateTime();
-        $today = $date->format('Y-m-d');
 
         $staff_has_permissions = ! staff_can('view', 'appointments') || ! staff_can('view_own', 'appointments');
 
