@@ -85,7 +85,7 @@ if (!function_exists('get_appointment_types')) {
                                                 <div id="recaptcha_response_field" class="text-danger"></div>
 
                                                 <h2 class="heading">Select Date and Time</h2>
-                                                <div style="display:flex; justify-content:center;">
+                                                <div class="wrap" style="display:flex; justify-content:center;">
                                                     <div class="calendar-container">
                                                         <div class="month-switch">
                                                             <button type="button" id="prev-month">&lt;</button>

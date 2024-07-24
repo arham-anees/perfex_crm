@@ -177,10 +177,9 @@ h1 {
 .calendar-box {
     display: flex;
     background: #fff;
-    width: fit-content;
     margin: auto;
     padding: 30px;
-    /* max-width: 900px; */
+    max-width: 920px;
     min-height: 550px;
     transition: all .22s ease-out;
     width: 95%;
@@ -337,6 +336,9 @@ h1 {
     }
     .heading{
         text-align: center;
+    }
+    .wrap{
+        flex-wrap: wrap;
     }
 }
 
