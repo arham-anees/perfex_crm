@@ -73,6 +73,6 @@ class Appointments_subject_model extends App_Model
     {
         $data = ['subject' => $subject];
         $this->db->where('id', $subject_id);
-        return $this->db->update('tblappointly_appointments_subjects', $data);
+        return $this->db->update(db_prefix() .'appointly_appointments_subjects', $data);
     }
 }

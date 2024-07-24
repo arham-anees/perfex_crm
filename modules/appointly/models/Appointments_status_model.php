@@ -53,7 +53,7 @@ class Appointments_status_model extends App_Model
     public function update($id, $name)
     {
         $this->db->where('id', $id);
-        return $this->db->update('tblappointly_appointments_statuses', ['name' => $name]);
+        return $this->db->update( db_prefix() . 'appointly_appointments_statuses', ['name' => $name]);
     }
 
 
