@@ -34,6 +34,7 @@ if (!function_exists('get_appointment_types')) {
     .img-responsive {
         max-width: 250px;
     }
+    
 </style>
 
 <body class="appointments-external-form" <?php if (is_rtl(true)) {
