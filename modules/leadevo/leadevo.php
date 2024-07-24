@@ -64,13 +64,21 @@ function leadevo_register_menu_items()
             'position' => 1,
             'icon'     => 'fa fa-th-list',
         ]);
+        //this is the prospects menu item for the user
         $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
             'slug'     => 'leadevo-user-prospects',
             'name'     => 'Prospects',
-            'href'     => admin_url('leadevo/prospects'),
-            'position' => 5,
+            'href'     => admin_url('leadevo/client/prospect'),
+            'position' => 2,
             'icon'     => 'fa fa-th-list',
         ]);
+        // $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+        //     'slug'     => 'leadevo-user-prospects',
+        //     'name'     => 'Prospects',
+        //     'href'     => admin_url('leadevo/prospects'),
+        //     'position' => 5,
+        //     'icon'     => 'fa fa-th-list',
+        // ]);
         $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
             'slug'     => 'leadevo-user-comaigns',
             'name'     => 'Campaigns',
