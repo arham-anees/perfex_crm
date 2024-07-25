@@ -146,7 +146,7 @@ if (!function_exists('get_appointment_types')) {
                                     <div class="timeslots" id="timeslots" style="display:none;">
                                         <p id="selected-date"></p>
                                         <p id="timelabel" class="timelabel"></p>
-                                        <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 282px;">
+                                        <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 45vh;">
                                         </div>
                                     </div>
 
@@ -497,6 +497,7 @@ if (!function_exists('get_appointment_types')) {
     </script>
     <script>
         function nextStep() {
+           
             var currentMonthYear = $($('#current-month-year')[0]).text()
             var month = currentMonthYear.split(' ')[0];
             var monthNumber = monthNames.indexOf(month) + 1;
