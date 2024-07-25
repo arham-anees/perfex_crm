@@ -359,4 +359,5 @@ $lang['booking_page_default_form'] = 'Default Form';
 $lang['booking_back_to_appointments'] = 'Back to Appointments';
 $lang['booking_book_appointments'] = 'Book an Appointment';
 $lang['subject_booking_page_name_field'] = 'Booking Page';
-
+$lang['booking_page_thank_scheduled'] = "You have an appointment";
+$lang['booking_page_thanks_email_inviation']="A calendar invitation will be sent to your email address when appointment is approved.";
