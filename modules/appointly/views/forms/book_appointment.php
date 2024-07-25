@@ -60,7 +60,7 @@ if (!function_exists('get_appointment_types')) {
 
                     <div class="calendar-box">
                         <!-- leftside -->
-                        <div class="d-flex tw-justify-between tw-flex-col" style="margin-bottom:15px; padding-right:20px">
+                        <div class="d-flex tw-justify-between tw-flex-col" style="margin-bottom:15px; padding-right:20px; border-right: 1px solid #eee; max-width:320px">
                             <div>
                                 <div id="logo"
                                     class="tw-py-2 tw-px-2 tw-max-h-[180px] tw-max-w-[200px] tw-flex tw-items-center tw-justify-center">
@@ -78,6 +78,9 @@ if (!function_exists('get_appointment_types')) {
                                     provided upon confirmation.
                                 </p>
 
+                                <p id="datetime"><?$date?></p>
+                                <!-- <p id="timezone"></p> -->
+
                                 <span style="font-size:15px;">Description: </span>
                                 <span style="font-size:15px; font-weight:700">
                                     <?= $booking_page['description'] ?>
@@ -93,7 +96,7 @@ if (!function_exists('get_appointment_types')) {
 
                         </div>
                         <!-- right side -->
-                        <div id="step1" class="mbot20" style="border-left: 1px solid #eee; padding-left:20px">
+                        <div id="step1" class="mbot20" style=" padding-left:20px;">
 
                             <?php $appointment_types = get_appointment_types();
 
@@ -462,10 +465,13 @@ if (!function_exists('get_appointment_types')) {
             }
         }
 
-
+        var datetimeslot;
 
         function submitDateTime(dateTime) {
-
+            debugger
+            console.log(dateTime);
+            datetimeslot = dateTime;
+            console.log(this.datetimeslot);
         }
 
         prevMonthButton.addEventListener('click', function () {
@@ -479,6 +485,39 @@ if (!function_exists('get_appointment_types')) {
         });
 
         renderCalendar();
+
+        function nextStep() {
+           
+           var currentMonthYear = $($('#current-month-year')[0]).text()
+           var month = currentMonthYear.split(' ')[0];
+           var monthNumber = monthNames.indexOf(month) + 1;
+           var year = currentMonthYear.split(' ')[1];
+           var date = $($('div[data-day].selected')[0]).text();
+           var slot = $($('.timeslot.selected')[0]).text();
+           if (slot == '' || no_of_appointments.filter(x => x.dateStr == selectedDateTime.date).length > 0) {
+               return;
+           }
+
+           no_of_appointments.push({ dateStr: selectedDateTime.date, dateFormatted: `${year}-${monthNumber}-${date} ${slot}:00` });
+           createList();
+           document.getElementById('step1').style.display = 'none';
+           document.getElementById('step2').style.display = 'block';
+           document.getElementById('datetime').style.display = 'block';
+           document.getElementById('timezone').style.display = 'block';
+           document.getElementById('datetime').innerText = 'Selected date: '+ datetimeslot.date;
+           document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
+       }
+       
+
+       function prevStep() {
+           no_of_appointments = [];
+           createList();
+           document.getElementById('step1').style.display = 'block';
+           document.getElementById('step2').style.display = 'none';
+           document.getElementById('datetime').style.display = 'none';
+           document.getElementById('timezone').style.display = 'none';
+
+       }
 
     </script>
     <script>
@@ -495,32 +534,7 @@ if (!function_exists('get_appointment_types')) {
             });
         });
     </script>
-    <script>
-        function nextStep() {
-           
-            var currentMonthYear = $($('#current-month-year')[0]).text()
-            var month = currentMonthYear.split(' ')[0];
-            var monthNumber = monthNames.indexOf(month) + 1;
-            var year = currentMonthYear.split(' ')[1];
-            var date = $($('div[data-day].selected')[0]).text();
-            var slot = $($('.timeslot.selected')[0]).text();
-            if (slot == '' || no_of_appointments.filter(x => x.dateStr == selectedDateTime.date).length > 0) {
-                return;
-            }
-
-            no_of_appointments.push({ dateStr: selectedDateTime.date, dateFormatted: `${year}-${monthNumber}-${date} ${slot}:00` });
-            createList();
-            document.getElementById('step1').style.display = 'none';
-            document.getElementById('step2').style.display = 'block';
-        }
-
-        function prevStep() {
-            no_of_appointments = [];
-            createList();
-            document.getElementById('step1').style.display = 'block';
-            document.getElementById('step2').style.display = 'none';
-        }
-    </script>
+  
 
 
 </body>
