@@ -8,12 +8,14 @@ class Subjects extends AdminController
         parent::__construct();
         // Load any necessary models, libraries, helpers, etc.
         $this->load->model('Appointments_subject_model');
+        $this->load->model('Booking_page_model');
     }
 
     public function index()
     {
         // $data['subjects'] = $this.Appointments_subject_model->get_all();
-        $this->load->view('subjects/index');
+        $data['booking_pages'] = $this->Booking_page_model->get_all();
+        $this->load->view('subjects/index', $data);
     }
 
     public function delete()
@@ -54,16 +56,17 @@ class Subjects extends AdminController
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             // Retrieve POST data
             $subject = $this->input->post('subject');
+            $booking_page_id = $this->input->post('booking_page_id');
 
             // Validate the input data
-            if (empty($subject)) {
+            if (empty($subject) || empty($booking_pages)) {
                 // Redirect with an error if validation fails
-                $this->session->set_flashdata('error', 'Subject is required.');
+                $this->session->set_flashdata('error', 'Subject and Booking Page is required.');
                 redirect('/admin/appointly/subjects');
             }
 
             // Process the data (e.g., insert into the database)
-            $inserted = $this->Appointments_subject_model->create($subject);
+            $inserted = $this->Appointments_subject_model->create($subject,$booking_page_id);
 
             // Redirect with a success or error message
             if ($inserted) {
@@ -85,11 +88,12 @@ class Subjects extends AdminController
         if ($this->input->server('REQUEST_METHOD') === 'POST') {
             $subject_id = $this->input->post('subject_id');
             $subject = $this->input->post('subject');
-            if (empty($subject_id) || empty($subject)) {
-                $this->session->set_flashdata('error', 'Subject ID and Subject are required.');
+            $booking_page_id = $this->input->post('booking_page_id');
+            if (empty($subject_id) || empty($subject) || empty($subject)) {
+                $this->session->set_flashdata('error', 'Subject ID, Booking page and Subject are required.');
                 redirect('/admin/appointly/subjects');
             }
-            $updated = $this->Appointments_subject_model->update($subject_id, $subject);
+            $updated = $this->Appointments_subject_model->update($subject_id, $subject, $booking_page_id);
             if ($updated) {
                 $this->session->set_flashdata('success', 'Subject updated successfully.');
             } else {

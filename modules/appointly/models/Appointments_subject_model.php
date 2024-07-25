@@ -18,10 +18,11 @@ class Appointments_subject_model extends App_Model
      * @param string $subject
      * @return void
      */
-    public function create($subject)
+    public function create($subject, $booking_page_id)
     {
         $this->db->insert('appointly_appointments_subjects', [
-            'subject' => $subject
+            'subject' => $subject,
+            'booking_page_id' => $booking_page_id
         ]);
     }
 
@@ -49,6 +50,10 @@ class Appointments_subject_model extends App_Model
      */
     public function get_all()
     {
+        $this->db->select('appointly_appointments_subjects.*, appointly_booking_pages.name');
+        $this->db->from('appointly_appointments_subjects');
+        $this->db->join('appointly_booking_pages', 'appointly_appointments_subjects.booking_page_id = appointly_booking_pages.id');
+        return $this->db->get()->result_array();
         return $this->db->get('appointly_appointments_subjects')->result_array();
     }
 
@@ -69,9 +74,10 @@ class Appointments_subject_model extends App_Model
         return $this->db->affected_rows() > 0;
     }
 
-    public function update($subject_id, $subject)
+    public function update($subject_id, $subject, $booking_page_id)
     {
-        $data = ['subject' => $subject];
+        $data = ['subject' => $subject,
+                'booking_page_id' => $booking_page_id];
         $this->db->where('id', $subject_id);
         return $this->db->update(db_prefix() .'appointly_appointments_subjects', $data);
     }
