@@ -380,11 +380,15 @@ if (!function_exists('get_appointment_types')) {
             var currentMonthYear = document.getElementById('current-month-year');
             calendar.innerHTML = '';
 
+            const today=new Date();
+            const firstOfThisMonth=new Date(today.getFullYear(), today.getMonth(), 1,0,0,0);
+            
             var year = date.getFullYear();
             var month = date.getMonth();
             var firstDayOfMonth = new Date(year, month, 1).getDay();
             var daysInMonth = new Date(year, month + 1, 0).getDate();
-
+            
+            const firstOfSelectedMonth=new Date(year, month, 1,0,0,0);
             currentMonthYear.textContent = `${monthNames[month]} ${year}`;
 
             // Add days of week headers
@@ -395,13 +399,15 @@ if (!function_exists('get_appointment_types')) {
                 calendar.appendChild(dayElement);
             });
 
-            // Add empty elements for days before the first day of the month
             var startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
-            for (let i = 0; i < startDay; i++) {
-                var emptyElement = document.createElement('div');
-                emptyElement.className = 'disabled';
-                calendar.appendChild(emptyElement);
-            }
+            // Add empty elements for days before the first day of the month
+            // if(firstOfThisMonth > firstOfSelectedMonth){
+                for (let i = 0; i < startDay; i++) {
+                    var emptyElement = document.createElement('div');
+                    emptyElement.className = 'disabled';
+                    calendar.appendChild(emptyElement);
+                }
+            // }
 
 
             // Add days of the month
@@ -419,7 +425,14 @@ if (!function_exists('get_appointment_types')) {
                     var monthNumber = monthNames.indexOf(month) + 1;
                     var year = currentMonthYear.split(' ')[1];
                     let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
-                    if (selectedDate.getDate() < (new Date()).getDate())
+                    if (firstOfThisMonth <= firstOfSelectedMonth )
+                    {
+                        if(firstOfThisMonth.getFullYear() == firstOfSelectedMonth.getFullYear() &&
+                        firstOfThisMonth.getMonth() == firstOfSelectedMonth.getMonth()  )
+                            if(selectedDate.getDate() < today.getDate())
+                                dayElement.className = 'disabled';
+                    }
+                    else if (firstOfThisMonth >= firstOfSelectedMonth )
                         dayElement.className = 'disabled';
                 }
                 calendar.appendChild(dayElement);
