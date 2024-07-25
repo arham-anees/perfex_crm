@@ -180,12 +180,13 @@ h1 {
     margin: auto;
     padding: 30px;
     max-width: 920px;
-    min-height: 550px;
+    min-height: 70vh;
     transition: all .22s ease-out;
     width: 95%;
     border: 1px solid rgb(232 232 232);
     border-radius: 8px;
     box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+    margin-top:10vh
 }
 
 .icon,

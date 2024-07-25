@@ -210,7 +210,6 @@
         nextButton.className = 'btn btn-primary next-button ';
         nextButton.style.display = 'none';
         nextButton.addEventListener('click', function () {
-            // Handle the next step
             nextStep();
         });
 
