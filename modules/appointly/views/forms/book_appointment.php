@@ -34,7 +34,6 @@ if (!function_exists('get_appointment_types')) {
     .img-responsive {
         max-width: 250px;
     }
-    
 </style>
 
 <body class="appointments-external-form" <?php if (is_rtl(true)) {
@@ -122,12 +121,25 @@ if (!function_exists('get_appointment_types')) {
                                 <div class="wrap" style="display:flex; justify-content:center;">
                                     <div class="calendar-container">
                                         <div class="month-switch">
-                                            <button type="button" id="prev-month">&lt;</button>
+                                            <button type="button" id="prev-month"><i class="fa fa-angle-left"></i></button>
                                             <span id="current-month-year"></span>
-                                            <button type="button" id="next-month">&gt;</button>
+                                            <button type="button" id="next-month"><i class="fa fa-angle-right"></i></button>
                                         </div>
                                         <div class="calendar" id="calendar">
                                             <!-- Calendar days will be generated here -->
+                                        </div>
+
+                                        <div class="timezone d-flex tw-flex-col tw-items-start">
+                                            <p>Time zone</p>
+                                            <div class="d-flex tw-items-center tw-ml-4">
+                                            <i class="fa-solid fa-earth-americas"></i>
+                                                <select id="timezone" name="timezone" class="custom-select">
+                                                    <option value="Pacific/Honolulu">Pacific, Honolulu time (10:00)</option>
+                                                    <option value="Pakistan/Maldives">Pakistan, Maldives time (10:00am)
+                                                    </option>
+                                                </select>
+                                            </div>
+
                                         </div>
                                     </div>
 
