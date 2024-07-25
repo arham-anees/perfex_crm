@@ -333,11 +333,20 @@ h1 {
 }
 
 .timeslots button {
-    margin-top: 5px;
+    width: 80px;
+    height: 42px;
+    background-color: var(--primary-color, rgb(0, 105, 255));
+    color: var(--primary-text-color, #ffffff);
+    box-shadow: 0 1px 6px 0 rgb(0 0 0 / 10%);
+}
+
+.parent{
+    display: flex;
+    align-items: center;
 }
 
 .timeslot {
-    min-width: 135px;
+    width: 160px;
     border: 1px solid #007bff;
     border-radius: 5px;
     color: #007bff;
@@ -348,10 +357,14 @@ h1 {
     margin-right: 5px;
 }
 
+
 .timeslot.selected {
-    background-color: #007bff;
-    color: white;
+    width: 80px;
+    border-color: transparent;
+    background-color: rgb(0 0 0 / 60%);
+    color: #fff;
 }
+
 
 .d-flex {
     display: flex;

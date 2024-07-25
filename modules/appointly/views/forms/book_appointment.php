@@ -132,7 +132,7 @@ if (!function_exists('get_appointment_types')) {
                                         <div class="timezone d-flex tw-flex-col tw-items-start">
                                             <p>Time zone</p>
                                             <div class="d-flex tw-items-center tw-ml-4">
-                                            <i class="fa-solid fa-earth-americas"></i>
+                                                <i class="fa-solid fa-earth-americas"></i>
                                                 <select id="timezone" name="timezone" class="custom-select">
                                                     <option value="Pacific/Honolulu">Pacific, Honolulu time (10:00)</option>
                                                     <option value="Pakistan/Maldives">Pakistan, Maldives time (10:00am)
@@ -144,18 +144,14 @@ if (!function_exists('get_appointment_types')) {
                                     </div>
 
                                     <div class="timeslots" id="timeslots" style="display:none;">
-
                                         <p id="selected-date"></p>
                                         <p id="timelabel" class="timelabel"></p>
-                                        <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 282px;}">
-                                        </div>
-
-                                        <div class="pull-right">
-                                            <button type="button" id="nextButton" onclick="nextStep()"
-                                                class="btn btn-primary"><?php echo _l('appointment_next'); ?></button>
-
+                                        <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 282px;">
                                         </div>
                                     </div>
+
+
+
                                 </div>
 
 
@@ -380,15 +376,15 @@ if (!function_exists('get_appointment_types')) {
             var currentMonthYear = document.getElementById('current-month-year');
             calendar.innerHTML = '';
 
-            const today=new Date();
-            const firstOfThisMonth=new Date(today.getFullYear(), today.getMonth(), 1,0,0,0);
-            
+            const today = new Date();
+            const firstOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0);
+
             var year = date.getFullYear();
             var month = date.getMonth();
             var firstDayOfMonth = new Date(year, month, 1).getDay();
             var daysInMonth = new Date(year, month + 1, 0).getDate();
-            
-            const firstOfSelectedMonth=new Date(year, month, 1,0,0,0);
+
+            const firstOfSelectedMonth = new Date(year, month, 1, 0, 0, 0);
             currentMonthYear.textContent = `${monthNames[month]} ${year}`;
 
             // Add days of week headers
@@ -402,11 +398,11 @@ if (!function_exists('get_appointment_types')) {
             var startDay = (firstDayOfMonth + 6) % 7; // Adjust for Sunday start
             // Add empty elements for days before the first day of the month
             // if(firstOfThisMonth > firstOfSelectedMonth){
-                for (let i = 0; i < startDay; i++) {
-                    var emptyElement = document.createElement('div');
-                    emptyElement.className = 'disabled';
-                    calendar.appendChild(emptyElement);
-                }
+            for (let i = 0; i < startDay; i++) {
+                var emptyElement = document.createElement('div');
+                emptyElement.className = 'disabled';
+                calendar.appendChild(emptyElement);
+            }
             // }
 
 
@@ -425,14 +421,13 @@ if (!function_exists('get_appointment_types')) {
                     var monthNumber = monthNames.indexOf(month) + 1;
                     var year = currentMonthYear.split(' ')[1];
                     let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
-                    if (firstOfThisMonth <= firstOfSelectedMonth )
-                    {
-                        if(firstOfThisMonth.getFullYear() == firstOfSelectedMonth.getFullYear() &&
-                        firstOfThisMonth.getMonth() == firstOfSelectedMonth.getMonth()  )
-                            if(selectedDate.getDate() < today.getDate())
+                    if (firstOfThisMonth <= firstOfSelectedMonth) {
+                        if (firstOfThisMonth.getFullYear() == firstOfSelectedMonth.getFullYear() &&
+                            firstOfThisMonth.getMonth() == firstOfSelectedMonth.getMonth())
+                            if (selectedDate.getDate() < today.getDate())
                                 dayElement.className = 'disabled';
                     }
-                    else if (firstOfThisMonth >= firstOfSelectedMonth )
+                    else if (firstOfThisMonth >= firstOfSelectedMonth)
                         dayElement.className = 'disabled';
                 }
                 calendar.appendChild(dayElement);
@@ -447,9 +442,23 @@ if (!function_exists('get_appointment_types')) {
                     selectedDateElem.textContent = selectedDate;
                     selectedLabel.textContent = "times you are available";
                     timeslots.style.display = 'flex';
+
                     // Load time slots dynamically
                     loadTimeSlots(selectedDate);
+
+                    // Show the "Next" button only if a timeslot is selected
+                    document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
+
+                // Function to handle the selection of a timeslot
+                function selectTimeslot(timeslotElement) {
+                    document.querySelectorAll('#timeslot-list div').forEach(d => d.classList.remove('selected'));
+                    timeslotElement.classList.add('selected');
+
+                    // Show the "Next" button only when a timeslot is selected
+                    document.getElementById('nextButtonContainer').style.display = 'block';
+                }
+
             }
         }
 
