@@ -129,7 +129,7 @@ if (!function_exists('get_appointment_types')) {
                                             <!-- Calendar days will be generated here -->
                                         </div>
 
-                                        <div class="timezone d-flex tw-flex-col tw-items-start">
+                                        <!-- <div class="timezone d-flex tw-flex-col tw-items-start">
                                             <p>Time zone</p>
                                             <div class="d-flex tw-items-center tw-ml-4">
                                             <i class="fa-solid fa-earth-americas"></i>
@@ -140,7 +140,7 @@ if (!function_exists('get_appointment_types')) {
                                                 </select>
                                             </div>
 
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="timeslots" id="timeslots" style="display:none;">

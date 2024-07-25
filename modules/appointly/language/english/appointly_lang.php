@@ -359,4 +359,4 @@ $lang['booking_page_default_form'] = 'Default Form';
 $lang['booking_back_to_appointments'] = 'Back to Appointments';
 $lang['booking_book_appointments'] = 'Book an Appointment';
 $lang['subject_booking_page_name_field'] = 'Booking Page';
-
+$lang['booking_page_updated'] = 'New booking page was succesfully updated';

@@ -209,7 +209,7 @@
                                 </div>
 
                                 <div class="chart-container">
-                                    <canvas id="myChart"></canvas>
+                                    <canvas id="myChart"  height="200" width="400"></canvas>
                                 </div>
                                 <!-- <div class="text-right text-muted">1 Jun – 30 Jun</div> -->
                             </div>
@@ -222,7 +222,7 @@
                                 </div>
 
                                 <div class="chart-container">
-                                    <canvas id="staff_completed_chart"></canvas>
+                                    <canvas id="staff_completed_chart" height="200" width="400"></canvas>
                                 </div>
                                 <!-- <div class="text-right text-muted">1 Jun – 30 Jun</div> -->
                             </div>
