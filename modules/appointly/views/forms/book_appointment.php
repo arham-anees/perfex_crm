@@ -32,7 +32,8 @@ if (!function_exists('get_appointment_types')) {
     }
 
     .img-responsive {
-        max-width: 250px;
+        max-width: 220px;
+        max-height:60px;
     }
 </style>
 
@@ -55,13 +56,10 @@ if (!function_exists('get_appointment_types')) {
 
                     <input type="text" hidden name="rel_type" value="booking_page">
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
-
-
-
                     <div class="calendar-box">
                         <!-- leftside -->
-                        <div class="d-flex tw-justify-between tw-flex-col" style="margin-bottom:15px; padding-right:20px; border-right: 1px solid #eee; max-width:320px">
-                            <div>
+                        <div class="left-side d-flex tw-justify-between tw-flex-col" style="margin-bottom:15px; padding-right:20px; border-right: 1px solid #eee; max-width:320px">
+                            <div class="">
                                 <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
                                 <div id="logo"
                                     class="tw-py-2 tw-px-2 tw-max-h-[180px] tw-max-w-[200px] tw-flex tw-items-center tw-justify-center">
@@ -80,6 +78,7 @@ if (!function_exists('get_appointment_types')) {
                                 </p>
 
                                 <p id="datetime-parent" class="text" style="display:none"><i class="fa fa-calendar icon tw-w-5"></i><span id="datetime"><?$date?></span></p>
+                                <input type="hidden" id="datetime-hidden" name="hashDate"/>
                                 <!-- <p id="timezone"></p> -->
 
                                 <span style="font-size:14px;">Description: </span>
@@ -91,13 +90,12 @@ if (!function_exists('get_appointment_types')) {
                             </div>
 
                             <div class="d-flex tw-justify-between">
-                                <a>Cookie settings</a>
-                                <span>Report Abuse</span>
+                                
                             </div>
 
                         </div>
                         <!-- right side -->
-                         <div>
+                         <div class="right-side">
                             <div id="step1" class="mbot20" style=" padding-left:20px;">
 
                                 <?php $appointment_types = get_appointment_types();
@@ -134,7 +132,7 @@ if (!function_exists('get_appointment_types')) {
                                                 <!-- Calendar days will be generated here -->
                                             </div>
 
-                                            <div class="timezone d-flex tw-flex-col tw-items-start">
+                                            <!-- <div class="timezone d-flex tw-flex-col tw-items-start">
                                                 <p>Time zone</p>
                                                 <div class="d-flex tw-items-center tw-ml-4">
                                                     <i class="fa-solid fa-earth-americas"></i>
@@ -144,8 +142,7 @@ if (!function_exists('get_appointment_types')) {
                                                         </option>
                                                     </select>
                                                 </div>
-
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <div class="timeslots" id="timeslots" >
@@ -182,7 +179,7 @@ if (!function_exists('get_appointment_types')) {
                                         <select class="form-control selectpicker" name="subject" id="appointment_select_type">
                                             <option value=""><?= _l('dropdown_non_selected_tex'); ?></option>
                                             <?php foreach ($subjects as $app_type) { ?>
-                                                <option class="form-control" value="<?= $app_type['id']; ?>">
+                                                <option class="" value="<?= $app_type['id']; ?>">
                                                     <?= $app_type['subject']; ?>
                                                 </option>
                                             <?php } ?>
@@ -262,12 +259,12 @@ if (!function_exists('get_appointment_types')) {
                                         </div>
                                     </div>
                                 <?php } ?>
-
-                                <div class="pull-right">
-                                    <button type="button" id="backButton" onclick="prevStep()"
-                                        class="btn btn-primary"><?php echo _l('appointment_booking_back'); ?></button>
+                                <div class="terms-of-use"><?= _l('booking_page_terms_use') ?></div>
+                                <div class="">
+                                    <!-- <button type="button" id="backButton" onclick="prevStep()"
+                                        class="btn btn-primary"><?php echo _l('appointment_booking_back'); ?></button> -->
                                     <button type="submit" id="form_submit"
-                                        class="btn btn-primary"><?php echo _l('appointment_submit'); ?></button>
+                                        class="btn btn-primary btn-submit"><?php echo _l('appointment_submit'); ?></button>
                                 </div>
                                 <div class="clearfix mtop15"></div>
                             </div>
@@ -448,6 +445,8 @@ if (!function_exists('get_appointment_types')) {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
                     if (this.classList.contains('disabled')) return;
                     this.classList.add('selected');
+                    if(!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
+                        document.getElementsByClassName('calendar-box')[0].classList.add('slots');
 
                     // Display timeslots and update the selected date
                     var _selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${month}`;
@@ -510,9 +509,9 @@ if (!function_exists('get_appointment_types')) {
            document.getElementById('step1').style.display = 'none';
            document.getElementById('step2').style.display = 'block';
            document.getElementById('datetime-parent').style.display = 'block';
-           document.getElementById('timezone').style.display = 'block';
+        //    document.getElementById('timezone').style.display = 'block';
            document.getElementsByClassName('back-arrow')[0].style.display = 'flex';
-           document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
+        //    document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
        }
        
 
@@ -523,7 +522,7 @@ if (!function_exists('get_appointment_types')) {
            document.getElementById('step2').style.display = 'none';
            document.getElementsByClassName('back-arrow')[0].style.display = 'none';
            document.getElementById('datetime-parent').style.display = 'none';
-           document.getElementById('timezone').style.display = 'none';
+        //    document.getElementById('timezone').style.display = 'none';
 
        }
 

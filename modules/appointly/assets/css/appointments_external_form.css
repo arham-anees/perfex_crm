@@ -2,6 +2,10 @@ body {
     background: #e2e7ed !important;
 }
 
+body.appointments-external-form{
+    padding:0;
+}
+
 body .label {
     font-size: 13px;
     font-weight: bold;
@@ -53,10 +57,14 @@ body .busy_google_time {
     height: auto;
     float: left;
 }
+#logo{
+    min-height:140px;
 
+}
 .logo.img-responsive.navbar-brand.logo {
     margin-bottom: 0;
-    margin-left: -20px;
+    max-width: 220px;
+    max-height: 60px !important;
 }
 
 .logo.img-responsive.navbar-brand.logo {
@@ -82,12 +90,12 @@ body .busy_google_time {
     margin-top: 3px;
 }
 
-.appointment_type_holder .dropdown-menu li a:hover,
+/* .appointment_type_holder .dropdown-menu li a:hover,
 .appointment_type_holder .dropdown-menu li a {
     border: none !important;
     border-radius: 0px !important;
     padding: 8px 20px;
-}
+} */
 
 .appointment_type_holder .bootstrap-select {
     float: left;
@@ -179,7 +187,7 @@ h1 {
     background: #fff;
     margin: auto;
     padding: 30px;
-    max-width: 920px;
+    min-width: 800px;
     min-height: 70vh;
     transition: all .22s ease-out;
     width: fit-content;
@@ -188,17 +196,29 @@ h1 {
     box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
     margin-top:10vh;
     transition : width 2s;
+    min-height: 86vh;
 }
 
-.icon,
-.text {
-    font-size: 18px;
+.left-side,
+.right-side{
+    width:50%;
+}
+
+.calendar-box.slots{
+    min-width: 900px;
+}
+.calendar-box.slots .right-side{
+    min-width:585px
+}
+
+.left-side .icon,
+.left-side .text {
     color: rgba(26, 26, 26, 0.61);
     margin: 10px 0px;
 }
 
-.text {
-    font-size: 13px;
+.left-side .text {
+    font-size: 14px;
     font-weight: 700;
 }
 
@@ -462,6 +482,7 @@ h1 {
     width: 43px;
     justify-content: center;
     align-items: center;
+    position:absolute;
 }
 .back-arrow:hover{
     background-color: rgba(0,105,255,0.15);
@@ -470,6 +491,23 @@ h1 {
 .back-arrow i{
     font-size:28px;
     color:rgb(0,105,255)
+}
+.terms-of-use{
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-submit{
+    border-color: rgb(0, 105, 255);
+    background-color: rgb(0, 105, 255);
+    color: rgba(255, 255, 255, 1);
+    font-weight: 700;
+    line-height: 22px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-radius: 40px;
 }
 
 /* Callbacks Popup */

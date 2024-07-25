@@ -74,21 +74,21 @@
                 if (response.success == true) {
 
                     const lead = document.getElementsByClassName('thankyou-in-lead');
-                    if (lead) {
-                        fetch('<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data)
-                            .then(response => response.text())
-                            .then(html => {
-                                // Get the div where you want to render the contßent
-                                const contentDiv = document.getElementById('content');
+                    // if (lead) {
+                    //     fetch('<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data)
+                    //         .then(response => response.text())
+                    //         .then(html => {
+                    //             // Get the div where you want to render the contßent
+                    //             const contentDiv = document.getElementById('content');
 
-                                // Set the inner HTML of the div to the response
-                                contentDiv.innerHTML = html;
-                                contentDiv.querySelector('.container').classList.remove('container');
-                            })
-                            .catch(error => console.error('Error fetching and parsing data:', error));
-                    } else {
+                    //             // Set the inner HTML of the div to the response
+                    //             contentDiv.innerHTML = html;
+                    //             contentDiv.querySelector('.container').classList.remove('container');
+                    //         })
+                    //         .catch(error => console.error('Error fetching and parsing data:', error));
+                    // } else {
                         window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data;
-                    }
+                    // }
 
                     // $header = $(".appointment-header");
                     // $(form_id).remove();
@@ -122,64 +122,8 @@
     function initAppointmentScheduledDates() {
         $.post("appointly/appointments_public/busyDates").done(function (r) {
             r = JSON.parse(r);
-            console.log(r);
             busyDates = r;
-            // var dateFormat = app.options.date_format;
-            // var appointmentDatePickerOptionsExternal = {
-            //     dayOfWeekStart: app.options.calendar_first_day,
-            //     daysOfWeekDisabled: [0, 5],
-            //     minDate: 0,
-            //     format: dateFormat,
-            //     defaultTime: "09:00",
-            //     allowTimes: allowedHours,
-            //     closeOnDateSelect: 0,
-            //     closeOnTimeSelect: 1,
-            //     validateOnBlur: false,
-            //     minTime: appMinTime,
-            //     disabledWeekDays: appWeekends,
-            //     onGenerate: function (ct) {
-            //        if (is_busy_times_enabled == 1) {
-            //             var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
-            //             $(r).each(function (i, el) {
-            //                 if (el.date == selectedDate) {
-            //                     var currentTime = $("body")
-            //                         .find(".xdsoft_time:contains(\"" + el.start_hour + "\")");
-            //                     currentTime.addClass("busy_time");
-            //                 }
-            //             });
-            //         }
-            //     },
-            //     onSelectDate: function (ct, $input) {
-            //         $input.val("");
-            //         var selectedDate = ct.getFullYear() + "-" + (((ct.getMonth() + 1) < 10) ? "0" : "") + (ct.getMonth() + 1 + "-" + ((ct.getDate() < 10) ? "0" : "") + ct.getDate());
-
-            //         setTimeout(function () {
-            //             $("body").find(".xdsoft_time").removeClass("xdsoft_current xdsoft_today");
-
-            //             if (currentDate !== selectedDate) {
-            //                 $("body").find(".xdsoft_time.xdsoft_disabled").removeClass("xdsoft_disabled");
-            //             }
-            //         }, 200);
-            //     },
-            //     onChangeDateTime: function () {
-            //         var currentTime = $("body").find(".xdsoft_time");
-            //         currentTime.removeClass("busy_time");
-            //     }
-            // };
-
-            // if (app.options.time_format == 24) {
-            //     dateFormat = dateFormat + " H:i";
-            // } else {
-            //     dateFormat = dateFormat + " g:i A";
-            //     appointmentDatePickerOptionsExternal.formatTime = "g:i A";
-            // }
-
-            // appointmentDatePickerOptionsExternal.format = dateFormat;
-
-            // $(".appointment-date").datetimepicker(appointmentDatePickerOptionsExternal);
         });
-
-        // jQuery.datetimepicker.setLocale(app.locale);
     }
 
     function addMinutesToTime(time, minutes) {
@@ -242,22 +186,24 @@
             slotElement.className = 'timeslot busy_time';
         }
 
-         // Handle timeslot selection
-         slotElement.addEventListener('click', function () {
+        // Handle timeslot selection
+        slotElement.addEventListener('click', function () {
             // Remove selected class from all timeslots and hide all Next buttons
             document.querySelectorAll('.timeslot').forEach(t => {
                 t.classList.remove('selected');
             });
             document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
+            
 
             const options = { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    };
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
     
             document.getElementById('datetime').innerText = slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2);
+            document.getElementById('datetime-hidden').value=( slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2));
             // Apply selected class to the clicked timeslot and show its Next button
             this.classList.add('selected');
             this.nextElementSibling.style.display = 'block'; // Show the associated Next button
