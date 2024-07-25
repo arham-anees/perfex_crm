@@ -160,9 +160,9 @@ if (!function_exists('get_appointment_types')) {
                             </div>
 
                             <br>
-                            <?php $subjects = get_subjects();
+                            <?php
 
-                            if (count($subjects) > 0) { ?>
+                            if (isset($subjects) && count($subjects) > 0) { ?>
                                 <div class="form-group appointment_type_holder">
                                     <label for="appointment_select_type"
                                         class="control-label"><?= _l('appointment_subject'); ?></label>

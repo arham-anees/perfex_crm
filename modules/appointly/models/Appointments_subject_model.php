@@ -43,6 +43,13 @@ class Appointments_subject_model extends App_Model
         return $this->db->get('appointly_appointments_subjects')->row_array();
     }
 
+
+    public function get_by_booking_page($booking_page_id)
+    {
+        $this->db->where('booking_page_id',$booking_page_id);
+        return $this->db->get('appointly_appointments_subjects')->result_array();
+    }
+
     /**
      * Get all subjects
      *
