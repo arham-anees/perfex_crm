@@ -181,7 +181,17 @@
 
         // jQuery.datetimepicker.setLocale(app.locale);
     }
-    function loadTimeSlots(date) {
+
+    function addMinutesToTime(time, minutes) {
+        const timeParts = time.split(':');
+        const date = new Date();
+        date.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]));
+        date.setMinutes(date.getMinutes() + minutes);
+        const hours = date.getHours().toString().padStart(2, '0');
+        const mins = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${mins}`;
+    }
+    function loadTimeSlots(date, date2) {
     const currentMonthYear = $($('#current-month-year')[0]).text();
     const month = currentMonthYear.split(' ')[0];
     const monthNumber = monthNames.indexOf(month) + 1;
@@ -193,6 +203,15 @@
 
     // Placeholder for dynamic slot loading logic
     const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
+
+    const start = new Date(`1970-01-01T${availableTimeSlots[0]}:00Z`);
+    const end = new Date(`1970-01-01T${availableTimeSlots[1]}:00Z`);
+
+    // Calculate the difference in milliseconds
+    const diffMs = end - start;
+
+    // Convert milliseconds to minutes
+    const diffMins = Math.floor(diffMs / 60000);
 
     timeslotList.innerHTML = '';
     availableTimeSlots.forEach(slot => {
@@ -231,6 +250,14 @@
             });
             document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
 
+            const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    
+            document.getElementById('datetime').innerText = slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2);
             // Apply selected class to the clicked timeslot and show its Next button
             this.classList.add('selected');
             this.nextElementSibling.style.display = 'block'; // Show the associated Next button
