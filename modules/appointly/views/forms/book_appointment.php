@@ -447,7 +447,7 @@ if (!function_exists('get_appointment_types')) {
                     loadTimeSlots(selectedDate);
 
                     // Show the "Next" button only if a timeslot is selected
-                    document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
+                    // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
 
                 // Function to handle the selection of a timeslot
@@ -456,7 +456,7 @@ if (!function_exists('get_appointment_types')) {
                     timeslotElement.classList.add('selected');
 
                     // Show the "Next" button only when a timeslot is selected
-                    document.getElementById('nextButtonContainer').style.display = 'block';
+                    // document.getElementById('nextButtonContainer').style.display = 'block';
                 }
 
             }

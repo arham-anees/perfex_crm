@@ -205,7 +205,7 @@
         slotElement.setAttribute('time', slot);
         slotElement.textContent = slot;
 
-        const nextButton = document.createElement('button');
+        const nextButton = document.createElement('span');
         nextButton.textContent = 'Following';
         nextButton.className = 'btn btn-primary next-button ';
         nextButton.style.display = 'none';
