@@ -104,14 +104,7 @@ if (!function_exists('init_appointly_database_tables')) {
         );
     }catch(Exception $e){}
     try{
-            // Create the subjects table
-        $CI->db->query(
-            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_appointments_subjects (
-                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `subject` varchar(191) DEFAULT NULL,         
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-        );
+         
 
         $CI->db->query(
             "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
@@ -141,6 +134,17 @@ if (!function_exists('init_appointly_database_tables')) {
                 `callbacks_mode_enabled` bit DEFAULT 0,
                 `is_active` bit DEFAULT b'1',           
                 PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+           // Create the subjects table
+           $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS  " . db_prefix() . "appointly_appointments_subjects (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `subject` varchar(191) DEFAULT NULL,  
+                `booking_page_id` int(11) UNSIGNED NOT NULL,
+                PRIMARY KEY (`id`),
+                FOREIGN KEY (`booking_page_id`) REFERENCES  " . db_prefix() . "appointly_booking_pages(`id`) 
+                ON DELETE NO ACTION ON UPDATE NO ACTION
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
              // Add a new column with an optional relationship

@@ -49,7 +49,6 @@ class Appointments_public extends ClientsController
         $data['appointment'] = unserialize($decodedData);
         $data['hashes'] = $data['appointment']['hashes'];
 
-        log_message('error',$decodedData);
 
         $this->load->view('forms/invitees', $data);
     }
@@ -239,6 +238,11 @@ class Appointments_public extends ClientsController
                 $this->lang->load('custom_lang', $form->language);
             }
             $data['booking_page'] = $booking_page;
+            if(!is_null($booking_page)){
+
+                $data['subjects'] = $this->Appointments_subject_model->get_by_booking_page($booking_page['id']);
+            }
+     
 
             if ($this->input->post() && $this->input->is_ajax_request()) {
 
@@ -257,6 +261,7 @@ class Appointments_public extends ClientsController
 
             $data['form'] = $form;
             $data['form']->recaptcha = 1;
+        
 
             $this->load->view('forms/book_appointment', $data);
         }
