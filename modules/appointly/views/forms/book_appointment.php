@@ -58,7 +58,7 @@ if (!function_exists('get_appointment_types')) {
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
                     <div class="calendar-box">
                         <!-- leftside -->
-                        <div class="left-side d-flex tw-justify-between tw-flex-col" style="margin-bottom:15px; padding-right:20px; border-right: 1px solid #eee; max-width:320px">
+                        <div class="left-side left-area d-flex tw-justify-between tw-flex-col">
                             <div class="">
                                 <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
                                 <div id="logo"
@@ -159,7 +159,7 @@ if (!function_exists('get_appointment_types')) {
 
                                 </div>
                             </div>
-                            <div id="step2" style="display: none; padding-left:20px;min-width:516px" class="">
+                            <div id="step2" class="step2">
 
                                 <div class="appointment-header"><?php hooks()->do_action('appointly_form_header'); ?>
                                 </div>
