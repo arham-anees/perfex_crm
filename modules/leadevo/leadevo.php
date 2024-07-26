@@ -78,6 +78,13 @@ function leadevo_register_menu_items()
             'position' => 10,
             'icon'     => 'fa fa-th-list',
         ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-marketplace-onboarding',
+            'name'     => 'Onboarding',
+            'href'     => admin_url('leadevo/marketplace/onboarding'),
+            'position' => 11,
+            'icon'     => 'fa fa-rocket',
+        ]);
 
     }
     
