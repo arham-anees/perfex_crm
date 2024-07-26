@@ -189,7 +189,7 @@ h1 {
     background: #fff;
     margin: auto;
     padding: 30px;
-    min-width: 800px;
+    max-width: 810px;
     min-height: 70vh;
     transition: all .22s ease-out;
     width: fit-content;
@@ -238,9 +238,6 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
-    width: 25vw;
-    min-width: 350px;
-    max-width: 390px;
 }
 
 .calendar div {

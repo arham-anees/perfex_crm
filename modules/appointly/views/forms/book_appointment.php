@@ -22,6 +22,14 @@ if (!function_exists('get_appointment_types')) {
         type="text/css">
 </head>
 <style>
+    .key-headers {
+        /* display: flex;
+        flex-direction: column;
+        align-items: center; */
+
+        padding: 0 10%;
+    }
+
     div#lead-appointments-content #wrapper {
         margin: 0;
     }
@@ -33,7 +41,7 @@ if (!function_exists('get_appointment_types')) {
 
     .img-responsive {
         max-width: 220px;
-        max-height:60px;
+        max-height: 60px;
     }
 </style>
 
@@ -66,6 +74,7 @@ if (!function_exists('get_appointment_types')) {
                                     <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
                                 </div>
                                 <hr>
+                                <div class="key-headers">
                                 <h3 style="font-size:24px; font-weight:700"><?= $booking_page['name'] ?></h3>
                                 <?php if (isset($booking_page['duration_minutes'])) { ?>
                                     <p class="text"><i
@@ -73,12 +82,19 @@ if (!function_exists('get_appointment_types')) {
                                         minutes</p>
                                 <?php } ?>
 
-                                <p class="text"><i class="fa fa-video icon tw-w-5"></i> Online conference information
+                                <p class="text d-flex"> 
+                                    <span>
+                                        <i class="fa fa-video icon tw-w-5"></i> 
+                                    </span> 
+                                    <span>
+                                    Online conference information
                                     provided upon confirmation.
+                                    </span>
                                 </p>
 
-                                <p id="datetime-parent" class="text" style="display:none"><i class="fa fa-calendar icon tw-w-5"></i><span id="datetime"><?$date?></span></p>
-                                <input type="hidden" id="datetime-hidden" name="hashDate"/>
+                                <p id="datetime-parent" class="text" style="display:none"><i
+                                        class="fa fa-calendar icon tw-w-5"></i><span id="datetime"><? $date ?></span></p>
+                                <input type="hidden" id="datetime-hidden" name="hashDate" />
                                 <!-- <p id="timezone"></p> -->
 
                                 <span style="font-size:14px;">Description: </span>
@@ -87,15 +103,17 @@ if (!function_exists('get_appointment_types')) {
                                 </span>
 
                                 <div id="appointmentsContainer"></div>
+                                </div>
+                                
                             </div>
 
                             <div class="d-flex tw-justify-between">
-                                
+
                             </div>
 
                         </div>
                         <!-- right side -->
-                         <div class="right-side">
+                        <div class="right-side">
                             <div id="step1" class="mbot20" style=" padding-left:20px;">
 
                                 <?php $appointment_types = get_appointment_types();
@@ -124,9 +142,11 @@ if (!function_exists('get_appointment_types')) {
                                     <div class="wrap" style="display:flex; justify-content:center;">
                                         <div class="calendar-container">
                                             <div class="month-switch">
-                                                <button type="button" id="prev-month"><i class="fa fa-angle-left"></i></button>
+                                                <button type="button" id="prev-month"><i
+                                                        class="fa fa-angle-left"></i></button>
                                                 <span id="current-month-year"></span>
-                                                <button type="button" id="next-month"><i class="fa fa-angle-right"></i></button>
+                                                <button type="button" id="next-month"><i
+                                                        class="fa fa-angle-right"></i></button>
                                             </div>
                                             <div class="calendar" id="calendar">
                                                 <!-- Calendar days will be generated here -->
@@ -145,7 +165,7 @@ if (!function_exists('get_appointment_types')) {
                                             </div> -->
                                         </div>
 
-                                        <div class="timeslots" id="timeslots" >
+                                        <div class="timeslots" id="timeslots">
                                             <p id="selected-date"></p>
                                             <p id="timelabel" class="timelabel"></p>
                                             <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 45vh;">
@@ -390,10 +410,10 @@ if (!function_exists('get_appointment_types')) {
             const firstOfSelectedMonth = new Date(year, month, 1, 0, 0, 0);
             currentMonthYear.textContent = `${monthNames[month]} ${year}`;
 
-            if(firstOfThisMonth >= firstOfSelectedMonth){
+            if (firstOfThisMonth >= firstOfSelectedMonth) {
                 $($('#prev-month')[0]).addClass('disable');
             }
-            else{
+            else {
                 $($('#prev-month')[0]).removeClass('disable');
             }
             // Add days of week headers
@@ -445,7 +465,7 @@ if (!function_exists('get_appointment_types')) {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
                     if (this.classList.contains('disabled')) return;
                     this.classList.add('selected');
-                    if(!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
+                    if (!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
                         document.getElementsByClassName('calendar-box')[0].classList.add('slots');
 
                     // Display timeslots and update the selected date
@@ -453,7 +473,7 @@ if (!function_exists('get_appointment_types')) {
                     selectedDateElem.textContent = _selectedDate;
                     selectedLabel.textContent = "times you are available";
                     // timeslots.style.display = 'flex';
-                    timeslots.className="timeslots expanded"
+                    timeslots.className = "timeslots expanded"
 
                     // Load time slots dynamically
                     loadTimeSlots(_selectedDate, new Date(`${year}-${monthNumber}-${i}`));
@@ -493,38 +513,38 @@ if (!function_exists('get_appointment_types')) {
         renderCalendar();
 
         function nextStep() {
-           
-           var currentMonthYear = $($('#current-month-year')[0]).text()
-           var month = currentMonthYear.split(' ')[0];
-           var monthNumber = monthNames.indexOf(month) + 1;
-           var year = currentMonthYear.split(' ')[1];
-           var date = $($('div[data-day].selected')[0]).text();
-           var slot = $($('.timeslot.selected')[0]).text();
-           if (slot == '' || no_of_appointments.filter(x => x.dateStr == selectedDateTime.date).length > 0) {
-               return;
-           }
 
-           no_of_appointments.push({ dateStr: selectedDateTime.date, dateFormatted: `${year}-${monthNumber}-${date} ${slot}:00` });
-           createList();
-           document.getElementById('step1').style.display = 'none';
-           document.getElementById('step2').style.display = 'block';
-           document.getElementById('datetime-parent').style.display = 'block';
-        //    document.getElementById('timezone').style.display = 'block';
-           document.getElementsByClassName('back-arrow')[0].style.display = 'flex';
-        //    document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
-       }
-       
+            var currentMonthYear = $($('#current-month-year')[0]).text()
+            var month = currentMonthYear.split(' ')[0];
+            var monthNumber = monthNames.indexOf(month) + 1;
+            var year = currentMonthYear.split(' ')[1];
+            var date = $($('div[data-day].selected')[0]).text();
+            var slot = $($('.timeslot.selected')[0]).text();
+            if (slot == '' || no_of_appointments.filter(x => x.dateStr == selectedDateTime.date).length > 0) {
+                return;
+            }
 
-       function prevStep() {
-           no_of_appointments = [];
-           createList();
-           document.getElementById('step1').style.display = 'block';
-           document.getElementById('step2').style.display = 'none';
-           document.getElementsByClassName('back-arrow')[0].style.display = 'none';
-           document.getElementById('datetime-parent').style.display = 'none';
-        //    document.getElementById('timezone').style.display = 'none';
+            no_of_appointments.push({ dateStr: selectedDateTime.date, dateFormatted: `${year}-${monthNumber}-${date} ${slot}:00` });
+            createList();
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            document.getElementById('datetime-parent').style.display = 'block';
+            //    document.getElementById('timezone').style.display = 'block';
+            document.getElementsByClassName('back-arrow')[0].style.display = 'flex';
+            //    document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
+        }
 
-       }
+
+        function prevStep() {
+            no_of_appointments = [];
+            createList();
+            document.getElementById('step1').style.display = 'block';
+            document.getElementById('step2').style.display = 'none';
+            document.getElementsByClassName('back-arrow')[0].style.display = 'none';
+            document.getElementById('datetime-parent').style.display = 'none';
+            //    document.getElementById('timezone').style.display = 'none';
+
+        }
 
     </script>
     <script>
@@ -541,7 +561,7 @@ if (!function_exists('get_appointment_types')) {
             });
         });
     </script>
-  
+
 
 
 </body>
