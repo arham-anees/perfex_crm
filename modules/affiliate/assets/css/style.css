@@ -1,0 +1,28 @@
+#member_chart{
+	background-color: #f0f0f0;
+}
+
+img.images_w_table {
+    width: 116px;
+    height: 73px;
+}
+
+.h4-color{
+    color: #d8341b;
+}
+
+.hr-color{
+    margin-top: 10px;
+    border-bottom: 0.5px solid;
+     color: #d8341b;
+}
+
+.mright7{
+	margin-right: 7px;
+}
+
+.div_chart{
+	background-color: #fab017;
+	border-radius: 4px 4px 0px 0px;
+	color: white; padding: 5px;min-width: 195px;
+}
