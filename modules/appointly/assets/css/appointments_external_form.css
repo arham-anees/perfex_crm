@@ -218,6 +218,9 @@ h1 {
 .calendar-box.slots {
     min-width: 900px;
 }
+#lead_appointments .calendar-box.slots {
+    min-width: 840px;
+}
 
 .calendar-box.slots .right-side {
     min-width: 585px
@@ -478,6 +481,9 @@ h1 {
     .calendar-box.slots {
         min-width: auto;
     }
+    #lead_appointments .calendar-box.slots {
+        min-width: auto;
+    }
     .calendar-box.slots .right-side {
         min-width: auto
     }
@@ -531,9 +537,19 @@ h1 {
     .calendar-box.slots.step1 .timeslot{
         width:80vw;
     }
+    #lead_appointments .calendar-box.slots.step1 .timeslot{
+        width:70vw;
+    }
     .calendar-box.slots.step1 .timeslot.selected{
         width:39vw;
     }
+    #lead_appointments .calendar-box.slots.step1 .timeslot.selected{
+        width:34vw;
+    }
+    #lead_appointments .next-button{
+        width: 35vw;
+    }
+
     .next-button{
         width: 40vw;
     }
@@ -545,8 +561,25 @@ h1 {
     #logo img{
         height:40px;
     }
+    #lead_appointments #step2{
+        min-width: unset;
+        padding-left: 0;
+    }
 }
 
+
+
+#lead_appointments .calendar-box{
+    margin:0;
+}
+
+
+/* #lead_appointments .calendar-box.slots.step1 .timeslot.selected{
+    width:39vw;
+}
+#lead_appointments .next-button{
+    width: 40vw;
+} */
 /* width */
 ::-webkit-scrollbar {
     width: 6px;
