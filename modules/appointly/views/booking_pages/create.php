@@ -304,11 +304,11 @@ document.addEventListener('DOMContentLoaded',function(){
             $.post(url, data).done(function(response) {
                response = JSON.parse(response);
                if (response.success) {
-               alert_float('success', "New booking page was successfully created");
-               setTimeout(() => window.location.href= admin_url+'appointly/booking_pages', 1000);
-               } else {
-                     alert_float('error', "Failed to create booking page");
-               }
+            alert_float('success', "New booking page was successfully created");
+            setTimeout(() => window.location.reload(), 1000);
+            } else {
+                  alert_float('error', "Failed to create booking page");
+            }
             });
             return false;
         }

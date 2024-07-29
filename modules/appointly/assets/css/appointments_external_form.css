@@ -2,6 +2,10 @@ body {
     background: #e2e7ed !important;
 }
 
+body.appointments-external-form {
+    padding: 0;
+}
+
 body .label {
     font-size: 13px;
     font-weight: bold;
@@ -54,9 +58,15 @@ body .busy_google_time {
     float: left;
 }
 
+#logo {
+    min-height: 140px;
+
+}
+
 .logo.img-responsive.navbar-brand.logo {
     margin-bottom: 0;
-    margin-left: -20px;
+    max-width: 220px;
+    max-height: 60px !important;
 }
 
 .logo.img-responsive.navbar-brand.logo {
@@ -82,12 +92,12 @@ body .busy_google_time {
     margin-top: 3px;
 }
 
-.appointment_type_holder .dropdown-menu li a:hover,
+/* .appointment_type_holder .dropdown-menu li a:hover,
 .appointment_type_holder .dropdown-menu li a {
     border: none !important;
     border-radius: 0px !important;
     padding: 8px 20px;
-}
+} */
 
 .appointment_type_holder .bootstrap-select {
     float: left;
@@ -179,23 +189,47 @@ h1 {
     background: #fff;
     margin: auto;
     padding: 30px;
-    max-width: 920px;
-    min-height: 550px;
+    max-width: 810px;
+    min-height: 70vh;
     transition: all .22s ease-out;
-    width: 95%;
+    width: fit-content;
     border: 1px solid rgb(232 232 232);
     border-radius: 8px;
     box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+    margin-top: 10vh;
+    transition: width 2s;
+    min-height: 86vh;
 }
 
-.icon,
-.text {
-    font-size: 18px;
+.left-side,
+.right-side {
+    width: 50%;
+}
+
+.left-area{
+    margin-bottom:15px; 
+    padding-right:20px; 
+    border-right: 1px solid #eee; 
+    max-width:320px
+}
+
+
+
+.calendar-box.slots {
+    min-width: 900px;
+}
+
+.calendar-box.slots .right-side {
+    min-width: 585px
+}
+
+.left-side .icon,
+.left-side .text {
     color: rgba(26, 26, 26, 0.61);
     margin: 10px 0px;
 }
 
-.text {
+.left-side .text {
     font-size: 14px;
     font-weight: 700;
 }
@@ -204,9 +238,6 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     margin-top: 10px;
-    width: 25vw;
-    min-width: 350px;
-    max-width: 390px;
 }
 
 .calendar div {
@@ -293,11 +324,28 @@ h1 {
 }
 
 .month-switch button {
+    background-color: rgba(0, 105, 255, 0.065);
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: rgb(0, 105, 255);
+    border: none;
+}
+
+.month-switch button.disable {
     background-color: transparent;
     color: rgba(26, 26, 26, 0.61);
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+    pointer-events: none;
+
+}
+
+.month-switch button i {
+    font-size: 18px;
 }
 
 .month-switch button:focus,
@@ -325,19 +373,43 @@ h1 {
 
 
 .timeslots {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    min-width: 200px;
+    transition: width 2s;
+    display: none;
+}
+.calendar-box.slots .timeslots {
+    display: flex;
 }
 
-.timeslots button {
-    margin-top: 5px;
+.timeslots.expanded {
+    min-width: 200px;
+    width: unset;
+    transition: width 2s;
+}
+
+.timeslots button,
+.next-button {
+    width: 80px;
+    height: 42px;
+    background-color: var(--primary-color, rgb(0, 105, 255));
+    color: var(--primary-text-color, #ffffff);
+    box-shadow: 0 1px 6px 0 rgb(0 0 0 / 10%);
+}
+
+.next-button {
+    align-content: center;
+}
+
+.parent {
+    display: flex;
+    align-items: center;
 }
 
 .timeslot {
-    min-width: 135px;
+    width: 160px;
     border: 1px solid #007bff;
     border-radius: 5px;
     color: #007bff;
@@ -348,13 +420,37 @@ h1 {
     margin-right: 5px;
 }
 
+
 .timeslot.selected {
-    background-color: #007bff;
-    color: white;
+    width: 80px;
+    border-color: transparent;
+    background-color: rgb(0 0 0 / 60%);
+    color: #fff;
 }
+
 
 .d-flex {
     display: flex;
+}
+
+.calendar-box .step2{
+    display: none; padding-left:20px;min-width:516px
+}
+
+.mobile-only{
+    display: none;
+}
+
+.timeslot-list{
+    height:45vh;
+}
+
+.day{
+    font-weight: 700;
+    text-align: center;
+}
+.logo{
+    margin:0;
 }
 
 
@@ -364,6 +460,7 @@ h1 {
         padding: 10px;
         width: 100%;
         flex-wrap: wrap;
+        min-width: 0px;
     }
 
     .heading {
@@ -373,8 +470,82 @@ h1 {
     .wrap {
         flex-wrap: wrap;
     }
+
+    .left-side,
+    .right-side {
+        width: auto;
+    }
+    .calendar-box.slots {
+        min-width: auto;
+    }
+    .calendar-box.slots .right-side {
+        min-width: auto
+    }
+    .left-area{
+        margin-bottom:0px; 
+        padding-right:0px; 
+        border-right: none; 
+        max-width:fit-content;
+    }
+    .step2{
+            min-width:auto
+    }
 }
 
+@media (max-width: 426px) {
+    #content .container{
+        padding-left : 0 !important;
+        padding-right : 0 !important;
+    }
+    .right-side{
+        width:100%;
+        max-height:90vh;
+        /* overflow: scroll; */
+    }
+    .calendar-box {
+        margin-top : 0 !important;
+        height:100vh;
+        display:block;
+    }
+    .calendar-box.slots.step1 .calendar-container,
+    .calendar-box.slots.step1 .key-headers,
+    .calendar-box.slots.step1 #logo{
+        display:none !important;
+    }
+    .calendar-box.slots .timeslot-list{
+        height: unset !important;
+    }
+    .calendar-box.slots .timeslots{
+        height: 80vh;
+        overflow: scroll;
+    }
+  
+    .mobile-only{
+        justify-content: space-between;
+        width:94vw;
+    }
+
+    .calendar-box.slots.step1 .mobile-only{
+        display: flex;
+    }
+    .calendar-box.slots.step1 .timeslot{
+        width:80vw;
+    }
+    .calendar-box.slots.step1 .timeslot.selected{
+        width:39vw;
+    }
+    .next-button{
+        width: 40vw;
+    }
+
+    #logo{
+        max-height:unset;
+        min-height: unset;
+    }
+    #logo img{
+        height:40px;
+    }
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -413,5 +584,52 @@ h1 {
     margin: 0px 15px;
 }
 
+.back-arrow{
+
+    position: absolute;
+    display: none;
+}
+.back-arrow,
+.back-arrow-mobile {
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    width: fit-content;
+    padding: 5px;
+    border-radius: 50%;
+    font-weight: 400;
+    height: 43px;
+    width: 43px;
+    justify-content: center;
+    align-items: center;
+}
+
+.back-arrow:hover,
+.back-arrow-mobile:hover {
+    background-color: rgba(0, 105, 255, 0.15);
+    cursor: pointer;
+}
+
+.back-arrow i,
+.back-arrow-mobile i {
+    font-size: 28px;
+    color: rgb(0, 105, 255)
+}
+
+.terms-of-use {
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-submit {
+    border-color: rgb(0, 105, 255);
+    background-color: rgb(0, 105, 255);
+    color: rgba(255, 255, 255, 1);
+    font-weight: 700;
+    line-height: 22px;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    border-radius: 40px;
+}
 
 /* Callbacks Popup */
