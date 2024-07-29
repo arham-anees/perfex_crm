@@ -494,7 +494,7 @@ h1 {
         max-width:fit-content;
     }
     .step2{
-            min-width:auto
+            min-width:auto !important
     }
 }
 
