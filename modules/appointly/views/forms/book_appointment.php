@@ -64,16 +64,23 @@ if (!function_exists('get_appointment_types')) {
 
                     <input type="text" hidden name="rel_type" value="booking_page">
                     <input type="text" hidden name="booking_page_id" value="<?= $booking_page['id'] ?>">
-                    <div class="calendar-box">
+                    <div class="calendar-box step1">
                         <!-- leftside -->
                         <div class="left-side left-area d-flex tw-justify-between tw-flex-col">
                             <div class="">
-                                <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
-                                <div id="logo"
-                                    class="tw-py-2 tw-px-2 tw-max-h-[180px] tw-max-w-[200px] tw-flex tw-items-center tw-justify-center">
-                                    <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
+                                <div class="mobile-only">
+                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i class="fas fa-arrow-left"></i></div>
+                                    <div id="datetime-mobile" ></div>
+                                    <div></div>
                                 </div>
-                                <hr>
+                                <div class="logo">
+                                    <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
+                                    <div id="logo"
+                                        class="tw-py-2 tw-px-2 tw-max-h-[180px] tw-max-w-[200px] tw-flex tw-items-center tw-justify-center">
+                                        <?php echo get_company_logo(get_admin_uri() . '/', '!tw-mt-0') ?>
+                                    </div>
+                                    <hr>
+                                </div>
                                 <div class="key-headers">
                                 <h3 style="font-size:24px; font-weight:700"><?= $booking_page['name'] ?></h3>
                                 <?php if (isset($booking_page['duration_minutes'])) { ?>
@@ -106,11 +113,6 @@ if (!function_exists('get_appointment_types')) {
                                 </div>
                                 
                             </div>
-
-                            <div class="d-flex tw-justify-between">
-
-                            </div>
-
                         </div>
                         <!-- right side -->
                         <div class="right-side">
@@ -168,7 +170,7 @@ if (!function_exists('get_appointment_types')) {
                                         <div class="timeslots" id="timeslots">
                                             <p id="selected-date"></p>
                                             <p id="timelabel" class="timelabel"></p>
-                                            <div id="timeslot-list" class="scroll" style="overflow-y: auto;height: 45vh;">
+                                            <div id="timeslot-list" class="scroll">
                                             </div>
                                         </div>
 
@@ -392,6 +394,11 @@ if (!function_exists('get_appointment_types')) {
             elem.remove();
         }
 
+        function unselectDate(){ 
+            document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));    
+            if (document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
+                document.getElementsByClassName('calendar-box')[0].classList.remove('slots');
+        }
 
 
         function renderCalendar() {
@@ -467,6 +474,7 @@ if (!function_exists('get_appointment_types')) {
                     this.classList.add('selected');
                     if (!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
                         document.getElementsByClassName('calendar-box')[0].classList.add('slots');
+                       
 
                     // Display timeslots and update the selected date
                     var _selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${month}`;
@@ -477,7 +485,14 @@ if (!function_exists('get_appointment_types')) {
 
                     // Load time slots dynamically
                     loadTimeSlots(_selectedDate, new Date(`${year}-${monthNumber}-${i}`));
-
+                    const options = { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    };
+                    var dateStr = new Intl.DateTimeFormat('en-US', options).format(new Date(`${year}-${monthNumber}-${i}`));
+                     document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
                     // Show the "Next" button only if a timeslot is selected
                     // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
@@ -532,6 +547,11 @@ if (!function_exists('get_appointment_types')) {
             //    document.getElementById('timezone').style.display = 'block';
             document.getElementsByClassName('back-arrow')[0].style.display = 'flex';
             //    document.getElementById('timezone').innerText = 'Selected timezone: ' + document.getElementById('timezone').value;
+            if (!document.getElementsByClassName('calendar-box')[0].classList.contains('step2'))
+                document.getElementsByClassName('calendar-box')[0].classList.add('step2');
+            if (document.getElementsByClassName('calendar-box')[0].classList.contains('step1'))
+                document.getElementsByClassName('calendar-box')[0].classList.remove('step1');
+
         }
 
 
@@ -543,6 +563,10 @@ if (!function_exists('get_appointment_types')) {
             document.getElementsByClassName('back-arrow')[0].style.display = 'none';
             document.getElementById('datetime-parent').style.display = 'none';
             //    document.getElementById('timezone').style.display = 'none';
+            if (!document.getElementsByClassName('calendar-box')[0].classList.contains('step1'))
+                document.getElementsByClassName('calendar-box')[0].classList.add('step1');
+            if (document.getElementsByClassName('calendar-box')[0].classList.contains('step2'))
+                document.getElementsByClassName('calendar-box')[0].classList.remove('step2');
 
         }
 

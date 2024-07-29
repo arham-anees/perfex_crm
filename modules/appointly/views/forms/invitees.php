@@ -33,6 +33,7 @@
             text-align: left;
             min-width:350px;
         }
+        
         .event-details div {
             margin-bottom: 10px;
             color: #737373;
@@ -45,6 +46,12 @@
         .fa-circle-check{
             color: #028164;
             font-size: 24px;
+        }
+
+        @media (max-width: 426px) {
+            .event-details {
+                min-width: unset;
+            }
         }
     </style>
 </head>

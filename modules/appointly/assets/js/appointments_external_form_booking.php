@@ -201,7 +201,7 @@
                 month: 'long', 
                 day: 'numeric' 
             };
-    
+     
             document.getElementById('datetime').innerText = slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2);
             document.getElementById('datetime-hidden').value=( slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2));
             // Apply selected class to the clicked timeslot and show its Next button
