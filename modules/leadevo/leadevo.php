@@ -183,6 +183,18 @@ function leadevo_register_menu_items()
     ]);
 }
 
+
+if ( ! function_exists('getInviteSourceId')) {
+    function getInviteSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Invited by client');
+ 
+        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    }
+}
+
+
 /**
  * Injects theme CSS.
  */

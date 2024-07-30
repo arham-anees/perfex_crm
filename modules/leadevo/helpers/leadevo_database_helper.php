@@ -136,7 +136,13 @@ if (!function_exists('init_appointly_database_tables')) {
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
         
-        
+        $CI->db->query(
+            "INSERT INTO tblleads_sources (name)
+            SELECT 'Invited by client'
+            WHERE NOT EXISTS (
+                SELECT 1 FROM tblleads_sources WHERE name = 'Invited by client'
+            );"
+        );
         
         
         
