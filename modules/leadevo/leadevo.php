@@ -78,6 +78,14 @@ function leadevo_register_menu_items()
             'position' => 10,
             'icon'     => 'fa fa-th-list',
         ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-marketplace',
+            'name'     => 'Marketplace',
+            'href'     => admin_url('leadevo/marketplace'),
+     
+            'position' => 12,
+            'icon'     => 'fa fa-shopping-cart',
+        ]);
 
     }
     
