@@ -39,7 +39,6 @@ class Appointments_public extends ClientsController
     public function thank_you()
     {
         $hash = $this->input->get('hash');
-        //$hash='YToxMjp7czoxNToiYm9va2luZ19wYWdlX2lkIjtzOjI6IjI3IjtzOjc6InN1YmplY3QiO3M6MTQ6IlRlc3Qgc3ViamVjdCAzIjtzOjQ6Im5hbWUiO3M6NDoiYXNkZiI7czo1OiJlbWFpbCI7czoxNDoiYWZ0YWJAbWFpbC5jb20iO3M6NToicGhvbmUiO3M6MTE6IjAzMDMxMjEyMTIzIjtzOjc6ImFkZHJlc3MiO3M6MDoiIjtzOjEzOiJjdXN0b21fZmllbGRzIjthOjE6e3M6ODoiYm9va2luZ3MiO2E6MTp7aToxO3M6MDoiIjt9fXM6MTE6ImRlc2NyaXB0aW9uIjtzOjA6IiI7czo2OiJzb3VyY2UiO3M6MTI6ImJvb2tpbmdfcGFnZSI7czo0OiJkYXRlIjtzOjE4OiIyMDI0LTctMTEgMDg6MDA6MDAiO3M6ODoiYXR0ZW5kZWUiO3M6MTA6IkltcmFuIEtoYW4iO3M6NToiZGF0ZXMiO2E6MTp7aTowO3M6MTg6IjIwMjQtNy0xMSAwODowMDowMCI7fX0=';
         if (!$hash) show_404();
 
         // Decode the Base64 string
@@ -48,8 +47,8 @@ class Appointments_public extends ClientsController
         // Unserialize the decoded string to get the original data
         $data['appointment'] = unserialize($decodedData);
         $data['hashes'] = $data['appointment']['hashes'];
+        $data['hashDate'] = $data['appointment']['hashDate'];
 
-        log_message('error',$decodedData);
 
         $this->load->view('forms/invitees', $data);
     }
@@ -198,7 +197,14 @@ class Appointments_public extends ClientsController
             unset($data['dates']);
             
             $create_appiontments=[];
-            
+            $hashDate = '';
+            if (isset($data['hashDate'])) {
+                $hashDate = $data['hashDate'];
+                log_message('error', $hashDate);
+                unset($data['hashDate']);
+                log_message('error', $hashDate);
+            }
+
             foreach ($dates as $date) {
                 $data['date'] = $date;
                 $create_appiontments[] = $this->apm->insert_external_appointment_booking_page($data, $booking_page);
@@ -214,8 +220,9 @@ class Appointments_public extends ClientsController
                 }
             }
             $data['dates'] = $dates;
+            $data['hashDate'] = $hashDate;
             foreach($create_appiontments as $appointment){
-                $data['hashes'][]=['date'=>$appointment['date'], 'hash'=>$appointment['hash']];
+                $data['hashes'][]=['date'=>$hashDate, 'hash'=>$appointment['hash']];
             }
             $serializedObject = serialize($data);
 
@@ -239,6 +246,11 @@ class Appointments_public extends ClientsController
                 $this->lang->load('custom_lang', $form->language);
             }
             $data['booking_page'] = $booking_page;
+            if(!is_null($booking_page)){
+
+                $data['subjects'] = $this->Appointments_subject_model->get_by_booking_page($booking_page['id']);
+            }
+     
 
             if ($this->input->post() && $this->input->is_ajax_request()) {
 
@@ -257,6 +269,7 @@ class Appointments_public extends ClientsController
 
             $data['form'] = $form;
             $data['form']->recaptcha = 1;
+        
 
             $this->load->view('forms/book_appointment', $data);
         }

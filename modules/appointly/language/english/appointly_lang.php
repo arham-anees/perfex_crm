@@ -94,7 +94,6 @@ $lang['appointment_full_name'] = 'Your full name';
 $lang['appointment_your_email'] = 'Your email';
 $lang['appointment_your_phone'] = 'Phone (with country code)';
 $lang['appointment_your_phone_example'] = '+1 69 1234 5678';
-$lang['appointment_submit'] = 'Submit';
 $lang['appointment_pending_cancellation'] = 'Pending Cancellation';
 $lang['appointment_no_staff_members'] = 'No staff members were found, you should add staff member and reload this view in order to select a responsible person for new appointments submitted via iFrame form.';
 $lang['appointment_request_cancellation'] = 'Client has requested appointment cancellation';
@@ -358,4 +357,8 @@ $lang['appointment_duration_minutes'] = 'Duration(Minutes)';
 $lang['booking_page_default_form'] = 'Default Form';
 $lang['booking_back_to_appointments'] = 'Back to Appointments';
 $lang['booking_book_appointments'] = 'Book an Appointment';
-
+$lang['subject_booking_page_name_field'] = 'Booking Page';
+$lang['booking_page_thank_scheduled'] = "You have an appointment";
+$lang['booking_page_thanks_email_inviation']="A calendar invitation will be sent to your email address when appointment is approved.";
+$lang['appointment_submit'] = 'Confirm the event';
+$lang['booking_page_terms_use'] = 'By continuing, you confirm that you have read and accepted the Terms of use.';

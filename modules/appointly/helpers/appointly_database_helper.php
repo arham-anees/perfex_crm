@@ -89,7 +89,7 @@ if (!function_exists('init_appointly_database_tables')) {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
-        
+        try{
         // Add a new column with an optional relationship
         $CI->db->query(
             "ALTER TABLE " . db_prefix() . "appointly_appointments 
@@ -102,15 +102,9 @@ if (!function_exists('init_appointly_database_tables')) {
             ADD CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) 
             REFERENCES " . db_prefix() . "appointly_appointments_statuses(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
         );
-        
-            // Create the subjects table
-        $CI->db->query(
-            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_appointments_subjects (
-                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `subject` varchar(191) DEFAULT NULL,         
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-        );
+    }catch(Exception $e){}
+    try{
+         
 
         $CI->db->query(
             "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
@@ -142,6 +136,17 @@ if (!function_exists('init_appointly_database_tables')) {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
+           // Create the subjects table
+           $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS  " . db_prefix() . "appointly_appointments_subjects (
+                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `subject` varchar(191) DEFAULT NULL,  
+                `booking_page_id` int(11) UNSIGNED NOT NULL,
+                PRIMARY KEY (`id`),
+                FOREIGN KEY (`booking_page_id`) REFERENCES  " . db_prefix() . "appointly_booking_pages(`id`) 
+                ON DELETE NO ACTION ON UPDATE NO ACTION
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
              // Add a new column with an optional relationship
              $CI->db->query(
                 "ALTER TABLE " . db_prefix() . "appointly_appointments 
@@ -155,7 +160,8 @@ if (!function_exists('init_appointly_database_tables')) {
                 REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
             );
         
-
+        }catch(Exception $e){}
+     
         $CI->db->query(
             "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_attendees (
                 `staff_id` int(11) NOT NULL,
@@ -208,20 +214,20 @@ if (!function_exists('init_appointly_database_tables')) {
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
         );
 
-        $CI->db->query(
-            "INSERT INTO tblleads_sources (name)
-            SELECT 'Booking Pages'
-            WHERE NOT EXISTS (
-                SELECT 1 FROM tblleads_sources WHERE name = 'Booking Pages'
-            );"
-        );
-        $CI->db->query(
-            "INSERT INTO tblleads_sources (name)
-            SELECT 'Direct Appointment'
-            WHERE NOT EXISTS (
-                SELECT 1 FROM tblleads_sources WHERE name = 'Direct Appointment'
-            );"
-        );
+        // $CI->db->query(
+        //     "INSERT INTO " . db_prefix() . "leads_sources (name)
+        //     SELECT 'Booking Pages'
+        //     WHERE NOT EXISTS (
+        //         SELECT 1 FROM " . db_prefix() . "leads_sources WHERE name = 'Booking Pages'
+        //     );"
+        // );
+        // $CI->db->query(
+        //     "INSERT INTO " . db_prefix() . "leads_sources (name)
+        //     SELECT 'Direct Appointment'
+        //     WHERE NOT EXISTS (
+        //         SELECT 1 FROM " . db_prefix() . "leads_sources WHERE name = 'Direct Appointment'
+        //     );"
+        // );
 
         checkForModuleReinstallation();
     }
