@@ -9,20 +9,15 @@ class Invite extends AdminController
         //$this->load->model('lead_reasons_model');
     }
 
+   
     public function index()
     {
-        $this->load->view('invite/index');
-    }
-
-    private function _validate_email($email){
-        return true;
-    }
-    public function send_invitation(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $this->input->post();
             
             $email = $data['email'];
-            if(!isset($email) || !_validate_email($email) ){
+            $name = $data['name'];
+            if(!isset($email) ){
                 echo json_encode([
                     'success' => false,
                     'message' => _l('appointment_dates_required')
@@ -57,10 +52,13 @@ class Invite extends AdminController
                 'success' => true,
                 'message' => _l('appointment_sent_successfully'),
             ]);
-        } else {
-          
-        }
+            $template = mail_template('leadevo_invite_friend', 'leadevo',array_to_object(['email'=>$email, 'name'=>$name]));
 
+    
+            $template->send();
+
+        } 
+        $this->load->view('invite/index');
     }
 
 }

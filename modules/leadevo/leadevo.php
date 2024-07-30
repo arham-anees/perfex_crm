@@ -19,6 +19,8 @@ hooks()->add_action('app_admin_footer', 'leadevo_footer_components');
 
 define('LEAD_EVO_MODULE_NAME', 'leadevo');
 
+register_merge_fields('leadevo/merge_fields/leadevo_merge_fields');
+
 register_language_files(LEAD_EVO_MODULE_NAME, ['leadevo']);
 hooks()->add_action('admin_init', 'leadevo_register_permissions');
 hooks()->add_action('admin_init', 'leadevo_register_menu_items');
