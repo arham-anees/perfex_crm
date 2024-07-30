@@ -49,6 +49,13 @@ function leadevo_register_menu_items()
     $CI = &get_instance();
 
     if (staff_can('view', 'appointments') || staff_can('view_own', 'appointments')) {
+        
+        $CI->app_menu->add_sidebar_menu_item('invite_friend', [
+            'name'     => 'Invite a friend',
+            'href'     => admin_url('leadevo/invite'),
+            'position' => 25,
+            'icon'     => 'fa-regular fa-chart-bar',
+        ]);
         $CI->app_menu->add_sidebar_menu_item(LEAD_EVO_MODULE_NAME, [
             'name'     => 'Lead Evo',
             'href'     => admin_url('leadevo/dashboard'),
@@ -85,6 +92,11 @@ function leadevo_register_menu_items()
      
             'position' => 12,
             'icon'     => 'fa fa-shopping-cart',
+            'slug'     => 'leadevo-marketplace-onboarding',
+            'name'     => 'Onboarding',
+            'href'     => admin_url('leadevo/marketplace/onboarding'),
+            'position' => 11,
+            'icon'     => 'fa fa-rocket',
         ]);
 
     }

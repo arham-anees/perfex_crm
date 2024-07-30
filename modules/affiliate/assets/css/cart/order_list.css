@@ -1,0 +1,15 @@
+.order .product.pic{
+	width: 100px;
+	height: 100px;
+}
+.order .product_name{
+	font-size: 15px;
+}
+.order .head-order{
+	background-image: linear-gradient(to right, #f0f0f0, #fff);
+	padding-bottom: 8px;
+}
+.order .total_order{
+	padding: 10px;
+	font-size: 15px;
+}
