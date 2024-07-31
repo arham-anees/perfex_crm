@@ -318,8 +318,23 @@ if ( ! function_exists('getDirectAppointmentsSourceId')) {
     {
         $CI = &get_instance();
         $CI->db->where('name', 'Direct Appointment');
- 
-        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+
+        $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+
+        if (empty($result)) {
+        // Record does not exist, insert one
+            $data = [
+                'name' => 'Direct Appointment',
+                // Add other necessary fields here
+            ];
+            $CI->db->insert(db_prefix().'leads_sources', $data);
+
+            // Get the newly inserted record
+            $CI->db->where('name', 'Direct Appointment');
+            $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+        }
+
+        return $result;
     }
 }
 if ( ! function_exists('getBookingPageSourceId')) {
@@ -327,8 +342,23 @@ if ( ! function_exists('getBookingPageSourceId')) {
     {
         $CI = &get_instance();
         $CI->db->where('name', 'Booking Pages');
-
-        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    
+        $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+    
+        if (empty($result)) {
+            // Record does not exist, insert one
+            $data = [
+                'name' => 'Booking Pages',
+                // Add other necessary fields here
+            ];
+            $CI->db->insert(db_prefix().'leads_sources', $data);
+    
+            // Get the newly inserted record
+            $CI->db->where('name', 'Booking Pages');
+            $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+        }
+    
+        return $result;
     }
 }
 

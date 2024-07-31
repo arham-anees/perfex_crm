@@ -198,7 +198,8 @@ class Booking_pages extends AdminController
                 unset( $data['error_message']);
                 unset( $data['google_client_id']);
                $this->booking_page_model->update($data, $id);
-               redirect(admin_url('appointly/booking_pages'));
+               echo json_encode(['success' => true, 'message' => _l('booking_page_updated')]);
+               return;
                }
            }
         }

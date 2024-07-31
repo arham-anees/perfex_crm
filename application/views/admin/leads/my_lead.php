@@ -409,7 +409,8 @@ if (isset($lead)) {
 <?php hooks()->do_action('lead_modal_profile_bottom', (isset($lead) ? $lead->id : '')); ?>
 
 <script>
-        var leadId = <?= $lead->id ?>
+    
+        var leadId = '<?php echo $lead->id ?>'
       
             // Make an AJAX call to fetch the lead profile content
             $.ajax({

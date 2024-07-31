@@ -239,8 +239,8 @@
     $labels_date = [];
     $data_date = [];
     foreach ($completed_by_date as $completed) {
-        $labels_date[] = $completed['date'];
-        $data_date[] = $completed['completed_appointments'];
+        $labels_date[] = $completed->date;
+        $data_date[] = $completed->completed_appointments;
     }
 
     $labels_staff = [];

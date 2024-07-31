@@ -50,6 +50,7 @@ $subjects = $this->Appointments_subject_model->get_all();
                      <table class="table dt-table table-subjects" data-order-col="0" data-order-type="asc">
                         <thead>
                            <tr>
+                              <th><?php echo _l('subject_booking_page_name_field'); ?></th>
                               <th><?php echo _l('appointment_subject'); ?></th>
                               <th><?php echo _l('appointment_options'); ?></th>
                            </tr>
@@ -57,10 +58,11 @@ $subjects = $this->Appointments_subject_model->get_all();
                         <tbody>
                            <?php foreach ($subjects as $subject) : ?>
                               <tr>
+                                 <td><?php echo $subject['name']; ?></td>
                                  <td><?php echo $subject['subject']; ?></td>
                                  <td class="text-right">
                                     <div class="btn-action-wrapper">
-                                       <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>" data-name="<?php echo $subject['subject']; ?>" data-toggle="modal" data-target="#edit_subject_modal">
+                                       <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>" data-name="<?php echo $subject['subject']; ?>" data-booking="<?php echo $subject['booking_page_id']; ?>" data-toggle="modal" data-target="#edit_subject_modal">
                                           <i class="fa-regular fa-pen-to-square fa-lg"></i>
                                        </button>
                                        <form method=" POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
@@ -102,6 +104,25 @@ $subjects = $this->Appointments_subject_model->get_all();
                   <label for="subject_name">Subject Name</label>
                   <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="subject_name" required />
                </div>
+               <?php
+               if(isset($booking_pages)){
+                echo render_select(
+                    'booking_page_id',
+                    $booking_pages,
+                    ['id', ['name']],
+                    'subject_booking_page_name_field',
+                    '',
+                    [],
+                    [],
+                    'mtop15',
+                    false
+                );
+               }
+               else {
+                  echo 'Please add a booking page first';
+               }
+               
+               ?>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button type="submit" class="btn btn-primary">Add</button>
@@ -123,19 +144,41 @@ $subjects = $this->Appointments_subject_model->get_all();
             <h4 class="modal-title" id="edit_subject_modal_label">Edit Subject</h4>
          </div>
          <div class="modal-body">
-            <form method="POST" action="<?php echo base_url('admin/appointly/subjects/update'); ?>">
+           
+         <form method="POST" action="<?php echo base_url('admin/appointly/subjects/update'); ?>">
                <!-- Include CSRF Token -->
                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-               <input type="hidden" name="subject_id" id="edit_subject_id">
+               <input type="hidden" name="subject_id" id="edit_subject_id" >
                <div class="form-group">
                   <label for="edit_subject_name">Subject Name</label>
                   <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="edit_subject_name" required />
                </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
-               </div>
-            </form>
+               <div id="">
+               <?php
+               if(isset($booking_pages)){
+                  echo render_select(
+                     'booking_page_id',
+                     $booking_pages,
+                     ['id', ['name']],
+                     'subject_booking_page_name_field',
+                     '',
+                     [],
+                     [],
+                     'mtop15',
+                     false
+                  );
+               }
+               else {
+                  echo 'Please add a booking page first';
+               }
+               
+               ?>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+         </form>
          </div>
       </div>
    </div>
@@ -158,9 +201,13 @@ $subjects = $this->Appointments_subject_model->get_all();
       $(document).on('click', '.btn-edit-subject', function() {
          var id = $(this).data('id');
          var name = $(this).data('name');
+         var booking_page_id = $(this).data('booking');
          $('#edit_subject_id').val(id);
          $('#edit_subject_name').val(name);
-      });
+
+         $('#booking_page_id').val(booking_page_id)
+         $('.filter-option-inner-inner').text($('#booking_page_id option[value='+booking_page_id+']').text())
+         });
    });
 </script>
 </body>
