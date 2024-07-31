@@ -23,6 +23,22 @@ register_language_files(LEAD_EVO_MODULE_NAME, ['leadevo']);
 hooks()->add_action('admin_init', 'leadevo_register_permissions');
 hooks()->add_action('admin_init', 'leadevo_register_menu_items');
 
+
+if (staff_can('view', 'settings')) {
+    hooks()->add_action('admin_init', 'leadevo_add_settings_tab');
+}
+
+function leadevo_add_settings_tab()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_settings_tab('leadevo-settings', [
+        'name'     => _l('setting_leadevo_delivery_quality'),
+        'view'     => 'leadevo/settings',
+        'position' => 36,
+    ]);
+}
+
+
 /**
  * Hook for assigning staff permissions for appointments module.
  */
@@ -173,10 +189,10 @@ function leadevo_register_menu_items()
     
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
-        'slug'     => 'appointly-subjects',
-        'name'     => _l('setup_appointments_subjects'),
-        'href'     => admin_url('appointly/subjects'),
-        'position' => 14,
+        'slug'     => 'leadedelivery_qualityvo-delivery',
+        'name'     => _l('setup_leadevo_delivery_quality'),
+        'href'     => admin_url('leadevo/settings/delivery_quality'),
+        'position' => 15,
         'badge'    => [],
     ]);
 }

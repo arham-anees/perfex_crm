@@ -137,7 +137,13 @@ if (!function_exists('init_appointly_database_tables')) {
         );
         
         
-        
+        add_option('delivery_settings_0stars', '10');
+        add_option('delivery_settings_1stars', '20');
+        add_option('delivery_settings_2stars', '40');
+        add_option('delivery_settings_3stars', '10');
+        add_option('delivery_settings_4stars', '10');
+        add_option('delivery_settings_5stars', '10');
+        add_option('delivery_settings', false);
         
         
         
