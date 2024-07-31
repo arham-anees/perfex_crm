@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
-class Marketplace extends AdminController
+class Leads extends AdminController
 {
     public function __construct()
     {
@@ -12,6 +12,6 @@ class Marketplace extends AdminController
     {
         $data['prospects'] = $this->Prospects_model->get_all();
         $data['industries'] = $this->Industries_model->get_all();
-        $this->load->view('marketplace_view', $data);
+        $this->load->view('marketplace/leads', $data);
     }
 }
