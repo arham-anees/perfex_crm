@@ -29,7 +29,6 @@ $discount_type = 1;
 </div>
 <?php echo render_input('max_sell_time',_l('leadevo_deals_max_sell_time'), $ratings['0stars'],'number') ?> 
 <?php echo render_input('days_to_discount',_l('leadevo_deals_days_to_discount'), $ratings['1stars'],'number') ?> 
-<?php echo render_input('discount_type',_l('leadevo_deals_discount_type'), $ratings['2stars'],'number') ?> 
 <div class="form-group">
     <label for="delivery_settings" class="control-label clearfix">
         <?= _l('leadevo_deals_discount_type'); ?>
