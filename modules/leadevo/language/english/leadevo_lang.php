@@ -20,7 +20,7 @@ $lang['leadevo_delivery_quality_3stars'] = '3 Stars';
 $lang['leadevo_delivery_quality_4stars'] = '4 Stars';
 $lang['leadevo_delivery_quality_5stars'] = '5 Stars';
 $lang['leadevo_delivery_quality_apply'] = 'Quality Delivery Algorithem will apply to campaign';
-
+$lang['setting_leadevo_deals'] = 'LeadEvo Deals';
 
 
 

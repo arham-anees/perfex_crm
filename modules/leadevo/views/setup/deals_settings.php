@@ -15,22 +15,20 @@ $delivery_settings = get_option('delivery_settings')
         <?= _l('leadevo_delivery_quality_apply'); ?>
     </label>
     <div class="radio radio-primary radio-inline">
-        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="delivery_settings" value="1" <?= ($delivery_settings == '1') ? ' checked' : '' ?>>
+        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="nonexclusive_status" value="1" <?= ($nonexclusive_status == '1') ? ' checked' : '' ?>>
         <label for="y_opt_1_appointly_busy_times_enabled"><?= _l('settings_yes'); ?></label>
     </div>
     <div class="radio radio-primary radio-inline">
-        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="delivery_settings" value="0" <?= ($delivery_settings == '0') ? ' checked' : '' ?>>
+        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="nonexclusive_status" value="0" <?= ($nonexclusive_status == '0') ? ' checked' : '' ?>>
         <label for="y_opt_2_appointly_busy_times_enabled">
             <?= _l('settings_no'); ?>
         </label>
     </div>
 </div>
-<?php echo render_input('delivery_settings_0stars',_l('leadevo_delivery_quality_0stars'), $ratings['0stars'],'number') ?> 
-<?php echo render_input('delivery_settings_1stars',_l('leadevo_delivery_quality_1stars'), $ratings['1stars'],'number') ?> 
-<?php echo render_input('delivery_settings_2stars',_l('leadevo_delivery_quality_2stars'), $ratings['2stars'],'number') ?> 
-<?php echo render_input('delivery_settings_3stars',_l('leadevo_delivery_quality_3stars'), $ratings['3stars'],'number') ?> 
-<?php echo render_input('delivery_settings_4stars',_l('leadevo_delivery_quality_4stars'), $ratings['4stars'],'number') ?> 
-<?php echo render_input('delivery_settings_5stars',_l('leadevo_delivery_quality_5stars'), $ratings['5stars'],'number') ?> 
+<?php echo render_input('max_sell_time',_l('leadevo_delivery_quality_0stars'), $ratings['0stars'],'number') ?> 
+<?php echo render_input('days_to_discount',_l('leadevo_delivery_quality_1stars'), $ratings['1stars'],'number') ?> 
+<?php echo render_input('discount_type',_l('leadevo_delivery_quality_2stars'), $ratings['2stars'],'number') ?> 
+<?php echo render_input('discount_amount',_l('leadevo_delivery_quality_3stars'), $ratings['3stars'],'number') ?> 
                  
            
 <script>

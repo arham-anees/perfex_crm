@@ -35,7 +35,12 @@ function leadevo_add_settings_tab()
     $CI = &get_instance();
     $CI->app_tabs->add_settings_tab('leadevo-settings', [
         'name'     => _l('setting_leadevo_delivery_quality'),
-        'view'     => 'leadevo/settings',
+        'view'     => 'leadevo/setup/delivery_quality',
+        'position' => 36,
+    ]);
+    $CI->app_tabs->add_settings_tab('leadevo-deal-settings', [
+        'name'     => _l('setting_leadevo_deals'),
+        'view'     => 'leadevo/setup/deals_settings',
         'position' => 36,
     ]);
 }
