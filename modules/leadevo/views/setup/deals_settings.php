@@ -5,7 +5,9 @@
                     '3stars'=>get_option('delivery_settings_3stars'), 
                     '4stars'=>get_option('delivery_settings_4stars'), 
                     '5stars'=>get_option('delivery_settings_5stars')]; 
-$delivery_settings = get_option('delivery_settings')
+$delivery_settings = get_option('delivery_settings');
+$nonexclusive_status = 1;
+$discount_type = 1;
 ?>
 
     <!-- Include CSRF Token -->
@@ -25,10 +27,25 @@ $delivery_settings = get_option('delivery_settings')
         </label>
     </div>
 </div>
-<?php echo render_input('max_sell_time',_l('leadevo_delivery_quality_0stars'), $ratings['0stars'],'number') ?> 
-<?php echo render_input('days_to_discount',_l('leadevo_delivery_quality_1stars'), $ratings['1stars'],'number') ?> 
-<?php echo render_input('discount_type',_l('leadevo_delivery_quality_2stars'), $ratings['2stars'],'number') ?> 
-<?php echo render_input('discount_amount',_l('leadevo_delivery_quality_3stars'), $ratings['3stars'],'number') ?> 
+<?php echo render_input('max_sell_time',_l('leadevo_deals_max_sell_time'), $ratings['0stars'],'number') ?> 
+<?php echo render_input('days_to_discount',_l('leadevo_deals_days_to_discount'), $ratings['1stars'],'number') ?> 
+<?php echo render_input('discount_type',_l('leadevo_deals_discount_type'), $ratings['2stars'],'number') ?> 
+<div class="form-group">
+    <label for="delivery_settings" class="control-label clearfix">
+        <?= _l('leadevo_deals_discount_type'); ?>
+    </label>
+    <div class="radio radio-primary radio-inline">
+        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="discount_type" value="1" <?= ($discount_type == '1') ? ' checked' : '' ?>>
+        <label for="y_opt_1_appointly_busy_times_enabled"><?= _l('leadevo_exclusive_deal'); ?></label>
+    </div>
+    <div class="radio radio-primary radio-inline">
+        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="discount_type" value="0" <?= ($discount_type == '0') ? ' checked' : '' ?>>
+        <label for="y_opt_2_appointly_busy_times_enabled">
+            <?= _l('leadevo_nonexclusive_deal'); ?>
+        </label>
+    </div>
+</div>
+<?php echo render_input('discount_amount',_l('leadevo_deals_discount_amount'), $ratings['3stars'],'number') ?> 
                  
            
 <script>
