@@ -35,16 +35,43 @@ class Settings extends AdminController
         $this->load->view('setup/delivery_quality');
     }
 
-    public function deals(){
+
+    public function deals() {
         if ($this->input->post()) {
             $data = $this->input->post();
-            $sql='';
-            //
-            $this->marketpalceDb->query($sql);
+        
+            // Extract form data
+            $nonexclusive_status = $data['nonexclusive_status'];
+            $max_sell_time = $data['max_sell_time'];
+            $days_to_discount = $data['days_to_discount'];
+            $discount_type = $data['discount_type'];
+            $discount_amount = $data['discount_amount']; // Assuming you have this field in the form
+    
+            // Data array to insert into tblleadevo_deals_settings
+            $insertData = [
+                'nonexclusive_status' => $nonexclusive_status,
+                'max_sell_times' => $max_sell_time,
+                'days_to_discount' => $days_to_discount,
+                'Discount_mode_percentage' => $discount_type,
+                'Discount_amount' => $discount_amount
+            ];
+    
+            // Insert data into the database
+            $this->marketpalceDb->insert('tblleadevo_deals_settings', $insertData);
+    
+            // Check if the row was inserted
+            if ($this->marketpalceDb->affected_rows() > 0) {
+                echo json_encode(['status' => 'success', 'message' => 'Settings saved']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to save settings']);
+            }
+            exit;
         }
-
-        // read data
+    
+        // Load the view if not a POST request
         $this->load->view('setup/deals_settings');
     }
+    
+    
 
 }

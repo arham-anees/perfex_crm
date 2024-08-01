@@ -66,7 +66,7 @@ $discount_type = 1;
                     data[field.name] = field.value;
                 }
             });
-            if (sum === 100) {
+           
             // Assuming admin_url is defined and accessible
             $.ajax({
                 url: admin_url + 'leadevo/settings?group=leadevo-settings',
@@ -82,9 +82,7 @@ $discount_type = 1;
                     alert_float('danger', 'Failed to save settings');
                 }
             });
-            } else {
-                alert_float('danger','Sum must be 100');
-            }
+           
         });
     });
 
