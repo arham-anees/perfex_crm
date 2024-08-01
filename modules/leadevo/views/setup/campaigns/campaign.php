@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('leadevo/campaigns/create'); ?>" class="btn btn-primary pull-left display-block mleft10">
+                            <a  data-toggle="modal" data-target="#createCampaignModal"  class="btn btn-primary pull-left display-block mleft10">
                                 <i class="fa-regular fa-plus tw-mr-1"></i>
                                 <?php echo _l('New Campaign'); ?>
                             </a>
@@ -51,6 +51,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="createCampaignModal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style ="padding: 20px;">
+            
+            
+            
+            
         </div>
     </div>
 </div>
