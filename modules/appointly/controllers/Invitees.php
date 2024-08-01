@@ -14,8 +14,11 @@ class Invitees extends AdminController
             'organizer' => 'Arham Anees',
             'startTime' => '12:30am',
             'endTime' => '1:00am',
-            'date' => 'Saturday, July 27, 2024',
+            'dates' => ['Saturday, July 27, 2024'],
+            'hashes'=>[['hash'=>
+            '']],
             'timezone' => 'Pakistan, Maldives Time',
+            'appointment'=>['name'=>'test', 'subject'=>'test subject','dates' => ['Saturday, July 27, 2024'],'hashes'=>['']]
         ];
 
         $this->load->view('forms/invitees', $data);

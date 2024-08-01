@@ -946,7 +946,8 @@ class Appointly_model extends App_Model
 
         return true;
     }
-        /**
+        
+    /**
      * Approve appointment
      *
      * @param string $appointment_id
@@ -1412,6 +1413,53 @@ class Appointly_model extends App_Model
     }
 
     /**
+     * Fetches report of appointments created on dates
+     *
+     *
+     * @return list
+     */
+    public function fetch_appointments_by_dates($start_date, $end_date, $attendees, $booking_pages)
+    {
+        $dates = [];
+        $current_date = strtotime($start_date);
+        $end_date = strtotime($end_date);
+    
+        while ($current_date <= $end_date) {
+            $dates[] = date('Y-m-d', $current_date);
+            $current_date = strtotime('+1 day', $current_date);
+        }
+    
+            
+        // Construct the UNION ALL part of the query
+        $date_queries = [];
+        foreach ($dates as $date) {
+            $date_queries[] = "SELECT '$date' AS date";
+        }
+        $date_union_query = implode(' UNION ALL ', $date_queries);
+
+        // Combine with the main query
+        $sql = "
+        SELECT d.date, COUNT(a.id) AS completed_appointments
+        FROM (
+            $date_union_query
+        ) AS  d
+        LEFT JOIN " . db_prefix() . "appointly_appointments a ON Date(d.date) = DATE(a.date) AND a.finished = 1";
+        if (count($attendees) > 0) {
+            $sql .= " AND a.id IN (SELECT a.appointment_id from ". db_prefix() ."appointly_attendees a WHERE a.staff_id IN (" . implode(',',$attendees) . ") )";
+            }
+        if (count($booking_pages) > 0) {
+            $sql .= " AND a.booking_page_id IN (" . implode(',',$booking_pages) . ")";
+             }
+        $sql .= " GROUP BY d.date
+        ORDER BY d.date;
+        ";
+
+        // Execute the SQL query
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
+    /**
      * Handles sending custom email to client
      *
      * @param array $data
@@ -1508,46 +1556,46 @@ class Appointly_model extends App_Model
     }
 
     /**
- * Register cron email templates.
- */
-function appointly_send_email_templates_instant($appointment)
-{
-    $CI = &get_instance();
-    $CI->load->model('appointly/appointly_attendees_model', 'atm');
+     * Register cron email templates.
+     */
+    function appointly_send_email_templates_instant($appointment)
+    {
+        $CI = &get_instance();
+        $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
-    $notified_users = [];
+        $notified_users = [];
 
-    $attendees = $CI->atm->get($appointment['id']);
+        $attendees = $CI->atm->get($appointment['id']);
 
-    foreach ($attendees as $staff) {
-        if($staff['staffid']!=get_staff_user_id()){
-            add_notification([
-                'description' => 'appointment_you_have_new_appointment',
-                'touserid'    => $staff['staffid'],
-                'fromcompany' => true,
-                'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
-            ]);
+        foreach ($attendees as $staff) {
+            if($staff['staffid']!=get_staff_user_id()){
+                add_notification([
+                    'description' => 'appointment_you_have_new_appointment',
+                    'touserid'    => $staff['staffid'],
+                    'fromcompany' => true,
+                    'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                ]);
 
-            $notified_users[] = $staff['staffid'];
+                $notified_users[] = $staff['staffid'];
 
-            send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
+                send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
+            }
         }
+
+        $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
+
+        $merge_fields = $template->get_merge_fields();
+
+        $template->send();
+
+        if (isset($appointment['by_sms']) && $appointment['by_sms'] ) {
+            $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
+        }
+
+        $CI->db->where('id', $appointment['id']);
+        $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
+        pusher_trigger_notification(array_unique($notified_users));
     }
-
-    $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
-
-    $merge_fields = $template->get_merge_fields();
-
-    $template->send();
-
-    if (isset($appointment['by_sms']) && $appointment['by_sms'] ) {
-        $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
-    }
-
-    $CI->db->where('id', $appointment['id']);
-    $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
-    pusher_trigger_notification(array_unique($notified_users));
-}
 
 
 }

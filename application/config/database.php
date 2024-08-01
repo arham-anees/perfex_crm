@@ -105,6 +105,29 @@ $db['default'] = array_merge([
     'save_queries' => true,
 ], defined('APP_DB_STRICTON') && APP_DB_STRICTON || !defined('APP_DB_STRICTON') ? ['stricton' => false] : []);
 
+
+
+$db['leadevo_marketplace'] = array_merge([
+    'dsn'          => '', // Not Supported
+    'hostname'     => '66.165.248.146',
+    'username'     => 'market_place',
+    'password'     => 'LeadEvo@10',
+    'database'     => 'softosol_leadevo_marketplace',
+    'dbdriver'     => defined('APP_DB_DRIVER') ? APP_DB_DRIVER : 'mysqli',
+    'dbprefix'     => db_prefix(),
+    'pconnect'     => false,
+    'db_debug'     => (ENVIRONMENT !== 'production'),
+    'cache_on'     => false,
+    'cachedir'     => '',
+    'char_set'     => defined('APP_DB_CHARSET') ? APP_DB_CHARSET : 'utf8',
+    'dbcollat'     => defined('APP_DB_COLLATION') ? APP_DB_COLLATION : 'utf8_general_ci',
+    'swap_pre'     => '',
+    'encrypt'      => $db_encrypt,
+    'compress'     => false,
+    'failover'     => [],
+    'save_queries' => true,
+], defined('APP_DB_STRICTON') && APP_DB_STRICTON || !defined('APP_DB_STRICTON') ? ['stricton' => false] : []);
+
 /**
  * APP_DB_STRICTON
  * @see  https://stackoverflow.com/questions/54235523/unknown-column-strict-all-tables-setting-up-codeigniter-db-connection
