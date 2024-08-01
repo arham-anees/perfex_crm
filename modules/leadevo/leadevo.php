@@ -19,6 +19,8 @@ hooks()->add_action('app_admin_footer', 'leadevo_footer_components');
 
 define('LEAD_EVO_MODULE_NAME', 'leadevo');
 
+register_merge_fields('leadevo/merge_fields/leadevo_merge_fields');
+
 register_language_files(LEAD_EVO_MODULE_NAME, ['leadevo']);
 hooks()->add_action('admin_init', 'leadevo_register_permissions');
 hooks()->add_action('admin_init', 'leadevo_register_menu_items');
@@ -205,6 +207,18 @@ function leadevo_register_menu_items()
         'badge'    => [],
     ]);
 }
+
+
+if ( ! function_exists('getInviteSourceId')) {
+    function getInviteSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Invited by client');
+ 
+        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    }
+}
+
 
 /**
  * Injects theme CSS.

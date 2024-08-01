@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <?php echo form_open(admin_url('invite/send_invitation'), ['id' => 'invite-friend-form']); ?>
+                        <?php echo form_open(admin_url('leadevo/invite'), ['id' => 'invite-friend-form']); ?>
                             <?php echo render_input('name', 'Name', '', 'text'); ?>
                             <?php echo render_input('email', 'Email', '', 'email'); ?>
                             <input type="submit" value="Invite" class="btn btn-primary"/>
@@ -17,5 +17,5 @@
         </div>
     </div>
 </div>
-<?php require ('modules/leadevo/assets/js/invite.php'); ?>
+<?php require ('modules/leadevo/assets/js/invite/invite.php'); ?>
 <?php init_tail(); ?>

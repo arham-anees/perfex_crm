@@ -6,23 +6,18 @@ class Invite extends AdminController
     public function __construct()
     {
         parent::__construct();
-        //$this->load->model('lead_reasons_model');
+        $this->load->model('Leads_model');
     }
 
+   
     public function index()
     {
-        $this->load->view('invite/index');
-    }
-
-    private function _validate_email($email){
-        return true;
-    }
-    public function send_invitation(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = $this->input->post();
             
             $email = $data['email'];
-            if(!isset($email) || !_validate_email($email) ){
+            $name = $data['name'];
+            if(!isset($email) ){
                 echo json_encode([
                     'success' => false,
                     'message' => _l('appointment_dates_required')
@@ -57,10 +52,23 @@ class Invite extends AdminController
                 'success' => true,
                 'message' => _l('appointment_sent_successfully'),
             ]);
-        } else {
-          
-        }
+            $template = mail_template('leadevo_invite_friend', 'leadevo',array_to_object(['email'=>$email, 'name'=>$name]));
 
+            $lead_data = [];
+            $lead_data['email'] = $email;
+            $lead_data['name'] = $name;
+            $lead_data['description'] = '';
+            $lead_data['address'] = '';
+            $lead_data['status'] = '2';
+            $lead_data['source'] = getInviteSourceId()['id'];
+            $lead_data['assigned'] = get_staff_user_id();
+            $lead_data['hash'] = app_generate_hash();
+            $this->leads_model->add($lead_data);
+    
+            $template->send();
+
+        } 
+        $this->load->view('invite/index');
     }
 
 }
