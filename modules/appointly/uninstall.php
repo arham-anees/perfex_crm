@@ -15,43 +15,9 @@
     // Write the updated content back to the routes file
     file_put_contents($routesPath, $updatedRoutesContent, LOCK_EX);
 
-    
-    // Execute the ALTER TABLE statement to drop the foreign key constraint
-    $CI->db->query("
-    ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP FOREIGN KEY `fk_status_id`
-    ");
-
-    $CI->db->query("
-        ALTER TABLE " . db_prefix() . "appointly_appointments
-        DROP COLUMN status_id"
-    );
 
 
-    $CI->db->query("
-    DROP TABLE " . db_prefix() . "appointly_appointments_subjects
-    ");
-    $CI->db->query("
-    DROP TABLE " . db_prefix() . "appointly_appointments_statuses
-    ");
-
-    // Execute the ALTER TABLE statement to drop the foreign key constraint
-    $CI->db->query("
-    ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP FOREIGN KEY `fk_booking_page_id`
-    ");
-
-    $CI->db->query("
-    ALTER TABLE " . db_prefix() . "appointly_appointments
-    DROP COLUMN booking_page_id
-    ");
-
- 
-    $CI->db->query("
-    DROP TABLE " . db_prefix() . "appointly_booking_pages
-    ");
-
-
+try{
     // Target path in the Perfex CRM application
     $target_path = APPPATH . 'views/admin/leads/my_lead.php';
 
@@ -59,3 +25,4 @@
     if (file_exists($target_path)) {
         @unlink($target_path);
     }
+}catch(Exception $e){}

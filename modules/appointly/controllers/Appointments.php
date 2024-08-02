@@ -122,36 +122,26 @@ class Appointments extends AdminController
             $start_date, $end_date   // Base date for prior range calculations
         ]);
 
-        $sql_completed_by_dates = "WITH RECURSIVE dates_cte AS (
-                SELECT DATE('" . $start_date . "') AS date
-                UNION ALL
-                SELECT date + INTERVAL 1 DAY
-                FROM dates_cte
-                WHERE date < '" . $end_date . "'
-            )
-            SELECT 
-                d.date,
-                COUNT(a.date) AS completed_appointments
-            FROM 
-                dates_cte d
-            LEFT JOIN 
-                ". db_prefix() ."appointly_appointments a ON d.date = a.date AND a.finished = 1
-            GROUP BY 
-                d.date
-            ORDER BY 
-                d.date;";
         $sql_internal_attendees = "SELECT * FROM 
             ". db_prefix() ."appointly_appointments 
             WHERE date >= ? AND date <= ? AND finished = 1";
-        $sql_attendees_appointments = "SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments FROM `tblstaff` s
+        $sql_attendees_appointments = "SELECT s.staffid, CONCAT(s.firstname,' ', s.lastname) name, COUNT(att.staff_id) appointments 
+            FROM `" . db_prefix() . "staff` s
             LEFT JOIN " . db_prefix() . "appointly_attendees att ON att.staff_id = s.staffid
             LEFT JOIN (" . $sql_internal_attendees . ") AS ap ON ap.id = att.appointment_id
-            GROUP By att.staff_id;";
+            WHERE 1=1 ";
+            if (count($attendees) > 0) {
+                $sql_attendees_appointments .= " AND ap.id IN (SELECT a.appointment_id from ". db_prefix() ."appointly_attendees a WHERE a.staff_id IN (" . implode(',',$attendees) . ") )";
+            }
+            if (count($booking_pages) > 0) {
+                $sql_attendees_appointments .= " AND ap.booking_page_id IN (" . implode(',',$booking_pages) . ")";
+            }
+            $sql_attendees_appointments .= " GROUP By att.staff_id;";
 
         $data['completed_by_staff'] = ($this->db->query($sql_attendees_appointments, [
             $start_date, $end_date   // Base date for prior range calculations
         ]))->result_array();
-        $data['completed_by_date'] = ($this->db->query($sql_completed_by_dates))->result_array();
+        $data['completed_by_date'] =$this->apm->fetch_appointments_by_dates($start_date, $end_date, $attendees, $booking_pages);
         $data['summary'] = $query->result_array();
         $data['summary2'] = $query2->result_array();
         $data['prior_days'] = $daysDifference;

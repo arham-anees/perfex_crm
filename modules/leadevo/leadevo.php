@@ -19,9 +19,27 @@ hooks()->add_action('app_admin_footer', 'leadevo_footer_components');
 
 define('LEAD_EVO_MODULE_NAME', 'leadevo');
 
+register_merge_fields('leadevo/merge_fields/leadevo_merge_fields');
+
 register_language_files(LEAD_EVO_MODULE_NAME, ['leadevo']);
 hooks()->add_action('admin_init', 'leadevo_register_permissions');
 hooks()->add_action('admin_init', 'leadevo_register_menu_items');
+
+
+if (staff_can('view', 'settings')) {
+    hooks()->add_action('admin_init', 'leadevo_add_settings_tab');
+}
+
+function leadevo_add_settings_tab()
+{
+    $CI = &get_instance();
+    $CI->app_tabs->add_settings_tab('leadevo-settings', [
+        'name'     => _l('setting_leadevo_delivery_quality'),
+        'view'     => 'leadevo/settings',
+        'position' => 36,
+    ]);
+}
+
 
 /**
  * Hook for assigning staff permissions for appointments module.
@@ -49,6 +67,13 @@ function leadevo_register_menu_items()
     $CI = &get_instance();
 
     if (staff_can('view', 'appointments') || staff_can('view_own', 'appointments')) {
+        
+        $CI->app_menu->add_sidebar_menu_item('invite_friend', [
+            'name'     => 'Invite a friend',
+            'href'     => admin_url('leadevo/invite'),
+            'position' => 25,
+            'icon'     => 'fa-regular fa-chart-bar',
+        ]);
         $CI->app_menu->add_sidebar_menu_item(LEAD_EVO_MODULE_NAME, [
             'name'     => 'Lead Evo',
             'href'     => admin_url('leadevo/dashboard'),
@@ -85,6 +110,22 @@ function leadevo_register_menu_items()
             'href'     => admin_url('leadevo/campaigns'),
             'position' => 10,
             'icon'     => 'fa fa-th-list',
+        ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+         
+            'slug'     => 'leadevo-marketplace-onboarding',
+            'name'     => 'Onboarding',
+            'href'     => admin_url('leadevo/marketplace/onboarding'),
+            'position' => 11,
+            'icon'     => 'fa fa-rocket',
+        ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-marketplace-leads',
+            'name'     => 'Marketplace',
+            'href'     => admin_url('leadevo/marketplace/leads'),
+     
+            'position' => 12,
+            'icon'     => 'fa fa-shopping-cart',
         ]);
 
     }
@@ -167,13 +208,25 @@ function leadevo_register_menu_items()
     
     // Register other menu items as needed
     $CI->app_menu->add_setup_children_item(LEAD_EVO_MODULE_NAME, [
-        'slug'     => 'appointly-subjects',
-        'name'     => _l('setup_appointments_subjects'),
-        'href'     => admin_url('appointly/subjects'),
-        'position' => 14,
+        'slug'     => 'leadedelivery_qualityvo-delivery',
+        'name'     => _l('setup_leadevo_delivery_quality'),
+        'href'     => admin_url('leadevo/settings/delivery_quality'),
+        'position' => 15,
         'badge'    => [],
     ]);
 }
+
+
+if ( ! function_exists('getInviteSourceId')) {
+    function getInviteSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Invited by client');
+ 
+        return $CI->db->get(db_prefix().'leads_sources')->row_array();
+    }
+}
+
 
 /**
  * Injects theme CSS.

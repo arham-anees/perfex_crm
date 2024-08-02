@@ -9,19 +9,12 @@ class Prospects_model extends CI_Model
         parent::__construct();
     }
 
-    // Get all prospects
-    // public function get_all()
-    // {
-    //     return $this->db->get($this->table)->result_array();
-    // }
-
-    // Get all prospects by filter
+    //Get all prospects by filter
     public function get_all_by_filter($filter)
     {
         return $this->db->where('status', $filter)->get($this->table)->result_array();
     }
-    // SELECT p.id, CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, ps.name AS status, pt.name AS type, pc.name AS category, ac.name AS acquisition_channel, i.name AS industry FROM tblleadevo_prospects p LEFT JOIN tblleadevo_prospect_statuses ps ON p.status_id = ps.id LEFT JOIN tblleadevo_prospect_types pt ON p.type_id = pt.id LEFT JOIN tblleadevo_prospect_categories pc ON p.category_id = pc.id LEFT JOIN tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id LEFT JOIN tblleadevo_industries i ON p.industry_id = i.id WHERE p.is_active = 1;
-    // $this->db->from(db_prefix() . 'prospects p');
+
 
     public function get_all() {
         $sql = "SELECT 
@@ -79,9 +72,13 @@ class Prospects_model extends CI_Model
         // Execute the query with the provided ID
         return $this->db->query($sql, [$id])->row_array();
     }
+
+    // public function get($id)
+    // {
+    //     return $this->db->where('id', $id)->get($this->table)->row();
+    // }
     
 
-    // Insert a new prospects
     public function insert($data)
     {
         return $this->db->insert($this->table, $data);
@@ -93,7 +90,6 @@ class Prospects_model extends CI_Model
         return $this->db->where('id', $id)->update($this->table, $data);
     }
 
-    // Delete an prospect
     public function delete($id)
     {
         return $this->db->where('id', $id)->delete($this->table);

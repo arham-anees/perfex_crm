@@ -6,6 +6,7 @@ class Campaigns extends AdminController
     {
         parent::__construct();
         $this->load->model('Campaigns_model');
+        $marketpalce = $this->load->database('leadevo_marketplace', true);
     }
 
     public function index()

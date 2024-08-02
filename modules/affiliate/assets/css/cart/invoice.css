@@ -1,0 +1,20 @@
+.product.pic{
+	width:100px;
+	height:100px;
+}
+td.middle{
+  display: table-cell;vertical-align: middle !important;	
+}
+.order_overview{
+	text-align: center;
+}
+.order_overview button{
+	margin: 42px auto;
+}
+.status_order{
+  padding-top: 10px;
+}
+.reasion{
+	padding-top: 8px;
+
+}
