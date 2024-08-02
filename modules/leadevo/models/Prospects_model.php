@@ -2,17 +2,19 @@
 
 class Prospects_model extends CI_Model
 {
+    public $mdb;
     private $table = 'tblleadevo_prospects';
 
     public function __construct()
     {
         parent::__construct();
+        $this->mdb = $this->load->database('leadevo_marketplace', true);
     }
 
     //Get all prospects by filter
     public function get_all_by_filter($filter)
     {
-        return $this->db->where('status', $filter)->get($this->table)->result_array();
+        return $this->mdb->get($this->table)->result();
     }
 
 
@@ -75,23 +77,25 @@ class Prospects_model extends CI_Model
 
     public function get($id)
     {
-        return $this->db->where('id', $id)->get($this->table)->row();
+        return $this->mdb->where('id', $id)->get($this->table)->row();
     }
     
 
     public function insert($data)
     {
-        return $this->db->insert($this->table, $data);
+        return $this->mdb->insert($this->table, $data);
+    }
+
 
     }
     // Update an prospect
     public function update($id, $data)
     {
-        return $this->db->where('id', $id)->update($this->table, $data);
+        return $this->mdb->where('id', $id)->update($this->table, $data);
     }
 
     public function delete($id)
     {
-        return $this->db->where('id', $id)->delete($this->table);
+        return $this->mdb->where('id', $id)->delete($this->table);
     }
 }

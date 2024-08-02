@@ -6,12 +6,15 @@ class Campaigns extends AdminController
     {
         parent::__construct();
         $this->load->model('Campaigns_model');
-        $marketpalce = $this->load->database('leadevo_marketplace', true);
+        $this->tenant_id = get_marketplace_id() ?: 0;
+
+        // $marketpalce = $this->load->database('leadevo_marketplace', true);
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
+        $data['tenant_id'] = $this->tenant_id;
         $this->load->view('setup/campaigns/campaign', $data);
     }
 
@@ -45,6 +48,7 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'tenant_id' => $this->tenant_id 
             ];
             
             $this->Campaigns_model->insert($data);
@@ -87,6 +91,8 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'tenant_id' => $this->tenant_id 
+                
             ];
             $this->Campaigns_model->update($id, $data);
             set_alert('success', 'Campaign updated successfully.');

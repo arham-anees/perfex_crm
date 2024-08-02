@@ -41,6 +41,11 @@ function leadevo_add_settings_tab()
 }
 
 
+function onActivation(){
+
+    
+}
+
 /**
  * Hook for assigning staff permissions for appointments module.
  */
@@ -247,6 +252,41 @@ if ( ! function_exists('leadevo_footer_components')) {
         echo '<script src="'.module_dir_url(LEAD_EVO_MODULE_NAME, 'assets/js/global.js?v='.time()).'"  type="text/javascript"></script>';
     }
 }
+
+/**
+ * Get ID of this user in market place to use with any data insertion in marketplace DB
+ */
+if ( ! function_exists('get_marketplace_id')) {
+    function get_marketplace_id()
+    {
+        $hash = get_option('leadevo_marketplace_hash');
+        if(!isset($hash) || ($hash == '')){
+            $CI = &get_instance();
+            $CI->mpDB = $CI->load->database('leadevo_marketplace', true);
+             $CI->load->database();
+            $hash = app_generate_hash();
+            // insert in
+            $data = array(
+                'hash' => app_generate_hash()
+            );
+            $CI->mpDb->insert('tbltenant', $data);
+
+            // Get the last inserted ID
+            $id = $CI->mpDb->insert_id();
+
+            $CI->db->insert(db_prefix() . 'options', array('name' => 'leadevo_marketplace_hash', 'value' => $hash));
+            $CI->db->insert(db_prefix() . 'options', array('name' => 'leadevo_marketplace_id', 'value' => $id));
+            // Update options table with the new hash and ID
+            // $sql = "INSERT INTO " . db_prefix() . "options(name, value)  values('leadevo_marketplace_hash', '".$hash."');";
+            // $CI->mainDb->query($sql);
+            // $sql = "INSERT INTO " . db_prefix() . "options(name, value)  values('leadevo_marketplace_id', '".$id."');";
+            // $CI->mainDb->query($sql);
+        }
+        return get_option('leadevo_marketplace_id');
+        
+    }
+}
+
 
 /**
  * Fetches from database all staff assigned customers
