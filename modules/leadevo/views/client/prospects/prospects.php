@@ -69,12 +69,13 @@
                                             <tbody>
                                                 <?php foreach ($prospects as $prospect) : ?>
                                                     <tr>
-                                                        <td><?php echo htmlspecialchars($prospect['prospect_name']); ?></td>
-                                                        <td><?php echo htmlspecialchars($prospect['status']); ?></td>
-                                                        <td><?php echo htmlspecialchars($prospect['type']); ?></td>
-                                                        <td><?php echo htmlspecialchars($prospect['category']); ?></td>
-                                                        <td><?php echo htmlspecialchars($prospect['acquisition_channel']); ?></td>
-                                                        <td><?php echo htmlspecialchars($prospect['industry']); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? ''); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
+                                                        <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
+
                                                         <td>
                                                             <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>" class="btn btn-default btn-icon">
                                                                 <i class="fa fa-eye"></i>
@@ -96,14 +97,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
                         <!-- End of panel body -->
                     </div>
                 </div>
@@ -113,5 +106,4 @@
 </div>
 <?php init_tail(); ?>
 </body>
-
 </html>
