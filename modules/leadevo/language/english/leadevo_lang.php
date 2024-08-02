@@ -11,6 +11,10 @@ $lang['leadevo_setup_acquisition_channels_menu'] = 'Acquisition Channels';
 $lang['leadevo_setup_campaign_status_menu'] = 'Campaign Status';
 $lang['leadevo_setup_lead_reason_menu'] = 'Lead Reason';
 $lang['leadevo_setup_lead_status_menu'] = 'Lead Status';
+$lang['total_campaigns'] = 'Total Campaigns';
+$lang['total_prospects'] = 'Total Prospects';
+$lang['prospects_average_cost'] = 'Prospects Avg Cost';
+$lang['reported_prospects'] = 'Reported Prospects';
 
 
 
