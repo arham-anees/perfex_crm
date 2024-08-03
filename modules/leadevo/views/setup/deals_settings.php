@@ -5,7 +5,9 @@
                     '3stars'=>get_option('delivery_settings_3stars'), 
                     '4stars'=>get_option('delivery_settings_4stars'), 
                     '5stars'=>get_option('delivery_settings_5stars')]; 
-$delivery_settings = get_option('delivery_settings')
+$delivery_settings = get_option('delivery_settings');
+$nonexclusive_status = 1;
+$discount_type = 1;
 ?>
 
     <!-- Include CSRF Token -->
@@ -15,22 +17,34 @@ $delivery_settings = get_option('delivery_settings')
         <?= _l('leadevo_delivery_quality_apply'); ?>
     </label>
     <div class="radio radio-primary radio-inline">
-        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="delivery_settings" value="1" <?= ($delivery_settings == '1') ? ' checked' : '' ?>>
+        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="nonexclusive_status" value="1" <?= ($nonexclusive_status == '1') ? ' checked' : '' ?>>
         <label for="y_opt_1_appointly_busy_times_enabled"><?= _l('settings_yes'); ?></label>
     </div>
     <div class="radio radio-primary radio-inline">
-        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="delivery_settings" value="0" <?= ($delivery_settings == '0') ? ' checked' : '' ?>>
+        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="nonexclusive_status" value="0" <?= ($nonexclusive_status == '0') ? ' checked' : '' ?>>
         <label for="y_opt_2_appointly_busy_times_enabled">
             <?= _l('settings_no'); ?>
         </label>
     </div>
 </div>
-<?php echo render_input('delivery_settings_0stars',_l('leadevo_delivery_quality_0stars'), $ratings['0stars'],'number') ?> 
-<?php echo render_input('delivery_settings_1stars',_l('leadevo_delivery_quality_1stars'), $ratings['1stars'],'number') ?> 
-<?php echo render_input('delivery_settings_2stars',_l('leadevo_delivery_quality_2stars'), $ratings['2stars'],'number') ?> 
-<?php echo render_input('delivery_settings_3stars',_l('leadevo_delivery_quality_3stars'), $ratings['3stars'],'number') ?> 
-<?php echo render_input('delivery_settings_4stars',_l('leadevo_delivery_quality_4stars'), $ratings['4stars'],'number') ?> 
-<?php echo render_input('delivery_settings_5stars',_l('leadevo_delivery_quality_5stars'), $ratings['5stars'],'number') ?> 
+<?php echo render_input('max_sell_time',_l('leadevo_deals_max_sell_time'), $ratings['0stars'],'number') ?> 
+<?php echo render_input('days_to_discount',_l('leadevo_deals_days_to_discount'), $ratings['1stars'],'number') ?> 
+<div class="form-group">
+    <label for="delivery_settings" class="control-label clearfix">
+        <?= _l('leadevo_deals_discount_type'); ?>
+    </label>
+    <div class="radio radio-primary radio-inline">
+        <input type="radio" id="y_opt_1_appointly_busy_times_enabled" name="discount_type" value="1" <?= ($discount_type == '1') ? ' checked' : '' ?>>
+        <label for="y_opt_1_appointly_busy_times_enabled"><?= _l('leadevo_exclusive_deal'); ?></label>
+    </div>
+    <div class="radio radio-primary radio-inline">
+        <input type="radio" id="y_opt_2_appointly_busy_times_enabled" name="discount_type" value="0" <?= ($discount_type == '0') ? ' checked' : '' ?>>
+        <label for="y_opt_2_appointly_busy_times_enabled">
+            <?= _l('leadevo_nonexclusive_deal'); ?>
+        </label>
+    </div>
+</div>
+<?php echo render_input('discount_amount',_l('leadevo_deals_discount_amount'), $ratings['3stars'],'number') ?> 
                  
            
 <script>
@@ -52,7 +66,7 @@ $delivery_settings = get_option('delivery_settings')
                     data[field.name] = field.value;
                 }
             });
-            if (sum === 100) {
+           
             // Assuming admin_url is defined and accessible
             $.ajax({
                 url: admin_url + 'leadevo/settings?group=leadevo-settings',
@@ -68,9 +82,7 @@ $delivery_settings = get_option('delivery_settings')
                     alert_float('danger', 'Failed to save settings');
                 }
             });
-            } else {
-                alert_float('danger','Sum must be 100');
-            }
+           
         });
     });
 
