@@ -42,7 +42,7 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1";
     
-        return $this->db->query($sql)->result_array();
+        return $this->mdb->query($sql)->result_array();
     }
     
 
@@ -72,7 +72,7 @@ class Prospects_model extends CI_Model
     //                 p.id = ? AND p.is_active = 1";
         
     //     // Execute the query with the provided ID
-    //     return $this->db->query($sql, [$id])->row_array();
+    //     return $this->mdb->query($sql, [$id])->row_array();
     // }
 
     public function get($id)
@@ -86,8 +86,6 @@ class Prospects_model extends CI_Model
         return $this->mdb->insert($this->table, $data);
     }
 
-
-    }
     // Update an prospect
     public function update($id, $data)
     {
