@@ -125,7 +125,7 @@
     }
 }
 </style>
-
+<?php $inviteUrl = admin_url('leadevo/invite'); ?>
 <div id="wrapper">
     <div class="content">
         <div class="row main_row">
@@ -134,8 +134,8 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <h4 class="pull-left mleft10"><?php echo _l('Onboarding'); ?></h4>
-                            <a href="#" class="btn btn-success pull-right display-block mleft10">
-                                <i class="fa-solid fa-user-plus tw-mr-1"></i>
+                            <a href="<?php echo $inviteUrl; ?>"class="btn btn-success pull-right display-block mleft10">
+                            <i class="fa-solid fa-user-plus tw-mr-1"></i>
                                 <?php echo _l('Invite Friend'); ?>
                             </a>
                             <div class="clearfix"></div>
@@ -243,6 +243,26 @@
                             </div>
                         </div>
                         <!-- End of row with video and progress card -->
+                         <!-- Modal for Invite Friend -->
+<div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="inviteFriendModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="inviteFriendModalLabel"><?php echo _l('Invite a Friend'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <?php echo form_open(admin_url('leadevo/invite'), ['id' => 'invite-friend-form']); ?>
+                    <?php echo render_input('name', 'Name', '', 'text'); ?>
+                    <?php echo render_input('email', 'Email', '', 'email'); ?>
+                    <input type="submit" value="Invite" class="btn btn-primary"/>
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
 
                     </div>
                 </div>
@@ -251,32 +271,7 @@
     </div>
 </div>
 
-<!-- Modal for sign up alert -->
-<div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signupAlertModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style ="padding: 20px;">
-            <div class="text-center d-flex">
-                <p class="signup-title w-100" id="signupAlertModalLabel"><?php echo _l('Sign Up for Alerts'); ?></p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
 
-            </div>
-            <div class="text-center">
-                <i class="fa-solid fa-envelope" style="color: rgb(255, 203, 3);
-    font-size: 80px;"></i>
-            </div>
-            <div class="modal-body text-center">
-                <p class="signup-text">
-                    <?php echo _l('<i class="fa fa-exclamation-circle tw-mr-1"></i> We\'ll never send marketing emails through these alerts. These email alerts are strictly to inform you about Ambassador Program latest updates.'); ?>
-                </p>
-            </div>
-            <div class="text-center">
-                <button type="button" class="signup-btn" data-dismiss="modal"><?php echo _l('Sign Up and Continue'); ?></button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
