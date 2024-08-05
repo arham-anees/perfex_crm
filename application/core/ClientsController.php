@@ -28,8 +28,25 @@ class ClientsController extends App_Controller
             && $this->app->is_db_upgrade_required($this->current_db_version)) {
             redirect(admin_url());
         }
+
+
         hooks()->do_action('client_init');
-        // hooks()->do_action('app_client_assets');
+        hooks()->do_action('app_client_assets');
+        
+        // $this->db->where('id', get_client_user_id());
+        // $this->db->update('contact', ['last_activity' => date('Y-m-d H:i:s')]);
+
+        // $this->load->model('staff_model');
+
+        $currentUser = $this->session->get_userdata();
+
+        // Deleted or inactive but have session
+        // if (!$currentUser || $currentUser->active == 0) {
+        //     $this->authentication_model->logout();
+        //     redirect(admin_url('authentication'));
+        // }
+
+        $GLOBALS['current_user'] = $currentUser;
 
         $this->load->library('app_clients_area_constructor');
 
@@ -38,7 +55,12 @@ class ClientsController extends App_Controller
         }
         
         // init_admin_assets();
-        
+         $vars = [
+            'current_user'    => $currentUser,
+            'current_version' => $this->current_db_version,
+            'task_statuses'   => $this->tasks_model->get_statuses(),
+        ];
+
         $vars['sidebar_menu'] = $this->app_menu->get_client_sidebar_menu_items();
         $this->load->vars($vars);
     }

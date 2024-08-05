@@ -59,5 +59,22 @@
         </li>
         <?php
          } ?>
+
+<?php hooks()->do_action('customers_navigation_start'); ?>
+                <?php foreach ($menu as $item_id => $item) { ?>
+                <li class="customers-nav-item-<?php echo e($item_id); ?><?php echo $item['href'] === current_full_url() ? ' active' : ''; ?>"
+                    <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
+                    <a href="<?php echo e($item['href']); ?>"
+                        <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
+                        <?php
+                     if (!empty($item['icon'])) {
+                         echo '<i class="' . $item['icon'] . '"></i> ';
+                     }
+                     echo e($item['name']);
+                     ?>
+                    </a>
+                </li>
+                <?php } ?>
+                <?php hooks()->do_action('customers_navigation_end'); ?>
     </ul>
 </aside>

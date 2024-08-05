@@ -10,6 +10,8 @@
 	<script src="<?php echo base_url('assets/plugins/jquery/jquery.min.js'); ?>"></script>
 	<?php app_customers_head(); ?>
 	<?php echo app_compile_css('client'); ?>
+	
+    <link rel="stylesheet" type="text/css" href="<?= site_url() .'/assets/css/style.css'?>"/>
 </head>
 <body class="customers show-page <?php echo strtolower($this->agent->browser()); ?><?php if(is_mobile()){echo ' mobile';}?><?php if(isset($bodyclass)){echo ' ' . $bodyclass; } ?>" <?php if($isRTL == 'true'){ echo 'dir="rtl"';} ?>>
 	<?php hooks()->do_action('customers_after_body_start'); ?>
