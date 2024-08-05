@@ -34,6 +34,8 @@ class ClientsController extends App_Controller
         if (method_exists($this, 'validateContact')) {
             $this->validateContact();
         }
+
+        hooks()->do_action('client_init');
     }
 
     public function layout($notInThemeViewFiles = false)

@@ -7,6 +7,7 @@ Filters
  */
 hooks()->add_filter('check_vault_entries_visibility', '_check_vault_entries_visibility');
 hooks()->add_filter('register_merge_fields', 'core_merge_fields');
+hooks()->add_action('client_init', 'app_init_client_sidebar_menu_items');
 
 /*
 Actions
