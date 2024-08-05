@@ -302,6 +302,21 @@ ol {
     margin:4px;
 }
 
+.confirm_btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.875rem;
+    background-color: rgb(255, 203, 3);
+    color: rgb(0, 0, 0);
+    border: 1px solid rgba(255, 203, 3, 0.5);
+    margin:4px;
+}
+
 .save_discount_btn {
     background-color: rgb(255, 203, 3);
     color: rgb(0, 0, 0);
@@ -312,7 +327,18 @@ ol {
     color: rgb(0, 0, 0);
     background-color: rgb(255, 255, 255);
 }
+.confirm_btn.disabled {
+            background-color: gray; 
+            cursor: not-allowed;
+        }
 
+        .confirm_btn.disabled .bold-text {
+            color: black; 
+        }
+.confirm_btn:hover{
+    box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
+
+}
 .save_discount_btn:hover, .regular_price_btn:hover {
     box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
 }
@@ -456,6 +482,14 @@ ol {
                                 </div>
                             </div>
                         </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
+                                </div>
+                            </div>
+                        </button>
+                        
                     </div>
                 </ol>
             </div>
@@ -540,6 +574,13 @@ ol {
                                 </div>
                             </div>
                         </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </ol>
             </div>
@@ -602,65 +643,10 @@ ol {
                                 </div>
                             </div>
                         </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div><div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified   <i class="fa fa-check-circle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
+                        <button class="btn confirm_btn" id="confirmButton">
                             <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
                                 <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
+                                    <span class="bold-text">Cofirm Prospect</span>                                
                                 </div>
                             </div>
                         </button>
@@ -723,6 +709,82 @@ ol {
                                 <div class="text-container">
                                     <span class="bold-text">$345-$563 Buy lead</span>
                                     <span class="small-text">regular price</span>
+                                </div>
+                            </div>
+                        </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div><div class="col-md-10">
+    <div class="lead-card">
+        <div class="lead-card-left">
+            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
+            <div class="info-buttons">
+                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
+                    Direct Lead <i class="fa fa-exclamation-circle"></i>
+                </button>
+                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
+                Phone Verified   <i class="fa fa-check-circle"></i>
+                </span>
+            </div>
+        </div>
+        <div class="lead-card-right">
+            <div class="title-favorite-container">
+                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
+                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
+            </div>
+            <div class="details">
+    <ol>
+        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
+        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
+        <li><strong>Desired asking price:</strong> $60,000</li>
+        <li><strong>Listed with Realtor:</strong> No</li>
+        <li><strong>Sales agent preference:</strong> None</li>
+        <li><strong>Loan preference:</strong> None</li>
+        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
+        <span id="show-more-content" style="display: none;">
+            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
+            <li><strong>Bottom line asking price:</strong> $50,000</li>
+            <li><strong>Current loan balance:</strong> $40,000</li>
+            <li><strong>Loan purpose:</strong> Purchase</li>
+            <li><strong>Loan amount:</strong> $60,000</li>
+            <li><strong>Credit score:</strong> 750</li>
+        </span>
+        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
+    </ol>
+
+                    <div class="button-container">
+                        <button class="btn save_discount_btn">
+                            <div class="button-content">
+                                <i class="fa fa-shopping-cart"></i>
+                                <div class="text-container">
+                                    <span class="bold-text">SAVE 20%</span>
+                                    <span class="small-text">InstaClaim price</span>
+                                </div>
+                            </div>
+                        </button>
+                        <button class="btn regular_price_btn">
+                            <div class="button-content">
+                                <i class="fa fa-shopping-cart"></i>
+                                <div class="text-container">
+                                    <span class="bold-text">$345-$563 Buy lead</span>
+                                    <span class="small-text">regular price</span>
+                                </div>
+                            </div>
+                        </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
                                 </div>
                             </div>
                         </button>
@@ -785,6 +847,13 @@ ol {
                                 <div class="text-container">
                                     <span class="bold-text">$345-$563 Buy lead</span>
                                     <span class="small-text">regular price</span>
+                                </div>
+                            </div>
+                        </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
                                 </div>
                             </div>
                         </button>
@@ -851,6 +920,13 @@ ol {
                                 </div>
                             </div>
                         </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </ol>
             </div>
@@ -913,6 +989,13 @@ ol {
                                 </div>
                             </div>
                         </button>
+                        <button class="btn confirm_btn" id="confirmButton">
+                            <div class="button-content">
+                                <div class="text-container">
+                                    <span class="bold-text">Cofirm Prospect</span>                                
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </ol>
             </div>
@@ -962,3 +1045,15 @@ function showLessDetails(button) {
 
 
 </script>
+<script>
+        // Select all buttons with the class 'confirm_btn'
+        const buttons = document.querySelectorAll(".confirm_btn");
+
+      
+        buttons.forEach(button => {
+            button.addEventListener("click", function() {
+                this.classList.add("disabled"); // Add the 'disabled' class for styling
+                this.setAttribute("disabled", "true"); // Disable the button
+            });
+        });
+    </script>
