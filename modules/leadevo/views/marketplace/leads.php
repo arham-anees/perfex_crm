@@ -1046,13 +1046,13 @@ function showLessDetails(button) {
 
 </script>
 <script>
-        // Select all buttons with the class 'confirm_btn'
+        
         const buttons = document.querySelectorAll(".confirm_btn");
 
       
         buttons.forEach(button => {
             button.addEventListener("click", function() {
-                this.classList.add("disabled"); // Add the 'disabled' class for styling
+                this.classList.add("disabled"); 
                 this.setAttribute("disabled", "true"); // Disable the button
             });
         });
