@@ -99,21 +99,7 @@
 </div>
 </div>
 </div>
-   <div class="row">                       
-<div class="col-md-6">
 
-                            <div class="form-group">
-                                <label for="created_at"><?php echo _l('Created At'); ?></label>
-                                <input type="text" class="form-control" name="created_at" id="created_at" value="<?php echo $prospect->created_at; ?>" readonly>
-                            </div>
-                            </div>
-                            <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="updated_at"><?php echo _l('Updated At'); ?></label>
-                                <input type="text" class="form-control" name="updated_at" id="updated_at" value="<?php echo $prospect->updated_at; ?>" readonly>
-                            </div>
-                            </div>
-                            </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary"><?php echo _l('Update Prospect'); ?></button>
                             </div>
