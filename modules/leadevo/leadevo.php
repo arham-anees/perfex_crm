@@ -119,6 +119,13 @@ function leadevo_register_menu_items()
             'position' => 12,
             'icon'     => 'fa fa-shopping-cart',
         ]);
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-explanatory-videos',
+            'name'     => 'Explanatory Videos',
+            'href'     => admin_url('leadevo/explanatory_videos'),
+            'position' => 13,
+            'icon'     => 'fa fa-video',
+        ]);
 
     }
     
