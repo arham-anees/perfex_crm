@@ -25,16 +25,12 @@
                                                 <td><?php echo htmlspecialchars($video['name']); ?></td>
                                                 <td><a href="<?php echo htmlspecialchars($video['url']); ?>" target="_blank"><?php echo _l('Watch Video'); ?></a></td>
                                                 <td><?php echo htmlspecialchars($video['description']); ?></td>
-                                                <td class="text-center">
-                                                    <a href="<?php echo admin_url('leadevo/explanatory_videos/view/' . $video['id']); ?>" class="btn btn-default btn-icon">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
+
+                                                <td>
                                                     <a href="<?php echo admin_url('leadevo/explanatory_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a href="<?php echo admin_url('leadevo/explanatory_videos/delete/' . $video['id']); ?>" class="btn btn-danger btn-icon" onclick="return confirm('Are you sure you want to delete this video?');">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
+                                               
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

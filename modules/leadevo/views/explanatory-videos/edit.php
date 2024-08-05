@@ -21,17 +21,12 @@
 
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" name="name" id="name" class="form-control" value="<?php echo htmlspecialchars($video['name']); ?>" readonly>
+                            <input type="text" name="name" id="name" class="form-control" value="<?php echo htmlspecialchars($video['name']); ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea name="description" id="description" class="form-control" rows="4"><?php echo htmlspecialchars($video['description']); ?></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="key"><?php echo _l('Key'); ?></label>
-                            <input type="text" name="key" id="key" class="form-control" value="<?php echo htmlspecialchars($video['key']); ?>" readonly>
                         </div>
 
                         <div class="form-group">
