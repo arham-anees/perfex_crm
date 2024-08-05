@@ -14,6 +14,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <hr class="hr-panel-heading" />
+            
                         <?php if (!empty($campaigns)) : ?>
                             <table class="table dt-table scroll-responsive">
                                 <thead>
@@ -37,7 +38,7 @@
                                                 <a href="<?php echo admin_url('leadevo/campaigns/edit/' . $campaign->id); ?>" class="btn btn-default btn-icon">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadevo/campaigns/delete/' . $campaign->id); ?>" class="btn btn-danger btn-icon" onclick="return confirm('Are you sure you want to delete this campaign status?');">
+                                                <a href="<?php echo admin_url('leadevo/campaigns/delete/' . $campaign->id); ?>" class="btn btn-danger btn-icon" onclick="return confirm('Are you sure you want to delete this campaign ?');">
                                                     <i class="fa fa-remove"></i>
                                                 </a>
                                             </td>

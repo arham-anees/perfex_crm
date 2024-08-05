@@ -25,17 +25,18 @@
                                         <div class="col-md-3">
                                             <div class="panel_s">
                                                 <div class="panel-body
-                                                text-center">
-                                                    <h4><?php echo _l('Total Campaigns'); ?></h4>
-                                                    <h1 class="bold"><?php echo count($campaigns); ?></h1>
+                                                text-left">
+                                                    <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('total_campaigns')?></h5>
+                                                     <h1 class="bold"><?php echo count($campaigns); ?></h1>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="panel_s">
                                                 <div class="panel-body
-                                                text-center">
-                                                    <h4><?php echo _l('total_prospects'); ?></h4>
+                                                text-left">
+                                                     <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('total_prospects')?></h5>
                                                     <h1 class="bold"><?php echo count($prospects); ?></h1>
                                                 </div>
                                             </div>
@@ -43,8 +44,8 @@
                                         <div class="col-md-3">
                                             <div class="panel_s">
                                                 <div class="panel-body
-                                                text-center">
-                                                    <h4><?php echo _l('average_prospects'); ?></h4>
+                                                text-left">
+                                                     <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('prospects_average_cost')?></h5>
                                                     <h1 class="bold">0</h1>
                                                 </div>
                                             </div>
@@ -52,8 +53,9 @@
                                         <div class="col-md-3">
                                             <div class="panel_s">
                                                 <div class="panel-body
-                                                text-center">
-                                                    <h4><?php echo _l('reported_prospects'); ?></h4>
+                                                text-left">
+                                                <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('reported_prospects')?></h5>
+
                                                     <h1 class="bold">0</h1>
                                                 </div>
                                             </div>
