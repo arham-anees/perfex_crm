@@ -5,17 +5,21 @@ class Onboarding extends AdminController
     public function __construct()
     {
         parent::__construct();
-        // Load any required models, libraries, or helpers here
-        // Example: $this->load->model('onboarding_model');
+        $this->mpDb = $this->load->database('leadevo_marketplace', true);
+        $this->load->database();
     }
 
     public function index()
     {
         // Load the onboarding view
         $data['title'] = _l('Onboarding');
+        // check unique identification
+        log_message('error',get_marketplace_id());
         $this->load->view('marketplace/onboarding', $data);
 
     }
+
+
 
     // Method to handle Facebook group join action
     public function join_facebook_group()
