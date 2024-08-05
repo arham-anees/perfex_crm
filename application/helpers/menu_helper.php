@@ -580,25 +580,11 @@ function app_init_client_sidebar_menu_items()
 {
     $CI = &get_instance();
 
-    $CI->app_menu->add_sidebar_menu_item('dashboard', [
+    $CI->app_menu->add_client_sidebar_menu_item('dashboard', [
         'name'     => _l('als_dashboard'),
-        'href'     => admin_url(),
+        'href'     => site_url(),
         'position' => 1,
         'icon'     => 'fa fa-home',
         'badge'    => [],
     ]);
-
-    if (
-        staff_can('view',  'customers')
-        || (have_assigned_customers()
-            || (!have_assigned_customers() && staff_can('create',  'customers')))
-    ) {
-        $CI->app_menu->add_sidebar_menu_item('customers', [
-            'name'     => _l('als_clients'),
-            'href'     => admin_url('clients'),
-            'position' => 5,
-            'icon'     => 'fa-regular fa-user',
-            'badge'    => [],
-        ]);
-    }
 }

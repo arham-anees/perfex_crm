@@ -28,14 +28,19 @@ class ClientsController extends App_Controller
             && $this->app->is_db_upgrade_required($this->current_db_version)) {
             redirect(admin_url());
         }
+        hooks()->do_action('client_init');
+        // hooks()->do_action('app_client_assets');
 
         $this->load->library('app_clients_area_constructor');
 
         if (method_exists($this, 'validateContact')) {
             $this->validateContact();
         }
-
-        hooks()->do_action('client_init');
+        
+        // init_admin_assets();
+        
+        $vars['sidebar_menu'] = $this->app_menu->get_client_sidebar_menu_items();
+        $this->load->vars($vars);
     }
 
     public function layout($notInThemeViewFiles = false)
