@@ -5,7 +5,7 @@
     <nav>
         <div class="tw-flex tw-justify-between">
             <div class="tw-flex tw-flex-1 sm:tw-flex-initial">
-            <div id="top_search"
+                <div id="top_search"
                     class="tw-inline-flex tw-relative dropdown sm:tw-ml-1.5 sm:tw-mr-3 tw-max-w-xl tw-flex-auto"
                     data-toggle="tooltip" data-placement="bottom" data-title="<?php echo _l('search_by_tags'); ?>">
                     <input type="search" id="search_input"
@@ -18,10 +18,6 @@
                     </div>
                     <div id="search_results">
                     </div>
-                    <ul class="dropdown-menu search-results animated fadeIn search-history" id="search-history">
-                    </ul>
-
-                </div>
                     <ul class="dropdown-menu search-results animated fadeIn search-history" id="search-history">
                     </ul>
 
@@ -55,7 +51,7 @@
                     if (isset($item['custom_url'])) {
                         $url = $item['url'];
                     } else {
-                        $url = site_url('' . $item['url']);
+                        $url = admin_url('' . $item['url']);
                     }
                     $href_attributes = '';
                     if (isset($item['href_attributes'])) {
@@ -93,7 +89,10 @@
                     <?php
                // To prevent not loading the timers twice
             if (is_mobile()) { ?>
-                   
+                    <li
+                        class="dropdown notifications-wrapper header-notifications tw-block ltr:tw-mr-1.5 rtl:tw-ml-1.5">
+                        <?php $this->load->view('admin/includes/notifications'); ?>
+                    </li>
                     <li class="header-timers ltr:tw-mr-1.5 rtl:tw-ml-1.5">
                         <a href="#" id="top-timers" class="dropdown-toggle top-timers tw-block tw-h-5 tw-w-5"
                             data-toggle="dropdown">
@@ -105,17 +104,34 @@
                             <span
                                 class="tw-leading-none tw-px-1 tw-py-0.5 tw-text-xs bg-success tw-z-10 tw-absolute tw-rounded-full -tw-right-3 -tw-top-2 tw-min-w-[18px] tw-min-h-[18px] tw-inline-flex tw-items-center tw-justify-center icon-started-timers<?php echo $totalTimers = count($startedTimers) == 0 ? ' hide' : ''; ?>"><?php echo count($startedTimers); ?></span>
                         </a>
-                       
+                        <ul class="dropdown-menu animated fadeIn started-timers-top width300" id="started-timers-top">
+                            <?php $this->load->view('admin/tasks/started_timers', ['startedTimers' => $startedTimers]); ?>
+                        </ul>
                     </li>
                     <?php } ?>
                 </ul>
                 <div class="mobile-navbar collapse" id="mobile-collapse" aria-expanded="false" style="height: 0px;"
                     role="navigation">
                     <ul class="nav navbar-nav">
-                        <li class="header-my-profile"><a href="<?php echo site_url('profile'); ?>">
+                        <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>">
                                 <?php echo _l('nav_my_profile'); ?>
                             </a>
                         </li>
+                        <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>">
+                                <?php echo _l('my_timesheets'); ?>
+                            </a>
+                        </li>
+                        <li class="header-edit-profile"><a href="<?php echo admin_url('staff/edit_profile'); ?>">
+                                <?php echo _l('nav_edit_profile'); ?>
+                            </a>
+                        </li>
+                        <?php if (is_staff_member()) { ?>
+                        <li class="header-newsfeed">
+                            <a href="#" class="open_newsfeed mobile">
+                                <?php echo _l('whats_on_your_mind'); ?>
+                            </a>
+                        </li>
+                        <?php } ?>
                         <li class="header-logout">
                             <a href="#" onclick="logout(); return false;">
                                 <?php echo _l('nav_logout'); ?>
@@ -126,15 +142,12 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right">
-                <?php do_action_deprecated('after_render_top_search', [], '3.0.0', 'client_navbar_start'); ?>
-                <?php hooks()->do_action('client_navbar_start'); ?>        
+                <?php hooks()->do_action('client_navbar_start'); ?>
 
-                <?php if (is_client_logged_in()) { ?>
                 <li class="dropdown customers-nav-item-profile">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">
-                        <img src="<?php echo e(contact_profile_image_url($contact->id, 'thumb')); ?>
-" data-toggle="tooltip"
+                        <img src="<?php echo e(contact_profile_image_url($contact->id, 'thumb')); ?>" data-toggle="tooltip"
                             data-title="<?php echo e($contact->firstname . ' ' . $contact->lastname); ?>"
                             data-placement="bottom" class="client-profile-image-small">
                     </a>
@@ -213,12 +226,6 @@
                             </a>
                         </li>
                     </ul>
-                </li>
-                <?php } ?>
-
-                <li class="icon dropdown tw-relative tw-block notifications-wrapper header-notifications rtl:tw-ml-3"
-                    data-toggle="tooltip" title="<?php echo _l('nav_notifications'); ?>" data-placement="bottom">
-                   
                 </li>
 
                 <?php hooks()->do_action('client_navbar_end'); ?>
