@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Onboarding extends CI_Model
+class Onboarding_model extends App_Model
 {
     protected $table = 'leadevo_onboarding'; // Define the table name
 

@@ -2,18 +2,25 @@
 
 class Onboarding extends ClientsController
 {
-    private $Onboarding;
+    // private $Onboarding_model;
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
-        $this->load->model('Onboarding');
+        $this->load->model('leadevo/Onboarding_model');
     }
 
     public function index()
     {
         // Load the onboarding view
         $data['title'] = _l('Onboarding');
+
+        $onboarding = $this->Onboarding_model->get(get_client_user_id());
+        if (isset($onboarding)) {
+            $data['completed_step'] = $onboarding->onboarding_step;
+        } else {
+            $data['completed_step'] = '0';
+        }
         // check unique identification
         $this->data($data);
         $this->view('clients/onboarding');
@@ -27,9 +34,9 @@ class Onboarding extends ClientsController
             $step = $data['onboarding_step'];
             $data['client_id'] = get_client_user_id();
             if ($step == 1) {
-                $this->Onboarding->insert($data);
+                $this->Onboarding_model->insert($data);
             } else {
-                $this->Onboarding->update($data);
+                $this->Onboarding_model->update($data);
             }
         }
     }
