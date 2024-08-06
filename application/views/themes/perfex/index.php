@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 echo theme_head_view();
 get_template_part($navigationEnabled ? 'navigation' : '');
+init_client_head(true);
 ?>
 <div id="wrapper">
     <div id="content">

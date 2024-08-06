@@ -95,6 +95,7 @@
     background-color: rgb(229, 246, 253);
     padding : 8px;
     border-radius: 4px;
+
 }
 .signup-btn {
     background-color: rgb(255, 203, 3);
@@ -105,68 +106,7 @@
     cursor: pointer;
     font-size: 15px;
 }
-  /* General Styles for Form Group */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-/* Styles for Input Container */
-.input-container {
-    position: relative;
-}
-
-/* Input Wrapper Styles */
-.input-wrapper {
-    position: relative;
-}
-
-/* Label Styles */
-.floating-label {
-    position: absolute;
-    top: 50%;
-    left: 0.75rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    transform: translateY(-50%);
-    pointer-events: none;
-    background-color: #fff;
-    padding: 0 0.25rem; 
-}
-
-/* Input Field Styles */
-.custom-input {
-    padding: 1rem 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    width: 75%;
-    box-sizing: border-box;
-    background-color: #fff;
-    transition: border-color 0.3s ease;
-}
-
-/* Focus State Styles */
-.custom-input:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-}
-
-/* Floating Label Active Styles */
-.custom-input:focus + .floating-label,
-.custom-input:not(:placeholder-shown) + .floating-label {
-    top: 0;
-    left: 5rem;
-    font-size: 0.75rem;
-    color: #007bff;
-    transform: translateY(-50%);
-}
-
-/* Placeholder Text Adjustment */
-.custom-input::placeholder {
-    color: transparent; /* Hide placeholder text */
-}
-
+    
 
 /* Responsive Design for smaller screens */
 @media (max-width: 768px) {
@@ -194,10 +134,10 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <h4 class="pull-left mleft10"><?php echo _l('Onboarding'); ?></h4>
-                            <button type="button" class="btn btn-success pull-right display-block mleft10" data-toggle="modal" data-target="#inviteFriendModal">
+                            <a href="#" class="btn btn-success pull-right display-block mleft10">
                                 <i class="fa-solid fa-user-plus tw-mr-1"></i>
                                 <?php echo _l('Invite Friend'); ?>
-                            </button>
+                            </a>
                             <div class="clearfix"></div>
                         </div>
                         <hr class="hr-panel-heading" />
@@ -302,62 +242,15 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- End of row with video and progress card -->
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content text-center">
-            <!-- Modal Header -->
-            <div class="modal-header d-flex">
-                <h4 class="modal-title w-100"><?php echo _l('Who do you want to invite?'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <!-- Font Awesome Close Icon -->
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="modal-body text-center">
-                <?php echo form_open(admin_url('leadevo/invite'), ['id' => 'invite-friend-form']); ?>
-
-                    <!-- Name Input Field -->
-<div class="form-group">
-    <div class="input-container">
-        <div class="input-wrapper">
-            <input type="text" name="name" id="name" class="custom-input" required />
-            <label for="name" class="floating-label">Name</label>
-        </div>
-    </div>
 </div>
 
-<!-- Email Input Field -->
-<div class="form-group">
-    <div class="input-container">
-        <div class="input-wrapper">
-            <input type="email" name="email" id="email" class="custom-input" required />
-            <label for="email" class="floating-label">Email</label>
-        </div>
-    </div>
-</div>
-
-
-                    <!-- Submit Button -->
-                    <input type="submit" value="<?php echo _l('Send Invitation'); ?>" class="btn btn-primary"/>
-                    
-                <?php echo form_close(); ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-   
 <!-- Modal for sign up alert -->
 <div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signupAlertModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -384,9 +277,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -492,22 +382,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-
-     // Handle invite friend form submission
-     document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
-            event.preventDefault();
-            fetch('<?php echo admin_url('leadevo/invite'); ?>', {
-                method: 'POST',
-                body: new FormData(this),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('<?php echo _l('Invitation sent!'); ?>');
-                    $('#inviteFriendModal').modal('hide');
-                }
-            });
-        });
 
     // Track completion of additional steps
     document.getElementById('join-facebook-group').addEventListener('click', function() {

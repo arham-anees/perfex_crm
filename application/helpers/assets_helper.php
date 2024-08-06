@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('admin_auth_init', 'init_admin_auth_assets');
 hooks()->add_action('app_admin_assets', '_init_admin_assets');
+hooks()->add_action('app_client_assets', '_init_client_assets');
 
 function init_admin_assets()
 {
@@ -96,6 +97,68 @@ function _init_admin_assets()
     }
 
     hooks()->do_action('app_admin_assets_added');
+}
+
+function _init_client_assets()
+{
+    $CI = &get_instance();
+
+    // Javascript
+    $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
+
+    $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js');
+
+    add_datatables_js_assets();
+    add_moment_js_assets();
+    add_bootstrap_select_js_assets();
+
+    $CI->app_scripts->add('tinymce-js', 'assets/plugins/tinymce/tinymce.min.js');
+
+    add_jquery_validation_js_assets();
+
+    if (get_option('pusher_realtime_notifications') == 1) {
+        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0/pusher.min.js');
+    }
+
+    add_dropbox_js_assets();
+    add_google_api_js_assets();
+
+    $CI->app_scripts->add('common-js', 'assets/builds/common.js');
+
+    $CI->app_scripts->add(
+        'app-js',
+        base_url($CI->app_scripts->core_file('assets/js', 'main.js')) . '?v=' . $CI->app_css->core_version(),
+        'client',
+        ['vendor-js', 'datatables-js', 'bootstrap-select-js', 'tinymce-js', 'jquery-migrate-js', 'jquery-validation-js', 'moment-js', 'common-js']
+    );
+
+    $CI->app_scripts->add('app-v3', 'assets/builds/app.js');
+
+    // CSS
+    add_favicon_link_asset();
+
+    $CI->app_css->add('reset-css', 'assets/css/reset.min.css');
+    $CI->app_css->add('inter-font', 'assets/plugins/inter/inter.css', 'client', ['reset-css']);
+    $CI->app_css->add('vendor-css', 'assets/builds/vendor-admin.css', 'client', ['reset-css']);
+
+    $CI->app_css->add('fontawesome-css', 'assets/plugins/font-awesome/css/fontawesome.min.css');
+    $CI->app_css->add('fontawesome-brands', 'assets/plugins/font-awesome/css/brands.min.css');
+    $CI->app_css->add('fontawesome-solid', 'assets/plugins/font-awesome/css/solid.min.css');
+    $CI->app_css->add('fontawesome-regular', 'assets/plugins/font-awesome/css/regular.min.css');
+
+    if (is_rtl()) {
+        $CI->app_css->add('bootstrap-rtl-css', 'assets/plugins/bootstrap-arabic/css/bootstrap-arabic.min.css');
+    }
+
+    $CI->app_css->add('tailwind-css', base_url($CI->app_css->core_file('assets/builds', 'tailwind.css')) . '?v=' . $CI->app_css->core_version());
+
+    $CI->app_css->add('app-css', base_url($CI->app_css->core_file('assets/css', 'style.css')) . '?v=' . $CI->app_css->core_version(), 'client', ['tailwind-css']);
+
+    if (file_exists(FCPATH . 'assets/css/custom.css')) {
+        $CI->app_css->add('custom-css', base_url('assets/css/custom.css'), 'client', ['app-css']);
+    }
+
+    hooks()->do_action('app_client_assets_added');
 }
 
 

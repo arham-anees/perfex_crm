@@ -575,3 +575,61 @@ function app_init_admin_sidebar_menu_items()
         'badge'    => [],
     ]);
 }
+
+function app_init_client_sidebar_menu_items()
+{
+    $CI = &get_instance();
+
+    $CI->app_menu->add_client_sidebar_menu_item('dashboard', [
+        'name'     => _l('als_dashboard'),
+        'href'     => site_url(),
+        'position' => 1,
+        'icon'     => 'fa fa-home',
+        'badge'    => [],
+    ]);
+    
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_onboarding', [
+     
+        'slug'     => 'leadevo-marketplace-onboarding',
+        'name'     => 'Onboarding',
+        'href'     => admin_url('leadevo/marketplace/onboarding'),
+        'position' => 11,
+        'icon'     => 'fa fa-rocket',
+    ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects', [
+        'slug'     => 'leadevo-user-prospects',
+        'name'     => 'Prospects',
+        'href'     => admin_url('leadevo/client/prospect'),
+        'position' => 2,
+        'icon'     => 'fa fa-th-list',
+    ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_reported_prospects', [
+        'slug'     => 'leadevo-user-prospects',
+        'name'     => 'Reported Prospects',
+        'href'     => admin_url('leadevo/client/prospect'),
+        'position' => 2,
+        'icon'     => 'fa fa-th-list',
+    ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_campaign', [
+        'slug'     => 'leadevo-user-comaigns',
+        'name'     => 'Campaigns',
+        'href'     => admin_url('leadevo/campaigns'),
+        'position' => 10,
+        'icon'     => 'fa fa-th-list',
+    ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_marketplace', [
+        'slug'     => 'leadevo-marketplace-leads',
+        'name'     => 'Marketplace',
+        'href'     => admin_url('leadevo/marketplace/leads'),
+        'position' => 12,
+        'icon'     => 'fa fa-shopping-cart',
+    ]);
+    
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_statistics', [
+        'slug'     => 'leadevo-marketplace-leads',
+        'name'     => 'Statistics',
+        'href'     => admin_url('leadevo/marketplace/leads'),
+        'position' => 12,
+        'icon'     => 'fa fa-shopping-cart',
+    ]);
+}

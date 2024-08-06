@@ -31,6 +31,23 @@ function is_contact_email_verified($id = null)
     return !is_null($contact->email_verified_at);
 }
 
+function init_client_head($aside = true)
+{
+    $CI = &get_instance();
+    $CI->load->view('clients/includes/head');
+    $CI->load->view('clients/includes/header', ['startedTimers' => $CI->misc_model->get_staff_started_timers()]);
+    // $CI->load->view('admin/includes/setup_menu');
+    if ($aside == true) {
+        $CI->load->view('clients/includes/aside');
+    }
+}
+
+function client_init()
+{
+    log_message('error', 'this is client_init action');
+    hooks()->do_action('client_init');
+}
+
 /**
  * Check whether the user disabled verification emails for contacts
  * @return boolean
