@@ -2,12 +2,13 @@
 
 class Settings extends AdminController
 {
+    private $marketplaceDb;
     public function __construct()
     {
         parent::__construct();
         // $this->load->model('prospect_types_model');
         $this->load->database();
-        $marketpalceDb = $this->load->database('leadevo_marketplace', true);
+        $this->marketplaceDb = $this->load->database('leadevo_marketplace', true);
     }
 
     public function index()
@@ -42,34 +43,65 @@ class Settings extends AdminController
         
             // Extract form data
             $nonexclusive_status = $data['nonexclusive_status'];
-            $max_sell_time = $data['max_sell_time'];
+            $max_sell_times = $data['max_sell_times'];
             $days_to_discount = $data['days_to_discount'];
             $discount_type = $data['discount_type'];
             $discount_amount = $data['discount_amount']; // Assuming you have this field in the form
     
             // Data array to insert into tblleadevo_deals_settings
-            $insertData = [
+            $updateData = [
                 'nonexclusive_status' => $nonexclusive_status,
-                'max_sell_times' => $max_sell_time,
+                'max_sell_times' => $max_sell_times,
                 'days_to_discount' => $days_to_discount,
-                'Discount_mode_percentage' => $discount_type,
-                'Discount_amount' => $discount_amount
+                'discount_type' => $discount_type,
+                'discount_amount' => $discount_amount
             ];
     
+            $this->marketplaceDb->where('tenant_id',  get_marketplace_id());
             // Insert data into the database
-            $this->marketpalceDb->insert('tblleadevo_deals_settings', $insertData);
+            $this->marketplaceDb->update('tblleadevo_deals_settings', $updateData);
     
             // Check if the row was inserted
-            if ($this->marketpalceDb->affected_rows() > 0) {
+            if ($this->marketplaceDb->affected_rows() > 0) {
                 echo json_encode(['status' => 'success', 'message' => 'Settings saved']);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Failed to save settings']);
             }
             exit;
         }
+    }
+    public function get_deals_settings() {
+        // Fetch the deal settings from the database
+        $deal_settings = $this->marketplaceDb->get('tblleadevo_deals_settings')->row();
     
-        // Load the view if not a POST request
-        $this->load->view('setup/deals_settings');
+        // Check if the data was retrieved successfully
+        if ($deal_settings) {
+            // Return the deal settings as JSON
+            echo json_encode([
+                'status' => 'success',
+                'data' => $deal_settings
+            ]);
+        } else {
+            // Return an error message if no data was found
+            
+
+            $this->marketplaceDb->insert('tblleadevo_deals_settings', 
+            ['nonexclusive_status'=>1, 
+            'max_sell_times'=>1,
+            'days_to_discount'=>-1,
+            'discount_type'=>1,
+            'discount_amount'=>10,
+            'tenant_id'=> get_marketplace_id()]);
+
+            echo json_encode([
+                'status' => 'error',
+                'data' => ['nonexclusive_status'=>1, 
+                                'max_sell_times'=>1,
+                                'days_to_discount'=>-1,
+                                'discount_type'=>1,
+                                'discount_amount'=>10]
+            ]);
+        }
     }
     
     
