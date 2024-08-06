@@ -8,13 +8,13 @@ class Prospects_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->mdb = $this->load->database('leadevo_marketplace', true);
+        $this->mdb = $this->load->database();
     }
 
     //Get all prospects by filter
     public function get_all_by_filter($filter)
     {
-        return $this->mdb->get($this->table)->result();
+        return $this->db->get($this->table)->result();
     }
 
 
@@ -26,7 +26,13 @@ class Prospects_model extends CI_Model
                     pt.name AS type, 
                     pc.name AS category, 
                     ac.name AS acquisition_channel, 
-                    i.name AS industry
+                    i.name AS industry,
+                    null AS zip_code,
+                    null AS phone,
+                    null AS email,
+                    null AS source,
+                    null AS deal,
+                    null AS quality
                 FROM
                     tblleadevo_prospects p
                 LEFT JOIN
@@ -42,7 +48,7 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1";
     
-        return $this->mdb->query($sql)->result_array();
+        return $this->db->query($sql)->result_array();
     }
     
 
@@ -72,28 +78,28 @@ class Prospects_model extends CI_Model
     //                 p.id = ? AND p.is_active = 1";
         
     //     // Execute the query with the provided ID
-    //     return $this->mdb->query($sql, [$id])->row_array();
+    //     return $this->db->query($sql, [$id])->row_array();
     // }
 
     public function get($id)
     {
-        return $this->mdb->where('id', $id)->get($this->table)->row();
+        return $this->db->where('id', $id)->get($this->table)->row();
     }
     
 
     public function insert($data)
     {
-        return $this->mdb->insert($this->table, $data);
+        return $this->db->insert($this->table, $data);
     }
 
     // Update an prospect
     public function update($id, $data)
     {
-        return $this->mdb->where('id', $id)->update($this->table, $data);
+        return $this->db->where('id', $id)->update($this->table, $data);
     }
 
     public function delete($id)
     {
-        return $this->mdb->where('id', $id)->delete($this->table);
+        return $this->db->where('id', $id)->delete($this->table);
     }
 }
