@@ -2,12 +2,14 @@
 
 class Onboarding extends ClientsController
 {
+    // private $Onboarding_model;
     public function __construct()
     {
         parent::__construct();
         $this->load->model('leadevo/explanatory_videos_model'); // Correct path to the model
 
         $this->load->database();
+        $this->load->model('leadevo/Onboarding_model');
     }
 
     public function index()
@@ -16,10 +18,31 @@ class Onboarding extends ClientsController
         $data['title'] = _l('Onboarding');
         $data['videos'] = $this->explanatory_videos_model->get_all(); // Fetch all videos
 
+
+        $onboarding = $this->Onboarding_model->get(get_client_user_id());
+        if (isset($onboarding)) {
+            $data['completed_step'] = $onboarding->onboarding_step;
+        } else {
+            $data['completed_step'] = '0';
+        }
         // check unique identification
         $this->data($data);
         $this->view('clients/onboarding');
         $this->layout();
+    }
+
+    public function update_step()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $step = $data['onboarding_step'];
+            $data['client_id'] = get_client_user_id();
+            if ($step == 1) {
+                $this->Onboarding_model->insert($data);
+            } else {
+                $this->Onboarding_model->update($data);
+            }
+        }
     }
 
 
