@@ -132,6 +132,15 @@ function leadevo_register_menu_items()
             'position' => 12,
             'icon'     => 'fa fa-shopping-cart',
         ]);
+    
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-affiliate-training-videos',
+            'name'     => 'Affiliate Training Videos',
+            'href'     => admin_url('leadevo/affiliate_training_videos'),
+            'position' => 15, // Adjust the position as necessary
+            'icon'     => 'fa fa-video',
+        ]);
+        
 
     }
     
