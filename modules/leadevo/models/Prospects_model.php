@@ -2,13 +2,13 @@
 
 class Prospects_model extends CI_Model
 {
-    public $mdb;
+
     private $table = 'tblleadevo_prospects';
 
     public function __construct()
     {
         parent::__construct();
-        $this->mdb = $this->load->database();
+        $this->load->database();
     }
 
     //Get all prospects by filter
@@ -18,7 +18,8 @@ class Prospects_model extends CI_Model
     }
 
 
-    public function get_all() {
+    public function get_all()
+    {
         $sql = "SELECT 
                     p.id, 
                     CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
@@ -47,10 +48,10 @@ class Prospects_model extends CI_Model
                     tblleadevo_industries i ON p.industry_id = i.id
                 WHERE
                     p.is_active = 1";
-    
+
         return $this->db->query($sql)->result_array();
     }
-    
+
 
     // // Get a single prospect by ID
     // public function get($id) {
@@ -76,7 +77,7 @@ class Prospects_model extends CI_Model
     //                 tblleadevo_industries i ON p.industry_id = i.id
     //             WHERE
     //                 p.id = ? AND p.is_active = 1";
-        
+
     //     // Execute the query with the provided ID
     //     return $this->db->query($sql, [$id])->row_array();
     // }
@@ -85,7 +86,7 @@ class Prospects_model extends CI_Model
     {
         return $this->db->where('id', $id)->get($this->table)->row();
     }
-    
+
 
     public function insert($data)
     {
