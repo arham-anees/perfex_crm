@@ -117,7 +117,7 @@ class Campaigns extends ClientsController
         redirect(site_url('campaigns'));
     }
 
-    public function view($id)
+    public function campaign($id)
     {
         $data['campaign'] = $this->Campaigns_model->get($id);
         // $this->load->view('setup/campaigns/campaign_view', $data);
