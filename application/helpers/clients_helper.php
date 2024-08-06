@@ -34,7 +34,7 @@ function is_contact_email_verified($id = null)
 function init_client_head($aside = true)
 {
     $CI = &get_instance();
-    // $CI->load->view('clients/includes/head');
+    $CI->load->view('clients/includes/head');
     $CI->load->view('clients/includes/header', ['startedTimers' => $CI->misc_model->get_staff_started_timers()]);
     // $CI->load->view('admin/includes/setup_menu');
     if ($aside == true) {
