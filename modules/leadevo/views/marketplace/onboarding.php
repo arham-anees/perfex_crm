@@ -69,6 +69,9 @@
     transform-origin: left center;
     background-color: rgb(255, 203, 3);
 }
+.progress-bar[data-percent="0.00"],.progress-bar[data-percent="0"] {
+    margin-left: 0 !important;
+}
 
 .progress-text {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -208,12 +211,19 @@
                             <div class="col-md-8">
                                 <div class="panel_s">
                                     <div class="panel-body">
-                                        <div id="video-section">
-                                            <video id="welcome-video" width="100%" controls>
-                                                <source src="<?php echo base_url('/modules/leadevo/assets/videos/onboarding_welcome.mp4'); ?>" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                            
+                                        <div class="videos">
+                                            <?php if (!empty($videos)) : ?>
+                                                <?php foreach ($videos as $video) : ?>
+                                                    <div id="video-section">
+                                                        <video id="welcome-video" width="100%" controls>
+                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
+                                                <p>No videos available.</p>
+                                            <?php endif; ?>
                                         </div>
                                     
 
@@ -243,13 +253,19 @@
                                         </div>
 
                                         <!-- Coming Soon text -->
-                                        <div id="coming-soon-section" style="display: none; ">
-                                            <div class="card mt-4" style="height: 400px;">
-                                                <div class="card-body d-flex flex-column justify-content-center " style="height: 100%;align-items:center; justify-content:center ">
-                                                    <p style="font-size: 40px;"><?php echo _l("Video Coming Soon..."); ?></p>
-                                           
-                                                </div>
-                                            </div>
+                                        <div class="videos">
+                                            <?php if (!empty($videos)) : ?>
+                                                <?php foreach ($videos as $video) : ?>
+                                                    <div >
+                                                        <video  id="coming-soon-section" style="display: none; width: 100%;" width="100%" controls>
+                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
+                                                <p>No videos available.</p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <button id="complete-btn" class="btn btn-success btn-center" disabled>
@@ -269,7 +285,7 @@
                                     <div class="card-body">
                                         <p class="card-title"><?php echo _l('Onboarding Progress'); ?></p>
                                         <div class="progress">
-                                            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"  data-percent="0">0%</div>
                                         </div>
                                         <p id="progress-text" class="progress-text">0/6 actions completed</p>
                                         <ul id="progress-list" class="list-group">
