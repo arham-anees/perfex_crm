@@ -2,7 +2,7 @@
   <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
   <?php init_head(); ?>
   <style>
-  #backBtn {
+ #backBtn {
     background-color: transparent;
     border: none;
     display: flex;
@@ -73,57 +73,137 @@
     font-size: 12px;
   }
 
-  .alt-text5{
-      margin-left:13%;
+  .alt-text5 {
+    margin-left: 13%;
   }
+
   .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 200px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-        .dropdown-content label {
-            display: block;
-            padding: 8px 16px;
-            cursor: pointer;
-        }
-        .dropdown-content label:hover {
-            background-color: #f1f1f1;
-        }
-        .dropdown-content input[type="checkbox"] {
-            margin-right: 8px;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        .selected-options {
-            margin-top: 10px;
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .selected-option {
-            background-color: #e2e2e2;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 5px 10px;
-            margin: 5px;
-            display: flex;
-            align-items: center;
-        }
-        .selected-option span {
-            margin-left: 10px;
-            cursor: pointer;
-        }
-        h3{
-          text-align:center;
-        }
-</style>
+    position: relative;
+    display: inline-block;
+    margin-left: 40%;
+    margin-top: 3%;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content label {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .dropdown-content label:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown-content input[type="checkbox"] {
+    margin-right: 8px;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .selected-options {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .selected-option {
+    background-color: #e2e2e2;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .selected-option span {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  h3 {
+    text-align: center;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .form label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+  }
+
+  .form input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .form input[type="checkbox"]:hover {
+    cursor: pointer;
+    border: 1px solid #007bff;
+  }
+
+  .form:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Payment Form Styles */
+  .payment-form input[type="text"], 
+  .payment-form input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .payment-form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .payment-form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  /* Fixed Height for Modal */
+  .modal-content {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* Ensure wizard content is visible */
+  .wizard-step {
+    min-height: 300px; /* Adjust as needed */
+  }
+ </style>
   <div id="wrapper">
     <div class="content">
       <div class="row main_row">
@@ -186,6 +266,9 @@
   </div>
 
   <!-- Modal -->
+   
+    
+
   <div id="createCampaignModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content" style="padding: 20px;">
@@ -216,7 +299,9 @@
         </div>
 
         <br><br>
-        <div class="wizard-step active" data-step="1">
+
+        <!-- Industry -->
+        <div class="wizard-step" data-step="1">
     <h3>Select your lead type of interest</h3>
     <div class="form-group text-left">
         <label for="industry"><?php echo _l('Industry'); ?></label>
@@ -229,47 +314,106 @@
     </div>
 </div>
 
-        <div class="wizard-step" data-step="2">
-          <h3>Locations</h3>
-          <div class="dropdown">
-    <button class="btn btn-secondary">Select states</button>
-    <div class="dropdown-content">
-        <label><input type="checkbox" value="South Dakota - SD"> South Dakota - SD</label>
-        <label><input type="checkbox" value="Virginia - VA"> Virginia - VA</label>
-        <label><input type="checkbox" value="Vermont - VT"> Vermont - VT</label>
-        <label><input type="checkbox" value="Wyoming - WY"> Wyoming - WY</label>
-        <label><input type="checkbox" value="Nebraska - NE"> Nebraska - NE</label>
-        <label><input type="checkbox" value="California - CA"> California - CA</label>
+<!-- Locations -->
+<div class="wizard-step" data-step="2">
+    <h3>Locations</h3>
+    <div class="dropdown">
+        <button class="btn btn-secondary">Select states</button>
+        <div class="dropdown-content">
+            <label><input type="checkbox" value="South Dakota - SD"> South Dakota - SD</label>
+            <label><input type="checkbox" value="Virginia - VA"> Virginia - VA</label>
+            <label><input type="checkbox" value="Vermont - VT"> Vermont - VT</label>
+            <label><input type="checkbox" value="Wyoming - WY"> Wyoming - WY</label>
+            <label><input type="checkbox" value="Nebraska - NE"> Nebraska - NE</label>
+            <label><input type="checkbox" value="California - CA"> California - CA</label>
+        </div>
+    </div>
+    <div class="selected-options" id="selected-options"></div>
+</div>
+
+<!-- Timing -->
+
+<div class="wizard-step" data-step="3">
+    <h4>Timing</h4>
+    <p>Content for timing.</p>
+</div>
+
+<!-- Deals -->
+<div class="wizard-step" data-step="4">
+    <h4>Deal</h4>
+    <div class="radio-container">
+        <input type="radio" id="option1" name="options">
+        <label for="option1">$75 (buy exclusively)</label>
+        <div class="tooltip">
+            ⓘ
+            <span class="tooltiptext">Defining if he wants to buy exclusively or non-exclusively prospects. (this option will be turntable ON/OFF from the admin)</span>
+        </div>
+    </div>
+    <div class="radio-container">
+        <input type="radio" id="option2" name="options">
+        <label for="option2">$35 (buy non-exclusively)</label>
+        <div class="tooltip">
+            ⓘ
+            <span class="tooltiptext">Defining if he wants to buy exclusively or non-exclusively prospects. (this option will be turntable ON/OFF from the admin)</span>
+        </div>
     </div>
     
 </div>
 
-<div class="selected-options" id="selected-options"></div>
-        </div>
-        <div class="wizard-step" data-step="3">
-          <h4>Timing</h4>
-          <p>Content for timing.</p>
-        </div>
-        <div class="wizard-step" data-step="4">
-          <h4>Deal</h4>
-          <p>Content for deal.</p>
+<!-- Quality -->
 
-        </div>
-        <div class="wizard-step" data-step="5">
-          <h4>Quality</h4>
-          <p>Content for quality.</p>
-        </div>
-        <div class="wizard-step" data-step="6">
-          <h4>Budget</h4>
-          <p>Content for budget.</p>
-        </div>
+<div class="wizard-step" data-step="5">
+    <h4>Quality</h4>
+    <form class="form">
+        <label>
+            <input type="checkbox" name="verification" value="staff">
+            Verified by Staff
+        </label><br>
+        <label>
+            <input type="checkbox" name="verification" value="sms">
+            Verified by SMS
+        </label><br>
+        <label>
+            <input type="checkbox" name="verification" value="whatsapp">
+            Verified by WhatsApp
+        </label><br>
+        <label>
+            <input type="checkbox" name="verification" value="coherence">
+            Verified by Coherence
+        </label>
+    </form>
+</div>
+
+
+<!-- Payment -->
+<div class="wizard-step" data-step="6">
+    <h4 align="center">Payment</h4>
+    <form id="payment-form" class="payment-form">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+        
+        <label for="expiry-date">Expiry Date</label>
+        <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+        
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+        
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" placeholder="Amount to be debited" required>
+        
+        <button type="submit" class="btn btn-primary">Submit Payment</button>
+    </form>
+</div>
+
+
+       
         <div class="wizard-buttons">
           <button class="btn btn-secondary" id="backBtn"><i class="fas fa-angle-left" style="font-size:19px"></i> Back</button>
           <button class="btn btn-primary" id="nextBtn">Next</button>
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
   <?php init_tail(); ?>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -359,3 +503,6 @@
     }
 </script>
 
+<script>
+  
+  </script>
