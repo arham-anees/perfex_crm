@@ -1,6 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-
 <style>
     .card {
         border-radius: 10px;
@@ -80,7 +79,6 @@
         border-bottom: 1px solid rgb(255, 203, 3);
         color: rgb(129, 133, 146);
         cursor: pointer;
-
     }
 
     .facebook-group:hover,
@@ -101,7 +99,6 @@
         background-color: rgb(229, 246, 253);
         padding: 8px;
         border-radius: 4px;
-
     }
 
     .signup-btn {
@@ -114,10 +111,8 @@
         font-size: 15px;
     }
 
-
     /* Responsive Design for smaller screens */
     @media (max-width: 768px) {
-
         .col-md-8,
         .col-md-4 {
             width: 100%;
@@ -152,70 +147,76 @@
                 <div class="row">
                     <!-- Left Side: Video and Facebook Group Text -->
                     <div class="col-md-8">
-                        <div class="panel_s">
-                            <div class="panel-body">
-                                <div id="video-section">
-                                    <video id="welcome-video" width="100%" controls>
-                                        <source
-                                            src="<?php echo base_url('/modules/leadevo/assets/videos/onboarding_welcome.mp4'); ?>"
-                                            type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                <div class="panel_s">
+                                    <div class="panel-body">
+                                        <div class="videos">
+                                            <?php if (!empty($videos)) : ?>
+                                                <?php foreach ($videos as $video) : ?>
+                                                    <div id="video-section">
+                                                        <video id="welcome-video" width="100%" controls>
+                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
+                                                <p>No videos available.</p>
+                                            <?php endif; ?>
+                                        </div>
+                                    
 
-                                </div>
-
-
-                                <!-- Text and button for joining Facebook group -->
-                                <div id="facebook-group-section" style="display: none;">
-                                    <div class="card mt-4">
-                                        <div class="card-body">
-
-                                            <p><a id="join-facebook-group"
-                                                    class="facebook-group"><?php echo _l('Join our private Facebook group'); ?></a>
-                                                <?php echo _l('group dedicated specifically for ambassadors. In the group, you\'ll get access to other successful ambassadors, learn the latest marketing strategies, get help from our support team, and stay informed on all the latest product updates.'); ?>
-                                            </p>
-
-                                            </a>
-                                            </p>
-
+                                        <!-- Text and button for joining Facebook group -->
+                                        <div id="facebook-group-section" style="display: none;">
+                                            <div class="card mt-4">
+                                                <div class="card-body">
+                                               
+        <p><a id="join-facebook-group" class="facebook-group" ><?php echo _l('Join our private Facebook group'); ?></a> <?php echo _l('group dedicated specifically for ambassadors. In the group, you\'ll get access to other successful ambassadors, learn the latest marketing strategies, get help from our support team, and stay informed on all the latest product updates.'); ?></p>
+             
+        </a>
+    </p>
+ 
+    </div>
+    </div>
                                         </div>
 
                                         <!-- Text and button for signing up for alerts -->
                                         <div id="sign-up-alert-section" style="display: none;">
                                             <div class="card mt-4">
                                                 <div class="card-body">
-                                                    <p> <a id="sign-up-alert" class="sign-up-alert" data-toggle="modal"
-                                                            data-target="#signupAlertModal"><?php echo _l('Sign Up for Alerts'); ?></a>
-                                                        <?php echo _l("Sign up for our email alerts to stay informed about the latest updates, opportunities, and important information."); ?>
-                                                    </p>
+                                                    <p> <a id="sign-up-alert" class="sign-up-alert"  data-toggle="modal" data-target="#signupAlertModal"  ><?php echo _l('Sign Up for Alerts'); ?></a>
+                                                    <?php echo _l("Sign up for our email alerts to stay informed about the latest updates, opportunities, and important information."); ?></p>
                                                 </div>
                                             </div>
-
+                                        
                                         </div>
 
                                         <!-- Coming Soon text -->
-                                        <div id="coming-soon-section" style="display: none; ">
-                                            <div class="card mt-4" style="height: 400px;">
-                                                <div class="card-body d-flex flex-column justify-content-center "
-                                                    style="height: 100%;align-items:center; justify-content:center ">
-                                                    <p style="font-size: 40px;">
-                                                        <?php echo _l("Video Coming Soon..."); ?>
-                                                    </p>
-
-                                                </div>
-                                            </div>
+                                        <div class="videos">
+                                            <?php if (!empty($videos)) : ?>
+                                                <?php foreach ($videos as $video) : ?>
+                                                    <div >
+                                                        <video  id="coming-soon-section" style="display: none; width: 100%;" width="100%" controls>
+                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
+                                                <p>No videos available.</p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <button id="complete-btn" class="btn btn-success btn-center" disabled>
-                                        <i class="fa-solid fa-check tw-mr-1"></i>
-                                        <?php echo _l('Complete and Continue'); ?>
-                                    </button>
-                                    <button id="continue-btn" class="btn btn-success btn-center" style="display: none;">
-                                        <i class="fa-solid fa-arrow-right tw-mr-1"></i>
-                                        <?php echo _l('Continue'); ?>
-                                    </button>
+                                            <i class="fa-solid fa-check tw-mr-1"></i>
+                                            <?php echo _l('Complete and Continue'); ?>
+                                        </button>
+                                        <button id="continue-btn" class="btn btn-success btn-center" style="display: none;">
+                                            <i class="fa-solid fa-arrow-right tw-mr-1"></i>
+                                            <?php echo _l('Continue'); ?>
+                                        </button>
                                 </div>
                             </div>
+
 
                             <!-- Right Side: Onboarding Progress -->
                             <div class="col-md-4">
@@ -223,9 +224,7 @@
                                     <div class="card-body">
                                         <p class="card-title"><?php echo _l('Onboarding Progress'); ?></p>
                                         <div class="progress">
-                                            <div id="progress-bar" class="progress-bar" role="progressbar"
-                                                style="width: 0%;" aria-valuenow="0" aria-valuemin="0"
-                                                aria-valuemax="100">0%</div>
+                                            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"  data-percent="0">0%</div>
                                         </div>
                                         <p id="progress-text" class="progress-text">0/6 actions completed</p>
                                         <ul id="progress-list" class="list-group">
@@ -257,177 +256,98 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- End of row with video and progress card -->
+                </div>
 
+                <!-- Modal for Sign Up Alert -->
+                <div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signupAlertModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 id="signupAlertModalLabel" class="modal-title">Sign Up for Alerts</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="signup-title"><?php echo _l('Complete your profile'); ?></p>
+                                <p class="signup-text">
+                                    <?php echo _l('Sign up for our email alerts to stay informed about the latest updates, opportunities, and important information.'); ?>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary signup-btn"><?php echo _l('Sign Up Now'); ?></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <script>
+                    // JavaScript code to handle video watching and progress
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const welcomeVideo = document.getElementById("welcome-video");
+                        const completeBtn = document.getElementById("complete-btn");
+                        const continueBtn = document.getElementById("continue-btn");
+                        const progressBar = document.getElementById("progress-bar");
+                        const progressText = document.getElementById("progress-text");
+                        const progressList = document.getElementById("progress-list").children;
+
+                        let progress = 0;
+
+                        // When video ends, enable the complete button
+                        welcomeVideo.addEventListener("ended", function () {
+                            completeBtn.disabled = false;
+                        });
+
+                        // Handle complete button click
+                        completeBtn.addEventListener("click", function () {
+                            // Increase progress
+                            progress += 17;
+                            updateProgress();
+
+                            // Show Facebook group section
+                            document.getElementById("facebook-group-section").style.display = "block";
+
+                            // Hide complete button, show continue button
+                            completeBtn.style.display = "none";
+                            continueBtn.style.display = "block";
+
+                            // Disable continue button initially
+                            continueBtn.disabled = true;
+
+                            // Handle joining Facebook group
+                            document.getElementById("join-facebook-group").addEventListener("click", function () {
+                                progress += 17;
+                                updateProgress();
+
+                                document.getElementById("sign-up-alert-section").style.display = "block";
+                                continueBtn.disabled = false;
+                            });
+                        });
+
+                        // Handle continue button click
+                        continueBtn.addEventListener("click", function () {
+                            progress += 17;
+                            updateProgress();
+
+                            document.getElementById("sign-up-alert").addEventListener("click", function () {
+                                progress += 17;
+                                updateProgress();
+                            });
+                        });
+
+                        function updateProgress() {
+                            progressBar.style.width = progress + "%";
+                            progressBar.innerHTML = progress + "%";
+                            progressText.innerHTML = Math.round(progress / 17) + "/6 actions completed";
+
+                            // Update progress list
+                            for (let i = 0; i < Math.round(progress / 17); i++) {
+                                progressList[i].firstElementChild.classList.add("tick-completed");
+                            }
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal for sign up alert -->
-<div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signupAlertModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="padding: 20px;">
-            <div class="text-center d-flex">
-                <p class="signup-title w-100" id="signupAlertModalLabel"><?php echo _l('Sign Up for Alerts'); ?></p>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-            </div>
-            <div class="text-center">
-                <i class="fa-solid fa-envelope" style="color: rgb(255, 203, 3);
-    font-size: 80px;"></i>
-            </div>
-            <div class="modal-body text-center">
-                <p class="signup-text">
-                    <?php echo _l('<i class="fa fa-exclamation-circle tw-mr-1"></i> We\'ll never send marketing emails through these alerts. These email alerts are strictly to inform you about Ambassador Program latest updates.'); ?>
-                </p>
-            </div>
-            <div class="text-center">
-                <button type="button" class="signup-btn"
-                    data-dismiss="modal"><?php echo _l('Sign Up and Continue'); ?></button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var video = document.getElementById('welcome-video');
-        var completeBtn = document.getElementById('complete-btn');
-        var continueBtn = document.getElementById('continue-btn');
-        var progressBar = document.getElementById('progress-bar');
-        var progressText = document.getElementById('progress-text');
-        var progressList = document.getElementById('progress-list').querySelectorAll('.list-group-item i');
-
-        var currentStep = 0;
-        var totalSteps = progressList.length;
-        var progressPercentagePerStep = 100 / totalSteps;
-
-        // Initialize tick styles
-        for (let i = 0; i < totalSteps; i++) {
-            progressList[i].classList.add('tick-inactive');
-        }
-
-        // Enable complete button when video ends
-        video.addEventListener('ended', function () {
-            completeBtn.disabled = false;
-        });
-
-        // Handle click for the complete button
-        completeBtn.addEventListener('click', function () {
-            // if (currentStep === 0 && !video.ended) {
-            //     alert("Please watch the video before continuing.");
-            //     return;
-            // }
-
-            if (currentStep < totalSteps) {
-                currentStep++;
-                var progressPercentage = currentStep * progressPercentagePerStep;
-
-                progressBar.style.width = progressPercentage + '%';
-                progressBar.setAttribute('aria-valuenow', progressPercentage);
-                progressBar.textContent = Math.round(progressPercentage) + '%';
-
-                progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
-
-                // Change tick color for completed actions
-                for (let i = 0; i < currentStep; i++) {
-                    progressList[i].classList.remove('tick-inactive');
-                    progressList[i].classList.add('tick-completed');
-                }
-
-                // Display the next section based on the current step
-                if (currentStep === 1) {
-                    document.getElementById('facebook-group-section').style.display = 'block';
-                } else if (currentStep === 2) {
-                    document.getElementById('facebook-group-section').style.display = 'none';
-                    document.getElementById('sign-up-alert-section').style.display = 'block';
-                } else if (currentStep === 3) {
-                    document.getElementById('sign-up-alert-section').style.display = 'none';
-                    document.getElementById('video-section').style.display = 'none';
-                    document.getElementById('coming-soon-section').style.display = 'block';
-
-                    completeBtn.style.display = 'none';
-                    continueBtn.style.display = 'block';
-                }
-
-                // Disable complete button if all steps are completed
-                if (currentStep === totalSteps) {
-                    completeBtn.disabled = true;
-                    completeBtn.textContent = 'Completed';
-                } else {
-                    completeBtn.disabled = true;
-                }
-            }
-        });
-
-        // Handle click for the continue button
-        continueBtn.addEventListener('click', function () {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                var progressPercentage = currentStep * progressPercentagePerStep;
-
-                progressBar.style.width = progressPercentage + '%';
-                progressBar.setAttribute('aria-valuenow', progressPercentage);
-                progressBar.textContent = Math.round(progressPercentage) + '%';
-
-                progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
-
-                // Change tick color for completed actions
-                for (let i = 0; i < currentStep; i++) {
-                    progressList[i].classList.remove('tick-inactive');
-                    progressList[i].classList.add('tick-completed');
-                }
-
-                // Display the next section based on the current step
-                if (currentStep === 1) {
-                    document.getElementById('facebook-group-section').style.display = 'block';
-                } else if (currentStep === 2) {
-                    document.getElementById('facebook-group-section').style.display = 'none';
-                    document.getElementById('sign-up-alert-section').style.display = 'block';
-                } else if (currentStep === 3) {
-                    document.getElementById('sign-up-alert-section').style.display = 'none';
-                    document.getElementById('video-section').style.display = 'none';
-                    document.getElementById('coming-soon-section').style.display = 'block';
-                    completeBtn.style.display = 'none';
-                    continueBtn.style.display = 'none';
-                }
-            }
-        });
-
-        // Track completion of additional steps
-        document.getElementById('join-facebook-group').addEventListener('click', function () {
-            completeBtn.disabled = false;
-        });
-
-        document.getElementById('sign-up-alert').addEventListener('click', function () {
-            completeBtn.disabled = false;
-        });
-
-        document.getElementById('signupAlertModal').addEventListener('hide.bs.modal', function () {
-            progressList[2].classList.remove('tick-inactive');
-            progressList[2].classList.add('tick-completed');
-            currentStep++;
-            var progressPercentage = currentStep * progressPercentagePerStep;
-
-            progressBar.style.width = progressPercentage + '%';
-            progressBar.setAttribute('aria-valuenow', progressPercentage);
-            progressBar.textContent = Math.round(progressPercentage) + '%';
-
-            progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
-
-            document.getElementById('sign-up-alert-section').style.display = 'none';
-            document.getElementById('video-section').style.display = 'none';
-            document.getElementById('coming-soon-section').style.display = 'block';
-            completeBtn.style.display = 'none';
-            continueBtn.style.display = 'block';
-        });
-    });
-
-</script>

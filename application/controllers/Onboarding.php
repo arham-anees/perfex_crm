@@ -5,7 +5,8 @@ class Onboarding extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        $this->mpDb = $this->load->database();
+        $this->load->model('leadevo/explanatory_videos_model'); // Correct path to the model
+
         $this->load->database();
     }
 
@@ -13,6 +14,8 @@ class Onboarding extends ClientsController
     {
         // Load the onboarding view
         $data['title'] = _l('Onboarding');
+        $data['videos'] = $this->explanatory_videos_model->get_all(); // Fetch all videos
+
         // check unique identification
         $this->data($data);
         $this->view('clients/onboarding');

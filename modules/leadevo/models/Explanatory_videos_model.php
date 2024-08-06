@@ -2,22 +2,30 @@
 
 class Explanatory_videos_model extends CI_Model
 {
-    protected $table = 'tblleadevo_explanatory_videos'; // Correct table name
+    protected $table = 'tblleadevo_explanatory_videos';
     protected $db_leadevo_marketplace;
 
     public function __construct()
     {
         parent::__construct();
-        // Load the database connection for 'leadevo_marketplace'
-        $this->db_leadevo_marketplace = $this->load->database();
+        // Correctly load the 'leadevo_marketplace' database connection
+        $this->db_leadevo_marketplace = $this->load->database('leadevo_marketplace', TRUE);
+        
+        if (!$this->db_leadevo_marketplace) {
+            log_message('error', 'Failed to load the leadevo_marketplace database.');
+            show_error('Database connection failed.');
+        }
     }
 
-    // Fetch all explanatory videos
     public function get_all()
     {
-        return $this->db_leadevo_marketplace->get($this->table)->result_array();
+        $query = $this->db_leadevo_marketplace->get($this->table);
+        if ($query === FALSE) {
+            log_message('error', 'Query failed in get_all method.');
+            return [];
+        }
+        return $query->result_array();
     }
-
     // Insert a new explanatory video
     public function insert($data)
     {
