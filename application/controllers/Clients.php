@@ -17,18 +17,23 @@ class Clients extends ClientsController
         parent::__construct();
 
         hooks()->do_action('after_clients_area_init', $this);
+        $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('leadevo/Prospects_model');
     }
 
     public function index()
     {
-        $data['is_home'] = true;
-        $this->load->model('reports_model');
-        $data['payments_years'] = $this->reports_model->get_distinct_customer_invoices_years();
+        $data['campaigns'] = $this->Campaigns_model->get_all();
+        $data['prospects'] = $this->Prospects_model->get_all();
+        // $this->load->view('clients/dashboard/dashboard', $data);
+        // $data['is_home'] = true;
+        // $this->load->model('reports_model');
+        // $data['payments_years'] = $this->reports_model->get_distinct_customer_invoices_years();
 
-        $data['project_statuses'] = $this->projects_model->get_project_statuses();
-        $data['title']            = get_company_name(get_client_user_id());
+        // $data['project_statuses'] = $this->projects_model->get_project_statuses();
+        // $data['title']            = get_company_name(get_client_user_id());
         $this->data($data);
-        $this->view('home');
+        $this->view('clients/dashboard/dashboard');
         $this->layout();
     }
 

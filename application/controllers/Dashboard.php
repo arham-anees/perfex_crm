@@ -6,15 +6,15 @@ class Dashboard extends ClientsController
     {
         parent::__construct();
         //load some models
-        // $this->load->model('Campaigns_model');
-        // $this->load->model('Prospects_model');
+        $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('leadevo/Prospects_model');
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
         $data['prospects'] = $this->Prospects_model->get_all();
-        $this->load->view('client/dashboard/dashboard', $data);
+        $this->load->view('dashboard', $data);
     }
 
 
