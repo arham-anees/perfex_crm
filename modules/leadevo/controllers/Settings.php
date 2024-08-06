@@ -7,7 +7,6 @@ class Settings extends AdminController
     {
         parent::__construct();
         $this->load->database();
-        $this->load->database();
     }
 
     public function index()
