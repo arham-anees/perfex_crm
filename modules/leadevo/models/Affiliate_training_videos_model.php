@@ -1,6 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Affiliate_training_videos_model extends AdminController
+class Affiliate_training_videos_model extends CI_Model
+
 {
     protected $table = 'tblleadevo_affiliate_training_videos'; // Adjust the table name accordingly
     protected $db_leadevo_marketplace;

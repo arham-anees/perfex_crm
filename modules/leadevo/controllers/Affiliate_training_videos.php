@@ -14,7 +14,6 @@ class Affiliate_training_videos extends AdminController
         $this->load->view('leadevo/affiliate-training-videos/affiliate_training_videos', $data);
     }
 
-
     public function edit($id)
     {
         if ($this->input->post()) {
