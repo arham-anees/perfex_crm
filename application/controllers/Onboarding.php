@@ -2,11 +2,12 @@
 
 class Onboarding extends ClientsController
 {
+    private $Onboarding;
     public function __construct()
     {
         parent::__construct();
-        $this->mpDb = $this->load->database();
         $this->load->database();
+        $this->load->model('Onboarding');
     }
 
     public function index()
@@ -17,6 +18,20 @@ class Onboarding extends ClientsController
         $this->data($data);
         $this->view('clients/onboarding');
         $this->layout();
+    }
+
+    public function update_step()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $step = $data['onboarding_step'];
+            $data['client_id'] = get_client_user_id();
+            if ($step == 1) {
+                $this->Onboarding->insert($data);
+            } else {
+                $this->Onboarding->update($data);
+            }
+        }
     }
 
 
