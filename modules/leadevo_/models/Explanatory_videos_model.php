@@ -9,7 +9,7 @@ class Explanatory_videos_model extends CI_Model
     {
         parent::__construct();
         // Load the database connection for 'leadevo_marketplace'
-        $this->db_leadevo_marketplace = $this->load->database('leadevo_marketplace', true);
+        $this->db_leadevo_marketplace = $this->load->database();
     }
 
     // Fetch all explanatory videos

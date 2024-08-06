@@ -5,7 +5,7 @@ class Onboarding extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        $this->mpDb = $this->load->database('leadevo_marketplace', true);
+        $this->mpDb = $this->load->database();
         $this->load->database();
     }
 

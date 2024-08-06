@@ -5,7 +5,7 @@ class Onboarding extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->mpDb = $this->load->database('leadevo_marketplace', true);
+        $this->mpDb = $this->load->database();
         $this->load->database();
     }
 
@@ -14,7 +14,7 @@ class Onboarding extends AdminController
         // Load the onboarding view
         $data['title'] = _l('Onboarding');
         // check unique identification
-        log_message('error',get_marketplace_id());
+        log_message('error', get_marketplace_id());
         $this->load->view('marketplace/onboarding', $data);
 
     }

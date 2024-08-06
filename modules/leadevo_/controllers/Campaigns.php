@@ -6,9 +6,6 @@ class Campaigns extends AdminController
     {
         parent::__construct();
         $this->load->model('Campaigns_model');
-        $this->tenant_id = get_marketplace_id() ?: 0;
-
-        // $marketpalce = $this->load->database('leadevo_marketplace', true);
     }
 
     public function index()
@@ -25,7 +22,7 @@ class Campaigns extends AdminController
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
             $current_date = date('Y-m-d');
-    
+
             // Validate dates
             if ($start_date < $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
@@ -48,9 +45,9 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id 
+                'tenant_id' => $this->tenant_id
             ];
-            
+
             $this->Campaigns_model->insert($data);
             set_alert('success', 'Campaign created successfully.');
             redirect(admin_url('leadevo/campaigns'));
@@ -69,7 +66,7 @@ class Campaigns extends AdminController
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
             $current_date = date('Y-m-d');
-    
+
             // Validate dates
             if ($start_date < $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
@@ -91,8 +88,8 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id 
-                
+                'tenant_id' => $this->tenant_id
+
             ];
             $this->Campaigns_model->update($id, $data);
             set_alert('success', 'Campaign updated successfully.');

@@ -9,7 +9,7 @@ class Campaigns_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->mdb = $this->load->database('leadevo_marketplace', true);
+        $this->mdb = $this->load->database();
     }
 
     public function get_all()
