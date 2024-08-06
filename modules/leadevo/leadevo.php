@@ -137,10 +137,17 @@ function leadevo_register_menu_items()
             'slug'     => 'leadevo-user-affiliate-training-videos',
             'name'     => 'Affiliate Training Videos',
             'href'     => admin_url('leadevo/affiliate_training_videos'),
-            'position' => 15, // Adjust the position as necessary
+            'position' => 15, 
             'icon'     => 'fa fa-video',
         ]);
         
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-explanatory-videos',
+            'name'     => 'Explanatory Videos',
+            'href'     => admin_url('leadevo/explanatory_videos'),
+            'position' => 13,
+            'icon'     => 'fa fa-video',
+        ]);
 
     }
     
