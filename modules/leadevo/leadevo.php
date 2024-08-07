@@ -101,7 +101,7 @@ function leadevo_register_menu_items()
         $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
             'slug'     => 'leadevo-user-prospect-alerts',
             'name'     => 'Prospect Alerts',
-            'href'     => admin_url('leadevo/client/prospect/alerts'),
+            'href'     => admin_url('leadevo/client/prospectAlert'),
             'position' => 3,
             'icon'     => 'fa fa-th-list',
         ]);
