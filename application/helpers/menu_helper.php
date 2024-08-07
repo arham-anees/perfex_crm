@@ -639,14 +639,14 @@ function app_init_client_sidebar_menu_items()
         'name' => 'Onboarding',
         'href' => site_url('onboarding'),
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-gear',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects',
         'href' => site_url('prospects'),
         'position' => 3,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-lightbulb',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_reported_prospects', [
         'slug' => 'leadevo-user-prospects',

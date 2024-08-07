@@ -17,7 +17,7 @@ class Prospects_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
-    public function get_all_client()
+    public function get_all_client($filter)
     {
         $sql = "SELECT 
                     p.id, 
@@ -47,7 +47,11 @@ class Prospects_model extends CI_Model
                     tblleadevo_industries i ON p.industry_id = i.id
                 WHERE
                     p.is_active = 1 AND client_id = " . get_client_user_id();
-        log_message('error', get_client_user_id());
+        // if (isset($filter)) {
+        //     $sql .= " AND status_id = " . $filter;
+        // }
+
+        log_message('error', $sql);
 
         return $this->db->query($sql)->result_array();
     }

@@ -14,7 +14,10 @@ class Prospects extends ClientsController
 
     public function index()
     {
-        $data['prospects'] = $this->Prospects_model->get_all_client();
+        $filter = $this->input->get('filter');
+
+        $data['prospects'] = $this->Prospects_model->get_all_client($filter);
+
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();
