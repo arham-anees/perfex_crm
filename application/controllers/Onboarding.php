@@ -1,10 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Onboarding extends AdminController
+class Onboarding extends ClientsController
 {
+
     public function __construct()
     {
+        // Deleted or inactive but have session
         parent::__construct();
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
         $this->mpDb = $this->load->database();
         $this->load->database();
     }
@@ -14,9 +19,9 @@ class Onboarding extends AdminController
         // Load the onboarding view
         $data['title'] = _l('Onboarding');
         // check unique identification
-        log_message('error', get_marketplace_id());
-        $this->load->view('marketplace/onboarding', $data);
-
+        $this->data($data);
+        $this->view('clients/onboarding');
+        $this->layout();
     }
 
 

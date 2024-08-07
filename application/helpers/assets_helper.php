@@ -103,6 +103,7 @@ function _init_client_assets()
 {
     $CI = &get_instance();
 
+    log_message('error', 'init client assets');
     // Javascript
     $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
 

@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php if(is_client_logged_in()) { ?>
 <aside id="menu" class="sidebar sidebar">
     <ul class="nav metis-menu" id="side-menu">
         <li class="tw-mt-[63px] sm:tw-mt-0 -tw-mx-2 tw-overflow-hidden sm:tw-bg-neutral-900/50">
@@ -7,14 +6,12 @@
                 <img src=''/>
             </div>
         </li>
-        
-        <?php if (is_client_logged_in()) { ?>
         <?php foreach ($sidebar_menu as $key => $item) {
              if ((isset($item['collapse']) && $item['collapse']) && count($item['children']) === 0) {
                  continue;
              } ?>
         <li class="menu-item-<?php echo e($item['slug']); ?>"
-            <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?> >
+            <?php echo _attributes_to_string(isset($item['li_attributes']) ? $item['li_attributes'] : []); ?>>
             <a href="<?php echo count($item['children']) > 0 ? '#' : $item['href']; ?>" aria-expanded="false"
                 <?php echo _attributes_to_string(isset($item['href_attributes']) ? $item['href_attributes'] : []); ?>>
                 <i class="<?php echo e($item['icon']); ?> menu-icon"></i>
@@ -62,7 +59,6 @@
         </li>
         <?php
          } ?>
-         <?php }?>
 
 <?php hooks()->do_action('customers_navigation_start'); ?>
                 <?php foreach ($menu as $item_id => $item) { ?>
@@ -82,4 +78,3 @@
                 <?php hooks()->do_action('customers_navigation_end'); ?>
     </ul>
 </aside>
-<?php } ?>
