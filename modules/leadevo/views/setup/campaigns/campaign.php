@@ -405,7 +405,7 @@
         <h3>Timing</h3>
         <div id="campaign-time">
           <div class="week">
-            <div class="days" id="daySelected">M</div>
+            <div class="days">M</div>
             <div class="days">T</div>
             <div class="days">W</div>
             <div class="days">T</div>
@@ -556,7 +556,7 @@
         showStep(currentStep);
       } else if (currentStep === totalSteps) {
         // Finish button action
-        console.log('Wizard finished');
+        collectAndSendData();
 
       }
     });
@@ -567,6 +567,46 @@
         showStep(currentStep);
       }
     });
+
+
+    function collectAndSendData() {
+    const formData = new FormData();
+
+    // Collect Industry data
+    formData.append('industry', document.querySelector('select[name="industry"]').value);
+
+    // Collect Locations data
+    const selectedCountries = Array.from(document.querySelectorAll('#countryDropdown option:checked')).map(option => option.value).join(',');
+    formData.append('countries', selectedCountries);
+
+    // Collect Timing data
+    const selectedDays = Array.from(document.querySelectorAll('.days.active')).map(day => day.getAttribute('data-day')).join(',');
+    formData.append('days', selectedDays);
+    formData.append('time-from', document.getElementById('time-from').value);
+    formData.append('time-to', document.getElementById('time-to').value);
+
+    // Collect Deal data
+    const selectedDeal = document.querySelector('input[name="options"]:checked');
+    if (selectedDeal) {
+      formData.append('deal', selectedDeal.id);
+    }
+
+    // Collect Quality data
+    const selectedQualities = Array.from(document.querySelectorAll('input[name="verification"]:checked')).map(input => input.value).join(',');
+    formData.append('quality', selectedQualities);
+
+    // Collect Payment data
+    formData.append('card-number', document.getElementById('card-number').value);
+    formData.append('expiry-date', document.getElementById('expiry-date').value);
+    formData.append('cvv', document.getElementById('cvv').value);
+    formData.append('amount', document.getElementById('amount').value);
+
+    // Log FormData entries
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+     console.log(formData);
+    }
 
     showStep(currentStep);
   });
