@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Prospect extends AdminController
+class Prospects extends ClientsController
 {
     public function __construct()
     {
@@ -13,11 +13,13 @@ class Prospect extends AdminController
 
     public function index()
     {
-        $data['prospects'] = $this->Prospects_model->get_all();
-        $this->load->view('client/prospects/prospects', $data);
+        $data['prospects'] = $this->Prospects_model->get_all_client();
+        $this->data($data);
+        $this->view('clients/prospects/prospects');
+        $this->layout();
     }
 
-    public function view($id)
+    public function view2($id)
     {
         $data['prospect'] = $this->Prospects_model->get($id);
         $this->load->view('client/prospects/prospect_view', $data);
