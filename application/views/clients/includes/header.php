@@ -118,6 +118,28 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php hooks()->do_action('client_navbar_start'); ?>
 
+                    <li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fa fa-cart-shopping"></i>
+                            <!-- <span class="badge" id="cart-count">0</span> -->
+                        </a>
+                        <ul class="dropdown-menu animated fadeIn">
+                            <li class="customers-nav-item-edit-profile">
+                                <a href="<?php echo site_url('clients/profile'); ?>">
+                                    <?php echo _l('clients_nav_profile'); ?>
+                                </a>
+                            </li>
+                            <?php foreach ($cart_prospects as $prospect): ?>
+                                <li class="customers-nav-item-edit-profile">
+                                    <a href="<?php echo site_url('clients/profile'); ?>">
+                                        <?php echo $prospect['id']; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+
+                    </li>
                     <?php if (is_client_logged_in()) { ?>
                         <li class="dropdown customers-nav-item-profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
