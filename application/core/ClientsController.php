@@ -26,7 +26,6 @@ class ClientsController extends App_Controller
          */
         if (
             is_staff_logged_in()
-            && $this->app->is_db_upgrade_required($this->current_db_version)
         ) {
             redirect(admin_url());
         }
