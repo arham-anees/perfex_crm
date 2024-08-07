@@ -44,7 +44,6 @@ function init_client_head($aside = true)
 
 function client_init()
 {
-    log_message('error', 'this is client_init action');
     hooks()->do_action('client_init');
 }
 

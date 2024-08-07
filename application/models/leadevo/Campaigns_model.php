@@ -3,7 +3,8 @@
 class Campaigns_model extends CI_Model
 {
 
-    protected $table = 'tblleadevo_campaign'; // Define the table name
+
+    protected $table = 'leadevo_campaign'; // Define the table name
 
     public function __construct()
     {
@@ -13,7 +14,7 @@ class Campaigns_model extends CI_Model
 
     public function get_all()
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get($this->table)->result_array();
     }
 
     public function get($id)
@@ -37,6 +38,6 @@ class Campaigns_model extends CI_Model
     }
     public function get_campaign_statuses()
     {
-        return $this->db->get('tblleadevo_campaign_statuses')->result_array();
+        return $this->db->get('leadevo_campaign_statuses')->result_array();
     }
 }

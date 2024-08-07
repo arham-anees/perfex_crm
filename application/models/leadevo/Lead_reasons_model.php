@@ -1,14 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Campaigns_model extends CI_Model
+class Lead_reasons_model extends CI_Model
 {
-
-    protected $table = 'tblleadevo_campaign'; // Define the table name
+    protected $table = 'tblleadevo_report_lead_reasons'; // Define the table name
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->database();
     }
 
     public function get_all()
@@ -34,9 +32,5 @@ class Campaigns_model extends CI_Model
     public function delete($id)
     {
         return $this->db->where('id', $id)->delete($this->table);
-    }
-    public function get_campaign_statuses()
-    {
-        return $this->db->get('tblleadevo_campaign_statuses')->result_array();
     }
 }

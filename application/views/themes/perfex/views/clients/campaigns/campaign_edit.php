@@ -1,65 +1,56 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
-<div id="wrapper">
-    <div class="content">
+
         <div class="row">
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h4 class="no-margin"><?php echo _l('Create New Campaign'); ?></h4>
+                        <h4 class="no-margin"><?php echo _l('Edit Campaign'); ?></h4>
                         <hr class="hr-panel-heading" />
                         <?php if ($this->session->flashdata('error')): ?>
                             <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
                         <?php endif; ?>
-                        <?php echo form_open(admin_url('leadevo/campaigns/create')); ?>
-                        
+                        <?php echo form_open(admin_url('leadevo/campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" id="name" name="name" class="form-control" required>
+                            <input type="text" id="name" name="name" class="form-control" value="<?php echo $campaign->name; ?>" required>
                         </div>
-                        
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control" required></textarea>
+                            <textarea id="description" name="description" class="form-control" required><?php echo $campaign->description; ?></textarea>
                         </div>
-                        
                         <div class="form-group">
                             <label for="start_date"><?php echo _l('Start Date'); ?></label>
-                            <input type="date" id="start_date" name="start_date" class="form-control" required>
+                            <input type="date" id="start_date" name="start_date" class="form-control" value="<?php echo $campaign->start_date; ?>" required>
                         </div>
-                        
                         <div class="form-group">
                             <label for="end_date"><?php echo _l('End Date'); ?></label>
-                            <input type="date" id="end_date" name="end_date" class="form-control" required>
+                            <input type="date" id="end_date" name="end_date" class="form-control" value="<?php echo $campaign->end_date; ?>" required>
                         </div>
-                        
                         <div class="form-group">
-                                    <label for="industry_id"><?php echo _l('Industry'); ?></label>
-                                    <select name="industry_id" id="industry_id" class="form-control" required>
-                                        <?php foreach ($industries as $industry): ?>
-                                            <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                        
+                            <label for="status_id"><?php echo _l('Status'); ?></label>
+                            <select id="status_id" name="status_id" class="form-control" required>
+                                <?php foreach ($statuses as $status): ?>
+                                    <option value="<?php echo $status['id']; ?>" <?php echo $status['id'] == $campaign->status_id ? 'selected' : ''; ?>>
+                                        <?php echo $status['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="budget"><?php echo _l('Budget'); ?></label>
-                            <input type="number" id="budget" name="budget" class="form-control" required>
+                            <input type="number" id="budget" name="budget" class="form-control" value="<?php echo $campaign->budget; ?>" required>
                         </div>
-                        
                         <div class="form-group">
                             <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <input type="checkbox" id="is_active" name="is_active">
+                            <input type="checkbox" id="is_active" name="is_active" <?php echo $campaign->is_active ? 'checked' : ''; ?>>
                         </div>
-                        
-                        <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
+                        <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
 <script>
     document.getElementById('campaign-form').addEventListener('submit', function (event) {
         var startDate = new Date(document.getElementById('start_date').value);
@@ -78,6 +69,4 @@
         }
     });
 </script>
-<?php init_tail(); ?>
-</body>
-</html>
+

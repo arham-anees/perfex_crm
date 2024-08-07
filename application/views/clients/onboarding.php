@@ -1,129 +1,129 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+
 
 <style>
-.card {
-    border-radius: 10px;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Rubik, sans-serif;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 500;
-    margin-bottom: 15px;
-}
-
-.card-text {
-    font-size: 1rem;
-    margin-bottom: 20px;
-}
-
-.btn-center {
-    display: block;
-    width: auto;
-    max-width: 200px;
-    margin: 20px auto;
-}
-
-.list-group-item {
-    border: none;
-    padding: 10px 0;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-}
-
-.list-group-item i {
-    border-radius: 50%;
-    padding: 5px;
-    margin-right: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.tick-completed {
-    color: #ffffff;
-    background-color: rgb(255, 203, 3);
-}
-
-.tick-inactive {
-    color: #ffffff;
-    background-color: #e0e0e0;
-}
-
-.progress {
-    height: 20px;
-    margin-bottom: 15px;
-}
-
-.progress-bar {
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 20px;
-    color: #ffffff;
-    width: 100%;
-    transition: transform 0.4s linear 0s;
-    transform-origin: left center;
-    background-color: rgb(255, 203, 3);
-}
-
-.progress-text {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    color: rgba(0, 0, 0, 0.6);
-}
-.facebook-group , .sign-up-alert{
-    border-bottom: 1px solid rgb(255, 203, 3);
-    color: rgb(129, 133, 146);
-    cursor: pointer;
-
-}
-.facebook-group:hover , .sign-up-alert:hover {
-    background-color: rgb(255, 203, 3);
-}
-.signup-title {
-    color: rgba(0, 0, 0, 0.87);
-    font-family: Rubik;
-    font-size: 1.5rem;
-    text-align: center;
-    font-weight: 500;
-}
-.signup-text { 
-    color: rgb(1, 67, 97);
-    background-color: rgb(229, 246, 253);
-    padding : 8px;
-    border-radius: 4px;
-
-}
-.signup-btn {
-    background-color: rgb(255, 203, 3);
-    color: #ffffff;
-    padding: 10px 20px;
-    border-radius: 4px;
-    border: 0px;
-    cursor: pointer;
-    font-size: 15px;
-}
-    
-
-/* Responsive Design for smaller screens */
-@media (max-width: 768px) {
-    .col-md-8,
-    .col-md-4 {
-        width: 100%;
+    .card {
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: Rubik, sans-serif;
     }
 
-    .card {
-        padding: 15px;
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 20px;
     }
 
     .btn-center {
-        width: 100%;
-        max-width: none;
+        display: block;
+        width: auto;
+        max-width: 200px;
+        margin: 20px auto;
     }
-}
+
+    .list-group-item {
+        border: none;
+        padding: 10px 0;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .list-group-item i {
+        border-radius: 50%;
+        padding: 5px;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .tick-completed {
+        color: #ffffff;
+        background-color: rgb(255, 203, 3);
+    }
+
+    .tick-inactive {
+        color: #ffffff;
+        background-color: #e0e0e0;
+    }
+
+    .progress {
+        height: 20px;
+        margin-bottom: 15px;
+    }
+
+    .progress-bar {
+        font-size: 0.875rem;
+        font-weight: 500;
+        line-height: 20px;
+        color: #ffffff;
+        width: 100%;
+        transition: transform 0.4s linear 0s;
+        transform-origin: left center;
+        background-color: rgb(255, 203, 3);
+    }
+
+    .progress-text {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        color: rgba(0, 0, 0, 0.6);
+    }
+    .facebook-group , .sign-up-alert{
+        border-bottom: 1px solid rgb(255, 203, 3);
+        color: rgb(129, 133, 146);
+        cursor: pointer;
+
+    }
+    .facebook-group:hover , .sign-up-alert:hover {
+        background-color: rgb(255, 203, 3);
+    }
+    .signup-title {
+        color: rgba(0, 0, 0, 0.87);
+        font-family: Rubik;
+        font-size: 1.5rem;
+        text-align: center;
+        font-weight: 500;
+    }
+    .signup-text { 
+        color: rgb(1, 67, 97);
+        background-color: rgb(229, 246, 253);
+        padding : 8px;
+        border-radius: 4px;
+
+    }
+    .signup-btn {
+        background-color: rgb(255, 203, 3);
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        border: 0px;
+        cursor: pointer;
+        font-size: 15px;
+    }
+        
+
+    /* Responsive Design for smaller screens */
+    @media (max-width: 768px) {
+        .col-md-8,
+        .col-md-4 {
+            width: 100%;
+        }
+
+        .card {
+            padding: 15px;
+        }
+
+        .btn-center {
+            width: 100%;
+            max-width: none;
+        }
+    }
 </style>
 
 <div id="wrapper">
@@ -279,36 +279,122 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var video = document.getElementById('welcome-video');
-    var completeBtn = document.getElementById('complete-btn');
-    var continueBtn = document.getElementById('continue-btn');
-    var progressBar = document.getElementById('progress-bar');
-    var progressText = document.getElementById('progress-text');
-    var progressList = document.getElementById('progress-list').querySelectorAll('.list-group-item i');
+    document.addEventListener('DOMContentLoaded', function() {
+        var video = document.getElementById('welcome-video');
+        var completeBtn = document.getElementById('complete-btn');
+        var continueBtn = document.getElementById('continue-btn');
+        var progressBar = document.getElementById('progress-bar');
+        var progressText = document.getElementById('progress-text');
+        var progressList = document.getElementById('progress-list').querySelectorAll('.list-group-item i');
 
-    var currentStep = 0;
-    var totalSteps = progressList.length;
-    var progressPercentagePerStep = 100 / totalSteps;
+        var currentStep = 0;
+        var totalSteps = progressList.length;
+        var progressPercentagePerStep = 100 / totalSteps;
 
-    // Initialize tick styles
-    for (let i = 0; i < totalSteps; i++) {
-        progressList[i].classList.add('tick-inactive');
-    }
+        // Initialize tick styles
+        for (let i = 0; i < totalSteps; i++) {
+            progressList[i].classList.add('tick-inactive');
+        }
 
-    // Enable complete button when video ends
-    video.addEventListener('ended', function() {
-        completeBtn.disabled = false;
-    });
+        // Enable complete button when video ends
+        video.addEventListener('ended', function() {
+            completeBtn.disabled = false;
+        });
 
-    // Handle click for the complete button
-    completeBtn.addEventListener('click', function() {
-        // if (currentStep === 0 && !video.ended) {
-        //     alert("Please watch the video before continuing.");
-        //     return;
-        // }
+        // Handle click for the complete button
+        completeBtn.addEventListener('click', function() {
+            // if (currentStep === 0 && !video.ended) {
+            //     alert("Please watch the video before continuing.");
+            //     return;
+            // }
 
-        if (currentStep < totalSteps) {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                var progressPercentage = currentStep * progressPercentagePerStep;
+
+                progressBar.style.width = progressPercentage + '%';
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
+                progressBar.textContent = Math.round(progressPercentage) + '%';
+
+                progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
+
+                // Change tick color for completed actions
+                for (let i = 0; i < currentStep; i++) {
+                    progressList[i].classList.remove('tick-inactive');
+                    progressList[i].classList.add('tick-completed');
+                }
+
+                // Display the next section based on the current step
+                if (currentStep === 1) {
+                    document.getElementById('facebook-group-section').style.display = 'block';
+                } else if (currentStep === 2) {
+                    document.getElementById('facebook-group-section').style.display = 'none';
+                    document.getElementById('sign-up-alert-section').style.display = 'block';
+                } else if (currentStep === 3) {
+                    document.getElementById('sign-up-alert-section').style.display = 'none';
+                    document.getElementById('video-section').style.display = 'none';
+                    document.getElementById('coming-soon-section').style.display = 'block';
+
+                    completeBtn.style.display = 'none';
+                    continueBtn.style.display = 'block';
+                }
+
+                // Disable complete button if all steps are completed
+                if (currentStep === totalSteps) {
+                    completeBtn.disabled = true;
+                    completeBtn.textContent = 'Completed';
+                } else {
+                    completeBtn.disabled = true;
+                }
+            }
+        });
+
+        // Handle click for the continue button
+        continueBtn.addEventListener('click', function() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                var progressPercentage = currentStep * progressPercentagePerStep;
+
+                progressBar.style.width = progressPercentage + '%';
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
+                progressBar.textContent = Math.round(progressPercentage) + '%';
+
+                progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
+
+                // Change tick color for completed actions
+                for (let i = 0; i < currentStep; i++) {
+                    progressList[i].classList.remove('tick-inactive');
+                    progressList[i].classList.add('tick-completed');
+                }
+
+                // Display the next section based on the current step
+                if (currentStep === 1) {
+                    document.getElementById('facebook-group-section').style.display = 'block';
+                } else if (currentStep === 2) {
+                    document.getElementById('facebook-group-section').style.display = 'none';
+                    document.getElementById('sign-up-alert-section').style.display = 'block';
+                } else if (currentStep === 3) {
+                    document.getElementById('sign-up-alert-section').style.display = 'none';
+                    document.getElementById('video-section').style.display = 'none';
+                    document.getElementById('coming-soon-section').style.display = 'block';
+                    completeBtn.style.display = 'none';
+                    continueBtn.style.display = 'none';
+                }
+            }
+        });
+
+        // Track completion of additional steps
+        document.getElementById('join-facebook-group').addEventListener('click', function() {
+            completeBtn.disabled = false;
+        });
+
+        document.getElementById('sign-up-alert').addEventListener('click', function() {
+            completeBtn.disabled = false;
+        });
+
+        document.getElementById('signupAlertModal').addEventListener('hide.bs.modal', function() {
+            progressList[2].classList.remove('tick-inactive');
+            progressList[2].classList.add('tick-completed');
             currentStep++;
             var progressPercentage = currentStep * progressPercentagePerStep;
 
@@ -318,100 +404,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
 
-            // Change tick color for completed actions
-            for (let i = 0; i < currentStep; i++) {
-                progressList[i].classList.remove('tick-inactive');
-                progressList[i].classList.add('tick-completed');
-            }
-
-            // Display the next section based on the current step
-            if (currentStep === 1) {
-                document.getElementById('facebook-group-section').style.display = 'block';
-            } else if (currentStep === 2) {
-                document.getElementById('facebook-group-section').style.display = 'none';
-                document.getElementById('sign-up-alert-section').style.display = 'block';
-            } else if (currentStep === 3) {
-                document.getElementById('sign-up-alert-section').style.display = 'none';
-                document.getElementById('video-section').style.display = 'none';
-                document.getElementById('coming-soon-section').style.display = 'block';
-
-                completeBtn.style.display = 'none';
-                continueBtn.style.display = 'block';
-            }
-
-            // Disable complete button if all steps are completed
-            if (currentStep === totalSteps) {
-                completeBtn.disabled = true;
-                completeBtn.textContent = 'Completed';
-            } else {
-                completeBtn.disabled = true;
-            }
-        }
+            document.getElementById('sign-up-alert-section').style.display = 'none';
+            document.getElementById('video-section').style.display = 'none';
+            document.getElementById('coming-soon-section').style.display = 'block';
+            completeBtn.style.display = 'none';
+            continueBtn.style.display = 'block';
+        });
     });
-
-    // Handle click for the continue button
-    continueBtn.addEventListener('click', function() {
-        if (currentStep < totalSteps) {
-            currentStep++;
-            var progressPercentage = currentStep * progressPercentagePerStep;
-
-            progressBar.style.width = progressPercentage + '%';
-            progressBar.setAttribute('aria-valuenow', progressPercentage);
-            progressBar.textContent = Math.round(progressPercentage) + '%';
-
-            progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
-
-            // Change tick color for completed actions
-            for (let i = 0; i < currentStep; i++) {
-                progressList[i].classList.remove('tick-inactive');
-                progressList[i].classList.add('tick-completed');
-            }
-
-            // Display the next section based on the current step
-            if (currentStep === 1) {
-                document.getElementById('facebook-group-section').style.display = 'block';
-            } else if (currentStep === 2) {
-                document.getElementById('facebook-group-section').style.display = 'none';
-                document.getElementById('sign-up-alert-section').style.display = 'block';
-            } else if (currentStep === 3) {
-                document.getElementById('sign-up-alert-section').style.display = 'none';
-                document.getElementById('video-section').style.display = 'none';
-                document.getElementById('coming-soon-section').style.display = 'block';
-                completeBtn.style.display = 'none';
-                continueBtn.style.display = 'none';
-            }
-        }
-    });
-
-    // Track completion of additional steps
-    document.getElementById('join-facebook-group').addEventListener('click', function() {
-        completeBtn.disabled = false;
-    });
-
-    document.getElementById('sign-up-alert').addEventListener('click', function() {
-        completeBtn.disabled = false;
-    });
-
-    $('#signupAlertModal').on('hide.bs.modal', function() {
-        progressList[2].classList.remove('tick-inactive');
-        progressList[2].classList.add('tick-completed');
-        currentStep++;
-        var progressPercentage = currentStep * progressPercentagePerStep;
-
-        progressBar.style.width = progressPercentage + '%';
-        progressBar.setAttribute('aria-valuenow', progressPercentage);
-        progressBar.textContent = Math.round(progressPercentage) + '%';
-
-        progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
-
-        document.getElementById('sign-up-alert-section').style.display = 'none';
-        document.getElementById('video-section').style.display = 'none';
-        document.getElementById('coming-soon-section').style.display = 'block';
-        completeBtn.style.display = 'none';
-        continueBtn.style.display = 'block';
-    });
-});
 
 </script>
 
-<?php init_tail(); ?>
