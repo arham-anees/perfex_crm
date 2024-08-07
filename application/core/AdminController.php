@@ -134,6 +134,22 @@ class AdminController extends App_Controller
         ]);
 
         $this->app->add_quick_actions_link([
+            'name'       => _l('compaigns'),
+            'permission' => 'customers',
+            'url'        => 'clients/compaigns',
+            'position'   => 25,
+            'icon'       => 'fa-regular fa-building',
+        ]);
+
+        $this->app->add_quick_actions_link([
+            'name'       => _l('client'),
+            'permission' => 'customers',
+            'url'        => 'clients/client',
+            'position'   => 25,
+            'icon'       => 'fa-regular fa-building',
+        ]);
+
+        $this->app->add_quick_actions_link([
             'name'       => _l('subscription'),
             'permission' => 'subscriptions',
             'url'        => 'subscriptions/create',

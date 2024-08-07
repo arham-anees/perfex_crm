@@ -11,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 function is_reference_in_table($field, $table, $id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->where($field, $id);
     $row = $CI->db->get($table)->row();
     if ($row) {
@@ -71,7 +71,7 @@ function get_last_system_activity_id()
  */
 function add_notification($values)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     foreach ($values as $key => $value) {
         $data[$key] = $value;
     }
@@ -118,7 +118,7 @@ function add_notification($values)
  */
 function total_rows($table, $where = [])
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     if (is_array($where)) {
         if (sizeof($where) > 0) {
             $CI->db->where($where);
@@ -141,7 +141,7 @@ function sum_from_table($table, $attr = [])
         show_error('sum_from_table(); function expect field to be passed.');
     }
 
-    $CI = & get_instance();
+    $CI = &get_instance();
     if (isset($attr['where']) && is_array($attr['where'])) {
         $i = 0;
         foreach ($attr['where'] as $key => $val) {
@@ -169,7 +169,7 @@ function sum_from_table($table, $attr = [])
  */
 function prefixed_table_fields_wildcard($table, $alias, $field)
 {
-    $CI          = & get_instance();
+    $CI          = &get_instance();
     $columns     = $CI->db->query("SHOW COLUMNS FROM $table")->result_array();
     $field_names = [];
     foreach ($columns as $column) {
@@ -194,7 +194,7 @@ function prefixed_table_fields_wildcard($table, $alias, $field)
  */
 function prefixed_table_fields_array($table, $string = false, $exclude = [])
 {
-    $CI     = & get_instance();
+    $CI     = &get_instance();
     $fields = $CI->db->list_fields($table);
 
     foreach ($exclude as $field) {
@@ -232,14 +232,14 @@ function prefixed_table_fields_string($table, $exclude = [])
  */
 function get_department_email($id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->select('email');
     $CI->db->where('departmentid', $id);
 
     return $CI->db->get(db_prefix() . 'departments')->row()->email;
 }
 
-if (! function_exists('add_foreign_key')) {
+if (!function_exists('add_foreign_key')) {
     /**
      * @param string $table       Table name
      * @param string $foreign_key Collumn name having the Foreign Key
@@ -257,7 +257,7 @@ if (! function_exists('add_foreign_key')) {
     }
 }
 
-if (! function_exists('drop_foreign_key')) {
+if (!function_exists('drop_foreign_key')) {
     /**
      * @param string $table       Table name
      * @param string $foreign_key Collumn name having the Foreign Key
@@ -270,7 +270,7 @@ if (! function_exists('drop_foreign_key')) {
     }
 }
 
-if (! function_exists('add_trigger')) {
+if (!function_exists('add_trigger')) {
     /**
      * @param string $trigger_name Trigger name
      * @param string $table        Table name
@@ -287,7 +287,7 @@ if (! function_exists('add_trigger')) {
     }
 }
 
-if (! function_exists('drop_trigger')) {
+if (!function_exists('drop_trigger')) {
     /**
      * @param string $trigger_name Trigger name
      *

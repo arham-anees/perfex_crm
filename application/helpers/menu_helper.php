@@ -13,7 +13,19 @@ function app_init_admin_sidebar_menu_items()
         'icon'     => 'fa fa-home',
         'badge'    => [],
     ]);
-
+    if (
+        staff_can('view',  'reports')
+        || (have_assigned_customers()
+            || (!have_assigned_customers() && staff_can('create',  'reports')))
+    ) {
+        $CI->app_menu->add_sidebar_menu_item('reports', [
+            'name'     => _l('Report'),
+            'href'     => admin_url('reports'),
+            'position' => 5,
+            'icon'     => 'fa fa-ad',
+            'badge'    => [],
+        ]);
+    }
     if (
         staff_can('view',  'customers')
         || (have_assigned_customers()

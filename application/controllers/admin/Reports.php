@@ -36,6 +36,13 @@ class Reports extends AdminController
         $this->load->view('admin/reports/knowledge_base_articles', $data);
     }
 
+    public function prospects_report()
+    {
+        $this->load->model('knowledge_base_model');
+        $data['groups'] = $this->knowledge_base_model->get_kbg();
+        $data['title']  = _l('kb_reports');
+        $this->load->view('admin/reports/prospects_report',$data);
+    }
     /*
         public function tax_summary(){
            $this->load->model('taxes_model');
