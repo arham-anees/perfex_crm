@@ -15,6 +15,8 @@ class Campaigns extends AdminController
         $data['campaigns'] = $this->Campaigns_model->get_all();
         $data['tenant_id'] = $this->tenant_id;
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
+        $data['countries'] = $this->Campaigns_model->get_all_countries();
+
         $this->load->view('setup/campaigns/campaign', $data);
     }
 
