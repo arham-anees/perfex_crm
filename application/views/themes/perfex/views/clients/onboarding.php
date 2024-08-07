@@ -113,6 +113,7 @@
 
     /* Responsive Design for smaller screens */
     @media (max-width: 768px) {
+
         .col-md-8,
         .col-md-4 {
             width: 100%;
@@ -147,119 +148,130 @@
                 <div class="row">
                     <!-- Left Side: Video and Facebook Group Text -->
                     <div class="col-md-8">
-                                <div class="panel_s">
-                                    <div class="panel-body">
-                                        <div class="videos">
-                                            <?php if (!empty($videos)) : ?>
-                                                <?php foreach ($videos as $video) : ?>
-                                                    <div id="video-section">
-                                                        <video id="welcome-video" width="100%" controls>
-                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <p>No videos available.</p>
-                                            <?php endif; ?>
-                                        </div>
-                                    
-
-                                        <!-- Text and button for joining Facebook group -->
-                                        <div id="facebook-group-section" style="display: none;">
-                                            <div class="card mt-4">
-                                                <div class="card-body">
-                                               
-        <p><a id="join-facebook-group" class="facebook-group" ><?php echo _l('Join our private Facebook group'); ?></a> <?php echo _l('group dedicated specifically for ambassadors. In the group, you\'ll get access to other successful ambassadors, learn the latest marketing strategies, get help from our support team, and stay informed on all the latest product updates.'); ?></p>
-             
-        </a>
-    </p>
- 
-    </div>
-    </div>
-                                        </div>
-
-                                        <!-- Text and button for signing up for alerts -->
-                                        <div id="sign-up-alert-section" style="display: none;">
-                                            <div class="card mt-4">
-                                                <div class="card-body">
-                                                    <p> <a id="sign-up-alert" class="sign-up-alert"  data-toggle="modal" data-target="#signupAlertModal"  ><?php echo _l('Sign Up for Alerts'); ?></a>
-                                                    <?php echo _l("Sign up for our email alerts to stay informed about the latest updates, opportunities, and important information."); ?></p>
-                                                </div>
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <div class="videos">
+                                    <?php if (!empty($videos)): ?>
+                                        <?php foreach ($videos as $video): ?>
+                                            <div id="video-section">
+                                                <video id="welcome-video" width="100%" controls>
+                                                    <source src="<?php echo htmlspecialchars($video['url']); ?>"
+                                                        type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
                                             </div>
-                                        
-                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p>No videos available.</p>
+                                    <?php endif; ?>
+                                </div>
 
-                                        <!-- Coming Soon text -->
-                                        <div class="videos">
-                                            <?php if (!empty($videos)) : ?>
-                                                <?php foreach ($videos as $video) : ?>
-                                                    <div >
-                                                        <video  id="coming-soon-section" style="display: none; width: 100%;" width="100%" controls>
-                                                            <source src="<?php echo htmlspecialchars($video['url']); ?>" type="video/mp4">
-                                                            Your browser does not support the video tag.
-                                                        </video>
-                                                    </div>
-                                                <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <p>No videos available.</p>
-                                            <?php endif; ?>
+
+                                <!-- Text and button for joining Facebook group -->
+                                <div id="facebook-group-section" style="display: none;">
+                                    <div class="card mt-4">
+                                        <div class="card-body">
+
+                                            <p><a id="join-facebook-group"
+                                                    class="facebook-group"><?php echo _l('Join our private Facebook group'); ?></a>
+                                                <?php echo _l('group dedicated specifically for ambassadors. In the group, you\'ll get access to other successful ambassadors, learn the latest marketing strategies, get help from our support team, and stay informed on all the latest product updates.'); ?>
+                                            </p>
+
+                                            </a>
+                                            </p>
+
                                         </div>
                                     </div>
-                                    <button id="complete-btn" class="btn btn-success btn-center" disabled>
-                                            <i class="fa-solid fa-check tw-mr-1"></i>
-                                            <?php echo _l('Complete and Continue'); ?>
-                                        </button>
-                                        <button id="continue-btn" class="btn btn-success btn-center" style="display: none;">
-                                            <i class="fa-solid fa-arrow-right tw-mr-1"></i>
-                                            <?php echo _l('Continue'); ?>
-                                        </button>
+                                </div>
+
+                                <!-- Text and button for signing up for alerts -->
+                                <div id="sign-up-alert-section" style="display: none;">
+                                    <div class="card mt-4">
+                                        <div class="card-body">
+                                            <p> <a id="sign-up-alert" class="sign-up-alert" data-toggle="modal"
+                                                    data-target="#signupAlertModal"><?php echo _l('Sign Up for Alerts'); ?></a>
+                                                <?php echo _l("Sign up for our email alerts to stay informed about the latest updates, opportunities, and important information."); ?>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Coming Soon text -->
+                                <div class="videos">
+                                    <?php if (!empty($videos)): ?>
+                                        <?php foreach ($videos as $video): ?>
+                                            <div>
+                                                <video id="coming-soon-section" style="display: none; width: 100%;" width="100%"
+                                                    controls>
+                                                    <source src="<?php echo htmlspecialchars($video['url']); ?>"
+                                                        type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <p>No videos available.</p>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+                            <button id="complete-btn" class="btn btn-success btn-center" disabled>
+                                <i class="fa-solid fa-check tw-mr-1"></i>
+                                <?php echo _l('Complete and Continue'); ?>
+                            </button>
+                            <button id="continue-btn" class="btn btn-success btn-center" style="display: none;">
+                                <i class="fa-solid fa-arrow-right tw-mr-1"></i>
+                                <?php echo _l('Continue'); ?>
+                            </button>
+                        </div>
+                    </div>
 
 
-                            <!-- Right Side: Onboarding Progress -->
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="card-title"><?php echo _l('Onboarding Progress'); ?></p>
-                                        <div class="progress">
-                                            <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"  data-percent="0">0%</div>
-                                        </div>
-                                        <p id="progress-text" class="progress-text">0/6 actions completed</p>
-                                        <ul id="progress-list" class="list-group">
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Watch welcome message'); ?>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Join Facebook group'); ?>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Sign up for email alerts'); ?>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Watch portal walkthrough'); ?>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Understand the opportunity'); ?>
-                                            </li>
-                                            <li class="list-group-item">
-                                                <i class="fa-solid fa-check tw-mr-1"></i>
-                                                <?php echo _l('Review available products'); ?>
-                                            </li>
-                                        </ul>
+                    <!-- Right Side: Onboarding Progress -->
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title"><?php echo _l('Onboarding Progress'); ?></p>
+                                <div class="progress">
+                                    <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%;"
+                                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-percent="0">0%
                                     </div>
                                 </div>
+                                <p id="progress-text" class="progress-text">0/6 actions completed</p>
+                                <ul id="progress-list" class="list-group">
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Watch welcome message'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Join Facebook group'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Sign up for email alerts'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Watch portal walkthrough'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Understand the opportunity'); ?>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                        <?php echo _l('Review available products'); ?>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal for Sign Up Alert -->
-                <div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signupAlertModalLabel" aria-hidden="true">
+                <div id="signupAlertModal" class="modal fade" tabindex="-1" role="dialog"
+                    aria-labelledby="signupAlertModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -275,7 +287,8 @@
                                 </p>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary signup-btn"><?php echo _l('Sign Up Now'); ?></button>
+                                <button type="button"
+                                    class="btn btn-primary signup-btn"><?php echo _l('Sign Up Now'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -351,3 +364,12 @@
         </div>
     </div>
 </div>
+<script>
+    function update_step(step) {
+        $.ajax({
+            url: site_url + 'onboarding/update_step',
+            type: 'POST',
+            data: { 'onboarding_step': step }
+        }).done((x) => { })
+    }
+</script>
