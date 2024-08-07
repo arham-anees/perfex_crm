@@ -3,14 +3,20 @@ echo theme_head_view();
 get_template_part($navigationEnabled ? 'navigation' : '');
 init_client_head(true);
 ?>
+
 <style>
-    #content .row:first-of-type {
-        margin: 15px !important;
+    body,
+    content {
+        background-color: #f1f5f9;
     }
 </style>
-<div id="wrapper">
-    <div id="content">
-        <div class="">
+
+<?php if (is_client_logged_in()) { ?>
+
+    <div id="wrapper">
+        <div id="content">
+        <?php } ?>
+        <div class="<?= is_client_logged_in() ? '' : 'container' ?>">
             <div class="row">
                 <?php get_template_part('alerts'); ?>
             </div>
@@ -18,9 +24,9 @@ init_client_head(true);
         <?php if (isset($knowledge_base_search)) { ?>
             <?php get_template_part('knowledge_base/search'); ?>
         <?php } ?>
-        <div class="">
+        <div class="<?= is_client_logged_in() ? '' : 'container' ?>">
             <?php hooks()->do_action('customers_content_container_start'); ?>
-            <div class="row">
+            <div class="row  padding-30">
                 <?php
                 /**
                  * Don't show calendar for invoices, estimates, proposals etc.. views where no navigation is included or in kb area
@@ -58,10 +64,12 @@ init_client_head(true);
                 <?php } ?>
                 <?php echo theme_template_view(); ?>
             </div>
+            <?php if (is_client_logged_in()) { ?>
+            </div>
         </div>
     </div>
-</div>
-</div>
+
+<?php } ?>
 <?php
 echo theme_footer_view();
 

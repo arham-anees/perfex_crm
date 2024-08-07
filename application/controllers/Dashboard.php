@@ -5,9 +5,13 @@ class Dashboard extends ClientsController
     public function __construct()
     {
         parent::__construct();
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
         //load some models
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Prospects_model');
+        $this->load->model('leadevo/Cart_model');
     }
 
     public function index()
@@ -18,8 +22,18 @@ class Dashboard extends ClientsController
     }
 
 
-    public function receive_prospect(){
+    public function receive_prospect()
+    {
         $this->load->view('clients/dashboard/receive_prospect');
     }
-        
+
+    public function add_to_cart()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $this->Cart_model->add_item($data);
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect added to cart'));
+        }
+    }
+
 }
