@@ -9,6 +9,7 @@ class Prospects extends ClientsController
             redirect(site_url('authentication'));
         }
         $this->load->model('leadevo/Prospects_model');
+        $this->load->model('leadevo/Misc_model');
     }
 
     public function index()
@@ -19,10 +20,12 @@ class Prospects extends ClientsController
         $this->layout();
     }
 
-    public function view2($id)
+    public function details($id)
     {
         $data['prospect'] = $this->Prospects_model->get($id);
-        $this->load->view('client/prospects/prospect_view', $data);
+        $this->data($data);
+        $this->view('clients/prospects/prospect_view');
+        $this->layout();
     }
 
     public function create()
@@ -40,11 +43,13 @@ class Prospects extends ClientsController
             $this->Prospects_model->insert($data);
             redirect('leadevo/prospect');
         } else {
-            // $data['prospect_types'] = $this->Prospects_model->get_prospect_types();
-            // $data['prospect_categories'] = $this->Prospects_model->get_prospect_categories();
-            // $data['industries'] = $this->Prospects_model->get_industries();
-            // $this->load->view('client/prospects/prospect_create', $data);
-            $this->load->view('client/prospects/prospect_create');
+            $data['prospect_types'] = $this->Misc_model->get_prospect_types();
+            $data['industry_categories'] = $this->Misc_model->get_industry_categories();
+            $data['industries'] = $this->Misc_model->get_industries();
+            $data['acquisition_channels'] = $this->Misc_model->get_acquisition_channels();
+            $this->data($data);
+            $this->view('clients/prospects/prospect_create');
+            $this->layout();
         }
     }
     public function delete($id)
@@ -55,7 +60,10 @@ class Prospects extends ClientsController
             set_alert('danger', 'Failed to delete Prospect.');
         }
         // redirect(admin_url('leadevo/prospect'));
-        $this->load->view('client/prospects/prospects');
+        // $this->load->view('client/prospects/prospects');
+        // $this->data($data);
+        redirect('clients/prospects/prospects');
+        // $this->layout();
     }
 
 

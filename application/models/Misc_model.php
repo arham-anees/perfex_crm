@@ -1500,7 +1500,37 @@ class Misc_model extends App_Model
     {
         $this->db->select('info');
         $this->db->where('info_key', $key);
-        $this->db->get(db_prefix() . 'leadevo_information')->row_array();
+        return $this->db->get(db_prefix() . 'leadevo_information')->row_array();
+
+    }
+    public function get_industries()
+    {
+        $this->db->select('*');
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_industries')->result_array();
+
+    }
+    public function get_industry_categories()
+    {
+        $this->db->select('*');
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_industry_categories')->result_array();
+
+    }
+
+    public function get_prospect_types()
+    {
+        $this->db->select('*');
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_prospect_types')->result_array();
+
+    }
+
+    public function get_acquisition_channels()
+    {
+        $this->db->select('*');
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_acquisition_channels')->result_array();
 
     }
 }

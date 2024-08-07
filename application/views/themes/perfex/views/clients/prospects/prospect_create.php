@@ -39,7 +39,7 @@
                     <select name="category" class="selectpicker" data-width="100%"
                         data-none-selected-text="<?php echo _l('Select Category'); ?>">
                         <option value=""><?php echo _l('Select Category'); ?></option>
-                        <?php foreach ($prospect_categories as $category): ?>
+                        <?php foreach ($industry_categories as $category): ?>
                             <option value="<?php echo $category['id']; ?>"><?php echo $category['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
