@@ -2,11 +2,13 @@
 
 class Campaigns_model extends CI_Model
 {
+
     protected $table = 'tblleadevo_campaign'; // Define the table name
 
     public function __construct()
     {
         parent::__construct();
+        $this->load->database();
     }
 
     public function get_all()

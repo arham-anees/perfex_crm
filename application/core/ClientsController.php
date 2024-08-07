@@ -24,16 +24,52 @@ class ClientsController extends App_Controller
          * If database upgrade is required, redirect the user to the admin uri because there the upgrade is performed
          * This code can prevent confusions when there are errors thrown on the client side because the database is not updated yet.
          */
-        if (is_staff_logged_in()
-            && $this->app->is_db_upgrade_required($this->current_db_version)) {
+        if (
+            is_staff_logged_in()
+        ) {
             redirect(admin_url());
         }
+
+
+        hooks()->do_action('client_init');
+        hooks()->do_action('app_client_assets');
+
+        // $this->db->where('id', get_client_user_id());
+        // $this->db->update('contact', ['last_activity' => date('Y-m-d H:i:s')]);
+
+        // $this->load->model('staff_model');
+
+        $currentUser = $this->session->get_userdata();
+
+        // Deleted or inactive but have session
+        // if (!$currentUser || $currentUser->active == 0) {
+        //     $this->authentication_model->logout();
+        //     redirect(site_url('authentication'));
+        // }
+
+        $this->load->model('leadevo/Cart_model');
+
+        $cart_prospects = $this->Cart_model->get_cart_prospects();
+
+        $GLOBALS['current_user'] = $currentUser;
+        $GLOBALS['cart_prospects'] = $cart_prospects;
 
         $this->load->library('app_clients_area_constructor');
 
         if (method_exists($this, 'validateContact')) {
             $this->validateContact();
         }
+
+        // init_admin_assets();
+        $vars = [
+            'current_user' => $currentUser,
+            'current_version' => $this->current_db_version,
+            'task_statuses' => $this->tasks_model->get_statuses(),
+            'cart_prospects' => $cart_prospects
+        ];
+
+        $vars['sidebar_menu'] = $this->app_menu->get_client_sidebar_menu_items();
+        $this->load->vars($vars);
     }
 
     public function layout($notInThemeViewFiles = false)
@@ -45,14 +81,14 @@ class ClientsController extends App_Controller
          */
 
         $this->data['use_navigation'] = $this->use_navigation == true;
-        $this->data['use_submenu']    = $this->use_submenu == true;
+        $this->data['use_submenu'] = $this->use_submenu == true;
 
         /**
          * @since  2.3.2 new variables
          * @var array
          */
         $this->data['navigationEnabled'] = $this->use_navigation == true;
-        $this->data['subMenuEnabled']    = $this->use_submenu == true;
+        $this->data['subMenuEnabled'] = $this->use_submenu == true;
 
         /**
          * Theme head file
@@ -66,13 +102,13 @@ class ClientsController extends App_Controller
          * Load the template view
          * @var string
          */
-        $module                       = CI::$APP->router->fetch_module();
+        $module = CI::$APP->router->fetch_module();
         $this->data['current_module'] = $module;
-        $viewPath                     = !is_null($module) || $notInThemeViewFiles ?
-        $this->view :
-        $this->createThemeViewPath($this->view);
+        $viewPath = !is_null($module) || $notInThemeViewFiles ?
+            $this->view :
+            $this->createThemeViewPath($this->view);
 
-        $this->template['view']    = $this->load->view($viewPath, $this->data, true);
+        $this->template['view'] = $this->load->view($viewPath, $this->data, true);
         $GLOBALS['customers_view'] = $this->template['view'];
 
         /**
@@ -80,8 +116,8 @@ class ClientsController extends App_Controller
          * @var string
          */
         $this->template['footer'] = $this->use_footer == true
-        ? $this->load->view('themes/' . active_clients_theme() . '/footer', $this->data, true)
-        : '';
+            ? $this->load->view('themes/' . active_clients_theme() . '/footer', $this->data, true)
+            : '';
         $GLOBALS['customers_footer'] = $this->template['footer'];
 
         /**
@@ -167,9 +203,9 @@ class ClientsController extends App_Controller
     }
 
     /**
-    * Disables theme footer
-    * @return core/ClientsController
-    */
+     * Disables theme footer
+     * @return core/ClientsController
+     */
     public function disableFooter()
     {
         $this->use_footer = false;

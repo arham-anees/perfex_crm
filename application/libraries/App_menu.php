@@ -24,6 +24,12 @@ class App_menu
 
         return $this;
     }
+    public function add_client_sidebar_menu_item($slug, $item)
+    {
+        $this->add($slug, $item, 'client_sidebar');
+
+        return $this;
+    }
 
     public function add_sidebar_children_item($parent_slug, $item)
     {
@@ -40,6 +46,10 @@ class App_menu
     public function get_sidebar_menu_items()
     {
         return $this->get('sidebar');
+    }
+    public function get_client_sidebar_menu_items()
+    {
+        return $this->get('client_sidebar');
     }
 
     public function add_setup_menu_item($slug, $item)
