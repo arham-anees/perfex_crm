@@ -3,17 +3,11 @@
 class Onboarding extends ClientsController
 {
     // private $Onboarding_model;
-
     public function __construct()
     {
-        // Deleted or inactive but have session
         parent::__construct();
         $this->load->model('leadevo/explanatory_videos_model'); // Correct path to the model
 
-        if (!is_client_logged_in()) {
-            redirect(site_url('authentication'));
-        }
-        $this->mpDb = $this->load->database();
         $this->load->database();
         $this->load->model('leadevo/Onboarding_model');
     }

@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php if(is_client_logged_in()) { ?>
 <aside id="menu" class="sidebar sidebar">
     <ul class="nav metis-menu" id="side-menu">
         <li class="tw-mt-[63px] sm:tw-mt-0 -tw-mx-2 tw-overflow-hidden sm:tw-bg-neutral-900/50">
@@ -82,4 +81,3 @@
                 <?php hooks()->do_action('customers_navigation_end'); ?>
     </ul>
 </aside>
-<?php } ?>
