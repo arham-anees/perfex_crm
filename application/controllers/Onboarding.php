@@ -30,20 +30,22 @@ class Onboarding extends ClientsController
         $this->view('clients/onboarding');
         $this->layout();
     }
-
+ 
     public function update_step()
-    {
-        if ($this->input->post()) {
-            $data = $this->input->post();
-            $step = $data['onboarding_step'];
-            $data['client_id'] = get_client_user_id();
-            if ($step == 1) {
-                $this->Onboarding_model->insert($data);
-            } else {
-                $this->Onboarding_model->update($data);
-            }
+{
+    if ($this->input->post()) {
+        $data = $this->input->post();
+        $step = $data['onboarding_step'];
+        $client_id = get_client_user_id(); // Get the client ID
+        $data['client_id'] = $client_id; // Ensure client_id is included in the data
+
+        if ($step == 1) {
+            $this->Onboarding_model->insert($data);
+        } else {
+            $this->Onboarding_model->update($client_id, $data); // Pass both client ID and data
         }
     }
+}
 
 
 

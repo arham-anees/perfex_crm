@@ -21,6 +21,7 @@ class Onboarding_model extends App_Model
         return $this->db->insert($this->table, $data);
     }
 
+
     public function update($id, $data)
     {
         $data['updated_at'] = date('Y-m-d H:i:s');

@@ -16,6 +16,19 @@ class Onboarding extends AdminController
         // Load the view with the videos data
         $this->load->view('marketplace/onboarding', $data);
     }
+    public function update_step()
+    {
+        if ($this->input->post()) {
+            $data = $this->input->post();
+            $step = $data['onboarding_step'];
+            $data['client_id'] = get_client_user_id();
+            if ($step == 1) {
+                $this->Onboarding_model->insert($data);
+            } else {
+                $this->Onboarding_model->update($data);
+            }
+        }
+    }
 
 
 
