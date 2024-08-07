@@ -7,7 +7,6 @@ class ProspectAlert extends AdminController
         parent::__construct();
         //load some models
         $this->load->model('Prospect_alerts_model');
-        $this->load->library('pagination');
 
     }
 
