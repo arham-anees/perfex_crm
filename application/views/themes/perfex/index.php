@@ -3,13 +3,14 @@ echo theme_head_view();
 get_template_part($navigationEnabled ? 'navigation' : '');
 init_client_head(true);
 ?>
-<?php if (!is_client_logged_in()) { ?>
-    <style>
-        body {
-            background-color: #f1f5f9;
-        }
-    </style>
-<?php } ?>
+
+<style>
+    body,
+    content {
+        background-color: #f1f5f9;
+    }
+</style>
+
 <?php if (is_client_logged_in()) { ?>
 
     <div id="wrapper">
