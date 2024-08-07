@@ -5,6 +5,9 @@ class Dashboard extends ClientsController
     public function __construct()
     {
         parent::__construct();
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
         //load some models
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Prospects_model');
@@ -18,8 +21,9 @@ class Dashboard extends ClientsController
     }
 
 
-    public function receive_prospect(){
+    public function receive_prospect()
+    {
         $this->load->view('clients/dashboard/receive_prospect');
     }
-        
+
 }

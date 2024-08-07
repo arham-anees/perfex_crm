@@ -2,9 +2,14 @@
 
 class Onboarding extends ClientsController
 {
+
     public function __construct()
     {
+        // Deleted or inactive but have session
         parent::__construct();
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
         $this->mpDb = $this->load->database();
         $this->load->database();
     }
