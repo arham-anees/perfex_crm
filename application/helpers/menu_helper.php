@@ -629,7 +629,7 @@ function app_init_client_sidebar_menu_items()
         'name' => _l('als_dashboard'),
         'href' => site_url(),
         'position' => 1,
-        'icon' => 'fa fa-home',
+        'icon' => 'fa fa-x',
         'badge' => [],
     ]);
 
@@ -638,35 +638,35 @@ function app_init_client_sidebar_menu_items()
         'slug' => 'leadevo-marketplace-onboarding',
         'name' => 'Onboarding',
         'href' => site_url('onboarding'),
-        'position' => 11,
-        'icon' => 'fa fa-rocket',
+        'position' => 2,
+        'icon' => 'fa fa-x',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects',
-        'href' => site_url('leadevo/client/prospect'),
-        'position' => 2,
-        'icon' => 'fa fa-th-list',
+        'href' => site_url('prospects'),
+        'position' => 3,
+        'icon' => 'fa fa-x',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_reported_prospects', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Reported Prospects',
-        'href' => site_url('leadevo/client/prospect'),
-        'position' => 2,
-        'icon' => 'fa fa-th-list',
+        'href' => site_url('prospects/reported'),
+        'position' => 4,
+        'icon' => 'fa fa-x',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_campaign', [
         'slug' => 'leadevo-user-comaigns',
         'name' => 'Campaigns',
         'href' => site_url('campaigns'),
-        'position' => 10,
-        'icon' => 'fa fa-th-list',
+        'position' => 5,
+        'icon' => 'fa fa-x',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_marketplace', [
         'slug' => 'leadevo-marketplace-leads',
         'name' => 'Marketplace',
         'href' => site_url('marketplace'),
-        'position' => 12,
+        'position' => 6,
         'icon' => 'fa fa-shopping-cart',
     ]);
 
@@ -674,7 +674,7 @@ function app_init_client_sidebar_menu_items()
         'slug' => 'leadevo-marketplace-leads',
         'name' => 'Statistics',
         'href' => admin_url('leadevo/marketplace/leads'),
-        'position' => 12,
-        'icon' => 'fa fa-shopping-cart',
+        'position' => 7,
+        'icon' => 'fa fa-x',
     ]);
 }
