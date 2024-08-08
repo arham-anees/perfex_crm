@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Campaigns extends ClientsController
+class Campaigns extends AdminController
 {
     public function __construct()
     {
