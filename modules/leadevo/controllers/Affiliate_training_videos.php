@@ -11,6 +11,9 @@ class Affiliate_training_videos extends AdminController
     public function index()
     {
         $data['videos'] = $this->Affiliate_training_videos_model->get_all();
+        if (empty($data['videos'])) {
+            set_alert('danger', 'No videos found or an error occurred while fetching videos.');
+        }
         $this->load->view('leadevo/affiliate-training-videos/affiliate_training_videos', $data);
     }
 
@@ -20,7 +23,9 @@ class Affiliate_training_videos extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'url' => $this->input->post('url')
+                'url' => $this->input->post('url'),
+                'video_order' => $this->input->post('video_order'),
+                'isactive' => $this->input->post('isactive')
             ];
 
             if ($this->Affiliate_training_videos_model->update($id, $data)) {
