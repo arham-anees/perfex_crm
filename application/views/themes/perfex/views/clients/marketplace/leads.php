@@ -426,14 +426,71 @@ function isInCart($prospect_id)
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="price_range"><?php echo _l('Price Range'); ?></label>
+                                <label for="industry"><?php echo _l('Zip Codes'); ?></label>
+                                <select id="industry" name="industry" class="filter-input">
+                                    <option value="" disabled selected></option>
+                                    <option value="real_estate">Real Estate</option>
+                                    <option value="mortgage">Mortgage</option>
+                                    <option value="insurance">Insurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="industry"><?php echo _l('acquisition_channel'); ?></label>
+                                <select id="industry" name="industry" class="filter-input">
+                                    <option value="" disabled selected></option>
+                                    <option value="real_estate">Real Estate</option>
+                                    <option value="mortgage">Mortgage</option>
+                                    <option value="insurance">Insurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="price_range"><?php echo _l('Price Range start'); ?></label>
                                 <input type="text" id="price_range" name="price_range" class="filter-input">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="location"><?php echo _l('Location'); ?></label>
-                                <input type="text" id="location" name="location" class="filter-input">
+                                <label for="price_range"><?php echo _l('Price Range end'); ?></label>
+                                <input type="text" id="price_range" name="price_range" class="filter-input">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="location"><?php echo _l('from'); ?></label>
+                                <input type="date" id="location" name="location" class="filter-input">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="location"><?php echo _l('to'); ?></label>
+                                <input type="date" id="location" name="location" class="filter-input">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="industry"><?php echo _l('deal'); ?></label>
+                                <select id="industry" name="industry" class="filter-input">
+                                    <option value="" disabled selected></option>
+                                    <option value="real_estate">Real Estate</option>
+                                    <option value="mortgage">Mortgage</option>
+                                    <option value="insurance">Insurance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="quality"><?php echo _l('quality'); ?></label>
+                                <select id="quality" name="quality" class="filter-input">
+                                    <option value="" selected></option>
+                                    <option value="4">Verified By Staff</option>
+                                    <option value="3">Verified By SMS</option>
+                                    <option value="2">Verified By WhatsApp</option>
+                                    <option value="1">Verified By Coherence</option>
+                                </select>
                             </div>
                         </div>
                     </div>

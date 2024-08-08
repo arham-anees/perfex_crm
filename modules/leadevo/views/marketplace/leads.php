@@ -124,255 +124,270 @@
     .fullscreenBtn {
         padding: 5px 10px !important;
         font-size: 1.2rem !important;
-<<<<<<<<< Temporary merge branch 1
-}
-.sticky{
-  
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    align-self: start;
-    position: sticky;
-    top: 160px;
-}
-.sticky-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+        <<<<<<<<< Temporary merge branch 1
+    }
+
+    .sticky {
+
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        align-self: start;
+        position: sticky;
+        top: 160px;
+    }
+
+    .sticky-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
 
 
-}
-.image-container {
-    margin-top: 20px;
-}
+    }
+
+    .image-container {
+        margin-top: 20px;
+    }
 
 
-.video-card {
-    background-color: rgb(240, 240, 241);
-    color: rgba(0, 0, 0, 0.87);
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-    border-radius: 20px;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    align-self: start;
-    position: sticky;
-    top: 160px;
-}
-.lead-card img {
-    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 20px;
-    width: 262px;
-    height: 152px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .video-card {
+        background-color: rgb(240, 240, 241);
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        border-radius: 20px;
+        padding: 6px;
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        align-self: start;
+        position: sticky;
+        top: 160px;
+    }
 
-.info-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
+    .lead-card img {
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        border-radius: 20px;
+        width: 262px;
+        height: 152px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.info-button {
-    font-size: 0.8125rem;
-    align-items: center;
-    height: 24px;
-    border: 1px solid rgb(189, 189, 189);
-    background-color: rgb(255, 255, 255);
-    color: rgba(0, 0, 0, 0.87);
-    display: inline-flex;
-  
+    .info-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
 
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-    border-radius: 20px;
-  
-    padding: 16px;
-  
+    .info-button {
+        font-size: 0.8125rem;
+        align-items: center;
+        height: 24px;
+        border: 1px solid rgb(189, 189, 189);
+        background-color: rgb(255, 255, 255);
+        color: rgba(0, 0, 0, 0.87);
+        display: inline-flex;
 
 
-}
-.verified {
-    color : green;
-    display : flex;
-    align-items: center;
-    justify-content: center;
-    
-}
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        border-radius: 20px;
 
-.details {
-  margin: 0 auto;
-  padding: 10px;
-}
-
-#show-more, #show-less {
-  cursor: pointer;
-  text-transform: uppercase;
-  color: grey;
-}
+        padding: 16px;
 
 
 
+    }
 
-.lead-card-right {
-    padding-left: 20px;
-    width: 100%;
-}
+    .verified {
+        color: green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-.title-favorite-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    }
 
-.lead-card-title {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.87);
-}
+    .details {
+        margin: 0 auto;
+        padding: 10px;
+    }
 
-.favorite-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: rgb(255, 203, 3);
-    font-size: 1.5rem;
-}
+    #show-more,
+    #show-less {
+        cursor: pointer;
+        text-transform: uppercase;
+        color: grey;
+    }
 
-.lead-card-description {
-    font-size: 0.9rem;
-    color: rgba(0, 0, 0, 0.87);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
 
-ol {
-    margin-top: 0;
-    margin-bottom: 10px;
-    list-style: inside !important;
-}
 
-.lead-description li {
-    margin-bottom: 10px;
 
-}
+    .lead-card-right {
+        padding-left: 20px;
+        width: 100%;
+    }
 
-.lead-details-container {
-    display: none;
-    margin-top: 20px;
-}
+    .title-favorite-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-.toggle-details-btn {
-    margin-top: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    color: #000;
-    cursor: pointer;
-    font-weight: 500;
-}
-/* .button-container {
+    .lead-card-title {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.87);
+    }
+
+    .favorite-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: rgb(255, 203, 3);
+        font-size: 1.5rem;
+    }
+
+    .lead-card-description {
+        font-size: 0.9rem;
+        color: rgba(0, 0, 0, 0.87);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    ol {
+        margin-top: 0;
+        margin-bottom: 10px;
+        list-style: inside !important;
+    }
+
+    .lead-description li {
+        margin-bottom: 10px;
+
+    }
+
+    .lead-details-container {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .toggle-details-btn {
+        margin-top: 10px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        color: #000;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    /* .button-container {
   position: absolute;
   top: 52%;
   left: 72%;
 } */
 
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Space between buttons */
-    justify-content: center; /* Center vertically */
-    align-items: flex-end; /* Align to the right */
-    margin-top: -132px; /* Add some margin if needed */
-}
-
-
-
-.lead-description.expanded {
-    white-space: normal;
-}
-.save_discount_btn, .regular_price_btn{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.875rem;
-    margin:4px;
-}
-
-.confirm_btn{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 3px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 500;
-    font-size: 0.875rem;
-    background-color: rgb(255, 203, 3);
-    color: rgb(0, 0, 0);
-    border: 1px solid rgba(255, 203, 3, 0.5);
-    margin:4px;
-}
-
-.save_discount_btn {
-    background-color: rgb(255, 203, 3);
-    color: rgb(0, 0, 0);
-}
-
-.regular_price_btn {
-    border: 1px solid rgba(255, 203, 3, 0.5);
-    color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
-}
-.confirm_btn.disabled {
-            background-color: gray; 
-            cursor: not-allowed;
-        }
-
-        .confirm_btn.disabled .bold-text {
-            color: black; 
-        }
-.confirm_btn:hover{
-    box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
-
-}
-.save_discount_btn:hover, .regular_price_btn:hover {
-    box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
-}
-
-.button-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.text-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-}
-
-.bold-text {
-    font-weight: bold;
-}
-
-.small-text {
-    font-size: 0.75rem;
-    margin-top: 2px;
-}
-=========
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        /* Space between buttons */
+        justify-content: center;
+        /* Center vertically */
+        align-items: flex-end;
+        /* Align to the right */
+        margin-top: -132px;
+        /* Add some margin if needed */
     }
->>>>>>>>> Temporary merge branch 2
+
+
+
+    .lead-description.expanded {
+        white-space: normal;
+    }
+
+    .save_discount_btn,
+    .regular_price_btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.875rem;
+        margin: 4px;
+    }
+
+    .confirm_btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 3px 18px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.875rem;
+        background-color: rgb(255, 203, 3);
+        color: rgb(0, 0, 0);
+        border: 1px solid rgba(255, 203, 3, 0.5);
+        margin: 4px;
+    }
+
+    .save_discount_btn {
+        background-color: rgb(255, 203, 3);
+        color: rgb(0, 0, 0);
+    }
+
+    .regular_price_btn {
+        border: 1px solid rgba(255, 203, 3, 0.5);
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+    }
+
+    .confirm_btn.disabled {
+        background-color: gray;
+        cursor: not-allowed;
+    }
+
+    .confirm_btn.disabled .bold-text {
+        color: black;
+    }
+
+    .confirm_btn:hover {
+        box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
+
+    }
+
+    .save_discount_btn:hover,
+    .regular_price_btn:hover {
+        box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
+    }
+
+    .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
+
+    .bold-text {
+        font-weight: bold;
+    }
+
+    .small-text {
+        font-size: 0.75rem;
+        margin-top: 2px;
+    }
+
 
 
 
@@ -449,665 +464,125 @@ ol {
                             </div>
                         </div>
                         <!-- Prospects Table Section -->
-
-
-<<<<<<<<< Temporary merge branch 1
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                        
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Duplicate Card -->
-
-
-<div class="col-md-2 sticky">
-    <div class="sticky-container">
-                                <div class="video-card">
-                                <div class="video-container">
-                                <video  id="marketplaceVideo" class="lead_marketplace_video" src="<?php echo base_url('/modules/leadevo/assets/videos/request_a_custom_lead_generation_1.mp4'); ?>"></video>
-                                <div class="video-overlay"></div>
-                                <button id="fullscreenBtn" onClick="enterFullscreen()"><i class="fa fa-play"></i></button>
-                                </div>
-                                <button class="btn buy_lead_btn"><?php echo _l('Learn More'); ?></button>
-    </div>
-
-                            <div class="image-container">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/Chatbot.png'); ?>" alt="Sticky Image" class="sticky-image">
-        </div>
-
-</div>
-</div>
-<div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified <i class="fa fa-check-circle"> </i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div><div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified  <i class="fa fa-check-circle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div><div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified   <i class="fa fa-check-circle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div><div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified   <i class="fa fa-check-circle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div><div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified<i class="fa fa-check-circle"> </i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified <i class="fa fa-check-circle"> </i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-    <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-10">
-    <div class="lead-card">
-        <div class="lead-card-left">
-            <img src="<?php echo base_url('/modules/leadevo/assets/images/property_tax_consultant.jpg'); ?>" alt="Lead Image">
-            <div class="info-buttons">
-                <button type="button" class="info-button" data-toggle="tooltip" data-placement="bottom" title="Direct Lead is an inbound lead that has been generated as a result of a user filling out a web form explicitly expressing interest in this service.">
-                    Direct Lead <i class="fa fa-exclamation-circle"></i>
-                </button>
-                <span class="verified" data-toggle="tooltip" data-placement="bottom" title="The phone number associated with this lead has been verified.">
-                Phone Verified  <i class="fa fa-check-circle"></i>
-                </span>
-            </div>
-        </div>
-        <div class="lead-card-right">
-            <div class="title-favorite-container">
-                <p class="lead-card-title">Real Estate Loan request for $60,000 in: St. Joseph County, IN</p>
-                <button class="favorite-btn"><i class="fa fa-heart"></i></button>
-            </div>
-            <div class="details">
-            <ol>
-        <li><strong>Lead submitted:</strong> 07/28/2024 02:35pm</li>
-        <li><strong>Relation to property:</strong> Owner (non-real estate investor)</li>
-        <li><strong>Desired asking price:</strong> $60,000</li>
-        <li><strong>Listed with Realtor:</strong> No</li>
-        <li><strong>Sales agent preference:</strong> None</li>
-        <li><strong>Loan preference:</strong> None</li>
-        <button id="show-more" class="toggle-details-btn" onClick="showMoreDetails(this)">Show More</button>
-        <span id="show-more-content" style="display: none;">
-            <li><strong>Sale urgency:</strong> Within 1-3 months</li>
-            <li><strong>Bottom line asking price:</strong> $50,000</li>
-            <li><strong>Current loan balance:</strong> $40,000</li>
-            <li><strong>Loan purpose:</strong> Purchase</li>
-            <li><strong>Loan amount:</strong> $60,000</li>
-            <li><strong>Credit score:</strong> 750</li>
-        </span>
-        <small><strong><span id="show-less" style="display: none;" onClick="showLessDetails(this)">Show less</span></strong></small>
-    </ol>
-                    <div class="button-container">
-                        <button class="btn save_discount_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">SAVE 20%</span>
-                                    <span class="small-text">InstaClaim price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn regular_price_btn">
-                            <div class="button-content">
-                                <i class="fa fa-shopping-cart"></i>
-                                <div class="text-container">
-                                    <span class="bold-text">$345-$563 Buy lead</span>
-                                    <span class="small-text">regular price</span>
-                                </div>
-                            </div>
-                        </button>
-                        <button class="btn confirm_btn" id="confirmButton">
-                            <div class="button-content">
-                                <div class="text-container">
-                                    <span class="bold-text">Cofirm Prospect</span>                                
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </ol>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-=========
-                        <div class="table-responsive">
-                            <table class="table table-bordered dt-table nowrap" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th><?php echo _l('Metadata'); ?></th>
-                                        <th><?php echo _l('Lead'); ?></th>
-                                        <th><?php echo _l('Contact'); ?></th>
-                                        <th><?php echo _l('Lead Type'); ?></th>
-                                        <th><?php echo _l('Actions'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($prospects as $prospect): ?>
-                                        <tr>
-                                            <td>
-                                                <div>
-                                                    <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                                                    <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Generated date'); ?>:</strong>
-                                                    <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
-                                                    <strong><?php echo _l('Industry'); ?>:</strong>
-                                                    <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong>Full name:</strong>
-                                                    <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Zip code'); ?>:</strong>
-                                                    <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <strong>Phone:</strong>
-                                                <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                                                <strong>Email:</strong>
-                                                <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong><?php echo _l('Source'); ?>:</strong>
-                                                    <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Deal'); ?>:</strong>
-                                                    <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Quality'); ?>:</strong>
-                                                    <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button class="btn btn-primary">Add to cart</button>
-                                                <input type="checkbox"
-                                                    id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                                                <label
-                                                    for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-
-
-                            </table>
-                        </div>
-
-
+                        </ol>
                     </div>
                 </div>
 
+
+                <div class="table-responsive">
+                    <table class="table table-bordered dt-table nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th><?php echo _l('Metadata'); ?></th>
+                                <th><?php echo _l('Lead'); ?></th>
+                                <th><?php echo _l('Contact'); ?></th>
+                                <th><?php echo _l('Lead Type'); ?></th>
+                                <th><?php echo _l('Actions'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($prospects as $prospect): ?>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
+                                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Generated date'); ?>:</strong>
+                                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                                            <strong><?php echo _l('Industry'); ?>:</strong>
+                                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>Full name:</strong>
+                                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Zip code'); ?>:</strong>
+                                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong>Phone:</strong>
+                                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
+                                        <strong>Email:</strong>
+                                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong><?php echo _l('Source'); ?>:</strong>
+                                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Deal'); ?>:</strong>
+                                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Quality'); ?>:</strong>
+                                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox"
+                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
+                                        <label
+                                            for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+
+                    </table>
+                </div>
             </div>
-            <?php init_tail(); ?>
-            <script>
-                function enterFullscreen() {
-                    var video = document.getElementById('marketplaceVideo');
-                    if (video.requestFullscreen) {
-                        video.requestFullscreen();
-                    } else if (video.mozRequestFullScreen) { /* Firefox */
-                        video.mozRequestFullScreen();
-                    } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                        video.webkitRequestFullscreen();
-                    } else if (video.msRequestFullscreen) { /* IE/Edge */
-                        video.msRequestFullscreen();
-                    }
-                }
+        </div>
+
+    </div>
+</div>
+
+
+<?php init_tail(); ?>
+<script>
+    function enterFullscreen() {
+        var video = document.getElementById('marketplaceVideo');
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.mozRequestFullScreen) { /* Firefox */
+            video.mozRequestFullScreen();
+        } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+            video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { /* IE/Edge */
+            video.msRequestFullscreen();
+        }
+    }
 
 
 
-<<<<<<<<< Temporary merge branch 1
+<<<<<<<< < Temporary merge branch 1
     showMoreContent.style.display = 'block';  // Show additional details
     button.style.display = 'none';  // Hide "Show More" button
     showLessButton.style.display = 'inline';  // Show "Show Less" button
 }
 
-function showLessDetails(button) {
-    var details = button.closest('.details');
-    var showMoreContent = details.querySelector('#show-more-content');
-    var showMoreButton = details.querySelector('#show-more');
-    
-    showMoreContent.style.display = 'none';  // Hide additional details
-    button.style.display = 'none';  // Hide "Show Less" button
-    showMoreButton.style.display = 'inline';  // Show "Show More" button
-}
+    function showLessDetails(button) {
+        var details = button.closest('.details');
+        var showMoreContent = details.querySelector('#show-more-content');
+        var showMoreButton = details.querySelector('#show-more');
+
+        showMoreContent.style.display = 'none';  // Hide additional details
+        button.style.display = 'none';  // Hide "Show Less" button
+        showMoreButton.style.display = 'inline';  // Show "Show More" button
+    }
 
 
 </script>
 <script>
-        // Select all buttons with the class 'confirm_btn'
-        const buttons = document.querySelectorAll(".confirm_btn");
+    // Select all buttons with the class 'confirm_btn'
+    const buttons = document.querySelectorAll(".confirm_btn");
 
-      
-        buttons.forEach(button => {
-            button.addEventListener("click", function() {
-                this.classList.add("disabled"); // Add the 'disabled' class for styling
-                this.setAttribute("disabled", "true"); // Disable the button
-            });
+
+    buttons.forEach(button => {
+        button.addEventListener("click", function () {
+            this.classList.add("disabled"); // Add the 'disabled' class for styling
+            this.setAttribute("disabled", "true"); // Disable the button
         });
-    </script>
+    });
+</script>
 =========
-            </script>
+</script>
