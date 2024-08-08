@@ -18,6 +18,7 @@
                                             <th><?php echo _l('Category Id'); ?></th>
                                             <th><?php echo _l('Acquisition Channels Id'); ?></th>
                                             <th><?php echo _l('Industry Id'); ?></th>
+                                            <th><?php echo _l('Status'); ?></th>
                                             <th><?php echo _l('Actions'); ?></th>
                                         </tr>
                                     </thead>
@@ -28,7 +29,7 @@
                                                     <div class="row-options">
                                                         <a href="#">View</a> |
                                                         <a href="#">Rate</a> |
-                                                        <a href="#" data-toggle="modal" data-target="#uploadModal">Confirm</a> |
+
 
                                                         <a href="#" data-toggle="modal" data-target="#mark_prospect_fake">Upload
                                                             Conversation</a> |
@@ -43,7 +44,18 @@
                                                 <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
+                                                <td>
+                                                    <select name="confirm_status" class="form-control">
+                                                        <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>
+                                                            Not Confirmed
+                                                        </option>
+                                                        <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>
+                                                            Confirmed
+                                                        </option>
+                                                    </select>
+                                                </td>
 
+                                               
                                                 <td>
                                                     <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
@@ -102,7 +114,8 @@
 
 
 <!-- Modal Structure -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -174,54 +187,54 @@
 
 
 <script>
-let uploadedFile = null;
+    let uploadedFile = null;
 
-function storeFile() {
-    const fileInput = document.getElementById('mp3File');
-    const file = fileInput.files[0];
-    const errorMessage = document.getElementById('error-message');
+    function storeFile() {
+        const fileInput = document.getElementById('mp3File');
+        const file = fileInput.files[0];
+        const errorMessage = document.getElementById('error-message');
 
-    if (file && file.type === 'audio/mpeg') {
-        uploadedFile = file;
-        alert('File stored successfully!');
-        $('#uploadModal').modal('hide');
-    } else {
-        errorMessage.textContent = 'Please upload a valid MP3 file.';
+        if (file && file.type === 'audio/mpeg') {
+            uploadedFile = file;
+            alert('File stored successfully!');
+            $('#uploadModal').modal('hide');
+        } else {
+            errorMessage.textContent = 'Please upload a valid MP3 file.';
+        }
     }
-}
 
 </script>
 
 <script>
-let id = null;
-function uploadFile() {
-    const fileInput = document.getElementById('mp3File');
-    const file = fileInput.files[0];
-    const errorMessage = document.getElementById('error-message');
+    let id = null;
+    function uploadFile() {
+        const fileInput = document.getElementById('mp3File');
+        const file = fileInput.files[0];
+        const errorMessage = document.getElementById('error-message');
 
-    if (file && file.type === 'audio/mpeg') {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('id', id); // Include the prospect ID
+        if (file && file.type === 'audio/mpeg') {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('id', id); // Include the prospect ID
 
-        $.ajax({
-            url: '<?php echo admin_url("leadevo/prospects/upload_mp3"); ?>', // Replace with your server upload URL
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                alert('File uploaded successfully!');
-                $('#uploadModal').modal('hide');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                errorMessage.textContent = 'Error uploading file: ' + errorThrown;
-            }
-        });
-    } else {
-        errorMessage.textContent = 'Please upload a valid MP3 file.';
+            $.ajax({
+                url: '<?php echo admin_url("leadevo/prospects/upload_mp3"); ?>', // Replace with your server upload URL
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert('File uploaded successfully!');
+                    $('#uploadModal').modal('hide');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    errorMessage.textContent = 'Error uploading file: ' + errorThrown;
+                }
+            });
+        } else {
+            errorMessage.textContent = 'Please upload a valid MP3 file.';
+        }
     }
-}
 </script>
 
 </body>
