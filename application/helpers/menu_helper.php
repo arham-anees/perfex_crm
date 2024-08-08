@@ -20,6 +20,13 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-th-list',
         'badge' => [],
     ]);
+    $CI->app_menu->add_sidebar_menu_item('leadevo_affiliate_training_videos', [
+        'name' => _l('leadevo_affiliate_training_videos_menu'),
+        'href' => admin_url('affiliate_training_videos'),
+        'position' => 2,
+        'icon' => 'fa fa-video',
+        'badge' => [],
+    ]);
     $CI->app_menu->add_sidebar_menu_item('leadevo_prospects', [
         'name' => _l('leadevo_prospects'),
         'position' => 2,
