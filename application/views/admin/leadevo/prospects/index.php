@@ -77,7 +77,7 @@
         <div class="modal-content text-center">
             <!-- Modal Header -->
             <div class="modal-header d-flex">
-                <h4 class="modal-title w-100"><?php echo _l('Who do you want to invite?'); ?></h4>
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_report_fake_prospect'); ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <!-- Font Awesome Close Icon -->
                     <i class="fas fa-times" aria-hidden="true"></i>
@@ -88,10 +88,11 @@
             <div class="modal-body text-center">
                 <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
                 <input type="hidden" name="id" />
-                <p>Are you sure you want to mark this prospect as completed?</p>
+                <p><?= _l('leadevo_report_fake_prospect_message') ?></p>
 
                 <!-- Submit Button -->
-                <input type="submit" value="<?php echo _l('Send Invitation'); ?>" class="btn btn-primary" />
+                <input type="submit" value="<?php echo _l('leadevo_report_fake_prospect_button'); ?>"
+                    class="btn btn-primary" />
 
                 <?php echo form_close(); ?>
             </div>
@@ -106,39 +107,9 @@
 <script>
     function openModal(id) {
         document.querySelector('#mark_prospect_fake input[name=id]').value = id;
-        $('#markProspectFakeModal').show();
+        $('#mark_prospect_fake').modal('show');
     }
-    function markProspectFake(id) {
-        document.querySelector('#mark_prospect_fake input[name=id]').value = id;
-        return;
-        // Show confirmation alert
-        if (confirm("Are you sure you want to mark this prospect as fake?")) {
-            // Create the URL
-            var url = 'prospects/mark_as_fake';
 
-            $.ajax({
-                url: url,
-                type: 'POST',
-                contentType: 'application/json',
-                data: {
-                    id,
-                }
-                success: function (response) {
-                    // Handle success response
-                    console.log('Success:', response);
-                    alert_float('success', 'Prospect marked as fake successfully.');
-                    // Optionally, refresh the page or update the UI
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    console.error('Error:', error);
-                    alert_float('danger', 'There was an error marking the prospect as fake.');
-                }
-            });
-            // Send the AJAX request
-
-        }
-    }
 </script>
 </body>
 

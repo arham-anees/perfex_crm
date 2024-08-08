@@ -22,6 +22,7 @@ class Prospects_model extends CI_Model
             pc.name AS category, 
             ac.name AS acquisition_channel, 
             i.name AS industry,
+            p.is_fake,
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -129,6 +130,7 @@ class Prospects_model extends CI_Model
                     pc.name AS category, 
                     ac.name AS acquisition_channel, 
                     i.name AS industry,
+                    p.is_fake,
                     null AS zip_code,
                     null AS phone,
                     null AS email,
@@ -206,5 +208,10 @@ class Prospects_model extends CI_Model
     public function delete($id)
     {
         return $this->db->where('id', $id)->delete($this->table);
+    }
+    public function mark_fake($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => time()));
     }
 }

@@ -3948,3 +3948,6 @@ $lang['leadevo_marketplace'] = 'Market Place';
 $lang['leadevo'] = 'LeadEvo';
 $lang['leadevo_prospects'] = 'Prospects';
 $lang['leadevo_client_campaigns_menu'] = 'Client Campaigns';
+$lang['leadevo_report_fake_prospect'] = 'Report Fake Prospect';
+$lang['leadevo_report_fake_prospect_button'] = 'Report Fake';
+$lang['leadevo_report_fake_prospect_message'] = 'Are you sure you want to report the prospect as fake?';

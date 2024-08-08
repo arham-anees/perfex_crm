@@ -73,12 +73,9 @@ class Prospects extends AdminController
     public function mark_as_fake()
     {
         $id = $this->input->post('id');
-        var_dump($this->input->post());
-        die;
         if (isset($id)) {
             $this->Prospects_model->mark_fake($id);
-            echo json_encode(array('status' => 'success', 'message' => 'Prospect marked as fake'));
         }
-        echo json_encode(array('status' => 'error', 'message' => 'Something went wrong'));
+        redirect(admin_url('prospects'));
     }
 }
