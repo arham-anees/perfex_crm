@@ -129,6 +129,7 @@ class Prospects_model extends CI_Model
                     pc.name AS category, 
                     ac.name AS acquisition_channel, 
                     i.name AS industry,
+                    p.is_confirmed AS confirm_status,
                     null AS zip_code,
                     null AS phone,
                     null AS email,

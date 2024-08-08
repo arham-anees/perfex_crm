@@ -81,4 +81,27 @@ class Prospects extends AdminController
         }
         echo json_encode(array('status' => 'error', 'message' => 'Something went wrong'));
     }
+
+    public function update_status()
+    {
+        $id = $this->input->post('id');
+        $confirm_status = $this->input->post('confirm_status');
+    
+        if ($id && isset($confirm_status)) {
+            $data = [
+                'is_confirmed' => $confirm_status
+            ];
+    
+            $update = $this->Prospects_model->update($id, $data);
+    
+            if ($update) {
+                echo json_encode(['status' => 'success']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to update status']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
+        }
+    }
+    
 }
