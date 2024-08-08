@@ -11,7 +11,7 @@
                     <div class="row">
                         <!-- Search Bar -->
                         <div class="col-md-6">
-                            <form method="GET" action="<?php echo admin_url('leadevo/prospects'); ?>">
+                            <form method="GET" action="<?php echo site_url('prospects'); ?>">
                                 <div class="input-group">
                                     <input type="text" name="search" class="form-control"
                                         placeholder="<?php echo _l('Search Prospects'); ?>"
@@ -26,7 +26,7 @@
                         </div>
                         <!-- Filters -->
                         <div class="col-md-6 text-right">
-                            <form method="GET" action="<?php echo admin_url('leadevo/prospects'); ?>">
+                            <form method="GET" action="<?php echo site_url('prospects'); ?>">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle"
                                         data-toggle="dropdown">
@@ -34,10 +34,10 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                         <li><a
-                                                href="<?php echo admin_url('leadevo/prospects?filter=active'); ?>"><?php echo _l('Active Prospects'); ?></a>
+                                                href="<?php echo site_url('prospects?filter=active'); ?>"><?php echo _l('Active Prospects'); ?></a>
                                         </li>
                                         <li><a
-                                                href="<?php echo admin_url('leadevo/prospects?filter=inactive'); ?>"><?php echo _l('Inactive Prospects'); ?></a>
+                                                href="<?php echo site_url('prospects?filter=inactive'); ?>"><?php echo _l('Inactive Prospects'); ?></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -49,7 +49,7 @@
                 <hr class="hr-panel-heading" />
 
                 <div class="_buttons">
-                    <a href="<?php echo admin_url('leadevo/client/prospect/create'); ?>"
+                    <a href="<?php echo site_url('prospects/create'); ?>"
                         class="tw-mb-3 mleft15 btn btn-primary pull-left display-block ">
                         <i class="fa-regular fa-plus tw-mr-1"></i>
                         <?php echo _l('New Prospect'); ?>
@@ -83,15 +83,15 @@
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
 
                                                 <td>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo site_url('prospects/details/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/edit/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo site_url('prospects/edit/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/delete/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo site_url('prospects/delete/' . $prospect['id']); ?>"
                                                         class="btn btn-danger btn-icon"
                                                         onclick="return confirm('Are you sure you want to delete this prospect?');">
                                                         <i class="fa fa-remove"></i>
