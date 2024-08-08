@@ -59,8 +59,14 @@ class Prospects_model extends CI_Model
             $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
         }
         if (isset($filter["deal"]) && $filter["deal"] != "") {
-            $sql .= " AND deal = " . $filter["deal"];
+           
+            $deal = $filter["deal"];
+            if ($deal == 0)
+            $sql .= " AND nonexclusive_status = 0";
+            else if ($deal == 1)
+                $sql .= " AND nonexclusive_status = 1";
         }
+        
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
             $sql .= " AND price >=" . $filter["price_range_from"];
         }
@@ -76,7 +82,7 @@ class Prospects_model extends CI_Model
             else if ($quality == 3)
                 $sql .= " AND verified_sms = 1";
             else if ($quality == 4)
-                $sql .= " AND verified_staff";
+                $sql .= " AND verified_staff = 1";
         }
         return $this->db->query($sql)->result_array();
     }
