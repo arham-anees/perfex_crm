@@ -29,7 +29,11 @@
                                                         <a href="#">View</a> |
                                                         <a href="#">Rate</a> |
                                                         <a href="#">Confirm</a> |
-                                                        <a href="#">Upload Conversation</a> |
+                                                        <a href="#" data-toggle="modal" data-target="#mark_prospect_fake">Upload
+                                                            Conversation</a> |
+                                                        <?php if (!isset($prospect['is_fake']) || $prospect['is_fake'] == false) { ?>
+                                                            <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
+                                                                Fake</a> |<?php } ?>
                                                         <a href="#">Put to Sale</a>
                                                     </div>
                                                 </td>
@@ -68,8 +72,74 @@
         </div>
     </div>
 </div>
+<div id="mark_prospect_fake" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <!-- Modal Header -->
+            <div class="modal-header d-flex">
+                <h4 class="modal-title w-100"><?php echo _l('Who do you want to invite?'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- Font Awesome Close Icon -->
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
+                <input type="hidden" name="id" />
+                <p>Are you sure you want to mark this prospect as completed?</p>
+
+                <!-- Submit Button -->
+                <input type="submit" value="<?php echo _l('Send Invitation'); ?>" class="btn btn-primary" />
+
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <?php init_tail(); ?>
+
+
+
+<script>
+    function openModal(id) {
+        document.querySelector('#mark_prospect_fake input[name=id]').value = id;
+        $('#markProspectFakeModal').show();
+    }
+    function markProspectFake(id) {
+        document.querySelector('#mark_prospect_fake input[name=id]').value = id;
+        return;
+        // Show confirmation alert
+        if (confirm("Are you sure you want to mark this prospect as fake?")) {
+            // Create the URL
+            var url = 'prospects/mark_as_fake';
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                contentType: 'application/json',
+                data: {
+                    id,
+                }
+                success: function (response) {
+                    // Handle success response
+                    console.log('Success:', response);
+                    alert_float('success', 'Prospect marked as fake successfully.');
+                    // Optionally, refresh the page or update the UI
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error('Error:', error);
+                    alert_float('danger', 'There was an error marking the prospect as fake.');
+                }
+            });
+            // Send the AJAX request
+
+        }
+    }
+</script>
 </body>
 
 </html>
