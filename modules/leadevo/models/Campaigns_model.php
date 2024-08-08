@@ -4,6 +4,8 @@ class Campaigns_model extends CI_Model
 {
 
     protected $table = 'tblleadevo_campaign'; // Define the table name
+    protected $country_table = 'tblcountries'; // Define the table name
+
 
     public function __construct()
     {
@@ -38,5 +40,10 @@ class Campaigns_model extends CI_Model
     public function get_campaign_statuses()
     {
         return $this->db->get('tblleadevo_campaign_statuses')->result_array();
+    }
+
+    public function get_all_countries()
+    {
+        return $this->db->get($this->country_table)->result_array();
     }
 }
