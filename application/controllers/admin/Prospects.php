@@ -15,37 +15,10 @@ class Prospects extends AdminController
 
     public function index()
     {
+
         $data['prospects'] = $this->Prospects_model->get_all();
-        $this->load->view('admin/leadevo/prospects/prospects', $data);
+        $this->load->view('admin/leadevo/prospects/index', $data);
     }
-
-    // public function create()
-    // {
-    //     if ($this->input->post()) {
-    //         $data = [
-    //             'first_name' => $this->input->post('first_name'),
-    //             'last_name' => $this->input->post('last_name'),
-    //             'phone' => $this->input->post('phone'),
-    //             'email' => $this->input->post('email'),
-    //             'status_id' => $this->input->post('status_id'),
-    //             'type_id' => $this->input->post('type_id'),
-    //             'category_id' => $this->input->post('category_id'),
-    //             'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
-    //             'industry_id' => $this->input->post('industry_id'),
-    //         ];
-    //         $this->Prospects_model->insert($data);
-    //         redirect(admin_url('leadevo/prospects'));
-    //     }
-
-    //     // Load dropdown data for the form
-    //     $data['statuses'] = $this->prospect_status_model->get_all();
-    //     $data['types'] = $this->prospect_types_model->get_all();
-    //     $data['categories'] = $this->prospect_categories_model->get_all();
-    //     $data['acquisition_channels'] = $this->acquisition_channels_model->get_all();
-    //     $data['industries'] = $this->industries_model->get_all();
-
-    //     $this->load->view('leadevo/prospects/create', $data);
-    // }
 
     public function edit($id)
     {
@@ -95,5 +68,17 @@ class Prospects extends AdminController
         $data['industry'] = $this->industries_model->get($data['prospect']->industry_id);
 
         $this->load->view('admin/leadevo/prospects/view', $data);
+    }
+
+    public function mark_as_fake()
+    {
+        $id = $this->input->post('id');
+        var_dump($this->input->post());
+        die;
+        if (isset($id)) {
+            $this->Prospects_model->mark_fake($id);
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect marked as fake'));
+        }
+        echo json_encode(array('status' => 'error', 'message' => 'Something went wrong'));
     }
 }

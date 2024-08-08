@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Prospects extends AdminController
+class _Prospects extends AdminController
 {
     public function __construct()
     {
         parent::__construct();
         $this->load->model('leadevo/prospects_model');
-        $this->load->model('leadevo/prospect_status_model'); 
-        $this->load->model('leadevo/prospect_types_model');   
+        $this->load->model('leadevo/prospect_status_model');
+        $this->load->model('leadevo/prospect_types_model');
         $this->load->model('leadevo/prospect_categories_model');
-        $this->load->model('leadevo/acquisition_channels_model'); 
+        $this->load->model('leadevo/acquisition_channels_model');
         $this->load->model('leadevo/industries_model');
         $this->tenant_id = get_marketplace_id() ?: 0;
     }
@@ -19,7 +19,7 @@ class Prospects extends AdminController
         $data['prospects'] = $this->prospects_model->get_all();
         $this->load->view('leadevo/prospects/prospects', $data);
     }
-    
+
     public function create()
     {
         if ($this->input->post()) {
@@ -33,10 +33,10 @@ class Prospects extends AdminController
                 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
-                'tenant_id' => $this->tenant_id 
+                'tenant_id' => $this->tenant_id
             ];
             $this->prospects_model->insert($data);
-            redirect(admin_url('leadevo/prospects')); 
+            redirect(admin_url('leadevo/prospects'));
         }
 
         // Load dropdown data for the form
@@ -62,10 +62,10 @@ class Prospects extends AdminController
                 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
-                'tenant_id' => $this->tenant_id 
+                'tenant_id' => $this->tenant_id
             ];
             $this->prospects_model->update($id, $data);
-            redirect(admin_url('leadevo/prospects')); 
+            redirect(admin_url('leadevo/prospects'));
         }
 
         $data['prospect'] = $this->prospects_model->get($id);
@@ -77,7 +77,7 @@ class Prospects extends AdminController
         $data['acquisition_channels'] = $this->acquisition_channels_model->get_all();
         $data['industries'] = $this->industries_model->get_all();
 
-        $this->load->view('leadevo/prospects/edit', $data); 
+        $this->load->view('leadevo/prospects/edit', $data);
     }
 
     public function delete($id)
