@@ -32,7 +32,7 @@
                                                 <td><?php echo htmlspecialchars($video['video_order']); ?></td>
                                                 <td><?php echo $video['isactive'] ? _l('Yes') : _l('No'); ?></td>
                                                 <td>
-                                                    <a href="<?php echo admin_url('leadevo/affiliate_training_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">
+                                                    <a href="<?php echo admin_url('leadevo_backup/affiliate_training_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                
