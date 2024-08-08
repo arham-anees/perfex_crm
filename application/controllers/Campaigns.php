@@ -5,20 +5,22 @@ class Campaigns extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Campaigns_model');
-        $this->load->model('Industries_model'); // Load the Industries_model
-        $this->tenant_id = get_marketplace_id() ?: 0;
+        $this->load->model('leadevo_backup/Campaigns_model');
+        $this->load->model('leadevo_backup/Industries_model');
+       
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
-        $data['tenant_id'] = $this->tenant_id;
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
-        $this->load->view('setup/campaigns/campaign', $data);
+        $this->load->view('clients/campaigns/campaign', $data);
+        $this->layout();
+
     }
+  
 
     public function create()
     {
@@ -30,15 +32,15 @@ class Campaigns extends ClientsController
             // Validate dates
             if ($start_date < $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+               
             }
             if ($end_date < $start_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the start date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+             
             }
             if ($end_date < $current_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+               
             }
 
             // Collect data from POST request
