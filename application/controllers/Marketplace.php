@@ -8,6 +8,7 @@ class Marketplace extends ClientsController
         $this->load->model('leadevo_backup/Industries_model');
         $this->load->model('leadevo_backup/Acquisition_channels_model');
         $this->load->model('leadevo_backup/Campaigns_model');
+        $this->load->model('leadevo/Cart_model');
     }
 
     public function index()
@@ -26,10 +27,10 @@ class Marketplace extends ClientsController
                 'quality' => $this->input->post('quality'),
                 'zip_codes' => $this->input->post('zip_codes')
             );
-    
+
             // Get filtered prospects
             $prospects = $this->Prospects_model->get_all_by_filter($filter);
-    
+
             // Check if the request is an AJAX request
             if ($this->input->is_ajax_request()) {
                 // Return JSON response
@@ -42,18 +43,28 @@ class Marketplace extends ClientsController
             // Get all prospects if no filter is applied
             $data['prospects'] = $this->Prospects_model->get_all();
         }
-    
+
         // Fetch other necessary data
         $data['industries'] = $this->Industries_model->get_all();
         $data['acquisitions'] = $this->Acquisition_channels_model->get_all();
         $data['countries'] = $this->Campaigns_model->get_all_countries();
-    
+
+        $data['cart'] = $this->Cart_model->get();
+        // Create an array of prospect_ids from the cart for easy lookup
+        $cart_prospect_ids = array_map(function ($item) {
+            return $item['prospect_id'];
+        }, $data['cart']);
+
+        // Iterate through prospects and set is_in_cart property
+        foreach ($data['prospects'] as &$prospect) {
+            $prospect['is_in_cart'] = in_array($prospect['id'], $cart_prospect_ids);
+        }
         // Load the view
         $this->data($data);
         $this->view('clients/marketplace/leads');
         $this->layout();
     }
-    
+
 
 
 }

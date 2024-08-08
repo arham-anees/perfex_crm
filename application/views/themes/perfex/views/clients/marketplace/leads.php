@@ -386,7 +386,7 @@
                     </div>
                 </div>
                 <form id="filterForm" action="marketplace/index" method="post">
-                <?php $csrf = $this->security->get_csrf_hash(); ?>
+                    <?php $csrf = $this->security->get_csrf_hash(); ?>
 
 
                     <div class="row">
@@ -493,7 +493,8 @@
                             </button>
                         </div>
 
-                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                            value="<?php echo $this->security->get_csrf_hash(); ?>">
                         <input type="submit" value="Apply Filters">
                     </div>
                 </form>
@@ -505,70 +506,77 @@
 
 
 <div class="table-responsive">
-                    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th><?php echo _l('Metadata'); ?></th>
-                                <th><?php echo _l('Lead'); ?></th>
-                                <th><?php echo _l('Contact'); ?></th>
-                                <th><?php echo _l('Lead Type'); ?></th>
-                                <th><?php echo _l('Actions'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($prospects as $prospect): ?>
-                                <tr>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Generated date'); ?>:</strong>
-                                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
-                                            <strong><?php echo _l('Industry'); ?>:</strong>
-                                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong>Full name:</strong>
-                                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Zip code'); ?>:</strong>
-                                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <strong>Phone:</strong>
-                                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                                        <strong>Email:</strong>
-                                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Source'); ?>:</strong>
-                                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Deal'); ?>:</strong>
-                                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Quality'); ?>:</strong>
-                                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="checkbox"
-                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                                        <label
-                                            for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
+    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
+        <thead>
+            <tr>
+                <th><?php echo _l('Metadata'); ?></th>
+                <th><?php echo _l('Lead'); ?></th>
+                <th><?php echo _l('Contact'); ?></th>
+                <th><?php echo _l('Lead Type'); ?></th>
+                <th><?php echo _l('Actions'); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($prospects as $prospect): ?>
+                <tr>
+                    <td>
+                        <div>
+                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
+                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
+                            <strong><?php echo _l('Generated date'); ?>:</strong>
+                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                            <strong><?php echo _l('Industry'); ?>:</strong>
+                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>Full name:</strong>
+                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
+                            <strong><?php echo _l('Zip code'); ?>:</strong>
+                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
+                        </div>
+                    </td>
+                    <td>
+                        <strong>Phone:</strong>
+                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
+                        <strong>Email:</strong>
+                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
+                    </td>
+                    <td>
+                        <div>
+                            <strong><?php echo _l('Source'); ?>:</strong>
+                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
+                            <strong><?php echo _l('Deal'); ?>:</strong>
+                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
+                            <strong><?php echo _l('Quality'); ?>:</strong>
+                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
+                        </div>
+                    </td>
+                    <td class="text-center">
 
 
-                    </table>
-                </div>
-            </div>
-        </div>
+                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
+                        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
 
-    </div>
+                        <!-- Submit Button -->
+                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to
+                            cart" />
+                        <?php echo form_close(); ?>
+                        <input type="checkbox" id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
+                        <label for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+
+    </table>
+</div>
+</div>
+</div>
+
+</div>
 </div>
 </div>
 </div>
@@ -616,29 +624,29 @@
 <!-- Include jQuery (ensure it's included before your script) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#filterForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent the form from submitting via the browser
+    $(document).ready(function () {
+        $('#filterForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting via the browser
 
-        // Get CSRF token from the hidden field
-        var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
-        var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
+            // Get CSRF token from the hidden field
+            var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
+            var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
 
-        $.ajax({
-            url: $(this).attr('action'), // Use the form's action attribute
-            type: $(this).attr('method'), // Use the form's method attribute
-            data: $(this).serialize() + '&' + csrfName + '=' + csrfHash, // Serialize the form data and append CSRF token
-            dataType: 'json', // Expect JSON response
-            success: function(response) {
-                // Check if the response is an array
-                if (Array.isArray(response)) {
-                    // Update the table with the filtered data
-                    let tableBody = $('#prospectsTable tbody');
-                    tableBody.empty(); // Clear the current table body
+            $.ajax({
+                url: $(this).attr('action'), // Use the form's action attribute
+                type: $(this).attr('method'), // Use the form's method attribute
+                data: $(this).serialize() + '&' + csrfName + '=' + csrfHash, // Serialize the form data and append CSRF token
+                dataType: 'json', // Expect JSON response
+                success: function (response) {
+                    // Check if the response is an array
+                    if (Array.isArray(response)) {
+                        // Update the table with the filtered data
+                        let tableBody = $('#prospectsTable tbody');
+                        tableBody.empty(); // Clear the current table body
 
-                    // Append new rows to the table body
-                    response.forEach(prospect => {
-                        let row = `<tr>
+                        // Append new rows to the table body
+                        response.forEach(prospect => {
+                            let row = `<tr>
                             <td>
                                 <div>
                                     <strong><?php echo _l('Prospect ID'); ?>:</strong> ${prospect.id || 'N/A'}<br>
@@ -669,17 +677,30 @@ $(document).ready(function() {
                                 <label for="select${prospect.id || ''}">Select</label>
                             </td>
                         </tr>`;
-                        tableBody.append(row);
-                    });
-                } else {
-                    console.error('Invalid response format');
+                            tableBody.append(row);
+                        });
+                    } else {
+                        console.error('Invalid response format');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-            }
+            });
         });
     });
-});
+    function addToCart(id) {
+        $.ajax({
+            url: site_url + 'dashboard/add_to_cart',
+            type: 'POST',
+            data: { 'prospect_id': id },
+            success: function (response) {
+                // reload
+                document.location.reload();
+            },
+            error: function (xhr, status, error) {
+                alert_float('danger', error?.message ?? 'Something went wrong. Please try again later')
+            }
+        })
+    }
 </script>
-
