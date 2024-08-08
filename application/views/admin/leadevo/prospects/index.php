@@ -45,7 +45,7 @@
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
                                                 <td>
-                                                    <select name="confirm_status" class="form-control">
+                                                    <select name="confirm_status" class="form-control"  data-id="<?php echo $prospect['id']; ?>">
                                                         <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>
                                                             Not Confirmed
                                                         </option>
@@ -145,6 +145,30 @@
 
 <?php init_tail(); ?>
 
+<script>
+    $(document).ready(function() {
+    $('select[name="confirm_status"]').on('change', function() {
+        var status = $(this).val();
+        var prospectId = $(this).data('id'); // Get the prospect ID from the data attribute
+
+        $.ajax({
+            url: '<?php echo admin_url("prospects/update_status"); ?>', // Replace with your URL
+            type: 'POST',
+            data: {
+                id: prospectId,
+                confirm_status: status
+            },
+            success: function(response) {
+                alert('Status updated successfully!');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error updating status: ' + errorThrown);
+            }
+        });
+    });
+});
+
+</script>
 
 
 <script>
