@@ -17,7 +17,7 @@ function app_init_admin_sidebar_menu_items()
         'name' => _l('client_campaigns'),
         'href' => admin_url('campaigns'),
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-th-list',
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_menu_item('leadevo_prospects', [
