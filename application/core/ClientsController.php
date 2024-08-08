@@ -47,8 +47,12 @@ class ClientsController extends App_Controller
         //     redirect(site_url('authentication'));
         // }
 
-        $GLOBALS['current_user'] = $currentUser;
+        $this->load->model('leadevo/Cart_model');
 
+        $cart_prospects = $this->Cart_model->get_cart_prospects();
+
+        $GLOBALS['current_user'] = $currentUser;
+        $GLOBALS['cart_prospects'] = $cart_prospects;
         $this->load->library('app_clients_area_constructor');
 
         if (method_exists($this, 'validateContact')) {
@@ -60,6 +64,7 @@ class ClientsController extends App_Controller
             'current_user' => $currentUser,
             'current_version' => $this->current_db_version,
             'task_statuses' => $this->tasks_model->get_statuses(),
+            'cart_prospects' => $cart_prospects
         ];
 
         $vars['sidebar_menu'] = $this->app_menu->get_client_sidebar_menu_items();
