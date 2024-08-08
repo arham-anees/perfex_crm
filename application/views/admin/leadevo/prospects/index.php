@@ -32,11 +32,15 @@
 
 
                                                         <a href="#" data-toggle="modal" data-target="#mark_prospect_fake">Upload
-                                                            Conversation</a> |
+                                                            Conversation</a>
                                                         <?php if (!isset($prospect['is_fake']) || $prospect['is_fake'] == false) { ?>
-                                                            <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
-                                                                Fake</a> |<?php } ?>
-                                                        <a href="#">Put to Sale</a>
+                                                            | <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
+                                                                Fake</a> <?php } ?>
+                                                        <?php if (!isset($prospect['is_available_sale']) || $prospect['is_available_sale'] == false) { ?>
+                                                            | <a href="#" onclick="openSaleModal(<?= $prospect['id'] ?>)">
+                                                                Put to Sale</a>
+                                                        <?php } ?>
+
                                                     </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
@@ -45,17 +49,12 @@
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
                                                 <td>
-                                                    <select name="confirm_status" class="form-control"  data-id="<?php echo $prospect['id']; ?>">
-                                                        <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>
-                                                            Not Confirmed
-                                                        </option>
-                                                        <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>
-                                                            Confirmed
-                                                        </option>
+                                                    <select name="confirm_status" class="form-control"
+                                                        data-id="<?php echo $prospect['id']; ?>">
+                                                        <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>Not Confirmed</option>
+                                                        <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>Confirmed</option>
                                                     </select>
                                                 </td>
-
-                                               
                                                 <td>
                                                     <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
@@ -85,12 +84,13 @@
         </div>
     </div>
 </div>
+
 <div id="mark_prospect_fake" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
             <!-- Modal Header -->
             <div class="modal-header d-flex">
-                <h4 class="modal-title w-100"><?php echo _l('Who do you want to invite?'); ?></h4>
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_report_fake_prospect'); ?></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <!-- Font Awesome Close Icon -->
                     <i class="fas fa-times" aria-hidden="true"></i>
@@ -101,10 +101,39 @@
             <div class="modal-body text-center">
                 <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
                 <input type="hidden" name="id" />
-                <p>Are you sure you want to mark this prospect as completed?</p>
+                <p><?= _l('leadevo_report_fake_prospect_message') ?></p>
 
                 <!-- Submit Button -->
-                <input type="submit" value="<?php echo _l('Send Invitation'); ?>" class="btn btn-primary" />
+                <input type="submit" value="<?php echo _l('leadevo_report_fake_prospect_button'); ?>"
+                    class="btn btn-primary" />
+
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mark_sale_available_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <!-- Modal Header -->
+            <div class="modal-header d-flex">
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_sale_available_prospect'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- Font Awesome Close Icon -->
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <?php echo form_open(admin_url('prospects/mark_as_available_sale'), ['id' => 'fake-prospect-form']); ?>
+                <input type="hidden" name="id" />
+                <p><?= _l('leadevo_sale_available_prospect_message') ?></p>
+
+                <!-- Submit Button -->
+                <input type="submit" value="<?php echo _l('leadevo_sale_available_prospect_button'); ?>"
+                    class="btn btn-primary" />
 
                 <?php echo form_close(); ?>
             </div>
@@ -146,27 +175,27 @@
 <?php init_tail(); ?>
 
 <script>
-    $(document).ready(function() {
-    $('select[name="confirm_status"]').on('change', function() {
-        var status = $(this).val();
-        var prospectId = $(this).data('id'); // Get the prospect ID from the data attribute
+    $(document).ready(function () {
+        $('select[name="confirm_status"]').on('change', function () {
+            var status = $(this).val();
+            var prospectId = $(this).data('id'); // Get the prospect ID from the data attribute
 
-        $.ajax({
-            url: '<?php echo admin_url("prospects/update_status"); ?>', // Replace with your URL
-            type: 'POST',
-            data: {
-                id: prospectId,
-                confirm_status: status
-            },
-            success: function(response) {
-                alert('Status updated successfully!');
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('Error updating status: ' + errorThrown);
-            }
+            $.ajax({
+                url: '<?php echo admin_url("prospects/update_status"); ?>', // Replace with your URL
+                type: 'POST',
+                data: {
+                    id: prospectId,
+                    confirm_status: status
+                },
+                success: function (response) {
+                    alert('Status updated successfully!');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('Error updating status: ' + errorThrown);
+                }
+            });
         });
     });
-});
 
 </script>
 
@@ -174,39 +203,13 @@
 <script>
     function openModal(id) {
         document.querySelector('#mark_prospect_fake input[name=id]').value = id;
-        $('#markProspectFakeModal').show();
+        $('#mark_prospect_fake').modal('show');
     }
-    function markProspectFake(id) {
-        document.querySelector('#mark_prospect_fake input[name=id]').value = id;
-        return;
-        // Show confirmation alert  
-        if (confirm("Are you sure you want to mark this prospect as fake?")) {
-            // Create the URL
-            var url = 'prospects/mark_as_fake';
-
-            $.ajax({
-                url: url,
-                type: 'POST',
-                contentType: 'application/json',
-                data: {
-                    id,
-                },
-                success: function (response) {
-                    // Handle success response
-                    console.log('Success:', response);
-                    alert_float('success', 'Prospect marked as fake successfully.');
-                    // Optionally, refresh the page or update the UI
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    console.error('Error:', error);
-                    alert_float('danger', 'There was an error marking the prospect as fake.');
-                }
-            });
-            // Send the AJAX request
-
-        }
+    function openSaleModal(id) {
+        document.querySelector('#mark_sale_available_modal input[name=id]').value = id;
+        $('#mark_sale_available_modal').modal('show');
     }
+
 </script>
 
 
