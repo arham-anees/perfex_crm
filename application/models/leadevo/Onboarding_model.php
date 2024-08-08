@@ -11,7 +11,11 @@ class Onboarding_model extends App_Model
 
     public function get($id)
     {
-        return $this->db->where('client_id', $id)->get($this->table)->row();
+        $sql = "SELECT  * FROM `" . db_prefix() . "leadevo_onboarding`
+        WHERE client_id = " . $id . "
+        ORDER BY id DESC
+        LIMIT 1;";
+        return $this->db->query($sql)->row();
     }
 
     public function insert($data)
