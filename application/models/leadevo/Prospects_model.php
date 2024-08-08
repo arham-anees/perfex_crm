@@ -22,6 +22,8 @@ class Prospects_model extends CI_Model
             pc.name AS category, 
             ac.name AS acquisition_channel, 
             i.name AS industry,
+            p.is_fake,
+            p.is_available_sale,
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -59,14 +61,14 @@ class Prospects_model extends CI_Model
             $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
         }
         if (isset($filter["deal"]) && $filter["deal"] != "") {
-           
+
             $deal = $filter["deal"];
             if ($deal == 0)
-            $sql .= " AND nonexclusive_status = 0";
+                $sql .= " AND nonexclusive_status = 0";
             else if ($deal == 1)
                 $sql .= " AND nonexclusive_status = 1";
         }
-        
+
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
             $sql .= " AND price >=" . $filter["price_range_from"];
         }
@@ -136,6 +138,8 @@ class Prospects_model extends CI_Model
                     ac.name AS acquisition_channel, 
                     i.name AS industry,
                     p.is_confirmed AS confirm_status,
+                    p.is_fake,
+                    p.is_available_sale,
                     null AS zip_code,
                     null AS phone,
                     null AS email,
@@ -213,5 +217,15 @@ class Prospects_model extends CI_Model
     public function delete($id)
     {
         return $this->db->where('id', $id)->delete($this->table);
+    }
+    public function mark_fake($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
+    }
+    public function mark_available_sale($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_available_sale' => 1, 'sale_available_date' => date('Y-m-d H:i:s')));
     }
 }
