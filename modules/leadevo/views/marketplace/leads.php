@@ -124,7 +124,7 @@
     .fullscreenBtn {
         padding: 5px 10px !important;
         font-size: 1.2rem !important;
-        <<<<<<<<< Temporary merge branch 1
+     
     }
 
     .sticky {
@@ -321,7 +321,7 @@
         margin: 4px;
     }
 
-    .confirm_btn {
+ /*   .confirm_btn {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -335,7 +335,7 @@
         border: 1px solid rgba(255, 203, 3, 0.5);
         margin: 4px;
     }
-
+*/
     .save_discount_btn {
         background-color: rgb(255, 203, 3);
         color: rgb(0, 0, 0);
@@ -347,7 +347,7 @@
         background-color: rgb(255, 255, 255);
     }
 
-    .confirm_btn.disabled {
+ /*   .confirm_btn.disabled {
         background-color: gray;
         cursor: not-allowed;
     }
@@ -359,7 +359,7 @@
     .confirm_btn:hover {
         box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
 
-    }
+    } */
 
     .save_discount_btn:hover,
     .regular_price_btn:hover {
@@ -388,10 +388,7 @@
         margin-top: 2px;
     }
 
-
-
-
-    .video-card {
+   .video-card {
         background-color: rgb(240, 240, 241);
         color: rgba(0, 0, 0, 0.87);
         transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -405,6 +402,65 @@
         position: sticky;
         top: 160px;
     }
+
+
+ /* Modal background */
+ .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4); 
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%; 
+            max-width: 600px; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px; 
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style for the upload button */
+        #uploadButton {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #1D4ED8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #uploadButton:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+
 </style>
 <div id="wrapper">
     <div class="content">
@@ -467,8 +523,6 @@
                         </ol>
                     </div>
                 </div>
-
-
                 <div class="table-responsive">
                     <table class="table table-bordered dt-table nowrap" style="width:100%">
                         <thead>
@@ -518,25 +572,91 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
+                                        <button class="btn btn-primary">Add to Cart</button>
                                         <input type="checkbox"
                                             id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
                                         <label
                                             for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
                                     </td>
-                                </tr>
+                                </tr>  
+
+                                <!-- Modal -->
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Upload MP3 File</h2>
+        <input type="file" id="mp3Input" accept=".mp3" />
+        <button id="uploadButton" disabled>Upload</button>
+    </div>
+</div>
+                              
                             <?php endforeach; ?>
                         </tbody>
-
-
                     </table>
                 </div>
             </div>
         </div>
-
-    </div>
+    </div> 
 </div>
 
+<script>
 
+document.addEventListener('DOMContentLoaded', (event) => {
+    
+    var modal = document.getElementById("uploadModal");
+    var addToCartButtons = document.querySelectorAll(".btn-primary");
+    var span = document.getElementsByClassName("close")[0];
+    var uploadButton = document.getElementById("uploadButton");
+
+    // Get the mp3 input
+    var mp3Input = document.getElementById("mp3Input");
+
+    // open the modal 
+    addToCartButtons.forEach(function(button) {
+        button.onclick = function() {
+            modal.style.display = "block";
+        };
+    });
+
+    //  close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    //upload button disabled unless mp3 file is selected
+    mp3Input.addEventListener('change', function() {
+        var file = mp3Input.files[0];
+        if (file && file.type === 'audio/mpeg') {
+            uploadButton.disabled = false;
+        } else {
+            uploadButton.disabled = true;
+            alert("Please select a valid MP3 file.");
+        }
+    });
+
+    // Handle the upload button click event
+    uploadButton.onclick = function() {
+        var file = mp3Input.files[0];
+        if (file && file.type === 'audio/mpeg') {
+
+            // Handle the file upload process here
+            alert("MP3 file uploaded successfully!");
+            modal.style.display = "none";
+        } else {
+            alert("Please select a valid MP3 file.");
+        }
+    };
+});
+
+
+</script>
 <?php init_tail(); ?>
 <script>
     function enterFullscreen() {
@@ -552,14 +672,6 @@
         }
     }
 
-
-
-<<<<<<<< < Temporary merge branch 1
-    showMoreContent.style.display = 'block';  // Show additional details
-    button.style.display = 'none';  // Hide "Show More" button
-    showLessButton.style.display = 'inline';  // Show "Show Less" button
-}
-
     function showLessDetails(button) {
         var details = button.closest('.details');
         var showMoreContent = details.querySelector('#show-more-content');
@@ -571,18 +683,4 @@
     }
 
 
-</script>
-<script>
-    // Select all buttons with the class 'confirm_btn'
-    const buttons = document.querySelectorAll(".confirm_btn");
-
-
-    buttons.forEach(button => {
-        button.addEventListener("click", function () {
-            this.classList.add("disabled"); // Add the 'disabled' class for styling
-            this.setAttribute("disabled", "true"); // Disable the button
-        });
-    });
-</script>
-=========
 </script>
