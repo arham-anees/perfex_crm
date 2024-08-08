@@ -70,6 +70,37 @@ class Prospects extends AdminController
         $this->load->view('admin/leadevo/prospects/view', $data);
     }
 
+    public function receive()
+    {
+        $view_data = [];
+        if ($this->input->get()) {
+            $data = $this->input->get();
+            // validate data
+            $has_error = false;
+            $error_message = '';
+            if (
+                (!isset($data['first_name']) || $data['first_name'] == '') &&
+                (!isset($data['last_name']) || $data['last_name'] == '') &&
+                (!isset($data['email']) || $data['email'] == '') &&
+                (!isset($data['client_id']) || $data['client_id'] == '') &&
+                (!isset($data['phone']) || $data['phone'] == '')
+            ) {
+                $has_error = true;
+                $error_message = 'Data is invalid';
+            }
+            if (!$has_error) {
+                $data['is_active'] = 1;
+                unset($data['id']);
+                $this->Prospects_model->insert($data);
+            } else {
+                $view_data['error'] = $error_message;
+            }
+            $this->load->view('admin/leadevo/prospects/receive_post', $view_data);
+        } else {
+            $this->load->view('admin/leadevo/prospects/receive_get', $view_data);
+        }
+    }
+
     public function mark_as_fake()
     {
         $id = $this->input->post('id');
@@ -91,14 +122,14 @@ class Prospects extends AdminController
     {
         $id = $this->input->post('id');
         $confirm_status = $this->input->post('confirm_status');
-    
+
         if ($id && isset($confirm_status)) {
             $data = [
                 'is_confirmed' => $confirm_status
             ];
-    
+
             $update = $this->Prospects_model->update($id, $data);
-    
+
             if ($update) {
                 echo json_encode(['status' => 'success']);
             } else {
@@ -108,5 +139,5 @@ class Prospects extends AdminController
             echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
         }
     }
-    
+
 }

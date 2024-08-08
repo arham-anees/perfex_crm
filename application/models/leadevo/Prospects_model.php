@@ -204,7 +204,9 @@ class Prospects_model extends CI_Model
 
     public function insert($data)
     {
-        $data['client_id'] = get_client_user_id();
+        if (!isset($data['client_id'])) {
+            $data['client_id'] = get_client_user_id();
+        }
         return $this->db->insert($this->table, $data);
     }
 
