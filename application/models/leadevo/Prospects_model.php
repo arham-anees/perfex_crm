@@ -23,6 +23,7 @@ class Prospects_model extends CI_Model
             ac.name AS acquisition_channel, 
             i.name AS industry,
             p.is_fake,
+            p.is_available_sale,
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -131,6 +132,7 @@ class Prospects_model extends CI_Model
                     ac.name AS acquisition_channel, 
                     i.name AS industry,
                     p.is_fake,
+                    p.is_available_sale,
                     null AS zip_code,
                     null AS phone,
                     null AS email,
@@ -212,6 +214,11 @@ class Prospects_model extends CI_Model
     public function mark_fake($id)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => time()));
+        return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
+    }
+    public function mark_available_sale($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_available_sale' => 1, 'sale_available_date' => date('Y-m-d H:i:s')));
     }
 }

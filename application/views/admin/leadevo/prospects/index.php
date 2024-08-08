@@ -30,11 +30,15 @@
                                                         <a href="#">Rate</a> |
                                                         <a href="#">Confirm</a> |
                                                         <a href="#" data-toggle="modal" data-target="#mark_prospect_fake">Upload
-                                                            Conversation</a> |
+                                                            Conversation</a>
                                                         <?php if (!isset($prospect['is_fake']) || $prospect['is_fake'] == false) { ?>
-                                                            <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
-                                                                Fake</a> |<?php } ?>
-                                                        <a href="#">Put to Sale</a>
+                                                            | <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
+                                                                Fake</a> <?php } ?>
+                                                        <?php if (!isset($prospect['is_available_sale']) || $prospect['is_available_sale'] == false) { ?>
+                                                            | <a href="#" onclick="openSaleModal(<?= $prospect['id'] ?>)">
+                                                                Put to Sale</a>
+                                                        <?php } ?>
+
                                                     </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
@@ -72,6 +76,7 @@
         </div>
     </div>
 </div>
+
 <div id="mark_prospect_fake" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
@@ -100,6 +105,34 @@
     </div>
 </div>
 
+<div id="mark_sale_available_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <!-- Modal Header -->
+            <div class="modal-header d-flex">
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_sale_available_prospect'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- Font Awesome Close Icon -->
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <?php echo form_open(admin_url('prospects/mark_as_available_sale'), ['id' => 'fake-prospect-form']); ?>
+                <input type="hidden" name="id" />
+                <p><?= _l('leadevo_sale_available_prospect_message') ?></p>
+
+                <!-- Submit Button -->
+                <input type="submit" value="<?php echo _l('leadevo_sale_available_prospect_button'); ?>"
+                    class="btn btn-primary" />
+
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php init_tail(); ?>
 
 
@@ -108,6 +141,10 @@
     function openModal(id) {
         document.querySelector('#mark_prospect_fake input[name=id]').value = id;
         $('#mark_prospect_fake').modal('show');
+    }
+    function openSaleModal(id) {
+        document.querySelector('#mark_sale_available_modal input[name=id]').value = id;
+        $('#mark_sale_available_modal').modal('show');
     }
 
 </script>

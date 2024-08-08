@@ -78,4 +78,12 @@ class Prospects extends AdminController
         }
         redirect(admin_url('prospects'));
     }
+    public function mark_as_available_sale()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $this->Prospects_model->mark_available_sale($id);
+        }
+        redirect(admin_url('prospects'));
+    }
 }
