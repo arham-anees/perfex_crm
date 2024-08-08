@@ -34,13 +34,13 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="status_id"><?php echo _l('Status'); ?></label>
-                            <select id="status_id" name="status_id" class="form-control" required>
-                                <?php foreach ($statuses as $status) { ?>
-                                    <option value="<?php echo $status['id']; ?>"><?php echo $status['name']; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                                    <label for="industry_id"><?php echo _l('Industry'); ?></label>
+                                    <select name="industry_id" id="industry_id" class="form-control" required>
+                                        <?php foreach ($industries as $industry): ?>
+                                            <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                         
                         <div class="form-group">
                             <label for="budget"><?php echo _l('Budget'); ?></label>

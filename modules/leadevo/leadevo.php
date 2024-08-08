@@ -108,6 +108,14 @@ function leadevo_register_menu_items()
             'position' => 2,
             'icon' => 'fa fa-th-list',
         ]);
+        //this is the prospect alerts menu item for the user
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-prospect-alerts',
+            'name'     => 'Prospect Alerts',
+            'href'     => admin_url('leadevo/client/prospectAlert'),
+            'position' => 3,
+            'icon'     => 'fa fa-th-list',
+        ]);
         // $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
         //     'slug'     => 'leadevo-user-prospects',
         //     'name'     => 'Prospects',
@@ -138,6 +146,15 @@ function leadevo_register_menu_items()
             'position' => 12,
             'icon' => 'fa fa-shopping-cart',
         ]);
+    
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-affiliate-training-videos',
+            'name'     => 'Affiliate Training Videos',
+            'href'     => admin_url('leadevo/affiliate_training_videos'),
+            'position' => 15, 
+            'icon'     => 'fa fa-video',
+        ]);
+        
         $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
             'slug' => 'leadevo-user-explanatory-videos',
             'name' => 'Explanatory Videos',
