@@ -6,19 +6,23 @@ class Campaigns extends AdminController
     {
         parent::__construct();
         $this->load->model('Campaigns_model');
+        $this->load->model('Industries_model'); // Load the Industries_model
+        $this->tenant_id = get_marketplace_id() ?: 0;
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
         $data['tenant_id'] = $this->tenant_id;
+        $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
+        $data['countries'] = $this->Campaigns_model->get_all_countries();
+
         $this->load->view('setup/campaigns/campaign', $data);
     }
 
     public function create()
     {
         if ($this->input->post()) {
-
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
             $current_date = date('Y-m-d');
@@ -36,6 +40,7 @@ class Campaigns extends AdminController
                 $this->session->set_flashdata('error', 'End date cannot be before the current date.');
                 redirect(admin_url('leadevo/campaigns/create'));
             }
+
             // Collect data from POST request
             $data = [
                 'name' => $this->input->post('name'),
@@ -45,7 +50,8 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id
+                'tenant_id' => $this->tenant_id,
+                'industry_id' => $this->input->post('industry_id') // Include industry_id
             ];
 
             $this->Campaigns_model->insert($data);
@@ -53,16 +59,17 @@ class Campaigns extends AdminController
             redirect(admin_url('leadevo/campaigns'));
         }
 
-        // Fetch statuses for the dropdown
+        // Fetch statuses and industries for the dropdowns
         $data['statuses'] = $this->Campaigns_model->get_campaign_statuses();
+        $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
 
         // Load the view for creating a campaign
         $this->load->view('setup/campaigns/campaign_create', $data);
     }
+
     public function edit($id)
     {
         if ($this->input->post()) {
-
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
             $current_date = date('Y-m-d');
@@ -80,6 +87,7 @@ class Campaigns extends AdminController
                 $this->session->set_flashdata('error', 'End date cannot be before the current date.');
                 redirect(admin_url('leadevo/campaigns/edit/' . $id));
             }
+
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
@@ -88,7 +96,8 @@ class Campaigns extends AdminController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id
+                'tenant_id' => $this->tenant_id,
+                'industry_id' => $this->input->post('industry_id') // Include industry_id
 
             ];
             $this->Campaigns_model->update($id, $data);
@@ -97,6 +106,7 @@ class Campaigns extends AdminController
         }
         $data['campaign'] = $this->Campaigns_model->get($id);
         $data['statuses'] = $this->Campaigns_model->get_campaign_statuses();
+        $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $this->load->view('setup/campaigns/campaign_edit', $data);
     }
 
