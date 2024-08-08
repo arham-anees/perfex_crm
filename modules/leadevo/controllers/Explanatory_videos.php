@@ -11,8 +11,12 @@ class Explanatory_videos extends AdminController
     public function index()
     {
         $data['videos'] = $this->Explanatory_videos_model->get_all();
+        if (empty($data['videos'])) {
+            set_alert('danger', 'No videos found or an error occurred while fetching videos.');
+        }
         $this->load->view('leadevo/explanatory-videos/explanatory_videos', $data);
     }
+
 
     public function edit($id)
     {

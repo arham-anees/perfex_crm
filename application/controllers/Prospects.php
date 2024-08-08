@@ -5,9 +5,6 @@ class Prospects extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        if (!is_client_logged_in()) {
-            redirect(site_url('authentication'));
-        }
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Misc_model');
     }
@@ -69,7 +66,7 @@ class Prospects extends ClientsController
         // $this->layout();
     }
 
+                
 
-
-
+    
 }

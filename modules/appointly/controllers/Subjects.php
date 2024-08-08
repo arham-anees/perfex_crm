@@ -21,89 +21,74 @@ class Subjects extends AdminController
     public function delete()
     {
         // Check if the request method is POST
-        if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            // Retrieve POST data
-            $subject_id = $this->input->post('subject_id');
-
-            // Validate the input data
-            if (empty($subject_id)) {
-                // Redirect with an error if validation fails
-                $this->session->set_flashdata('error', 'Invalid subject ID.');
-                redirect('..');
-            }
-
-            // Process the data (e.g., delete from the database)
-            $deleted = $this->Appointments_subject_model->delete($subject_id);
-
-            // Redirect with a success or error message
-            if ($deleted) {
-                $this->session->set_flashdata('success', 'Subject deleted successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to delete subject.');
-            }
-
-            redirect('/admin/appointly/subjects');
-        } else {
-            // Redirect with an error if the request method is not POST
-            $this->session->set_flashdata('error', 'Invalid request method.');
-            redirect('/admin/appointly/subjects');
+        // Retrieve POST data
+        $subject_id = $this->input->post('subject_id');
+        // Validate the input data
+        if (empty($subject_id)) {
+            // Redirect with an error if validation fails
+            $this->session->set_flashdata('error', 'Invalid subject ID.');
+            echo json_encode(array('status' => 'error', 'message' => 'Please provide subject ID'));
         }
+
+        // Process the data (e.g., delete from the database)
+        $deleted = $this->Appointments_subject_model->delete($subject_id);
+
+        // Redirect with a success or error message
+        if ($deleted) {
+            echo json_encode(array('status' => 'success', 'message' => 'Subject deleted successfully'));
+        } else {
+            echo json_encode(array('status' => 'success', 'message' => 'Something went wrong while deleting the subject'));
+        }
+
+
     }
 
     public function create()
     {
-        // Check if the request method is POST
-        if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            // Retrieve POST data
-            $subject = $this->input->post('subject');
-            $booking_page_id = $this->input->post('booking_page_id');
 
-            // Validate the input data
-            if (empty($subject) || empty($booking_pages)) {
-                // Redirect with an error if validation fails
-                $this->session->set_flashdata('error', 'Subject and Booking Page is required.');
-                redirect('/admin/appointly/subjects');
-            }
+        // Retrieve POST data
+        $subject = $this->input->post('subject');
+        $booking_page_id = $this->input->post('booking_page_id');
 
-            // Process the data (e.g., insert into the database)
-            $inserted = $this->Appointments_subject_model->create($subject,$booking_page_id);
 
-            // Redirect with a success or error message
-            if ($inserted) {
-                $this->session->set_flashdata('success', 'Subject added successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to add subject.');
-            }
 
-            redirect('/admin/appointly/subjects');
-        } else {
-            // Redirect with an error if the request method is not POST
-            $this->session->set_flashdata('error', 'Invalid request method.');
+        // Validate the input data
+        if (empty($subject) || empty($booking_page_id)) {
+            // Redirect with an error if validation fails
+            $this->session->set_flashdata('error', 'Subject and Booking Page is required.');
             redirect('/admin/appointly/subjects');
         }
+
+
+        // Process the data (e.g., insert into the database)
+        $inserted = $this->Appointments_subject_model->create($subject, $booking_page_id);
+        // Redirect with a success or error message
+        if ($inserted) {
+            $this->session->set_flashdata('success', 'Subject added successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to add subject.');
+        }
+
+        redirect('/admin/appointly/subjects');
+
     }
 
     public function update()
     {
-        if ($this->input->server('REQUEST_METHOD') === 'POST') {
-            $subject_id = $this->input->post('subject_id');
-            $subject = $this->input->post('subject');
-            $booking_page_id = $this->input->post('booking_page_id');
-            if (empty($subject_id) || empty($subject) || empty($subject)) {
-                $this->session->set_flashdata('error', 'Subject ID, Booking page and Subject are required.');
-                redirect('/admin/appointly/subjects');
-            }
-            $updated = $this->Appointments_subject_model->update($subject_id, $subject, $booking_page_id);
-            if ($updated) {
-                $this->session->set_flashdata('success', 'Subject updated successfully.');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to update subject.');
-            }
-            redirect('/admin/appointly/subjects');
-        } else {
-            $this->session->set_flashdata('error', 'Invalid request method.');
+        $subject_id = $this->input->post('subject_id');
+        $subject = $this->input->post('subject');
+        $booking_page_id = $this->input->post('booking_page_id');
+        if (empty($subject_id) || empty($subject) || empty($subject)) {
+            $this->session->set_flashdata('error', 'Subject ID, Booking page and Subject are required.');
             redirect('/admin/appointly/subjects');
         }
+        $updated = $this->Appointments_subject_model->update($subject_id, $subject, $booking_page_id);
+        if ($updated) {
+            $this->session->set_flashdata('success', 'Subject updated successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to update subject.');
+        }
+        redirect('/admin/appointly/subjects');
     }
 
     public function json()

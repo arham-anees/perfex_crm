@@ -72,14 +72,3 @@ init_client_head(true);
 <?php } ?>
 <?php
 echo theme_footer_view();
-
-/* Always have app_customers_footer() just before the closing </body>  */
-app_customers_footer();
-/**
- * Check for any alerts stored in session
- */
-app_js_alerts();
-?>
-</body>
-
-</html>

@@ -2,6 +2,7 @@
 
 class Campaigns_model extends CI_Model
 {
+    
 
     protected $table = 'tblleadevo_campaign'; // Define the table name
     protected $country_table = 'tblcountries'; // Define the table name
