@@ -392,13 +392,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="industry"><?php echo _l('Zip Codes'); ?></label>
-                                <select id="industry" name="industry" class="filter-input">
-                                    <option value="" disabled selected></option>
-                                    <option value="real_estate">Real Estate</option>
-                                    <option value="mortgage">Mortgage</option>
-                                    <option value="insurance">Insurance</option>
-                                </select>
+                                <label for="zip"><?php echo _l('Zip Codes'); ?></label>
+                                <input type="number" id="zip_code" name="zip" class="filter-input">
                             </div>
                         </div>
                         <div class="col-md-4">

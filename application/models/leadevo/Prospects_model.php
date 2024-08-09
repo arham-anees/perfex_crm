@@ -49,7 +49,7 @@ class Prospects_model extends CI_Model
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
         }
-        if (isset($filter["acquisition_id"]) && $filter["acquisition_id"] != "") {
+        if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
@@ -66,7 +66,7 @@ class Prospects_model extends CI_Model
 
             $deal = $filter["deal"];
             if ($deal == 0)
-                $sql .= " AND nonexclusive_status = 0";
+                $sql .= " AND exclusive_status = 0";
             else if ($deal == 1)
                 $sql .= " AND nonexclusive_status = 1";
         }
