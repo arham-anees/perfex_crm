@@ -8,14 +8,6 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <!-- start of panel body -->
-                        <div class="_buttons">
-                            <a href="<?php echo admin_url('leadevo/campaigns/create'); ?>" class="btn btn-primary pull-left display-block mleft10 ">
-                                <i class="fa-regular fa-plus tw-mr-1"></i>
-                                <?php echo _l('New Campaign'); ?>
-                            </a>
-                            <div class="clearfix"></div>
-                        </div>
-                        <hr class="hr-panel-heading" />
 
                         <!-- create a row with 2 columns for cards -->
                         <div class="row">
