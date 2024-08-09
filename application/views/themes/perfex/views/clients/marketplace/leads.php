@@ -374,7 +374,7 @@
         <div class="panel_s">
             <div class="panel-body">
                 <!-- Marketplace Results Section -->
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-6">
                         <p class="lead-title">
                             <?php echo _l("Meet Industry's Most Advanced Real Estate Lead Marketplace"); ?>
@@ -384,7 +384,7 @@
                         <button class="btn buy_lead_btn"><?php echo _l('Buy Lead'); ?></button>
                         <button class="btn learn_more_btn"><?php echo _l('Learn More'); ?></button>
                     </div>
-                </div>
+                </div> -->
                 <form id="filterForm" action="marketplace/index" method="post">
                     <?php $csrf = $this->security->get_csrf_hash(); ?>
 
@@ -482,7 +482,7 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn regular_price_btn">
+                            <!-- <button class="btn regular_price_btn">
                                 <div class="button-content">
                                     <i class="fa fa-shopping-cart"></i>
                                     <div class="text-container">
@@ -490,95 +490,91 @@
                                         <span class="small-text">regular price</span>
                                     </div>
                                 </div>
-                            </button>
+                            </button> -->
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                value="<?php echo $this->security->get_csrf_hash(); ?>">
                         </div>
 
-                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                            value="<?php echo $this->security->get_csrf_hash(); ?>">
-                        <input type="submit" value="Apply Filters">
+                    </div>
+                    <div style="height:20px">
+                        <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
                     </div>
                 </form>
 
+                <hr />
+                <div class="table-responsive">
+                    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th><?php echo _l('Metadata'); ?></th>
+                                <th><?php echo _l('Lead'); ?></th>
+                                <th><?php echo _l('Contact'); ?></th>
+                                <th><?php echo _l('Lead Type'); ?></th>
+                                <th><?php echo _l('Actions'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($prospects as $prospect): ?>
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
+                                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Generated date'); ?>:</strong>
+                                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                                            <strong><?php echo _l('Industry'); ?>:</strong>
+                                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong>Full name:</strong>
+                                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Zip code'); ?>:</strong>
+                                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <strong>Phone:</strong>
+                                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
+                                        <strong>Email:</strong>
+                                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <strong><?php echo _l('Source'); ?>:</strong>
+                                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Deal'); ?>:</strong>
+                                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
+                                            <strong><?php echo _l('Quality'); ?>:</strong>
+                                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+
+
+                                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
+                                        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
+
+                                        <!-- Submit Button -->
+                                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to
+                            cart" />
+                                        <?php echo form_close(); ?>
+                                        <input type="checkbox"
+                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
+                                        <label
+                                            for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="table-responsive">
-    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
-        <thead>
-            <tr>
-                <th><?php echo _l('Metadata'); ?></th>
-                <th><?php echo _l('Lead'); ?></th>
-                <th><?php echo _l('Contact'); ?></th>
-                <th><?php echo _l('Lead Type'); ?></th>
-                <th><?php echo _l('Actions'); ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($prospects as $prospect): ?>
-                <tr>
-                    <td>
-                        <div>
-                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                            <strong><?php echo _l('Generated date'); ?>:</strong>
-                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
-                            <strong><?php echo _l('Industry'); ?>:</strong>
-                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <strong>Full name:</strong>
-                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                            <strong><?php echo _l('Zip code'); ?>:</strong>
-                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
-                        </div>
-                    </td>
-                    <td>
-                        <strong>Phone:</strong>
-                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                        <strong>Email:</strong>
-                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
-                    </td>
-                    <td>
-                        <div>
-                            <strong><?php echo _l('Source'); ?>:</strong>
-                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                            <strong><?php echo _l('Deal'); ?>:</strong>
-                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                            <strong><?php echo _l('Quality'); ?>:</strong>
-                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
-                        </div>
-                    </td>
-                    <td class="text-center">
-
-
-                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
-                        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
-
-                        <!-- Submit Button -->
-                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to
-                            cart" />
-                        <?php echo form_close(); ?>
-                        <input type="checkbox" id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                        <label for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-
-
-    </table>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
 </div>
 
 <script>
