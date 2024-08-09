@@ -6,21 +6,26 @@ class Prospects extends ClientsController
     {
         parent::__construct();
         $this->load->model('leadevo/Prospects_model');
-        $this->load->model('leadevo/Misc_model');
+        $this->load->model('leadevo/Prospect_status_model');
+        $this->load->model('leadevo/Prospect_types_model');
+        $this->load->model('leadevo/Prospect_categories_model');
+        $this->load->model('leadevo/Acquisition_channels_model');
+        $this->load->model('leadevo/Industries_model');
     }
 
     public function index()
     {
         $filter = $this->input->get('filter');
+        $data['prospects'] = $this->Prospects_model->get_all_by_filter($filter);
 
-        $data['prospects'] = $this->Prospects_model->get_all_client($filter);
+        $data['prospects'] = $this->Prospects_model->get_all();
 
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();
     }
 
-    public function details($id)
+    public function view($id)
     {
         $data['prospect'] = $this->Prospects_model->get($id);
         $this->data($data);
@@ -32,26 +37,31 @@ class Prospects extends ClientsController
     {
         if ($this->input->post()) {
             $data = [
-                'prospect_name' => $this->input->post('prospect_name'),
-                'status' => $this->input->post('status'),
-                'type' => $this->input->post('type'),
-                'category' => $this->input->post('category'),
-                'industry' => $this->input->post('industry'),
-                'aquisition' => $this->input->post('aquisition'),
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'status_id' => $this->input->post('status_id'),
+                'type_id' => $this->input->post('type_id'),
+                'category_id' => $this->input->post('category_id'),
+                'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
+                'industry_id' => $this->input->post('industry_id'),
             ];
 
             $this->Prospects_model->insert($data);
-            redirect('leadevo/prospect');
+            redirect('prospects');
         } else {
-            $data['prospect_types'] = $this->Misc_model->get_prospect_types();
-            $data['industry_categories'] = $this->Misc_model->get_industry_categories();
-            $data['industries'] = $this->Misc_model->get_industries();
-            $data['acquisition_channels'] = $this->Misc_model->get_acquisition_channels();
+            $data['statuses'] = $this->Prospect_status_model->get_all();
+            $data['types'] = $this->Prospect_types_model->get_all();
+            $data['categories'] = $this->Prospect_categories_model->get_all();
+            $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
+            $data['industries'] = $this->Industries_model->get_all();
             $this->data($data);
             $this->view('clients/prospects/prospect_create');
             $this->layout();
         }
     }
+
     public function delete($id)
     {
         if ($this->Prospects_model->delete($id)) {
@@ -59,14 +69,35 @@ class Prospects extends ClientsController
         } else {
             set_alert('danger', 'Failed to delete Prospect.');
         }
-        // redirect(admin_url('leadevo/prospect'));
-        // $this->load->view('client/prospects/prospects');
-        // $this->data($data);
-        redirect('clients/prospects/prospects');
-        // $this->layout();
+        redirect('prospects');
     }
 
-                
-
-    
+    public function edit($id)
+    {
+        if ($this->input->post()) {
+            $data = [
+                'first_name' => $this->input->post('first_name'),
+                'last_name' => $this->input->post('last_name'),
+                'phone' => $this->input->post('phone'),
+                'email' => $this->input->post('email'),
+                'status_id' => $this->input->post('status_id'),
+                'type_id' => $this->input->post('type_id'),
+                'category_id' => $this->input->post('category_id'),
+                'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
+                'industry_id' => $this->input->post('industry_id'),
+            ];
+            $this->Prospects_model->update($id, $data);
+            redirect('prospects');
+        } else {
+            $data['prospect'] = $this->Prospects_model->get($id);
+            $data['statuses'] = $this->Prospect_status_model->get_all();
+            $data['types'] = $this->Prospect_types_model->get_all();
+            $data['categories'] = $this->Prospect_categories_model->get_all();
+            $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
+            $data['industries'] = $this->Industries_model->get_all();
+            $this->data($data);
+            $this->view('clients/prospects/edit');
+            $this->layout();
+        }
+    }
 }

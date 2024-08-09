@@ -3,50 +3,42 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel_s">
-            <div class="panel-body
-                    text-left">
-                <h4><?php echo _l('Prospect Details'); ?></h4>
-                <hr class="hr-panel-heading" />
-                <div class="form-group
-                        text-left">
-                    <label for="first_name"><?php echo _l('prospect_name'); ?></label>
-                    <p><?php echo $prospect['prospect_name']; ?></p>
+            <div class="panel-body">
+                <h4 class="no-margin"><?php echo _l('Prospect Details'); ?></h4>
+                <hr class="hr-panel-heading">
+                
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th><?php echo _l('Prospect Name'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->prospect_name); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo _l('Status'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->status); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo _l('Type'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->type); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo _l('Category'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->category); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo _l('Acquisition Channel'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->acquisition_channel); ?></td>
+                        </tr>
+                        <tr>
+                            <th><?php echo _l('Industry'); ?></th>
+                            <td><?php echo htmlspecialchars($prospect->industry); ?></td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="form-group
-                        text-left">
-                    <label for="status"><?php echo _l('Status'); ?></label>
-                    <p><?php echo $prospect['status']; ?></p>
-                </div>
-                <div class="form-group
-                        text-left">
-                    <label for="type"><?php echo _l('Type'); ?></label>
-                    <p><?php echo $prospect['type']; ?></p>
-                </div>
-                <div class="form-group
-                        text-left">
-                    <label for="category"><?php echo _l('Category'); ?></label>
-                    <p><?php echo $prospect['category']; ?></p>
-                </div>
-                <div class="form-group
-                        text-left">
-                    <label for="acquisition_channel"><?php echo _l('Acquisition Channel'); ?></label>
-                    <p><?php echo $prospect['acquisition_channel']; ?></p>
-                </div>
-                <div class="form-group
-                        text-left">
-                    <label for="industry"><?php echo _l('Industry'); ?></label>
-                    <p><?php echo $prospect['industry']; ?></p>
-                </div>
-                <div class="form-group
-                        text-left">
-                    <a href="<?php echo admin_url('leadevo/client/prospect/edit/' . $prospect['id']); ?>"
-                        class="btn btn-primary">
-                        <?php echo _l('Edit'); ?>
-                    </a>
-                    <a href="<?php echo admin_url('leadevo/client/prospect'); ?>" class="btn btn-default">
-                        <?php echo _l('Back'); ?>
-                    </a>
-                </div>
+                
+                <a href="<?php echo site_url('prospects'); ?>" class="btn btn-default">
+                    <?php echo _l('Back to List'); ?>
+                </a>
             </div>
         </div>
     </div>
