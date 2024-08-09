@@ -77,7 +77,7 @@ function appointly_register_dashboard_widgets($widgets)
 {
     $widgets[] = [
         'container' => 'left-8',
-        'path'      => 'appointly/widgets/today_appointments',
+        'path' => 'appointly/widgets/today_appointments',
     ];
 
     return $widgets;
@@ -132,11 +132,11 @@ function appointly_register_permissions()
     $capabilities = [];
 
     $capabilities['capabilities'] = [
-        'view'     => _l('permission_view') . '(' . _l('permission_global') . ')',
+        'view' => _l('permission_view') . '(' . _l('permission_global') . ')',
         'view_own' => _l('permission_view_own'),
-        'create'   => _l('permission_create'),
-        'edit'     => _l('permission_edit'),
-        'delete'   => _l('permission_delete'),
+        'create' => _l('permission_create'),
+        'edit' => _l('permission_edit'),
+        'delete' => _l('permission_delete'),
     ];
 
     register_staff_capabilities('appointments', $capabilities, _l('appointment_appointments'));
@@ -151,86 +151,86 @@ function appointly_register_menu_items()
 
     if (staff_can('view', 'appointments') || staff_can('view_own', 'appointments')) {
         $CI->app_menu->add_sidebar_menu_item(APPOINTLY_MODULE_NAME, [
-            'name'     => 'appointly_module_name',
-            'href'     => admin_url('appointly/appointments'),
+            'name' => 'appointly_module_name',
+            'href' => admin_url('appointly/appointments'),
             'position' => 10,
-            'icon'     => 'fa-regular fa-calendar',
+            'icon' => 'fa-regular fa-calendar',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly-user-dashboard',
-            'name'     => 'appointment_appointments',
-            'href'     => admin_url('appointly/appointments'),
+            'slug' => 'appointly-user-dashboard',
+            'name' => 'appointment_appointments',
+            'href' => admin_url('appointly/appointments'),
             'position' => 5,
-            'icon'     => 'fa fa-th-list',
+            'icon' => 'fa fa-th-list',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly-user-history',
-            'name'     => 'appointment_history_label',
-            'href'     => admin_url('appointly/appointments_history'),
+            'slug' => 'appointly-user-history',
+            'name' => 'appointment_history_label',
+            'href' => admin_url('appointly/appointments_history'),
             'position' => 10,
-            'icon'     => 'fa fa-history',
+            'icon' => 'fa fa-history',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly-callbacks',
-            'name'     => 'appointly_callbacks',
-            'href'     => admin_url('appointly/callbacks'),
+            'slug' => 'appointly-callbacks',
+            'name' => 'appointly_callbacks',
+            'href' => admin_url('appointly/callbacks'),
             'position' => 15,
-            'icon'     => 'fa fa-phone',
+            'icon' => 'fa fa-phone',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'     => 'appointly-user-settings',
-            'name'     => 'appointments_your_settings',
-            'href'     => admin_url('appointly/appointments/user_settings_view/settings'),
+            'slug' => 'appointly-user-settings',
+            'name' => 'appointments_your_settings',
+            'href' => admin_url('appointly/appointments/user_settings_view/settings'),
             'position' => 20,
-            'icon'     => 'fa fa-cog',
+            'icon' => 'fa fa-cog',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'            => 'appointly-link-menu-form',
-            'name'            => 'appointment_menu_form_link',
-            'href'            => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
+            'slug' => 'appointly-link-menu-form',
+            'name' => 'appointment_menu_form_link',
+            'href' => site_url('appointly/appointments_public/form?col=col-md-8+col-md-offset-2'),
             'href_attributes' => 'target="_blank" rel="noopener noreferrer"',
-            'position'        => 25,
-            'icon'            => 'fa-brands fa-wpforms',
+            'position' => 25,
+            'icon' => 'fa-brands fa-wpforms',
         ]);
 
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'            => 'appointly-link-statistics',
-            'name'            => 'appointment_menu_statistics',
-            'href'            => admin_url('appointly/appointments/statistics'),
-            'position'        => 25,
-            'icon'            => 'fas fa-th-list',
+            'slug' => 'appointly-link-statistics',
+            'name' => 'appointment_menu_statistics',
+            'href' => admin_url('appointly/appointments/statistics'),
+            'position' => 25,
+            'icon' => 'fas fa-th-list',
         ]);
         $CI->app_menu->add_sidebar_children_item(APPOINTLY_MODULE_NAME, [
-            'slug'            => 'appointly-link-booking-page',
-            'name'            => 'appointment_menu_booking_page',
-            'href'            => admin_url('appointly/booking_pages'),
-            'position'        => 25,
-            'icon'            => 'fa-solid fa-book',
+            'slug' => 'appointly-link-booking-page',
+            'name' => 'appointment_menu_booking_page',
+            'href' => admin_url('appointly/booking_pages'),
+            'position' => 25,
+            'icon' => 'fa-solid fa-book',
         ]);
         $CI->app_menu->add_setup_menu_item('appointly', [
             'collapse' => true,
-            'name'     => _l('setup_appointments'),
+            'name' => _l('setup_appointments'),
             'position' => 20,
-            'badge'    => [],
+            'badge' => [],
         ]);
         $CI->app_menu->add_setup_children_item('appointly', [
-            'slug'     => 'appointly-status',
-            'name'     => _l('setup_appointments_status'),
-            'href'     => admin_url('appointly/statuses'),
+            'slug' => 'appointly-status',
+            'name' => _l('setup_appointments_status'),
+            'href' => admin_url('appointly/statuses'),
             'position' => 5,
-            'badge'    => [],
+            'badge' => [],
         ]);
         $CI->app_menu->add_setup_children_item('appointly', [
-            'slug'     => 'appointly-subjects',
-            'name'     => _l('setup_appointments_subjects'),
-            'href'     => admin_url('appointly/subjects'),
+            'slug' => 'appointly-subjects',
+            'name' => _l('setup_appointments_subjects'),
+            'href' => admin_url('appointly/subjects'),
             'position' => 5,
-            'badge'    => [],
+            'badge' => [],
         ]);
     }
 }
@@ -246,7 +246,7 @@ register_deactivation_hook(APPOINTLY_MODULE_NAME, 'appointly_deactivation_hook')
  */
 function appointly_activation_hook()
 {
-    require __DIR__ . '/activation.php';
+    require __DIR__ . '/install.php';
 }
 function appointly_deactivation_hook()
 {
@@ -292,9 +292,9 @@ function appointly_send_email_templates()
             foreach ($attendees as $staff) {
                 add_notification([
                     'description' => 'appointment_you_have_new_appointment',
-                    'touserid'    => $staff['staffid'],
+                    'touserid' => $staff['staffid'],
                     'fromcompany' => true,
-                    'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                    'link' => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
                 ]);
 
                 $notified_users[] = $staff['staffid'];
@@ -355,9 +355,9 @@ function appointly_send_email_templates_auto()
             foreach ($attendees as $staff) {
                 add_notification([
                     'description' => 'appointment_you_have_new_appointment',
-                    'touserid'    => $staff['staffid'],
+                    'touserid' => $staff['staffid'],
                     'fromcompany' => true,
-                    'link'        => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                    'link' => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
                 ]);
 
                 $notified_users[] = $staff['staffid'];
@@ -478,10 +478,10 @@ function appointly_recurring_events()
 
                     if ($value != '') {
                         $CI->db->insert(db_prefix() . 'customfieldsvalues', [
-                            'relid'   => $insert_id,
+                            'relid' => $insert_id,
                             'fieldid' => $field['id'],
                             'fieldto' => $fieldTo,
-                            'value'   => $value,
+                            'value' => $value,
                         ]);
                     }
                 }
@@ -531,9 +531,9 @@ function appointly_recurring_events()
 
                     add_notification([
                         'description' => 'appointment_recurring_re_created',
-                        'touserid'    => $responsiblePerson,
+                        'touserid' => $responsiblePerson,
                         'fromcompany' => true,
-                        'link'        => 'appointly/appointments/view?appointment_id=' . $insert_id,
+                        'link' => 'appointly/appointments/view?appointment_id=' . $insert_id,
                     ]);
 
                     pusher_trigger_notification([$responsiblePerson]);
@@ -559,8 +559,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment approved (Sent to Contact)',
-        'info'         => 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.',
+        'label' => 'Appointment approved (Sent to Contact)',
+        'info' => 'Trigger when appointment is approved, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_CANCELLED_TO_CLIENT] = [
@@ -569,8 +569,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment cancelled (Sent to Contact)',
-        'info'         => 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.',
+        'label' => 'Appointment cancelled (Sent to Contact)',
+        'info' => 'Trigger when appointment is cancelled, SMS will be sent to the appointment contact number.',
     ];
 
     $triggers[APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT] = [
@@ -579,8 +579,8 @@ function appointly_register_sms_triggers($triggers)
             '{appointment_date}',
             '{appointment_client_name}',
         ],
-        'label'        => 'Appointment reminder (Sent to Contact)',
-        'info'         => 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.',
+        'label' => 'Appointment reminder (Sent to Contact)',
+        'info' => 'Trigger when reminder before date is set when appointment is created, SMS will be sent to the appointment contact number.',
     ];
 
     return $triggers;
@@ -597,8 +597,8 @@ function appointly_add_settings_tab()
 {
     $CI = &get_instance();
     $CI->app_tabs->add_settings_tab('appointly-settings', [
-        'name'     => _l('appointment_appointments'),
-        'view'     => 'appointly/settings',
+        'name' => _l('appointment_appointments'),
+        'view' => 'appointly/settings',
         'position' => 36,
     ]);
 }

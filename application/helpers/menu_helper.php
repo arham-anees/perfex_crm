@@ -621,6 +621,92 @@ function app_init_admin_sidebar_menu_items()
         'position' => 10,
         'badge' => [],
     ]);
+
+
+    // Register setup menu item
+    $CI->app_menu->add_setup_menu_item('leadevo_setup_menu_items', [
+        'collapse' => true,
+        'name' => _l('leadevo_setup_menu'),
+        'position' => 20,
+        'badge' => [],
+    ]);
+
+    // Register Prospect Status menu item
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-prospect-status',
+        'name' => _l('leadevo_setup_prospect_status_menu'),
+        'href' => admin_url('leadevo/prospectstatus'),
+        'position' => 5,
+        'badge' => [],
+    ]);
+
+    // Register Prospect Types menu item
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-prospect-types',
+        'name' => _l('leadevo_setup_prospect_types_menu'),
+
+        'href' => admin_url('leadevo/prospecttypes'),
+        'position' => 6,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-prospect-categories',
+        'name' => _l('leadevo_setup_prospect_categories_menu'),
+        'href' => admin_url('leadevo/prospectcategories'),
+        'position' => 7,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-industries',
+        'name' => _l('leadevo_setup_industries_menu'),
+        'href' => admin_url('leadevo/industries'),
+        'position' => 8,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-industry_categories',
+        'name' => _l('leadevo_setup_industry_categories_menu'),
+        'href' => admin_url('leadevo/industry_categories'),
+        'position' => 9,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-acquisition_channels',
+        'name' => _l('leadevo_setup_acquisition_channels_menu'),
+        'href' => admin_url('leadevo/acquisition_channels'),
+        'position' => 10,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-campaign_status',
+        'name' => _l('leadevo_setup_campaign_status_menu'),
+        'href' => admin_url('leadevo/campaign_statuses'),
+        'position' => 11,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-lead_reason',
+        'name' => _l('leadevo_setup_lead_reason_menu'),
+        'href' => admin_url('leadevo/lead_reasons'),
+        'position' => 12,
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadevo-setup-lead_status',
+        'name' => _l('leadevo_setup_lead_status_menu'),
+        'href' => admin_url('leadevo/lead_statuses'),
+        'position' => 12,
+        'badge' => [],
+    ]);
+
+    // Register other menu items as needed
+    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+        'slug' => 'leadedelivery_qualityvo-delivery',
+        'name' => _l('setup_leadevo_delivery_quality'),
+        'href' => admin_url('leadevo/settings/delivery_quality'),
+        'position' => 15,
+        'badge' => [],
+    ]);
 }
 
 function app_init_client_sidebar_menu_items()
@@ -679,4 +765,5 @@ function app_init_client_sidebar_menu_items()
         'position' => 7,
         'icon' => 'fa fa-x',
     ]);
+
 }
