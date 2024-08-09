@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Prospects_model extends CI_Model
+class Prospects_model2 extends CI_Model
 {
 
     private $table = 'tblleadevo_prospects';

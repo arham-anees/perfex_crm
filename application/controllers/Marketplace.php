@@ -4,10 +4,10 @@ class Marketplace extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('leadevo_backup/Prospects_model');
-        $this->load->model('leadevo_backup/Industries_model');
-        $this->load->model('leadevo_backup/Acquisition_channels_model');
-        $this->load->model('leadevo_backup/Campaigns_model');
+        $this->load->model('leadevo/Prospects_model');
+        $this->load->model('leadevo/Industries_model');
+        $this->load->model('leadevo/Acquisition_channels_model');
+        $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Cart_model');
     }
 
@@ -41,7 +41,7 @@ class Marketplace extends ClientsController
             }
         } else {
             // Get all prospects if no filter is applied
-            $data['prospects'] = $this->Prospects_model->get_all();
+            $data['prospects'] = $this->Prospects_model->get_all_market_place();
         }
 
         // Fetch other necessary data

@@ -43,7 +43,9 @@ class Prospects_model extends CI_Model
         LEFT JOIN
             tblleadevo_industries i ON p.industry_id = i.id
         WHERE
-            p.is_active = 1 ";
+            p.is_active = 1 
+            AND is_fake = 0
+            AND is_available_sale = 1 ";
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
         }
@@ -160,6 +162,45 @@ class Prospects_model extends CI_Model
                     tblleadevo_industries i ON p.industry_id = i.id
                 WHERE
                     p.is_active = 1";
+
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function get_all_market_place()
+    {
+        $sql = "SELECT 
+                    p.id, 
+                    CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
+                    ps.name AS status, 
+                    pt.name AS type, 
+                    pc.name AS category, 
+                    ac.name AS acquisition_channel, 
+                    i.name AS industry,
+                    p.is_confirmed AS confirm_status,
+                    p.is_fake,
+                    p.is_available_sale,
+                    null AS zip_code,
+                    null AS phone,
+                    null AS email,
+                    null AS source,
+                    null AS deal,
+                    null AS quality
+                FROM
+                    tblleadevo_prospects p
+                LEFT JOIN
+                    tblleadevo_prospect_statuses ps ON p.status_id = ps.id
+                LEFT JOIN
+                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
+                LEFT JOIN
+                    tblleadevo_prospect_categories pc ON p.category_id = pc.id
+                LEFT JOIN
+                    tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
+                LEFT JOIN
+                    tblleadevo_industries i ON p.industry_id = i.id
+                WHERE
+                    p.is_active = 1
+                AND is_fake = 0
+                AND is_available_sale = 1 ";
 
         return $this->db->query($sql)->result_array();
     }
