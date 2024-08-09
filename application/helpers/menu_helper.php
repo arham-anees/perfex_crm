@@ -717,7 +717,7 @@ function app_init_client_sidebar_menu_items()
         'name' => _l('als_dashboard'),
         'href' => site_url(),
         'position' => 1,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-home',
         'badge' => [],
     ]);
 
@@ -748,7 +748,7 @@ function app_init_client_sidebar_menu_items()
         'name' => 'Campaigns',
         'href' => site_url('campaigns'),
         'position' => 5,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-th-list',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_marketplace', [
         'slug' => 'leadevo-marketplace-leads',
