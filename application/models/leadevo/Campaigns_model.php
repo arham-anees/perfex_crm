@@ -22,6 +22,10 @@ class Campaigns_model extends CI_Model
     {
         return $this->db->where('id', $id)->get($this->table)->row();
     }
+    public function get_by_client_id($id)
+    {
+        return $this->db->where('client_id', $id)->get($this->table)->result();
+    }
 
     public function insert($data)
     {

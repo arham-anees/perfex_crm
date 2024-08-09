@@ -3955,3 +3955,7 @@ $lang['leadevo_report_fake_prospect_message'] = 'Are you sure you want to report
 $lang['leadevo_sale_available_prospect'] = 'Make Prospect Available for Sale';
 $lang['leadevo_sale_available_prospect_button'] = 'Make Available';
 $lang['leadevo_sale_available_prospect_message'] = 'Are you sure you want to publish the prospect for sale in Marketplace?';
+$lang['customer_campaigns'] = 'Campaigns';
+$lang['leadevo_description'] = 'Description';
+$lang['leadevo_isactive'] = 'Status';
+$lang['leadevo_no_campaigns'] = 'No Campaigns Found';
