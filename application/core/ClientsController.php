@@ -10,7 +10,7 @@ class ClientsController extends App_Controller
 
     public $data = [];
 
-    public $use_footer = true;
+    public $use_footer = false;
 
     public $use_submenu = true;
 
@@ -53,7 +53,6 @@ class ClientsController extends App_Controller
 
         $GLOBALS['current_user'] = $currentUser;
         $GLOBALS['cart_prospects'] = $cart_prospects;
-
         $this->load->library('app_clients_area_constructor');
 
         if (method_exists($this, 'validateContact')) {

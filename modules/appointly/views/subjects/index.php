@@ -46,7 +46,7 @@ $subjects = $this->Appointments_subject_model->get_all();
             <!-- Render the subjects table -->
             <div class="panel_s">
                <div class="panel-body panel-table-full">
-                  <?php if (!empty($subjects)) : ?>
+                  <?php if (!empty($subjects)): ?>
                      <table class="table dt-table table-subjects" data-order-col="0" data-order-type="asc">
                         <thead>
                            <tr>
@@ -56,19 +56,24 @@ $subjects = $this->Appointments_subject_model->get_all();
                            </tr>
                         </thead>
                         <tbody>
-                           <?php foreach ($subjects as $subject) : ?>
+                           <?php foreach ($subjects as $subject): ?>
                               <tr>
                                  <td><?php echo $subject['name']; ?></td>
                                  <td><?php echo $subject['subject']; ?></td>
                                  <td class="text-right">
                                     <div class="btn-action-wrapper">
-                                       <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>" data-name="<?php echo $subject['subject']; ?>" data-booking="<?php echo $subject['booking_page_id']; ?>" data-toggle="modal" data-target="#edit_subject_modal">
+                                       <button type="button" class="btn-edit-subject" data-id="<?php echo $subject['id']; ?>"
+                                          data-name="<?php echo $subject['subject']; ?>"
+                                          data-booking="<?php echo $subject['booking_page_id']; ?>" data-toggle="modal"
+                                          data-target="#edit_subject_modal">
                                           <i class="fa-regular fa-pen-to-square fa-lg"></i>
                                        </button>
-                                       <form method=" POST" action="<?php echo admin_url('appointly/subjects/delete'); ?>">
-                                          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                       <form method=" POST" action="subjects/delete">
+                                          <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                             value="<?php echo $this->security->get_csrf_hash(); ?>">
                                           <input type="hidden" name="subject_id" value="<?php echo $subject['id']; ?>">
-                                          <button type="submit" class="btn-delete-subject"><i class="fa-regular fa-trash-can fa-lg"></i></button>
+                                          <button type="submit" class="btn-delete-subject"><i
+                                                class="fa-regular fa-trash-can fa-lg"></i></button>
                                        </form>
                                     </div>
                                  </td>
@@ -76,7 +81,7 @@ $subjects = $this->Appointments_subject_model->get_all();
                            <?php endforeach; ?>
                         </tbody>
                      </table>
-                  <?php else : ?>
+                  <?php else: ?>
                      <p><?php echo _l('No subjects found.'); ?></p>
                   <?php endif; ?>
                </div>
@@ -87,7 +92,8 @@ $subjects = $this->Appointments_subject_model->get_all();
 </div>
 
 <!-- Create subject Modal -->
-<div class="modal fade" id="subject_modal" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true">
+<div class="modal fade" id="subject_modal2" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label"
+   aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -97,31 +103,32 @@ $subjects = $this->Appointments_subject_model->get_all();
             <h4 class="modal-title" id="subject_modal_label">Add New Subject</h4>
          </div>
          <div class="modal-body">
-            <form method="POST" action="<?php echo base_url('admin/appointly/subjects/create'); ?>">
+            <form method="POST">
                <!-- Include CSRF Token -->
-               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                  value="<?php echo $this->security->get_csrf_hash(); ?>">
                <div class="form-group">
                   <label for="subject_name">Subject Name</label>
-                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="subject_name" required />
+                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="subject_name"
+                     required />
                </div>
                <?php
-               if(isset($booking_pages)){
-                echo render_select(
-                    'booking_page_id',
-                    $booking_pages,
-                    ['id', ['name']],
-                    'subject_booking_page_name_field',
-                    '',
-                    [],
-                    [],
-                    'mtop15',
-                    false
-                );
-               }
-               else {
+               if (isset($booking_pages)) {
+                  echo render_select(
+                     'booking_page_id',
+                     $booking_pages,
+                     ['id', ['name']],
+                     'subject_booking_page_name_field',
+                     '',
+                     [],
+                     [],
+                     'mtop15',
+                     false
+                  );
+               } else {
                   echo 'Please add a booking page first';
                }
-               
+
                ?>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -134,7 +141,8 @@ $subjects = $this->Appointments_subject_model->get_all();
 </div>
 
 <!-- Edit Subject Modal -->
-<div class="modal fade" id="edit_subject_modal" tabindex="-1" role="dialog" aria-labelledby="edit_subject_modal_label" aria-hidden="true">
+<div class="modal fade" id="edit_subject_modal" tabindex="-1" role="dialog" aria-labelledby="edit_subject_modal_label"
+   aria-hidden="true">
    <div class="modal-dialog" role="document">
       <div class="modal-content">
          <div class="modal-header">
@@ -144,18 +152,72 @@ $subjects = $this->Appointments_subject_model->get_all();
             <h4 class="modal-title" id="edit_subject_modal_label">Edit Subject</h4>
          </div>
          <div class="modal-body">
-           
-         <form method="POST" action="<?php echo base_url('admin/appointly/subjects/update'); ?>">
+
+            <form method="POST" action="<?php echo base_url('admin/appointly/subjects/update'); ?>">
                <!-- Include CSRF Token -->
-               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
-               <input type="hidden" name="subject_id" id="edit_subject_id" >
+               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                  value="<?php echo $this->security->get_csrf_hash(); ?>">
+               <input type="hidden" name="subject_id" id="edit_subject_id">
                <div class="form-group">
                   <label for="edit_subject_name">Subject Name</label>
-                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="edit_subject_name" required />
+                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject"
+                     id="edit_subject_name" required />
                </div>
                <div id="">
+                  <?php
+                  if (isset($booking_pages)) {
+                     echo render_select(
+                        'booking_page_id',
+                        $booking_pages,
+                        ['id', ['name']],
+                        'subject_booking_page_name_field',
+                        '',
+                        [],
+                        [],
+                        'mtop15',
+                        false
+                     );
+                  } else {
+                     echo 'Please add a booking page first';
+                  }
+
+                  ?>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!--  Create status Modal -->
+<div class="modal fade" id="subject_modal" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label"
+   aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button group="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Add New Status</h4>
+         </div>
+
+         <div class="modal-body">
+
+            <form method="POST" action="subjects/create">
+               <!-- Include CSRF Token -->
+               <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                  value="<?php echo $this->security->get_csrf_hash(); ?>">
+               <div class="form-group">
+                  <label for="subject_name">Subject Name</label>
+                  <input type="text" class="form-control" name="subject" placeholder="Enter Subject" id="subject_name"
+                     required />
+               </div>
                <?php
-               if(isset($booking_pages)){
+               if (isset($booking_pages)) {
                   echo render_select(
                      'booking_page_id',
                      $booking_pages,
@@ -167,38 +229,51 @@ $subjects = $this->Appointments_subject_model->get_all();
                      'mtop15',
                      false
                   );
-               }
-               else {
+               } else {
                   echo 'Please add a booking page first';
                }
-               
+
                ?>
-            </div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-               <button type="submit" class="btn btn-primary">Save Changes</button>
-            </div>
-         </form>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+               </div>
+            </form>
          </div>
       </div>
    </div>
 </div>
 
-
 <?php init_tail(); ?>
 
 <script>
-   $(function() {
+   $(function () {
       // Confirmation dialog for delete
-      $(document).on('click', '.btn-delete-subject', function(e) {
+      $(document).on('click', '.btn-delete-subject', function (e) {
          e.preventDefault();
-         var form = $(this).closest('form');
+         var form = $(this).closest('form')[0];
          if (confirm('Are you sure you want to delete this subject?')) {
-            form.submit();
+            let data = {};
+            data[form.querySelector('input[type=hidden').name] = form.querySelector('input[type=hidden').value;
+            data['subject_id'] = form.querySelector('input[name=subject_id').value;
+            $.ajax({
+               url: 'subjects/delete',
+               data,
+               type: 'POST',
+               success: ((res) => {
+                  alert_float('success', 'Subject deleted successfully');
+                  setTimeout(() => {
+                     document.location.reload();
+                  }, 1000);
+               }),
+               error: ((err) => {
+                  alert_float('danger', 'Something went wrong. Please try again later')
+               })
+            })
          }
       });
       // Update subject modal with the selected subject data
-      $(document).on('click', '.btn-edit-subject', function() {
+      $(document).on('click', '.btn-edit-subject', function () {
          var id = $(this).data('id');
          var name = $(this).data('name');
          var booking_page_id = $(this).data('booking');
@@ -206,9 +281,10 @@ $subjects = $this->Appointments_subject_model->get_all();
          $('#edit_subject_name').val(name);
 
          $('#booking_page_id').val(booking_page_id)
-         $('.filter-option-inner-inner').text($('#booking_page_id option[value='+booking_page_id+']').text())
-         });
+         $('.filter-option-inner-inner').text($('#booking_page_id option[value=' + booking_page_id + ']').text())
+      });
    });
+
 </script>
 </body>
 

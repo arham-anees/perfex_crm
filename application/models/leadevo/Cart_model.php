@@ -20,17 +20,6 @@ class Cart_model extends CI_Model
         return $query->result_array();
     }
 
-    public function get_cart_prospects()
-    {
-        if (!is_client_logged_in())
-            return [];
-        $sql = "SELECT DISTINCT p.* FROM tblleadevo_cart c
-                INNER JOIN tblleadevo_prospects p ON p.id = c.prospect_id
-                WHERE c.client_id = '" . get_client_user_id() . "';";
-        $query = $this->db->query($sql);
-        return $query->result_array();
-    }
-
     public function add_item($data)
     {
         $data['client_id'] = get_client_user_id();
@@ -44,5 +33,15 @@ class Cart_model extends CI_Model
         $this->db->where('prospect_is', $id);
         $this->db->delete($this->table);
         return $this->db->affected_rows();
+    }
+    public function get_cart_prospects()
+    {
+        if (!is_client_logged_in())
+            return [];
+        $sql = "SELECT DISTINCT p.* FROM tblleadevo_cart c
+                INNER JOIN tblleadevo_prospects p ON p.id = c.prospect_id
+                WHERE c.client_id = '" . get_client_user_id() . "';";
+        $query = $this->db->query($sql);
+        return $query->result_array();
     }
 }

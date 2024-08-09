@@ -7,7 +7,7 @@
                 <img src=''/>
             </div>
         </li>
-        
+
         <?php if (is_client_logged_in()) { ?>
         <?php foreach ($sidebar_menu as $key => $item) {
              if ((isset($item['collapse']) && $item['collapse']) && count($item['children']) === 0) {
