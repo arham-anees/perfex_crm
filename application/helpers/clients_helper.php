@@ -362,6 +362,13 @@ function app_init_customer_profile_tabs()
         'position' => 95,
         'badge' => [],
     ]);
+    $CI->app_tabs->add_customer_profile_tab('campaigns', [
+        'name' => _l('customer_campaigns'),
+        'icon' => 'fa-solid fa-location-dot',
+        'view' => 'admin/clients/groups/campaigns',
+        'position' => 16,
+        'badge' => [],
+    ]);
 }
 
 /**
