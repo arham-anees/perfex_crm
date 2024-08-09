@@ -27,6 +27,7 @@ hooks()->add_action('admin_init', 'app_init_project_tabs');
 hooks()->add_action('admin_init', 'app_init_settings_tabs');
 hooks()->add_action('admin_init', '_maybe_set_identification_key');
 
+
 if (get_instance()->config->item('csrf_protection')) {
     hooks()->add_action('app_admin_head', 'csrf_jquery_token');
     hooks()->add_action('app_customers_head', 'csrf_jquery_token');
@@ -93,8 +94,8 @@ function _maybe_add_estimate_request_link_in_customers_area()
             );
 
             add_theme_menu_item('estimate-request', [
-                'name'     => _l('customers_estimate_request_link_text'),
-                'href'     => $link,
+                'name' => _l('customers_estimate_request_link_text'),
+                'href' => $link,
                 'position' => 1,
             ]);
         }
