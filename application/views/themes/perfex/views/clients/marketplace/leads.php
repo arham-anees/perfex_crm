@@ -430,30 +430,14 @@
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="location_from"><?php echo _l('From'); ?></label>
-                                <select id="location_from" name="location_from" class="filter-input"
-                                    data-none-selected-text="<?php echo _l('Select Country'); ?>">
-                                    <option value=""><?php echo _l('Select Country'); ?></option>
-                                    <?php foreach ($countries as $country): ?>
-                                        <option value="<?php echo $country['country_id']; ?>">
-                                            <?php echo $country['short_name']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="start_date"><?php echo _l('From'); ?></label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="location_to"><?php echo _l('To'); ?></label>
-                                <select id="location_to" name="location_to" class="filter-input"
-                                    data-none-selected-text="<?php echo _l('Select Country'); ?>">
-                                    <option value=""><?php echo _l('Select Country'); ?></option>
-                                    <?php foreach ($countries as $country): ?>
-                                        <option value="<?php echo $country['country_id']; ?>">
-                                            <?php echo $country['short_name']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label for="end_date"><?php echo _l('To'); ?></label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" >
                             </div>
                         </div>
                     </div>
