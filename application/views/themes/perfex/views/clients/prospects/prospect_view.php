@@ -5,40 +5,16 @@
         <div class="panel_s">
             <div class="panel-body">
                 <h4 class="no-margin"><?php echo _l('Prospect Details'); ?></h4>
-                <hr class="hr-panel-heading">
-                
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th><?php echo _l('Prospect Name'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->prospect_name); ?></td>
-                        </tr>
-                        <tr>
-                            <th><?php echo _l('Status'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->status); ?></td>
-                        </tr>
-                        <tr>
-                            <th><?php echo _l('Type'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->type); ?></td>
-                        </tr>
-                        <tr>
-                            <th><?php echo _l('Category'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->category); ?></td>
-                        </tr>
-                        <tr>
-                            <th><?php echo _l('Acquisition Channel'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->acquisition_channel); ?></td>
-                        </tr>
-                        <tr>
-                            <th><?php echo _l('Industry'); ?></th>
-                            <td><?php echo htmlspecialchars($prospect->industry); ?></td>
-                        </tr>
-                    </table>
+                <hr class="hr-panel-heading" />
+                <div class="prospect-details">
+                    <p><strong><?php echo _l('First Name'); ?>:</strong> <?php echo $prospect->first_name; ?></p>
+                    <p><strong><?php echo _l('Last Name'); ?>:</strong> <?php echo $prospect->last_name; ?></p>
+                    <p><strong><?php echo _l('Phone'); ?>:</strong> <?php echo $prospect->phone; ?></p>
+                    <p><strong><?php echo _l('Email'); ?>:</strong> <?php echo $prospect->email; ?></p>
+                    <!-- Add other fields as needed -->
+                    <a href="<?php echo site_url('prospects/edit/' . $prospect->id); ?>" class="btn btn-default"><?php echo _l('Edit'); ?></a>
+                    <a href="<?php echo site_url('prospects'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                 </div>
-                
-                <a href="<?php echo site_url('prospects'); ?>" class="btn btn-default">
-                    <?php echo _l('Back to List'); ?>
-                </a>
             </div>
         </div>
     </div>
