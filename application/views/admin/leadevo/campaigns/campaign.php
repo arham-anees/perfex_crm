@@ -15,6 +15,8 @@
                   <tr>
                     <th><?php echo _l('Name'); ?></th>
                     <th><?php echo _l('Description'); ?></th>
+                    <th><?php echo _l('Start Date'); ?></th>
+                    <th><?php echo _l('End Date'); ?></th>
                     <th><?php echo _l('Active'); ?></th>
                     <th><?php echo _l('Actions'); ?></th>
                   </tr>
@@ -24,6 +26,8 @@
                     <tr>
                       <td><?php echo $campaign->name; ?></td>
                       <td><?php echo $campaign->description; ?></td>
+                      <td><?php echo date('Y-m-d', strtotime($campaign->start_date)); ?></td>
+                      <td><?php echo date('Y-m-d', strtotime($campaign->end_date)); ?></td>
                       <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
                       <td>
                         <a href="<?php echo admin_url('leadevo/campaigns/view/' . $campaign->id); ?>"
