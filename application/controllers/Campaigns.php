@@ -5,20 +5,23 @@ class Campaigns extends ClientsController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Campaigns_model');
-        $this->load->model('Industries_model'); // Load the Industries_model
-        $this->tenant_id = get_marketplace_id() ?: 0;
+        $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('leadevo/Industries_model');
+       
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
-        $data['tenant_id'] = $this->tenant_id;
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
-        $this->load->view('setup/campaigns/campaign', $data);
+        $this->data($data);
+        $this->view('clients/campaigns/campaign');
+        $this->layout();
+
     }
+  
 
     public function create()
     {
@@ -30,15 +33,15 @@ class Campaigns extends ClientsController
             // Validate dates
             if ($start_date < $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+                redirect(site_url('campaigns/create'));
             }
             if ($end_date < $start_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the start date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+                redirect(site_url('campaigns/create'));
             }
             if ($end_date < $current_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/create'));
+                redirect(site_url('campaigns/create'));
             }
 
             // Collect data from POST request
@@ -50,13 +53,12 @@ class Campaigns extends ClientsController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id,
                 'industry_id' => $this->input->post('industry_id') // Include industry_id
             ];
 
             $this->Campaigns_model->insert($data);
             set_alert('success', 'Campaign created successfully.');
-            redirect(admin_url('leadevo/campaigns'));
+            redirect(site_url('leadevo/campaigns'));
         }
 
         // Fetch statuses and industries for the dropdowns
@@ -64,7 +66,9 @@ class Campaigns extends ClientsController
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
 
         // Load the view for creating a campaign
-        $this->load->view('setup/campaigns/campaign_create', $data);
+        $this->data($data);
+        $this->view('clients/campaigns/campaign_create');
+        $this->layout();
     }
 
     public function edit($id)
@@ -77,15 +81,15 @@ class Campaigns extends ClientsController
             // Validate dates
             if ($start_date < $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/edit/' . $id));
+                redirect(site_url('campaigns/edit/' . $id));
             }
             if ($end_date < $start_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the start date.');
-                redirect(admin_url('leadevo/campaigns/edit/' . $id));
+                redirect(site_url('campaigns/edit/' . $id));
             }
             if ($end_date < $current_date) {
                 $this->session->set_flashdata('error', 'End date cannot be before the current date.');
-                redirect(admin_url('leadevo/campaigns/edit/' . $id));
+                redirect(site_url('campaigns/edit/' . $id));
             }
 
             $data = [
@@ -96,18 +100,19 @@ class Campaigns extends ClientsController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'tenant_id' => $this->tenant_id,
                 'industry_id' => $this->input->post('industry_id') // Include industry_id
 
             ];
             $this->Campaigns_model->update($id, $data);
             set_alert('success', 'Campaign updated successfully.');
-            redirect(admin_url('leadevo/campaigns'));
+            redirect(site_url('campaigns'));
         }
         $data['campaign'] = $this->Campaigns_model->get($id);
         $data['statuses'] = $this->Campaigns_model->get_campaign_statuses();
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
-        $this->load->view('setup/campaigns/campaign_edit', $data);
+        $this->data($data);
+        $this->view('clients/campaigns/campaign_edit');
+        $this->layout();
     }
 
     public function delete($id)
@@ -117,12 +122,16 @@ class Campaigns extends ClientsController
         } else {
             set_alert('danger', 'Failed to delete campaign.');
         }
-        redirect(admin_url('leadevo/campaigns'));
+        redirect(site_url('campaigns'));
     }
 
-    public function view($id)
+    public function campaign($id)
     {
         $data['campaign'] = $this->Campaigns_model->get($id);
-        $this->load->view('setup/campaigns/campaign_view', $data);
+        // $this->load->view('setup/campaigns/campaign_view', $data);
+        $this->data($data);
+        $this->view('clients/campaigns/campaign_view');
+        $this->layout();
     }
+
 }

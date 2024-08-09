@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<?php init_head(); ?>
+
 <style>
   #backBtn {
     background-color: transparent;
@@ -271,8 +271,7 @@
 
 
 </style>
-<div id="wrapper">
-  <div class="content">
+
     <div class="row main_row">
       <div class="col-md-12">
         <div class="panel_s">
@@ -304,15 +303,15 @@
                       <td><?php echo $campaign->description; ?></td>
                       <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
                       <td>
-                        <a href="<?php echo admin_url('leadevo/campaigns/view/' . $campaign->id); ?>"
+                        <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>"
                           class="btn btn-default btn-icon">
                           <i class="fa fa-eye"></i>
                         </a>
-                        <a href="<?php echo admin_url('leadevo/campaigns/edit/' . $campaign->id); ?>"
+                        <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>"
                           class="btn btn-default btn-icon">
                           <i class="fa fa-pencil"></i>
                         </a>
-                        <a href="<?php echo admin_url('leadevo/campaigns/delete/' . $campaign->id); ?>"
+                        <a href="<?php echo site_url('campaigns/delete/' . $campaign->id);?>"
                           class="btn btn-danger btn-icon"
                           onclick="return confirm('Are you sure you want to delete this campaign ?');">
                           <i class="fa fa-remove"></i>
@@ -328,9 +327,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+
 
 <!-- Modal -->
 
