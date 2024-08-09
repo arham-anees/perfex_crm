@@ -439,22 +439,26 @@
       </div>
 
       <!-- Deals -->
-      <div class="wizard-step" data-step="4">
-        <h3>Deal</h3>
-        <div class="radio-container">
-          <input type="radio" id="option1" name="options">
-          <label for="option1">$75 (buy exclusively)</label>
-          <span class="info-icon" data-tooltip="Defining if he wants to buy exclusively or non-exclusively prospects"><i
-              class="fa fa-info-circle" style="font-size:20px"></i></span>
-        </div>
-        <div class="radio-container">
-          <input type="radio" id="option2" name="options">
-          <label for="option2">$35 (buy non-exclusively)</label>
-          <span class="info-icon" data-tooltip="Defining if he wants to buy exclusively or non-exclusively prospects"><i
-              class="fa fa-info-circle" style="font-size:20px"></i></span>
-        </div>
-
-      </div>
+      <!-- Deals  -->
+<div class="wizard-step" data-step="4">
+    <h3>Deal</h3>
+    
+    <div class="radio-container">
+        <input type="radio" id="option1" name="options">
+        <label for="option1">$75 (buy exclusively)</label>
+        <span class="info-icon" data-tooltip="<?php echo get_information('exclusive'); ?>">
+            <i class="fa fa-info-circle" style="font-size:20px"></i>
+        </span>
+    </div>
+    
+    <div class="radio-container">
+        <input type="radio" id="option2" name="options">
+        <label for="option2">$35 (buy non-exclusively)</label>
+        <span class="info-icon" data-tooltip="<?php echo get_information('non_exclusive'); ?>">
+            <i class="fa fa-info-circle" style="font-size:20px"></i>
+        </span>
+    </div>
+</div>
 
       <!-- Quality -->
 
