@@ -101,7 +101,6 @@
 
                         <?php echo form_close(); ?>
                     </div>
-            <h1>Prospect created successfully</h1>
         </div>
     </div>
 </div>

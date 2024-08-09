@@ -71,7 +71,7 @@
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
                                             
                                                 <td>
-                                                    <a href="<?php echo site_url('prospects/view/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo site_url('prospects/prospect/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
