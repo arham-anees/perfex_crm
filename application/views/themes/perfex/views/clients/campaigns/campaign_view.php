@@ -47,11 +47,11 @@
                     <p><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></p>
                 </div>
                 <div class="form-group">
-                    <a href="<?php echo admin_url('leadevo/campaigns/edit/' . $campaign->id); ?>"
+                    <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>"
                         class="btn btn-primary">
                         <?php echo _l('Edit'); ?>
                     </a>
-                    <a href="<?php echo admin_url('leadevo/campaigns'); ?>" class="btn btn-default">
+                    <a href="<?php echo site_url('campaigns'); ?>" class="btn btn-default">
                         <?php echo _l('Back'); ?>
                     </a>
                 </div>

@@ -9,7 +9,7 @@
                         <?php if ($this->session->flashdata('error')): ?>
                             <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
                         <?php endif; ?>
-                        <?php echo form_open(admin_url('leadevo/campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
+                        <?php echo form_open(site_url('campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
                             <input type="text" id="name" name="name" class="form-control" value="<?php echo $campaign->name; ?>" required>
