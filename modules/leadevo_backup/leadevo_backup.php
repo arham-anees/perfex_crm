@@ -116,6 +116,14 @@ function leadevo_register_menu_items()
             'position' => 3,
             'icon'     => 'fa fa-th-list',
         ]);
+        //this is the prospect sources menu item for the user
+        $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
+            'slug'     => 'leadevo-user-prospect-sources',
+            'name'     => 'Prospect Sources',
+            'href'     => admin_url('Prospect_sources'),
+            'position' => 4,
+            'icon'     => 'fa fa-th-list',
+        ]);
         // $CI->app_menu->add_sidebar_children_item(LEAD_EVO_MODULE_NAME, [
         //     'slug'     => 'leadevo-user-prospects',
         //     'name'     => 'Prospects',
