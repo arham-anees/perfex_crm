@@ -25,7 +25,7 @@ class Prospects extends ClientsController
         $this->layout();
     }
 
-    public function view($id)
+    public function prospect($id)
     {
         $data['prospect'] = $this->Prospects_model->get($id);
         $this->data($data);
