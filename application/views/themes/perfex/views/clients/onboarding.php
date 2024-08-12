@@ -251,7 +251,7 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <h4 class="pull-left mleft10"><?php echo _l('Onboarding'); ?></h4>
-                            <button class="btn btn-success pull-right display-block mleft10" data-toggle="modal" data-target="#inviteFriendModal">
+                            <button type="button" class="btn btn-success pull-right display-block mleft10" data-toggle="modal" data-target="#inviteFriendModal">
                                 <i class="fa-solid fa-user-plus tw-mr-1"></i>
                                 <?php echo _l('Invite Friend'); ?>
                             </button>
@@ -433,7 +433,7 @@
     </div>
 </div>
 
-<div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
             <!-- Modal Header -->
@@ -511,7 +511,7 @@
         </div>
     </div>
 </div>
-
+<?php init_tail(); ?>
 <script>
     var currentStep = <?= $completed_step ?>;
     console.log(currentStep);
@@ -666,3 +666,4 @@
         }).done((x) => {})
     }
 </script>
+
