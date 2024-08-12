@@ -343,6 +343,15 @@ class Prospects_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
     }
+
+    public function rate($id, $ratings)
+    {
+        $data['user_id'] = get_staff_user_id();
+        $data['prospect_id'] = $id;
+        $data['rating'] = $ratings;
+        $data['rated_at'] = date('Y-m-d H:i:s');
+        return $this->db->insert(db_prefix() . 'leadevo_prospects_rating', $data);
+    }
     public function update_sale_status($id, $available)
     {
         $this->db->where('id', $id);

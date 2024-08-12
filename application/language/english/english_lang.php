@@ -3988,3 +3988,5 @@ $lang['leadevo_deals_discount_type'] = 'Deals Discount Type';
 $lang['leadevo_exclusive_deal'] = 'Exclusive Deals';
 $lang['leadevo_nonexclusive_deal'] = 'Non Exclusive Deals';
 $lang['leadevo_deals_discount_amount'] = 'Discounted Amount';
+$lang['leadevo_prospect_ratings_description'] = 'Your feedback is crucial in maintaining our standards. Please take a moment to rate this.';
+$lang['leadevo_prospect_ratings_title'] = 'Rate the Prospect';
