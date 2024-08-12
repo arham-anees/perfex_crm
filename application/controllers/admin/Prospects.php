@@ -113,7 +113,7 @@ class Prospects extends AdminController
     {
         $id = $this->input->post('id');
         if (isset($id)) {
-            $this->Prospects_model->mark_available_sale($id);
+            $this->Prospects_model->update_sale_status($id, 1);
         }
         redirect(admin_url('prospects'));
     }

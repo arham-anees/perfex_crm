@@ -26,7 +26,7 @@ init_client_head(true);
         <?php } ?>
         <div class="<?= is_client_logged_in() ? '' : 'container' ?>">
             <?php hooks()->do_action('customers_content_container_start'); ?>
-            <div class="row  padding-30">
+            <div class="row  padding-30" style="margin:0">
                 <?php
                 /**
                  * Don't show calendar for invoices, estimates, proposals etc.. views where no navigation is included or in kb area

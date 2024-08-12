@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
+<?php init_head(); ?>
 <style>
     .lead-title {
         font-size: 2rem;
@@ -369,12 +369,14 @@
         margin-top: 2px;
     }
 </style>
-<div class="row main_row">
-    <div class="col-md-12">
-        <div class="panel_s">
-            <div class="panel-body">
-                <!-- Marketplace Results Section -->
-                <!-- <div class="row">
+<div id="wrapper">
+    <div class="content">
+        <div class="row main_row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+                        <!-- Marketplace Results Section -->
+                        <!-- <div class="row">
                     <div class="col-md-6">
                         <p class="lead-title">
                             <?php echo _l("Meet Industry's Most Advanced Real Estate Lead Marketplace"); ?>
@@ -385,177 +387,160 @@
                         <button class="btn learn_more_btn"><?php echo _l('Learn More'); ?></button>
                     </div>
                 </div> -->
-                <form id="filterForm" action="marketplace/index" method="post">
-                    <?php $csrf = $this->security->get_csrf_hash(); ?>
+                        <form id="filterForm" action="marketplace/index" method="post">
+                            <?php $csrf = $this->security->get_csrf_hash(); ?>
 
 
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="zip"><?php echo _l('Zip Codes'); ?></label>
-                                <input type="number" id="zip_code" name="zip" class="filter-input">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
-                                <select id="acquisition" name="acquisition" class="filter-input">
-                                    <?php foreach ($acquisitions as $acquisition): ?>
-                                        <option value="<?php echo $acquisition->id; ?>"><?php echo $acquisition->name; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
-                                <input type="text" id="price_range_start" name="price_range_start" class="filter-input">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
-                                <input type="text" id="price_range_end" name="price_range_end" class="filter-input">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="start_date"><?php echo _l('From'); ?></label>
-                                <input type="date" id="start_date" name="start_date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="end_date"><?php echo _l('To'); ?></label>
-                                <input type="date" id="end_date" name="end_date" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="deal"><?php echo _l('deal'); ?></label>
-                                <select id="deal" name="deal" class="filter-input">
-                                    <option value="" disabled selected>Select Deals</option>
-                                    <option value="0">Exclusive Deal</option>
-                                    <option value="1">Non Exclusive Deal</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="quality"><?php echo _l('quality'); ?></label>
-                                <select id="quality" name="quality" class="filter-input">
-                                    <option value="" disabled selected>Select verification method</option>
-                                    <option value="4">Verified By Staff</option>
-                                    <option value="3">Verified By SMS</option>
-                                    <option value="2">Verified By WhatsApp</option>
-                                    <option value="1">Verified By Coherence</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <!-- <button class="btn regular_price_btn">
-                                <div class="button-content">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <div class="text-container">
-                                        <span class="bold-text">$345-$563 Buy lead</span>
-                                        <span class="small-text">regular price</span>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="zip"><?php echo _l('Zip Codes'); ?></label>
+                                        <input type="number" id="zip_code" name="zip" class="filter-input">
                                     </div>
                                 </div>
-                            </button> -->
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
+                                        <select id="acquisition" name="acquisition" class="filter-input">
+                                            <?php foreach ($acquisitions as $acquisition): ?>
+                                                <option value="<?php echo $acquisition->id; ?>">
+                                                    <?php echo $acquisition->name; ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
+                                        <input type="text" id="price_range_start" name="price_range_start"
+                                            class="filter-input">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
+                                        <input type="text" id="price_range_end" name="price_range_end"
+                                            class="filter-input">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="start_date"><?php echo _l('From'); ?></label>
+                                        <input type="date" id="start_date" name="start_date" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="end_date"><?php echo _l('To'); ?></label>
+                                        <input type="date" id="end_date" name="end_date" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="deal"><?php echo _l('deal'); ?></label>
+                                        <select id="deal" name="deal" class="filter-input">
+                                            <option value="" disabled selected>Select Deals</option>
+                                            <option value="0">Exclusive Deal</option>
+                                            <option value="1">Non Exclusive Deal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="filter-group">
+                                        <label for="quality"><?php echo _l('quality'); ?></label>
+                                        <select id="quality" name="quality" class="filter-input">
+                                            <option value="" disabled selected>Select verification method</option>
+                                            <option value="4">Verified By Staff</option>
+                                            <option value="3">Verified By SMS</option>
+                                            <option value="2">Verified By WhatsApp</option>
+                                            <option value="1">Verified By Coherence</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                        value="<?php echo $this->security->get_csrf_hash(); ?>">
+                                </div>
+
+                            </div>
+                            <div style="height:20px">
+                                <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
+                            </div>
+                        </form>
+
+                        <hr />
+                        <div class="table-responsive">
+                            <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo _l('Metadata'); ?></th>
+                                        <th><?php echo _l('Lead'); ?></th>
+                                        <th><?php echo _l('Contact'); ?></th>
+                                        <th><?php echo _l('Lead Type'); ?></th>
+                                        <th><?php echo _l('Actions'); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($prospects as $prospect): ?>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <strong><?php echo _l('Prospect ID'); ?>:</strong>
+                                                    <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
+                                                    <strong><?php echo _l('Generated date'); ?>:</strong>
+                                                    <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                                                    <strong><?php echo _l('Industry'); ?>:</strong>
+                                                    <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong>Full name:</strong>
+                                                    <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
+                                                    <strong><?php echo _l('Zip code'); ?>:</strong>
+                                                    <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <strong>Phone:</strong>
+                                                <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
+                                                <strong>Email:</strong>
+                                                <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <strong><?php echo _l('Source'); ?>:</strong>
+                                                    <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
+                                                    <strong><?php echo _l('Deal'); ?>:</strong>
+                                                    <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
+                                                    <strong><?php echo _l('Quality'); ?>:</strong>
+                                                    <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+
+
+                            </table>
                         </div>
-
                     </div>
-                    <div style="height:20px">
-                        <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
-                    </div>
-                </form>
-
-                <hr />
-                <div class="table-responsive">
-                    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th><?php echo _l('Metadata'); ?></th>
-                                <th><?php echo _l('Lead'); ?></th>
-                                <th><?php echo _l('Contact'); ?></th>
-                                <th><?php echo _l('Lead Type'); ?></th>
-                                <th><?php echo _l('Actions'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($prospects as $prospect): ?>
-                                <tr>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Generated date'); ?>:</strong>
-                                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
-                                            <strong><?php echo _l('Industry'); ?>:</strong>
-                                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong>Full name:</strong>
-                                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Zip code'); ?>:</strong>
-                                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <strong>Phone:</strong>
-                                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                                        <strong>Email:</strong>
-                                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Source'); ?>:</strong>
-                                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Deal'); ?>:</strong>
-                                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Quality'); ?>:</strong>
-                                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-
-
-                                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
-                                        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
-
-                                        <!-- Submit Button -->
-                                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to
-                            cart" />
-                                        <?php echo form_close(); ?>
-                                        <input type="checkbox"
-                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                                        <label
-                                            for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-
-
-                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     function enterFullscreen() {
         var video = document.getElementById('marketplaceVideo');
@@ -664,18 +649,7 @@
             });
         });
     });
-    function addToCart(id) {
-        $.ajax({
-            url: site_url + 'dashboard/add_to_cart',
-            type: 'POST',
-            data: { 'prospect_id': id },
-            success: function (response) {
-                // reload
-                document.location.reload();
-            },
-            error: function (xhr, status, error) {
-                alert_float('danger', error?.message ?? 'Something went wrong. Please try again later')
-            }
-        })
-    }
+
 </script>
+
+<?php init_tail(); ?>

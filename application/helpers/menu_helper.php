@@ -38,7 +38,7 @@ function app_init_admin_sidebar_menu_items()
         'slug' => 'leadevo',
         'href' => admin_url('prospects'),
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
