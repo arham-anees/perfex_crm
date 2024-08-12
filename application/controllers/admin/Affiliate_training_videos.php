@@ -5,7 +5,8 @@ class Affiliate_training_videos extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Affiliate_training_videos_model');
+        $this->load->model('leadevo/Affiliate_training_videos_model');
+
     }
 
     public function index()
@@ -14,7 +15,8 @@ class Affiliate_training_videos extends AdminController
         if (empty($data['videos'])) {
             set_alert('danger', 'No videos found or an error occurred while fetching videos.');
         }
-        $this->load->view('leadevo_backup/affiliate-training-videos/affiliate_training_videos', $data);
+        $this->load->view('admin/leadevo/affiliate-training-videos/affiliate_training_videos', $data);
+
     }
 
     public function edit($id)
@@ -33,11 +35,11 @@ class Affiliate_training_videos extends AdminController
             } else {
                 set_alert('danger', 'Failed to update video information.');
             }
-            redirect(admin_url('leadevo_backup/affiliate_training_videos'));
+            redirect(admin_url('affiliate_training_videos'));
         }
 
         $data['video'] = $this->Affiliate_training_videos_model->get($id);
-        $this->load->view('leadevo_backup/affiliate-training-videos/edit', $data);
+        $this->load->view('admin/leadevo/affiliate-training-videos/edit', $data);
     }
 
     public function delete($id)
@@ -47,12 +49,12 @@ class Affiliate_training_videos extends AdminController
         } else {
             set_alert('danger', 'Failed to delete video.');
         }
-        redirect(admin_url('leadevo_backup/affiliate_training_videos'));
+        redirect(admin_url('affiliate_training_videos'));
     }
 
     public function view($id)
     {
         $data['video'] = $this->Affiliate_training_videos_model->get($id);
-        $this->load->view('leadevo_backup/affiliate-training-videos/view', $data);
+        $this->load->view('admin/leadevo/affiliate-training-videos/view', $data);
     }
 }

@@ -8,7 +8,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                     <div class="_buttons">
-                            <a href="<?php echo admin_url('leadevo_backup/affiliate_training_videos'); ?>" class="btn btn-primary mb-3">
+                            <a href="<?php echo admin_url('affiliate_training_videos'); ?>" class="btn btn-primary mb-3">
                                 <i class="fa fa-arrow-left tw-mr-1"></i>
                                 <?php echo _l('Back to List'); ?>
                             </a>
@@ -16,7 +16,7 @@
                         </div>
                         <hr class="hr-panel-heading" />
                         <h4><?php echo _l('Edit Video'); ?></h4>
-                        <?php echo form_open(admin_url('leadevo_backup/affiliate_training_videos/edit/' . $video['id'])); ?>
+                        <?php echo form_open(admin_url('affiliate_training_videos/edit/' . $video['id'])); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
                             <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($video['name']); ?>">
