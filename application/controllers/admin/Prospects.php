@@ -20,6 +20,13 @@ class Prospects extends AdminController
         $this->load->view('admin/leadevo/prospects/index', $data);
     }
 
+    public function fake()
+    {
+
+        $data['prospects'] = $this->Prospects_model->get_all_fake();
+        $this->load->view('admin/leadevo/prospects/fake', $data);
+    }
+
     public function edit($id)
     {
         if ($this->input->post()) {

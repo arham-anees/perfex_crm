@@ -54,7 +54,7 @@ function app_init_admin_sidebar_menu_items()
         'href' => admin_url('prospects/fake'),
         'slug' => 'leadevo_fake_prospects',
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
 
