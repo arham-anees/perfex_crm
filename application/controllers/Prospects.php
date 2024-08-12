@@ -82,7 +82,10 @@ class Prospects extends ClientsController
                 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
+                'desired_amount' => $this->input->post('desired_amount'),
+                'min_amount' => $this->input->post('min_amount'),
             ];
+
 
             $this->Prospects_model->insert($data);
             redirect('prospects');
@@ -121,6 +124,8 @@ class Prospects extends ClientsController
                 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
+                'desired_amount' => $this->input->post('desired_amount'),
+                'min_amount' => $this->input->post('min_amount'),
             ];
             $this->Prospects_model->update($id, $data);
             redirect('prospects');

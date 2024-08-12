@@ -251,10 +251,11 @@
                     <div class="panel-body">
                         <div class="_buttons">
                             <h4 class="pull-left mleft10"><?php echo _l('Onboarding'); ?></h4>
-                            <a href="#" class="btn btn-success pull-right display-block mleft10">
+                            <button type="button" class="btn btn-success pull-right display-block mleft10" data-toggle="modal" data-target="#inviteFriendModal">
                                 <i class="fa-solid fa-user-plus tw-mr-1"></i>
                                 <?php echo _l('Invite Friend'); ?>
-                            </a>
+                            </button>
+
                             <div class="clearfix"></div>
                         </div>
                         <hr class="hr-panel-heading" />
@@ -432,7 +433,7 @@
     </div>
 </div>
 
-<div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="inviteFriendModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
             <!-- Modal Header -->
@@ -510,11 +511,11 @@
         </div>
     </div>
 </div>
-
+<?php init_tail(); ?>
 <script>
     var currentStep = <?= $completed_step ?>;
     console.log(currentStep);
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         var video = document.getElementById('welcome-video');
         var completeBtn = document.getElementById('complete-btn');
         var continueBtn = document.getElementById('continue-btn');
@@ -546,13 +547,13 @@
         progressBar.setAttribute('aria-valuenow', progressPercentage);
         progressBar.textContent = Math.round(progressPercentage) + '%';
         // Enable complete button when video ends
-        video.addEventListener('ended', function () {
+        video.addEventListener('ended', function() {
             completeBtn.disabled = false;
         });
         // currentStep++;
         onContinueClick();
         // Handle click for the complete button
-        completeBtn.addEventListener('click', function () {
+        completeBtn.addEventListener('click', function() {
             // if (currentStep === 0 && !video.ended) {
             //     alert("Please watch the video before continuing.");
             //     return;
@@ -560,14 +561,14 @@
             currentStep++;
             onContinueClick();
         });
+
         function onContinueClick() {
 
             if (currentStep < totalSteps) {
                 var main = document.getElementsByClassName('step-0')[0];
                 if (main) {
                     main.classList.remove('step-0');
-                }
-                else {
+                } else {
 
                     main = document.getElementsByClassName('step-' + (currentStep))[0];
                     main.classList.remove('step-' + (currentStep));
@@ -588,9 +589,7 @@
                 }
 
                 // Display the next section based on the current step
-                if (currentStep === 1) {
-                } else if (currentStep === 2) {
-                } else if (currentStep === 3) {
+                if (currentStep === 1) {} else if (currentStep === 2) {} else if (currentStep === 3) {
                     completeBtn.style.display = 'none';
                     continueBtn.style.display = 'block';
                 }
@@ -607,18 +606,18 @@
         }
 
         // Handle click for the continue button
-        continueBtn.addEventListener('click', function () {
+        continueBtn.addEventListener('click', function() {
             currentStep++;
             onContinueClick();
         });
 
         // Handle invite friend form submission
-        document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
+        document.getElementById('invite-friend-form').addEventListener('submit', function(event) {
             event.preventDefault();
             fetch('<?php echo admin_url('leadevo/invite'); ?>', {
-                method: 'POST',
-                body: new FormData(this),
-            })
+                    method: 'POST',
+                    body: new FormData(this),
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
@@ -629,15 +628,15 @@
         });
 
         // Track completion of additional steps
-        document.getElementById('join-facebook-group').addEventListener('click', function () {
+        document.getElementById('join-facebook-group').addEventListener('click', function() {
             completeBtn.disabled = false;
         });
 
-        document.getElementById('sign-up-alert').addEventListener('click', function () {
+        document.getElementById('sign-up-alert').addEventListener('click', function() {
             completeBtn.disabled = false;
         });
 
-        $('#signupAlertModal').on('hide.bs.modal', function () {
+        $('#signupAlertModal').on('hide.bs.modal', function() {
             progressList[2].classList.remove('tick-inactive');
             progressList[2].classList.add('tick-completed');
             currentStep++;
@@ -661,7 +660,10 @@
         $.ajax({
             url: site_url + 'onboarding/update_step',
             type: 'POST',
-            data: { 'onboarding_step': ++step }
-        }).done((x) => { })
+            data: {
+                'onboarding_step': ++step
+            }
+        }).done((x) => {})
     }
 </script>
+

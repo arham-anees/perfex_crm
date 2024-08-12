@@ -101,6 +101,21 @@
                     </div>
                 </div>
 
+                <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="desired_amount"><?php echo _l('Desired Amount'); ?></label>
+                                    <input type="text" class="form-control" name="desired_amount" id="desired_amount"  value="<?php echo $prospect->desired_amount; ?>" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="min_amount"><?php echo _l('Minimum Amount'); ?></label>
+                                    <input type="text" class="form-control" name="min_amount" id="min_amount"  value="<?php echo $prospect->min_amount; ?>"  required>
+                                </div>
+                            </div>
+                        </div>
+
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"><?php echo _l('Update Prospect'); ?></button>
                 </div>
