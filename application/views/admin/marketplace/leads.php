@@ -579,12 +579,8 @@
 
 </script>
 
-
-
-<!-- Include jQuery (ensure it's included before your script) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    document.addEventListener('DOMContentLoaded', function () {
         $('#filterForm').on('submit', function (e) {
             e.preventDefault(); // Prevent the form from submitting via the browser
 
