@@ -79,15 +79,15 @@ function displayStars($rating, $maxStars = 5)
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo admin_url('prospects/view/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-eye"></i>
                                                     </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/edit/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo admin_url('prospects/edit/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/delete/' . $prospect['id']); ?>"
+                                                    <a href="<?php echo admin_url('prospects/delete/' . $prospect['id']); ?>"
                                                         class="btn btn-danger btn-icon"
                                                         onclick="return confirm('Are you sure you want to delete this prospect?');">
                                                         <i class="fa fa-remove"></i>

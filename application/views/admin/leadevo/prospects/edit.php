@@ -9,7 +9,7 @@
                     <div class="panel-body">
                         <h4 class="no-margin"><?php echo _l('Edit Prospect'); ?></h4>
                         <hr class="hr-panel-heading" />
-                        <?php echo form_open(admin_url('leadevo/prospects/edit/' . $prospect->id), array('id' => 'prospect-form')); ?>
+                        <?php echo form_open(admin_url('prospects/edit/' . $prospect->id), array('id' => 'prospect-form')); ?>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">

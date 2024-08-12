@@ -30,15 +30,15 @@
                       <td><?php echo date('Y-m-d', strtotime($campaign->end_date)); ?></td>
                       <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
                       <td>
-                        <a href="<?php echo admin_url('leadevo/campaigns/view/' . $campaign->id); ?>"
+                        <a href="<?php echo admin_url('campaigns/view/' . $campaign->id); ?>"
                           class="btn btn-default btn-icon">
                           <i class="fa fa-eye"></i>
                         </a>
-                        <a href="<?php echo admin_url('leadevo/campaigns/edit/' . $campaign->id); ?>"
+                        <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>"
                           class="btn btn-default btn-icon">
                           <i class="fa fa-pencil"></i>
                         </a>
-                        <a href="<?php echo admin_url('leadevo/campaigns/delete/' . $campaign->id); ?>"
+                        <a href="<?php echo admin_url('campaigns/delete/' . $campaign->id); ?>"
                           class="btn btn-danger btn-icon"
                           onclick="return confirm('Are you sure you want to delete this campaign ?');">
                           <i class="fa fa-remove"></i>
