@@ -16,12 +16,48 @@ class Prospects extends ClientsController
     public function index()
     {
         $filter = $this->input->get('filter');
-        $data['prospects'] = $this->Prospects_model->get_all_by_filter($filter);
-
-        $data['prospects'] = $this->Prospects_model->get_all();
+        if ($filter)
+            $data['prospects'] = $this->Prospects_model->get_all_by_filter($filter);
+        else
+            $data['prospects'] = $this->Prospects_model->get_all();
 
         $this->data($data);
         $this->view('clients/prospects/prospects');
+        $this->layout();
+    }
+    public function purchased()
+    {
+
+
+        $this->load->model('contracts_model');
+        $data['contract_types'] = $this->contracts_model->get_contract_types();
+        $data['groups'] = $this->clients_model->get_groups();
+        $data['title'] = _l('clients');
+
+        $this->load->model('proposals_model');
+        $data['proposal_statuses'] = $this->proposals_model->get_statuses();
+
+        $this->load->model('invoices_model');
+        $data['invoice_statuses'] = $this->invoices_model->get_statuses();
+
+        $this->load->model('estimates_model');
+        $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+
+        $this->load->model('projects_model');
+        $data['project_statuses'] = $this->projects_model->get_project_statuses();
+
+        $data['customer_admins'] = $this->clients_model->get_customers_admin_unique_ids();
+
+        $whereContactsLoggedIn = '';
+
+
+        $data['contacts_logged_in_today'] = $this->clients_model->get_contacts('', 'last_login LIKE "' . date('Y-m-d') . '%"' . $whereContactsLoggedIn);
+
+        $data['countries'] = $this->clients_model->get_clients_distinct_countries();
+        $data['table'] = $this->clients_model->get_purchased();
+        $this->data($data);
+
+        $this->view('clients/prospects/purchased');
         $this->layout();
     }
 

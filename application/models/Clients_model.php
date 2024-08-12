@@ -143,7 +143,7 @@ class Clients_model extends App_Model
             }
         }
 
-        $groups_in     = Arr::pull($data, 'groups_in') ?? [];
+        $groups_in = Arr::pull($data, 'groups_in') ?? [];
         $custom_fields = Arr::pull($data, 'custom_fields') ?? [];
 
         // From customer profile register
@@ -154,7 +154,7 @@ class Clients_model extends App_Model
 
         $this->db->insert(db_prefix() . 'clients', array_merge($data, [
             'datecreated' => date('Y-m-d H:i:s'),
-            'addedfrom'   => is_staff_logged_in() ? get_staff_user_id() : 0,
+            'addedfrom' => is_staff_logged_in() ? get_staff_user_id() : 0,
         ]));
 
         $client_id = $this->db->insert_id();
@@ -165,7 +165,7 @@ class Clients_model extends App_Model
                 // Possible request from the register area with 2 types of custom fields for contact and for comapny/customer
                 if (count($custom_fields) == 2) {
                     unset($custom_fields);
-                    $custom_fields['customers']                = $_custom_fields['customers'];
+                    $custom_fields['customers'] = $_custom_fields['customers'];
                     $contact_data['custom_fields']['contacts'] = $_custom_fields['contacts'];
                 } elseif (count($custom_fields) == 1) {
                     if (isset($_custom_fields['contacts'])) {
@@ -186,9 +186,9 @@ class Clients_model extends App_Model
 
             foreach ($groups_in as $group) {
                 $this->db->insert('customer_groups', [
-                        'customer_id' => $client_id,
-                        'groupid'     => $group,
-                    ]);
+                    'customer_id' => $client_id,
+                    'groupid' => $group,
+                ]);
             }
 
             $log = 'ID: ' . $client_id;
@@ -207,12 +207,12 @@ class Clients_model extends App_Model
             do_action_deprecated('after_client_added', [$client_id], '2.9.4', 'after_client_created');
 
             hooks()->do_action('after_client_created', [
-                'id'            => $client_id,
-                'data'          => $data,
-                'contact_data'  => $contact_data,
+                'id' => $client_id,
+                'data' => $data,
+                'contact_data' => $contact_data,
                 'custom_fields' => $custom_fields,
-                'groups_in'     => $groups_in,
-                'with_contact'  => $withContact,
+                'groups_in' => $groups_in,
+                'with_contact' => $withContact,
             ]);
 
             log_activity('New Client Created [' . $log . ']', $isStaff);
@@ -230,14 +230,14 @@ class Clients_model extends App_Model
     public function update($data, $id, $client_request = false)
     {
         $updated = false;
-        $data    = $this->check_zero_columns($data);
+        $data = $this->check_zero_columns($data);
 
         $data = hooks()->apply_filters('before_client_updated', $data, $id);
 
         $update_all_other_transactions = (bool) Arr::pull($data, 'update_all_other_transactions');
-        $update_credit_notes           = (bool) Arr::pull($data, 'update_credit_notes');
-        $custom_fields                 = Arr::pull($data, 'custom_fields') ?? [];
-        $groups_in                     = Arr::pull($data, 'groups_in') ?? false;
+        $update_credit_notes = (bool) Arr::pull($data, 'update_credit_notes');
+        $custom_fields = Arr::pull($data, 'custom_fields') ?? [];
+        $groups_in = Arr::pull($data, 'groups_in') ?? false;
 
         if (handle_custom_fields_post($id, $custom_fields)) {
             $updated = true;
@@ -252,23 +252,23 @@ class Clients_model extends App_Model
 
         if ($update_all_other_transactions || $update_credit_notes) {
             $transactions_update = [
-                'billing_street'   => $data['billing_street'],
-                'billing_city'     => $data['billing_city'],
-                'billing_state'    => $data['billing_state'],
-                'billing_zip'      => $data['billing_zip'],
-                'billing_country'  => $data['billing_country'],
-                'shipping_street'  => $data['shipping_street'],
-                'shipping_city'    => $data['shipping_city'],
-                'shipping_state'   => $data['shipping_state'],
-                'shipping_zip'     => $data['shipping_zip'],
+                'billing_street' => $data['billing_street'],
+                'billing_city' => $data['billing_city'],
+                'billing_state' => $data['billing_state'],
+                'billing_zip' => $data['billing_zip'],
+                'billing_country' => $data['billing_country'],
+                'shipping_street' => $data['shipping_street'],
+                'shipping_city' => $data['shipping_city'],
+                'shipping_state' => $data['shipping_state'],
+                'shipping_zip' => $data['shipping_zip'],
                 'shipping_country' => $data['shipping_country'],
             ];
 
             if ($update_all_other_transactions) {
                 // Update all invoices except paid ones.
                 $this->db->where('clientid', $id)
-                ->where('status !=', 2)
-                ->update('invoices', $transactions_update);
+                    ->where('status !=', 2)
+                    ->update('invoices', $transactions_update);
 
                 if ($this->db->affected_rows() > 0) {
                     $updated = true;
@@ -300,13 +300,13 @@ class Clients_model extends App_Model
         do_action_deprecated('after_client_updated', [$id], '2.9.4', 'client_updated');
 
         hooks()->do_action('client_updated', [
-            'id'                            => $id,
-            'data'                          => $data,
+            'id' => $id,
+            'data' => $data,
             'update_all_other_transactions' => $update_all_other_transactions,
-            'update_credit_notes'           => $update_credit_notes,
-            'custom_fields'                 => $custom_fields,
-            'groups_in'                     => $groups_in,
-            'updated'                       => &$updated,
+            'update_credit_notes' => $update_credit_notes,
+            'custom_fields' => $custom_fields,
+            'groups_in' => $groups_in,
+            'updated' => &$updated,
         ]);
 
         if ($updated) {
@@ -326,18 +326,18 @@ class Clients_model extends App_Model
     public function update_contact($data, $id, $client_request = false)
     {
         $affectedRows = 0;
-        $contact      = $this->get_contact($id);
+        $contact = $this->get_contact($id);
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
-            $data['password']             = app_hash_password($data['password']);
+            $data['password'] = app_hash_password($data['password']);
             $data['last_password_change'] = date('Y-m-d H:i:s');
         }
 
         $send_set_password_email = isset($data['send_set_password_email']) ? true : false;
         $set_password_email_sent = false;
 
-        $permissions        = isset($data['permissions']) ? $data['permissions'] : [];
+        $permissions = isset($data['permissions']) ? $data['permissions'] : [];
         $data['is_primary'] = isset($data['is_primary']) ? 1 : 0;
 
         // Contact cant change if is primary or not
@@ -354,13 +354,13 @@ class Clients_model extends App_Model
         }
 
         if ($client_request == false) {
-            $data['invoice_emails']     = isset($data['invoice_emails']) ? 1 :0;
-            $data['estimate_emails']    = isset($data['estimate_emails']) ? 1 :0;
-            $data['credit_note_emails'] = isset($data['credit_note_emails']) ? 1 :0;
-            $data['contract_emails']    = isset($data['contract_emails']) ? 1 :0;
-            $data['task_emails']        = isset($data['task_emails']) ? 1 :0;
-            $data['project_emails']     = isset($data['project_emails']) ? 1 :0;
-            $data['ticket_emails']      = isset($data['ticket_emails']) ? 1 :0;
+            $data['invoice_emails'] = isset($data['invoice_emails']) ? 1 : 0;
+            $data['estimate_emails'] = isset($data['estimate_emails']) ? 1 : 0;
+            $data['credit_note_emails'] = isset($data['credit_note_emails']) ? 1 : 0;
+            $data['contract_emails'] = isset($data['contract_emails']) ? 1 : 0;
+            $data['task_emails'] = isset($data['task_emails']) ? 1 : 0;
+            $data['project_emails'] = isset($data['project_emails']) ? 1 : 0;
+            $data['ticket_emails'] = isset($data['ticket_emails']) ? 1 : 0;
         }
 
         $data = hooks()->apply_filters('before_update_contact', $data, $id);
@@ -398,7 +398,7 @@ class Clients_model extends App_Model
                     $_exists = $this->db->get(db_prefix() . 'contact_permissions')->row();
                     if (!$_exists) {
                         $this->db->insert(db_prefix() . 'contact_permissions', [
-                            'userid'        => $id,
+                            'userid' => $id,
                             'permission_id' => $permission,
                         ]);
                         if ($this->db->affected_rows() > 0) {
@@ -409,7 +409,7 @@ class Clients_model extends App_Model
             } else {
                 foreach ($permissions as $permission) {
                     $this->db->insert(db_prefix() . 'contact_permissions', [
-                        'userid'        => $id,
+                        'userid' => $id,
                         'permission_id' => $permission,
                     ]);
                     if ($this->db->affected_rows() > 0) {
@@ -488,7 +488,7 @@ class Clients_model extends App_Model
 
             if (is_email_verification_enabled() && !empty($data['email'])) {
                 // Verification is required on register
-                $data['email_verified_at']      = null;
+                $data['email_verified_at'] = null;
                 $data['email_verification_key'] = app_generate_hash();
             }
         }
@@ -504,22 +504,22 @@ class Clients_model extends App_Model
         }
 
         $password_before_hash = '';
-        $data['userid']       = $customer_id;
+        $data['userid'] = $customer_id;
         if (isset($data['password'])) {
             $password_before_hash = $data['password'];
-            $data['password']     = app_hash_password($data['password']);
+            $data['password'] = app_hash_password($data['password']);
         }
 
         $data['datecreated'] = date('Y-m-d H:i:s');
 
         if (!$not_manual_request) {
-            $data['invoice_emails']     = isset($data['invoice_emails']) ? 1 :0;
-            $data['estimate_emails']    = isset($data['estimate_emails']) ? 1 :0;
-            $data['credit_note_emails'] = isset($data['credit_note_emails']) ? 1 :0;
-            $data['contract_emails']    = isset($data['contract_emails']) ? 1 :0;
-            $data['task_emails']        = isset($data['task_emails']) ? 1 :0;
-            $data['project_emails']     = isset($data['project_emails']) ? 1 :0;
-            $data['ticket_emails']      = isset($data['ticket_emails']) ? 1 :0;
+            $data['invoice_emails'] = isset($data['invoice_emails']) ? 1 : 0;
+            $data['estimate_emails'] = isset($data['estimate_emails']) ? 1 : 0;
+            $data['credit_note_emails'] = isset($data['credit_note_emails']) ? 1 : 0;
+            $data['contract_emails'] = isset($data['contract_emails']) ? 1 : 0;
+            $data['task_emails'] = isset($data['task_emails']) ? 1 : 0;
+            $data['project_emails'] = isset($data['project_emails']) ? 1 : 0;
+            $data['ticket_emails'] = isset($data['ticket_emails']) ? 1 : 0;
         }
 
         $data['email'] = trim($data['email']);
@@ -537,8 +537,8 @@ class Clients_model extends App_Model
             if (!isset($permissions) && $not_manual_request == false) {
                 $permissions = [];
             } elseif ($not_manual_request == true) {
-                $permissions         = [];
-                $_permissions        = get_contact_permissions();
+                $permissions = [];
+                $_permissions = get_contact_permissions();
                 $default_permissions = @unserialize(get_option('default_contact_permissions'));
                 if (is_array($default_permissions)) {
                     foreach ($_permissions as $permission) {
@@ -553,18 +553,18 @@ class Clients_model extends App_Model
                 // update all email notifications to 0
                 $this->db->where('id', $contact_id);
                 $this->db->update(db_prefix() . 'contacts', [
-                    'invoice_emails'     => 0,
-                    'estimate_emails'    => 0,
+                    'invoice_emails' => 0,
+                    'estimate_emails' => 0,
                     'credit_note_emails' => 0,
-                    'contract_emails'    => 0,
-                    'task_emails'        => 0,
-                    'project_emails'     => 0,
-                    'ticket_emails'      => 0,
+                    'contract_emails' => 0,
+                    'task_emails' => 0,
+                    'project_emails' => 0,
+                    'ticket_emails' => 0,
                 ]);
             }
             foreach ($permissions as $permission) {
                 $this->db->insert(db_prefix() . 'contact_permissions', [
-                    'userid'        => $contact_id,
+                    'userid' => $contact_id,
                     'permission_id' => $permission,
                 ]);
 
@@ -629,16 +629,16 @@ class Clients_model extends App_Model
      */
     public function add_contact_via_customers_area($data, $customer_id)
     {
-        $send_welcome_email      = isset($data['donotsendwelcomeemail']) && $data['donotsendwelcomeemail'] ? false : true;
+        $send_welcome_email = isset($data['donotsendwelcomeemail']) && $data['donotsendwelcomeemail'] ? false : true;
         $send_set_password_email = isset($data['send_set_password_email']) && $data['send_set_password_email'] ? true : false;
-        $custom_fields           = $data['custom_fields'];
+        $custom_fields = $data['custom_fields'];
         unset($data['custom_fields']);
 
         if (!is_email_verification_enabled()) {
             $data['email_verified_at'] = date('Y-m-d H:i:s');
         } elseif (is_email_verification_enabled() && !empty($data['email'])) {
             // Verification is required on register
-            $data['email_verified_at']      = null;
+            $data['email_verified_at'] = null;
             $data['email_verification_key'] = app_generate_hash();
         }
 
@@ -646,8 +646,8 @@ class Clients_model extends App_Model
 
         $data = array_merge($data, [
             'datecreated' => date('Y-m-d H:i:s'),
-            'userid'      => $customer_id,
-            'password'    => app_hash_password(isset($data['password']) ? $data['password'] : time()),
+            'userid' => $customer_id,
+            'password' => app_hash_password(isset($data['password']) ? $data['password'] : time()),
         ]);
 
         $data = hooks()->apply_filters('before_create_contact', $data);
@@ -665,7 +665,7 @@ class Clients_model extends App_Model
                 foreach (get_contact_permissions() as $permission) {
                     if (in_array($permission['id'], $default_permissions)) {
                         $this->db->insert(db_prefix() . 'contact_permissions', [
-                            'userid'        => $contact_id,
+                            'userid' => $contact_id,
                             'permission_id' => $permission['id'],
                         ]);
                     }
@@ -788,7 +788,7 @@ class Clients_model extends App_Model
                 $affectedRows++;
             }
         } else {
-            $current_admins     = $this->get_admins($id);
+            $current_admins = $this->get_admins($id);
             $current_admins_ids = [];
             foreach ($current_admins as $c_admin) {
                 array_push($current_admins_ids, $c_admin['staff_id']);
@@ -804,13 +804,15 @@ class Clients_model extends App_Model
                 }
             }
             foreach ($data['customer_admins'] as $n_admin_id) {
-                if (total_rows(db_prefix() . 'customer_admins', [
-                    'customer_id' => $id,
-                    'staff_id' => $n_admin_id,
-                ]) == 0) {
+                if (
+                    total_rows(db_prefix() . 'customer_admins', [
+                        'customer_id' => $id,
+                        'staff_id' => $n_admin_id,
+                    ]) == 0
+                ) {
                     $this->db->insert(db_prefix() . 'customer_admins', [
-                        'customer_id'   => $id,
-                        'staff_id'      => $n_admin_id,
+                        'customer_id' => $id,
+                        'staff_id' => $n_admin_id,
                         'date_assigned' => date('Y-m-d H:i:s'),
                     ]);
                     if ($this->db->affected_rows() > 0) {
@@ -856,7 +858,7 @@ class Clients_model extends App_Model
         hooks()->do_action('before_client_deleted', $id);
 
         $last_activity = get_last_system_activity_id();
-        $company       = get_company_name($id);
+        $company = get_company_name($id);
 
         $this->db->where('userid', $id);
         $this->db->delete(db_prefix() . 'clients');
@@ -905,23 +907,23 @@ class Clients_model extends App_Model
 
             $this->db->where('clientid', $id);
             $this->db->update(db_prefix() . 'creditnotes', [
-                'clientid'   => 0,
+                'clientid' => 0,
                 'project_id' => 0,
             ]);
 
             $this->db->where('clientid', $id);
             $this->db->update(db_prefix() . 'invoices', [
-                'clientid'                 => 0,
-                'recurring'                => 0,
-                'recurring_type'           => null,
-                'custom_recurring'         => 0,
-                'cycles'                   => 0,
-                'last_recurring_date'      => null,
-                'project_id'               => 0,
-                'subscription_id'          => 0,
+                'clientid' => 0,
+                'recurring' => 0,
+                'recurring_type' => null,
+                'custom_recurring' => 0,
+                'cycles' => 0,
+                'last_recurring_date' => null,
+                'project_id' => 0,
+                'subscription_id' => 0,
                 'cancel_overdue_reminders' => 1,
-                'last_overdue_reminder'    => null,
-                'last_due_reminder'        => null,
+                'last_overdue_reminder' => null,
+                'last_due_reminder' => null,
             ]);
 
             if (is_gdpr() && get_option('gdpr_on_forgotten_remove_estimates') == '1') {
@@ -938,8 +940,8 @@ class Clients_model extends App_Model
 
             $this->db->where('clientid', $id);
             $this->db->update(db_prefix() . 'estimates', [
-                'clientid'           => 0,
-                'project_id'         => 0,
+                'clientid' => 0,
+                'project_id' => 0,
                 'is_expiry_notified' => 1,
             ]);
 
@@ -1046,7 +1048,7 @@ class Clients_model extends App_Model
         hooks()->do_action('before_delete_contact', $id);
 
         $this->db->where('id', $id);
-        $result      = $this->db->get(db_prefix() . 'contacts')->row();
+        $result = $this->db->get(db_prefix() . 'contacts')->row();
         $customer_id = $result->userid;
 
         $last_activity = get_last_system_activity_id();
@@ -1149,13 +1151,13 @@ class Clients_model extends App_Model
 
             $this->db->where('(email="' . $result->email . '" OR bcc LIKE "%' . $result->email . '%" OR cc LIKE "%' . $result->email . '%")');
             $this->db->delete(db_prefix() . 'mail_queue');
-           
+
             if (is_gdpr()) {
-                if(table_exists('listemails')) {
+                if (table_exists('listemails')) {
                     $this->db->where('email', $result->email);
                     $this->db->delete(db_prefix() . 'listemails');
                 }
-                
+
                 if (!empty($result->last_ip)) {
                     $this->db->where('ip', $result->last_ip);
                     $this->db->delete(db_prefix() . 'knowedge_base_article_feedback');
@@ -1247,7 +1249,7 @@ class Clients_model extends App_Model
 
         $result = $this->db->get()->result_array();
         if (count($result) > 0) {
-            $result[0]['billing_street']  = clear_textarea_breaks($result[0]['billing_street']);
+            $result[0]['billing_street'] = clear_textarea_breaks($result[0]['billing_street']);
             $result[0]['shipping_street'] = clear_textarea_breaks($result[0]['shipping_street']);
         }
 
@@ -1279,14 +1281,14 @@ class Clients_model extends App_Model
     {
         $this->db->where('id', $id);
         $attachment = $this->db->get(db_prefix() . 'files')->row();
-        $deleted    = false;
+        $deleted = false;
         if ($attachment) {
             if (empty($attachment->external)) {
-                $relPath  = get_upload_path_by_type('customer') . $attachment->rel_id . '/';
+                $relPath = get_upload_path_by_type('customer') . $attachment->rel_id . '/';
                 $fullPath = $relPath . $attachment->file_name;
                 unlink($fullPath);
-                $fname     = pathinfo($fullPath, PATHINFO_FILENAME);
-                $fext      = pathinfo($fullPath, PATHINFO_EXTENSION);
+                $fname = pathinfo($fullPath, PATHINFO_FILENAME);
+                $fext = pathinfo($fullPath, PATHINFO_EXTENSION);
                 $thumbPath = $relPath . $fname . '_thumb.' . $fext;
                 if (file_exists($thumbPath)) {
                     unlink($thumbPath);
@@ -1330,7 +1332,7 @@ class Clients_model extends App_Model
         ]);
         if ($this->db->affected_rows() > 0) {
             hooks()->do_action('contact_status_changed', [
-                'id'     => $id,
+                'id' => $id,
                 'status' => $status,
             ]);
 
@@ -1357,7 +1359,7 @@ class Clients_model extends App_Model
 
         if ($this->db->affected_rows() > 0) {
             hooks()->do_action('client_status_changed', [
-                'id'     => $id,
+                'id' => $id,
                 'status' => $status,
             ]);
 
@@ -1391,7 +1393,7 @@ class Clients_model extends App_Model
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'contacts', [
             'last_password_change' => date('Y-m-d H:i:s'),
-            'password'             => app_hash_password($newPassword),
+            'password' => app_hash_password($newPassword),
         ]);
 
         if ($this->db->affected_rows() > 0) {
@@ -1453,11 +1455,11 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Create new vault entry
-    * @param  array $data        $_POST data
-    * @param  mixed $customer_id customer id
-    * @return boolean
-    */
+     * Create new vault entry
+     * @param  array $data        $_POST data
+     * @param  mixed $customer_id customer id
+     * @return boolean
+     */
     public function vault_entry_create($data, $customer_id)
     {
         return $this->client_vault_entries_model->create($data, $customer_id);
@@ -1506,26 +1508,26 @@ class Clients_model extends App_Model
     }
 
     /**
-    * Get customer statement formatted
-    * @param  mixed $customer_id customer id
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @return array
-    */
+     * Get customer statement formatted
+     * @param  mixed $customer_id customer id
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @return array
+     */
     public function get_statement($customer_id, $from, $to)
     {
         return $this->statement_model->get_statement($customer_id, $from, $to);
     }
 
     /**
-    * Send customer statement to email
-    * @param  mixed $customer_id customer id
-    * @param  array $send_to     array of contact emails to send
-    * @param  string $from        date from
-    * @param  string $to          date to
-    * @param  string $cc          email CC
-    * @return boolean
-    */
+     * Send customer statement to email
+     * @param  mixed $customer_id customer id
+     * @param  array $send_to     array of contact emails to send
+     * @param  string $from        date from
+     * @param  string $to          date to
+     * @param  string $cc          email CC
+     * @return boolean
+     */
     public function send_statement_to_email($customer_id, $send_to, $from, $to, $cc = '')
     {
         return $this->statement_model->send_statement_to_email($customer_id, $send_to, $from, $to, $cc);
@@ -1592,8 +1594,8 @@ class Clients_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'contacts', [
-            'email_verified_at'          => date('Y-m-d H:i:s'),
-            'email_verification_key'     => null,
+            'email_verified_at' => date('Y-m-d H:i:s'),
+            'email_verification_key' => null,
             'email_verification_sent_at' => null,
         ]);
 
@@ -1616,21 +1618,23 @@ class Clients_model extends App_Model
 
     public function send_notification_customer_profile_file_uploaded_to_responsible_staff($contact_id, $customer_id)
     {
-        $staff         = $this->get_staff_members_that_can_access_customer($customer_id);
-        $merge_fields  = $this->app_merge_fields->format_feature('client_merge_fields', $customer_id, $contact_id);
+        $staff = $this->get_staff_members_that_can_access_customer($customer_id);
+        $merge_fields = $this->app_merge_fields->format_feature('client_merge_fields', $customer_id, $contact_id);
         $notifiedUsers = [];
 
 
         foreach ($staff as $member) {
             mail_template('customer_profile_uploaded_file_to_staff', $member['email'], $member['staffid'])
-            ->set_merge_fields($merge_fields)
-            ->send();
+                ->set_merge_fields($merge_fields)
+                ->send();
 
-            if (add_notification([
+            if (
+                add_notification([
                     'touserid' => $member['staffid'],
                     'description' => 'not_customer_uploaded_file',
                     'link' => 'clients/client/' . $customer_id . '?group=attachments',
-                ])) {
+                ])
+            ) {
                 array_push($notifiedUsers, $member['staffid']);
             }
         }
@@ -1715,5 +1719,19 @@ class Clients_model extends App_Model
         }
 
         return $this->db->get(db_prefix() . 'contacts')->result_array();
+    }
+
+    public function get_purchased()
+    {
+        $sql = "SELECT l.*, s.name source_name, ls.name source_name FROM `tblleads` l
+            INNER JOIN `tblleadevo_prospects` p
+            ON p.id = l.prospect_id 
+            LEFT join tblleads_sources s
+            ON S.id = l.source
+            LEFT JOIN tblleads_status ls
+            ON ls.id = l.status
+            WHERE p.client_id = " . get_client_user_id() . "
+            ORDER BY `dateadded` DESC";
+        return $this->db->query($sql)->result();
     }
 }

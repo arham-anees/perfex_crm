@@ -63,4 +63,10 @@ class Marketplace extends AdminController
         redirect(admin_url('prospects'));
     }
 
+
+    public function send_prospects()
+    {
+        $this->Prospects_model->deliver_prospects(10);
+    }
+
 }

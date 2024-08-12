@@ -70,5 +70,6 @@ init_client_head(true);
     </div>
 
 <?php } ?>
+
 <?php
 echo theme_footer_view();

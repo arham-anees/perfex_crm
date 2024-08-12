@@ -107,6 +107,7 @@ function _init_client_assets()
 
     // Javascript
     $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
+    $CI->app_scripts->add('main-js', 'assets/js/main.js', 'client');
 
     $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js');
 
