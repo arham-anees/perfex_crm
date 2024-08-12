@@ -58,6 +58,14 @@ function app_init_admin_sidebar_menu_items()
         'badge' => [],
     ]);
 
+    $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+        'name' => _l('leadevo_reported_prospects'),
+        'href' => admin_url('prospects/reported'),
+        'slug' => 'leadevo_reported_prospects',
+        'position' => 3,
+        'icon' => 'fa fa-tty',
+        'badge' => [],
+    ]);
     if (
         staff_can('view', 'customers')
         || (have_assigned_customers()

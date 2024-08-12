@@ -156,4 +156,12 @@ class Prospects extends AdminController
         }
     }
 
+    public function reported()
+    {
+        $data['title'] = 'Reported Prospects';
+        // Load the view file with data
+        $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
+      
+    }
+
 }
