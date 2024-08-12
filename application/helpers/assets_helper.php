@@ -21,7 +21,7 @@ function init_customers_area_assets()
 
 function init_admin_auth_assets()
 {
-    $CI        = &get_instance();
+    $CI = &get_instance();
     $groupName = 'admin-auth';
 
     add_favicon_link_asset($groupName);
@@ -43,6 +43,8 @@ function _init_admin_assets()
 
     // Javascript
     $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
+
+    $CI->app_css->add('custom-leadevo-css', 'assets/css/leadevo-style.css', 'admin');
 
     $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js');
 
@@ -103,7 +105,6 @@ function _init_client_assets()
 {
     $CI = &get_instance();
 
-    log_message('error', 'init client assets');
     // Javascript
     $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
 
@@ -166,7 +167,7 @@ function _init_client_assets()
 function add_calendar_assets($group = 'admin')
 {
     $locale = $GLOBALS['locale'];
-    $CI     = &get_instance();
+    $CI = &get_instance();
 
     $CI->app_scripts->add('fullcalendar-js', 'assets/plugins/fullcalendar/lib/main.min.js', $group);
 
@@ -187,28 +188,28 @@ function add_favicon_link_asset($group = 'admin')
     $favIcon = get_option('favicon');
     if ($favIcon != '') {
         get_instance()->app_css->add('favicon', [
-        'path'       => 'uploads/company/' . $favIcon,
-        'version'    => false,
-        'attributes' => [
-            'rel'  => 'shortcut icon',
-            'type' => false,
-        ],
+            'path' => 'uploads/company/' . $favIcon,
+            'version' => false,
+            'attributes' => [
+                'rel' => 'shortcut icon',
+                'type' => false,
+            ],
         ], $group);
         get_instance()->app_css->add('favicon-apple-touch-icon', [
-        'path'       => 'uploads/company/' . $favIcon,
-        'version'    => false,
-        'attributes' => [
-            'rel'  => 'apple-touch-icon”',
-            'type' => false,
-        ],
+            'path' => 'uploads/company/' . $favIcon,
+            'version' => false,
+            'attributes' => [
+                'rel' => 'apple-touch-icon”',
+                'type' => false,
+            ],
         ], $group);
     }
 }
 
 function add_jquery_validation_js_assets($group = 'admin')
 {
-    $CI          = &get_instance();
-    $locale      = $GLOBALS['locale'];
+    $CI = &get_instance();
+    $locale = $GLOBALS['locale'];
     $localeUpper = strtoupper($locale);
 
     $jqValidationBase = 'assets/plugins/jquery-validation/';
@@ -225,9 +226,9 @@ function add_jquery_validation_js_assets($group = 'admin')
 
 function add_bootstrap_select_js_assets($group = 'admin')
 {
-    $CI           = &get_instance();
-    $locale       = $GLOBALS['locale'];
-    $localeUpper  = strtoupper($locale);
+    $CI = &get_instance();
+    $locale = $GLOBALS['locale'];
+    $localeUpper = strtoupper($locale);
     $bsSelectBase = 'assets/plugins/bootstrap-select/js/';
     $CI->app_scripts->add('bootstrap-select-js', 'assets/builds/bootstrap-select.min.js', $group);
 
@@ -244,7 +245,7 @@ function add_dropbox_js_assets($group = 'admin')
 {
     if (get_option('dropbox_app_key') != '') {
         get_instance()->app_scripts->add('dropboxjs', [
-            'path'       => 'https://www.dropbox.com/static/api/2/dropins.js',
+            'path' => 'https://www.dropbox.com/static/api/2/dropins.js',
             'attributes' => [
                 'data-app-key' => get_option('dropbox_app_key'),
             ],
@@ -256,13 +257,13 @@ function add_google_api_js_assets($group = 'admin')
 {
     if (get_option('enable_google_picker') == '1') {
         get_instance()->app_scripts->add('google-gsi-js', [
-            'path'       => 'https://accounts.google.com/gsi/client',
+            'path' => 'https://accounts.google.com/gsi/client',
             'attributes' => [
                 'defer',
             ],
         ], $group);
         get_instance()->app_scripts->add('google-js', [
-            'path'       => 'https://apis.google.com/js/api.js?onload=onGoogleApiLoad',
+            'path' => 'https://apis.google.com/js/api.js?onload=onGoogleApiLoad',
             'attributes' => [
                 'defer',
             ],

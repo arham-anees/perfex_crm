@@ -116,6 +116,15 @@ class Prospects extends AdminController
         }
         redirect(admin_url('prospects'));
     }
+    public function rate()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $stars = $this->input->post('rating');
+            $this->Prospects_model->rate($id, $stars);
+        }
+        redirect(admin_url('prospects'));
+    }
     public function mark_as_available_sale()
     {
         $id = $this->input->post('id');
