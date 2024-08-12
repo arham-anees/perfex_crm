@@ -1,6 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-
+<?php
+function displayStars($rating, $maxStars = 5)
+{
+    if ($rating == 0 || $rating == '') {
+        echo '-';
+        return;
+    }
+    for ($i = 1; $i <= $maxStars; $i++) {
+        echo '<span class="star' . ($i <= $rating ? ' filled' : '') . '">&#9733;</span>';
+    }
+}
+?>
 <div id="wrapper">
     <div class="content">
         <div class="row">
@@ -14,6 +25,7 @@
                                         <tr>
                                             <th><?php echo _l('Name'); ?></th>
                                             <th><?php echo _l('Status'); ?></th>
+                                            <th><?php echo _l('stars'); ?></th>
                                             <th><?php echo _l('Type'); ?></th>
                                             <th><?php echo _l('Category'); ?></th>
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
@@ -44,6 +56,17 @@
                                                     </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
+                                                <td>
+                                                    <div class="star-rating">
+                                                        <?php
+
+
+                                                        // Example usage
+                                                        $userRating = $prospect['rating'] ?? 0; // This value could come from a database
+                                                        displayStars($userRating);
+                                                        ?>
+                                                    </div>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
