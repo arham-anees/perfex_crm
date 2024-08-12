@@ -58,6 +58,14 @@ function app_init_admin_sidebar_menu_items()
         'badge' => [],
     ]);
 
+    $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+        'name' => _l('leadevo_reported_prospects'),
+        'href' => admin_url('prospects/reported'),
+        'slug' => 'leadevo_reported_prospects',
+        'position' => 3,
+        'icon' => 'fa fa-tty',
+        'badge' => [],
+    ]);
     if (
         staff_can('view', 'customers')
         || (have_assigned_customers()
@@ -740,6 +748,13 @@ function app_init_client_sidebar_menu_items()
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects',
         'href' => site_url('prospects'),
+        'position' => 3,
+        'icon' => 'fa fa-lightbulb',
+    ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects_purchased', [
+        'slug' => 'leadevo-user-prospects',
+        'name' => 'Prospects Purchased',
+        'href' => site_url('prospects/purchased'),
         'position' => 3,
         'icon' => 'fa fa-lightbulb',
     ]);

@@ -178,6 +178,55 @@ class Prospects_model extends CI_Model
 
         return $this->db->query($sql)->result_array();
     }
+    public function get_all_purchased()
+    {
+        $sql = "SELECT 
+                    p.id, 
+                    CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
+                    ps.name AS status, 
+                    pt.name AS type, 
+                    pc.name AS category, 
+                    ac.name AS acquisition_channel, 
+                    i.name AS industry,
+                    p.is_confirmed AS confirm_status,
+                    p.is_fake,
+                    p.is_available_sale,
+                    r.rating,
+                    null AS zip_code,
+                    null AS phone,
+                    null AS email,
+                    null AS source,
+                    null AS deal,
+                    null AS quality
+                FROM
+                    tblleadevo_prospects p
+                LEFT JOIN
+                    tblleadevo_prospect_statuses ps ON p.status_id = ps.id
+                LEFT JOIN
+                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
+                LEFT JOIN
+                    tblleadevo_prospect_categories pc ON p.category_id = pc.id
+                LEFT JOIN
+                    tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
+                LEFT JOIN
+                    tblleadevo_industries i ON p.industry_id = i.id
+                LEFT JOIN   
+                    (SELECT r.*
+                    FROM `tblleadevo_prospects_rating` r
+                    INNER JOIN (
+                        SELECT prospect_id, MAX(rated_at) AS max_rated_at
+                        FROM `tblleadevo_prospects_rating`
+                        GROUP BY prospect_id
+                    ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
+                    AND r.rated_at = latest_ratings.max_rated_at) r
+                ON r.prospect_id = p.id
+                INNER JOIN tblleadevo_prospects_purchased lpp
+                ON lpp.prospect_id = p.id
+                WHERE
+                    p.is_active = 1 AND lpp.client_id = " . get_client_user_id();
+
+        return $this->db->query($sql)->result_array();
+    }
     public function get_all_fake()
     {
         $sql = "SELECT 
@@ -369,5 +418,89 @@ class Prospects_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->update($this->table, array('is_available_sale' => $available, 'sale_available_date' => date('Y-m-d H:i:s')));
+    }
+
+    public function deliver_prospects($campaing_id)
+    {
+        $sql = "SELECT id, client_id, industry_id, country_id, deal,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence
+                FROM `tblleadevo_campaign`
+                WHERE status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() AND Id = " . $campaing_id . ";";
+
+        $campaign = $this->db->query($sql)->row();
+
+        if (!isset($campaign)) {
+            return;
+        }
+        // $campaign = $campaign[0];
+        // deal_type will be dealt later
+
+        // check if budget is expired
+
+        // filter prospects based on the criteria
+        // country id may be category ID
+        $temp_table = "
+                SELECT p.*, r.rating FROM `tblleadevo_prospects` p
+                LEFT JOIN   
+                    (SELECT r.*
+                    FROM `tblleadevo_prospects_rating` r
+                    INNER JOIN (
+                        SELECT prospect_id, MAX(rated_at) AS max_rated_at
+                        FROM `tblleadevo_prospects_rating`
+                        GROUP BY prospect_id
+                    ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
+                    AND r.rated_at = latest_ratings.max_rated_at) r
+                ON r.prospect_id = p.id
+                WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1
+                AND industry_id = " . $campaign->industry_id;
+        if ($campaign->verify_by_staff == 1)
+            $temp_table .= " AND verified_staff = 1";
+        if ($campaign->verify_by_sms == 1)
+            $temp_table .= " AND verified_sms = 1";
+        if ($campaign->verify_by_whatsapp == 1)
+            $temp_table .= " AND verified_whatsapp = 1";
+        if ($campaign->verify_by_coherence == 1)
+            $temp_table .= " AND verified_coherence = 1";
+
+        $sql = $temp_table;
+        $prospects = $this->db->query($sql)->result();
+        $total_prospects = count($prospects);
+
+
+        // now fetch prospects based on star weightage
+        $sql = $temp_table;
+        $sql = "SELECT * FROM (
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating IS NULL ORDER BY RAND() LIMIT " . (get_option('delivery_settings_0stars')) * $total_prospects . ") 
+                    UNION ALL
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 1 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_1stars')) * $total_prospects . ")
+                    UNION ALL
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 2 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_2stars')) * $total_prospects . ")
+                    UNION ALL
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 3 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_3stars')) * $total_prospects . ")
+                    UNION ALL
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 4 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_4stars')) * $total_prospects . ")
+                    UNION ALL
+                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 5 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_5stars')) * $total_prospects . ")
+                ) AS weighted_selection;
+                ";
+        // limit the max cap
+        $prospects = $this->db->query($sql)->result();
+
+        // send these prospects to client
+        $sql = '';
+        // insert each prospect into the tblleadevo_prospects_purchased
+        foreach ($prospects as $prospect) {
+            var_dump($prospect);
+            // create invoice for each
+            $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, is_client_lead, prospect_id) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
+                . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "',1, " . $prospect->id . ");";
+        }
+        $this->db->query($sql);
+
+        //INSERT INTO tblinvoices (clientid, date, duedate, subtotal, total, status, currency, addedfrom, prefix, number, hash)
+        //VALUES (1, '2024-08-12', '2024-09-12', 100.00, 100.00, 1, 1, 1, 'INV-', 1001, MD5(RAND()));
+        //INSERT INTO tblinvoiceitems (invoiceid, description, qty, rate, taxid, taxrate)
+        //VALUES (LAST_INSERT_ID(), 'Service Description', 1, 100.00, NULL, 0);
+
+
     }
 }
