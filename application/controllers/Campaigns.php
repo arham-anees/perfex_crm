@@ -7,7 +7,7 @@ class Campaigns extends ClientsController
         parent::__construct();
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
-       
+
     }
 
     public function index()
@@ -21,7 +21,7 @@ class Campaigns extends ClientsController
         $this->layout();
 
     }
-  
+
 
     public function create()
     {
@@ -53,11 +53,29 @@ class Campaigns extends ClientsController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'industry_id' => $this->input->post('industry_id') // Include industry_id
+                'industry_id' => $this->input->post('industry_id'),
+                'deal' => $this->input->post('deal') ? 1 : 0,
+                'verify_by_staff' => $this->input->post('verify_by_staff') ? 1 : 0,
+                'verify_by_sms' => $this->input->post('verify_by_sms') ? 1 : 0,
+                'verify_by_whatsapp' => $this->input->post('verify_by_whatsapp') ? 1 : 0,
+                'verify_by_coherence' => $this->input->post('verify_by_coherence') ? 1 : 0,
+                'timings' => $this->input->post('timings')
             ];
 
+            $country_ids = $this->input->post('country_id');
+            if ($country_ids) {
+                // Convert comma-separated string to array
+                $country_ids_array = explode(',', $country_ids);
+                // Format array using the custom function
+                $data['country_id'] = $this->arrayToStringWithQuotes($country_ids_array);
+            }
+
             $this->Campaigns_model->insert($data);
+
             set_alert('success', 'Campaign created successfully.');
+            // Return success response
+            echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
+
             redirect(site_url('leadevo/campaigns'));
         }
 
@@ -100,9 +118,16 @@ class Campaigns extends ClientsController
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
                 'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'industry_id' => $this->input->post('industry_id') // Include industry_id
-
+                'industry_id' => $this->input->post('industry_id'),
+                'country_id' => $this->input->post('country_id'),
+                'deal' => $this->input->post('deal') ? 1 : 0,
+                'verify_by_staff' => $this->input->post('verify_by_staff') ? 1 : 0,
+                'verify_by_sms' => $this->input->post('verify_by_sms') ? 1 : 0,
+                'verify_by_whatsapp' => $this->input->post('verify_by_whatsapp') ? 1 : 0,
+                'verify_by_coherence' => $this->input->post('verify_by_coherence') ? 1 : 0,
+                'timings' => $this->input->post('timings')
             ];
+
             $this->Campaigns_model->update($id, $data);
             set_alert('success', 'Campaign updated successfully.');
             redirect(site_url('campaigns'));
