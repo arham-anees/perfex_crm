@@ -3176,320 +3176,320 @@
 //   }
 // }
 
-// // Initing relation tasks tables
-// function init_rel_tasks_table(rel_id, rel_type, selector) {
-//   if (typeof selector == "undefined") {
-//     selector = ".table-rel-tasks";
-//   }
-//   var $selector = $("body").find(selector);
-//   if ($selector.length === 0) {
-//     return;
-//   }
+// Initing relation tasks tables
+function init_rel_tasks_table(rel_id, rel_type, selector) {
+  if (typeof selector == "undefined") {
+    selector = ".table-rel-tasks";
+  }
+  var $selector = $("body").find(selector);
+  if ($selector.length === 0) {
+    return;
+  }
 
-//   var TasksServerParams = {},
-//     tasksRelationTableNotSortable = [0], // bulk actions
-//     TasksFilters;
+  var TasksServerParams = {},
+    tasksRelationTableNotSortable = [0], // bulk actions
+    TasksFilters;
 
-//   TasksFilters = $("body").find(
-//     "._hidden_inputs._filters._tasks_filters input"
-//   );
+  TasksFilters = $("body").find(
+    "._hidden_inputs._filters._tasks_filters input"
+  );
 
-//   $.each(TasksFilters, function () {
-//     TasksServerParams[$(this).attr("name")] =
-//       '[name="' + $(this).attr("name") + '"]';
-//   });
+  $.each(TasksFilters, function () {
+    TasksServerParams[$(this).attr("name")] =
+      '[name="' + $(this).attr("name") + '"]';
+  });
 
-//   // Related task filter - used in customer profile
-//   TasksServerParams['tasks_related_to'] = '[name="tasks_related_to"]'
+  // Related task filter - used in customer profile
+  TasksServerParams['tasks_related_to'] = '[name="tasks_related_to"]'
 
-//   var url = site_url + "tasks/init_relation_tasks/" + rel_id + "/" + rel_type;
+  var url = site_url + "tasks/init_relation_tasks/" + rel_id + "/" + rel_type;
 
-//   if ($selector.attr("data-new-rel-type") == "project") {
-//     url += "?bulk_actions=true";
-//   }
+  if ($selector.attr("data-new-rel-type") == "project") {
+    url += "?bulk_actions=true";
+  }
 
-//   initDataTable(
-//     $selector,
-//     url,
-//     tasksRelationTableNotSortable,
-//     tasksRelationTableNotSortable,
-//     TasksServerParams,
-//     [$selector.find("th.duedate").index(), "asc"]
-//   );
-// }
+  initDataTable(
+    $selector,
+    url,
+    tasksRelationTableNotSortable,
+    tasksRelationTableNotSortable,
+    TasksServerParams,
+    [$selector.find("th.duedate").index(), "asc"]
+  );
+}
 
-// // Datatbles inline/offline - no serverside
-// function initDataTableInline(dt_table) {
-//   appDataTableInline(dt_table, {
-//     supportsButtons: true,
-//     supportsLoading: true,
-//     autoWidth: false,
-//   });
-// }
+// Datatbles inline/offline - no serverside
+function initDataTableInline(dt_table) {
+  appDataTableInline(dt_table, {
+    supportsButtons: true,
+    supportsLoading: true,
+    autoWidth: false,
+  });
+}
 
-// // General function for all datatables serverside
-// function initDataTable(
-//   selector,
-//   url,
-//   notsearchable,
-//   notsortable,
-//   fnserverparams,
-//   defaultorder
-// ) {
-//   var table =
-//     typeof selector == "string" ? $("body").find("table" + selector) : selector;
+// General function for all datatables serverside
+function initDataTable(
+  selector,
+  url,
+  notsearchable,
+  notsortable,
+  fnserverparams,
+  defaultorder
+) {
+  var table =
+    typeof selector == "string" ? $("body").find("table" + selector) : selector;
 
-//   if (table.length === 0) {
-//     return false;
-//   }
+  if (table.length === 0) {
+    return false;
+  }
 
-//   fnserverparams =
-//     fnserverparams == "undefined" || typeof fnserverparams == "undefined"
-//       ? []
-//       : fnserverparams;
+  fnserverparams =
+    fnserverparams == "undefined" || typeof fnserverparams == "undefined"
+      ? []
+      : fnserverparams;
 
-//   // If not order is passed order by the first column
-//   if (typeof defaultorder == "undefined") {
-//     defaultorder = [[0, "asc"]];
-//   } else {
-//     if (defaultorder.length === 1) {
-//       defaultorder = [defaultorder];
-//     }
-//   }
+  // If not order is passed order by the first column
+  if (typeof defaultorder == "undefined") {
+    defaultorder = [[0, "asc"]];
+  } else {
+    if (defaultorder.length === 1) {
+      defaultorder = [defaultorder];
+    }
+  }
 
-//   var user_table_default_order = table.attr("data-default-order");
+  var user_table_default_order = table.attr("data-default-order");
 
-//   if (!empty(user_table_default_order)) {
-//     var tmp_new_default_order = JSON.parse(user_table_default_order);
-//     var new_defaultorder = [];
-//     for (var i in tmp_new_default_order) {
-//       // If the order index do not exists will throw errors
-//       if (
-//         table.find("thead th:eq(" + tmp_new_default_order[i][0] + ")").length >
-//         0
-//       ) {
-//         new_defaultorder.push(tmp_new_default_order[i]);
-//       }
-//     }
-//     if (new_defaultorder.length > 0) {
-//       defaultorder = new_defaultorder;
-//     }
-//   }
+  if (!empty(user_table_default_order)) {
+    var tmp_new_default_order = JSON.parse(user_table_default_order);
+    var new_defaultorder = [];
+    for (var i in tmp_new_default_order) {
+      // If the order index do not exists will throw errors
+      if (
+        table.find("thead th:eq(" + tmp_new_default_order[i][0] + ")").length >
+        0
+      ) {
+        new_defaultorder.push(tmp_new_default_order[i]);
+      }
+    }
+    if (new_defaultorder.length > 0) {
+      defaultorder = new_defaultorder;
+    }
+  }
 
-//   var length_options = [10, 25, 50, 100];
-//   var length_options_names = [10, 25, 50, 100];
+  var length_options = [10, 25, 50, 100];
+  var length_options_names = [10, 25, 50, 100];
 
-//   app.options.tables_pagination_limit = parseFloat(
-//     app.options.tables_pagination_limit
-//   );
+  app.options.tables_pagination_limit = parseFloat(
+    app.options.tables_pagination_limit
+  );
 
-//   if ($.inArray(app.options.tables_pagination_limit, length_options) == -1) {
-//     length_options.push(app.options.tables_pagination_limit);
-//     length_options_names.push(app.options.tables_pagination_limit);
-//   }
+  if ($.inArray(app.options.tables_pagination_limit, length_options) == -1) {
+    length_options.push(app.options.tables_pagination_limit);
+    length_options_names.push(app.options.tables_pagination_limit);
+  }
 
-//   length_options.sort(function (a, b) {
-//     return a - b;
-//   });
-//   length_options_names.sort(function (a, b) {
-//     return a - b;
-//   });
+  length_options.sort(function (a, b) {
+    return a - b;
+  });
+  length_options_names.sort(function (a, b) {
+    return a - b;
+  });
 
-//   length_options.push(-1);
-//   length_options_names.push(app.lang.dt_length_menu_all);
+  length_options.push(-1);
+  length_options_names.push(app.lang.dt_length_menu_all);
 
-//   var dtSettings = {
-//     language: app.lang.datatables,
-//     processing: true,
-//     retrieve: true,
-//     serverSide: true,
-//     paginate: true,
-//     searchDelay: 750,
-//     bDeferRender: true,
-//     autoWidth: false,
-//     dom: "<'row'><'row'<'col-md-7'lB><'col-md-5'f>>rt<'row'<'col-md-4'i><'col-md-8 dataTables_paging'<'#colvis'><'.dt-page-jump'>p>>",
-//     pageLength: app.options.tables_pagination_limit,
-//     lengthMenu: [length_options, length_options_names],
-//     columnDefs: [
-//       {
-//         searchable: false,
-//         targets: notsearchable,
-//       },
-//       {
-//         sortable: false,
-//         targets: notsortable,
-//       },
-//     ],
-//     fnDrawCallback: function (oSettings) {
-//       _table_jump_to_page(this, oSettings);
-//       if (oSettings.aoData.length === 0) {
-//         $(oSettings.nTableWrapper).addClass("app_dt_empty");
-//       } else {
-//         $(oSettings.nTableWrapper).removeClass("app_dt_empty");
-//       }
-//     },
-//     fnCreatedRow: function (nRow, aData, iDataIndex) {
-//       // If tooltips found
-//       $(nRow).attr("data-title", aData.Data_Title);
-//       $(nRow).attr("data-toggle", aData.Data_Toggle);
-//     },
-//     initComplete: function (settings, json) {
-//       var t = this;
-//       var $btnReload = $(".btn-dt-reload");
-//       $btnReload.attr("data-toggle", "tooltip");
-//       $btnReload.attr("title", app.lang.dt_button_reload);
+  var dtSettings = {
+    language: app.lang.datatables,
+    processing: true,
+    retrieve: true,
+    serverSide: true,
+    paginate: true,
+    searchDelay: 750,
+    bDeferRender: true,
+    autoWidth: false,
+    dom: "<'row'><'row'<'col-md-7'lB><'col-md-5'f>>rt<'row'<'col-md-4'i><'col-md-8 dataTables_paging'<'#colvis'><'.dt-page-jump'>p>>",
+    pageLength: app.options.tables_pagination_limit,
+    lengthMenu: [length_options, length_options_names],
+    columnDefs: [
+      {
+        searchable: false,
+        targets: notsearchable,
+      },
+      {
+        sortable: false,
+        targets: notsortable,
+      },
+    ],
+    fnDrawCallback: function (oSettings) {
+      _table_jump_to_page(this, oSettings);
+      if (oSettings.aoData.length === 0) {
+        $(oSettings.nTableWrapper).addClass("app_dt_empty");
+      } else {
+        $(oSettings.nTableWrapper).removeClass("app_dt_empty");
+      }
+    },
+    fnCreatedRow: function (nRow, aData, iDataIndex) {
+      // If tooltips found
+      $(nRow).attr("data-title", aData.Data_Title);
+      $(nRow).attr("data-toggle", aData.Data_Toggle);
+    },
+    initComplete: function (settings, json) {
+      var t = this;
+      var $btnReload = $(".btn-dt-reload");
+      $btnReload.attr("data-toggle", "tooltip");
+      $btnReload.attr("title", app.lang.dt_button_reload);
 
-//       var $btnColVis = $(".dt-column-visibility");
-//       $btnColVis.attr("data-toggle", "tooltip");
-//       $btnColVis.attr("title", app.lang.dt_button_column_visibility);
+      var $btnColVis = $(".dt-column-visibility");
+      $btnColVis.attr("data-toggle", "tooltip");
+      $btnColVis.attr("title", app.lang.dt_button_column_visibility);
 
-//       t.wrap('<div class="table-responsive"></div>');
+      t.wrap('<div class="table-responsive"></div>');
 
-//       var dtEmpty = t.find(".dataTables_empty");
-//       if (dtEmpty.length) {
-//         dtEmpty.attr("colspan", t.find("thead th").length);
-//       }
+      var dtEmpty = t.find(".dataTables_empty");
+      if (dtEmpty.length) {
+        dtEmpty.attr("colspan", t.find("thead th").length);
+      }
 
-//       // Hide mass selection because causing issue on small devices
-//       if (
-//         is_mobile() &&
-//         $(window).width() < 400 &&
-//         t.find('tbody td:first-child input[type="checkbox"]').length > 0
-//       ) {
-//         t.DataTable().column(0).visible(false, false).columns.adjust();
-//         $("a[data-target*='bulk_actions']").addClass("hide");
-//       }
+      // Hide mass selection because causing issue on small devices
+      if (
+        is_mobile() &&
+        $(window).width() < 400 &&
+        t.find('tbody td:first-child input[type="checkbox"]').length > 0
+      ) {
+        t.DataTable().column(0).visible(false, false).columns.adjust();
+        $("a[data-target*='bulk_actions']").addClass("hide");
+      }
 
-//       t.parents(".table-loading").removeClass("table-loading");
-//       t.removeClass("dt-table-loading");
-//       var th_last_child = t.find("thead th:last-child");
-//       var th_first_child = t.find("thead th:first-child");
-//       if (th_last_child.text().trim() == app.lang.options) {
-//         th_last_child.addClass("not-export");
-//       }
-//       if (th_first_child.find('input[type="checkbox"]').length > 0) {
-//         th_first_child.addClass("not-export");
-//       }
-//       mainWrapperHeightFix();
-//     },
-//     order: defaultorder,
-//     ajax: {
-//       url: url,
-//       type: "POST",
-//       data: function (d) {
-//         if (Array.isArray(d.order)) {
+      t.parents(".table-loading").removeClass("table-loading");
+      t.removeClass("dt-table-loading");
+      var th_last_child = t.find("thead th:last-child");
+      var th_first_child = t.find("thead th:first-child");
+      if (th_last_child.text().trim() == app.lang.options) {
+        th_last_child.addClass("not-export");
+      }
+      if (th_first_child.find('input[type="checkbox"]').length > 0) {
+        th_first_child.addClass("not-export");
+      }
+      mainWrapperHeightFix();
+    },
+    order: defaultorder,
+    ajax: {
+      url: url,
+      type: "POST",
+      data: function (d) {
+        if (Array.isArray(d.order)) {
 
-//           d.order = d.order.map(function (order) {
-//             var tHead = table.find("thead th:eq(" + order.column + ")");
-//             if (tHead.length > 0) {
-//               if (tHead[0].dataset.customField == 1) {
-//                 order.type = tHead[0].dataset.type;
-//               }
-//             }
-//             return order;
-//           });
-//         }
+          d.order = d.order.map(function (order) {
+            var tHead = table.find("thead th:eq(" + order.column + ")");
+            if (tHead.length > 0) {
+              if (tHead[0].dataset.customField == 1) {
+                order.type = tHead[0].dataset.type;
+              }
+            }
+            return order;
+          });
+        }
 
-//         if (typeof csrfData !== "undefined") {
-//           d[csrfData["token_name"]] = csrfData["hash"];
-//         }
+        if (typeof csrfData !== "undefined") {
+          d[csrfData["token_name"]] = csrfData["hash"];
+        }
 
-//         for (var key in fnserverparams) {
-//           d[key] = $(fnserverparams[key]).val();
-//         }
+        for (var key in fnserverparams) {
+          d[key] = $(fnserverparams[key]).val();
+        }
 
-//         if (table.attr("data-last-order-identifier")) {
-//           d["last_order_identifier"] = table.attr("data-last-order-identifier");
-//         }
+        if (table.attr("data-last-order-identifier")) {
+          d["last_order_identifier"] = table.attr("data-last-order-identifier");
+        }
 
-//         var tId = table[0].getAttribute('id');
+        var tId = table[0].getAttribute('id');
 
-//         if (tId && Object.hasOwn(app.dtFilters, tId)) {
-//           d['filters'] = app.dtFilters[tId]
-//         }
-//       },
-//     },
-//     buttons: get_datatable_buttons(table),
-//   };
+        // if (tId && Object.hasOwn(app.dtFilters, tId)) {
+        //   d['filters'] = app.dtFilters[tId]
+        // }
+      },
+    },
+    buttons: get_datatable_buttons(table),
+  };
 
-//   table = table.dataTable(dtSettings);
-//   var tableApi = table.DataTable();
+  table = table.dataTable(dtSettings);
+  var tableApi = table.DataTable();
 
-//   var hiddenHeadings = table.find("th.not_visible");
-//   var hiddenIndexes = [];
+  var hiddenHeadings = table.find("th.not_visible");
+  var hiddenIndexes = [];
 
-//   $.each(hiddenHeadings, function () {
-//     hiddenIndexes.push(this.cellIndex);
-//   });
+  $.each(hiddenHeadings, function () {
+    hiddenIndexes.push(this.cellIndex);
+  });
 
-//   setTimeout(function () {
-//     for (var i in hiddenIndexes) {
-//       tableApi.columns(hiddenIndexes[i]).visible(false, false).columns.adjust();
-//     }
-//   }, 10);
+  setTimeout(function () {
+    for (var i in hiddenIndexes) {
+      tableApi.columns(hiddenIndexes[i]).visible(false, false).columns.adjust();
+    }
+  }, 10);
 
-//   if (table.hasClass("customizable-table")) {
-//     var tableToggleAbleHeadings = table.find("th.toggleable");
-//     var invisible = $("#hidden-columns-" + table.attr("id"));
-//     try {
-//       invisible = JSON.parse(invisible.text());
-//     } catch (err) {
-//       invisible = [];
-//     }
+  if (table.hasClass("customizable-table")) {
+    var tableToggleAbleHeadings = table.find("th.toggleable");
+    var invisible = $("#hidden-columns-" + table.attr("id"));
+    try {
+      invisible = JSON.parse(invisible.text());
+    } catch (err) {
+      invisible = [];
+    }
 
-//     $.each(tableToggleAbleHeadings, function () {
-//       var cID = $(this).attr("id");
-//       if ($.inArray(cID, invisible) > -1) {
-//         tableApi.column("#" + cID).visible(false);
-//       }
-//     });
+    $.each(tableToggleAbleHeadings, function () {
+      var cID = $(this).attr("id");
+      if ($.inArray(cID, invisible) > -1) {
+        tableApi.column("#" + cID).visible(false);
+      }
+    });
 
-//     // For for not blurring out when clicked on the link
-//     // Causing issues hidden column still to be shown as not hidden because the link is focused
-//     /* $('body').on('click', '.buttons-columnVisibility a', function() {
-//              $(this).blur();
-//          });*/
-//     /*
-//                 table.on('column-visibility.dt', function(e, settings, column, state) {
-//                     var hidden = [];
-//                     $.each(tableApi.columns()[0], function() {
-//                         var visible = tableApi.column($(this)).visible();
-//                         var columnHeader = $(tableApi.column($(this)).header());
-//                         if (columnHeader.hasClass('toggleable')) {
-//                             if (!visible) {
-//                                 hidden.push(columnHeader.attr('id'))
-//                             }
-//                         }
-//                     });
-//                     var data = {};
-//                     data.id = table.attr('id');
-//                     data.hidden = hidden;
-//                     if (data.id) {
-//                         $.post(site_url + 'staff/save_hidden_table_columns', data).fail(function(data) {
-//                             // Demo usage, prevent multiple alerts
-//                             if ($('body').find('.float-alert').length === 0) {
-//                                 alert_float('danger', data.responseText);
-//                             }
-//                         });
-//                     } else {
-//                         console.error('Table that have ability to show/hide columns must have an ID');
-//                     }
-//                 });*/
-//   }
+    // For for not blurring out when clicked on the link
+    // Causing issues hidden column still to be shown as not hidden because the link is focused
+    /* $('body').on('click', '.buttons-columnVisibility a', function() {
+             $(this).blur();
+         });*/
+    /*
+                table.on('column-visibility.dt', function(e, settings, column, state) {
+                    var hidden = [];
+                    $.each(tableApi.columns()[0], function() {
+                        var visible = tableApi.column($(this)).visible();
+                        var columnHeader = $(tableApi.column($(this)).header());
+                        if (columnHeader.hasClass('toggleable')) {
+                            if (!visible) {
+                                hidden.push(columnHeader.attr('id'))
+                            }
+                        }
+                    });
+                    var data = {};
+                    data.id = table.attr('id');
+                    data.hidden = hidden;
+                    if (data.id) {
+                        $.post(site_url + 'staff/save_hidden_table_columns', data).fail(function(data) {
+                            // Demo usage, prevent multiple alerts
+                            if ($('body').find('.float-alert').length === 0) {
+                                alert_float('danger', data.responseText);
+                            }
+                        });
+                    } else {
+                        console.error('Table that have ability to show/hide columns must have an ID');
+                    }
+                });*/
+  }
 
-//   // Fix for hidden tables colspan not correct if the table is empty
-//   if (table.is(":hidden")) {
-//     table
-//       .find(".dataTables_empty")
-//       .attr("colspan", table.find("thead th").length);
-//   }
+  // Fix for hidden tables colspan not correct if the table is empty
+  if (table.is(":hidden")) {
+    table
+      .find(".dataTables_empty")
+      .attr("colspan", table.find("thead th").length);
+  }
 
-//   table.on("preXhr.dt", function (e, settings, data) {
-//     if (settings.jqXHR) settings.jqXHR.abort();
-//   });
+  table.on("preXhr.dt", function (e, settings, data) {
+    if (settings.jqXHR) settings.jqXHR.abort();
+  });
 
-//   return tableApi;
-// }
+  return tableApi;
+}
 
 // // Update tags in task single modal
 // function task_single_update_tags() {
@@ -3973,46 +3973,46 @@ function init_form_reminder(rel_type) {
   });
 }
 
-// // New task reminder custom function
-// function new_task_reminder(id) {
-//   var $container = $("#newTaskReminderToggle");
-//   if (
-//     !$container.is(":visible") ||
-//     ($container.is(":visible") && $container.attr("data-edit") != undefined)
-//   ) {
-//     $container.slideDown(400, function () {
-//       fix_task_modal_left_col_height();
-//     });
+// New task reminder custom function
+function new_task_reminder(id) {
+  var $container = $("#newTaskReminderToggle");
+  if (
+    !$container.is(":visible") ||
+    ($container.is(":visible") && $container.attr("data-edit") != undefined)
+  ) {
+    $container.slideDown(400, function () {
+      fix_task_modal_left_col_height();
+    });
 
-//     $("#taskReminderFormSubmit").html(app.lang.create_reminder);
-//     $container
-//       .find("form")
-//       .attr("action", site_url + "tasks/add_reminder/" + id);
+    $("#taskReminderFormSubmit").html(app.lang.create_reminder);
+    $container
+      .find("form")
+      .attr("action", site_url + "tasks/add_reminder/" + id);
 
-//     $container.find("#description").val("");
-//     $container.find("#date").val("");
-//     $container
-//       .find("#staff")
-//       .selectpicker(
-//         "val",
-//         $container.find("#staff").attr("data-current-staff")
-//       );
-//     $container.find("#notify_by_email").prop("checked", false);
-//     if ($container.attr("data-edit") != undefined) {
-//       $container.removeAttr("data-edit");
-//     }
-//     if (!$container.isInViewport()) {
-//       $("#task-modal").animate(
-//         {
-//           scrollTop: $container.offset().top + "px",
-//         },
-//         "fast"
-//       );
-//     }
-//   } else {
-//     $container.slideUp();
-//   }
-// }
+    $container.find("#description").val("");
+    $container.find("#date").val("");
+    $container
+      .find("#staff")
+      .selectpicker(
+        "val",
+        $container.find("#staff").attr("data-current-staff")
+      );
+    $container.find("#notify_by_email").prop("checked", false);
+    if ($container.attr("data-edit") != undefined) {
+      $container.removeAttr("data-edit");
+    }
+    if (!$container.isInViewport()) {
+      $("#task-modal").animate(
+        {
+          scrollTop: $container.offset().top + "px",
+        },
+        "fast"
+      );
+    }
+  } else {
+    $container.slideUp();
+  }
+}
 
 // // Edit reminder function
 // function edit_reminder(id, e) {
@@ -4065,35 +4065,35 @@ function init_form_reminder(rel_type) {
 //   });
 // }
 
-// // Handles reminder modal form
-// function reminderFormHandler(form) {
-//   form = $(form);
-//   var data = form.serialize();
-//   $.post(form.attr("action"), data).done(function (data) {
-//     data = JSON.parse(data);
-//     if (data.message !== "") {
-//       alert_float(data.alert_type, data.message);
-//     }
-//     form.trigger("reinitialize.areYouSure");
-//     if ($("#task-modal").is(":visible")) {
-//       _task_append_html(data.taskHtml);
-//     }
-//     reload_reminders_tables();
-//   });
+// Handles reminder modal form
+function reminderFormHandler(form) {
+  form = $(form);
+  var data = form.serialize();
+  $.post(form.attr("action"), data).done(function (data) {
+    data = JSON.parse(data);
+    if (data.message !== "") {
+      alert_float(data.alert_type, data.message);
+    }
+    form.trigger("reinitialize.areYouSure");
+    if ($("#task-modal").is(":visible")) {
+      _task_append_html(data.taskHtml);
+    }
+    reload_reminders_tables();
+  });
 
-//   if ($("body").hasClass("all-reminders")) {
-//     $(".reminder-modal--").modal("hide");
-//   } else {
-//     $(
-//       ".reminder-modal-" +
-//       form.find('[name="rel_type"]').val() +
-//       "-" +
-//       form.find('[name="rel_id"]').val()
-//     ).modal("hide");
-//   }
+  if ($("body").hasClass("all-reminders")) {
+    $(".reminder-modal--").modal("hide");
+  } else {
+    $(
+      ".reminder-modal-" +
+      form.find('[name="rel_type"]').val() +
+      "-" +
+      form.find('[name="rel_id"]').val()
+    ).modal("hide");
+  }
 
-//   return false;
-// }
+  return false;
+}
 
 // // Reloads reminders table eq when reminder is deleted
 // function reload_reminders_tables() {
@@ -4879,41 +4879,41 @@ function validate_lead_form() {
 //   appValidateForm($("#lead_to_client_form"), rules_convert_lead);
 // }
 
-// // Lead profile data function form handler
-// function lead_profile_form_handler(form) {
-//   form = $(form);
-//   var data = form.serialize();
-//   var leadid = $("#lead-modal").find('input[name="leadid"]').val();
-//   $(".lead-save-btn").addClass("disabled");
-//   $.post(form.attr("action"), data)
-//     .done(function (response) {
-//       response = JSON.parse(response);
-//       if (response.message !== "") {
-//         alert_float("success", response.message);
-//       }
-//       if (response.proposal_warning && response.proposal_warning != false) {
-//         $("body").find("#lead_proposal_warning").removeClass("hide");
-//         $("body").find("#lead-modal").animate(
-//           {
-//             scrollTop: 0,
-//           },
-//           800
-//         );
-//       } else {
-//         _lead_init_data(response, response.id);
-//       }
-//       if ($.fn.DataTable.isDataTable(".table-leads")) {
-//         table_leads.DataTable().ajax.reload(null, false);
-//       } else if ($("body").hasClass("kan-ban-body")) {
-//         leads_kanban();
-//       }
-//     })
-//     .fail(function (data) {
-//       alert_float("danger", data.responseText);
-//       return false;
-//     });
-//   return false;
-// }
+// Lead profile data function form handler
+function lead_profile_form_handler(form) {
+  form = $(form);
+  var data = form.serialize();
+  var leadid = $("#lead-modal").find('input[name="leadid"]').val();
+  $(".lead-save-btn").addClass("disabled");
+  $.post(form.attr("action"), data)
+    .done(function (response) {
+      response = JSON.parse(response);
+      if (response.message !== "") {
+        alert_float("success", response.message);
+      }
+      if (response.proposal_warning && response.proposal_warning != false) {
+        $("body").find("#lead_proposal_warning").removeClass("hide");
+        $("body").find("#lead-modal").animate(
+          {
+            scrollTop: 0,
+          },
+          800
+        );
+      } else {
+        _lead_init_data(response, response.id);
+      }
+      if ($.fn.DataTable.isDataTable(".table-leads")) {
+        table_leads.DataTable().ajax.reload(null, false);
+      } else if ($("body").hasClass("kan-ban-body")) {
+        leads_kanban();
+      }
+    })
+    .fail(function (data) {
+      alert_float("danger", data.responseText);
+      return false;
+    });
+  return false;
+}
 
 // // Updates all proposals emails linked to lead, this wil be executed when eq lead email is changed
 // function update_all_proposal_emails_linked_to_lead(id) {
@@ -5055,50 +5055,50 @@ function _lead_init_data(data, id) {
 //     });
 // }
 
-// function print_lead_information() {
-//   var $leadViewWrapper = $("#leadViewWrapper").clone();
-//   var name = $leadViewWrapper.find(".lead-name").text().trim();
+function print_lead_information() {
+  var $leadViewWrapper = $("#leadViewWrapper").clone();
+  var name = $leadViewWrapper.find(".lead-name").text().trim();
 
-//   $leadViewWrapper
-//     .find("p")
-//     .css("font-size", "100%")
-//     .css("font", "inherit")
-//     .css("vertical-align", "baseline")
-//     .css("margin", "0px");
+  $leadViewWrapper
+    .find("p")
+    .css("font-size", "100%")
+    .css("font", "inherit")
+    .css("vertical-align", "baseline")
+    .css("margin", "0px");
 
-//   $leadViewWrapper.find("h4").css("font-size", "100%");
+  $leadViewWrapper.find("h4").css("font-size", "100%");
 
-//   $leadViewWrapper
-//     .find(".lead-field-heading")
-//     .css("color", "#777")
-//     .css("margin-bottom", "3px");
-//   $leadViewWrapper.find(".lead-field-heading + p").css("margin-bottom", "15px");
+  $leadViewWrapper
+    .find(".lead-field-heading")
+    .css("color", "#777")
+    .css("margin-bottom", "3px");
+  $leadViewWrapper.find(".lead-field-heading + p").css("margin-bottom", "15px");
 
-//   var mywindow = _create_print_window(name);
+  var mywindow = _create_print_window(name);
 
-//   mywindow.document.write("<html><head><title>" + app.lang.lead + "</title>");
-//   _add_print_window_default_styles(mywindow);
-//   mywindow.document.write("<style>");
-//   mywindow.document.write(
-//     ".lead-information-col { " + "float: left; width: 33.33333333%;" + "}" + ""
-//   );
-//   mywindow.document.write("</style>");
+  mywindow.document.write("<html><head><title>" + app.lang.lead + "</title>");
+  _add_print_window_default_styles(mywindow);
+  mywindow.document.write("<style>");
+  mywindow.document.write(
+    ".lead-information-col { " + "float: left; width: 33.33333333%;" + "}" + ""
+  );
+  mywindow.document.write("</style>");
 
-//   mywindow.document.write("</head><body>");
-//   mywindow.document.write("<h1>" + name + "</h1>");
-//   mywindow.document.write(
-//     '<div id="#leadViewWrapper">' + $leadViewWrapper.html() + "</div>"
-//   );
-//   mywindow.document.write("</body></html>");
+  mywindow.document.write("</head><body>");
+  mywindow.document.write("<h1>" + name + "</h1>");
+  mywindow.document.write(
+    '<div id="#leadViewWrapper">' + $leadViewWrapper.html() + "</div>"
+  );
+  mywindow.document.write("</body></html>");
 
-//   mywindow.document.close(); // necessary for IE >= 10
-//   mywindow.focus(); // necessary for IE >= 10*/
+  mywindow.document.close(); // necessary for IE >= 10
+  mywindow.focus(); // necessary for IE >= 10*/
 
-//   mywindow.print();
-//   setTimeout(function () {
-//     mywindow.close();
-//   }, 1000);
-// }
+  mywindow.print();
+  setTimeout(function () {
+    mywindow.close();
+  }, 1000);
+}
 
 // function print_expense_information() {
 //   var $expenseViewWrapper = $("#tab_expense").clone();
@@ -5212,24 +5212,24 @@ function _lead_init_data(data, id) {
 //   }
 // }
 
-// // Leads statuses kanban sortable
-// function init_leads_status_sortable() {
-//   $("#kan-ban").sortable({
-//     helper: "clone",
-//     item: ".kan-ban-col",
-//     update: function (event, ui) {
-//       data = {
-//         order: [],
-//       };
+// Leads statuses kanban sortable
+function init_leads_status_sortable() {
+  $("#kan-ban").sortable({
+    helper: "clone",
+    item: ".kan-ban-col",
+    update: function (event, ui) {
+      data = {
+        order: [],
+      };
 
-//       $.each($(".kan-ban-col"), function (idx, el) {
-//         data.order.push([$(el).attr("data-col-status-id"), idx + 1]);
-//       });
+      $.each($(".kan-ban-col"), function (idx, el) {
+        data.order.push([$(el).attr("data-col-status-id"), idx + 1]);
+      });
 
-//       $.post(site_url + "leads/update_status_order", data);
-//     },
-//   });
-// }
+      $.post(site_url + "leads/update_status_order", data);
+    },
+  });
+}
 
 // // Init the leads kanban
 // function leads_kanban(search) {
@@ -5243,91 +5243,91 @@ function _lead_init_data(data, id) {
 //   );
 // }
 
-// // Deleting lead attachments
-// function delete_lead_attachment(wrapper, id, lead_id) {
-//   if (confirm_delete()) {
-//     requestGetJSON("leads/delete_attachment/" + id + "/" + lead_id)
-//       .done(function (response) {
-//         if (response.success === true || response.success == "true") {
-//           $(wrapper).parents(".lead-attachment-wrapper").remove();
-//           _lead_init_data(response, response.id);
-//         }
-//       })
-//       .fail(function (data) {
-//         alert_float("danger", data.responseText);
-//       });
-//   }
-// }
+// Deleting lead attachments
+function delete_lead_attachment(wrapper, id, lead_id) {
+  if (confirm_delete()) {
+    requestGetJSON("leads/delete_attachment/" + id + "/" + lead_id)
+      .done(function (response) {
+        if (response.success === true || response.success == "true") {
+          $(wrapper).parents(".lead-attachment-wrapper").remove();
+          _lead_init_data(response, response.id);
+        }
+      })
+      .fail(function (data) {
+        alert_float("danger", data.responseText);
+      });
+  }
+}
 
-// // Delete lead note
-// function delete_lead_note(wrapper, id, lead_id) {
-//   if (confirm_delete()) {
-//     requestGetJSON("leads/delete_note/" + id + "/" + lead_id)
-//       .done(function (response) {
-//         if (response.success === true || response.success == "true") {
-//           $(wrapper).parents(".lead-note").remove();
-//           _lead_init_data(response, response.id);
-//         }
-//       })
-//       .fail(function (data) {
-//         alert_float("danger", data.responseText);
-//       });
-//   }
-// }
+// Delete lead note
+function delete_lead_note(wrapper, id, lead_id) {
+  if (confirm_delete()) {
+    requestGetJSON("leads/delete_note/" + id + "/" + lead_id)
+      .done(function (response) {
+        if (response.success === true || response.success == "true") {
+          $(wrapper).parents(".lead-note").remove();
+          _lead_init_data(response, response.id);
+        }
+      })
+      .fail(function (data) {
+        alert_float("danger", data.responseText);
+      });
+  }
+}
 
-// // Mark lead as lost function
-// function lead_mark_as_lost(id) {
-//   requestGetJSON("leads/mark_as_lost/" + id)
-//     .done(function (response) {
-//       if (response.success === true || response.success == "true") {
-//         alert_float("success", response.message);
-//         $("body")
-//           .find("tr#lead_" + id)
-//           .remove();
-//         $("body")
-//           .find('#kan-ban li[data-lead-id="' + id + '"]')
-//           .remove();
-//       }
-//       _lead_init_data(response, response.id);
-//     })
-//     .fail(function (error) {
-//       alert_float("danger", error.responseText);
-//     });
-// }
+// Mark lead as lost function
+function lead_mark_as_lost(id) {
+  requestGetJSON("leads/mark_as_lost/" + id)
+    .done(function (response) {
+      if (response.success === true || response.success == "true") {
+        alert_float("success", response.message);
+        $("body")
+          .find("tr#lead_" + id)
+          .remove();
+        $("body")
+          .find('#kan-ban li[data-lead-id="' + id + '"]')
+          .remove();
+      }
+      _lead_init_data(response, response.id);
+    })
+    .fail(function (error) {
+      alert_float("danger", error.responseText);
+    });
+}
 
-// // Unmark lead as lost function
-// function lead_unmark_as_lost(id) {
-//   requestGetJSON("leads/unmark_as_lost/" + id)
-//     .done(function (response) {
-//       if (response.success === true || response.success == "true") {
-//         alert_float("success", response.message);
-//       }
-//       _lead_init_data(response, response.id);
-//     })
-//     .fail(function (error) {
-//       alert_float("danger", error.responseText);
-//     });
-// }
+// Unmark lead as lost function
+function lead_unmark_as_lost(id) {
+  requestGetJSON("leads/unmark_as_lost/" + id)
+    .done(function (response) {
+      if (response.success === true || response.success == "true") {
+        alert_float("success", response.message);
+      }
+      _lead_init_data(response, response.id);
+    })
+    .fail(function (error) {
+      alert_float("danger", error.responseText);
+    });
+}
 
-// // Mark lead as junk function
-// function lead_mark_as_junk(id) {
-//   requestGetJSON("leads/mark_as_junk/" + id)
-//     .done(function (response) {
-//       if (response.success === true || response.success == "true") {
-//         alert_float("success", response.message);
-//         $("body")
-//           .find("tr#lead_" + id)
-//           .remove();
-//         $("body")
-//           .find('#kan-ban li[data-lead-id="' + id + '"]')
-//           .remove();
-//       }
-//       _lead_init_data(response, response.id);
-//     })
-//     .fail(function (error) {
-//       alert_float("danger", error.responseText);
-//     });
-// }
+// Mark lead as junk function
+function lead_mark_as_junk(id) {
+  requestGetJSON("leads/mark_as_junk/" + id)
+    .done(function (response) {
+      if (response.success === true || response.success == "true") {
+        alert_float("success", response.message);
+        $("body")
+          .find("tr#lead_" + id)
+          .remove();
+        $("body")
+          .find('#kan-ban li[data-lead-id="' + id + '"]')
+          .remove();
+      }
+      _lead_init_data(response, response.id);
+    })
+    .fail(function (error) {
+      alert_float("danger", error.responseText);
+    });
+}
 // // From lead table mark as
 // function lead_mark_as(status_id, lead_id) {
 //   var data = {};
@@ -6143,48 +6143,48 @@ function _lead_init_data(data, id) {
 //   });
 // }
 
-// // New task function, various actions performed
-// function new_task(url, timer_id) {
-//   url = typeof url != "undefined" ? url : site_url + "tasks/task";
+// New task function, various actions performed
+function new_task(url, timer_id) {
+  url = typeof url != "undefined" ? url : site_url + "tasks/task";
 
-//   var $leadModal = $("#lead-modal");
-//   if ($leadModal.is(":visible")) {
-//     url +=
-//       "&opened_from_lead_id=" + $leadModal.find('input[name="leadid"]').val();
-//     if (url.indexOf("?") === -1) {
-//       url = url.replace("&", "?");
-//     }
-//     $leadModal.modal("hide");
-//   }
+  var $leadModal = $("#lead-modal");
+  if ($leadModal.is(":visible")) {
+    url +=
+      "&opened_from_lead_id=" + $leadModal.find('input[name="leadid"]').val();
+    if (url.indexOf("?") === -1) {
+      url = url.replace("&", "?");
+    }
+    $leadModal.modal("hide");
+  }
 
-//   var $taskSingleModal = $("#task-modal");
-//   if ($taskSingleModal.is(":visible")) {
-//     $taskSingleModal.modal("hide");
-//   }
+  var $taskSingleModal = $("#task-modal");
+  if ($taskSingleModal.is(":visible")) {
+    $taskSingleModal.modal("hide");
+  }
 
-//   var $taskEditModal = $("#_task_modal");
-//   if ($taskEditModal.is(":visible")) {
-//     $taskEditModal.modal("hide");
-//   }
+  var $taskEditModal = $("#_task_modal");
+  if ($taskEditModal.is(":visible")) {
+    $taskEditModal.modal("hide");
+  }
 
-//   requestGet(url)
-//     .done(function (response) {
-//       $("#_task").html(response);
-//       $("body").find("#_task_modal").modal({
-//         show: true,
-//         backdrop: "static",
-//       });
+  requestGet(url)
+    .done(function (response) {
+      $("#_task").html(response);
+      $("body").find("#_task_modal").modal({
+        show: true,
+        backdrop: "static",
+      });
 
-//       var stopTimerPopover = $("#timer-select-task");
-//       if (stopTimerPopover.is(":visible")) {
-//         $(".system-popup-close").click();
-//         window._timer_id = timer_id;
-//       }
-//     })
-//     .fail(function (error) {
-//       alert_float("danger", error.responseText);
-//     });
-// }
+      var stopTimerPopover = $("#timer-select-task");
+      if (stopTimerPopover.is(":visible")) {
+        $(".system-popup-close").click();
+        window._timer_id = timer_id;
+      }
+    })
+    .fail(function (error) {
+      alert_float("danger", error.responseText);
+    });
+}
 
 // // Show/hide tags placeholder
 // function showHideTagsPlaceholder($tagit) {
@@ -6195,15 +6195,15 @@ function _lead_init_data(data, id) {
 //     : $input.attr("placeholder", placeholderText);
 // }
 
-// // Create new task directly from relation, related options selected after modal is shown
-// function new_task_from_relation(table, rel_type, rel_id) {
-//   if (typeof rel_type == "undefined" && typeof rel_id == "undefined") {
-//     rel_id = $(table).data("new-rel-id");
-//     rel_type = $(table).data("new-rel-type");
-//   }
-//   var url = site_url + "tasks/task?rel_id=" + rel_id + "&rel_type=" + rel_type;
-//   new_task(url);
-// }
+// Create new task directly from relation, related options selected after modal is shown
+function new_task_from_relation(table, rel_type, rel_id) {
+  if (typeof rel_type == "undefined" && typeof rel_id == "undefined") {
+    rel_id = $(table).data("new-rel-id");
+    rel_type = $(table).data("new-rel-type");
+  }
+  var url = site_url + "tasks/task?rel_id=" + rel_id + "&rel_type=" + rel_type;
+  new_task(url);
+}
 
 // // Go to edit view
 // function edit_task(task_id) {
@@ -6576,17 +6576,17 @@ function _lead_init_data(data, id) {
 //   });
 // }
 
-// // Fix task single modal height to be on both sides the same
-// function fix_task_modal_left_col_height() {
-//   if (!is_mobile()) {
-//     $("body")
-//       .find(".task-single-col-left")
-//       .css(
-//         "min-height",
-//         $("body").find(".task-single-col-right").outerHeight(true) + "px"
-//       );
-//   }
-// }
+// Fix task single modal height to be on both sides the same
+function fix_task_modal_left_col_height() {
+  if (!is_mobile()) {
+    $("body")
+      .find(".task-single-col-left")
+      .css(
+        "min-height",
+        $("body").find(".task-single-col-right").outerHeight(true) + "px"
+      );
+  }
+}
 
 // // Updates task when action performed form kan ban area eq status changed.
 // function tasks_kanban_update(ui, object) {
@@ -8807,22 +8807,22 @@ function _lead_init_data(data, id) {
 //   $searchHistory.html(historyHtml);
 // }
 
-// // General helper function for $.get ajax requests
-// function requestGet(uri, params) {
-//   params = typeof params == "undefined" ? {} : params;
-//   var options = {
-//     type: "GET",
-//     url: uri.indexOf(site_url) > -1 ? uri : site_url + uri,
-//   };
-//   return $.ajax($.extend({}, options, params));
-// }
+// General helper function for $.get ajax requests
+function requestGet(uri, params) {
+  params = typeof params == "undefined" ? {} : params;
+  var options = {
+    type: "GET",
+    url: uri.indexOf(site_url) > -1 ? uri : site_url + uri,
+  };
+  return $.ajax($.extend({}, options, params));
+}
 
-// // General helper function for $.get ajax requests with dataType JSON
-// function requestGetJSON(uri, params) {
-//   params = typeof params == "undefined" ? {} : params;
-//   params.dataType = "json";
-//   return requestGet(uri, params);
-// }
+// General helper function for $.get ajax requests with dataType JSON
+function requestGetJSON(uri, params) {
+  params = typeof params == "undefined" ? {} : params;
+  params.dataType = "json";
+  return requestGet(uri, params);
+}
 
 // // Templates Js
 // function update_templates_count(type) {
