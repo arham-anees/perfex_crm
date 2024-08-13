@@ -3,7 +3,7 @@
 class Campaigns_model extends CI_Model
 {
 
-    protected $table = 'tblleadevo_campaign'; // Define the table name
+    protected $table = 'leadevo_campaign'; // Define the table name
     protected $country_table = 'tblcountries'; // Define the table name
 
 
@@ -17,6 +17,14 @@ class Campaigns_model extends CI_Model
     {
         return $this->db->get($this->table)->result();
     }
+    public function get_all_client()
+    {
+        $sql = "SELECT c.*, s.name status_name FROM `tblleadevo_campaign` c
+                LEFT JOIN tblleadevo_campaign_statuses s
+                ON c.status_id = s.id
+                WHERE c.is_active = 1 AND client_id = " . get_client_user_id() . "";
+        return $this->db->query($sql)->result();
+    }
 
     public function get($id)
     {
@@ -29,6 +37,7 @@ class Campaigns_model extends CI_Model
 
     public function insert($data)
     {
+        log_message('error', 'insertion');
         return $this->db->insert($this->table, $data);
     }
 
