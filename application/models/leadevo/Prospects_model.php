@@ -24,6 +24,8 @@ class Prospects_model extends CI_Model
             i.name AS industry,
             p.is_fake,
             p.is_available_sale,
+            p.desired_amount,
+            p.min_amount,
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -306,38 +308,66 @@ class Prospects_model extends CI_Model
     public function get_all_market_place_admin()
     {
         $sql = "SELECT 
-                    p.id, 
-                    CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
-                    ps.name AS status, 
-                    pt.name AS type, 
-                    pc.name AS category, 
-                    ac.name AS acquisition_channel, 
-                    i.name AS industry,
-                    p.is_confirmed AS confirm_status,
-                    p.is_fake,
-                    p.is_available_sale,
-                    null AS zip_code,
-                    null AS phone,
-                    null AS email,
-                    null AS source,
-                    null AS deal,
-                    null AS quality
-                FROM
-                    tblleadevo_prospects p
-                LEFT JOIN
-                    tblleadevo_prospect_statuses ps ON p.status_id = ps.id
-                LEFT JOIN
-                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
-                LEFT JOIN
-                    tblleadevo_prospect_categories pc ON p.category_id = pc.id
-                LEFT JOIN
-                    tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
-                LEFT JOIN
-                    tblleadevo_industries i ON p.industry_id = i.id
-                WHERE
-                    p.is_active = 1
-                AND is_fake = 0
-                AND is_available_sale = 1 ";
+                p.id, 
+                CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
+                ps.name AS status, 
+                pt.name AS type, 
+                pc.name AS category, 
+                ac.name AS acquisition_channel, 
+                i.name AS industry,
+                pso.name AS source,
+                p.is_confirmed AS confirm_status,
+                p.is_fake,
+                p.is_available_sale,
+                p.desired_amount,
+                p.min_amount,
+                NULL AS zip_code,
+                phone,
+                email,
+                SUM(CASE WHEN c.deal = 1 THEN 1 ELSE 0 END) AS exclusive_sales,  -- Count of exclusive sales
+                SUM(CASE WHEN c.deal = 0 OR c.deal IS NULL THEN 1 ELSE 0 END) AS non_exclusive_sales,  -- Count of non-exclusive sales
+                NULL AS quality,
+                p.verified_sms,
+                p.verified_whatsapp,
+                p.verified_staff,
+                p.created_at
+            FROM
+                tblleadevo_prospects p
+            LEFT JOIN
+                tblleadevo_prospect_statuses ps ON p.status_id = ps.id
+            LEFT JOIN
+                tblleadevo_prospects_sources pso ON p.source_id = pso.id
+            LEFT JOIN
+                tblleadevo_prospect_types pt ON p.type_id = pt.id   
+            LEFT JOIN
+                tblleadevo_prospect_categories pc ON p.category_id = pc.id
+            LEFT JOIN
+                tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
+            LEFT JOIN
+                tblleadevo_industries i ON p.industry_id = i.id
+            LEFT JOIN
+                tblleadevo_leads ll ON p.id = ll.prospect_id  -- Joining with leads table
+            LEFT JOIN
+                tblleadevo_campaign c ON ll.campaign_id = c.id  -- Joining with campaign table to get deal
+            WHERE
+                p.is_active = 1
+                AND p.is_fake = 0
+                AND p.is_available_sale = 1
+            GROUP BY
+                p.id, 
+                p.first_name, 
+                p.last_name, 
+                ps.name, 
+                pt.name, 
+                pc.name, 
+                ac.name, 
+                i.name, 
+                p.is_confirmed,
+                p.is_fake,
+                p.is_available_sale,
+                p.desired_amount,
+                p.min_amount;
+ ";
 
         return $this->db->query($sql)->result_array();
     }

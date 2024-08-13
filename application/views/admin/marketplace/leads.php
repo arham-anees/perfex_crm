@@ -496,7 +496,11 @@
                                                     <strong><?php echo _l('Prospect ID'); ?>:</strong>
                                                     <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
                                                     <strong><?php echo _l('Generated date'); ?>:</strong>
-                                                    <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                                                    <?php
+                                                    echo isset($prospect['created_at'])
+                                                        ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at'])))
+                                                        : 'N/A';
+                                                    ?><br>
                                                     <strong><?php echo _l('Industry'); ?>:</strong>
                                                     <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
                                                 </div>
@@ -519,14 +523,25 @@
                                                 <div>
                                                     <strong><?php echo _l('Source'); ?>:</strong>
                                                     <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Deal'); ?>:</strong>
-                                                    <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Quality'); ?>:</strong>
-                                                    <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
+                                                    <!-- <strong><?php echo _l('Deal'); ?>:</strong>
+                                                    <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br> -->
+                                                    <div style="display:flex">
+                                                        <strong><?php echo _l('Quality'); ?> : </strong>
+                                                        <div>
+                                                            <?php echo ($prospect['verified_staff']) == 1 ? 'Verified by Staff' : ''; ?><br />
+                                                            <?php echo ($prospect['verified_whatsapp']) == 1 ? 'Verified by WhatsApp' : ''; ?><br />
+                                                            <?php echo ($prospect['verified_sms']) == 1 ? 'Verified by SMS' : ''; ?><br />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td class="text-center">
-
+                                                <div>
+                                                    <strong><?php echo _l('selling_price'); ?>:</strong>
+                                                    <?php echo $prospect['desired_amount'] . " / " . $prospect['min_amount']; ?><br>
+                                                    <strong><?php echo _l('Deal'); ?>:</strong>
+                                                    <?php echo $prospect['exclusive_sales'] . " / " . $prospect['non_exclusive_sales']; ?><br>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

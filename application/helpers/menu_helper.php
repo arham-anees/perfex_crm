@@ -30,7 +30,7 @@ function app_init_admin_sidebar_menu_items()
     $CI->app_menu->add_sidebar_menu_item('leadevo_prospects', [
         'name' => _l('leadevo_prospects'),
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
@@ -46,7 +46,7 @@ function app_init_admin_sidebar_menu_items()
         'href' => admin_url('marketplace'),
         'slug' => 'marketplace',
         'position' => 2,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-shop',
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
