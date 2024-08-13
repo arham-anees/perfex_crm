@@ -130,6 +130,14 @@ class Leads_model extends App_Model
 
         return false;
     }
+    public function get_source_by_key($key)
+{
+    // Assuming you have a 'leads_sources' table that stores source information
+    $this->db->where('key', $key);
+    $result = $this->db->get('leads_sources')->row();
+    return $result;
+}
+
 
     public function lead_assigned_member_notification($lead_id, $assigned, $integration = false)
     {

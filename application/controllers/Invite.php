@@ -58,7 +58,6 @@ class Invite extends ClientsController
                 'description'=> '', // Adjust as needed
                 'address'    => '', // Adjust as needed
                 'status'     => 2,  // Status ID - adjust as necessary
-                'source'     => getInviteSourceId()['id'] ?? null,
                 'assigned'   => get_staff_user_id(),
                 'hash'       => app_generate_hash()
             ];

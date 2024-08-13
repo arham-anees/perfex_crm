@@ -18,4 +18,5 @@
 </div>
 
 <!-- Include JavaScript file using <script> tags -->
-<script src="<?= base_url('modules/leadevo/assets/js/invite/invite.js'); ?>"></script>
+<?php require ('modules/leadevo/assets/js/invite/invite.php'); ?>
+<?php init_tail(); ?>

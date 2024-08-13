@@ -448,7 +448,7 @@
 
             <!-- Modal Body -->
             <div class="modal-body text-center">
-                <?php echo form_open(admin_url('leadevo/invite'), ['id' => 'invite-friend-form']); ?>
+                <?php echo form_open(site_url('invite'), ['id' => 'invite-friend-form']); ?>
 
                 <!-- Name Input Field -->
                 <div class="form-group">
@@ -614,10 +614,10 @@
         // Handle invite friend form submission
         document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
             event.preventDefault();
-            fetch('<?php echo site_url('clients/invite'); ?>', {
-                method: 'POST',
-                body: new FormData(this),
-            })
+            fetch('<?php echo site_url('invite'); ?>', {
+                    method: 'POST',
+                    body: new FormData(this),
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
