@@ -298,35 +298,29 @@
           <table class="table dt-table scroll-responsive" id="campaign-list">
             <thead>
               <tr>
-                <th><?php echo _l('Name'); ?></th>
-                <th><?php echo _l('Description'); ?></th>
+                <th><?php echo _l('status'); ?></th>
+                <th><?php echo _l('budget'); ?></th>
+                <th><?php echo _l('deal'); ?></th>
                 <th><?php echo _l('Start Date'); ?></th>
                 <th><?php echo _l('End Date'); ?></th>
-                <th><?php echo _l('status'); ?></th>
-                <th><?php echo _l('actions'); ?></th>
               </tr>
             </thead>
             <tbody>
               <?php foreach ($campaigns as $campaign): ?>
                 <tr>
-                  <td><?php echo $campaign->name; ?></td>
-                  <td><?php echo $campaign->description; ?></td>
+                  <td><?php echo $campaign->status_name; ?>
+                    <div class="row-options">
+                      <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>">View</a> |
+                      <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
+                      <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>"
+                        onclick="return confirm('Are you sure you want to delete this campaign ?');">Delete</a>
+                    </div>
+
+                  </td>
+                  <td><?php echo $campaign->budget; ?></td>
+                  <td><?php echo $campaign->deal == 1 ? 'Exclusive' : 'Non-exclusive'; ?></td>
                   <td><?php echo date('Y-m-d', strtotime($campaign->start_date)); ?></td>
                   <td><?php echo date('Y-m-d', strtotime($campaign->end_date)); ?></td>
-                  <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
-                  <td>
-                    <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>"
-                      class="btn btn-default btn-icon">
-                      <i class="fa fa-eye"></i>
-                    </a>
-                    <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>" class="btn btn-default btn-icon">
-                      <i class="fa fa-pencil"></i>
-                    </a>
-                    <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>" class="btn btn-danger btn-icon"
-                      onclick="return confirm('Are you sure you want to delete this campaign ?');">
-                      <i class="fa fa-remove"></i>
-                    </a>
-                  </td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

@@ -506,7 +506,7 @@ class Prospects_model extends CI_Model
 
                 // Get the last inserted ID from tblleads
                 $lastInsertId = $this->db->insert_id();
-                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . ", '" . date('Y-m-d H:i:s') . "');";
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect->desired_amount . "');";
                 $this->db->query($sql);
 
                 if ($campaign->deal == 1) {
