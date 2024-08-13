@@ -614,7 +614,7 @@
         // Handle invite friend form submission
         document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
             event.preventDefault();
-            fetch('<?php echo site_url('clients/invite'); ?>', {
+            fetch('<?php echo site_url('invite'); ?>', {
                     method: 'POST',
                     body: new FormData(this),
                 })
