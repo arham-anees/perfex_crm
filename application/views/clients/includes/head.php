@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="<?= site_url() . '/assets/css/style.css' ?>" />
 
     <script>
+        var admin_url = '<?= admin_url() ?>'
         var totalUnreadNotifications = 0,
             proposalsTemplates = <?php echo json_encode(get_proposal_templates()); ?>,
             contractsTemplates = <?php echo json_encode(get_contract_templates()); ?>,

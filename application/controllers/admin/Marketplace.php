@@ -66,7 +66,10 @@ class Marketplace extends AdminController
 
     public function send_prospects()
     {
-        $this->Prospects_model->deliver_prospects(10);
+        $campaigns = $this->Campaigns_model->get_active();
+        foreach ($campaigns as $campaign) {
+            $this->Prospects_model->deliver_prospects($campaign->id);
+        }
     }
 
 }

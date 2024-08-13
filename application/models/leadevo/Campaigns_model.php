@@ -26,6 +26,12 @@ class Campaigns_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
+    public function get_active()
+    {
+        $sql = "SELECT * FROM tblleadevo_campaign WHERE is_active = 1 AND status_id = 1 AND UTC_TIMESTAMP() BETWEEN start_date AND end_date";
+        return $this->db->query($sql)->result();
+    }
+
     public function get($id)
     {
         return $this->db->where('id', $id)->get($this->table)->row();

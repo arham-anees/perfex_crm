@@ -438,8 +438,7 @@ class Prospects_model extends CI_Model
 
         // filter prospects based on the criteria
         // country id may be category ID
-        $temp_table = "
-                SELECT p.*, r.rating FROM `tblleadevo_prospects` p
+        $temp_table = "SELECT p.*, r.rating FROM `tblleadevo_prospects` p
                 LEFT JOIN   
                     (SELECT r.*
                     FROM `tblleadevo_prospects_rating` r
@@ -451,7 +450,7 @@ class Prospects_model extends CI_Model
                     AND r.rated_at = latest_ratings.max_rated_at) r
                 ON r.prospect_id = p.id
                 WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1 ";
-        if (isset($campaign->industry_id)){
+        if (isset($campaign->industry_id)) {
             $sql .= " AND industry_id = " . $campaign->industry_id;
         }
         if ($campaign->verify_by_staff == 1)
@@ -467,27 +466,29 @@ class Prospects_model extends CI_Model
 
         $prospects = $this->db->query($sql)->result();
         $total_prospects = count($prospects);
-        
-        log_message("error", $total_prospects);
 
         // now fetch prospects based on star weightage
         $sql = $temp_table;
-        $sql = "SELECT * FROM (
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating IS NULL ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_0stars')) * $total_prospects . ") 
+        if (get_option('delivery_settings') == 1) {
+            $sql = "SELECT * FROM (
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating IS NULL ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_0stars')) * $total_prospects . ") 
             UNION ALL
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 1 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_1stars')) * $total_prospects . ")
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 1 ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_1stars')) * $total_prospects . ")
             UNION ALL
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 2 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_2stars')) * $total_prospects . ")
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 2 ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_2stars')) * $total_prospects . ")
             UNION ALL
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 3 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_3stars')) * $total_prospects . ")
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 3 ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_3stars')) * $total_prospects . ")
             UNION ALL
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 4 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_4stars')) * $total_prospects . ")
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 4 ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_4stars')) * $total_prospects . ")
             UNION ALL
-            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 5 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_5stars')) * $total_prospects . ")
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 5 ORDER BY RAND() LIMIT " . ((int) get_option('delivery_settings_5stars')) * $total_prospects . ")
         ) AS weighted_selection;
         ";
-// limit the max cap
-$prospects = $this->db->query($sql)->result();
+        } else {
+            $sql = $temp_table;
+        }
+        // limit the max cap
+        $prospects = $this->db->query($sql)->result();
 
 
         // send these prospects to client
@@ -507,6 +508,10 @@ $prospects = $this->db->query($sql)->result();
                 $lastInsertId = $this->db->insert_id();
                 $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . ", '" . date('Y-m-d H:i:s') . "');";
                 $this->db->query($sql);
+
+                if ($campaign->deal == 1) {
+                    $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
+                }
             }
 
             // If everything is successful, commit the transaction
