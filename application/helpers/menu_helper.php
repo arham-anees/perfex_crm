@@ -59,11 +59,11 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
-        'name' => _l('leadevo_reported_prospects'),
+        'name' => _l('leadevo_reported_prospects_admin_menu'),
         'href' => admin_url('prospects/reported'),
         'slug' => 'leadevo_reported_prospects',
         'position' => 3,
-        'icon' => 'fa fa-tty',
+        'icon' => 'fa fa-warning',
         'badge' => [],
     ]);
     if (
