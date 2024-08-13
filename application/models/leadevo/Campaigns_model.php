@@ -28,7 +28,13 @@ class Campaigns_model extends CI_Model
 
     public function get_active()
     {
-        $sql = "SELECT * FROM tblleadevo_campaign WHERE is_active = 1 AND status_id = 1 AND UTC_TIMESTAMP() BETWEEN start_date AND end_date";
+        $sql = "SELECT c.id, start_date, end_date, status_id, budget, industry_id, country_id, deal, verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence, timings, c.client_id, IFNULL(SUM(ll.price), 0) AS budget_spent  FROM tblleadevo_campaign c 
+                LEFT JOIN tblleadevo_leads ll
+                ON ll.campaign_id  = c.id
+                WHERE is_active = 1 
+                        AND status_id = 1 
+                        AND UTC_TIMESTAMP() BETWEEN start_date AND end_date
+                GROUP BY c.id, start_date, end_date, status_id, budget, industry_id, country_id, deal, verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence, timings, c.client_id";
         return $this->db->query($sql)->result();
     }
 

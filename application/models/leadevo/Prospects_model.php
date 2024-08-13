@@ -498,6 +498,13 @@ class Prospects_model extends CI_Model
         try {
             // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect) {
+                $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id);
+                if ($budget_spent >= $campaign->budget)
+                    continue;
+                $budget = $prospect->desired_amount;
+                if (($budget_spent + $prospect->desired_amount) >= $campaign->budget && ($budget_spent + $prospect->min_amount) <= $campaign->budget)
+                    $budget = $prospect->min_amount;
+
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
                     . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
@@ -505,7 +512,7 @@ class Prospects_model extends CI_Model
 
                 // Get the last inserted ID from tblleads
                 $lastInsertId = $this->db->insert_id();
-                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect->desired_amount . "');";
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id,campaign_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . "," . $campaign->id . ", '" . date('Y-m-d H:i:s') . "', '" . $budget . "');";
                 $this->db->query($sql);
 
                 if ($campaign->deal == 1) {
