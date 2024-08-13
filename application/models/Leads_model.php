@@ -33,13 +33,20 @@ class Leads_model extends App_Model
                     ]);
                 }
                 $lead->attachments = $this->get_lead_attachments($id);
-                $lead->public_url  = leads_public_url($id);
+                $lead->public_url = leads_public_url($id);
             }
 
             return $lead;
         }
 
         return $this->db->get(db_prefix() . 'leads')->result_array();
+    }
+
+    public function get_to_send($id)
+    {
+        $sql = "SELECT name, title, company, description, country, zip, city, state, address,email, website, phonenumber, lead_value FROM " . db_prefix() . "leads 
+            WHERE id = " . $id;
+        return $this->db->query($sql)->result_array()[0];
     }
 
     /**
@@ -90,8 +97,8 @@ class Leads_model extends App_Model
         }
 
         $data['description'] = nl2br($data['description']);
-        $data['dateadded']   = date('Y-m-d H:i:s');
-        $data['addedfrom']   = get_staff_user_id();
+        $data['dateadded'] = date('Y-m-d H:i:s');
+        $data['addedfrom'] = get_staff_user_id();
 
         $data = hooks()->apply_filters('before_lead_added', $data);
 
@@ -130,13 +137,81 @@ class Leads_model extends App_Model
 
         return false;
     }
+    public function add_received($data)
+    {
+        if (isset($data['custom_contact_date']) || isset($data['custom_contact_date'])) {
+            if (isset($data['contacted_today'])) {
+                $data['lastcontact'] = date('Y-m-d H:i:s');
+                unset($data['contacted_today']);
+            } else {
+                $data['lastcontact'] = to_sql_date($data['custom_contact_date'], true);
+            }
+        }
+
+        if (isset($data['is_public']) && ($data['is_public'] == 1 || $data['is_public'] === 'on')) {
+            $data['is_public'] = 1;
+        } else {
+            $data['is_public'] = 0;
+        }
+
+        if (!isset($data['country']) || isset($data['country']) && $data['country'] == '') {
+            $data['country'] = 0;
+        }
+
+        if (isset($data['custom_contact_date'])) {
+            unset($data['custom_contact_date']);
+        }
+
+        $data['description'] = nl2br($data['description']);
+        $data['dateadded'] = date('Y-m-d H:i:s');
+        $data['addedfrom'] = get_staff_user_id();
+
+        $data = hooks()->apply_filters('before_lead_added', $data);
+
+        $tags = '';
+        if (isset($data['tags'])) {
+            $tags = $data['tags'];
+            unset($data['tags']);
+        }
+
+        if (isset($data['custom_fields'])) {
+            $custom_fields = $data['custom_fields'];
+            unset($data['custom_fields']);
+        }
+
+        $data['address'] = trim($data['address']);
+        $data['address'] = nl2br($data['address']);
+
+        $data['email'] = trim($data['email']);
+        $this->db->insert(db_prefix() . 'leads', $data);
+        $insert_id = $this->db->insert_id();
+        if ($insert_id) {
+            log_activity('New Lead Added [ID: ' . $insert_id . ']');
+            $log = [
+                'date' => date('Y-m-d H:i:s'),
+                'description' => 'not_lead_activity_created',
+                'leadid' => $insert_id,
+                'staffid' => 0,
+                'full_name' => null,
+            ];
+
+            $this->db->insert(db_prefix() . 'lead_activity_log', $log);
+
+
+            hooks()->do_action('lead_created', $insert_id);
+
+            return $insert_id;
+        }
+
+        return false;
+    }
     public function get_source_by_key($key)
-{
-    // Assuming you have a 'leads_sources' table that stores source information
-    $this->db->where('key', $key);
-    $result = $this->db->get('leads_sources')->row();
-    return $result;
-}
+    {
+        // Assuming you have a 'leads_sources' table that stores source information
+        $this->db->where('key', $key);
+        $result = $this->db->get('leads_sources')->row();
+        return $result;
+    }
 
 
     public function lead_assigned_member_notification($lead_id, $assigned, $integration = false)
@@ -154,9 +229,9 @@ class Leads_model extends App_Model
         $name = $this->db->select('name')->from(db_prefix() . 'leads')->where('id', $lead_id)->get()->row()->name;
 
         $notification_data = [
-            'description'     => ($integration == false) ? 'not_assigned_lead_to_you' : 'not_lead_assigned_from_form',
-            'touserid'        => $assigned,
-            'link'            => '#leadid=' . $lead_id,
+            'description' => ($integration == false) ? 'not_assigned_lead_to_you' : 'not_lead_assigned_from_form',
+            'touserid' => $assigned,
+            'link' => '#leadid=' . $lead_id,
             'additional_data' => ($integration == false ? serialize([
                 $name,
             ]) : serialize([])),
@@ -208,10 +283,10 @@ class Leads_model extends App_Model
     public function update($data, $id)
     {
         $current_lead_data = $this->get($id);
-        $current_status    = $this->get_status($current_lead_data->status);
+        $current_status = $this->get_status($current_lead_data->status);
         if ($current_status) {
             $current_status_id = $current_status->id;
-            $current_status    = $current_status->name;
+            $current_status = $current_status->name;
         } else {
             if ($current_lead_data->junk == 1) {
                 $current_status = _l('lead_junk');
@@ -292,7 +367,7 @@ class Leads_model extends App_Model
                 ]));
 
                 hooks()->do_action('lead_status_changed', [
-                    'lead_id'    => $id,
+                    'lead_id' => $id,
                     'old_status' => $current_status_id,
                     'new_status' => $data['status'],
                 ]);
@@ -417,10 +492,10 @@ class Leads_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'leads', [
-            'lost'               => 1,
-            'status'             => 0,
+            'lost' => 1,
+            'status' => 0,
             'last_status_change' => date('Y-m-d H:i:s'),
-            'last_lead_status'   => $last_lead_status,
+            'last_lead_status' => $last_lead_status,
         ]);
 
         if ($this->db->affected_rows() > 0) {
@@ -450,7 +525,7 @@ class Leads_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'leads', [
-            'lost'   => 0,
+            'lost' => 0,
             'status' => $last_lead_status,
         ]);
         if ($this->db->affected_rows() > 0) {
@@ -478,10 +553,10 @@ class Leads_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'leads', [
-            'junk'               => 1,
-            'status'             => 0,
+            'junk' => 1,
+            'status' => 0,
             'last_status_change' => date('Y-m-d H:i:s'),
-            'last_lead_status'   => $last_lead_status,
+            'last_lead_status' => $last_lead_status,
         ]);
 
         if ($this->db->affected_rows() > 0) {
@@ -511,7 +586,7 @@ class Leads_model extends App_Model
 
         $this->db->where('id', $id);
         $this->db->update(db_prefix() . 'leads', [
-            'junk'   => 0,
+            'junk' => 0,
             'status' => $last_lead_status,
         ]);
         if ($this->db->affected_rows() > 0) {
@@ -560,7 +635,7 @@ class Leads_model extends App_Model
 
         // No notification when attachment is imported from web to lead form
         if ($form_activity == false) {
-            $lead         = $this->get($lead_id);
+            $lead = $this->get($lead_id);
             $not_user_ids = [];
             if ($lead->addedfrom != get_staff_user_id()) {
                 array_push($not_user_ids, $lead->addedfrom);
@@ -571,9 +646,9 @@ class Leads_model extends App_Model
             $notifiedUsers = [];
             foreach ($not_user_ids as $uid) {
                 $notified = add_notification([
-                    'description'     => 'not_lead_added_attachment',
-                    'touserid'        => $uid,
-                    'link'            => '#leadid=' . $lead_id,
+                    'description' => 'not_lead_added_attachment',
+                    'touserid' => $uid,
+                    'link' => '#leadid=' . $lead_id,
                     'additional_data' => serialize([
                         $lead->name,
                     ]),
@@ -594,7 +669,7 @@ class Leads_model extends App_Model
     public function delete_lead_attachment($id)
     {
         $attachment = $this->get_lead_attachments('', $id);
-        $deleted    = false;
+        $deleted = false;
 
         if ($attachment) {
             if (empty($attachment->external)) {
@@ -719,15 +794,15 @@ class Leads_model extends App_Model
         }
 
         $whereKey = md5(serialize($where));
-      
-        $statuses = $this->app_object_cache->get('leads-all-statuses-'.$whereKey);
+
+        $statuses = $this->app_object_cache->get('leads-all-statuses-' . $whereKey);
 
         if (!$statuses) {
             $this->db->where($where);
             $this->db->order_by('statusorder', 'asc');
 
             $statuses = $this->db->get(db_prefix() . 'leads_status')->result_array();
-            $this->app_object_cache->add('leads-all-statuses-'.$whereKey, $statuses);
+            $this->app_object_cache->add('leads-all-statuses-' . $whereKey, $statuses);
         }
 
         return $statuses;
@@ -820,7 +895,7 @@ class Leads_model extends App_Model
             }
         }
 
-        $affectedRows   = 0;
+        $affectedRows = 0;
         $current_status = $this->get_status($data['status'])->name;
 
         $this->db->where('id', $data['leadid']);
@@ -833,7 +908,7 @@ class Leads_model extends App_Model
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             if ($current_status != $old_status && $old_status != '') {
-                $_log_message    = 'not_lead_activity_status_updated';
+                $_log_message = 'not_lead_activity_status_updated';
                 $additional_data = serialize([
                     get_staff_full_name(),
                     $old_status,
@@ -841,7 +916,7 @@ class Leads_model extends App_Model
                 ]);
 
                 hooks()->do_action('lead_status_changed', [
-                    'lead_id'    => $data['leadid'],
+                    'lead_id' => $data['leadid'],
                     'old_status' => $old_status,
                     'new_status' => $current_status,
                 ]);
@@ -911,15 +986,15 @@ class Leads_model extends App_Model
     public function log_lead_activity($id, $description, $integration = false, $additional_data = '')
     {
         $log = [
-            'date'            => date('Y-m-d H:i:s'),
-            'description'     => $description,
-            'leadid'          => $id,
-            'staffid'         => get_staff_user_id(),
+            'date' => date('Y-m-d H:i:s'),
+            'description' => $description,
+            'leadid' => $id,
+            'staffid' => get_staff_user_id(),
             'additional_data' => $additional_data,
-            'full_name'       => get_staff_full_name(get_staff_user_id()),
+            'full_name' => get_staff_full_name(get_staff_user_id()),
         ];
         if ($integration == true) {
-            $log['staffid']   = 0;
+            $log['staffid'] = 0;
             $log['full_name'] = '[CRON]';
         }
 
@@ -962,14 +1037,14 @@ class Leads_model extends App_Model
         $this->db->where('id', 1);
         $original_settings = $this->db->get(db_prefix() . 'leads_email_integration')->row();
 
-        $data['create_task_if_customer']        = isset($data['create_task_if_customer']) ? 1 : 0;
-        $data['active']                         = isset($data['active']) ? 1 : 0;
-        $data['delete_after_import']            = isset($data['delete_after_import']) ? 1 : 0;
-        $data['notify_lead_imported']           = isset($data['notify_lead_imported']) ? 1 : 0;
-        $data['only_loop_on_unseen_emails']     = isset($data['only_loop_on_unseen_emails']) ? 1 : 0;
+        $data['create_task_if_customer'] = isset($data['create_task_if_customer']) ? 1 : 0;
+        $data['active'] = isset($data['active']) ? 1 : 0;
+        $data['delete_after_import'] = isset($data['delete_after_import']) ? 1 : 0;
+        $data['notify_lead_imported'] = isset($data['notify_lead_imported']) ? 1 : 0;
+        $data['only_loop_on_unseen_emails'] = isset($data['only_loop_on_unseen_emails']) ? 1 : 0;
         $data['notify_lead_contact_more_times'] = isset($data['notify_lead_contact_more_times']) ? 1 : 0;
-        $data['mark_public']                    = isset($data['mark_public']) ? 1 : 0;
-        $data['responsible']                    = !isset($data['responsible']) ? 0 : $data['responsible'];
+        $data['mark_public'] = isset($data['mark_public']) ? 1 : 0;
+        $data['responsible'] = !isset($data['responsible']) ? 0 : $data['responsible'];
 
         if ($data['notify_lead_contact_more_times'] != 0 || $data['notify_lead_imported'] != 0) {
             if (isset($data['notify_type']) && $data['notify_type'] == 'specific_staff') {
@@ -996,7 +1071,7 @@ class Leads_model extends App_Model
                 }
             }
         } else {
-            $data['notify_ids']  = serialize([]);
+            $data['notify_ids'] = serialize([]);
             $data['notify_type'] = null;
             if (isset($data['notify_ids_staff'])) {
                 unset($data['notify_ids_staff']);
@@ -1057,18 +1132,18 @@ class Leads_model extends App_Model
 
     public function add_form($data)
     {
-        $data                       = $this->_do_lead_web_to_form_responsibles($data);
+        $data = $this->_do_lead_web_to_form_responsibles($data);
         $data['success_submit_msg'] = nl2br($data['success_submit_msg']);
-        $data['form_key']           = app_generate_hash();
+        $data['form_key'] = app_generate_hash();
 
         $data['create_task_on_duplicate'] = (int) isset($data['create_task_on_duplicate']);
-        $data['mark_public']              = (int) isset($data['mark_public']);
+        $data['mark_public'] = (int) isset($data['mark_public']);
 
         if (isset($data['allow_duplicate'])) {
-            $data['allow_duplicate']           = 1;
-            $data['track_duplicate_field']     = '';
+            $data['allow_duplicate'] = 1;
+            $data['track_duplicate_field'] = '';
             $data['track_duplicate_field_and'] = '';
-            $data['create_task_on_duplicate']  = 0;
+            $data['create_task_on_duplicate'] = 0;
         } else {
             $data['allow_duplicate'] = 0;
         }
@@ -1088,17 +1163,17 @@ class Leads_model extends App_Model
 
     public function update_form($id, $data)
     {
-        $data                       = $this->_do_lead_web_to_form_responsibles($data);
+        $data = $this->_do_lead_web_to_form_responsibles($data);
         $data['success_submit_msg'] = nl2br($data['success_submit_msg']);
 
         $data['create_task_on_duplicate'] = (int) isset($data['create_task_on_duplicate']);
-        $data['mark_public']              = (int) isset($data['mark_public']);
+        $data['mark_public'] = (int) isset($data['mark_public']);
 
         if (isset($data['allow_duplicate'])) {
-            $data['allow_duplicate']           = 1;
-            $data['track_duplicate_field']     = '';
+            $data['allow_duplicate'] = 1;
+            $data['track_duplicate_field'] = '';
             $data['track_duplicate_field_and'] = '';
-            $data['create_task_on_duplicate']  = 0;
+            $data['create_task_on_duplicate'] = 0;
         } else {
             $data['allow_duplicate'] = 0;
         }
@@ -1164,7 +1239,7 @@ class Leads_model extends App_Model
                 }
             }
         } else {
-            $data['notify_ids']  = serialize([]);
+            $data['notify_ids'] = serialize([]);
             $data['notify_type'] = null;
             if (isset($data['notify_ids_staff'])) {
                 unset($data['notify_ids_staff']);

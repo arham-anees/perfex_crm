@@ -214,10 +214,10 @@
                                     <td><?php echo htmlspecialchars($prospect->name ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
-                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View |</a>
+                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a> |
                                             <a data-toggle="modal" data-target="#reportProspectModal"
                                                 class="text-danger">Report</a> |
-                                            <a data-toggle="modal" data-target="#sendApiProspectModal">Send via API</a> |
+                                            <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
                                                 Zapier</a>
                                         </div>

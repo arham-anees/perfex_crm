@@ -9,6 +9,7 @@ class Dashboard extends ClientsController
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Cart_model');
+        $this->load->model('Leads_model');
     }
 
     public function index()
@@ -21,6 +22,16 @@ class Dashboard extends ClientsController
 
     public function receive_prospect()
     {
+        $lead_str = $this->input->post('lead');
+        $lead_str = base64_decode($lead_str);
+        if (isset($lead['id']))
+            unset($lead['id']);
+        $lead = json_decode($lead_str, true);
+        $lead['description'] = '';
+        $lead['address'] = '';
+        $lead['hash'] = app_generate_hash();
+
+        $this->Leads_model->add_received($lead);
         echo json_encode(['status' => 'success']);
     }
     public function add_to_cart()

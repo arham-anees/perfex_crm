@@ -498,7 +498,6 @@ class Prospects_model extends CI_Model
         try {
             // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect) {
-                var_dump($prospect);
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
                     . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";

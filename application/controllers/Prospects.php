@@ -11,6 +11,7 @@ class Prospects extends ClientsController
         $this->load->model('leadevo/Prospect_categories_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('Leads_model');
     }
 
     public function index()
@@ -24,6 +25,22 @@ class Prospects extends ClientsController
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();
+    }
+
+    public function fetch_to_send()
+    {
+        $id = $this->input->get('id');
+        if ($id) {
+            $lead = $this->Leads_model->get_to_send($id);
+            if ($lead) {
+                $str = json_encode($lead);
+                echo json_encode(['status' => 'success', 'data' => base64_encode($str)]);
+                return;
+            }
+        }
+
+        echo json_encode(['status' => 'error', 'data' => null]);
+
     }
     public function purchased()
     {
