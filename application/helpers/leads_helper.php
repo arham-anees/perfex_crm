@@ -3,6 +3,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 hooks()->add_action('app_admin_head', 'leads_app_admin_head_data');
+hooks()->add_action('app_client_head', 'leads_app_admin_head_data');
 
 function leads_app_admin_head_data()
 {
@@ -30,7 +31,7 @@ function is_lead_creator($lead_id, $staff_id = '')
 
     return total_rows(db_prefix() . 'leads', [
         'addedfrom' => $staff_id,
-        'id'        => $lead_id,
+        'id' => $lead_id,
     ]) > 0;
 }
 
@@ -61,7 +62,7 @@ function leads_public_url($id)
  */
 function get_lead_hash($id)
 {
-    $CI   = &get_instance();
+    $CI = &get_instance();
     $hash = '';
 
     $CI->db->select('hash');
@@ -91,22 +92,22 @@ function get_leads_summary()
     }
     $statuses = $CI->leads_model->get_status();
 
-    $totalStatuses         = count($statuses);
-    $has_permission_view   = staff_can('view',  'leads');
-    $sql                   = '';
+    $totalStatuses = count($statuses);
+    $has_permission_view = staff_can('view', 'leads');
+    $sql = '';
     $whereNoViewPermission = '(addedfrom = ' . get_staff_user_id() . ' OR assigned=' . get_staff_user_id() . ' OR is_public = 1)';
 
     $statuses[] = [
-        'lost'  => true,
-        'name'  => _l('lost_leads'),
+        'lost' => true,
+        'name' => _l('lost_leads'),
         'color' => '#fc2d42',
     ];
 
-/*    $statuses[] = [
-        'junk'  => true,
-        'name'  => _l('junk_leads'),
-        'color' => '',
-    ];*/
+    /*    $statuses[] = [
+            'junk'  => true,
+            'name'  => _l('junk_leads'),
+            'color' => '',
+        ];*/
 
     foreach ($statuses as $status) {
         $sql .= ' SELECT COUNT(*) as total';
@@ -130,7 +131,7 @@ function get_leads_summary()
     $result = [];
 
     // Remove the last UNION ALL
-    $sql    = substr($sql, 0, -10);
+    $sql = substr($sql, 0, -10);
     $result = $CI->db->query($sql)->result();
 
     if (!$has_permission_view) {
@@ -208,7 +209,7 @@ function render_leads_source_select($sources, $selected = '', $lang_key = '', $n
  */
 function load_lead_language($lead_id)
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
     $CI->db->where('id', $lead_id);
     $lead = $CI->db->get(db_prefix() . 'leads')->row();
 
@@ -224,7 +225,7 @@ function load_lead_language($lead_id)
     }
 
     $CI->lang->is_loaded = [];
-    $CI->lang->language  = [];
+    $CI->lang->language = [];
 
     $CI->lang->load($language . '_lang', $language);
     load_custom_lang_file($language);

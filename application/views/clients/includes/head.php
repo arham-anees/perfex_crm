@@ -24,6 +24,9 @@
             expensePreviewDropzone, taskTrackingChart, cfh_popover_templates = {},
             _table_api;
     </script>
+    <?php
+    hooks()->do_action('app_client_head');
+    ?>
 </head>
 
 <body <?php echo admin_body_class(isset($bodyclass) ? $bodyclass : ''); ?>>
