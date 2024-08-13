@@ -269,20 +269,16 @@
                                             <div class="panel_s">
                                                 <div class="panel-body step-0">
                                                     <div class="videos step-1-content">
-                                                        <?php if (!empty($videos)): ?>
-                                                            <?php foreach ($videos as $video): ?>
+                                         
                                                                 <div id="video-section">
                                                                     <video id="welcome-video" width="100%" controls>
                                                                         <source
-                                                                            src="<?php echo htmlspecialchars($video['url']); ?>"
+                                                                            src="<?php echo get_video('1'); ?>"
                                                                             type="video/mp4">
                                                                         Your browser does not support the video tag.
                                                                     </video>
                                                                 </div>
-                                                            <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                            <p>No videos available.</p>
-                                                        <?php endif; ?>
+                                        
                                                     </div>
 
 
@@ -325,7 +321,7 @@
                                                                     <video id="coming-soon-section" style=" width: 100%;"
                                                                         width="100%" controls>
                                                                         <source
-                                                                            src="<?php echo htmlspecialchars($video['url']); ?>"
+                                                                             src="<?php echo get_video('2'); ?>"
                                                                             type="video/mp4">
                                                                         Your browser does not support the video tag.
                                                                     </video>
