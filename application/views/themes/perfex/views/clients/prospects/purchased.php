@@ -197,7 +197,6 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Company</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
@@ -212,16 +211,17 @@
                             <?php foreach ($table as $prospect): ?>
                                 <tr>
                                     <td><?php echo htmlspecialchars($prospect->id ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->company ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->name ?? ''); ?>
+                                    <td><?php echo htmlspecialchars($prospect->name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
                                                 onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View |</a>
-                                            <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger">
-                                                Report Prospect
-                                            </a>
+                                            <a data-toggle="modal" data-target="#reportProspectModal"
+                                                class="text-danger">Report</a> |
+                                            <a data-toggle="modal" data-target="#sendApiProspectModal">Send via API</a> |
+                                            <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
+                                                Zapier</a>
                                         </div>
                                     </td>
-                                    <td><?php echo htmlspecialchars($prospect->email ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->lead_value ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars(''); ?></td>
@@ -360,6 +360,10 @@
     </div>
 </div>
 
+<div id="sendApiProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <?php echo get_instance()->load->view('clients/modals/send_prospect_api_modal.php') ?>
+</div>
+
 
 <?php
 $jsonData = json_encode($table); ?>
@@ -491,7 +495,7 @@ $jsonData = json_encode($table); ?>
                 showStep(currentStep);
             } else if (currentStep === totalSteps) {
                 // Finish button action
-              
+
 
             }
         });

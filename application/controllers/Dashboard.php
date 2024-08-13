@@ -21,7 +21,7 @@ class Dashboard extends ClientsController
 
     public function receive_prospect()
     {
-        $this->load->view('clients/dashboard/receive_prospect');
+        echo json_encode(['status' => 'success']);
     }
     public function add_to_cart()
     {

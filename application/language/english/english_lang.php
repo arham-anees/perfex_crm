@@ -3991,3 +3991,6 @@ $lang['leadevo_nonexclusive_deal'] = 'Non Exclusive Deals';
 $lang['leadevo_deals_discount_amount'] = 'Discounted Amount';
 $lang['leadevo_prospect_ratings_description'] = 'Your feedback is crucial in maintaining our standards. Please take a moment to rate this.';
 $lang['leadevo_prospect_ratings_title'] = 'Rate the Prospect';
+$lang['leadevo_send_api_description'] = 'We are supporting the following list of CRMs, please select one where you want to send the propect';
+$lang['leadevo_send_api_crm_perfex'] = 'Perfex';
+$lang['leadevo_send_via_api_button'] = 'Send';
