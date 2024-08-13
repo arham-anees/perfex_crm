@@ -127,11 +127,26 @@ function mail_template($class)
 
     $params = array_values($params);
 
-    $path = get_mail_template_path($class, $params);
+    // Define possible paths for the mail class
+    // $module_path = APPPATH . 'modules/leadevo/libraries/mails/' . $class . '.php';
+    // $default_path = APPPATH . 'libraries/mails/' . $class . '.php';
+    // Define possible paths for the mail class
+    $module_path = APPPATH . 'modules/leadevo/libraries/mails/' . $class . '.php';
+    $default_path = APPPATH . 'libraries/mails/' . $class . '.php';
 
-    if (!file_exists($path)) {
+
+    // Check if file exists in the module's directory
+    if (file_exists($module_path)) {
+        include_once($module_path);
+    }
+    // Check if file exists in the default libraries/mails directory
+    elseif (file_exists($default_path)) {
+        include_once($default_path);
+    }
+    // If neither path contains the file, throw an error
+    else {
         if (!defined('CRON')) {
-            show_error('Mail Class Does Not Exists [' . $path . ']');
+            show_error('Mail Class Does Not Exist [' . $module_path . ' or ' . $default_path . ']');
         } else {
             return false;
         }
