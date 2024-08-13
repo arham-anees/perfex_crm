@@ -9,18 +9,13 @@
                         <?php echo form_open(); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" name="name" id="name" class="form-control" value="<?php echo set_value('name', $type->name); ?>" required>
+                            <input type="text" name="name" id="name" class="form-control"
+                                value="<?php echo set_value('name', $type->name); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea name="description" id="description" class="form-control" required><?php echo set_value('description', $type->description); ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <select name="is_active" id="is_active" class="form-control" required>
-                                <option value="1" <?php echo set_select('is_active', '1', $type->is_active); ?>><?php echo _l('Yes'); ?></option>
-                                <option value="0" <?php echo set_select('is_active', '0', !$type->is_active); ?>><?php echo _l('No'); ?></option>
-                            </select>
+                            <textarea name="description" id="description" class="form-control"
+                                required><?php echo set_value('description', $type->description); ?></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
@@ -32,4 +27,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

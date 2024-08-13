@@ -13,35 +13,36 @@
                         <?php echo form_open(admin_url('leadevo/campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" id="name" name="name" class="form-control" value="<?php echo $campaign->name; ?>" required>
+                            <input type="text" id="name" name="name" class="form-control"
+                                value="<?php echo $campaign->name; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control" required><?php echo $campaign->description; ?></textarea>
+                            <textarea id="description" name="description" class="form-control"
+                                required><?php echo $campaign->description; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="start_date"><?php echo _l('Start Date'); ?></label>
-                            <input type="date" id="start_date" name="start_date" class="form-control" value="<?php echo $campaign->start_date; ?>" required>
+                            <input type="date" id="start_date" name="start_date" class="form-control"
+                                value="<?php echo $campaign->start_date; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="end_date"><?php echo _l('End Date'); ?></label>
-                            <input type="date" id="end_date" name="end_date" class="form-control" value="<?php echo $campaign->end_date; ?>" required>
+                            <input type="date" id="end_date" name="end_date" class="form-control"
+                                value="<?php echo $campaign->end_date; ?>" required>
                         </div>
                         <div class="form-group">
-                                    <label for="industry_id"><?php echo _l('Industry'); ?></label>
-                                    <select name="industry_id" id="industry_id" class="form-control" required>
-                                        <?php foreach ($industries as $industry): ?>
-                                            <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                            <label for="industry_id"><?php echo _l('Industry'); ?></label>
+                            <select name="industry_id" id="industry_id" class="form-control" required>
+                                <?php foreach ($industries as $industry): ?>
+                                    <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="budget"><?php echo _l('Budget'); ?></label>
-                            <input type="number" id="budget" name="budget" class="form-control" value="<?php echo $campaign->budget; ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <input type="checkbox" id="is_active" name="is_active" <?php echo $campaign->is_active ? 'checked' : ''; ?>>
+                            <input type="number" id="budget" name="budget" class="form-control"
+                                value="<?php echo $campaign->budget; ?>" required>
                         </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
@@ -73,4 +74,5 @@
 
 <?php init_tail(); ?>
 </body>
+
 </html>

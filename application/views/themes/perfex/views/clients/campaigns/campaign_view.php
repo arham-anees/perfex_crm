@@ -43,12 +43,7 @@
                     <p><?php echo number_format($campaign->budget, 2); ?></p>
                 </div>
                 <div class="form-group">
-                    <label for="is_active"><?php echo _l('Active'); ?></label>
-                    <p><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></p>
-                </div>
-                <div class="form-group">
-                    <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>"
-                        class="btn btn-primary">
+                    <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>" class="btn btn-primary">
                         <?php echo _l('Edit'); ?>
                     </a>
                     <a href="<?php echo site_url('campaigns'); ?>" class="btn btn-default">

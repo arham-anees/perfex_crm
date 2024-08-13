@@ -714,14 +714,7 @@ function app_init_admin_sidebar_menu_items()
         'badge' => [],
     ]);
 
-    // Register other menu items as needed
-    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
-        'slug' => 'leadedelivery_qualityvo-delivery',
-        'name' => _l('setup_leadevo_delivery_quality'),
-        'href' => admin_url('leadevo/settings/delivery_quality'),
-        'position' => 15,
-        'badge' => [],
-    ]);
+
 }
 
 function app_init_client_sidebar_menu_items()

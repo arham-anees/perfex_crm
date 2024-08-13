@@ -27,8 +27,8 @@
                         <div class="form-group">
                             <label for="status_id"><?php echo _l('Status'); ?></label>
                             <p>
-                                <?php 
-                                $status = $this->Campaigns_model->get_campaign_statuses(); 
+                                <?php
+                                $status = $this->Campaigns_model->get_campaign_statuses();
                                 $status_name = '';
                                 foreach ($status as $stat) {
                                     if ($stat['id'] == $campaign->status_id) {
@@ -44,12 +44,10 @@
                             <label for="budget"><?php echo _l('Budget'); ?></label>
                             <p><?php echo number_format($campaign->budget, 2); ?></p>
                         </div>
+
                         <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <p><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></p>
-                        </div>
-                        <div class="form-group">
-                            <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>" class="btn btn-primary">
+                            <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>"
+                                class="btn btn-primary">
                                 <?php echo _l('Edit'); ?>
                             </a>
                             <a href="<?php echo admin_url('campaigns'); ?>" class="btn btn-default">
@@ -64,4 +62,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

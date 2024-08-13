@@ -17,16 +17,13 @@
                                 <label for="description"><?php echo _l('Description'); ?></label>
                                 <p><?php echo htmlspecialchars($category->description); ?></p>
                             </div>
-                            <div class="form-group">
-                                <label for="is_active"><?php echo _l('Active'); ?></label>
-                                <p><?php echo $category->is_active ? _l('Yes') : _l('No'); ?></p>
-                            </div>
                         <?php else: ?>
                             <p><?php echo _l('No category found.'); ?></p>
                         <?php endif; ?>
-                        <a href="<?php echo admin_url('leadevo/prospectcategories/edit/' . $category->id); ?>" class="btn btn-primary">
-                                <?php echo _l('Edit'); ?>
-                            </a>
+                        <a href="<?php echo admin_url('leadevo/prospectcategories/edit/' . $category->id); ?>"
+                            class="btn btn-primary">
+                            <?php echo _l('Edit'); ?>
+                        </a>
                         <a href="<?php echo admin_url('leadevo/prospectcategories'); ?>" class="btn btn-default""><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>

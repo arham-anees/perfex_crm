@@ -16,12 +16,10 @@
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <p><?php echo $reason->description; ?></p>
                         </div>
+
                         <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <p><?php echo $reason->is_active ? 'Yes' : 'No'; ?></p>
-                        </div>
-                        <div class="form-group">
-                            <a href="<?php echo admin_url('leadevo/lead_reasons/edit/' . $reason->id); ?>" class="btn btn-primary">
+                            <a href="<?php echo admin_url('leadevo/lead_reasons/edit/' . $reason->id); ?>"
+                                class="btn btn-primary">
                                 <?php echo _l('Edit'); ?>
                             </a>
                             <a href="<?php echo admin_url('leadevo/lead_reasons'); ?>" class="btn btn-default">
@@ -36,4 +34,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

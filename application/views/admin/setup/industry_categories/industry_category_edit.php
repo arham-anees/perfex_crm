@@ -11,16 +11,15 @@
                         <?php echo form_open(admin_url('leadevo/industry_categories/edit/' . $category['id'])); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" id="name" name="name" class="form-control" value="<?php echo $category['name']; ?>" required>
+                            <input type="text" id="name" name="name" class="form-control"
+                                value="<?php echo $category['name']; ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control" required><?php echo $category['description']; ?></textarea>
+                            <textarea id="description" name="description" class="form-control"
+                                required><?php echo $category['description']; ?></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <input type="checkbox" id="is_active" name="is_active" <?php echo $category['is_active'] ? 'checked' : ''; ?>>
-                        </div>
+
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
@@ -31,4 +30,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

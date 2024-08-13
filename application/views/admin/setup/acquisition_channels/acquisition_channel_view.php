@@ -17,11 +17,8 @@
                             <p><?php echo $channel->description; ?></p>
                         </div>
                         <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <p><?php echo $channel->is_active ? 'Yes' : 'No'; ?></p>
-                        </div>
-                        <div class="form-group">
-                            <a href="<?php echo admin_url('leadevo/acquisition_channels/edit/' . $channel->id); ?>" class="btn btn-primary">
+                            <a href="<?php echo admin_url('leadevo/acquisition_channels/edit/' . $channel->id); ?>"
+                                class="btn btn-primary">
                                 <?php echo _l('Edit'); ?>
                             </a>
                             <a href="<?php echo admin_url('leadevo/acquisition_channels'); ?>" class="btn btn-default">
@@ -36,4 +33,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

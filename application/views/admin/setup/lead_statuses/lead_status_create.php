@@ -17,10 +17,7 @@
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control" required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="is_active"><?php echo _l('Active'); ?></label>
-                            <input type="checkbox" id="is_active" name="is_active">
-                        </div>
+
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
@@ -31,5 +28,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>
- 
