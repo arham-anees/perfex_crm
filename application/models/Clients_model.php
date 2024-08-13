@@ -1724,13 +1724,13 @@ class Clients_model extends App_Model
     public function get_purchased()
     {
         $sql = "SELECT l.*, s.name source_name, ls.name source_name FROM `tblleads` l
-            INNER JOIN `tblleadevo_prospects` p
-            ON p.id = l.prospect_id 
+            INNER JOIN `tblleadevo_leads` ll
+            ON l.id = ll.lead_id 
             LEFT join tblleads_sources s
             ON S.id = l.source
             LEFT JOIN tblleads_status ls
             ON ls.id = l.status
-            WHERE p.client_id = " . get_client_user_id() . "
+            WHERE ll.client_id = " . get_client_user_id() . "
             ORDER BY `dateadded` DESC";
         return $this->db->query($sql)->result();
     }

@@ -106,32 +106,31 @@ function _init_client_assets()
     $CI = &get_instance();
 
     // Javascript
-    $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js');
-    $CI->app_scripts->add('main-js', 'assets/js/main.js', 'client');
+    $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js', 'client');
 
-    $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js');
+    $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js', 'client');
 
-    add_datatables_js_assets();
-    add_moment_js_assets();
-    add_bootstrap_select_js_assets();
+    add_datatables_js_assets('client');
+    add_moment_js_assets('client');
+    add_bootstrap_select_js_assets('client');
 
-    $CI->app_scripts->add('tinymce-js', 'assets/plugins/tinymce/tinymce.min.js');
+    $CI->app_scripts->add('tinymce-js', 'assets/plugins/tinymce/tinymce.min.js', 'client');
 
-    add_jquery_validation_js_assets();
+    add_jquery_validation_js_assets('client');
 
     if (get_option('pusher_realtime_notifications') == 1) {
-        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0/pusher.min.js');
+        $CI->app_scripts->add('pusher-js', 'https://js.pusher.com/5.0/pusher.min.js', 'client');
     }
 
-    add_dropbox_js_assets();
-    add_google_api_js_assets();
+    add_dropbox_js_assets('client');
+    add_google_api_js_assets('client');
 
-    $CI->app_scripts->add('common-js', 'assets/builds/common.js');
+    $CI->app_scripts->add('common-js', 'assets/builds/common.js', 'client');
 
     $CI->app_scripts->add(
         'app-js',
         base_url($CI->app_scripts->core_file('assets/js', 'main.js')) . '?v=' . $CI->app_css->core_version(),
-        'client',
+        'admin',
         ['vendor-js', 'datatables-js', 'bootstrap-select-js', 'tinymce-js', 'jquery-migrate-js', 'jquery-validation-js', 'moment-js', 'common-js']
     );
 

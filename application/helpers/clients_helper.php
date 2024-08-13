@@ -35,6 +35,7 @@ function init_client_head($aside = true)
 {
     $CI = &get_instance();
     $CI->load->view('clients/includes/head');
+    // $CI->load->view('clients/includes/scripts');
     $CI->load->view('clients/includes/header', ['startedTimers' => []]);
     // $CI->load->view('admin/includes/setup_menu');
     if ($aside == true) {

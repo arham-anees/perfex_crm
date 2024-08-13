@@ -487,14 +487,38 @@ class Prospects_model extends CI_Model
 
         // send these prospects to client
         $sql = '';
-        // insert each prospect into the tblleadevo_prospects_purchased
-        foreach ($prospects as $prospect) {
-            var_dump($prospect);
-            // create invoice for each
-            $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, is_client_lead, prospect_id) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
-                . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "',1, " . $prospect->id . ");";
+        $this->db->trans_begin();
+
+        try {
+            // insert each prospect into the tblleadevo_prospects_purchased
+            foreach ($prospects as $prospect) {
+                var_dump($prospect);
+                // create invoice for each
+                $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
+                    . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
+                $this->db->query($sql);
+
+                // Get the last inserted ID from tblleads
+                $lastInsertId = $this->db->insert_id();
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $campaign->client_id . ", '" . date('Y-m-d H:i:s') . "');";
+                $this->db->query($sql);
+            }
+
+            // If everything is successful, commit the transaction
+            if ($this->db->trans_status() === FALSE) {
+                // If something went wrong, roll back the transaction
+                $this->db->trans_rollback();
+                echo "Transaction failed. Rolling back.";
+            } else {
+                // Commit the transaction
+                $this->db->trans_commit();
+                echo "Transaction successful.";
+            }
+        } catch (Exception $e) {
+            // Rollback transaction if any exception occurs
+            $this->db->trans_rollback();
+            echo "Transaction failed with exception: " . $e->getMessage();
         }
-        $this->db->query($sql);
 
         //INSERT INTO tblinvoices (clientid, date, duedate, subtotal, total, status, currency, addedfrom, prefix, number, hash)
         //VALUES (1, '2024-08-12', '2024-09-12', 100.00, 100.00, 1, 1, 1, 'INV-', 1001, MD5(RAND()));
