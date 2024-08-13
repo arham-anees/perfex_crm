@@ -514,6 +514,7 @@
 </div>
 <script>
     var currentStep = isNaN('<?= $completed_step ?>') ? 0 : '<?= $completed_step ?>';
+    currentStep = parseInt(currentStep);
     document.addEventListener('DOMContentLoaded', function () {
         var video = document.getElementById('welcome-video');
         var completeBtn = document.getElementById('complete-btn');
