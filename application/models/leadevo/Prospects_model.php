@@ -450,8 +450,10 @@ class Prospects_model extends CI_Model
                     ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
                     AND r.rated_at = latest_ratings.max_rated_at) r
                 ON r.prospect_id = p.id
-                WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1
-                AND industry_id = " . $campaign->industry_id;
+                WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1 ";
+        if (isset($campaign->industry_id)){
+            $sql .= " AND industry_id = " . $campaign->industry_id;
+        }
         if ($campaign->verify_by_staff == 1)
             $temp_table .= " AND verified_staff = 1";
         if ($campaign->verify_by_sms == 1)
@@ -462,28 +464,31 @@ class Prospects_model extends CI_Model
             $temp_table .= " AND verified_coherence = 1";
 
         $sql = $temp_table;
+
         $prospects = $this->db->query($sql)->result();
         $total_prospects = count($prospects);
-
+        
+        log_message("error", $total_prospects);
 
         // now fetch prospects based on star weightage
         $sql = $temp_table;
         $sql = "SELECT * FROM (
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating IS NULL ORDER BY RAND() LIMIT " . (get_option('delivery_settings_0stars')) * $total_prospects . ") 
-                    UNION ALL
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 1 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_1stars')) * $total_prospects . ")
-                    UNION ALL
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 2 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_2stars')) * $total_prospects . ")
-                    UNION ALL
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 3 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_3stars')) * $total_prospects . ")
-                    UNION ALL
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 4 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_4stars')) * $total_prospects . ")
-                    UNION ALL
-                    (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 5 ORDER BY RAND() LIMIT " . (get_option('delivery_settings_5stars')) * $total_prospects . ")
-                ) AS weighted_selection;
-                ";
-        // limit the max cap
-        $prospects = $this->db->query($sql)->result();
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating IS NULL ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_0stars')) * $total_prospects . ") 
+            UNION ALL
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 1 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_1stars')) * $total_prospects . ")
+            UNION ALL
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 2 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_2stars')) * $total_prospects . ")
+            UNION ALL
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 3 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_3stars')) * $total_prospects . ")
+            UNION ALL
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 4 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_4stars')) * $total_prospects . ")
+            UNION ALL
+            (SELECT * FROM (" . $temp_table . ") temp WHERE rating = 5 ORDER BY RAND() LIMIT " . ((int)get_option('delivery_settings_5stars')) * $total_prospects . ")
+        ) AS weighted_selection;
+        ";
+// limit the max cap
+$prospects = $this->db->query($sql)->result();
+
 
         // send these prospects to client
         $sql = '';
