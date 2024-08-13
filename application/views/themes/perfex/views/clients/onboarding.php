@@ -614,7 +614,7 @@
         // Handle invite friend form submission
         document.getElementById('invite-friend-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            fetch('<?php echo admin_url('leadevo/invite'); ?>', {
+            fetch('<?php echo site_url('clients/invite'); ?>', {
                     method: 'POST',
                     body: new FormData(this),
                 })
