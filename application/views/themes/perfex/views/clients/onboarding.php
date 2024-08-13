@@ -512,7 +512,6 @@
         </div>
     </div>
 </div>
-<?php init_tail(); ?>
 <script>
     var currentStep = isNaN('<?= $completed_step ?>') ? 0 : '<?= $completed_step ?>';
     document.addEventListener('DOMContentLoaded', function () {

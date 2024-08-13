@@ -3,16 +3,15 @@
 
 <?php hooks()->do_action('before_js_scripts_render');
 
+?>
 
-echo 'var site_url = "' . site_url() . '";';
-echo 'var admin_url = "' . admin_url() . '";'; ?>
-
-<?php echo app_compile_scripts();
+<?php echo app_compile_scripts('client');
 
 /**
  * Global function for custom field of type hyperlink
  */
-echo get_custom_fields_hyperlink_js_function(); ?>
+echo get_custom_fields_hyperlink_js_function();
+?>
 <?php
 /**
  * Check for any alerts stored in session

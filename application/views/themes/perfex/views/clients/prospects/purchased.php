@@ -108,7 +108,14 @@
                                 <tr>
                                     <td><?php echo htmlspecialchars($prospect->id ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->company ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->name ?? ''); ?>
+                                        <div class="row-options"><a href="http://localhost/perfex_crm/leads/index/42"
+                                                onclick="init_lead(42);return false;">View</a> | <a
+                                                href="http://localhost/perfex_crm/leads/index/42?edit=true"
+                                                onclick="init_lead(42, true);return false;">Edit </a> | <a
+                                                href="http://localhost/perfex_crm/leads/delete/42"
+                                                class="_delete text-danger">Delete </a></div>
+                                    </td>
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->lead_value ?? ''); ?></td>
@@ -125,6 +132,7 @@
         </div>
     </div>
 </div>
+
 <?php
 $jsonData = json_encode($table); ?>
 <script>
@@ -159,10 +167,59 @@ $jsonData = json_encode($table); ?>
             data.ids = ids;
             $(event).addClass('disabled');
             setTimeout(function () {
-                $.post(admin_url + 'clients/bulk_action', data).done(function () {
+                $.post(site_url + 'clients/bulk_action', data).done(function () {
                     window.location.reload();
                 });
             }, 50);
         }
     }
+
+
+    // General helper function for $.get ajax requests
+    function requestGet_purchased(uri, params) {
+        params = typeof params == "undefined" ? {} : params;
+        var options = {
+            type: "GET",
+            url: uri.indexOf(site_url) > -1 ? uri : site_url + uri,
+        };
+        return $.ajax($.extend({}, options, params));
+    }
+
+    // General helper function for $.get ajax requests with dataType JSON
+    function requestGetJSON_purchased(uri, params) {
+        params = typeof params == "undefined" ? {} : params;
+        params.dataType = "json";
+        return requestGet_purchased(uri, params);
+    }
+    function init_lead_modal_data_purchased(id, url, isEdit) {
+        var requestURL =
+            (typeof url != "undefined" ? url : "leads/lead/") +
+            (typeof id != "undefined" ? id : "");
+
+        if (isEdit === true) {
+            var concat = "?";
+            if (requestURL.indexOf("?") > -1) {
+                concat += "&";
+            }
+            requestURL += concat + "edit=true";
+        }
+
+        requestGetJSON_purchased(requestURL)
+            .done(function (response) {
+                _lead_init_data(response, id);
+            })
+            .fail(function (data) {
+                alert_float("danger", data.responseText);
+            });
+    }
+    function init_lead_purchased(id, isEdit) {
+        if ($("#task-modal").is(":visible")) {
+            $("#task-modal").modal("hide");
+        }
+        // In case header error
+        if (init_lead_modal_data_purchased(id, undefined, isEdit)) {
+            $("#lead-modal").modal("show");
+        }
+    }
 </script>
+<script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>

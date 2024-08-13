@@ -106,8 +106,9 @@ function _init_client_assets()
     $CI = &get_instance();
 
     // Javascript
-    $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js', 'client');
+    // $CI->app_scripts->add('vendor-js', 'assets/builds/vendor-admin.js', 'client');
 
+    $CI->app_scripts->add('app-js', 'assets/js/app.js', 'client');
     $CI->app_scripts->add('jquery-migrate-js', 'assets/plugins/jquery/jquery-migrate.' . (ENVIRONMENT === 'production' ? 'min.' : '') . 'js', 'client');
 
     add_datatables_js_assets('client');
@@ -130,12 +131,14 @@ function _init_client_assets()
     $CI->app_scripts->add(
         'app-js',
         base_url($CI->app_scripts->core_file('assets/js', 'main.js')) . '?v=' . $CI->app_css->core_version(),
-        'admin',
+        'client',
         ['vendor-js', 'datatables-js', 'bootstrap-select-js', 'tinymce-js', 'jquery-migrate-js', 'jquery-validation-js', 'moment-js', 'common-js']
     );
 
-    $CI->app_scripts->add('app-v3', 'assets/builds/app.js');
+    $CI->app_scripts->add('app-v3', 'assets/builds/app.js', 'client');
 
+    $CI->app_scripts->add('app-js', 'assets/js/app.js', 'client');
+    // $CI->app_scripts->add('main-js', 'assets/js/main.js', 'client');
     // CSS
     add_favicon_link_asset();
 
@@ -295,5 +298,6 @@ function app_compile_css($group = 'admin')
 
 function app_compile_scripts($group = 'admin')
 {
+    log_message('error', $group);
     return get_instance()->app_scripts->compile($group);
 }

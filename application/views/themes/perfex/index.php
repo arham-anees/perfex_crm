@@ -2,7 +2,7 @@
 echo theme_head_view();
 get_template_part($navigationEnabled ? 'navigation' : '');
 init_client_head(true);
-echo app_compile_scripts('client');
+echo app_compile_css('client');
 ?>
 
 
@@ -72,5 +72,6 @@ echo app_compile_scripts('client');
     </div>
 
 <?php } ?>
+
 <?php
 echo theme_footer_view();

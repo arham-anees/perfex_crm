@@ -6,9 +6,9 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php echo form_open(site_url('invite'), ['id' => 'invite-friend-form']); ?>
-                            <?php echo render_input('name', 'Name', '', 'text'); ?>
-                            <?php echo render_input('email', 'Email', '', 'email'); ?>
-                            <input type="submit" value="Invite" class="btn btn-primary"/>
+                        <?php echo render_input('name', 'Name', '', 'text'); ?>
+                        <?php echo render_input('email', 'Email', '', 'email'); ?>
+                        <input type="submit" value="Invite" class="btn btn-primary" />
                         <?php echo form_close(); ?>
                     </div>
                 </div>
@@ -19,4 +19,3 @@
 
 <!-- Include JavaScript file using <script> tags -->
 <script src="<?= base_url('modules/leadevo/assets/js/invite/invite.js'); ?>"></script>
-<?php init_tail(); ?>
