@@ -42,17 +42,15 @@ class Prospects extends AdminController
                 'industry_id' => $this->input->post('industry_id'),
             ];
             $this->Prospects_model->update($id, $data);
-            redirect(admin_url('leadevo/prospects'));
+            redirect(admin_url('prospects'));
         }
 
         $data['prospect'] = $this->Prospects_model->get($id);
-
-        // Load dropdown data for the form
-        $data['statuses'] = $this->prospect_status_model->get_all();
-        $data['types'] = $this->prospect_types_model->get_all();
-        $data['categories'] = $this->prospect_categories_model->get_all();
-        $data['acquisition_channels'] = $this->acquisition_channels_model->get_all();
-        $data['industries'] = $this->industries_model->get_all();
+        $data['statuses'] = $this->Prospect_status_model->get_all();
+        $data['types'] = $this->Prospect_types_model->get_all();
+        $data['categories'] = $this->Prospect_categories_model->get_all();
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
+        $data['industries'] = $this->Industries_model->get_all();
 
         $this->load->view('admin/leadevo/prospects/edit', $data);
     }
@@ -68,11 +66,11 @@ class Prospects extends AdminController
         $data['prospect'] = $this->Prospects_model->get($id);
 
         // Load additional data if needed for displaying in the view
-        $data['status'] = $this->prospect_status_model->get($data['prospect']->status_id);
-        $data['type'] = $this->prospect_types_model->get($data['prospect']->type_id);
-        $data['category'] = $this->prospect_categories_model->get($data['prospect']->category_id);
-        $data['acquisition_channel'] = $this->acquisition_channels_model->get($data['prospect']->acquisition_channel_id);
-        $data['industry'] = $this->industries_model->get($data['prospect']->industry_id);
+        $data['status'] = $this->Prospect_status_model->get($data['prospect']->status_id);
+        $data['type'] = $this->Prospect_types_model->get($data['prospect']->type_id);
+        $data['category'] = $this->Prospect_categories_model->get($data['prospect']->category_id);
+        $data['acquisition_channel'] = $this->Acquisition_channels_model->get($data['prospect']->acquisition_channel_id);
+        $data['industry'] = $this->Industries_model->get($data['prospect']->industry_id);
 
         $this->load->view('admin/leadevo/prospects/view', $data);
     }
@@ -154,6 +152,14 @@ class Prospects extends AdminController
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
         }
+    }
+
+    public function reported()
+    {
+        $data['title'] = 'Reported Prospects';
+        // Load the view file with data
+        $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
+      
     }
 
 }

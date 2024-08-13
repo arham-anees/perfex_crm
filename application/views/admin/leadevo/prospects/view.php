@@ -15,8 +15,8 @@
                             <p><strong><?php echo _l('Phone'); ?>:</strong> <?php echo $prospect->phone; ?></p>
                             <p><strong><?php echo _l('Email'); ?>:</strong> <?php echo $prospect->email; ?></p>
                             <!-- Add other fields as needed -->
-                            <a href="<?php echo admin_url('leadevo/prospects/edit/' . $prospect->id); ?>" class="btn btn-default"><?php echo _l('Edit'); ?></a>
-                            <a href="<?php echo admin_url('leadevo/prospects'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
+                            <a href="<?php echo admin_url('prospects/edit/' . $prospect->id); ?>" class="btn btn-default"><?php echo _l('Edit'); ?></a>
+                            <a href="<?php echo admin_url('prospects'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                         </div>
                     </div>
                 </div>

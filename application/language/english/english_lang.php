@@ -3944,6 +3944,7 @@ $lang['clients_proposal_invoiced_successfully'] = 'Thank you for accepting the p
 
 # LeadEvo
 $lang['leadevo_fake_prospects'] = 'Fake Pool';
+$lang['leadevo_reported_prospects'] = 'Reported Prosopects';
 $lang['leadevo_marketplace'] = 'Market Place';
 $lang['leadevo'] = 'LeadEvo';
 $lang['leadevo_prospects'] = 'Prospects';
