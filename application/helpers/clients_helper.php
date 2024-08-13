@@ -403,6 +403,17 @@ function get_information($key)
     return '';
 }
 
+
+ function get_video($key)
+{
+    $CI = &get_instance();
+    $CI->db->select('*');
+    $CI->db->where('key', $key);
+   return  $CI->db->get(db_prefix() . 'leadevo_explanatory_videos')->row_array();
+    
+
+}
+
 /**
  * Check if contact id passed is primary contact
  * If you dont pass $contact_id the current logged in contact will be checked
