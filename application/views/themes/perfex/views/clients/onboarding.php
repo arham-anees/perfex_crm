@@ -269,20 +269,24 @@
                                             <div class="panel_s">
                                                 <div class="panel-body step-0">
                                                     <div class="videos step-1-content">
-                                                        <?php if (!empty($videos)): ?>
-                                                            <?php foreach ($videos as $video): ?>
-                                                                <div id="video-section">
-                                                                    <video id="welcome-video" width="100%" controls>
-                                                                        <source
-                                                                            src="<?php echo htmlspecialchars($video['url']); ?>"
-                                                                            type="video/mp4">
-                                                                        Your browser does not support the video tag.
-                                                                    </video>
-                                                                </div>
-                                                            <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                            <p>No videos available.</p>
-                                                        <?php endif; ?>
+
+                                                        <div id="video-section">
+                                                            <?php if (!empty($videos)): ?>
+                                                                <?php foreach ($videos as $video): ?>
+                                                                    <div id="video-section">
+                                                                        <video id="welcome-video" width="100%" controls>
+                                                                            <source
+                                                                                src="<?php echo htmlspecialchars($video['url']); ?>"
+                                                                                type="video/mp4">
+                                                                            Your browser does not support the video tag.
+                                                                        </video>
+                                                                    </div>
+                                                                <?php endforeach; ?>
+                                                            <?php else: ?>
+                                                                <p>No videos available.</p>
+                                                            <?php endif; ?>
+                                                        </div>
+
                                                     </div>
 
 
@@ -319,7 +323,7 @@
 
                                                     <!-- Coming Soon text -->
                                                     <div class="videos step-4-content">
-                                                        <?php if (!empty($videos)): ?>
+                                                    <?php if (!empty($videos)): ?>
                                                             <?php foreach ($videos as $video): ?>
                                                                 <div>
                                                                     <video id="coming-soon-section" style=" width: 100%;"
@@ -615,9 +619,9 @@
         document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
             event.preventDefault();
             fetch('<?php echo site_url('invite'); ?>', {
-                    method: 'POST',
-                    body: new FormData(this),
-                })
+                method: 'POST',
+                body: new FormData(this),
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {

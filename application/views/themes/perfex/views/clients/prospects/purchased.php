@@ -1,5 +1,110 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
+
+<style>
+    #backBtn {
+        background-color: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+    }
+
+    #backBtn i {
+        margin-right: 5px;
+    }
+
+    .wizard-step {
+        display: none;
+    }
+
+    .wizard-step.active {
+        display: block;
+    }
+
+    .wizard-nav,
+    .week {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
+
+    .wizard-circle,
+    .days {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #ddd;
+        line-height: 30px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .wizard-circle.active,
+    .wizard-circle.completed {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .wizard-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* Aligns items vertically centered if needed */
+    }
+
+    .wizard-buttons .btn {
+        margin: 0;
+        /* Ensures no extra margin */
+    }
+
+    #nextBtn {
+        margin-left: auto;
+        /* Pushes the "Next" button to the right */
+    }
+
+    .line {
+        height: 2px;
+        background-color: #D3D3D3;
+        flex-grow: 1;
+        margin: 13px;
+        position: relative;
+        z-index: 0;
+    }
+
+    .gridcontainer1 {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .grid-container {
+        display: flex;
+        grid-template-columns: auto auto auto auto;
+        gap: 115px;
+        margin-top: -2%;
+        padding: 1px;
+    }
+
+    .grid-container>div {
+        font-size: 12px;
+    }
+
+    .alt-text3 {
+        margin-right: 30px;
+    }
+
+    /* Fixed Height for Modal */
+    .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    /* Ensure wizard content is visible */
+    .wizard-step {
+        min-height: 300px;
+        /* Adjust as needed */
+    }
+</style>
 <div class="row">
     <div class="col-md-12">
         <div class="panel_s tw-mt-2 sm:tw-mt-4">
@@ -110,7 +215,11 @@
                                     <td><?php echo htmlspecialchars($prospect->company ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->name ?? ''); ?>
                                         <div class="row-options"><a href="#"
-                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a>
+                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View |</a>
+                                            <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger">
+                                                Report Prospect
+                                            </a>
+                                        </div>
                                     </td>
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
@@ -128,6 +237,129 @@
         </div>
     </div>
 </div>
+
+
+<div id="reportProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="padding: 20px; max-height:83vh;">
+            <div class="wizard-nav">
+                <div class="wizard-circle" data-step="1">1</div>
+                <div class="line"></div>
+                <div class="wizard-circle" data-step="2">2</div>
+                <div class="line"></div>
+                <div class="wizard-circle" data-step="3">3</div>
+                <div class="line"></div>
+                <div class="wizard-circle" data-step="4">4</div>
+
+            </div>
+            <div class="gridcontainer1">
+                <div class="grid-container">
+                    <div class="alt-text1">Reason</div>
+                    <div class="alt-text2">Confirmation</div>
+                </div>
+                <div class="grid-container" style="gap: 5px;">
+                    <div class="alt-text3">Issue evidence</div>
+                    <div class="alt-text4">Report confirmation</div>
+                </div>
+            </div>
+
+            <br><br>
+
+            <!-- Reason of report  -->
+            <div class="wizard-step" data-step="1">
+                <h3>Select a reason for reporting prospect</h3>
+                <div class="form-group text-left">
+                    <label for="reason"><?php echo _l('Reasons'); ?></label>
+                    <select name="industry" class="selectpicker" data-width="100%"
+                        data-none-selected-text="<?php echo _l('Select Reason'); ?>">
+                        <option value=""><?php echo _l('Select Reason'); ?></option>
+                        <?php foreach ($industries as $industry): ?>
+                            <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <!-- prospect confirmation -->
+            <div class="wizard-step" data-step="2">
+                <h3>Prospect Details</h3>
+                <div class="form-group text-left">
+                    <label for="details"><?php echo _l('Details'); ?></label>
+                    <div class="table-responsive">
+                        <table class="table table-bordered dt-table nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th><?php echo _l('Name'); ?></th>
+                                    <th><?php echo _l('Status'); ?></th>
+                                    <th><?php echo _l('Type'); ?></th>
+                                    <th><?php echo _l('Category'); ?></th>
+                                    <th><?php echo _l('Acquisition Channels'); ?></th>
+                                    <th><?php echo _l('Desired Amount'); ?></th>
+                                    <th><?php echo _l('Industry'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Name</td>
+                                    <td>Name</td>
+                                    <td>Name</td>
+                                    <td>Name</td>
+                                    <td>Name</td>
+                                    <td>Name</td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <div class="form-group text-center mt-4">
+                            <button type="button" class="btn btn-success" id="confirm-details">I confirm that the
+                                details are correct</button>
+                            <button type="button" class="btn btn-danger" id="mistake-details">Oops, I made a
+                                mistake</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Evidence -->
+
+            <div class="wizard-step" data-step="3">
+                <h3>Evidence</h3>
+                <div class="form-group text-left">
+                    <label for="evidence-upload"><?php echo _l('Upload Evidence (MP3)'); ?></label>
+                    <input type="file" class="form-control-file" id="evidence-upload" accept=".mp3">
+                </div>
+                <div class="form-group text-center mt-4">
+                    <button type="button" class="btn btn-success" id="confirm-evidence">I confirm that I uploaded the
+                        evidence</button>
+                    <button type="button" class="btn btn-danger" id="no-evidence">Oops, I don’t have any
+                        evidence</button>
+                </div>
+            </div>
+
+            <!-- Thank you page -->
+            <div class="wizard-step" data-step="4">
+                <h3>Thank You</h3>
+                <div class="text-center mt-4">
+                    <p>Your report has been successfully submitted.</p>
+                    <p>An agent will review your request and handle it within the next 72 hours.</p>
+                    <p>Thank you for your patience.</p>
+                </div>
+            </div>
+
+            <div class="wizard-buttons">
+                <button class="btn btn-secondary" id="backBtn"><i class="fas fa-angle-left" style="font-size:19px"></i>
+                    Back</button>
+                <button class="btn btn-primary" id="nextBtn">Next</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <?php
 $jsonData = json_encode($table); ?>
@@ -217,5 +449,91 @@ $jsonData = json_encode($table); ?>
             $("#lead-modal").modal("show");
         }
     }
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentStep = 1;
+        const totalSteps = 4;
+        const steps = document.querySelectorAll('.wizard-step');
+        const circles = document.querySelectorAll('.wizard-circle');
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const days = document.querySelectorAll('.days');
+
+
+        function showStep(step) {
+            steps.forEach((element, index) => {
+                element.classList.toggle('active', index === step - 1);
+            });
+            circles.forEach((element, index) => {
+                element.classList.toggle('active', index === step - 1);
+                element.classList.toggle('completed', index < step - 1);
+            });
+
+            // Hide back button
+            backBtn.style.display = step === 1 ? 'none' : 'inline-flex';
+
+            // Show Finish Button at last page
+            nextBtn.textContent = step === totalSteps ? 'Finish' : 'Next';
+        }
+
+        days.forEach(day => {
+            day.addEventListener('click', function () {
+                this.classList.toggle('active');
+            });
+        });
+
+        nextBtn.addEventListener('click', function () {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            } else if (currentStep === totalSteps) {
+                // Finish button action
+              
+
+            }
+        });
+
+        backBtn.addEventListener('click', function () {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        document.getElementById('confirm-details').addEventListener('click', function () {
+            // Add logic here to move to the next step in the wizard
+            alert('Details confirmed! Moving to the next step.');
+        });
+
+        // Close the popup and show the message for mistakes
+        document.getElementById('mistake-details').addEventListener('click', function () {
+            alert('Please try again using the correct details.');
+            // Logic to close the report popup page, like using window.close() or custom modal close function
+            window.close(); // This works if it's a popup window. For a modal, you'd use the modal close function.
+        });
+
+        // Move to the next step when confirming evidence upload
+        document.getElementById('confirm-evidence').addEventListener('click', function () {
+            var fileInput = document.getElementById('evidence-upload');
+            if (fileInput.files.length === 0) {
+                alert('Please upload an MP3 file before confirming.');
+            } else {
+                // Add logic here to move to the next step in the wizard
+                alert('Evidence uploaded! Moving to the next step.');
+            }
+        });
+
+        // Close the popup and show the message for no evidence
+        document.getElementById('no-evidence').addEventListener('click', function () {
+            alert('We are sorry, without any evidence we cannot handle the report request.');
+            // Logic to close the report popup page, like using window.close() or custom modal close function
+            window.close(); // This works if it's a popup window. For a modal, you'd use the modal close function.
+        });
+
+        showStep(currentStep);
+    });
 </script>
 <script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
