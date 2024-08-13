@@ -205,6 +205,16 @@ function app_init_admin_sidebar_menu_items()
         'position' => 35,
         'badge' => [],
     ]);
+
+  $CI->app_menu->add_sidebar_menu_item('information_point_menu', [
+    'slug' => 'information_point', // Ensure this slug is unique
+    'name' => _l('Information Points'),
+    'href' => admin_url('information_point'), // Use admin_url for admin-side links
+    'icon' => 'fa fa-exclamation-circle',
+    'position' => 8,
+    'badge' => [],
+]);
+
     $CI->app_menu->add_sidebar_menu_item('leadevo_billing', [
         'name' => _l('billings'),
         'href' => admin_url('billings'),
