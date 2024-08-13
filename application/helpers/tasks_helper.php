@@ -42,25 +42,25 @@ function get_tasks_priorities()
 {
     return hooks()->apply_filters('tasks_priorities', [
         [
-            'id'    => 1,
-            'name'  => _l('task_priority_low'),
+            'id' => 1,
+            'name' => _l('task_priority_low'),
             'color' => '#777',
 
         ],
         [
-            'id'    => 2,
-            'name'  => _l('task_priority_medium'),
+            'id' => 2,
+            'name' => _l('task_priority_medium'),
             'color' => '#03a9f4',
 
         ],
         [
-            'id'    => 3,
-            'name'  => _l('task_priority_high'),
+            'id' => 3,
+            'name' => _l('task_priority_high'),
             'color' => '#ff6f00',
         ],
         [
-            'id'    => 4,
-            'name'  => _l('task_priority_urgent'),
+            'id' => 4,
+            'name' => _l('task_priority_urgent'),
             'color' => '#fc2d42',
         ],
     ]);
@@ -91,15 +91,15 @@ function get_task_subject_by_id($id)
  */
 function get_task_status_by_id($id)
 {
-    $CI       = &get_instance();
+    $CI = &get_instance();
     $statuses = $CI->tasks_model->get_statuses();
 
     $status = [
-        'id'         => 0,
-        'bg_color'   => '#333',
+        'id' => 0,
+        'bg_color' => '#333',
         'text_color' => '#333',
-        'name'       => '[Status Not Found]',
-        'order'      => 1,
+        'name' => '[Status Not Found]',
+        'order' => 1,
     ];
 
     foreach ($statuses as $s) {
@@ -165,7 +165,7 @@ function format_members_by_ids_and_names($ids, $names, $size = 'md')
     $exportAssignees = '';
     $outputAssignees = '<div class="tw-flex -tw-space-x-1">';
 
-    $assignees   = explode(',', $names);
+    $assignees = explode(',', $names);
     $assigneeIds = explode(',', $ids);
     foreach ($assignees as $key => $assigned) {
         $assignee_id = $assigneeIds[$key];
@@ -176,7 +176,7 @@ function format_members_by_ids_and_names($ids, $names, $size = 'md')
                     ($size == 'md' ? 'tw-h-7 tw-w-7' : 'tw-h-5 tw-w-5') . ' tw-inline-block tw-rounded-full tw-ring-2 tw-ring-white',
                 ], 'small', [
                     'data-toggle' => 'tooltip',
-                    'data-title'  => e($assigned),
+                    'data-title' => e($assigned),
                 ]) . '</a>';
             $exportAssignees .= e($assigned) . ', ';
         }
@@ -275,27 +275,27 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
     $table_data = [
         _l('the_number_sign'),
         [
-            'name'     => _l('tasks_dt_name'),
+            'name' => _l('tasks_dt_name'),
             'th_attrs' => [
                 'style' => 'width:200px',
             ],
         ],
         _l('task_status'),
         [
-            'name'     => _l('tasks_dt_datestart'),
+            'name' => _l('tasks_dt_datestart'),
             'th_attrs' => [
                 'style' => 'width:75px',
             ],
         ],
         [
-            'name'     => _l('task_duedate'),
+            'name' => _l('task_duedate'),
             'th_attrs' => [
                 'style' => 'width:75px',
                 'class' => 'duedate',
             ],
         ],
         [
-            'name'     => _l('task_assigned'),
+            'name' => _l('task_assigned'),
             'th_attrs' => [
                 'style' => 'width:75px',
             ],
@@ -305,7 +305,7 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
     ];
 
     array_unshift($table_data, [
-        'name'     => '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-tasks"><label></label></div>',
+        'name' => '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-tasks"><label></label></div>',
         'th_attrs' => ['class' => ($table_attributes['data-new-rel-type'] !== 'project' ? 'not_visible' : '')],
     ]);
 
@@ -315,9 +315,9 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
 
     foreach ($custom_fields as $field) {
         array_push($table_data, [
-           'name'     => $field['name'],
-           'th_attrs' => ['data-type' => $field['type'], 'data-custom-field' => 1],
-       ]);
+            'name' => $field['name'],
+            'th_attrs' => ['data-type' => $field['type'], 'data-custom-field' => 1],
+        ]);
     }
 
     $table_data = hooks()->apply_filters('tasks_related_table_columns', $table_data);
@@ -329,23 +329,25 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
 
     $tasks_table = App_table::find('related_tasks');
 
-    $table      = '';
-    $CI         = &get_instance();
+    $table = '';
+    $CI = &get_instance();
     $table_name = '.table-' . $name;
 
     $CI->load->view('admin/tasks/filters', [
-        'tasks_table'=>$tasks_table,
-        'filters_wrapper_id'=>$filtersWrapperId,
+        'tasks_table' => $tasks_table,
+        'filters_wrapper_id' => $filtersWrapperId,
     ]);
 
-    if (staff_can('create',  'tasks')) {
-        $disabled   = '';
+    if (staff_can('create', 'tasks')) {
+        $disabled = '';
         $table_name = addslashes($table_name);
         if ($table_attributes['data-new-rel-type'] == 'customer' && is_numeric($table_attributes['data-new-rel-id'])) {
-            if (total_rows(db_prefix() . 'clients', [
-                'active' => 0,
-                'userid' => $table_attributes['data-new-rel-id'],
-            ]) > 0) {
+            if (
+                total_rows(db_prefix() . 'clients', [
+                    'active' => 0,
+                    'userid' => $table_attributes['data-new-rel-id'],
+                ]) > 0
+            ) {
                 $disabled = ' disabled';
             }
         }
@@ -414,7 +416,163 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
     // If new column is added on tasks relations table this will not work fine
     // In this case we need to add new identifier eq task-relation
     $table_attributes['data-last-order-identifier'] = 'tasks';
-    $table_attributes['data-default-order']         = get_table_last_order('tasks');
+    $table_attributes['data-default-order'] = get_table_last_order('tasks');
+    if ($table_attributes['data-new-rel-type'] != 'project') {
+        echo '<hr />';
+    }
+    $table_attributes['id'] = 'related_tasks';
+
+    $table .= render_datatable($table_data, $name, ['number-index-1'], $table_attributes);
+
+    return $table;
+}
+function init_relation_tasks_table_client($table_attributes = [], $filtersWrapperId = 'vueApp')
+{
+    $table_data = [
+        _l('the_number_sign'),
+        [
+            'name' => _l('tasks_dt_name'),
+            'th_attrs' => [
+                'style' => 'width:200px',
+            ],
+        ],
+        _l('task_status'),
+        [
+            'name' => _l('tasks_dt_datestart'),
+            'th_attrs' => [
+                'style' => 'width:75px',
+            ],
+        ],
+        [
+            'name' => _l('task_duedate'),
+            'th_attrs' => [
+                'style' => 'width:75px',
+                'class' => 'duedate',
+            ],
+        ],
+        [
+            'name' => _l('task_assigned'),
+            'th_attrs' => [
+                'style' => 'width:75px',
+            ],
+        ],
+        _l('tags'),
+        _l('tasks_list_priority'),
+    ];
+
+    array_unshift($table_data, [
+        'name' => '<span class="hide"> - </span><div class="checkbox mass_select_all_wrap"><input type="checkbox" id="mass_select_all" data-to-table="rel-tasks"><label></label></div>',
+        'th_attrs' => ['class' => ($table_attributes['data-new-rel-type'] !== 'project' ? 'not_visible' : '')],
+    ]);
+
+    $custom_fields = get_custom_fields('tasks', [
+        'show_on_table' => 1,
+    ]);
+
+    foreach ($custom_fields as $field) {
+        array_push($table_data, [
+            'name' => $field['name'],
+            'th_attrs' => ['data-type' => $field['type'], 'data-custom-field' => 1],
+        ]);
+    }
+
+    $table_data = hooks()->apply_filters('tasks_related_table_columns', $table_data);
+
+    $name = 'rel-tasks';
+    if ($table_attributes['data-new-rel-type'] == 'lead') {
+        $name = 'rel-tasks-leads';
+    }
+
+    $tasks_table = App_table::find('related_tasks');
+
+    $table = '';
+    $CI = &get_instance();
+    $table_name = '.table-' . $name;
+
+    $CI->load->view('clients/tasks/filters', [
+        'tasks_table' => $tasks_table,
+        'filters_wrapper_id' => $filtersWrapperId,
+    ]);
+
+    if (staff_can('create', 'tasks')) {
+        $disabled = '';
+        $table_name = addslashes($table_name);
+        if ($table_attributes['data-new-rel-type'] == 'customer' && is_numeric($table_attributes['data-new-rel-id'])) {
+            if (
+                total_rows(db_prefix() . 'clients', [
+                    'active' => 0,
+                    'userid' => $table_attributes['data-new-rel-id'],
+                ]) > 0
+            ) {
+                $disabled = ' disabled';
+            }
+        }
+        // projects have button on top
+        if ($table_attributes['data-new-rel-type'] != 'project') {
+            echo "<a href='#' class='btn btn-primary pull-left mright5 new-task-relation" . $disabled . "' onclick=\"new_task_from_relation('$table_name'); return false;\" data-rel-id='" . $table_attributes['data-new-rel-id'] . "' data-rel-type='" . $table_attributes['data-new-rel-type'] . "'><i class=\"fa-regular fa-plus tw-mr-1\"></i>" . _l('new_task') . '</a>';
+        }
+    }
+
+    if ($table_attributes['data-new-rel-type'] == 'project') {
+        echo "<a href='" . site_url('tasks/list_tasks?project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default mright5 mbot15 hidden-xs' data-toggle='tooltip' data-title='" . _l('view_kanban') . "' data-placement='top'><i class='fa-solid fa-grip-vertical'></i></a>";
+        echo "<a href='" . site_url('tasks/detailed_overview?project_id=' . $table_attributes['data-new-rel-id']) . "' class='btn btn-success pull-rigsht mbot15'>" . _l('detailed_overview') . '</a>';
+        echo '<div class="clearfix"></div>';
+        echo $CI->load->view('admin/tasks/_bulk_actions', ['table' => '.table-rel-tasks'], true);
+        echo $CI->load->view('admin/tasks/_summary', ['rel_id' => $table_attributes['data-new-rel-id'], 'rel_type' => 'project', 'table' => $table_name], true);
+        echo '<a href="#" data-toggle="modal" data-target="#tasks_bulk_actions" class="hide bulk-actions-btn table-btn" data-table=".table-rel-tasks">' . _l('bulk_actions') . '</a>';
+    } elseif ($table_attributes['data-new-rel-type'] == 'customer') {
+        echo '<div class="clearfix"></div>';
+        echo '<div id="tasks_related_filter" class="mtop15">';
+        echo '<p class="bold">' . _l('task_related_to') . ': </p>';
+
+        echo '<div class="checkbox checkbox-inline">
+        <input type="checkbox" checked value="customer" disabled id="ts_rel_to_customer" name="tasks_related_to[]">
+        <label for="ts_rel_to_customer">' . _l('client') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="project" id="ts_rel_to_project" name="tasks_related_to[]">
+        <label for="ts_rel_to_project">' . _l('projects') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="invoice" id="ts_rel_to_invoice" name="tasks_related_to[]">
+        <label for="ts_rel_to_invoice">' . _l('invoices') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="estimate" id="ts_rel_to_estimate" name="tasks_related_to[]">
+        <label for="ts_rel_to_estimate">' . _l('estimates') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="contract" id="ts_rel_to_contract" name="tasks_related_to[]">
+        <label for="ts_rel_to_contract">' . _l('contracts') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="ticket" id="ts_rel_to_ticket" name="tasks_related_to[]">
+        <label for="ts_rel_to_ticket">' . _l('tickets') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="expense" id="ts_rel_to_expense" name="tasks_related_to[]">
+        <label for="ts_rel_to_expense">' . _l('expenses') . '</label>
+        </div>
+
+        <div class="checkbox checkbox-inline">
+        <input type="checkbox" value="proposal" id="ts_rel_to_proposal" name="tasks_related_to[]">
+        <label for="ts_rel_to_proposal">' . _l('proposals') . '</label>
+        </div>';
+        echo form_hidden('tasks_related_to');
+        echo '</div>';
+    }
+    echo "<div class='clearfix'></div>";
+
+    // If new column is added on tasks relations table this will not work fine
+    // In this case we need to add new identifier eq task-relation
+    $table_attributes['data-last-order-identifier'] = 'tasks';
+    $table_attributes['data-default-order'] = get_table_last_order('tasks');
     if ($table_attributes['data-new-rel-type'] != 'project') {
         echo '<hr />';
     }
@@ -432,9 +590,9 @@ function init_relation_tasks_table($table_attributes = [], $filtersWrapperId = '
  */
 function tasks_summary_data($rel_id = null, $rel_type = null)
 {
-    $CI            = &get_instance();
+    $CI = &get_instance();
     $tasks_summary = [];
-    $statuses      = $CI->tasks_model->get_statuses();
+    $statuses = $CI->tasks_model->get_statuses();
     foreach ($statuses as $status) {
         $tasks_where = 'status = ' . $CI->db->escape_str($status['id']);
         if (staff_cant('view', 'tasks')) {
@@ -454,13 +612,13 @@ function tasks_summary_data($rel_id = null, $rel_type = null)
             $tasks_my_where .= $sqlProjectTasksWhere;
         }
 
-        $summary                   = [];
-        $summary['total_tasks']    = total_rows(db_prefix() . 'tasks', $tasks_where);
+        $summary = [];
+        $summary['total_tasks'] = total_rows(db_prefix() . 'tasks', $tasks_where);
         $summary['total_my_tasks'] = total_rows(db_prefix() . 'tasks', $tasks_my_where);
-        $summary['color']          = $status['color'];
-        $summary['name']           = $status['name'];
-        $summary['status_id']      = $status['id'];
-        $tasks_summary[]           = $summary;
+        $summary['color'] = $status['color'];
+        $summary['name'] = $status['name'];
+        $summary['status_id'] = $status['id'];
+        $tasks_summary[] = $summary;
     }
 
     return $tasks_summary;
@@ -531,19 +689,19 @@ function get_task_timer_round_off_options()
     $options = [
         [
             'name' => _l('task_timer_dont_round_off'),
-            'id'   => 0,
+            'id' => 0,
         ],
         [
             'name' => _l('task_timer_round_up'),
-            'id'   => 1,
+            'id' => 1,
         ],
         [
             'name' => _l('task_timer_round_down'),
-            'id'   => 2,
+            'id' => 2,
         ],
         [
             'name' => _l('task_timer_round_nearest'),
-            'id'   => 3,
+            'id' => 3,
         ],
     ];
 
@@ -577,21 +735,21 @@ function task_timer_round($seconds)
     $roundSeconds = $roundMinutes * 60;
     switch (get_option('round_off_task_timer_option')) {
         case 1: // up
-        return ceil($seconds / $roundSeconds) * $roundSeconds;
+            return ceil($seconds / $roundSeconds) * $roundSeconds;
 
-        break;
+            break;
         case 2: // down
-        return floor($seconds / $roundSeconds) * $roundSeconds;
+            return floor($seconds / $roundSeconds) * $roundSeconds;
 
-        break;
+            break;
         case 3: // nearest
-        return round($seconds / $roundSeconds) * $roundSeconds;
+            return round($seconds / $roundSeconds) * $roundSeconds;
 
-        break;
+            break;
         default:
-        return $seconds;
+            return $seconds;
 
-        break;
+            break;
     }
 }
 

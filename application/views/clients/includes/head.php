@@ -10,10 +10,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title><?php echo isset($title) ? $title : get_option('companyname'); ?></title>
-    <link rel="stylesheet" type="text/css" href="<?= site_url() .'/assets/css/style.css'?>"/>
+    <link rel="stylesheet" type="text/css" href="<?= site_url() . '/assets/css/style.css' ?>" />
 
-
+    <script>
+        var totalUnreadNotifications = 0,
+            proposalsTemplates = <?php echo json_encode(get_proposal_templates()); ?>,
+            contractsTemplates = <?php echo json_encode(get_contract_templates()); ?>,
+            billingAndShippingFields = ['billing_street', 'billing_city', 'billing_state', 'billing_zip', 'billing_country',
+                'shipping_street', 'shipping_city', 'shipping_state', 'shipping_zip', 'shipping_country'
+            ],
+            isRTL = '<?php echo e($isRTL); ?>',
+            taskid, taskTrackingStatsData, taskAttachmentDropzone, taskCommentAttachmentDropzone, newsFeedDropzone,
+            expensePreviewDropzone, taskTrackingChart, cfh_popover_templates = {},
+            _table_api;
+    </script>
 </head>
 
 <body <?php echo admin_body_class(isset($bodyclass) ? $bodyclass : ''); ?>>
-<?php hooks()->do_action('after_body_start'); ?>
+    <?php hooks()->do_action('after_body_start'); ?>

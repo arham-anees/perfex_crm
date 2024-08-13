@@ -11,11 +11,37 @@ class Onboarding_model extends App_Model
 
     public function get($id)
     {
-        $sql = "SELECT  * FROM `" . db_prefix() . "leadevo_onboarding`
-        WHERE client_id = " . $id . "
-        ORDER BY id DESC
-        LIMIT 1;";
-        return $this->db->query($sql)->row();
+        // Query to get the last record for the specified client_id
+        $sql = "SELECT * FROM `" . db_prefix() . "leadevo_onboarding`
+    WHERE client_id = " . intval($id) . "
+    ORDER BY id DESC
+    LIMIT 1;";
+
+        // Execute the query and get the result
+        $result = $this->db->query($sql)->row();
+
+        // Check if a record was found
+        if ($result) {
+            // Record exists, return it
+            return $result;
+        } else {
+            // Record does not exist, insert a new record
+            $insert_sql = "INSERT INTO `" . db_prefix() . "leadevo_onboarding` (client_id)
+               VALUES (" . intval($id) . ")";
+
+            // Execute the insert query
+            if ($this->db->query($insert_sql)) {
+                // Retrieve the newly inserted record
+                $new_sql = "SELECT * FROM `" . db_prefix() . "leadevo_onboarding`
+                WHERE client_id = " . intval($id) . "
+                ORDER BY id DESC
+                LIMIT 1;";
+                return $this->db->query($new_sql)->row();
+            } else {
+                // Handle insertion failure (optional)
+                return null;
+            }
+        }
     }
 
     public function insert($data)

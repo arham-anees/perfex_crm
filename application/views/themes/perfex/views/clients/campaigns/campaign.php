@@ -538,7 +538,6 @@
     </div>
   </div>
 </div>
-<?php init_tail(); ?>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

@@ -29,7 +29,7 @@
                                                 <td><?php echo htmlspecialchars($video['name']); ?></td>
                                                 <td><a href="<?php echo htmlspecialchars($video['url']); ?>" target="_blank"><?php echo _l('Watch Video'); ?></a></td>
                                                 <td><?php echo htmlspecialchars($video['description']); ?></td>
-                                                <td><?php echo htmlspecialchars($video['video_order']); ?></td>
+                                                <td><?php echo htmlspecialchars($video['video_order']??''); ?></td>
                                                 <td><?php echo $video['isactive'] ? _l('Yes') : _l('No'); ?></td>
                                                 <td>
                                                     <a href="<?php echo admin_url('affiliate_training_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">

@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-include_once(__DIR__ . '/App_assets.php');
+include_once (__DIR__ . '/App_assets.php');
 
 class App_scripts extends App_assets
 {
@@ -43,7 +43,8 @@ class App_scripts extends App_assets
         hooks()->do_action('before_compile_scripts_assets', $group);
 
         $items = $this->do_items(array_keys($this->registered[$group]), $group);
-
+        log_message('error', count($items));
+        log_message('error', $group);
         foreach ($items as $id => $data) {
             $attributes = $defaults;
 
@@ -59,13 +60,13 @@ class App_scripts extends App_assets
             $version = isset($data['version']) ? $data['version'] : true;
 
             /**
-            * Compile the URL
-            */
+             * Compile the URL
+             */
             $attributes['src'] = $this->compileUrl($data['path'], $version);
 
             /**
-            * Finally build the <script> for JS file
-            */
+             * Finally build the <script> for JS file
+             */
 
             $html .= '<script' . $this->attributesToString($id, $attributes, $data) . '></script>' . PHP_EOL;
         }

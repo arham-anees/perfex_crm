@@ -2,7 +2,9 @@
 echo theme_head_view();
 get_template_part($navigationEnabled ? 'navigation' : '');
 init_client_head(true);
+echo app_compile_css('client');
 ?>
+
 
 <style>
     body,

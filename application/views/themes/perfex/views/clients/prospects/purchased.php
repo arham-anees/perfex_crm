@@ -87,42 +87,60 @@
                 $table_data = hooks()->apply_filters('customers_table_columns', $table_data);
                 ?>
                 <div class="panel-table-full">
-                    <?php
-                    render_datatable($table_data, 'clients', ['number-index-2'], [
-                        'data-last-order-identifier' => 'customers',
-                        'data-default-order' => get_table_last_order('customers'),
-                        'id' => 'clients'
-                    ]);
-                    ?>
+
+                    <table class="table clients" id="clients">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Company</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Value</th>
+                                <th>Tags</th>
+                                <th>Status</th>
+                                <th>Source</th>
+                                <th>Created On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($table as $prospect): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($prospect->id ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->company ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->name ?? ''); ?>
+                                        <!-- <div class="row-options"><a href="http://localhost/perfex_crm/leads/index/42"
+                                                onclick="init_lead(42);return false;">View</a> | <a
+                                                href="http://localhost/perfex_crm/leads/index/42?edit=true"
+                                                onclick="init_lead(42, true);return false;">Edit </a> | <a
+                                                href="http://localhost/perfex_crm/leads/delete/42"
+                                                class="_delete text-danger">Delete </a></div> -->
+                                    </td>
+                                    <td><?php echo htmlspecialchars($prospect->email ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->lead_value ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars(''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->status_name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->source_name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->dateadded ?? ''); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <?php
 $jsonData = json_encode($table); ?>
 <script>
     var tableData = <?php echo $jsonData; ?> ?? [];
     setTimeout(() => {
-        var tableBody = document.getElementById('clients').getElementsByTagName('tbody')[0];
-
-        // Iterate over the data and create table rows
-        tableData.forEach(function (row) {
-            console.log(row)
-            var newRow = tableBody.insertRow();
-            newRow.insertCell().textContent = row.id;// id
-            newRow.insertCell().textContent = row.company;// company
-            newRow.insertCell().textContent = row.name;//contact
-            newRow.insertCell().textContent = row.email;// email
-            newRow.insertCell().textContent = row.phonenumber;// phone
-            newRow.insertCell().textContent = row.lead_value;// value
-            newRow.insertCell().textContent = '';// tags
-            newRow.insertCell().textContent = row.status_name;// status
-            newRow.insertCell().textContent = row.source_name;// source
-            newRow.insertCell().textContent = row.dateadded;// Date created
-        });
-        document.getElementById('clients').classList.remove('dt-table-loading')
+        $('#clients').DataTable();
     }, 100);
+
     function customers_bulk_action(event) {
         var r = confirm(app.lang.confirm_action_prompt);
         if (r == false) {
@@ -149,10 +167,59 @@ $jsonData = json_encode($table); ?>
             data.ids = ids;
             $(event).addClass('disabled');
             setTimeout(function () {
-                $.post(admin_url + 'clients/bulk_action', data).done(function () {
+                $.post(site_url + 'clients/bulk_action', data).done(function () {
                     window.location.reload();
                 });
             }, 50);
         }
     }
+
+
+    // General helper function for $.get ajax requests
+    function requestGet_purchased(uri, params) {
+        params = typeof params == "undefined" ? {} : params;
+        var options = {
+            type: "GET",
+            url: uri.indexOf(site_url) > -1 ? uri : site_url + uri,
+        };
+        return $.ajax($.extend({}, options, params));
+    }
+
+    // General helper function for $.get ajax requests with dataType JSON
+    function requestGetJSON_purchased(uri, params) {
+        params = typeof params == "undefined" ? {} : params;
+        params.dataType = "json";
+        return requestGet_purchased(uri, params);
+    }
+    function init_lead_modal_data_purchased(id, url, isEdit) {
+        var requestURL =
+            (typeof url != "undefined" ? url : "leads/lead/") +
+            (typeof id != "undefined" ? id : "");
+
+        if (isEdit === true) {
+            var concat = "?";
+            if (requestURL.indexOf("?") > -1) {
+                concat += "&";
+            }
+            requestURL += concat + "edit=true";
+        }
+
+        requestGetJSON_purchased(requestURL)
+            .done(function (response) {
+                _lead_init_data(response, id);
+            })
+            .fail(function (data) {
+                alert_float("danger", data.responseText);
+            });
+    }
+    function init_lead_purchased(id, isEdit) {
+        if ($("#task-modal").is(":visible")) {
+            $("#task-modal").modal("hide");
+        }
+        // In case header error
+        if (init_lead_modal_data_purchased(id, undefined, isEdit)) {
+            $("#lead-modal").modal("show");
+        }
+    }
 </script>
+<script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
