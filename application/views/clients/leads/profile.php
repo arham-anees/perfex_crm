@@ -109,12 +109,12 @@
             </a>
         <?php } ?>
         <?php if (total_rows(db_prefix() . 'clients', ['leadid' => $lead->id]) == 0) { ?>
-            <a href="#" data-toggle="tooltip" data-title="<?php echo e($convert_to_client_tooltip_email_exists); ?>"
+            <!-- <a href="#" data-toggle="tooltip" data-title="<?php echo e($convert_to_client_tooltip_email_exists); ?>"
                 class="btn btn-success pull-right lead-convert-to-customer lead-top-btn lead-view"
                 onclick="convert_lead_to_customer(<?php echo e($lead->id); ?>); return false;">
                 <i class="fa-regular fa-user"></i>
                 <?php echo e($text); ?>
-            </a>
+            </a> -->
         <?php } ?>
 
     <?php } ?>

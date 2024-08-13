@@ -371,18 +371,18 @@ function _add_print_window_default_styles(mywindow) {
   mywindow.document.write("<style>");
   mywindow.document.write(
     ".clearfix:after { " +
-      "clear: both;" +
-      "}" +
-      ".clearfix:before, .clearfix:after { " +
-      'display: table; content: " ";' +
-      "}" +
-      "body { " +
-      "font-family: Arial, Helvetica, sans-serif;color: #444; font-size:13px;" +
-      "}" +
-      ".bold { " +
-      "font-weight: bold !important;" +
-      "}" +
-      ""
+    "clear: both;" +
+    "}" +
+    ".clearfix:before, .clearfix:after { " +
+    'display: table; content: " ";' +
+    "}" +
+    "body { " +
+    "font-family: Arial, Helvetica, sans-serif;color: #444; font-size:13px;" +
+    "}" +
+    ".bold { " +
+    "font-weight: bold !important;" +
+    "}" +
+    ""
   );
 
   mywindow.document.write("</style>");
@@ -812,8 +812,8 @@ function appDataTableInline(element, options) {
 function get_datatable_buttons(table) {
   // pdfmake arabic fonts support
   if (
-    app.user_language.toLowerCase() == "persian" ||
-    app.user_language.toLowerCase() == "arabic"
+    app.user_language?.toLowerCase() == "persian" ||
+    app.user_language?.toLowerCase() == "arabic"
   ) {
     if ($("body").find("#amiri").length === 0) {
       var mainjs = document.createElement("script");
@@ -954,8 +954,8 @@ function get_datatable_buttons(table) {
             }, 10);
 
             if (
-              app.user_language.toLowerCase() == "persian" ||
-              app.user_language.toLowerCase() == "arabic"
+              app.user_language?.toLowerCase() == "persian" ||
+              app.user_language?.toLowerCase() == "arabic"
             ) {
               doc.defaultStyle.font = Object.keys(pdfMake.fonts)[0];
             }
@@ -1344,23 +1344,23 @@ function htmlEntities(str) {
 
 function escapeHtml(value, doubleEncode = true) {
   if (typeof value === 'undefined' || value === null) {
-      return '';
+    return '';
   }
 
   // Convert value if it's an instance of a backed enum (in modern JS environments, you can use instanceof with enums)
   if (typeof value === 'object' && value.hasOwnProperty('value')) {
-      value = value.value;
+    value = value.value;
   }
 
   let escapedValue = value.toString().replace(/&/g, '&amp;')
-                                     .replace(/</g, '&lt;')
-                                     .replace(/>/g, '&gt;')
-                                     .replace(/"/g, '&quot;')
-                                     .replace(/'/g, '&#039;');
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 
   // If doubleEncode is false, we need to revert the encoded ampersands back to their original form for already escaped entities
   if (!doubleEncode) {
-      escapedValue = escapedValue.replace(/&amp;(#\d+;|#[xX][\da-fA-F]+;|[a-zA-Z]+;)/g, '&$1');
+    escapedValue = escapedValue.replace(/&amp;(#\d+;|#[xX][\da-fA-F]+;|[a-zA-Z]+;)/g, '&$1');
   }
 
   return escapedValue;
@@ -1370,9 +1370,9 @@ function init_tinymce_inline_editor(options = {}, selector) {
   selector = selector || 'div.editable'
 
   tinymce.remove(selector);
-  
+
   function saveContent(manual) {
-    if(options.saveUsing) {
+    if (options.saveUsing) {
       options.saveUsing(manual);
     }
   }
@@ -1383,7 +1383,7 @@ function init_tinymce_inline_editor(options = {}, selector) {
     toolbar: false,
     menubar: false,
     branding: false,
-    cache_suffix: '?v='+app.version,
+    cache_suffix: '?v=' + app.version,
     language: app.tinymce_lang || 'en',
     relative_urls: false,
     remove_script_host: false,
@@ -1406,19 +1406,19 @@ function init_tinymce_inline_editor(options = {}, selector) {
     autoresize_bottom_margin: 50,
     quickbars_insert_toolbar: 'image media quicktable | bullist numlist | h2 h3 | pagebreak | hr',
     quickbars_selection_toolbar:
-    "bold italic underline superscript | forecolor backcolor link | alignleft aligncenter alignright alignjustify | fontfamily fontsize | h2 h3",
+      "bold italic underline superscript | forecolor backcolor link | alignleft aligncenter alignright alignjustify | fontfamily fontsize | h2 h3",
     contextmenu: "paste pastetext searchreplace | visualblocks pagebreak | code",
     setup: function (editor) {
-      if(options.onSetup) {
+      if (options.onSetup) {
         options.onSetup(editor)
       }
 
       editor.addCommand("mceSave", function () {
         saveContent(true);
       });
-      
+
       editor.addShortcut("Meta+S", "", "mceSave");
-      
+
       editor.on("MouseLeave blur", function () {
         if (tinymce.activeEditor.isDirty()) {
           saveContent();
@@ -1442,7 +1442,7 @@ function init_tinymce_inline_editor(options = {}, selector) {
       }
     });
   }
-  
+
   tinymce.init(settings);
 }
 

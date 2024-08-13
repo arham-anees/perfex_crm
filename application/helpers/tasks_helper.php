@@ -494,24 +494,24 @@ function init_relation_tasks_table_client($table_attributes = [], $filtersWrappe
         'filters_wrapper_id' => $filtersWrapperId,
     ]);
 
-    if (staff_can('create', 'tasks')) {
-        $disabled = '';
-        $table_name = addslashes($table_name);
-        if ($table_attributes['data-new-rel-type'] == 'customer' && is_numeric($table_attributes['data-new-rel-id'])) {
-            if (
-                total_rows(db_prefix() . 'clients', [
-                    'active' => 0,
-                    'userid' => $table_attributes['data-new-rel-id'],
-                ]) > 0
-            ) {
-                $disabled = ' disabled';
-            }
-        }
-        // projects have button on top
-        if ($table_attributes['data-new-rel-type'] != 'project') {
-            echo "<a href='#' class='btn btn-primary pull-left mright5 new-task-relation" . $disabled . "' onclick=\"new_task_from_relation('$table_name'); return false;\" data-rel-id='" . $table_attributes['data-new-rel-id'] . "' data-rel-type='" . $table_attributes['data-new-rel-type'] . "'><i class=\"fa-regular fa-plus tw-mr-1\"></i>" . _l('new_task') . '</a>';
+    // if (staff_can('create', 'tasks')) {
+    $disabled = '';
+    $table_name = addslashes($table_name);
+    if ($table_attributes['data-new-rel-type'] == 'customer' && is_numeric($table_attributes['data-new-rel-id'])) {
+        if (
+            total_rows(db_prefix() . 'clients', [
+                'active' => 0,
+                'userid' => $table_attributes['data-new-rel-id'],
+            ]) > 0
+        ) {
+            $disabled = ' disabled';
         }
     }
+    // projects have button on top
+    if ($table_attributes['data-new-rel-type'] != 'project') {
+        echo "<a href='#' class='btn btn-primary pull-left mright5 new-task-relation" . $disabled . "' onclick=\"new_task_from_relation('$table_name'); return false;\" data-rel-id='" . $table_attributes['data-new-rel-id'] . "' data-rel-type='" . $table_attributes['data-new-rel-type'] . "'><i class=\"fa-regular fa-plus tw-mr-1\"></i>" . _l('new_task') . '</a>';
+    }
+    // }
 
     if ($table_attributes['data-new-rel-type'] == 'project') {
         echo "<a href='" . site_url('tasks/list_tasks?project_id=' . $table_attributes['data-new-rel-id'] . '&kanban=true') . "' class='btn btn-default mright5 mbot15 hidden-xs' data-toggle='tooltip' data-title='" . _l('view_kanban') . "' data-placement='top'><i class='fa-solid fa-grip-vertical'></i></a>";

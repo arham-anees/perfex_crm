@@ -109,12 +109,8 @@
                                     <td><?php echo htmlspecialchars($prospect->id ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->company ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->name ?? ''); ?>
-                                        <!-- <div class="row-options"><a href="http://localhost/perfex_crm/leads/index/42"
-                                                onclick="init_lead(42);return false;">View</a> | <a
-                                                href="http://localhost/perfex_crm/leads/index/42?edit=true"
-                                                onclick="init_lead(42, true);return false;">Edit </a> | <a
-                                                href="http://localhost/perfex_crm/leads/delete/42"
-                                                class="_delete text-danger">Delete </a></div> -->
+                                        <div class="row-options"><a href="#"
+                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a>
                                     </td>
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
