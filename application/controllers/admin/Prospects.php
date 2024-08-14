@@ -173,7 +173,15 @@ class Prospects extends AdminController
         $data['title'] = 'Reported Prospects';
         // Load the view file with data
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
+    }
 
+    public function send_to_campaign()
+    {
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+        } else {
+            echo json_encode(array('status' => 'error', 'message' => 'Invalid Method'));
+        }
     }
 
 }

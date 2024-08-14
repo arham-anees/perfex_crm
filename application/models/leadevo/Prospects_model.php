@@ -480,7 +480,7 @@ class Prospects_model extends CI_Model
     {
         $sql = "SELECT id, client_id, industry_id, country_id, deal,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence
                 FROM `tblleadevo_campaign`
-                WHERE status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() AND Id = " . $campaing_id . ";";
+                WHERE is_active = 1 AND status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() AND Id = " . $campaing_id . ";";
 
         $campaign = $this->db->query($sql)->row();
 
@@ -505,7 +505,7 @@ class Prospects_model extends CI_Model
                     ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
                     AND r.rated_at = latest_ratings.max_rated_at) r
                 ON r.prospect_id = p.id
-                WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1 ";
+                WHERE is_active = 1 AND is_fake = 0 AND is_available_sale = 1 AND is_auto_deliverable = 1 ";
         if (isset($campaign->industry_id)) {
             $sql .= " AND industry_id = " . $campaign->industry_id;
         }

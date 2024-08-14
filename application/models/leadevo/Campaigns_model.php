@@ -71,4 +71,26 @@ class Campaigns_model extends CI_Model
     {
         return $this->db->get($this->country_table)->result_array();
     }
+
+    public function get_matching($prospect_id)
+    {
+        $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_id)->row();
+        $sql = "SELECT 
+                    cam.id,
+                    c.company client_name, 
+                    MAX(ll.created_at) AS last_delivered, 
+                    COUNT(ll.campaign_id) AS progress 
+                FROM 
+                    tblleadevo_campaign cam
+                LEFT JOIN 
+                    tblclients c ON c.userid = cam.client_id
+                LEFT JOIN 
+                    tblleadevo_leads ll ON ll.campaign_id = cam.id
+                WHERE is_active = 1 AND status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() 
+                AND deal = " . $prospect->is_exclusive . " AND verify_by_sms = " . $prospect->verified_sms . " AND
+                verify_by_whatsapp = " . $prospect->verified_whatsapp . " AND verify_by_staff = " . $prospect->verified_staff
+            . " AND industry_id = " . $prospect->industry_id . "
+            GROUP BY c.company,cam.id";
+        return $this->db->query($sql)->result_array();
+    }
 }

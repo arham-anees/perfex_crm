@@ -57,6 +57,8 @@ function displayStars($rating, $maxStars = 5)
                                                                 onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>)">
                                                                 Auto Deliverable</a>
                                                         <?php } ?>
+                                                        | <a href="#" onclick="openSendCampaignModal(<?= $prospect['id'] ?>)">
+                                                            Send via Campaign</a>
 
 
                                                     </div>
@@ -167,6 +169,9 @@ function displayStars($rating, $maxStars = 5)
 
 <div id="mark_sale_available_modal" class="modal fade" tabindex="-1" role="dialog">
     <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/put_to_sale.php') ?>
+</div>
+<div id="send_via_campaign_modal" class="modal fade" tabindex="-1" role="dialog">
+    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/send_via_campaign.php') ?>
 </div>
 
 <div id="rating_modal" class="modal fade" tabindex="-1" role="dialog">
@@ -300,6 +305,10 @@ function displayStars($rating, $maxStars = 5)
     function openAutoDeliverableModal(id) {
         document.querySelector('#mark_prospect_auto_deliverable input[name=id]').value = id;
         $('#mark_prospect_auto_deliverable').modal('show');
+    }
+    function openSendCampaignModal(id) {
+        document.querySelector('#send_via_campaign_modal input[name=id]').value = id;
+        $('#send_via_campaign_modal').modal('show');
     }
     function openRateModal(id) {
         document.querySelector('#rating_modal input[name=id]').value = id;

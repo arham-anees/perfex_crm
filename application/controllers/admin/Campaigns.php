@@ -15,6 +15,12 @@ class Campaigns extends AdminController
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $this->load->view('admin/leadevo/campaigns/campaign', $data);
     }
+    public function matching()
+    {
+        $prospect_id = $this->input->get('prospect_id');
+        $campaigns = $this->Campaigns_model->get_matching($prospect_id);
+        echo json_encode(array('status' => 'success', 'data' => json_encode($campaigns)));
+    }
 
 
     public function edit($id)
