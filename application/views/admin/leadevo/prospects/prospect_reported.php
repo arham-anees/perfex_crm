@@ -97,10 +97,14 @@
 
 <?php init_tail(); ?>
 <script>
-    $('#reported-prospects').DataTable();
-    setTimeout(() => {
+    $(document).ready(function() {
+        // Check if DataTable is already initialized before initializing
+        if (!$.fn.DataTable.isDataTable('#reported-prospects')) {
+            $('#reported-prospects').DataTable();
+        }
 
-        $('#reported-prospects_wrapper').removeClass('table-loading');
-    }, 100);
-    $('#reported-prospects').DataTable();
+        setTimeout(() => {
+            $('#reported-prospects_wrapper').removeClass('table-loading');
+        }, 100);
+    });
 </script>
