@@ -54,9 +54,8 @@
                             <table class="table table-bordered dt-table nowrap" id="reported-prospects">
                                 <thead>
                                     <tr>
-                                        <th><?php echo _l('Prospect ID'); ?></th>
+                                        <th><?php echo _l('Prospect'); ?></th>
                                         <th><?php echo _l('Reason'); ?></th>
-                                        <th><?php echo _l('Client ID'); ?></th>
                                         <th><?php echo _l('Created At'); ?></th>
                                         <th><?php echo _l('Evidence'); ?></th>
                                         <th><?php echo _l('Actions'); ?></th>
@@ -66,8 +65,7 @@
                                     <?php foreach ($reported_prospects as $prospect): ?>
                                         <tr>
                                             <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($prospect['reason'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($prospect['client_id'] ?? ''); ?></td>
+                                            <td><?php echo htmlspecialchars($prospect['reason_name'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
                                             <td>

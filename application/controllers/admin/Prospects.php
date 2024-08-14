@@ -12,6 +12,7 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('leadevo/Reported_Prospects_model');
     }
 
     public function index()
@@ -169,12 +170,33 @@ class Prospects extends AdminController
         }
     }
 
+
     public function reported()
     {
-        $data['title'] = 'Reported Prospects';
-        // Load the view file with data
+        $filter = $this->input->get('filter');
+           
+        if ($filter) {
+            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_by_filter($filter);
+        } else {
+            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
+        }
+    
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
     }
+    
+    public function view_reported($id)
+{
+    $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
+    $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
+
+    if (!$data['reported_prospect']) {
+        show_404(); // If no data found, show 404 page
+    }
+    $this->load->view('admin/leadevo/prospects/view_reported', $data);
+
+}
+
+
 
     public function send_to_campaign()
     {
