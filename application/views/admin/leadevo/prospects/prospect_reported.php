@@ -2,67 +2,109 @@
 <?php init_head(); ?>
 <div id="wrapper">
     <div class="content">
-        <div class="row">
-            <div class="col-md-12 tw-mb-6">
-                <h4 class="tw-mt-0 tw-font-semibold tw-text-lg tw-text-neutral-700 tw-mr-4">
-                    <?php echo _l('Prospects Report'); ?>
-                </h4>
-            </div>
+        <div class="row main_row">
             <div class="col-md-12">
-                <div class="row">
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table data-default-order="" id="proposals" class="table dataTable no-footer" role="grid" aria-describedby="proposals_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th colspan="1">Proposal #</th>
-                                        <th colspan="1">Subject</th>
-                                        <th colspan="1">To</th>
-                                        <th colspan="1">Total</th>
-                                        <th colspan="1">Date</th>
-                                        <th colspan="1">Open Till</th>
-                                        <th colspan="1">Project</th>
-                                        <th colspan="1">Tags</th>
-                                        <th colspan="1">Date Created</th>
-                                        <th colspan="1">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="has-row-options odd">
-                                        <td><a href="http://localhost/perfex_crm/admin/proposals/list_proposals/1" onclick="init_proposal(1); return false;">PRO-000001</a>
-                                            <div class="row-options"><a href="http://localhost/perfex_crm/proposal/1/72a218ab2b3723d22d60f80033107494" target="_blank">View</a> | <a href="http://localhost/perfex_crm/admin/proposals/proposal/1">Edit </a></div>
-                                        </td>
-                                        <td><a href="http://localhost/perfex_crm/admin/proposals/list_proposals/1" onclick="init_proposal(1); return false;">asdfsadf</a></td>
-                                        <td><a href="http://localhost/perfex_crm/admin/clients/client/1" target="_blank" data-toggle="tooltip" data-title="Customer">test contact</a></td>
-                                        <td>$1,000.00</td>
-                                        <td>2024-07-16</td>
-                                        <td>2024-07-23</td>
-                                        <td><a href="http://localhost/perfex_crm/admin/projects/view/0" target="_blank"></a></td>
-                                        <td></td>
-                                        <td class="sorting_1">2024-07-16 14:31:45</td>
-                                        <td><span class="label label-default  s-status proposal-status-6">Draft</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <!-- Search bar and filters -->
+                <div class="clearfix"></div>
+
+                <div class="_buttons">
+                    <div class="row">
+                        <!-- Search Bar -->
+                        <div class="col-md-4">
+                            <!-- Optionally add a button or functionality here -->
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="col-md-8" style="display:flex;justify-content:end">
+                            <form method="GET" action="<?php echo site_url('prospects/reported'); ?>"
+                                style="margin-right: 10px;">
+                                <div class="input-group" style="width:200px">
+                                    <input type="text" name="search" class="form-control"
+                                        placeholder="<?php echo _l('Search Reported Prospects'); ?>"
+                                        value="<?php echo isset($search) ? $search : ''; ?>">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                            <form method="GET" action="<?php echo site_url('prospects/reported'); ?>">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle"
+                                        data-toggle="dropdown">
+                                        <?php echo _l('Filter By'); ?> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li><a
+                                                href="<?php echo site_url('prospects/reported?filter=active'); ?>"><?php echo _l('Active Reported Prospects'); ?></a>
+                                        </li>
+                                        <li><a
+                                                href="<?php echo site_url('prospects/reported?filter=inactive'); ?>"><?php echo _l('Inactive Reported Prospects'); ?></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
                         </div>
                     </div>
+                </div>
 
+                <!-- Reported Prospects Table -->
+                <div class="col-md-12">
+                    <div class="panel_s">
+                        <div class="panel-body">
+                            <?php if (!empty($reported_prospects)): ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered dt-table nowrap" id="reported-prospects">
+                                        <thead>
+                                            <tr>
+                                                <th><?php echo _l('Prospect'); ?></th>
+                                                <th><?php echo _l('Reason'); ?></th>
+                                                <th><?php echo _l('Created At'); ?></th>
+                                                <th><?php echo _l('Evidence'); ?></th>
+                                                <th><?php echo _l('Actions'); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($reported_prospects as $prospect): ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? ''); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['reason_name'] ?? ''); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
+                                                    <td>
+                                                        <a href="<?php echo admin_url('prospects/view_reported/' . $prospect['id']); ?>"
+                                                            class="">
+                                                            View
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php else: ?>
+                                <p><?php echo _l('No reported prospects found.'); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">  
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
 
 <?php init_tail(); ?>
 <script>
-    $('#proposals').DataTable({
-        "search": true
+    $(document).ready(function() {
+        // Check if DataTable is already initialized before initializing
+        if (!$.fn.DataTable.isDataTable('#reported-prospects')) {
+            $('#reported-prospects').DataTable();
+        }
+
+        setTimeout(() => {
+            $('#reported-prospects_wrapper').removeClass('table-loading');
+        }, 100);
     });
 </script>
-</body>
-
-</html>

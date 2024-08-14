@@ -474,11 +474,8 @@ $jsonData = json_encode($table); ?>
         const circles = document.querySelectorAll('.wizard-circle');
         const backBtn = document.getElementById('backBtn');
         const nextBtn = document.getElementById('nextBtn');
-
-        // Define reasonSelect and prospectId
         const reasonSelect = document.getElementById('reasonSelect');
         let prospectId = null;
-        let evidenceUrl = ''; // This will hold the evidence URL
 
         $('a[data-toggle="modal"]').on('click', function () {
             // Retrieve data attributes
@@ -515,34 +512,6 @@ $jsonData = json_encode($table); ?>
         var csrfName = $('#reportProspectModal input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
         var csrfHash = $('#reportProspectModal input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
 
-        function sendReportData() {
-            const selectedReason = reasonSelect.value;
-            if (!selectedReason) {
-                alert('Please select a reason for reporting.');
-                return;
-            }
-            const data = {
-                reason: selectedReason,
-                prospect_id: prospectId,
-                evidence_url: evidenceUrl
-            };
-            data[csrfName] = csrfHash;
-
-
-            $.ajax({
-                url: 'submit_report', // Endpoint URL
-                type: 'POST', // HTTP method
-                data: data, // JSON data and appended CSRF token
-                success: function (response) {
-                    alert('Report submitted successfully!');
-                    $('#reportProspectModal').modal('hide');
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error:', error);
-                    alert('There was an error submitting the report.');
-                }
-            });
-        }
 
         // Functionality for the Next button (only on the first step)
         nextBtn.addEventListener('click', function () {
@@ -595,6 +564,37 @@ $jsonData = json_encode($table); ?>
         });
 
         showStep(currentStep);
+
+
+        function sendReportData() {
+            const selectedReason = reasonSelect.value;
+            if (!selectedReason) {
+                alert('Please select a reason for reporting.');
+                return;
+            }
+            const data = {
+                reason: selectedReason,
+                prospect_id: prospectId,
+                evidence: evidenceUrl
+            };
+            data[csrfName] = csrfHash;
+
+
+            $.ajax({
+                url: 'submit_report', // Endpoint URL
+                type: 'POST', // HTTP method
+                data: data, // JSON data and appended CSRF token
+                success: function (response) {
+                    alert('Report submitted successfully!');
+                    $('#reportProspectModal').modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('There was an error submitting the report.');
+                }
+            });
+        }
+
     });
 
 
