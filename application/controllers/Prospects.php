@@ -13,6 +13,7 @@ class Prospects extends ClientsController
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Leads_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        $this->load->model('leadevo/Reported_Prospects_model');
     }
 
     public function index()
