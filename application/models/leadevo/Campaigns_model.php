@@ -100,10 +100,10 @@ class Campaigns_model extends CI_Model
         $campaign = $this->db->query("SELECT * FROM tblleadevo_campaign WHERE id =" . $campaign_id)->row();
         $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_id)->row();
         $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id)->row()->budget_spent;
-        // if ($budget_spent >= $campaign->budget) {            
-        //     // TODO: mark the campaign as completed
-        //     throw new Exception("Client's budget can been used. The Campaign is Completed");
-        // }
+        if ($budget_spent >= $campaign->budget) {
+            // TODO: mark the campaign as completed
+            throw new Exception("Client's budget can been used. The Campaign is Completed");
+        }
         $budget = (float) $prospect->desired_amount;
         $desired_amount = (float) $prospect->desired_amount;
         $min_amount = (float) $prospect->min_amount;

@@ -285,6 +285,8 @@
                             <option value="<?php echo $reason['id']; ?>"><?php echo $reason['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                        value="<?php echo $this->security->get_csrf_hash(); ?>">
                 </div>
             </div>
 
@@ -510,8 +512,8 @@ $jsonData = json_encode($table); ?>
         }
 
         // Get CSRF token from the hidden field
-        var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
-        var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
+        var csrfName = $('#reportProspectModal input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
+        var csrfHash = $('#reportProspectModal input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
 
         function sendReportData() {
             const selectedReason = reasonSelect.value;
@@ -528,11 +530,9 @@ $jsonData = json_encode($table); ?>
 
 
             $.ajax({
-                url: site_url+'Prospects/submit_report', // Endpoint URL
+                url: 'submit_report', // Endpoint URL
                 type: 'POST', // HTTP method
-                data:JSON.stringify(data), // JSON data and appended CSRF token
-                contentType: 'application/json', // Set content type to JSON
-                dataType: 'json', // Expect JSON response
+                data: data, // JSON data and appended CSRF token
                 success: function (response) {
                     alert('Report submitted successfully!');
                     $('#reportProspectModal').modal('hide');
