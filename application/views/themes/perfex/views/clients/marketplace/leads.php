@@ -498,9 +498,10 @@
                                     <td>
                                         <div>
                                             <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                                            <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Generated date'); ?>:</strong>
-                                            <?php echo 'N/A'; /* Replace with actual value if needed */ ?><br>
+                                            <?php echo isset($prospect['id']) ? $prospect['id'] : '-'; ?><br>
+                                            <strong><?php echo _l('date'); ?>:</strong>
+                                            <?php echo isset($prospect['created_at'])
+                                                ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : '-'; ?><br />
                                             <strong><?php echo _l('Industry'); ?>:</strong>
                                             <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
                                         </div>
@@ -523,11 +524,29 @@
                                         <div>
                                             <strong><?php echo _l('Source'); ?>:</strong>
                                             <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Deal'); ?>:</strong>
-                                            <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Quality'); ?>:</strong>
-                                            <?php echo isset($prospect['quality']) ? htmlspecialchars($prospect['quality']) : 'N/A'; ?>
-                                        </div>
+
+
+                                            <div style="display:flex">
+                                                <strong><?php echo _l('Quality'); ?> : </strong>
+                                                <div>
+                                                    <?php echo ($prospect['verified_staff']) == 1 ? 'Verified by Staff' : ''; ?><br />
+                                                    <?php echo ($prospect['verified_whatsapp']) == 1 ? 'Verified by WhatsApp' : ''; ?><br />
+                                                    <?php echo ($prospect['verified_sms']) == 1 ? 'Verified by SMS' : ''; ?><br />
+                                                </div>
+                                            </div>
+                                            <?php if ($prospect['share_audio_before_purchase'] == 1) { ?>
+                                                <strong><?php echo _l('deal_audio'); ?>:</strong>
+                                                <?php if (isset($prospect['verified_staff_audio']) && !empty($prospect['verified_staff_audio'])): ?>
+                                                    <audio controls>
+                                                        <source
+                                                            src="<?php echo htmlspecialchars($prospect['verified_staff_audio']); ?>"
+                                                            type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                <?php else: ?>
+                                                    <p>No audio available</p>
+                                                <?php endif; ?>
+                                            <?php } ?>
                                     </td>
                                     <td class="text-center">
 

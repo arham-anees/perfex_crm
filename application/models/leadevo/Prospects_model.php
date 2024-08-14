@@ -281,15 +281,23 @@ class Prospects_model extends CI_Model
                     p.is_fake,
                     p.is_available_sale,
                     null AS zip_code,
-                    null AS phone,
-                    null AS email,
-                    null AS source,
+                    phone,
+                    email,
+                    pso.name AS source,
                     null AS deal,
-                    null AS quality
+                    null AS quality,
+                    p.verified_sms,
+                    p.verified_whatsapp,
+                    p.verified_staff,
+                    p.created_at,
+                    p.share_audio_before_purchase,
+                    p.verified_staff_audio
                 FROM
                     tblleadevo_prospects p
                 LEFT JOIN
                     tblleadevo_prospect_statuses ps ON p.status_id = ps.id
+                LEFT JOIN
+                    tblleadevo_prospects_sources pso ON p.source_id = pso.id
                 LEFT JOIN
                     tblleadevo_prospect_types pt ON p.type_id = pt.id   
                 LEFT JOIN
@@ -330,7 +338,9 @@ class Prospects_model extends CI_Model
                 p.verified_sms,
                 p.verified_whatsapp,
                 p.verified_staff,
-                p.created_at
+                p.created_at,
+                p.share_audio_before_purchase,
+                p.verified_staff_audio
             FROM
                 tblleadevo_prospects p
             LEFT JOIN
@@ -548,6 +558,7 @@ class Prospects_model extends CI_Model
                 if ($campaign->deal == 1) {
                     $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
                 }
+                // TODO: clear from carts
             }
 
             // If everything is successful, commit the transaction

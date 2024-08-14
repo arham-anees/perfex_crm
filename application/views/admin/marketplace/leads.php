@@ -481,11 +481,11 @@
                             <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th><?php echo _l('Metadata'); ?></th>
-                                        <th><?php echo _l('Lead'); ?></th>
-                                        <th><?php echo _l('Contact'); ?></th>
-                                        <th><?php echo _l('Lead Type'); ?></th>
-                                        <th><?php echo _l('Actions'); ?></th>
+                                        <th><?php echo _l('leadevo_marketpalce_column_metadata'); ?></th>
+                                        <th><?php echo _l('leadevo_marketpalce_column_lead'); ?></th>
+                                        <th><?php echo _l('leadevo_marketpalce_column_contact'); ?></th>
+                                        <th><?php echo _l('leadevo_marketpalce_column_lead_type'); ?></th>
+                                        <th><?php echo _l('leadevo_marketpalce_column_marketplace'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -493,53 +493,65 @@
                                         <tr>
                                             <td>
                                                 <div>
-                                                    <strong><?php echo _l('Prospect ID'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_prospect_id'); ?>:</strong>
                                                     <?php echo isset($prospect['id']) ? $prospect['id'] : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Generated date'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_date'); ?>:</strong>
                                                     <?php
                                                     echo isset($prospect['created_at'])
                                                         ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at'])))
                                                         : 'N/A';
                                                     ?><br>
-                                                    <strong><?php echo _l('Industry'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_industry_name'); ?>:</strong>
                                                     <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div>
-                                                    <strong>Full name:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_prospect_name'); ?>:</strong>
                                                     <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                                                    <strong><?php echo _l('Zip code'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_zip_code'); ?>:</strong>
                                                     <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
                                                 </div>
                                             </td>
                                             <td>
-                                                <strong>Phone:</strong>
+                                                <strong><?php echo _l('settings_sales_phonenumber'); ?>:</strong>
                                                 <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                                                <strong>Email:</strong>
+                                                <strong><?php echo _l('client_email'); ?>:</strong>
                                                 <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
                                             </td>
                                             <td>
                                                 <div>
-                                                    <strong><?php echo _l('Source'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_source_name'); ?>:</strong>
                                                     <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
                                                     <!-- <strong><?php echo _l('Deal'); ?>:</strong>
                                                     <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br> -->
                                                     <div style="display:flex">
-                                                        <strong><?php echo _l('Quality'); ?> : </strong>
+                                                        <strong><?php echo _l('leadevo_marketpalce_quality'); ?> : </strong>
                                                         <div>
                                                             <?php echo ($prospect['verified_staff']) == 1 ? 'Verified by Staff' : ''; ?><br />
                                                             <?php echo ($prospect['verified_whatsapp']) == 1 ? 'Verified by WhatsApp' : ''; ?><br />
                                                             <?php echo ($prospect['verified_sms']) == 1 ? 'Verified by SMS' : ''; ?><br />
                                                         </div>
                                                     </div>
+                                                    <strong><?php echo _l('leadevo_marketpalce_deal_audio'); ?>:</strong>
+                                                    <?php echo ($prospect['share_audio_before_purchase']) == 1 ? 'Public' : 'Private'; ?><br>
+                                                    <?php if (isset($prospect['verified_staff_audio']) && !empty($prospect['verified_staff_audio'])): ?>
+                                                        <audio controls>
+                                                            <source
+                                                                src="<?php echo htmlspecialchars($prospect['verified_staff_audio']); ?>"
+                                                                type="audio/mpeg">
+                                                            Your browser does not support the audio element.
+                                                        </audio>
+                                                    <?php else: ?>
+                                                        <p>No audio available</p>
+                                                    <?php endif; ?>
                                                 </div>
                                             </td>
                                             <td class="text-center">
                                                 <div>
-                                                    <strong><?php echo _l('selling_price'); ?>:</strong>
-                                                    <?php echo $prospect['desired_amount'] . " / " . $prospect['min_amount']; ?><br>
-                                                    <strong><?php echo _l('Deal'); ?>:</strong>
+                                                    <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
+                                                    <?php echo ($prospect['desired_amount'] ?? '-') . " / " . ($prospect['min_amount'] ?? '-'); ?><br>
+                                                    <strong><?php echo _l('leadevo_marketpalce_deal_sales'); ?>:</strong>
                                                     <?php echo $prospect['exclusive_sales'] . " / " . $prospect['non_exclusive_sales']; ?><br>
                                                 </div>
                                             </td>
