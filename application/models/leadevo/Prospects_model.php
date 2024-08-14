@@ -4,6 +4,9 @@ class Prospects_model extends CI_Model
 {
 
     private $table = 'leadevo_prospects';
+    private $reason_table = 'tblleadevo_report_lead_reasons';
+
+    private $report_table = 'tblleadevo_reported_prospects';
 
     public function __construct()
     {
@@ -600,4 +603,18 @@ class Prospects_model extends CI_Model
 
 
     }
+
+
+    public function get_Reasons() {
+        return $this->db->get($this->reason_table)->result_array();
+    }
+
+    public function submit_report($data){
+        if (!isset($data['client_id'])) {
+            $data['client_id'] = get_client_user_id();
+        }
+        return $this->db->insert($this->report_table, $data);
+    }
+
+
 }

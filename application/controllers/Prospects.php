@@ -13,6 +13,7 @@ class Prospects extends ClientsController
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Leads_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        $this->load->model('leadevo/Reported_Prospects_model');
     }
 
     public function index()
@@ -22,6 +23,8 @@ class Prospects extends ClientsController
             $data['prospects'] = $this->Prospects_model->get_all_by_filter($filter);
         else
             $data['prospects'] = $this->Prospects_model->get_all();
+
+
 
         $this->data($data);
         $this->view('clients/prospects/prospects');
@@ -73,6 +76,7 @@ class Prospects extends ClientsController
 
         $data['countries'] = $this->clients_model->get_clients_distinct_countries();
         $data['table'] = $this->clients_model->get_purchased();
+        $data['reasons'] = $this->Prospects_model->get_Reasons();
         $this->data($data);
 
         $this->view('clients/prospects/purchased');
@@ -188,5 +192,30 @@ class Prospects extends ClientsController
     $this->view('clients/prospects/prospect_reported_view');
     $this->layout();
 }
+
+
+    function submit_report()
+    {
+        if ($this->input->post()) {
+            $data = [
+                'evidence' => $this->input->post('evidence'),
+
+                'reason' => $this->input->post('reason'),
+
+                'client_id' => $this->input->post('client_id'),
+
+                'prospect_id' => $this->input->post('prospect_id'),
+                
+            ];
+
+            
+
+            $this->Prospects_model->submit_report($data);
+            $this->view('clients/prospects/purchased');
+        } else {
+
+
+        }
+    }
 
 }
