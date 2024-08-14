@@ -39,9 +39,9 @@
         });
         $('#send_via_campaign_modal').on('shown.bs.modal', function () {
 
-            // loading
+            let prospectId = $('#send_via_campaign_modal input[name=id]').val();
             $.ajax({
-                url: admin_url + 'campaigns/matching?prospect_id=' + $('#send_via_campaign_modal input[name=id]').val(),
+                url: admin_url + 'campaigns/matching?prospect_id=' + prospectId,
                 success: (res) => {
                     try {
                         res = JSON.parse(res);
@@ -77,7 +77,7 @@
                                 viewButton.textContent = 'Send';
                                 viewButton.className = 'btn btn-primary';
                                 viewButton.addEventListener('click', function () {
-                                    sendToCampaign(campaign.id);
+                                    sendToCampaign(campaign.id, prospectId);
                                 });
 
 
@@ -156,7 +156,7 @@
                         res = JSON.parse(res);
                         if (res.status == 'success') {
                             alert_float('success', res.message);
-                            $('#mark_sale_available_modal').modal('hide');
+                            $('#send_via_campaign_modal').modal('hide');
                             setTimeout(() => {
                                 window.location.reload();
                             }, 500);

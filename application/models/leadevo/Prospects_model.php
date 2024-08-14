@@ -559,6 +559,7 @@ class Prospects_model extends CI_Model
             foreach ($prospects as $prospect) {
                 $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id);
                 if ($budget_spent >= $campaign->budget)
+                    // TODO: mark the campaign as completed
                     continue;
                 $budget = $prospect->desired_amount;
                 if (($budget_spent + $prospect->desired_amount) >= $campaign->budget && ($budget_spent + $prospect->min_amount) <= $campaign->budget)
@@ -605,11 +606,13 @@ class Prospects_model extends CI_Model
     }
 
 
-    public function get_Reasons() {
+    public function get_Reasons()
+    {
         return $this->db->get($this->reason_table)->result_array();
     }
 
-    public function submit_report($data){
+    public function submit_report($data)
+    {
         if (!isset($data['client_id'])) {
             $data['client_id'] = get_client_user_id();
         }

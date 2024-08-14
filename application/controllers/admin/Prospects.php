@@ -11,6 +11,7 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Prospect_categories_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('leadevo/Campaigns_model');
     }
 
     public function index()
@@ -178,7 +179,13 @@ class Prospects extends AdminController
     public function send_to_campaign()
     {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+            try {
+                $data = $this->input->post();
+                $this->Campaigns_model->send_prospect($data['prospect_id'], $data['campaign_id']);
+                echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+            } catch (Exception $e) {
+                echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+            }
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Invalid Method'));
         }
