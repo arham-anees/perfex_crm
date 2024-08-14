@@ -454,10 +454,17 @@ class Prospects_model extends CI_Model
         $data['rated_at'] = date('Y-m-d H:i:s');
         return $this->db->insert(db_prefix() . 'leadevo_prospects_rating', $data);
     }
-    public function update_sale_status($id, $available)
+    public function update_sale_status($id, $available, $is_exclusive, $desired_amount, $min_amount)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, array('is_available_sale' => $available, 'sale_available_date' => date('Y-m-d H:i:s')));
+        return $this->db->update($this->table, array(
+            'is_available_sale' => $available,
+            'sale_available_date' => date('Y-m-d H:i:s'),
+            'is_exclusive' => $is_exclusive,
+            'desired_amount' => $desired_amount,
+            'min_amount' => $min_amount
+        )
+        );
     }
 
     public function deliver_prospects($campaing_id)

@@ -137,32 +137,7 @@ function displayStars($rating, $maxStars = 5)
 </div>
 
 <div id="mark_sale_available_modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content text-center">
-            <!-- Modal Header -->
-            <div class="modal-header d-flex">
-                <div></div>
-                <h4 class="modal-title w-100"><?php echo _l('leadevo_sale_available_prospect'); ?></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <!-- Font Awesome Close Icon -->
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="modal-body text-center">
-                <?php echo form_open(admin_url('prospects/mark_as_available_sale'), ['id' => 'fake-prospect-form']); ?>
-                <input type="hidden" name="id" />
-                <p><?= _l('leadevo_sale_available_prospect_message') ?></p>
-
-                <!-- Submit Button -->
-                <input type="submit" value="<?php echo _l('leadevo_sale_available_prospect_button'); ?>"
-                    class="btn btn-primary" />
-
-                <?php echo form_close(); ?>
-            </div>
-        </div>
-    </div>
+    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/put_to_sale.php') ?>
 </div>
 
 <div id="rating_modal" class="modal fade" tabindex="-1" role="dialog">
