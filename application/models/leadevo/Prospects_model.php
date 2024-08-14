@@ -616,7 +616,31 @@ class Prospects_model extends CI_Model
         if (!isset($data['client_id'])) {
             $data['client_id'] = get_client_user_id();
         }
+        $prospect_id = $this->db->query('SELECT prospect_id FROM tblleadevo_leads where lead_id = ' . $data['lead_id'])->row()->prospect_id;
+        // log_message('error', );
+        if (!$prospect_id || $prospect_id == 0) {
+            throw new Exception('There is not prospect against this lead');
+        }
+        $data['prospect_id'] = $prospect_id;
+        if (isset($data['lead_id']))
+            unset($data['lead_id']);
         return $this->db->insert($this->report_table, $data);
+    }
+
+    public function get_replacements($prospect_id)
+    {
+        $sql = "SELECT p1.*
+                FROM tblleadevo_prospects p1
+                INNER JOIN tblleadevo_prospects p2
+                    ON p1.industry_id = p2.industry_id
+                    AND p1.verified_sms = p2.verified_sms
+                    AND p1.verified_whatsapp = p2.verified_whatsapp
+                    AND p1.verified_staff = p2.verified_staff
+                    AND p1.is_confirmed = p2.is_confirmed
+                    AND p1.is_exclusive = p2.is_exclusive
+                    AND 
+                WHERE p1.is_active = 1 AND p2.is_active=1 AND p1.is_fake = 0 AND is_available_sale = 1 AND p2.id = " . $prospect_id;
+        return $this->db->query($sql)->result_array();
     }
 
 

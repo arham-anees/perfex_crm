@@ -167,31 +167,31 @@ class Prospects extends ClientsController
     public function reported()
     {
         $filter = $this->input->get('filter');
-           
+
         if ($filter) {
             $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_by_filter($filter);
         } else {
             $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
         }
-    
+
         $this->data($data);
         $this->view('clients/prospects/prospect_reported');
         $this->layout();
     }
-    
+
     public function view_reported($id)
-{
-    $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
-    $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
+    {
+        $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
+        $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
 
-    if (!$data['reported_prospect']) {
-        show_404(); // If no data found, show 404 page
+        if (!$data['reported_prospect']) {
+            show_404(); // If no data found, show 404 page
+        }
+
+        $this->data($data);
+        $this->view('clients/prospects/prospect_reported_view');
+        $this->layout();
     }
-
-    $this->data($data);
-    $this->view('clients/prospects/prospect_reported_view');
-    $this->layout();
-}
 
 
     function submit_report()
@@ -199,17 +199,10 @@ class Prospects extends ClientsController
         if ($this->input->post()) {
             $data = [
                 'evidence' => $this->input->post('evidence'),
-
                 'reason' => $this->input->post('reason'),
-
                 'client_id' => $this->input->post('client_id'),
-
-                'prospect_id' => $this->input->post('prospect_id'),
-                
+                'lead_id' => $this->input->post('prospect_id'),
             ];
-
-            
-
             $this->Prospects_model->submit_report($data);
             $this->view('clients/prospects/purchased');
         } else {

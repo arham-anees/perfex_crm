@@ -190,5 +190,16 @@ class Prospects extends AdminController
             echo json_encode(array('status' => 'error', 'message' => 'Invalid Method'));
         }
     }
+    public function get_replacements()
+    {
 
+        try {
+            $data = $this->input->get();
+            $this->Prospects_model->get_replacements($data['id']);
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+        } catch (Exception $e) {
+            echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+        }
+
+    }
 }
