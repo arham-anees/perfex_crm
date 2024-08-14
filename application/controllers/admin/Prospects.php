@@ -114,6 +114,15 @@ class Prospects extends AdminController
         }
         redirect(admin_url('prospects'));
     }
+
+    public function mark_as_auto_deliverable()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $this->Prospects_model->mark_as_auto_deliverable($id);
+        }
+        redirect(admin_url('prospects'));
+    }
     public function rate()
     {
         $id = $this->input->post('id');

@@ -152,7 +152,8 @@ class Prospects_model extends CI_Model
                     null AS email,
                     null AS source,
                     null AS deal,
-                    null AS quality
+                    null AS quality,
+                    p.is_auto_deliverable
                 FROM
                     tblleadevo_prospects p
                 LEFT JOIN
@@ -445,6 +446,12 @@ class Prospects_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
     }
+    public function mark_as_auto_deliverable($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_auto_deliverable' => 1));
+
+    }
 
     public function rate($id, $ratings)
     {
@@ -457,13 +464,15 @@ class Prospects_model extends CI_Model
     public function update_sale_status($id, $available, $is_exclusive, $desired_amount, $min_amount)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, array(
-            'is_available_sale' => $available,
-            'sale_available_date' => date('Y-m-d H:i:s'),
-            'is_exclusive' => $is_exclusive,
-            'desired_amount' => $desired_amount,
-            'min_amount' => $min_amount
-        )
+        return $this->db->update(
+            $this->table,
+            array(
+                'is_available_sale' => $available,
+                'sale_available_date' => date('Y-m-d H:i:s'),
+                'is_exclusive' => $is_exclusive,
+                'desired_amount' => $desired_amount,
+                'min_amount' => $min_amount
+            )
         );
     }
 

@@ -52,6 +52,12 @@ function displayStars($rating, $maxStars = 5)
                                                             | <a href="#" onclick="openSaleModal(<?= $prospect['id'] ?>)">
                                                                 Put to Sale</a>
                                                         <?php } ?>
+                                                        <?php if (!isset($prospect['is_auto_deliverable']) || $prospect['is_auto_deliverable'] == false) { ?>
+                                                            | <a href="#"
+                                                                onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>)">
+                                                                Auto Deliverable</a>
+                                                        <?php } ?>
+
 
                                                     </div>
                                                 </td>
@@ -129,6 +135,29 @@ function displayStars($rating, $maxStars = 5)
                 <!-- Submit Button -->
                 <input type="submit" value="<?php echo _l('leadevo_report_fake_prospect_button'); ?>"
                     class="btn btn-primary" />
+
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mark_prospect_auto_deliverable" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <!-- Modal Header -->
+            <div class="modal-header d-flex">
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_report_auto_deliverable_title'); ?></h4>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <?php echo form_open(admin_url('prospects/mark_as_auto_deliverable'), ['id' => 'fake-prospect-form']); ?>
+                <input type="hidden" name="id" />
+                <p><?= _l('leadevo_report_auto_deliverable_message') ?></p>
+
+                <!-- Submit Button -->
+                <input type="submit" value="<?php echo _l('submit'); ?>" class="btn btn-primary" />
 
                 <?php echo form_close(); ?>
             </div>
@@ -267,6 +296,10 @@ function displayStars($rating, $maxStars = 5)
     function openSaleModal(id) {
         document.querySelector('#mark_sale_available_modal input[name=id]').value = id;
         $('#mark_sale_available_modal').modal('show');
+    }
+    function openAutoDeliverableModal(id) {
+        document.querySelector('#mark_prospect_auto_deliverable input[name=id]').value = id;
+        $('#mark_prospect_auto_deliverable').modal('show');
     }
     function openRateModal(id) {
         document.querySelector('#rating_modal input[name=id]').value = id;

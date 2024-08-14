@@ -4011,3 +4011,5 @@ $lang['leadevo_marketpalce_column_contact'] = 'Contact';
 $lang['leadevo_marketpalce_column_lead'] = 'Lead';
 $lang['leadevo_marketpalce_column_metadata'] = 'Metadata';
 $lang['acquisition_channel'] = 'Acquisition Channel';
+$lang['leadevo_report_auto_deliverable_title'] = 'Mark as Auto Deliverable';
+$lang['leadevo_report_auto_deliverable_message'] = 'Are you sure you want this prospect to send automatically via campaigns';
