@@ -215,8 +215,16 @@
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
                                                 onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a> |
-                                            <a data-toggle="modal" data-target="#reportProspectModal"
-                                                class="text-danger">Report</a> |
+                                            <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
+                                                data-id="<?= $prospect->id ?>"
+                                                data-name="<?= htmlspecialchars($prospect->name ?? '') ?>"
+                                                data-status="<?= htmlspecialchars($prospect->status ?? '') ?>"
+                                                data-type="<?= htmlspecialchars($prospect->type ?? '') ?>"
+                                                data-category="<?= htmlspecialchars($prospect->category ?? '') ?>"
+                                                data-acquisition="<?= htmlspecialchars($prospect->source_name ?? '') ?>"
+                                                data-amount="<?= htmlspecialchars($prospect->desired_amount ?? '') ?>"
+                                                data-industry="<?= htmlspecialchars($prospect->dateadded ?? '') ?>">Report</a>
+                                            |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
                                                 Zapier</a>
@@ -270,15 +278,16 @@
                 <h3>Select a reason for reporting prospect</h3>
                 <div class="form-group text-left">
                     <label for="reason"><?php echo _l('Reasons'); ?></label>
-                    <select name="industry" class="selectpicker" data-width="100%"
+                    <select id="reasonSelect" name="industry" class="selectpicker" data-width="100%"
                         data-none-selected-text="<?php echo _l('Select Reason'); ?>">
                         <option value=""><?php echo _l('Select Reason'); ?></option>
-                        <?php foreach ($industries as $industry): ?>
-                            <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
+                        <?php foreach ($reasons as $reason): ?>
+                            <option value="<?php echo $reason['id']; ?>"><?php echo $reason['name']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
             </div>
+
 
             <!-- prospect confirmation -->
             <div class="wizard-step" data-step="2">
@@ -301,14 +310,13 @@
                             <tbody>
 
                                 <tr>
-                                    <td>Name</td>
-                                    <td>Name</td>
-                                    <td>Name</td>
-                                    <td>Name</td>
-                                    <td>Name</td>
-                                    <td>Name</td>
-                                    <td>Name</td>
-
+                                    <td id="prospect-name">Name</td>
+                                    <td id="prospect-status">Status</td>
+                                    <td id="prospect-type">Type</td>
+                                    <td id="prospect-category">Category</td>
+                                    <td id="prospect-acquisition">Acquisition Channels</td>
+                                    <td id="prospect-amount">Desired Amount</td>
+                                    <td id="prospect-industry">Industry</td>
                                 </tr>
 
                             </tbody>
@@ -464,8 +472,19 @@ $jsonData = json_encode($table); ?>
         const circles = document.querySelectorAll('.wizard-circle');
         const backBtn = document.getElementById('backBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const days = document.querySelectorAll('.days');
 
+        // Define reasonSelect and prospectId
+        const reasonSelect = document.getElementById('reasonSelect');
+        let prospectId = null;
+        let evidenceUrl = ''; // This will hold the evidence URL
+
+        $('a[data-toggle="modal"]').on('click', function () {
+            // Retrieve data attributes
+            prospectId = $(this).data('id');
+
+            // Use the prospectId as needed
+            console.log('Prospect ID:', prospectId);
+        });
 
         function showStep(step) {
             steps.forEach((element, index) => {
@@ -476,30 +495,66 @@ $jsonData = json_encode($table); ?>
                 element.classList.toggle('completed', index < step - 1);
             });
 
-            // Hide back button
             backBtn.style.display = step === 1 ? 'none' : 'inline-flex';
 
-            // Show Finish Button at last page
-            nextBtn.textContent = step === totalSteps ? 'Finish' : 'Next';
+            // Show the Next button only on the first step and the Finish button on the last step
+            if (step === 1) {
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.textContent = 'Next';
+            } else if (step === totalSteps) {
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.textContent = 'Report';
+            } else {
+                nextBtn.style.display = 'none';
+            }
         }
 
-        days.forEach(day => {
-            day.addEventListener('click', function () {
-                this.classList.toggle('active');
-            });
-        });
+        // Get CSRF token from the hidden field
+        var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
+        var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
 
+        function sendReportData() {
+            const selectedReason = reasonSelect.value;
+            if (!selectedReason) {
+                alert('Please select a reason for reporting.');
+                return;
+            }
+            const data = {
+                reason: selectedReason,
+                prospect_id: prospectId,
+                evidence_url: evidenceUrl
+            };
+            data[csrfName] = csrfHash;
+
+
+            $.ajax({
+                url: site_url+'Prospects/submit_report', // Endpoint URL
+                type: 'POST', // HTTP method
+                data:JSON.stringify(data), // JSON data and appended CSRF token
+                contentType: 'application/json', // Set content type to JSON
+                dataType: 'json', // Expect JSON response
+                success: function (response) {
+                    alert('Report submitted successfully!');
+                    $('#reportProspectModal').modal('hide');
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('There was an error submitting the report.');
+                }
+            });
+        }
+
+        // Functionality for the Next button (only on the first step)
         nextBtn.addEventListener('click', function () {
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
             } else if (currentStep === totalSteps) {
-                // Finish button action
-
-
+                sendReportData();
             }
         });
 
+        // Functionality for the Back button
         backBtn.addEventListener('click', function () {
             if (currentStep > 1) {
                 currentStep--;
@@ -507,37 +562,69 @@ $jsonData = json_encode($table); ?>
             }
         });
 
+        // Move to the next step when "I confirm that the details are correct" is clicked
         document.getElementById('confirm-details').addEventListener('click', function () {
-            // Add logic here to move to the next step in the wizard
-            alert('Details confirmed! Moving to the next step.');
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
         });
 
-        // Close the popup and show the message for mistakes
+        // Handle the "Oops, I made a mistake" button click
         document.getElementById('mistake-details').addEventListener('click', function () {
-            alert('Please try again using the correct details.');
-            // Logic to close the report popup page, like using window.close() or custom modal close function
-            window.close(); // This works if it's a popup window. For a modal, you'd use the modal close function.
+            $('#reportProspectModal').modal('hide');
         });
 
-        // Move to the next step when confirming evidence upload
+        // Move to the next step when "I confirm that I uploaded the evidence" is clicked
         document.getElementById('confirm-evidence').addEventListener('click', function () {
             var fileInput = document.getElementById('evidence-upload');
             if (fileInput.files.length === 0) {
                 alert('Please upload an MP3 file before confirming.');
             } else {
-                // Add logic here to move to the next step in the wizard
-                alert('Evidence uploaded! Moving to the next step.');
+                evidenceUrl = URL.createObjectURL(fileInput.files[0]);
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
             }
         });
 
-        // Close the popup and show the message for no evidence
+        // Handle the "Oops, I don’t have any evidence" button click
         document.getElementById('no-evidence').addEventListener('click', function () {
-            alert('We are sorry, without any evidence we cannot handle the report request.');
-            // Logic to close the report popup page, like using window.close() or custom modal close function
-            window.close(); // This works if it's a popup window. For a modal, you'd use the modal close function.
+            $('#reportProspectModal').modal('hide');
         });
 
         showStep(currentStep);
     });
+
+
 </script>
 <script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#reportProspectModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id');
+            var name = button.data('name');
+            var status = button.data('status');
+            var type = button.data('type');
+            var category = button.data('category');
+            var acquisition = button.data('acquisition');
+            var amount = button.data('amount');
+            var industry = button.data('industry');
+
+            // Update the table cells with the prospect's data
+            $('#prospect-name').text(name);
+            $('#prospect-status').text(status);
+            $('#prospect-type').text(type);
+            $('#prospect-category').text(category);
+            $('#prospect-acquisition').text(acquisition);
+            $('#prospect-amount').text(amount);
+            $('#prospect-industry').text(industry);
+
+            $('#reportProspectModal').data('prospect-id', id);
+        });
+    });
+
+</script>

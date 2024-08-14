@@ -4,6 +4,9 @@ class Prospects_model extends CI_Model
 {
 
     private $table = 'leadevo_prospects';
+    private $reason_table = 'tblleadevo_report_lead_reasons';
+
+    private $report_table = 'tblleadevo_reported_prospects';
 
     public function __construct()
     {
@@ -152,7 +155,8 @@ class Prospects_model extends CI_Model
                     null AS email,
                     null AS source,
                     null AS deal,
-                    null AS quality
+                    null AS quality,
+                    p.is_auto_deliverable
                 FROM
                     tblleadevo_prospects p
                 LEFT JOIN
@@ -445,6 +449,12 @@ class Prospects_model extends CI_Model
         $this->db->where('id', $id);
         return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
     }
+    public function mark_as_auto_deliverable($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array('is_auto_deliverable' => 1));
+
+    }
 
     public function rate($id, $ratings)
     {
@@ -454,10 +464,19 @@ class Prospects_model extends CI_Model
         $data['rated_at'] = date('Y-m-d H:i:s');
         return $this->db->insert(db_prefix() . 'leadevo_prospects_rating', $data);
     }
-    public function update_sale_status($id, $available)
+    public function update_sale_status($id, $available, $is_exclusive, $desired_amount, $min_amount)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, array('is_available_sale' => $available, 'sale_available_date' => date('Y-m-d H:i:s')));
+        return $this->db->update(
+            $this->table,
+            array(
+                'is_available_sale' => $available,
+                'sale_available_date' => date('Y-m-d H:i:s'),
+                'is_exclusive' => $is_exclusive,
+                'desired_amount' => $desired_amount,
+                'min_amount' => $min_amount
+            )
+        );
     }
 
     public function deliver_prospects($campaing_id)
@@ -584,4 +603,18 @@ class Prospects_model extends CI_Model
 
 
     }
+
+
+    public function get_Reasons() {
+        return $this->db->get($this->reason_table)->result_array();
+    }
+
+    public function submit_report($data){
+        if (!isset($data['client_id'])) {
+            $data['client_id'] = get_client_user_id();
+        }
+        return $this->db->insert($this->report_table, $data);
+    }
+
+
 }

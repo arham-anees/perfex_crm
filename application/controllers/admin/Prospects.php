@@ -114,6 +114,15 @@ class Prospects extends AdminController
         }
         redirect(admin_url('prospects'));
     }
+
+    public function mark_as_auto_deliverable()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $this->Prospects_model->mark_as_auto_deliverable($id);
+        }
+        redirect(admin_url('prospects'));
+    }
     public function rate()
     {
         $id = $this->input->post('id');
@@ -126,10 +135,15 @@ class Prospects extends AdminController
     public function mark_as_available_sale()
     {
         $id = $this->input->post('id');
-        if (isset($id)) {
-            $this->Prospects_model->update_sale_status($id, 1);
+        $desired_amount = $this->input->post('desired_amount');
+        $min_amount = $this->input->post('min_amount');
+        $is_exclusive = (int) $this->input->post('deal');
+        if (!isset($desired_amount) || !isset($min_amount) || !isset($is_exclusive) || !isset($id)) {
+            echo json_encode(array('status' => 'error', 'message' => 'Please fill all the data'));
+        } else {
+            $this->Prospects_model->update_sale_status($id, 1, $is_exclusive, $desired_amount, $min_amount);
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect is available for sale now'));
         }
-        redirect(admin_url('prospects'));
     }
 
     public function update_status()
@@ -159,7 +173,7 @@ class Prospects extends AdminController
         $data['title'] = 'Reported Prospects';
         // Load the view file with data
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
-      
+
     }
 
 }
