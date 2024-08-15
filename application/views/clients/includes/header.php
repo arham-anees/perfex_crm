@@ -1,4 +1,56 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<style>
+     .fa-cart-shopping{
+        font-size: 25px;
+        margin-top:5px;
+     }
+    
+.navbar-nav .fa-cart-shopping {
+    font-size: 25px;
+    margin-top: 5px;
+    position: relative; 
+}
+
+/* Badge styling */
+.navbar-nav .badge {
+    position: absolute;
+    top: 2px; 
+    right: -8px; 
+    background-color: #ff0000; 
+    color: #ffffff; 
+    font-size: 11px; 
+    padding: 4px 6px; 
+    border-radius: 50%;
+    font-weight: bold; 
+    display: inline-block; 
+}
+
+
+.dropdown-menu .table {
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.dropdown-menu .table th, 
+.dropdown-menu .table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.dropdown-menu .table thead {
+    background-color: #f8f9fa; 
+}
+
+.dropdown-menu .table tbody tr:nth-child(odd) {
+    background-color: #f1f1f1; 
+}
+
+.dropdown-menu .table tbody tr:hover {
+    background-color: #e2e6ea; 
+}
+
+
+</style>
 <?php if (is_client_logged_in()) { ?>
     <div id="header">
         <div class="hide-menu tw-ml-1"><i class="fa fa-align-left"></i></div>
@@ -119,11 +171,17 @@
                     <?php hooks()->do_action('client_navbar_start'); ?>
                     
                     <!-- cart-->
-                    <?php if (is_client_logged_in()) { ?>
+                    <?php 
+    if (is_client_logged_in()) {
+        $cart_count = count($cart_prospects); 
+?>
     <ul class="nav navbar-nav navbar-right">
         <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cart-shopping"></i>
+                <?php if ($cart_count > 0): ?>
+                    <span class="badge"><?php echo $cart_count; ?></span>
+                <?php endif; ?>
             </a>
             <ul class="dropdown-menu animated fadeIn">
                 <li>
@@ -159,10 +217,9 @@
             </ul>
         </li>
     </ul>
-<?php } ?>
-
-
-
+<?php 
+    }
+?>
 
                     <?php if (is_client_logged_in()) { ?>
                         <li class="dropdown customers-nav-item-profile">
