@@ -105,7 +105,7 @@
 
                                 var ctxCampaign = document.getElementById('campaignChart').getContext('2d');
                                 var campaignChart = new Chart(ctxCampaign, {
-                                    type: 'line',
+                                    type: 'bar',
                                     data: {
                                         labels: campaignLabels,
                                         datasets: [{

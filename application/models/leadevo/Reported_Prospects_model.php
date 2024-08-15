@@ -26,7 +26,7 @@ class Reported_Prospects_model extends CI_Model
         $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
-        $this->db->where('tblleadevo_reported_prospects.id', $id);
+        $this->db->where('tblleadevo_reported_prospects.campaign_id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
