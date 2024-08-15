@@ -16,14 +16,17 @@
             <div class="wizard-circle" data-step="5">5</div>
             <div class="line"></div>
             <div class="wizard-circle" data-step="6">6</div>
+            <div class="line"></div>
+            <div class="wizard-circle" data-step="7">7</div>
         </div>
         <div class="gridcontainer1">
             <div class="grid-container">
+                <div class="alt-text">Profile</div>
                 <div class="alt-text1">Industry</div>
                 <div class="alt-text2">Locations</div>
-                <div class="alt-text3">Timing</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="alt-text3">Timing</div> &nbsp;&nbsp;&nbsp;
             </div>
-            <div class="grid-container">
+            <div class="grid-container" style="gap:45px">
                 <div class="alt-text4">Deal</div>
                 <div class="alt-text5">Quality</div>
                 <div class="alt-text6">Payment</div>
@@ -32,8 +35,19 @@
 
         <br><br>
 
-        <!-- Industry -->
         <div class="wizard-step" data-step="1">
+            <h3>Profile</h3>
+            <div id="profile" class="payment-form">
+                <label for="pname">Name</label>
+                <input type="text" id="pname" placeholder="Enter name of campaign" required>
+
+                <label for="desc">Description</label>
+                <input type="text" id="desc"  placeholder="Enter description for campaign" required>
+            </div>
+        </div>
+
+        <!-- Industry -->
+        <div class="wizard-step" data-step="2">
             <h3>Select your lead type of interest</h3>
             <div class="form-group text-left">
                 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
@@ -50,7 +64,7 @@
         </div>
 
         <!-- Locations -->
-        <div class="wizard-step" data-step="2">
+        <div class="wizard-step" data-step="3">
             <h3>Locations</h3>
             <div class="form-group text-left">
                 <label for="countries"><?php echo _l('countries'); ?></label>
@@ -68,7 +82,7 @@
 
         <!-- Timing -->
 
-        <div class="wizard-step" data-step="3">
+        <div class="wizard-step" data-step="4">
             <h3>Timing</h3>
             <div id="campaign-time">
 
@@ -107,7 +121,7 @@
 
         <!-- Deals -->
         <!-- Deals  -->
-        <div class="wizard-step" data-step="4">
+        <div class="wizard-step" data-step="5">
             <h3>Deal</h3>
 
             <div class="radio-container">
@@ -129,7 +143,7 @@
 
         <!-- Quality -->
 
-        <div class="wizard-step" data-step="5">
+        <div class="wizard-step" data-step="6">
             <h3>Quality</h3>
 
             <label>
@@ -153,7 +167,7 @@
 
 
         <!-- Payment -->
-        <div class="wizard-step" data-step="6">
+        <div class="wizard-step" data-step="7">
             <h3>Payment</h3>
             <!-- <form id="payment-form" class="payment-form"> -->
             <!-- <label for="card-number">Card Number</label>
@@ -188,7 +202,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         let currentStep = 1;
-        const totalSteps = 6;
+        const totalSteps = 7;
         const steps = document.querySelectorAll('.wizard-step');
         const circles = document.querySelectorAll('.wizard-circle');
         const backBtn = document.getElementById('backBtn');
@@ -291,6 +305,22 @@
         function collectAndSendData() {
             const formData = new FormData();
 
+
+            // collect profile data-day
+            const nameInput = document.getElementById('pname');
+            const descInput = document.getElementById('desc');
+
+            console.log('nameInput:', nameInput.value);
+            console.log('descInput:', descInput.value);
+
+            if (nameInput && descInput) {
+                formData.append('name', nameInput.value);
+                formData.append('description', descInput.value);
+            } else {
+                console.error('Required elements not found');
+            }
+
+
             // Collect Industry data
             const industrySelect = document.querySelector('select[name="industry"]');
             if (industrySelect) {
@@ -330,7 +360,7 @@
             // Collect Budget data
             const budgetInput = document.getElementById('budget');
             formData.append('budget', budgetInput ? budgetInput.value : '');
-            formData.append($('[data-step=1] input[type=hidden]')[0].name, $('[data-step=1] input[type=hidden]').val());
+            formData.append($('[data-step=2] input[type=hidden]')[0].name, $('[data-step=2] input[type=hidden]').val());
 
             // Log FormData entries
             for (let [key, value] of formData.entries()) {

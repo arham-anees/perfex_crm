@@ -93,7 +93,7 @@
   .grid-container {
     display: flex;
     grid-template-columns: auto auto auto auto;
-    gap: 50px;
+    gap: 41px;
     margin-top: -2%;
     padding: 1px;
   }
@@ -103,7 +103,7 @@
   }
 
   .alt-text5 {
-    margin-left: 13%;
+    margin-left: 6%;
   }
 
   .dropdown-menu {
