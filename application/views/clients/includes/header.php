@@ -117,29 +117,53 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <?php hooks()->do_action('client_navbar_start'); ?>
-
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="fa fa-cart-shopping"></i>
-                            <!-- <span class="badge" id="cart-count">0</span> -->
-                        </a>
-                        <ul class="dropdown-menu animated fadeIn">
-                            <li class="customers-nav-item-edit-profile">
-                                <a href="<?php echo site_url('clients/profile'); ?>">
-                                    <?php echo _l('clients_nav_profile'); ?>
-                                </a>
-                            </li>
+                    
+                    <!-- cart-->
+                    <?php if (is_client_logged_in()) { ?>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-cart-shopping"></i>
+            </a>
+            <ul class="dropdown-menu animated fadeIn">
+                <li>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php foreach ($cart_prospects as $prospect): ?>
-                                <li class="customers-nav-item-edit-profile">
-                                    <a href="<?php echo site_url('clients/profile'); ?>">
-                                        <?php echo $prospect['id']; ?>
-                                    </a>
-                                </li>
+                                <tr>
+                                    <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
+                                        <?php echo htmlspecialchars($prospect['first_name']); ?>
+                                    </a></td>
+                                    <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
+                                        <?php echo htmlspecialchars($prospect['email']); ?>
+                                    </a></td>
+                                    <td>
+                                        <a href="<?php echo site_url('marketplace/delete_from_cart/' . $prospect['prospect_id']); ?>" 
+                                           class="text-danger" 
+                                           onclick="return confirm('Are you sure you want to delete this item?');">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
-                        </ul>
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </li>
+    </ul>
+<?php } ?>
 
-                    </li>
+
+
+
                     <?php if (is_client_logged_in()) { ?>
                         <li class="dropdown customers-nav-item-profile">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -218,7 +242,7 @@
                                     </li>
                                     <?php
                                 } ?>
-                                <li class="customers-nav-item-logout">
+                                <li class="customers-nav-item-logout">c
                                     <a href="<?php echo site_url('authentication/logout'); ?>">
                                         <?php echo _l('clients_nav_logout'); ?>
                                     </a>

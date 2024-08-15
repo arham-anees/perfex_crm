@@ -1,4 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
+
 class Marketplace extends ClientsController
 {
     public function __construct()
@@ -8,7 +9,7 @@ class Marketplace extends ClientsController
         $this->load->model('leadevo/Industries_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Campaigns_model');
-        $this->load->model('leadevo/Cart_model');
+        $this->load->model('leadevo/Cart_model'); // Ensure Cart_model is loaded
     }
 
     public function index()
@@ -49,23 +50,58 @@ class Marketplace extends ClientsController
         $data['acquisitions'] = $this->Acquisition_channels_model->get_all();
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
-        $data['cart'] = $this->Cart_model->get();
+        // Get cart prospects with additional details
+        $data['cart_prospects'] = $this->Cart_model->get_cart_prospects(); // Update this to the new method
+
         // Create an array of prospect_ids from the cart for easy lookup
         $cart_prospect_ids = array_map(function ($item) {
             return $item['prospect_id'];
-        }, $data['cart']);
+        }, $data['cart_prospects']);
 
         // Iterate through prospects and set is_in_cart property
         foreach ($data['prospects'] as &$prospect) {
             $prospect['is_in_cart'] = in_array($prospect['id'], $cart_prospect_ids);
         }
+
         // Load the view
         $this->data($data);
         $this->view('clients/marketplace/leads');
         $this->layout();
     }
+    public function cart_view($prospect_id)
+    {
+        if (!is_client_logged_in()) {
+            redirect('login'); // Redirect to login if not logged in
+        }
+    
+        // Load models
+        $this->load->model('leadevo/Cart_model');
+        $this->load->model('leadevo/Prospects_model');
+    
+        // Fetch the specific prospect and cart details
+        $data['prospect'] = $this->Prospects_model->get_by_id($prospect_id);
+        $data['cart_details'] = $this->Cart_model->get_by_prospect_id($prospect_id);
+    
+        if (empty($data['prospect'])) {
+            show_404(); // Show 404 if the prospect does not exist
+        }
+    
+        // Load view with prospect details
+        $this->data($data);
+        $this->view('clients/marketplace/cart_view');
+        $this->layout();
+    }
 
-
-
-
+    public function delete_from_cart($prospect_id)
+    {
+        
+    
+        $client_id = get_client_user_id();
+        
+        // Delete the item from the cart
+        $this->Cart_model->delete_item($client_id, $prospect_id);
+        redirect('#');
+    }
+    
+  
 }

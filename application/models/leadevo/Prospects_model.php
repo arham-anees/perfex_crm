@@ -685,5 +685,11 @@ class Prospects_model extends CI_Model
         }
     }
 
+public function get_by_id($id)
+{
+    $this->db->where('id', $id);
+    $query = $this->db->get('tblleadevo_prospects');
+    return $query->row_array();
+}
 
 }
