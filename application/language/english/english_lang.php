@@ -519,6 +519,7 @@ $lang['als_utilities'] = 'Utilities';
 $lang['als_announcements_submenu'] = 'Announcements';
 $lang['als_calendar_submenu'] = 'Calendar';
 $lang['als_activity_log_submenu'] = 'Activity Log';
+$lang['als_statistics_submenu'] = 'Statistics';
 
 # Admin Customizer Sidebar
 $lang['acs_ticket_priority_submenu'] = 'Ticket Priority';

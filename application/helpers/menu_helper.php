@@ -343,6 +343,14 @@ function app_init_admin_sidebar_menu_items()
             'position' => 30,
             'badge' => [],
         ]);
+
+        $CI->app_menu->add_sidebar_children_item('utilities', [
+            'slug' => 'statistics',
+            'name' => _l('als_statistics_submenu'),
+            'href' => admin_url('utilities/statistics'),
+            'position' => 35,
+            'badge' => [],
+        ]);
     }
 
     if (staff_can('view-timesheets', 'reports') || staff_can('view', 'reports')) {
