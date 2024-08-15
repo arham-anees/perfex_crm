@@ -174,27 +174,27 @@ class Prospects extends AdminController
     public function reported()
     {
         $filter = $this->input->get('filter');
-           
+
         if ($filter) {
             $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_by_filter($filter);
         } else {
             $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
         }
-    
+
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
     }
-    
+
     public function view_reported($id)
-{
-    $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
-    $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
+    {
+        $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
+        $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
 
-    if (!$data['reported_prospect']) {
-        show_404(); // If no data found, show 404 page
+        if (!$data['reported_prospect']) {
+            show_404(); // If no data found, show 404 page
+        }
+        $this->load->view('admin/leadevo/prospects/view_reported', $data);
+
     }
-    $this->load->view('admin/leadevo/prospects/view_reported', $data);
-
-}
 
 
 
@@ -217,11 +217,29 @@ class Prospects extends AdminController
 
         try {
             $data = $this->input->get();
-            $this->Prospects_model->get_replacements($data['id']);
-            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+            $replacements = $this->Prospects_model->get_replacements($data['id']);
+            echo json_encode(array('status' => 'success', 'data' => json_encode($replacements)));
         } catch (Exception $e) {
             echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
         }
 
+    }
+
+    public function replace()
+    {
+        try {
+            if ($this->input->server('REQUEST_METHOD') == 'POST') {
+                $new_prospect_id = $this->input->post('new_prospect_id');
+                $old_prospect_id = $this->input->post('old_prospect_id');
+                $campaign_id = $this->input->post('campaign_id');
+                $this->Prospects_model->replace($old_prospect_id, $new_prospect_id, $campaign_id);
+                echo json_encode(array('status' => 'success', 'message' => 'Prospect has been replaced'));
+
+            } else {
+                echo json_encode(array('status' => 'error', 'message' => 'Method not allowed'));
+            }
+        } catch (Exception $e) {
+            echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+        }
     }
 }

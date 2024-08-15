@@ -1723,15 +1723,19 @@ class Clients_model extends App_Model
 
     public function get_purchased()
     {
-        $sql = "SELECT l.*, s.name source_name, ls.name source_name FROM `tblleads` l
+        $sql = "SELECT l.*, s.name source_name, ls.name source_name,ll.campaign_id, CASE WHEN rp.prospect_id IS NULL then 0 ELSE 1 END is_reported
+            FROM `tblleads` l
             INNER JOIN `tblleadevo_leads` ll
             ON l.id = ll.lead_id 
             LEFT join tblleads_sources s
             ON S.id = l.source
             LEFT JOIN tblleads_status ls
             ON ls.id = l.status
+            LEFT JOIN tblleadevo_reported_prospects rp
+            ON rp.prospect_id = ll.prospect_id
             WHERE ll.client_id = " . get_client_user_id() . "
             ORDER BY `dateadded` DESC";
+        log_message("error", $sql);
         return $this->db->query($sql)->result();
     }
 }

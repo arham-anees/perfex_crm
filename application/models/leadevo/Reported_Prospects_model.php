@@ -29,7 +29,7 @@ class Reported_Prospects_model extends CI_Model
         $this->db->where('tblleadevo_reported_prospects.id', $id);
         $query = $this->db->get();
         return $query->row_array();
-    } 
+    }
 
 
     public function get_all_by_filter($filter)

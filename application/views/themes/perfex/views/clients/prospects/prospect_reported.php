@@ -14,7 +14,8 @@
 
                 <!-- Filters -->
                 <div class="col-md-8" style="display:flex;justify-content:end">
-                    <form method="GET" action="<?php echo site_url('prospects/reported'); ?>" style="margin-right: 10px;">
+                    <form method="GET" action="<?php echo site_url('prospects/reported'); ?>"
+                        style="margin-right: 10px;">
                         <div class="input-group" style="width:200px">
                             <input type="text" name="search" class="form-control"
                                 placeholder="<?php echo _l('Search Reported Prospects'); ?>"
@@ -69,7 +70,8 @@
                                             <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
                                             <td>
-                                                <a href="<?php echo site_url('prospects/view_reported/' . $prospect['id']); ?>" class="">
+                                                <a href="<?php echo site_url('prospects/view_reported/' . $prospect['prospect_id']); ?>"
+                                                    class="">
                                                     View
                                                 </a>
                                             </td>

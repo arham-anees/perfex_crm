@@ -8,15 +8,20 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong><?php echo _l('Prospect ID:'); ?></strong> <?php echo htmlspecialchars($reported_prospect['prospect_id']); ?></p>
-                        <p><strong><?php echo _l('Reason:'); ?></strong> <?php echo htmlspecialchars($reported_prospect['reason_name']); ?></p>
-                        <p><strong><?php echo _l('Created At:'); ?></strong> <?php echo htmlspecialchars($reported_prospect['created_at']); ?></p>
-                        <p><strong><?php echo _l('Evidence:'); ?></strong> <?php echo htmlspecialchars($reported_prospect['evidence']); ?></p>
+                        <p><strong><?php echo _l('Prospect ID:'); ?></strong>
+                            <?php echo htmlspecialchars($reported_prospect['prospect_id']); ?></p>
+                        <p><strong><?php echo _l('Reason:'); ?></strong>
+                            <?php echo htmlspecialchars($reported_prospect['reason_name']); ?></p>
+                        <p><strong><?php echo _l('Created At:'); ?></strong>
+                            <?php echo htmlspecialchars($reported_prospect['created_at']); ?></p>
+                        <p><strong><?php echo _l('Evidence:'); ?></strong>
+                            <?php echo htmlspecialchars($reported_prospect['evidence']); ?></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <a href="<?php echo site_url('prospects/reported'); ?>" class="btn btn-default"><?php echo _l('Back to Reported Prospects'); ?></a>
+        <a href="<?php echo site_url('prospects/reported'); ?>"
+            class="btn btn-default"><?php echo _l('Back to Reported Prospects'); ?></a>
     </div>
 </div>

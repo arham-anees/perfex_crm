@@ -4017,3 +4017,6 @@ $lang['leadevo_sale_send_campaign_prospect_title'] = 'Send Prospect to a campaig
 $lang['leadevo_matching_campaign_last_delivery'] = 'Last Delivery';
 $lang['leadevo_matching_campaign_progress'] = 'Progress';
 $lang['leadevo_matching_campaign_client_name'] = 'Client';
+$lang['leadevo_replace_name'] = 'Name';
+$lang['leadevo_replace_email'] = 'Email';
+$lang['leadevo_replace_price'] = 'Desired/Min Price';

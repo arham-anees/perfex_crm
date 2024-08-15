@@ -214,16 +214,19 @@
                                     <td><?php echo htmlspecialchars($prospect->name ?? ''); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
-                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a> |
-                                            <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
-                                                data-id="<?= $prospect->id ?>"
-                                                data-name="<?= htmlspecialchars($prospect->name ?? '') ?>"
-                                                data-status="<?= htmlspecialchars($prospect->status ?? '') ?>"
-                                                data-type="<?= htmlspecialchars($prospect->type ?? '') ?>"
-                                                data-category="<?= htmlspecialchars($prospect->category ?? '') ?>"
-                                                data-acquisition="<?= htmlspecialchars($prospect->source_name ?? '') ?>"
-                                                data-amount="<?= htmlspecialchars($prospect->desired_amount ?? '') ?>"
-                                                data-industry="<?= htmlspecialchars($prospect->dateadded ?? '') ?>">Report</a>
+                                                onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a>
+                                            <?php if (!$prospect->is_reported) { ?>|
+                                                <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
+                                                    data-id="<?= $prospect->id ?>"
+                                                    data-name="<?= htmlspecialchars($prospect->name ?? '') ?>"
+                                                    data-status="<?= htmlspecialchars($prospect->status ?? '') ?>"
+                                                    data-type="<?= htmlspecialchars($prospect->type ?? '') ?>"
+                                                    data-category="<?= htmlspecialchars($prospect->category ?? '') ?>"
+                                                    data-acquisition="<?= htmlspecialchars($prospect->source_name ?? '') ?>"
+                                                    data-amount="<?= htmlspecialchars($prospect->desired_amount ?? '') ?>"
+                                                    data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? '') ?>"
+                                                    data-industry="<?= htmlspecialchars($prospect->dateadded ?? '') ?>">Report</a>
+                                            <?php } ?>
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
@@ -277,6 +280,7 @@
             <div class="wizard-step" data-step="1">
                 <h3>Select a reason for reporting prospect</h3>
                 <div class="form-group text-left">
+                    <input type="hidden" name="campaign_id" />
                     <label for="reason"><?php echo _l('Reasons'); ?></label>
                     <select id="reasonSelect" name="industry" class="selectpicker" data-width="100%"
                         data-none-selected-text="<?php echo _l('Select Reason'); ?>">
@@ -575,7 +579,8 @@ $jsonData = json_encode($table); ?>
             const data = {
                 reason: selectedReason,
                 prospect_id: prospectId,
-                evidence: evidenceUrl
+                evidence: evidenceUrl,
+                campaign_id: $('#reportProspectModal input[name=campaign_id]').val()
             };
             data[csrfName] = csrfHash;
 
@@ -585,7 +590,7 @@ $jsonData = json_encode($table); ?>
                 type: 'POST', // HTTP method
                 data: data, // JSON data and appended CSRF token
                 success: function (response) {
-                    alert('Report submitted successfully!');
+                    alert_float('success', 'Report submitted successfully!');
                     $('#reportProspectModal').modal('hide');
                 },
                 error: function (xhr, status, error) {
@@ -613,6 +618,7 @@ $jsonData = json_encode($table); ?>
             var acquisition = button.data('acquisition');
             var amount = button.data('amount');
             var industry = button.data('industry');
+            var campaignId = button.data('campaign');
 
             // Update the table cells with the prospect's data
             $('#prospect-name').text(name);
@@ -622,6 +628,8 @@ $jsonData = json_encode($table); ?>
             $('#prospect-acquisition').text(acquisition);
             $('#prospect-amount').text(amount);
             $('#prospect-industry').text(industry);
+
+            $('#reportProspectModal input[name=campaign_id]').val(campaignId);
 
             $('#reportProspectModal').data('prospect-id', id);
         });

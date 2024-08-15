@@ -481,19 +481,14 @@ class Prospects_model extends CI_Model
 
     public function deliver_prospects($campaing_id)
     {
-        $sql = "SELECT id, client_id, industry_id, country_id, deal,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence
+        $sql = "SELECT id, client_id, industry_id, country_id, deal,budget,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence
                 FROM `tblleadevo_campaign`
                 WHERE is_active = 1 AND status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() AND Id = " . $campaing_id . ";";
 
         $campaign = $this->db->query($sql)->row();
-
         if (!isset($campaign)) {
             return;
         }
-        // $campaign = $campaign[0];
-        // deal_type will be dealt later
-
-        // check if budget is expired
 
         // filter prospects based on the criteria
         // country id may be category ID
@@ -556,15 +551,22 @@ class Prospects_model extends CI_Model
 
         try {
             // insert each prospect into the tblleadevo_prospects_purchased
+
+            var_dump($campaign);
+            var_dump('______________________________________________________________');
+
             foreach ($prospects as $prospect) {
-                $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id);
+                $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id)->row()->budget_spent;
+                var_dump($budget_spent . " " . $campaign->budget . " " . $prospect->desired_amount . " " . $prospect->min_amount);
+                var_dump('______________________________________________________________');
                 if ($budget_spent >= $campaign->budget)
                     // TODO: mark the campaign as completed
                     continue;
                 $budget = $prospect->desired_amount;
                 if (($budget_spent + $prospect->desired_amount) >= $campaign->budget && ($budget_spent + $prospect->min_amount) <= $campaign->budget)
                     $budget = $prospect->min_amount;
-
+                var_dump($budget);
+                var_dump('______________________________________________________________');
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
                     . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
@@ -585,16 +587,18 @@ class Prospects_model extends CI_Model
             if ($this->db->trans_status() === FALSE) {
                 // If something went wrong, roll back the transaction
                 $this->db->trans_rollback();
-                echo "Transaction failed. Rolling back.";
+                var_dump("Transaction failed. Rolling back.");
             } else {
                 // Commit the transaction
                 $this->db->trans_commit();
-                echo "Transaction successful.";
+                var_dump("Transaction successful.");
             }
+            var_dump('__________________________________________________________________________________________________________________________________________________________________________________________');
+
         } catch (Exception $e) {
             // Rollback transaction if any exception occurs
             $this->db->trans_rollback();
-            echo "Transaction failed with exception: " . $e->getMessage();
+            throw new Exception("Transaction failed with exception: " . $e->getMessage());
         }
 
         //INSERT INTO tblinvoices (clientid, date, duedate, subtotal, total, status, currency, addedfrom, prefix, number, hash)
@@ -638,9 +642,47 @@ class Prospects_model extends CI_Model
                     AND p1.verified_staff = p2.verified_staff
                     AND p1.is_confirmed = p2.is_confirmed
                     AND p1.is_exclusive = p2.is_exclusive
-                    AND 
-                WHERE p1.is_active = 1 AND p2.is_active=1 AND p1.is_fake = 0 AND is_available_sale = 1 AND p2.id = " . $prospect_id;
+                WHERE p1.is_active = 1 AND p2.is_active=1 AND p1.is_fake = 0 AND p1.is_available_sale = 1 AND p2.id = " . $prospect_id . " AND p1.id <> " . $prospect_id;
         return $this->db->query($sql)->result_array();
+    }
+
+    public function replace($old_prospect_id, $new_prospect_id, $campaign_id)
+    {
+        try {
+
+
+            $this->db->trans_begin();
+
+            // delete previous lead
+            $sql = "DELETE FROM tblleads 
+                WHERE id =(SELECT lead_id FROM tblleadevo_leads WHERE prospect_id = " . $old_prospect_id . " and campaign_id = " . $campaign_id . " LIMIT 1);";
+            $this->db->query($sql);
+            // create new prospect
+            $sql = "SELECT * FROM tblleadevo_prospects WHERE id =" . $new_prospect_id;
+            $prospect = $this->db->query($sql)->row();
+            $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
+                . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
+            $lastInsertId = $this->db->insert_id();
+            $sql = "UPDATE " . db_prefix() . "leadevo_leads SET lead_id = " . $lastInsertId . ", prospect_id =" . $new_prospect_id . " WHERE  prospect_id = " . $old_prospect_id . " AND campaign_id = " . $campaign_id;
+            $this->db->query($sql);
+
+            if ($prospect->is_exclusive == 1) {
+                $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
+            }
+            // If everything is successful, commit the transaction
+            if ($this->db->trans_status() === FALSE) {
+                // If something went wrong, roll back the transaction
+                $this->db->trans_rollback();
+                throw new Exception("Transaction failed. Rolling back.");
+            } else {
+                // Commit the transaction
+                $this->db->trans_commit();
+            }
+        } catch (Exception $e) {
+            // Rollback transaction if any exception occurs
+            $this->db->trans_rollback();
+            throw new Exception("Transaction failed with exception: " . $e->getMessage());
+        }
     }
 
 

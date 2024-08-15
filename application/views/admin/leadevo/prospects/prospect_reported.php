@@ -73,9 +73,14 @@
                                                     <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
                                                     <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
                                                     <td>
-                                                        <a href="<?php echo admin_url('prospects/view_reported/' . $prospect['id']); ?>"
+                                                        <a href="<?php echo admin_url('prospects/view_reported/' . $prospect['prospect_id']); ?>"
                                                             class="">
                                                             View
+                                                        </a>
+                                                        <a href="#"
+                                                            onclick="openReplaceModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
+                                                            class="">
+                                                            Replace
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -94,10 +99,13 @@
     </div>
 </div>
 
+<div id="replace_prospect_modal" class="modal fade" tabindex="-1" role="dialog">
+    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/replace_reported.php') ?>
+</div>
 
 <?php init_tail(); ?>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Check if DataTable is already initialized before initializing
         if (!$.fn.DataTable.isDataTable('#reported-prospects')) {
             $('#reported-prospects').DataTable();
@@ -106,5 +114,12 @@
         setTimeout(() => {
             $('#reported-prospects_wrapper').removeClass('table-loading');
         }, 100);
+
     });
+    function openReplaceModal(id, campaign_id) {
+        console.log(id)
+        document.querySelector('#replace_prospect_modal input[name=id]').value = id;
+        document.querySelector('#replace_prospect_modal input[name=campaign_id]').value = campaign_id;
+        $('#replace_prospect_modal').modal('show');
+    }
 </script>
