@@ -33,16 +33,15 @@
             </div>
         </div>
 
-        <br><br>
-
         <div class="wizard-step" data-step="1">
             <h3>Profile</h3>
             <div id="profile" class="payment-form">
                 <label for="pname">Name</label>
-                <input type="text" id="pname" placeholder="Enter name of campaign" required>
+                <input type="text" id="pname" name="campaing-name" placeholder="Enter name of campaign" required>
 
                 <label for="desc">Description</label>
-                <input type="text" id="desc"  placeholder="Enter description for campaign" required>
+                <textarea type="text" id="desc" placeholder="Enter description for campaign"
+                    class="form-control"></textarea>
             </div>
         </div>
 
@@ -126,7 +125,7 @@
 
             <div class="radio-container">
                 <input type="radio" id="option1" name="deal" value="1" checked>
-                <label for="option1">buy exclusively</label>
+                <label for="option1">Buy Exclusive Prospects</label>
                 <span class="info-icon" data-tooltip="<?php echo get_information('exclusive'); ?>">
                     <i class="fa fa-info-circle" style="font-size:20px"></i>
                 </span>
@@ -134,7 +133,7 @@
 
             <div class="radio-container">
                 <input type="radio" id="option2" name="deal" value="0">
-                <label for="option2">buy non-exclusively</label>
+                <label for="option2">Buy Non-Exclusive Prospects</label>
                 <span class="info-icon" data-tooltip="<?php echo get_information('non_exclusive'); ?>">
                     <i class="fa fa-info-circle" style="font-size:20px"></i>
                 </span>
@@ -145,24 +144,22 @@
 
         <div class="wizard-step" data-step="6">
             <h3>Quality</h3>
-
             <label>
                 <input type="checkbox" name="verification" value="staff">
                 Verified by Staff
-            </label>
+            </label><br />
             <label>
                 <input type="checkbox" name="verification" value="sms">
                 Verified by SMS
-            </label>
+            </label><br />
             <label>
                 <input type="checkbox" name="verification" value="whatsapp">
                 Verified by WhatsApp
-            </label>
+            </label><br />
             <label>
                 <input type="checkbox" name="verification" value="coherence">
                 Verified by Coherence
-            </label>
-
+            </label><br />
         </div>
 
 
@@ -233,7 +230,8 @@
         });
 
         nextBtn.addEventListener('click', function () {
-            console.log('%cnext button click', 'color: red;');
+            if (currentStep != 4 && currentStep != 5)
+                document.getElementById('nextBtn').disabled = true;
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
@@ -252,7 +250,27 @@
         });
         $('#createCampaignModal').on('shown.bs.modal', function () {
             showStep(currentStep);
+            document.getElementById('nextBtn').disabled = true;
         });
+
+        $('#createCampaignModal input[name=campaing-name]').on('input', function (e) {
+            document.getElementById('nextBtn').disabled = $(e.target).val().length == 0;
+        })
+        $('#createCampaignModal input[name=budget]').on('input', function (e) {
+            document.getElementById('nextBtn').disabled = $(e.target).val().length == 0;
+        })
+        $('#createCampaignModal select[name=industry]').on('change', function (e) {
+            document.getElementById('nextBtn').disabled = $(e.target).val().length == 0;
+        })
+        $('#createCampaignModal select[name=countries]').on('change', function (e) {
+            document.getElementById('nextBtn').disabled = $(e.target).val().length == 0;
+        })
+        $('#createCampaignModal input[name=start_date]').on('change', function (e) {
+            document.getElementById('nextBtn').disabled = $('#createCampaignModal input[name=start_date]').val().length == 0 && $('#createCampaignModal input[name=end_date]').val().length == 0;
+        })
+        $('#createCampaignModal input[name=end_date]').on('change', function (e) {
+            document.getElementById('nextBtn').disabled = $('#createCampaignModal input[name=start_date]').val().length == 0 && $('#createCampaignModal input[name=end_date]').val().length == 0;
+        })
 
         // document.getElementById('cap-checkbox').addEventListener('change', function () {
         //   var container = document.getElementById('max-prospects-container');
