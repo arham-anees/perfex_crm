@@ -93,7 +93,7 @@
   .grid-container {
     display: flex;
     grid-template-columns: auto auto auto auto;
-    gap: 50px;
+    gap: 41px;
     margin-top: -2%;
     padding: 1px;
   }
@@ -103,7 +103,7 @@
   }
 
   .alt-text5 {
-    margin-left: 13%;
+    margin-left: 6%;
   }
 
   .dropdown-menu {
@@ -298,6 +298,8 @@
           <table class="table dt-table scroll-responsive" id="campaign-list">
             <thead>
               <tr>
+                <th><?php echo _l('name'); ?></th>
+                <th><?php echo _l('description'); ?></th>
                 <th><?php echo _l('status'); ?></th>
                 <th><?php echo _l('budget'); ?></th>
                 <th><?php echo _l('deal'); ?></th>
@@ -308,15 +310,17 @@
             <tbody>
               <?php foreach ($campaigns as $campaign): ?>
                 <tr>
-                  <td><?php echo $campaign->status_name; ?>
+                  <td>
+                    <?php echo $campaign->name; ?>
                     <div class="row-options">
                       <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>">View</a> |
                       <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
-                      <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>"
+                      <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>" class="text-danger"
                         onclick="return confirm('Are you sure you want to delete this campaign ?');">Delete</a>
                     </div>
-
                   </td>
+                  <td><?php echo $campaign->description; ?></td>
+                  <td><?php echo $campaign->status_name; ?></td>
                   <td><?php echo $campaign->budget; ?></td>
                   <td><?php echo $campaign->deal == 1 ? 'Exclusive' : 'Non-exclusive'; ?></td>
                   <td><?php echo date('Y-m-d', strtotime($campaign->start_date)); ?></td>

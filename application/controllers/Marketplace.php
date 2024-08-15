@@ -74,17 +74,11 @@ class Marketplace extends ClientsController
             redirect('login'); // Redirect to login if not logged in
         }
     
-        // Load models
-        $this->load->model('leadevo/Cart_model');
-        $this->load->model('leadevo/Prospects_model');
-    
-        // Fetch the specific prospect and cart details
         $data['prospect'] = $this->Prospects_model->get_by_id($prospect_id);
         $data['cart_details'] = $this->Cart_model->get_by_prospect_id($prospect_id);
     
         if (empty($data['prospect'])) {
-            show_404(); // Show 404 if the prospect does not exist
-        }
+            show_404();         }
     
         // Load view with prospect details
         $this->data($data);
