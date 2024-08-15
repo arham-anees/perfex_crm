@@ -343,6 +343,14 @@ function app_init_admin_sidebar_menu_items()
             'position' => 30,
             'badge' => [],
         ]);
+
+        $CI->app_menu->add_sidebar_children_item('utilities', [
+            'slug' => 'statistics',
+            'name' => _l('als_statistics_submenu'),
+            'href' => admin_url('utilities/statistics'),
+            'position' => 35,
+            'badge' => [],
+        ]);
     }
 
     if (staff_can('view-timesheets', 'reports') || staff_can('view', 'reports')) {
@@ -788,7 +796,7 @@ function app_init_client_sidebar_menu_items()
         'name' => 'Statistics',
         'href' => site_url('statistics'),
         'position' => 7,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-chart-bar',
     ]);
 
 }
