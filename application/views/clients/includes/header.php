@@ -49,6 +49,11 @@
     background-color: #e2e6ea; 
 }
 
+.text-center{
+    font-size: 14px;
+    padding: 10px;
+}
+
 
 </style>
 <?php if (is_client_logged_in()) { ?>
@@ -170,56 +175,61 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php hooks()->do_action('client_navbar_start'); ?>
                     
-                    <!-- cart-->
+                    <!-- cart -->
                     <?php 
     if (is_client_logged_in()) {
         $cart_count = count($cart_prospects); 
 ?>
+    <?php if (is_client_logged_in()) { ?>
     <ul class="nav navbar-nav navbar-right">
         <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cart-shopping"></i>
-                <?php if ($cart_count > 0): ?>
+                <?php if ($cart_count > 0) { ?>
                     <span class="badge"><?php echo $cart_count; ?></span>
-                <?php endif; ?>
+                <?php } ?>
             </a>
             <ul class="dropdown-menu animated fadeIn">
-                <li>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($cart_prospects as $prospect): ?>
+                <?php if ($cart_count > 0) { ?>
+                    <li>
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
-                                        <?php echo htmlspecialchars($prospect['first_name']); ?>
-                                    </a></td>
-                                    <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
-                                        <?php echo htmlspecialchars($prospect['email']); ?>
-                                    </a></td>
-                                    <td>
-                                        <a href="<?php echo site_url('marketplace/delete_from_cart/' . $prospect['prospect_id']); ?>" 
-                                           class="text-danger" 
-                                           onclick="return confirm('Are you sure you want to delete this item?');">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </li>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($cart_prospects as $prospect): ?>
+                                    <tr>
+                                        <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
+                                            <?php echo htmlspecialchars($prospect['first_name']); ?>
+                                        </a></td>
+                                        <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
+                                            <?php echo htmlspecialchars($prospect['email']); ?>
+                                        </a></td>
+                                        <td>
+                                            <a href="<?php echo site_url('marketplace/delete_from_cart/' . $prospect['prospect_id']); ?>" 
+                                               class="text-danger" 
+                                               onclick="return confirm('Are you sure you want to delete this item?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </li>
+                <?php } else { ?>
+                    <li class="text-center">
+                        <p>Cart is empty</p>
+                    </li>
+                <?php } ?>
             </ul>
         </li>
     </ul>
-<?php 
-    }
-?>
+<?php } ?>
 
                     <?php if (is_client_logged_in()) { ?>
                         <li class="dropdown customers-nav-item-profile">
@@ -313,4 +323,4 @@
             </div>
         </nav>
     </div>
-<?php } ?>
+<?php }} ?>
