@@ -11,6 +11,8 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Prospect_categories_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('leadevo/Reported_Prospects_model');
     }
 
     public function index()
@@ -168,20 +170,58 @@ class Prospects extends AdminController
         }
     }
 
+
     public function reported()
     {
-        $data['title'] = 'Reported Prospects';
-        // Load the view file with data
+        $filter = $this->input->get('filter');
+           
+        if ($filter) {
+            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_by_filter($filter);
+        } else {
+            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
+        }
+    
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
     }
+    
+    public function view_reported($id)
+{
+    $this->load->model('leadevo/Reported_Prospects_model'); // Load the model
+    $data['reported_prospect'] = $this->Reported_Prospects_model->get($id);
+
+    if (!$data['reported_prospect']) {
+        show_404(); // If no data found, show 404 page
+    }
+    $this->load->view('admin/leadevo/prospects/view_reported', $data);
+
+}
+
+
 
     public function send_to_campaign()
     {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
-            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+            try {
+                $data = $this->input->post();
+                $this->Campaigns_model->send_prospect($data['prospect_id'], $data['campaign_id']);
+                echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+            } catch (Exception $e) {
+                echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+            }
         } else {
             echo json_encode(array('status' => 'error', 'message' => 'Invalid Method'));
         }
     }
+    public function get_replacements()
+    {
 
+        try {
+            $data = $this->input->get();
+            $this->Prospects_model->get_replacements($data['id']);
+            echo json_encode(array('status' => 'success', 'message' => 'Prospect sent to desired campaign'));
+        } catch (Exception $e) {
+            echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+        }
+
+    }
 }

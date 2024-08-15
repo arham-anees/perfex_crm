@@ -63,7 +63,7 @@ function app_init_admin_sidebar_menu_items()
         'href' => admin_url('prospects/reported'),
         'slug' => 'leadevo_reported_prospects',
         'position' => 3,
-        'icon' => 'fa fa-warning',
+        'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
     if (
@@ -766,7 +766,7 @@ function app_init_client_sidebar_menu_items()
         'name' => 'Reported Prospects',
         'href' => site_url('prospects/reported'),
         'position' => 4,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-lightbulb',
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_campaign', [
         'slug' => 'leadevo-user-comaigns',
