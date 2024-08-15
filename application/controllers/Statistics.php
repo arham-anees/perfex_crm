@@ -7,13 +7,13 @@ class Statistics extends ClientsController {
         //load some models
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Prospects_model');
-        $this->load->model('leadevo/Cart_model');
+        $this->load->model('leadevo/stats_model');
     }
 
     public function index()
     {
-        $data['campaigns'] = $this->Campaigns_model->get_all();
-        $data['prospects'] = $this->Prospects_model->get_all();
+        $data['dashboard_stats'] = $this->Stats_model->client_dashboard();
+        $data['campaign_stats'] = $this->Stats_model->client_campaigns();
         $this->view('clients/statistics/statistics', $data);
 
         
