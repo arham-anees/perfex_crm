@@ -788,7 +788,7 @@ function app_init_client_sidebar_menu_items()
         'name' => 'Statistics',
         'href' => site_url('statistics'),
         'position' => 7,
-        'icon' => 'fa fa-x',
+        'icon' => 'fa fa-chart-bar',
     ]);
 
 }

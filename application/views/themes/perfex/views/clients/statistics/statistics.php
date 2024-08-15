@@ -1,13 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
+
 <div class="row">
     <div class="col-md-12">
-        <div class="panel_s">
-            <div class="panel-body">
-                <h4 class="no-margin"><?php echo _l('Statistics'); ?></h4>
-                <hr class="hr-panel-heading" />
+        <div class="statistics-page">
+            <div class="panel_s">
+                <div class="panel-body">
+                    <h4 class="no-margin"><?php echo _l('Statistics'); ?></h4>
+                    <hr class="hr-panel-heading" />
 
-                <!-- Graphs Section -->
+                    <div class="col-md-12">
                 <div class="row">
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -69,6 +71,8 @@
                             campaignData[0].non_exclusive_delivered_today
                         ];
 
+
+
                         var ctxCampaign = document.getElementById('campaignChart').getContext('2d');
                         var campaignChart = new Chart(ctxCampaign, {
                             type: 'line',
@@ -92,17 +96,14 @@
                         });
                     </script>
                 </div>
+            </div>
 
-
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">  
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
-
-<?php init_tail(); ?>
 <script>
     $('#proposals').DataTable({
         "search": true
