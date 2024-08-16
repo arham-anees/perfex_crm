@@ -499,7 +499,6 @@ class Client_invoices_model extends App_Model
             }
 
             foreach ($items as $key => $item) {
-                var_dump($item);
                 if ($itemid = add_new_sales_item_post($item, $insert_id, 'invoice')) {
                     if (isset($billed_tasks[$key])) {
                         foreach ($billed_tasks[$key] as $_task_id) {

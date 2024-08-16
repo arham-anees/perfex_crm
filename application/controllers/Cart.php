@@ -116,6 +116,8 @@ class Cart extends ClientsController
         }
 
         $id = $this->Client_invoices_model->add($invoice_data);
+        // update cart and set invoice id to cart
+        $this->Cart_model->add_invoice_to_cart($id, $cart);
         echo json_encode(['status' => 'success', 'data' => $id, 'link' => site_url('invoice/' . $id . '/' . $invoice_data['hash'])]);
     }
 }
