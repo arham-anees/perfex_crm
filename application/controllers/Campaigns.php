@@ -7,6 +7,7 @@ class Campaigns extends ClientsController
         parent::__construct();
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('Client_invoices_model');
 
     }
 
@@ -98,14 +99,20 @@ class Campaigns extends ClientsController
 
                 if (isset($data['id']))
                     unset($data['id']);
-                $this->Campaigns_model->insert($data);
+                $campaign_id = $this->Campaigns_model->insert($data);
 
 
                 // set_alert('success', 'Campaign created successfully.');
                 // Return success response
                 echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
 
-                // redirect(site_url('campaigns'));
+                $budget=$data['budget'];
+                $invoice_id = $this->checkout($budget);
+
+                $this->Campaigns_model->update_invoice($campaign_id, $invoice_id);
+                $invoice = $this->Client_invoices_model->get_invoice($invoice_id);
+                echo json_encode(['status' => 'success', 'data' => $invoice]);
+
             }
         }
     }
@@ -178,6 +185,75 @@ class Campaigns extends ClientsController
         $this->data($data);
         $this->view('clients/campaigns/campaign_view');
         $this->layout();
+    }
+
+    public function checkout($total)
+    {
+        $client_id = get_client_user_id();
+        // hooks()->do_action('after_prospect_purchased', ['client_id' => get_client_user_id(), 'prospects' => $cart]);
+
+        $invoice_data = [
+            'number' => ((int) $this->Client_invoices_model->get_max_invoice_number()) + 1,
+            'clientid' => $client_id,
+            'date' => date('Y-m-d'),
+            'duedate' => date('Y-m-d', strtotime('+4 days')),
+            'subtotal' => $total,
+            'total_tax' => 0,
+            'total' => $total,
+            'adjustment' => 0,
+            'hash' => app_generate_hash(),
+            'project_id' => '',
+            'billing_street' => '',
+            'billing_city' => '',
+            'billing_state' => '',
+            'billing_zip' => '',
+            'show_shipping_on_invoice' => 'on',
+            'shipping_street' => '',
+            'shipping_city' => '',
+            'shipping_state' => '',
+            'shipping_zip' => '',
+            'tags' => 'LeadEvo Campaign Checkout',
+            'discount_total' => '0',
+            'task_id' => '',
+            'expense_id' => '',
+            'clientnote' => '',
+            'terms' => '',
+            'discount_percent' => '0',
+            'allowed_payment_modes' => ['stripe'],
+            'currency' => 1,
+            'recurring' => 0,
+            'discount_type' => 0,
+            'repeat_every_custom' => 1,
+            'repeat_type_custom' => 'day',
+            'adminnote' => ''
+        ];
+
+
+        if (hooks()->apply_filters('validate_invoice_number', true)) {
+            $number = ltrim($invoice_data['number'], '0');
+            if (
+                total_rows('invoices', [
+                    'YEAR(date)' => (int) date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                    'number' => $number,
+                    'status !=' => Invoices_model::STATUS_DRAFT,
+                ])
+            ) {
+                set_alert('warning', _l('invoice_number_exists'));
+                redirect(site_url('invoices/invoice'));
+            }
+        }
+
+        $id = $this->Client_invoices_model->add($invoice_data);
+        return $id;
+        // if ($id) {
+        //     echo json_encode(['status' => 'success', 'data' => $id]);
+        //     $data = ['invoice_id' => $id];
+        //     $this->Campaigns_model->update($client_id, $data);
+        //     echo json_encode(['status' => 'success']);
+        // }
+
+
+
     }
 
 }
