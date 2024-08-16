@@ -94,7 +94,10 @@ class Marketplace extends ClientsController
         
         // Delete the item from the cart
         $this->Cart_model->delete_item($client_id, $prospect_id);
-        redirect('#');
+    
+        // Return a JSON response
+        echo json_encode(['status' => 'success']);
+        exit;
     }
     
   
