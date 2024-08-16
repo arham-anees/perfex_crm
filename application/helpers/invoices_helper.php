@@ -23,7 +23,7 @@ function get_invoice_shortlink($invoice)
     // Create short link and return the newly created short link
     $short_link = app_generate_short_link([
         'long_url' => $long_url,
-        'title'    => format_invoice_number($invoice->id),
+        'title' => format_invoice_number($invoice->id),
     ]);
 
     if ($short_link) {
@@ -65,7 +65,7 @@ function get_invoice_total_left_to_pay($id, $invoice_total = null)
     }
 
     $payments = $CI->payments_model->get_invoice_payments($id);
-    $credits  = $CI->credit_notes_model->get_applied_invoice_credits($id);
+    $credits = $CI->credit_notes_model->get_applied_invoice_credits($id);
 
     $payments = array_merge($payments, $credits);
 
@@ -178,9 +178,9 @@ function format_invoice_status($status, $classes = '', $label = true)
     if (!class_exists('Invoices_model', false)) {
         get_instance()->load->model('invoices_model');
     }
-    
-    $id          = $status;
-    
+
+    $id = $status;
+
     $label_class = get_invoice_status_label($status);
 
     if ($status == Invoices_model::STATUS_UNPAID) {
@@ -308,7 +308,8 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
 
     $original_status = $invoice->status;
 
-    if (($original_status == Invoices_model::STATUS_DRAFT && $force_update == false)
+    if (
+        ($original_status == Invoices_model::STATUS_DRAFT && $force_update == false)
         || ($original_status == Invoices_model::STATUS_CANCELLED && $force_update == false)
     ) {
         return false;
@@ -329,7 +330,7 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
     $payments = array_merge($payments, $credits);
 
     $totalPayments = [];
-    $status        = Invoices_model::STATUS_UNPAID;
+    $status = Invoices_model::STATUS_UNPAID;
 
     // Check if the first payments is equal to invoice total
     if (isset($payments[0])) {
@@ -343,8 +344,9 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
 
             $totalPayments = array_sum($totalPayments);
 
-            if ((function_exists('bccomp')
-                    ?  bccomp($invoice->total, $totalPayments, get_decimal_places()) === 0
+            if (
+                (function_exists('bccomp')
+                    ? bccomp($invoice->total, $totalPayments, get_decimal_places()) === 0
                     || bccomp($invoice->total, $totalPayments, get_decimal_places()) === -1
                     : number_format(($invoice->total - $totalPayments), get_decimal_places(), '.', '') == '0')
                 || $totalPayments > $invoice->total
@@ -410,6 +412,119 @@ function update_invoice_status($id, $force_update = false, $prevent_logging = fa
     return false;
 }
 
+function update_client_invoice_status($id, $force_update = false, $prevent_logging = false)
+{
+    $CI = &get_instance();
+
+    $CI->load->model('client_invoices_model');
+    $invoice = $CI->client_invoices_model->get($id);
+
+    $original_status = $invoice->status;
+
+    if (
+        ($original_status == Invoices_model::STATUS_DRAFT && $force_update == false)
+        || ($original_status == Invoices_model::STATUS_CANCELLED && $force_update == false)
+    ) {
+        return false;
+    }
+
+    $CI->db->select('amount')
+        ->where('invoiceid', $id)
+        ->order_by(db_prefix() . 'invoicepaymentrecords.id', 'asc');
+    $payments = $CI->db->get(db_prefix() . 'invoicepaymentrecords')->result_array();
+
+    if (!class_exists('credit_notes_model')) {
+        $CI->load->model('credit_notes_model');
+    }
+
+    $credits = $CI->credit_notes_model->get_applied_invoice_credits($id);
+    // Merge credits applied with payments, credits in this function are casted as payments directly to invoice
+    // This merge will help to update the status
+    $payments = array_merge($payments, $credits);
+
+    $totalPayments = [];
+    $status = Invoices_model::STATUS_UNPAID;
+
+    // Check if the first payments is equal to invoice total
+    if (isset($payments[0])) {
+        if ($payments[0]['amount'] == $invoice->total) {
+            // Paid status
+            $status = Invoices_model::STATUS_PAID;
+        } else {
+            foreach ($payments as $payment) {
+                array_push($totalPayments, $payment['amount']);
+            }
+
+            $totalPayments = array_sum($totalPayments);
+
+            if (
+                (function_exists('bccomp')
+                    ? bccomp($invoice->total, $totalPayments, get_decimal_places()) === 0
+                    || bccomp($invoice->total, $totalPayments, get_decimal_places()) === -1
+                    : number_format(($invoice->total - $totalPayments), get_decimal_places(), '.', '') == '0')
+                || $totalPayments > $invoice->total
+            ) {
+                // Paid status
+                $status = Invoices_model::STATUS_PAID;
+            } elseif ($totalPayments == 0) {
+                // Unpaid status
+                $status = Invoices_model::STATUS_UNPAID;
+            } else {
+                if ($invoice->duedate != null) {
+                    if ($totalPayments > 0) {
+                        // Not paid completely status
+                        $status = Invoices_model::STATUS_PARTIALLY;
+                    } elseif (date('Y-m-d', strtotime($invoice->duedate)) < date('Y-m-d')) {
+                        $status = Invoices_model::STATUS_OVERDUE;
+                    }
+                } else {
+                    // Not paid completely status
+                    $status = Invoices_model::STATUS_PARTIALLY;
+                }
+            }
+        }
+    } else {
+        if ($invoice->total == 0) {
+            $status = Invoices_model::STATUS_PAID;
+        } else {
+            if ($invoice->duedate != null) {
+                if (date('Y-m-d', strtotime($invoice->duedate)) < date('Y-m-d')) {
+                    // Overdue status
+                    $status = Invoices_model::STATUS_OVERDUE;
+                }
+            }
+        }
+    }
+
+    $CI->db->where('id', $id);
+    $CI->db->update(db_prefix() . 'invoices', [
+        'status' => $status,
+    ]);
+
+    if ($CI->db->affected_rows() > 0) {
+        hooks()->do_action('invoice_status_changed', ['invoice_id' => $id, 'status' => $status]);
+
+        if ($prevent_logging == true) {
+            return $status;
+        }
+
+        $log = 'Invoice Status Updated [Invoice Number: ' . format_invoice_number($invoice->id) . ', From: ' . format_invoice_status($original_status, '', false) . ' To: ' . format_invoice_status($status, '', false) . ']';
+
+        log_activity($log, null);
+
+        $additional_activity = serialize([
+            '<original_status>' . $original_status . '</original_status>',
+            '<new_status>' . $status . '</new_status>',
+        ]);
+
+        $CI->client_invoices_model->log_invoice_activity($invoice->id, 'invoice_activity_status_updated', false, $additional_activity);
+
+        return $status;
+    }
+
+    return false;
+}
+
 
 /**
  * Check if the invoice id is last invoice
@@ -420,7 +535,7 @@ function is_last_invoice($id)
 {
     $CI = &get_instance();
     $CI->db->select('id')->from(db_prefix() . 'invoices')->order_by('id', 'desc')->limit(1);
-    $query           = $CI->db->get();
+    $query = $CI->db->get();
     $last_invoice_id = $query->row()->id;
     if ($last_invoice_id == $id) {
         return true;
@@ -465,7 +580,7 @@ function format_invoice_number($id)
     }
 
     return hooks()->apply_filters('format_invoice_number', $number, [
-        'id'      => $id,
+        'id' => $id,
         'invoice' => $invoice,
     ]);
 }
@@ -481,7 +596,7 @@ function get_invoice_item_taxes($itemid)
     $CI->db->where('itemid', $itemid);
     $CI->db->where('rel_type', 'invoice');
     $taxes = $CI->db->get(db_prefix() . 'item_tax')->result_array();
-    $i     = 0;
+    $i = 0;
     foreach ($taxes as $tax) {
         $taxes[$i]['taxname'] = $tax['taxname'] . '|' . $tax['taxrate'];
         $i++;
@@ -500,7 +615,7 @@ function is_payment_mode_allowed_for_invoice($id, $invoiceid)
 {
     $CI = &get_instance();
     $CI->db->select('' . db_prefix() . 'currencies.name as currency_name,allowed_payment_modes')->from(db_prefix() . 'invoices')->join(db_prefix() . 'currencies', '' . db_prefix() . 'currencies.id = ' . db_prefix() . 'invoices.currency', 'left')->where(db_prefix() . 'invoices.id', $invoiceid);
-    $invoice       = $CI->db->get()->row();
+    $invoice = $CI->db->get()->row();
     $allowed_modes = $invoice->allowed_payment_modes;
     if (!is_null($allowed_modes)) {
         $allowed_modes = unserialize($allowed_modes);
@@ -596,10 +711,10 @@ function found_invoice_mode($modes, $invoiceid, $offline = true, $show_on_pdf = 
  */
 function get_invoices_percent_by_status($status)
 {
-    $has_permission_view = staff_can('view',  'invoices');
-    $total_invoices      = total_rows(db_prefix() . 'invoices', 'status NOT IN(5)' . (!$has_permission_view ? ' AND (' . get_invoices_where_sql_for_staff(get_staff_user_id()) . ')' : ''));
+    $has_permission_view = staff_can('view', 'invoices');
+    $total_invoices = total_rows(db_prefix() . 'invoices', 'status NOT IN(5)' . (!$has_permission_view ? ' AND (' . get_invoices_where_sql_for_staff(get_staff_user_id()) . ')' : ''));
 
-    $data            = [];
+    $data = [];
     $total_by_status = 0;
     if (!is_numeric($status)) {
         if ($status == 'not_sent') {
@@ -608,10 +723,10 @@ function get_invoices_percent_by_status($status)
     } else {
         $total_by_status = total_rows(db_prefix() . 'invoices', 'status = ' . $status . ' AND status NOT IN(5)' . (!$has_permission_view ? ' AND (' . get_invoices_where_sql_for_staff(get_staff_user_id()) . ')' : ''));
     }
-    $percent                 = ($total_invoices > 0 ? number_format(($total_by_status * 100) / $total_invoices, 2) : 0);
+    $percent = ($total_invoices > 0 ? number_format(($total_by_status * 100) / $total_invoices, 2) : 0);
     $data['total_by_status'] = $total_by_status;
-    $data['percent']         = $percent;
-    $data['total']           = $total_invoices;
+    $data['percent'] = $percent;
+    $data['total'] = $total_invoices;
 
     return $data;
 }
@@ -622,9 +737,9 @@ function get_invoices_percent_by_status($status)
  */
 function staff_has_assigned_invoices($staff_id = '')
 {
-    $CI       = &get_instance();
+    $CI = &get_instance();
     $staff_id = is_numeric($staff_id) ? $staff_id : get_staff_user_id();
-    $cache    = $CI->app_object_cache->get('staff-total-assigned-invoices-' . $staff_id);
+    $cache = $CI->app_object_cache->get('staff-total-assigned-invoices-' . $staff_id);
 
     if (is_numeric($cache)) {
         $result = $cache;
@@ -650,7 +765,7 @@ function load_invoices_total_template()
         $multiple_currencies = call_user_func('is_using_multiple_currencies');
     } else {
         $_data['customer_id'] = $CI->input->post('customer_id');
-        $multiple_currencies  = call_user_func('is_client_using_multiple_currencies', $CI->input->post('customer_id'));
+        $multiple_currencies = call_user_func('is_client_using_multiple_currencies', $CI->input->post('customer_id'));
     }
 
     if ($CI->input->post('project_id')) {
@@ -672,17 +787,17 @@ function load_invoices_total_template()
     }
 
     $data['total_result'] = $CI->invoices_model->get_invoices_total($_data);
-    $data['_currency']    = $data['total_result']['currencyid'];
+    $data['_currency'] = $data['total_result']['currencyid'];
 
     $CI->load->view('admin/invoices/invoices_total_template', $data);
 }
 
 function get_invoices_where_sql_for_staff($staff_id)
 {
-    $CI                                 = &get_instance();
-    $has_permission_view_own            = staff_can('view_own',  'invoices');
+    $CI = &get_instance();
+    $has_permission_view_own = staff_can('view_own', 'invoices');
     $allow_staff_view_invoices_assigned = get_option('allow_staff_view_invoices_assigned');
-    $whereUser                          = '';
+    $whereUser = '';
     if ($has_permission_view_own) {
         $whereUser = '((' . db_prefix() . 'invoices.addedfrom=' . $CI->db->escape_str($staff_id) . ' AND ' . db_prefix() . 'invoices.addedfrom IN (SELECT staff_id FROM ' . db_prefix() . 'staff_permissions WHERE feature = "invoices" AND capability="view_own"))';
         if ($allow_staff_view_invoices_assigned == 1) {
@@ -717,7 +832,8 @@ function user_can_view_invoice($id, $staff_id = false)
     $CI->db->where('id', $id);
     $invoice = $CI->db->get()->row();
 
-    if ((has_permission('invoices', $staff_id, 'view_own') && $invoice->addedfrom == $staff_id)
+    if (
+        (has_permission('invoices', $staff_id, 'view_own') && $invoice->addedfrom == $staff_id)
         || ($invoice->sale_agent == $staff_id && get_option('allow_staff_view_invoices_assigned') == '1')
     ) {
         return true;
