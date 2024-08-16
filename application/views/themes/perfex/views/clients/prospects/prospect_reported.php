@@ -70,7 +70,7 @@
                                             <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
                                             <td>
-                                                <a href="<?php echo site_url('prospects/view_reported/' . $prospect['prospect_id']); ?>"
+                                                <a href="<?php echo site_url('prospects/prospect/' . $prospect['prospect_id']); ?>"
                                                     class="">
                                                     View
                                                 </a>
