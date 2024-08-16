@@ -150,9 +150,9 @@ class Prospects_model extends CI_Model
                     P.desired_amount,
                     p.min_amount,
                     r.rating,
+                    p.phone,
                     null AS zip_code,
-                    null AS phone,
-                    null AS email,
+                    p.email,
                     null AS source,
                     null AS deal,
                     null AS quality,
@@ -685,11 +685,11 @@ class Prospects_model extends CI_Model
         }
     }
 
-public function get_by_id($id)
-{
-    $this->db->where('id', $id);
-    $query = $this->db->get('tblleadevo_prospects');
-    return $query->row_array();
-}
+    public function get_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('tblleadevo_prospects');
+        return $query->row_array();
+    }
 
 }
