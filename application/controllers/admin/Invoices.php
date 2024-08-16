@@ -20,63 +20,69 @@ class Invoices extends AdminController
     /* List all invoices datatables */
     public function list_invoices($id = '')
     {
-        if (staff_cant('view', 'invoices')
+        if (
+            staff_cant('view', 'invoices')
             && staff_cant('view_own', 'invoices')
-            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            && get_option('allow_staff_view_invoices_assigned') == '0'
+        ) {
             access_denied('invoices');
         }
 
         close_setup_menu();
 
         $this->load->model('payment_modes_model');
-        $data['payment_modes']        = $this->payment_modes_model->get('', [], true);
-        $data['invoiceid']            = $id;
-        $data['title']                = _l('invoices');
-        $data['invoices_years']       = $this->invoices_model->get_invoices_years();
+        $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
+        $data['invoiceid'] = $id;
+        $data['title'] = _l('invoices');
+        $data['invoices_years'] = $this->invoices_model->get_invoices_years();
         $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
-        $data['invoices_statuses']    = $this->invoices_model->get_statuses();
+        $data['invoices_statuses'] = $this->invoices_model->get_statuses();
         $data['invoices_table'] = App_table::find('invoices');
-        $data['bodyclass']            = 'invoices-total-manual';
+        $data['bodyclass'] = 'invoices-total-manual';
         $this->load->view('admin/invoices/manage', $data);
     }
 
     /* List all recurring invoices */
     public function recurring($id = '')
     {
-        if (staff_cant('view', 'invoices')
+        if (
+            staff_cant('view', 'invoices')
             && staff_cant('view_own', 'invoices')
-            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            && get_option('allow_staff_view_invoices_assigned') == '0'
+        ) {
             access_denied('invoices');
         }
 
         close_setup_menu();
 
-        $data['invoiceid']            = $id;
-        $data['title']                = _l('invoices_list_recurring');
-        $data['invoices_years']       = $this->invoices_model->get_invoices_years();
+        $data['invoiceid'] = $id;
+        $data['title'] = _l('invoices_list_recurring');
+        $data['invoices_years'] = $this->invoices_model->get_invoices_years();
         $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
         $this->load->view('admin/invoices/recurring/list', $data);
     }
 
     public function table($clientid = '')
     {
-        if (staff_cant('view', 'invoices')
+        if (
+            staff_cant('view', 'invoices')
             && staff_cant('view_own', 'invoices')
-            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            && get_option('allow_staff_view_invoices_assigned') == '0'
+        ) {
             ajax_access_denied();
         }
-        
+
         $this->load->model('payment_modes_model');
         $data['payment_modes'] = $this->payment_modes_model->get('', [], true);
 
-        if($this->input->get('recurring')) {
+        if ($this->input->get('recurring')) {
             $this->app->get_table_data('recurring_invoices', [
-                'data'     => $data,
+                'data' => $data,
             ]);
         } else {
             App_table::find('invoices')->output([
                 'clientid' => $clientid,
-                'data'     => $data,
+                'data' => $data,
             ]);
         }
     }
@@ -85,12 +91,12 @@ class Invoices extends AdminController
     {
         if ($this->input->is_ajax_request()) {
             $this->load->model('projects_model');
-            $data                     = [];
+            $data = [];
             $data['billing_shipping'] = $this->clients_model->get_customer_billing_and_shipping_details($customer_id);
-            $data['client_currency']  = $this->clients_model->get_customer_default_currency($customer_id);
+            $data['client_currency'] = $this->clients_model->get_customer_default_currency($customer_id);
 
             $data['customer_has_projects'] = customer_has_projects($customer_id);
-            $data['billable_tasks']        = $this->tasks_model->get_billable_tasks($customer_id);
+            $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($customer_id);
 
             if ($current_invoice != '') {
                 $this->db->select('status');
@@ -117,7 +123,7 @@ class Invoices extends AdminController
             'success' => false,
             'message' => '',
         ];
-        if (staff_can('edit',  'invoices')) {
+        if (staff_can('edit', 'invoices')) {
             $affected_rows = 0;
 
             $this->db->where('id', $id);
@@ -139,12 +145,12 @@ class Invoices extends AdminController
 
     public function validate_invoice_number()
     {
-        $isedit          = $this->input->post('isedit');
-        $number          = $this->input->post('number');
-        $date            = $this->input->post('date');
+        $isedit = $this->input->post('isedit');
+        $number = $this->input->post('number');
+        $date = $this->input->post('date');
         $original_number = $this->input->post('original_number');
-        $number          = trim($number);
-        $number          = ltrim($number, '0');
+        $number = trim($number);
+        $number = ltrim($number, '0');
 
         if ($isedit == 'true') {
             if ($number == $original_number) {
@@ -153,11 +159,13 @@ class Invoices extends AdminController
             }
         }
 
-        if (total_rows('invoices', [
-            'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
-            'number' => $number,
-            'status !=' => Invoices_model::STATUS_DRAFT,
-        ]) > 0) {
+        if (
+            total_rows('invoices', [
+                'YEAR(date)' => date('Y', strtotime(to_sql_date($date))),
+                'number' => $number,
+                'status !=' => Invoices_model::STATUS_DRAFT,
+            ]) > 0
+        ) {
             echo 'false';
         } else {
             echo 'true';
@@ -182,7 +190,7 @@ class Invoices extends AdminController
 
     public function pause_overdue_reminders($id)
     {
-        if (staff_can('edit',  'invoices')) {
+        if (staff_can('edit', 'invoices')) {
             $this->db->where('id', $id);
             $this->db->update(db_prefix() . 'invoices', ['cancel_overdue_reminders' => 1]);
         }
@@ -191,7 +199,7 @@ class Invoices extends AdminController
 
     public function resume_overdue_reminders($id)
     {
-        if (staff_can('edit',  'invoices')) {
+        if (staff_can('edit', 'invoices')) {
             $this->db->where('id', $id);
             $this->db->update(db_prefix() . 'invoices', ['cancel_overdue_reminders' => 0]);
         }
@@ -246,17 +254,17 @@ class Invoices extends AdminController
     public function get_merge_data($id)
     {
         $invoice = $this->invoices_model->get($id);
-        $cf      = get_custom_fields('items');
+        $cf = get_custom_fields('items');
 
         $i = 0;
 
         foreach ($invoice->items as $item) {
-            $invoice->items[$i]['taxname']          = get_invoice_item_taxes($item['id']);
+            $invoice->items[$i]['taxname'] = get_invoice_item_taxes($item['id']);
             $invoice->items[$i]['long_description'] = clear_textarea_breaks($item['long_description']);
             $this->db->where('item_id', $item['id']);
-            $rel              = $this->db->get(db_prefix() . 'related_items')->result_array();
+            $rel = $this->db->get(db_prefix() . 'related_items')->result_array();
             $item_related_val = '';
-            $rel_type         = '';
+            $rel_type = '';
             foreach ($rel as $item_related) {
                 $rel_type = $item_related['rel_type'];
                 $item_related_val .= $item_related['rel_id'] . ',';
@@ -265,12 +273,12 @@ class Invoices extends AdminController
                 $item_related_val = substr($item_related_val, 0, -1);
             }
             $invoice->items[$i]['item_related_formatted_for_input'] = $item_related_val;
-            $invoice->items[$i]['rel_type']                         = $rel_type;
+            $invoice->items[$i]['rel_type'] = $rel_type;
 
             $invoice->items[$i]['custom_fields'] = [];
 
             foreach ($cf as $custom_field) {
-                $custom_field['value']                 = get_custom_field_value($item['id'], $custom_field['id'], 'items');
+                $custom_field['value'] = get_custom_field_value($item['id'], $custom_field['id'], 'items');
                 $invoice->items[$i]['custom_fields'][] = $custom_field;
             }
             $i++;
@@ -283,10 +291,10 @@ class Invoices extends AdminController
         $this->load->model('expenses_model');
         $expense = $this->expenses_model->get($id);
 
-        $expense->qty              = 1;
+        $expense->qty = 1;
         $expense->long_description = clear_textarea_breaks($expense->description);
-        $expense->description      = $expense->name;
-        $expense->rate             = $expense->amount;
+        $expense->description = $expense->name;
+        $expense->rate = $expense->amount;
         if ($expense->tax != 0) {
             $expense->taxname = [];
             array_push($expense->taxname, $expense->tax_name . '|' . $expense->taxrate);
@@ -309,11 +317,13 @@ class Invoices extends AdminController
 
                 if (hooks()->apply_filters('validate_invoice_number', true)) {
                     $number = ltrim($invoice_data['number'], '0');
-                    if (total_rows('invoices', [
-                        'YEAR(date)' => (int) date('Y', strtotime(to_sql_date($invoice_data['date']))),
-                        'number'     => $number,
-                        'status !='  => Invoices_model::STATUS_DRAFT,
-                    ])) {
+                    if (
+                        total_rows('invoices', [
+                            'YEAR(date)' => (int) date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                            'number' => $number,
+                            'status !=' => Invoices_model::STATUS_DRAFT,
+                        ])
+                    ) {
                         set_alert('warning', _l('invoice_number_exists'));
 
                         redirect(admin_url('invoices/invoice'));
@@ -341,12 +351,14 @@ class Invoices extends AdminController
                 // If number not set, is draft
                 if (hooks()->apply_filters('validate_invoice_number', true) && isset($invoice_data['number'])) {
                     $number = trim(ltrim($invoice_data['number'], '0'));
-                    if (total_rows('invoices', [
-                        'YEAR(date)' => (int) date('Y', strtotime(to_sql_date($invoice_data['date']))),
-                        'number'     => $number,
-                        'status !='  => Invoices_model::STATUS_DRAFT,
-                        'id !='      => $id,
-                    ])) {
+                    if (
+                        total_rows('invoices', [
+                            'YEAR(date)' => (int) date('Y', strtotime(to_sql_date($invoice_data['date']))),
+                            'number' => $number,
+                            'status !=' => Invoices_model::STATUS_DRAFT,
+                            'id !=' => $id,
+                        ])
+                    ) {
                         set_alert('warning', _l('invoice_number_exists'));
 
                         redirect(admin_url('invoices/invoice/' . $id));
@@ -361,7 +373,7 @@ class Invoices extends AdminController
             }
         }
         if ($id == '') {
-            $title                  = _l('create_new_invoice');
+            $title = _l('create_new_invoice');
             $data['billable_tasks'] = [];
         } else {
             $invoice = $this->invoices_model->get($id);
@@ -371,10 +383,10 @@ class Invoices extends AdminController
             }
 
             $data['invoices_to_merge'] = $this->invoices_model->check_for_merge_invoice($invoice->clientid, $invoice->id);
-            $data['expenses_to_bill']  = $this->invoices_model->get_expenses_to_bill($invoice->clientid);
+            $data['expenses_to_bill'] = $this->invoices_model->get_expenses_to_bill($invoice->clientid);
 
-            $data['invoice']        = $invoice;
-            $data['edit']           = true;
+            $data['invoice'] = $invoice;
+            $data['edit'] = true;
             $data['billable_tasks'] = $this->tasks_model->get_billable_tasks($invoice->clientid, !empty($invoice->project_id) ? $invoice->project_id : '');
 
             $title = _l('edit', _l('invoice_lowercase')) . ' - ' . format_invoice_number($invoice->id);
@@ -397,7 +409,7 @@ class Invoices extends AdminController
         if (total_rows(db_prefix() . 'items') <= ajax_on_total_items()) {
             $data['items'] = $this->invoice_items_model->get_grouped();
         } else {
-            $data['items']     = [];
+            $data['items'] = [];
             $data['ajaxItems'] = true;
         }
         $data['items_groups'] = $this->invoice_items_model->get_groups();
@@ -407,8 +419,8 @@ class Invoices extends AdminController
 
         $data['base_currency'] = $this->currencies_model->get_base_currency();
 
-        $data['staff']     = $this->staff_model->get('', ['active' => 1]);
-        $data['title']     = $title;
+        $data['staff'] = $this->staff_model->get('', ['active' => 1]);
+        $data['title'] = $title;
         $data['bodyclass'] = 'invoice';
         $this->load->view('admin/invoices/invoice', $data);
     }
@@ -416,9 +428,11 @@ class Invoices extends AdminController
     /* Get all invoice data used when user click on invoiec number in a datatable left side*/
     public function get_invoice_data_ajax($id)
     {
-        if (staff_cant('view', 'invoices')
+        if (
+            staff_cant('view', 'invoices')
             && staff_cant('view_own', 'invoices')
-            && get_option('allow_staff_view_invoices_assigned') == '0') {
+            && get_option('allow_staff_view_invoices_assigned') == '0'
+        ) {
             echo _l('access_denied');
             die;
         }
@@ -444,11 +458,11 @@ class Invoices extends AdminController
 
         // Check for recorded payments
         $this->load->model('payments_model');
-        $data['invoices_to_merge']          = $this->invoices_model->check_for_merge_invoice($invoice->clientid, $id);
-        $data['members']                    = $this->staff_model->get('', ['active' => 1]);
-        $data['payments']                   = $this->payments_model->get_invoice_payments($id);
-        $data['activity']                   = $this->invoices_model->get_invoice_activity($id);
-        $data['totalNotes']                 = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
+        $data['invoices_to_merge'] = $this->invoices_model->check_for_merge_invoice($invoice->clientid, $id);
+        $data['members'] = $this->staff_model->get('', ['active' => 1]);
+        $data['payments'] = $this->payments_model->get_invoice_payments($id);
+        $data['activity'] = $this->invoices_model->get_invoice_activity($id);
+        $data['totalNotes'] = total_rows(db_prefix() . 'notes', ['rel_id' => $id, 'rel_type' => 'invoice']);
         $data['invoice_recurring_invoices'] = $this->invoices_model->get_invoice_recurring_invoices($id);
 
         $data['applied_credits'] = $this->credit_notes_model->get_applied_invoice_credits($id);
@@ -473,7 +487,7 @@ class Invoices extends AdminController
         $data['invoice'] = $invoice;
 
         $data['record_payment'] = false;
-        $data['send_later']     = false;
+        $data['send_later'] = false;
 
         if ($this->session->has_userdata('record_payment')) {
             $data['record_payment'] = true;
@@ -491,9 +505,9 @@ class Invoices extends AdminController
         $total_credits_applied = 0;
         foreach ($this->input->post('amount') as $credit_id => $amount) {
             $success = $this->credit_notes_model->apply_credits($credit_id, [
-            'invoice_id' => $invoice_id,
-            'amount'     => $amount,
-        ]);
+                'invoice_id' => $invoice_id,
+                'amount' => $amount,
+            ]);
             if ($success) {
                 $total_credits_applied++;
             }
@@ -521,7 +535,7 @@ class Invoices extends AdminController
         $data['payment_modes'] = $this->payment_modes_model->get('', [
             'expenses_only !=' => 1,
         ]);
-        $data['invoice']  = $this->invoices_model->get($id);
+        $data['invoice'] = $this->invoices_model->get($id);
         $data['payments'] = $this->payments_model->get_invoice_payments($id);
         $this->load->view('admin/invoices/record_payment_template', $data);
     }
@@ -561,8 +575,8 @@ class Invoices extends AdminController
             $statementData = [];
             if ($this->input->post('attach_statement')) {
                 $statementData['attach'] = true;
-                $statementData['from']   = to_sql_date($this->input->post('statement_from'));
-                $statementData['to']     = to_sql_date($this->input->post('statement_to'));
+                $statementData['from'] = to_sql_date($this->input->post('statement_from'));
+                $statementData['to'] = to_sql_date($this->input->post('statement_to'));
             }
 
             $success = $this->invoices_model->send_invoice_to_client(
@@ -679,8 +693,8 @@ class Invoices extends AdminController
             }
         }
 
-        $invoice        = $this->invoices_model->get($id);
-        $invoice        = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);
+        $invoice = $this->invoices_model->get($id);
+        $invoice = hooks()->apply_filters('before_admin_view_invoice_pdf', $invoice);
         $invoice_number = format_invoice_number($invoice->id);
 
         try {
@@ -730,11 +744,11 @@ class Invoices extends AdminController
     public function get_due_date()
     {
         if ($this->input->post()) {
-            $date    = $this->input->post('date');
+            $date = $this->input->post('date');
             $duedate = '';
             if (get_option('invoice_due_after') != 0) {
-                $date    = to_sql_date($date);
-                $d       = date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($date)));
+                $date = to_sql_date($date);
+                $d = date('Y-m-d', strtotime('+' . get_option('invoice_due_after') . ' DAY', strtotime($date)));
                 $duedate = _d($d);
                 echo $duedate;
             }
