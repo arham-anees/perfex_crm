@@ -47,6 +47,11 @@ class Campaigns_model extends CI_Model
         return $this->db->where('client_id', $id)->get($this->table)->result();
     }
 
+    public function get_by_invoice($id)
+    {
+        return $this->db->where('invoice_id', $id)->get($this->table)->row();
+    }
+
     public function insert($data)
     {
         log_message('error', 'insertion');
