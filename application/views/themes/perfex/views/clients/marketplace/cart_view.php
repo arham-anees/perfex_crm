@@ -4,6 +4,7 @@
         opacity: 0.65;
         cursor: not-allowed;
     }
+    
 </style>
 
 <?php if (is_client_logged_in()) { ?>
@@ -33,8 +34,7 @@
                                 <td><?php echo htmlspecialchars($prospect['email']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['phone']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['desired_amount']); ?></td>
-                                <td><button class="btn btn-primary" disabled>Checkout</button></td>
-                                </td>
+                                <td><button id="checkoutButton" class="btn btn-primary"> Checkout</button></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -47,3 +47,8 @@
 <?php } else { ?>
     <p>You need to be logged in to view this page.</p>
 <?php } ?>
+<script>
+    document.getElementById('checkoutButton').addEventListener('click', function() {
+        window.location.href = '<?php echo site_url('cart/checkout'); ?>';
+    });
+</script>
