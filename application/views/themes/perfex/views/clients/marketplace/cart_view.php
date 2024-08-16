@@ -1,18 +1,25 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <style>
-   .btn-primary-custom {
-    display: inline-block;
-    padding: 6px 12px; 
-    font-size: 14px; 
-    color: #fff;
-    background-color: #2563EB; 
-    border: none;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    margin-left: 80%;
-}
 
+.btn-primary-custom {
+      padding: 8px 12px;
+      font-size: 14px;
+      color: #fff;
+      background-color: #2563EB;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      text-decoration: none;
+      margin-left: 80%;
+   }
+   h1 {
+      text-align: center;
+   }
+   .table {
+      width: 90%; 
+   }
+ 
+ 
 </style>
 
 <div class="row main_row">
@@ -74,6 +81,7 @@ $(document).ready(function() {
                 type: 'POST',
                 dataType: 'json',
                 data: {
+                    
                     'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },
                 success: function(response) {
@@ -81,7 +89,7 @@ $(document).ready(function() {
                         // Handle success (e.g., show a message or redirect)
                         alert('Checkout successful! Invoice ID: ' + response.data);
                         // Optionally, redirect to another page
-                        window.location.href = '<?php echo site_url('clients/invoices/'); ?>';
+                        window.location.href = '<?php echo site_url('clients/invoices'); ?>';
                     } else {
                         // Handle error
                         alert('Error: ' + (response.message || 'Something went wrong.'));
