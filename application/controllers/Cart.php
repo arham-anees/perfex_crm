@@ -116,6 +116,6 @@ class Cart extends ClientsController
         }
 
         $id = $this->Client_invoices_model->add($invoice_data);
-        echo json_encode(['status' => 'success', 'data' => $id]);
+        echo json_encode(['status' => 'success', 'data' => $id, 'link' => site_url('invoice/' . $id . '/' . $invoice_data['hash'])]);
     }
 }
