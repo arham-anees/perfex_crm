@@ -53,6 +53,18 @@
         font-size: 14px;
         padding: 10px;
     }
+    .cart{
+        text-align: center;
+    }
+    .primary{
+        text-align: center;
+    }
+    .see_all{
+        text-align: center !important;
+    }
+ 
+
+
 </style>
 <?php if (is_client_logged_in()) { ?>
     <div id="header">
@@ -179,7 +191,9 @@
                         $cart_count = count($cart_prospects);
                     ?>
                         <?php if (is_client_logged_in()) { ?>
+                            
                             <ul class="nav navbar-nav navbar-right">
+                           
                                 <li>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-cart-shopping"></i>
@@ -188,6 +202,7 @@
                                         <?php } ?>
                                     </a>
                                     <ul class="dropdown-menu animated fadeIn">
+                                    <h2 class="cart">Cart</h2>
                                         <?php if ($cart_count > 0) { ?>
                                             <li>
                                                 <table class="table">
@@ -195,18 +210,19 @@
                                                         <tr>
                                                             <th>Name</th>
                                                             <th>Email</th>
+                                                            <th>Desired amount</th>
                                                             <th>Actions</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php foreach ($cart_prospects as $prospect): ?>
+                                                            
                                                             <tr>
-                                                                <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
+                                                                <td>
                                                                         <?php echo htmlspecialchars($prospect['first_name']); ?>
-                                                                    </a></td>
-                                                                <td><a href="<?php echo site_url('marketplace/cart_view/' . $prospect['prospect_id']); ?>">
-                                                                        <?php echo htmlspecialchars($prospect['email']); ?>
-                                                                    </a></td>
+                                                                   </td>
+                                                                <td><?php echo htmlspecialchars($prospect['email']); ?></td>
+                                                                <td><?php  echo htmlspecialchars($prospect['desired_amount']); ?></td>
                                                                 <td>
                                                                     <a href="javascript:void(0);" class="text-danger" onclick="deleteItem(<?php echo $prospect['prospect_id']; ?>)">
                                                                         <i class="fa fa-trash"></i>
@@ -214,7 +230,19 @@
 
                                                                 </td>
                                                             </tr>
+                                                           
                                                         <?php endforeach; ?>
+                                                        <tr>
+                                                        <tr>
+    <td class="see_all" colspan="4"> 
+        
+            <a href="<?php echo site_url('marketplace/cart_view/'); ?>" class="text-primary primary" >See all</a>
+        
+    </td>
+</tr>
+
+
+                                                            </tr>
                                                     </tbody>
                                                 </table>
                                             </li>
@@ -330,9 +358,12 @@
             $.ajax({
                 url: '<?php echo site_url('marketplace/delete_from_cart/'); ?>' + prospectId,
                 type: 'POST',
+
                 data: {
+                    'prospect_id': prospectId,
                     'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },
+
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {

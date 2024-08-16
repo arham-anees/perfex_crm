@@ -3,11 +3,13 @@
 <style>
     html, body {
     height: 100%;
-    margin: 0; /* Optional: Removes default margin */
+    margin: 0; 
 }
    .container{
          margin-left: 16%;
          height: 100%;
+          background-color: aliceblue;
+          padding: 20px;
    }
 </style>
 <body>

@@ -68,24 +68,21 @@ class Marketplace extends ClientsController
         $this->view('clients/marketplace/leads');
         $this->layout();
     }
-    public function cart_view($prospect_id)
+    public function cart_view()
     {
         if (!is_client_logged_in()) {
             redirect('login'); // Redirect to login if not logged in
         }
     
-        $data['prospect'] = $this->Prospects_model->get_by_id($prospect_id);
-        $data['cart_details'] = $this->Cart_model->get_by_prospect_id($prospect_id);
+        // Fetch all cart prospects for the logged-in client
+        $data['cart_prospects'] = $this->Cart_model->get_cart_prospects();
     
-        if (empty($data['prospect'])) {
-            show_404();         }
-    
-        // Load view with prospect details
+        // Load view with cart details
         $this->data($data);
         $this->view('clients/marketplace/cart_view');
         $this->layout();
     }
-
+    
     public function delete_from_cart($prospect_id)
     {
         
