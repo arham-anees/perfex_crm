@@ -2,6 +2,36 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+
+hooks()->add_action('invoice_status_changed', 'on_invoice_status_changed');
+
+log_message('error', 'invoice_status_changed');
+function on_invoice_status_changed($data)
+{
+    $invoice_id = $data['invoice_id'];
+    $status = $data['status'];
+    log_message('error', 'when invoice is updated');
+    //if status is paid
+    if ($status != Invoices_model::STATUS_PAID)
+        return;
+    $CI = &get_instance();
+    $CI->load->model('Client_invoices_model');
+    $CI->load->model('leadevo/Campaigns_model');
+    $invoice = $CI->Client_invoices_model->get($invoice_id);
+    if (!$invoice) {
+        return false;
+    }
+
+    // check if invoice is of cart of campaign
+    $campaign = $CI->Campaigns_model->get_by_invoice($invoice_id);
+    if ($campaign) {
+        // update campaign status
+        $campaign->status_id = 1;
+        $CI->Campaigns_model->update($campaign->id, $campaign);
+    }
+}
+
+
 /**
  * Get invoice short_url
  * @since  Version 2.7.3

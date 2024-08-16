@@ -46,31 +46,6 @@ function init_client_head($aside = true)
 function client_init()
 {
     hooks()->do_action('client_init');
-    hooks()->add_action('invoice_status_changed', 'on_invoice_status_changed');
-    log_message('error', 'invoice_status_changed');
-}
-
-function on_invoice_status_changed($invoice_id, $status)
-{
-    log_message('error', 'when invoice is updated');
-    //if status is paid
-    if ($status != Invoices_model::PAID)
-        return;
-    $CI = &get_instance();
-    $CI->load->model('Client_invoices_model');
-    $CI->load->model('leadevo/Campaigns_model');
-    $invoice = $CI->invoice_model->get_by_id($invoice_id);
-    if (!$invoice) {
-        return false;
-    }
-
-    // check if invoice is of cart of campaign
-    $campaign = $CI->Campaign_model->get_by_invoice($invoice->invoice_id);
-    if ($campaign) {
-        // update campaign status
-        $campaign->status_id = 1;
-        $CI->Campaign_model->update($campaign->id, $campaign);
-    }
 }
 
 
