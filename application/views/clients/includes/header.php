@@ -330,9 +330,12 @@
             $.ajax({
                 url: '<?php echo site_url('marketplace/delete_from_cart/'); ?>' + prospectId,
                 type: 'POST',
+
                 data: {
+                    'prospect_id': prospectId,
                     'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },
+
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
