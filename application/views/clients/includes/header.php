@@ -59,6 +59,9 @@
     .primary{
         text-align: center;
     }
+    .see_all{
+        text-align: center !important;
+    }
  
 
 
@@ -231,7 +234,7 @@
                                                         <?php endforeach; ?>
                                                         <tr>
                                                         <tr>
-    <td colspan="4"> 
+    <td class="see_all" colspan="4"> 
         
             <a href="<?php echo site_url('marketplace/cart_view/'); ?>" class="text-primary primary" >See all</a>
         
