@@ -20,9 +20,11 @@ class Stripe extends App_Controller
                 $webhooks = $this->stripe_core->list_webhook_endpoints();
 
                 foreach ($webhooks->data as $webhook) {
-                    if ((isset($webhook->metadata->identification_key) &&
-                                            $webhook->metadata->identification_key == get_option('identification_key')) ||
-                        $webhook->url == $this->stripe_gateway->webhookEndPoint) {
+                    if (
+                        (isset($webhook->metadata->identification_key) &&
+                            $webhook->metadata->identification_key == get_option('identification_key')) ||
+                        $webhook->url == $this->stripe_gateway->webhookEndPoint
+                    ) {
                         $this->stripe_core->delete_webhook($webhook->id);
                     }
                 }
@@ -73,7 +75,7 @@ class Stripe extends App_Controller
         $this->load->model('subscriptions_model');
 
         $payload = @file_get_contents('php://input');
-        $event   = null;
+        $event = null;
 
         if (!isset($_SERVER['HTTP_STRIPE_SIGNATURE'])) {
             return;
@@ -84,12 +86,12 @@ class Stripe extends App_Controller
             $event = $this->stripe_core->construct_event($payload, get_option('stripe_webhook_signing_secret'));
         } catch (\UnexpectedValueException $e) {
             // Invalid payload
-          http_response_code(400); // PHP 5.4 or greater
-          exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         } catch (\Stripe\Exception\SignatureVerificationException $e) {
             // Invalid signature
-              http_response_code(400); // PHP 5.4 or greater
-              exit();
+            http_response_code(400); // PHP 5.4 or greater
+            exit();
         }
 
         try {
@@ -116,10 +118,10 @@ class Stripe extends App_Controller
                             $this->load->model('payments_model');
                             if (!$this->payments_model->transaction_exists($payment->id, $invoice->id)) {
                                 $this->stripe_gateway->addPayment([
-                                      'amount'        => (strcasecmp($invoice->currency_name, 'JPY') == 0 ? $payment->amount : $payment->amount / 100),
-                                      'invoiceid'     => $invoice->id,
-                                      'transactionid' => $payment->id,
-                                      'payment_attempt_reference' => $payment_attempt_reference,
+                                    'amount' => (strcasecmp($invoice->currency_name, 'JPY') == 0 ? $payment->amount : $payment->amount / 100),
+                                    'invoiceid' => $invoice->id,
+                                    'transactionid' => $payment->id,
+                                    'payment_attempt_reference' => $payment_attempt_reference,
                                 ]);
                             }
 
@@ -181,15 +183,15 @@ class Stripe extends App_Controller
             $subscription = $this->stripe_subscriptions->get_subscription($subscription->id);
 
             $this->stripe_core->update_customer($subscription->customer, [
-                    'invoice_settings' => [
-                      'default_payment_method' => $subscription->default_payment_method,
-                    ],
+                'invoice_settings' => [
+                    'default_payment_method' => $subscription->default_payment_method,
+                ],
             ]);
 
             \Stripe\Subscription::update($subscription->id, ['default_payment_method' => '']);
 
             $dbSubscription = $this->subscriptions_model->get_by_hash($subscription->metadata[$this->subscriptionMetaKey]);
-            $update         = ['in_test_environment' => $this->stripe_gateway->is_test() ? 1 : 0];
+            $update = ['in_test_environment' => $this->stripe_gateway->is_test() ? 1 : 0];
 
             if (!empty($dbSubscription->date)) {
                 if ($dbSubscription->date <= date('Y-m-d')) {
@@ -199,10 +201,10 @@ class Stripe extends App_Controller
                 }
 
                 if ($dbSubscription->date > date('Y-m-d')) {
-                    $update['status']                 = 'future';
-                    $update['next_billing_cycle']     = strtotime($dbSubscription->date);
+                    $update['status'] = 'future';
+                    $update['next_billing_cycle'] = strtotime($dbSubscription->date);
                     $update['stripe_subscription_id'] = $subscription->id;
-                    $update['date_subscribed']        = date('Y-m-d H:i:s');
+                    $update['date_subscribed'] = date('Y-m-d H:i:s');
                 }
             }
 
@@ -223,7 +225,8 @@ class Stripe extends App_Controller
      */
     protected function invoicePaymentSucceededEvent($event)
     {
-        $invoice             = $event->data->object;
+        // todo: make the changes to update the invoice number
+        $invoice = $event->data->object;
         $crmSubscriptionItem = null;
 
         // Let's check if it's really subscription created from CRM
@@ -263,10 +266,10 @@ class Stripe extends App_Controller
                     ]);
 
                     // Probably created via the checkout.session.completed event type
-                    if (! $this->payments_model->transaction_exists($invoice->charge)) {
-                        $payment_data['paymentmode']   = 'stripe';
-                        $payment_data['amount']        = $new_invoice_data['total'];
-                        $payment_data['invoiceid']     = $id;
+                    if (!$this->payments_model->transaction_exists($invoice->charge)) {
+                        $payment_data['paymentmode'] = 'stripe';
+                        $payment_data['amount'] = $new_invoice_data['total'];
+                        $payment_data['invoiceid'] = $id;
                         $payment_data['transactionid'] = $invoice->charge;
 
                         $this->load->model('payments_model');
@@ -274,7 +277,7 @@ class Stripe extends App_Controller
                     }
 
                     $update = [
-                        'status'                 => 'active',
+                        'status' => 'active',
                         'stripe_subscription_id' => $invoice->subscription,
                     ];
 
@@ -379,10 +382,10 @@ class Stripe extends App_Controller
                 $update = [
                     // in case not yet updated e.q. because of hook or event handler failure
                     'stripe_subscription_id' => $subscription->id,
-                    'status'                 => $subscription->status,
-                    'next_billing_cycle'     => $subscription->current_period_end,
-                    'quantity'               => $subscription->items->data[0]->quantity,
-                    'ends_at'                => $subscription->cancel_at_period_end ? $subscription->current_period_end : null,
+                    'status' => $subscription->status,
+                    'next_billing_cycle' => $subscription->current_period_end,
+                    'quantity' => $subscription->items->data[0]->quantity,
+                    'ends_at' => $subscription->cancel_at_period_end ? $subscription->current_period_end : null,
                 ];
 
                 if ($dbSubscription->status == 'future') {
@@ -424,12 +427,12 @@ class Stripe extends App_Controller
     }
 
     /**
-      * Handle customer deleted
-      *
-      * @param  \stdClass $event
-      *
-      * @return void
-      */
+     * Handle customer deleted
+     *
+     * @param  \stdClass $event
+     *
+     * @return void
+     */
     protected function customerDeletedEvent($event)
     {
         $stripeClient = $event->data->object;
@@ -451,8 +454,8 @@ class Stripe extends App_Controller
     protected function getStaffCCForMailTemplate($staff_id)
     {
         $this->db->select('email')
-                ->from(db_prefix() . 'staff')
-                ->where('staffid', $staff_id);
+            ->from(db_prefix() . 'staff')
+            ->where('staffid', $staff_id);
         $staff = $this->db->get()->row();
 
         return $staff ? $staff->email : '';

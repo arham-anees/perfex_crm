@@ -111,11 +111,11 @@ class Cart extends ClientsController
             ) {
                 set_alert('warning', _l('invoice_number_exists'));
 
-                redirect(admin_url('invoices/invoice'));
+                redirect(site_url('invoices/invoice'));
             }
         }
 
         $id = $this->Client_invoices_model->add($invoice_data);
-        echo json_encode(['status' => 'success', 'data' => $id]);
+        echo json_encode(['status' => 'success', 'data' => $id, 'link' => site_url('invoice/' . $id . '/' . $invoice_data['hash'])]);
     }
 }
