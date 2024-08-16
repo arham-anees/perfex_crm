@@ -10,10 +10,15 @@
     border-radius: 4px;
     text-align: center;
     text-decoration: none;
+    margin-left: 80%;
 }
 
 </style>
 
+<div class="row main_row">
+    <div class="col-md-12">
+        <div class="panel_s">
+            <div class="panel-body">
 <?php if (is_client_logged_in()) { ?>
     <div class="container">
         <h1>Cart Details</h1>
@@ -29,7 +34,7 @@
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Desired Amount</th>
-                            <th>Action</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -41,19 +46,53 @@
                                 <td><?php echo htmlspecialchars($prospect['email']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['phone']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['desired_amount']); ?></td>
-                                <td>
-    <a href="<?php echo site_url('cart/checkout/'); ?>" class="btn-primary-custom">Checkout</a>
-</td>
-
                             </tr>
                         <?php endforeach; ?>
-                    </tbody>
+                        </tbody>
                 </table>
+
             <?php else: ?>
                 <p>Your cart is empty.</p>
             <?php endif; ?>
         </div>
+        <a href="<?php echo site_url('cart/checkout/'); ?>" class="btn-primary-custom">Checkout</a>
     </div>
 <?php } else { ?>
     <p>You need to be logged in to view this page.</p>
 <?php } ?>
+            </div>
+        </div></div></div>
+
+<script>
+$(document).ready(function() {
+    // Fetch CSRF token from meta tags
+    $('.btn-primary-custom').on('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        if (confirm('Are you sure you want to proceed with checkout?')) {
+            $.ajax({
+                url: '<?php echo site_url('cart/checkout/'); ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>'
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        // Handle success (e.g., show a message or redirect)
+                        alert('Checkout successful! Invoice ID: ' + response.data);
+                        // Optionally, redirect to another page
+                        window.location.href = '<?php echo site_url('clients/invoices/'); ?>';
+                    } else {
+                        // Handle error
+                        alert('Error: ' + (response.message || 'Something went wrong.'));
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    alert('Error occurred while processing the request.');
+                }
+            });
+        }
+    });
+});
+</script>

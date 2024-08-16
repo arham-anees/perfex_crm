@@ -111,7 +111,7 @@ class Cart extends ClientsController
             ) {
                 set_alert('warning', _l('invoice_number_exists'));
 
-                redirect(admin_url('invoices/invoice'));
+                redirect(site_url('invoices/invoice'));
             }
         }
 
