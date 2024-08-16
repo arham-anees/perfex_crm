@@ -1,10 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <style>
-    .btn:disabled {
-        opacity: 0.65;
-        cursor: not-allowed;
-    }
-    
+   .btn-primary-custom {
+    display: inline-block;
+    padding: 6px 12px; 
+    font-size: 14px; 
+    color: #fff;
+    background-color: #2563EB; 
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+}
+
 </style>
 
 <?php if (is_client_logged_in()) { ?>
@@ -34,7 +41,10 @@
                                 <td><?php echo htmlspecialchars($prospect['email']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['phone']); ?></td>
                                 <td><?php echo htmlspecialchars($prospect['desired_amount']); ?></td>
-                                <td><button id="checkoutButton" class="btn btn-primary"> Checkout</button></td>
+                                <td>
+    <a href="<?php echo site_url('cart/checkout/'); ?>" class="btn-primary-custom">Checkout</a>
+</td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -47,8 +57,3 @@
 <?php } else { ?>
     <p>You need to be logged in to view this page.</p>
 <?php } ?>
-<script>
-    document.getElementById('checkoutButton').addEventListener('click', function() {
-        window.location.href = '<?php echo site_url('cart/checkout'); ?>';
-    });
-</script>
