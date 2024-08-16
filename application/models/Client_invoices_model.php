@@ -2,7 +2,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Invoices_model extends App_Model
+class Client_invoices_model extends App_Model
 {
     public const STATUS_UNPAID = 1;
 
@@ -491,7 +491,7 @@ class Invoices_model extends App_Model
                 }
             }
 
-            update_invoice_status($insert_id);
+            update_client_invoice_status($insert_id);
 
             // Update next invoice number in settings if status is not draft
             if (!$this->is_draft($insert_id)) {
@@ -499,252 +499,7 @@ class Invoices_model extends App_Model
             }
 
             foreach ($items as $key => $item) {
-                if ($itemid = add_new_sales_item_post($item, $insert_id, 'invoice')) {
-                    if (isset($billed_tasks[$key])) {
-                        foreach ($billed_tasks[$key] as $_task_id) {
-                            $this->db->insert(db_prefix() . 'related_items', [
-                                'item_id' => $itemid,
-                                'rel_id' => $_task_id,
-                                'rel_type' => 'task',
-                            ]);
-                        }
-                    } elseif (isset($billed_expenses[$key])) {
-                        foreach ($billed_expenses[$key] as $_expense_id) {
-                            $this->db->insert(db_prefix() . 'related_items', [
-                                'item_id' => $itemid,
-                                'rel_id' => $_expense_id,
-                                'rel_type' => 'expense',
-                            ]);
-                        }
-                    }
-                    _maybe_insert_post_item_tax($itemid, $item, $insert_id, 'invoice');
-                }
-            }
-
-            update_sales_total_tax_column($insert_id, 'invoice', db_prefix() . 'invoices');
-
-            if (!DEFINED('CRON') && $expense == false) {
-                $lang_key = 'invoice_activity_created';
-            } elseif (!DEFINED('CRON') && $expense == true) {
-                $lang_key = 'invoice_activity_from_expense';
-            } elseif (DEFINED('CRON') && $expense == false) {
-                $lang_key = 'invoice_activity_recurring_created';
-            } else {
-                $lang_key = 'invoice_activity_recurring_from_expense_created';
-            }
-            $this->log_invoice_activity($insert_id, $lang_key);
-
-            if ($save_and_send === true) {
-                $this->send_invoice_to_client($insert_id, '', true, '', true);
-            }
-            hooks()->do_action('after_invoice_added', $insert_id);
-
-            return $insert_id;
-        }
-
-        return false;
-    }
-
-    /**
-     * Insert new invoice for cart checkout and campaign
-     * @param array $data
-     * @param mixed $expense
-     * @return bool|int
-     */
-    public function add_self($data, $expense = false)
-    {
-        $data['prefix'] = get_option('invoice_prefix');
-
-        $data['number_format'] = get_option('invoice_number_format');
-
-        $data['datecreated'] = date('Y-m-d H:i:s');
-
-        $save_and_send = isset($data['save_and_send']);
-
-        $data['addedfrom'] = !DEFINED('CRON') ? get_staff_user_id() : 0;
-
-        $data['cancel_overdue_reminders'] = isset($data['cancel_overdue_reminders']) ? 1 : 0;
-
-        $data['allowed_payment_modes'] = isset($data['allowed_payment_modes']) ? serialize($data['allowed_payment_modes']) : serialize([]);
-
-        $billed_tasks = isset($data['billed_tasks']) ? array_map('unserialize', array_unique(array_map('serialize', $data['billed_tasks']))) : [];
-
-        $billed_expenses = isset($data['billed_expenses']) ? array_map('unserialize', array_unique(array_map('serialize', $data['billed_expenses']))) : [];
-
-        $invoices_to_merge = isset($data['invoices_to_merge']) ? $data['invoices_to_merge'] : [];
-
-        $cancel_merged_invoices = isset($data['cancel_merged_invoices']);
-
-        $tags = isset($data['tags']) ? $data['tags'] : '';
-
-        if (isset($data['save_as_draft'])) {
-            $data['status'] = self::STATUS_DRAFT;
-            unset($data['save_as_draft']);
-        } elseif (isset($data['save_and_send_later'])) {
-            $data['status'] = self::STATUS_DRAFT;
-            unset($data['save_and_send_later']);
-        }
-
-        if (isset($data['recurring'])) {
-            if ($data['recurring'] == 'custom') {
-                $data['recurring_type'] = $data['repeat_type_custom'];
-                $data['custom_recurring'] = 1;
-                $data['recurring'] = $data['repeat_every_custom'];
-            }
-        } else {
-            $data['custom_recurring'] = 0;
-            $data['recurring'] = 0;
-        }
-
-        if (isset($data['custom_fields'])) {
-            $custom_fields = $data['custom_fields'];
-            unset($data['custom_fields']);
-        }
-
-        $data['hash'] = app_generate_hash();
-
-        $items = [];
-
-        if (isset($data['newitems'])) {
-            $items = $data['newitems'];
-            unset($data['newitems']);
-        }
-
-        $data = $this->map_shipping_columns($data, $expense);
-
-        if (isset($data['shipping_street'])) {
-            $data['shipping_street'] = trim($data['shipping_street']);
-            $data['shipping_street'] = nl2br($data['shipping_street']);
-        }
-
-        $data['billing_street'] = trim($data['billing_street']);
-        $data['billing_street'] = nl2br($data['billing_street']);
-
-        if (isset($data['status']) && $data['status'] == self::STATUS_DRAFT) {
-            $data['number'] = self::STATUS_DRAFT_NUMBER;
-        }
-
-        $data['duedate'] = isset($data['duedate']) && empty($data['duedate']) ? null : $data['duedate'];
-
-        $hook = hooks()->apply_filters('before_invoice_added', [
-            'data' => $data,
-            'items' => $items,
-        ]);
-
-        $data = $hook['data'];
-        $items = $hook['items'];
-
-        $this->db->insert(db_prefix() . 'invoices', $data);
-        $insert_id = $this->db->insert_id();
-        if ($insert_id) {
-            if (isset($custom_fields)) {
-                handle_custom_fields_post($insert_id, $custom_fields);
-            }
-
-            handle_tags_save($tags, $insert_id, 'invoice');
-
-            foreach ($invoices_to_merge as $m) {
-                $merged = false;
-                $or_merge = $this->get($m);
-                if ($cancel_merged_invoices == false) {
-                    if ($this->delete($m, true)) {
-                        $merged = true;
-                    }
-                } else {
-                    if ($this->mark_as_cancelled($m)) {
-                        $merged = true;
-                        $admin_note = $or_merge->adminnote;
-                        $note = 'Merged into invoice ' . format_invoice_number($insert_id);
-                        if ($admin_note != '') {
-                            $admin_note .= "\n\r" . $note;
-                        } else {
-                            $admin_note = $note;
-                        }
-                        $this->db->where('id', $m);
-                        $this->db->update(db_prefix() . 'invoices', [
-                            'adminnote' => $admin_note,
-                        ]);
-                        // Delete the old items related from the merged invoice
-                        foreach ($or_merge->items as $or_merge_item) {
-                            $this->db->where('item_id', $or_merge_item['id']);
-                            $this->db->delete(db_prefix() . 'related_items');
-                        }
-                    }
-                }
-                if ($merged) {
-                    $this->db->where('invoiceid', $or_merge->id);
-                    $is_expense_invoice = $this->db->get(db_prefix() . 'expenses')->row();
-                    if ($is_expense_invoice) {
-                        $this->db->where('id', $is_expense_invoice->id);
-                        $this->db->update(db_prefix() . 'expenses', [
-                            'invoiceid' => $insert_id,
-                        ]);
-                    }
-                    if (
-                        total_rows(db_prefix() . 'estimates', [
-                            'invoiceid' => $or_merge->id,
-                        ]) > 0
-                    ) {
-                        $this->db->where('invoiceid', $or_merge->id);
-                        $estimate = $this->db->get(db_prefix() . 'estimates')->row();
-                        $this->db->where('id', $estimate->id);
-                        $this->db->update(db_prefix() . 'estimates', [
-                            'invoiceid' => $insert_id,
-                        ]);
-                    } elseif (
-                        total_rows(db_prefix() . 'proposals', [
-                            'invoice_id' => $or_merge->id,
-                        ]) > 0
-                    ) {
-                        $this->db->where('invoice_id', $or_merge->id);
-                        $proposal = $this->db->get(db_prefix() . 'proposals')->row();
-                        $this->db->where('id', $proposal->id);
-                        $this->db->update(db_prefix() . 'proposals', [
-                            'invoice_id' => $insert_id,
-                        ]);
-                    }
-                }
-            }
-
-            foreach ($billed_tasks as $key => $tasks) {
-                foreach ($tasks as $t) {
-                    $this->db->select('status')
-                        ->where('id', $t);
-
-                    $_task = $this->db->get(db_prefix() . 'tasks')->row();
-
-                    $taskUpdateData = [
-                        'billed' => 1,
-                        'invoice_id' => $insert_id,
-                    ];
-
-                    if ($_task->status != Tasks_model::STATUS_COMPLETE) {
-                        $taskUpdateData['status'] = Tasks_model::STATUS_COMPLETE;
-                        $taskUpdateData['datefinished'] = date('Y-m-d H:i:s');
-                    }
-
-                    $this->db->where('id', $t);
-                    $this->db->update(db_prefix() . 'tasks', $taskUpdateData);
-                }
-            }
-
-            foreach ($billed_expenses as $key => $val) {
-                foreach ($val as $expense_id) {
-                    $this->db->where('id', $expense_id);
-                    $this->db->update(db_prefix() . 'expenses', [
-                        'invoiceid' => $insert_id,
-                    ]);
-                }
-            }
-
-            update_invoice_status($insert_id);
-
-            // Update next invoice number in settings if status is not draft
-            if (!$this->is_draft($insert_id)) {
-                $this->increment_next_number();
-            }
-
-            foreach ($items as $key => $item) {
+                var_dump($item);
                 if ($itemid = add_new_sales_item_post($item, $insert_id, 'invoice')) {
                     if (isset($billed_tasks[$key])) {
                         foreach ($billed_tasks[$key] as $_task_id) {
@@ -1152,7 +907,7 @@ class Invoices_model extends App_Model
 
         if ($updated) {
             update_sales_total_tax_column($id, 'invoice', db_prefix() . 'invoices');
-            update_invoice_status($id);
+            update_client_invoice_status($id);
         }
 
         if ($save_and_send === true) {
@@ -1652,7 +1407,7 @@ class Invoices_model extends App_Model
         }
 
         if ($is_status_updated == false) {
-            update_invoice_status($id, true);
+            update_client_invoice_status($id, true);
         }
 
         $this->db->where('rel_id', $id);
@@ -1890,7 +1645,7 @@ class Invoices_model extends App_Model
                 $attachStatementPdf = $statementPdf->Output($statementPdfFileName . '.pdf', 'S');
             }
 
-            $status_updated = update_invoice_status($invoice->id, true, true);
+            $status_updated = update_client_invoice_status($invoice->id, true, true);
 
             $invoice_number = format_invoice_number($invoice->id);
 
@@ -2019,8 +1774,8 @@ class Invoices_model extends App_Model
             $staffid = null;
             $full_name = '';
         } else {
-            $staffid = get_staff_user_id();
-            $full_name = get_staff_full_name(get_staff_user_id());
+            $staffid = 0;
+            $full_name = '';
         }
         $this->db->insert(db_prefix() . 'sales_activity', [
             'description' => $description,

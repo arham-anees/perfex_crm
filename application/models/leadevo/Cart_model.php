@@ -39,35 +39,36 @@ class Cart_model extends CI_Model
         if (!is_client_logged_in()) {
             return [];
         }
-        
+
         // Get client ID
         $client_id = get_client_user_id();
-        
+
         // Construct the SQL query
         $sql = "SELECT DISTINCT c.prospect_id, p.first_name, p.email, p.desired_amount, p.last_name, p.phone
                 FROM tblleadevo_cart c
                 INNER JOIN tblleadevo_prospects p ON p.id = c.prospect_id
                 WHERE c.client_id = ?";
-        
+
         // Execute the query with parameter binding
         $query = $this->db->query($sql, array($client_id));
-        
+
         // Return the results as an associative array
         return $query->result_array();
     }
     public function get_by_prospect_id($prospect_id)
-{
-    $this->db->where('prospect_id', $prospect_id);
-    $query = $this->db->get('tblleadevo_cart');
-    return $query->result_array();
-}
-// Delete the item from the cart
-public function delete_item($client_id, $prospect_id)
-{    
-    $this->db->where('client_id', $client_id);
-    $this->db->where('prospect_id', $prospect_id);
-    $this->db->delete('tblleadevo_cart');
-}
+    {
+        $this->db->where('prospect_id', $prospect_id);
+        $query = $this->db->get('tblleadevo_cart');
+        return $query->result_array();
+    }
+    // Delete the item from the cart
+    public function delete_item($client_id, $prospect_id)
+    {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('prospect_id', $prospect_id);
+        $this->db->delete('tblleadevo_cart');
+    }
+
 
 
 

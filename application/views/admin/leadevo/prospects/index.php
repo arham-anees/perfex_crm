@@ -31,7 +31,7 @@ function displayStars($rating, $maxStars = 5)
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
                                             <th><?php echo _l('Industry'); ?></th>
                                             <th><?php echo _l('Status'); ?></th>
-                                            <th><?php echo _l('actions'); ?></th>
+                                            <!-- <th><?php echo _l('actions'); ?></th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -56,6 +56,11 @@ function displayStars($rating, $maxStars = 5)
                                                             | <a href="#"
                                                                 onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>)">
                                                                 Auto Deliverable</a>
+                                                        <?php } ?>
+                                                        <?php if (!isset($prospect['verified_staff']) || $prospect['verified_staff'] == false) { ?>
+                                                            | <a href="#" class="make-call-button disabled" style="color:grey"
+                                                                data-phone="<?= $prospect['phone'] ?>">
+                                                                Verify by Call</a>
                                                         <?php } ?>
                                                         | <a href="#" onclick="openSendCampaignModal(<?= $prospect['id'] ?>)">
                                                             Send via Campaign</a>
@@ -86,7 +91,7 @@ function displayStars($rating, $maxStars = 5)
                                                         <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>Confirmed</option>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <!-- <td>
                                                     <a href="<?php echo admin_url('prospects/view/' . $prospect['id']); ?>"
                                                         class="btn btn-default btn-icon">
                                                         <i class="fa fa-eye"></i>
@@ -100,7 +105,7 @@ function displayStars($rating, $maxStars = 5)
                                                         onclick="return confirm('Are you sure you want to delete this prospect?');">
                                                         <i class="fa fa-remove"></i>
                                                     </a>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -367,6 +372,21 @@ function displayStars($rating, $maxStars = 5)
             errorMessage.textContent = 'Please upload a valid MP3 file.';
         }
     }
+    $('.make-call-button').on('click', function () {
+        var phoneNumber = '+923311116993';// $(this).data('phone');
+
+        $.ajax({
+            url: 'make_call',  // Replace with the actual path
+            method: 'POST',
+            data: { phone: phoneNumber },
+            success: function (response) {
+                alert('Call initiated successfully.');
+            },
+            error: function () {
+                alert('Failed to initiate call.');
+            }
+        });
+    });
 </script>
 
 </body>

@@ -242,4 +242,39 @@ class Prospects extends AdminController
             echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
         }
     }
+    public function make_call()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['phone'])) {
+            $phoneNumber = $_POST['phone'];
+            $apiKey = 'your_aircall_api_key';
+            $endpoint = 'https://api.aircall.io/v1/calls';
+
+            $data = [
+                'to' => $phoneNumber,
+                'user_id' => 'your_aircall_user_id',  // Optional: specify the Aircall user who will make the call
+                'from' => 'your_aircall_number',     // Optional: specify the Aircall number to use
+            ];
+
+            $ch = curl_init($endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                "Authorization: Bearer $apiKey",
+                "Content-Type: application/json",
+            ]);
+
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            curl_close($ch);
+
+            if ($httpCode === 201) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        }
+
+    }
 }
