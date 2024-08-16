@@ -38,22 +38,22 @@ define('APP_ENC_KEY', 'fc42d4bd7d759719dcec87b88f4202e9');
  * Database Credentials
  * The hostname of your database server
  */
-define('APP_DB_HOSTNAME', '66.165.248.146');
+define('APP_DB_HOSTNAME', '127.0.0.1');
 
 /**
  * The username used to connect to the database
  */
-define('APP_DB_USERNAME', 'leadevo');
+define('APP_DB_USERNAME', 'root');
 
 /**
  * The password used to connect to the database
  */
-define('APP_DB_PASSWORD', 'LeadEvo@10');
+define('APP_DB_PASSWORD', '');
 
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'softosol_perfex');
+define('APP_DB_NAME', 'perfex_crm');
 
 /**
  * @since  2.3.0
