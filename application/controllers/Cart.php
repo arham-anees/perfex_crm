@@ -64,7 +64,7 @@ class Cart extends ClientsController
             'shipping_city' => '',
             'shipping_state' => '',
             'shipping_zip' => '',
-            'tags' => '',
+            'tags' => 'LeadEvo Checkout',
             'discount_total' => '0',
             'task_id' => '',
             'expense_id' => '',
@@ -82,11 +82,13 @@ class Cart extends ClientsController
 
         foreach ($cart as $prospect) {
             $prospect_obj = $this->Prospects_model->get_by_id($prospect['prospect_id']);
+            $amount = $prospect_obj['desired_amount'] ?? $prospect_obj['min_amount'] ?? 0;
+            $total += $amount;
             // Prepare the prospect item for the invoice
             $item = [
                 'description' => $prospect_obj['first_name'] . ' ' . $prospect_obj['last_name'],
                 'long_description' => $prospect_obj['id'] . ' ' . $prospect_obj['email'] . ' ' . $prospect_obj['phone'],
-                'rate' => $prospect_obj['desired_amount'] ?? 0,
+                'rate' => $amount,
                 'unit' => 0,
                 'order' => 0,
                 'qty' => 1,  // Assuming each prospect is a single unit
@@ -95,7 +97,8 @@ class Cart extends ClientsController
             // Add the item to the invoice items array
             $invoice_data['newitems'][] = $item;
         }
-
+        $invoice_data['subtotal'] = $total;
+        $invoice_data['total'] = $total;
 
         if (hooks()->apply_filters('validate_invoice_number', true)) {
             $number = ltrim($invoice_data['number'], '0');
