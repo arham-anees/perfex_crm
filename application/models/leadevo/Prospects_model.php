@@ -551,22 +551,15 @@ class Prospects_model extends CI_Model
 
         try {
             // insert each prospect into the tblleadevo_prospects_purchased
-
-            var_dump($campaign);
-            var_dump('______________________________________________________________');
-
             foreach ($prospects as $prospect) {
                 $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id)->row()->budget_spent;
-                var_dump($budget_spent . " " . $campaign->budget . " " . $prospect->desired_amount . " " . $prospect->min_amount);
-                var_dump('______________________________________________________________');
                 if ($budget_spent >= $campaign->budget)
                     // TODO: mark the campaign as completed
                     continue;
                 $budget = $prospect->desired_amount;
                 if (($budget_spent + $prospect->desired_amount) >= $campaign->budget && ($budget_spent + $prospect->min_amount) <= $campaign->budget)
                     $budget = $prospect->min_amount;
-                var_dump($budget);
-                var_dump('______________________________________________________________');
+
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
                     . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
@@ -587,13 +580,10 @@ class Prospects_model extends CI_Model
             if ($this->db->trans_status() === FALSE) {
                 // If something went wrong, roll back the transaction
                 $this->db->trans_rollback();
-                var_dump("Transaction failed. Rolling back.");
             } else {
                 // Commit the transaction
                 $this->db->trans_commit();
-                var_dump("Transaction successful.");
             }
-            var_dump('__________________________________________________________________________________________________________________________________________________________________________________________');
 
         } catch (Exception $e) {
             // Rollback transaction if any exception occurs

@@ -13,10 +13,8 @@ class Cart_model extends CI_Model
 
     public function get()
     {
-        $this->db->select('*');
-        $this->db->from($this->table);
-        $this->db->where('client_id', get_client_user_id());
-        $query = $this->db->get();
+        $sql = "SELECT * FROM " . db_prefix() . "leadevo_cart WHERE invoice_id IS NULL AND client_id = " . get_client_user_id();
+        $query = $this->db->query($sql);
         return $query->result_array();
     }
 
@@ -47,7 +45,7 @@ class Cart_model extends CI_Model
         $sql = "SELECT DISTINCT c.prospect_id, p.first_name, p.email, p.desired_amount, p.last_name, p.phone
                 FROM tblleadevo_cart c
                 INNER JOIN tblleadevo_prospects p ON p.id = c.prospect_id
-                WHERE c.client_id = ?";
+                WHERE c.client_id = ? AND c.invoice_id IS null";
 
         // Execute the query with parameter binding
         $query = $this->db->query($sql, array($client_id));
@@ -69,7 +67,13 @@ class Cart_model extends CI_Model
         $this->db->delete('tblleadevo_cart');
     }
 
-
-
-
+    public function add_invoice_to_cart($invoice_id, $prospects)
+    {
+        $client_id = get_client_user_id();
+        foreach ($prospects as $item) {
+            $sql = "UPDATE " . db_prefix() . "leadevo_cart SET invoice_id = " . $invoice_id . "
+            WHERE client_id = " . $client_id . " AND prospect_id = " . $item['prospect_id'];
+            $this->db->query($sql);
+        }
+    }
 }
