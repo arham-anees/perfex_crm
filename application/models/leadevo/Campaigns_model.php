@@ -52,12 +52,29 @@ class Campaigns_model extends CI_Model
         return $this->db->where('invoice_id', $id)->get($this->table)->row();
     }
 
-    public function insert($data)
+    public function get_latest_by_client_id($client_id)
     {
-        log_message('error', 'insertion');
-        return $this->db->insert($this->table, $data);
+        $this->db->where('client_id', $client_id);
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get('tblleadevo_campaign');
+
+        return $query->row(); // Return the single most recent row
     }
 
+    public function insert($data)
+    {
+        $this->db->insert($this->table, $data);
+        return $this->db->insert_id(); // Return the last inserted ID
+    }
+
+    public function update_invoice($campaign_id, $invoice_id)
+    {
+        $data = ['invoice_id' => $invoice_id]; // Data array for the update
+        $this->db->where('id', $campaign_id); // Specify the record to update
+        $this->db->update('leadevo_campaign', $data);
+
+    }
     public function update($id, $data)
     {
         return $this->db->where('id', $id)->update($this->table, $data);

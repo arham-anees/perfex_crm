@@ -46,61 +46,33 @@ function init_client_head($aside = true)
 function client_init()
 {
     hooks()->do_action('client_init');
-    hooks()->add_action('cart_checkout', 'generate_invoice_for_prospect');
+    hooks()->add_action('invoice_status_changed', 'on_invoice_status_changed');
+    log_message('error', 'invoice_status_changed');
 }
 
-
-function generate_invoice_for_prospect($client_id, $prospects)
+function on_invoice_status_changed($invoice_id, $status)
 {
-    // Create new invoice
-    $invoice = new Invoice();
-    $invoice->clientid = $client_id;
-    $invoice->date = date('Y-m-d');
-    $invoice->duedate = date('Y-m-d', strtotime('+30 days'));
-
-    $invoice_items = [];
-
-    // Loop through each prospect ID
-    foreach ($prospects as $prospect) {
-
-        // Prepare the prospect item for the invoice
-        $item = [
-            'description' => $prospect['name'],
-            'long_description' => $prospect['description'],
-            'rate' => $prospect['price'],
-            'qty' => 1,  // Assuming each prospect is a single unit
-        ];
-
-        // Add the item to the invoice items array
-        $invoice_items[] = $item;
+    log_message('error', 'when invoice is updated');
+    //if status is paid
+    if ($status != Invoices_model::PAID)
+        return;
+    $CI = &get_instance();
+    $CI->load->model('Client_invoices_model');
+    $CI->load->model('leadevo/Campaigns_model');
+    $invoice = $CI->invoice_model->get_by_id($invoice_id);
+    if (!$invoice) {
+        return false;
     }
-    // Save the invoice
-    $invoice->save();
 
-    // Optionally, send the invoice automatically
-    send_invoice($invoice->id);
+    // check if invoice is of cart of campaign
+    $campaign = $CI->Campaign_model->get_by_invoice($invoice->invoice_id);
+    if ($campaign) {
+        // update campaign status
+        $campaign->status_id = 1;
+        $CI->Campaign_model->update($campaign->id, $campaign);
+    }
 }
 
-function create_invoice_for_prospects($client_id, $invoice_items)
-{
-    // Create a new invoice
-    $CI =& get_instance();
-    $CI->load->model('invoices_model');
-
-    $invoice_data = [
-        'clientid' => $client_id,
-        'date' => date('Y-m-d'),
-        'duedate' => date('Y-m-d', strtotime('+30 days')),
-        'status' => 1,  // Draft or Unpaid status
-        'currency' => 1, // Assuming default currency, you can modify as needed
-        'newitems' => $invoice_items,  // Adding all prospects as line items
-    ];
-
-    // Save the invoice
-    $invoice_id = $CI->invoices_model->add($invoice_data);
-
-    return $invoice_id;
-}
 
 /**
  * Check whether the user disabled verification emails for contacts
