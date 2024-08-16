@@ -104,14 +104,15 @@ class Campaigns extends ClientsController
 
                 // set_alert('success', 'Campaign created successfully.');
                 // Return success response
-                echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
-
+                log_message('error', ' creating invoice');
                 $budget=$data['budget'];
-                $invoice_id = $this->checkout($budget);
+                $invoice = $this->checkout($budget);
 
-                $this->Campaigns_model->update_invoice($campaign_id, $invoice_id);
-                $invoice = $this->Client_invoices_model->get_invoice($invoice_id);
-                echo json_encode(['status' => 'success', 'data' => $invoice]);
+                
+                $this->Campaigns_model->update_invoice($campaign_id, $invoice['id']);
+
+                echo json_encode(['status' => 'success', 'data' => site_url('invoice/' . $invoice['id'] . '/' . $invoice['hash'])]);
+                // echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
 
             }
         }
@@ -244,7 +245,8 @@ class Campaigns extends ClientsController
         }
 
         $id = $this->Client_invoices_model->add($invoice_data);
-        return $id;
+        $invoice_data['id'] = $id;
+        return $invoice_data;
         // if ($id) {
         //     echo json_encode(['status' => 'success', 'data' => $id]);
         //     $data = ['invoice_id' => $id];

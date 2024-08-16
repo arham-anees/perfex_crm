@@ -62,10 +62,12 @@ class Campaigns_model extends CI_Model
         $this->db->insert($this->table, $data);
         return $this->db->insert_id(); // Return the last inserted ID
     }
-    
+
     public function update_invoice($campaign_id, $invoice_id)
     {
-        $this->db->where('id', $campaign_id)->update('invoice_id', $invoice_id);
+        $data = ['invoice_id' => $invoice_id]; // Data array for the update
+        $this->db->where('id', $campaign_id); // Specify the record to update
+        $this->db->update('leadevo_campaign', $data);
 
     }
     public function update($id, $data)
