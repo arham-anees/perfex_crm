@@ -63,13 +63,4 @@ class Marketplace extends AdminController
         redirect(admin_url('prospects'));
     }
 
-
-    public function send_prospects()
-    {
-        $campaigns = $this->Campaigns_model->get_active();
-        foreach ($campaigns as $campaign) {
-            $this->Prospects_model->deliver_prospects($campaign->id);
-        }
-    }
-
 }
