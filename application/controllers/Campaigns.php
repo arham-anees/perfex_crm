@@ -102,18 +102,18 @@ class Campaigns extends ClientsController
                 $campaign_id = $this->Campaigns_model->insert($data);
 
 
-                // set_alert('success', 'Campaign created successfully.');
+
                 // Return success response
                 log_message('error', ' creating invoice');
-                $budget=$data['budget'];
+                $budget = $data['budget'];
                 $invoice = $this->checkout($budget);
 
-                
+
                 $this->Campaigns_model->update_invoice($campaign_id, $invoice['id']);
 
                 echo json_encode(['status' => 'success', 'data' => site_url('invoice/' . $invoice['id'] . '/' . $invoice['hash'])]);
                 // echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
-
+                set_alert('success', 'Campaign created successfully.');
             }
         }
     }
