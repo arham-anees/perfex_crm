@@ -10,7 +10,7 @@
                         <?php if ($this->session->flashdata('error')): ?>
                             <div class="alert alert-danger"><?php echo $this->session->flashdata('error'); ?></div>
                         <?php endif; ?>
-                        <?php echo form_open(admin_url('leadevo/campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
+                        <?php echo form_open(admin_url('campaigns/edit/' . $campaign->id), ['id' => 'campaign-form']); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
                             <input type="text" id="name" name="name" class="form-control"
@@ -24,12 +24,12 @@
                         <div class="form-group">
                             <label for="start_date"><?php echo _l('Start Date'); ?></label>
                             <input type="date" id="start_date" name="start_date" class="form-control"
-                                value="<?php echo $campaign->start_date; ?>" required>
+                                value="<?php echo date('Y-m-d', strtotime($campaign->start_date)); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="end_date"><?php echo _l('End Date'); ?></label>
                             <input type="date" id="end_date" name="end_date" class="form-control"
-                                value="<?php echo $campaign->end_date; ?>" required>
+                                value="<?php echo date('Y-m-d', strtotime($campaign->end_date)); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="industry_id"><?php echo _l('Industry'); ?></label>
