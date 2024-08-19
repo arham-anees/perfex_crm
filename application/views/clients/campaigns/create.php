@@ -242,12 +242,13 @@
             }
         });
 
-        backBtn.addEventListener('click', function () {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
+        backBtn.addEventListener('click', function (event) {
+        event.preventDefault(); // Prevent default button behavior
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
         $('#createCampaignModal').on('shown.bs.modal', function () {
             showStep(currentStep);
             document.getElementById('nextBtn').disabled = true;
@@ -399,11 +400,11 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.status) {
                         // Optionally redirect or update the UI
                         window.location.reload();
                     } else {
-                        alert('Error: ' + data.message);
+                        alert('Error: ' + data.status=='success' );
                     }
                 })
                 .catch(error => {
@@ -424,6 +425,10 @@
             if (isFormSubmitted) return;
             isFormSubmitted = true;
             console.log('submitted')
+            if (isFormSubmitted){
+                document.getElementById('nextBtn').disabled = true;
+                document.getElementById('backBtn').disabled = true;
+            }
             collectAndSendData();
         });
 
