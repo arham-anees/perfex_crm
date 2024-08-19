@@ -518,6 +518,13 @@ class Prospects_model extends CI_Model
 
         $sql = $temp_table;
 
+        // TODO: cap: read market cap
+        // TODO: decode json
+        // TODO: cap_today: get market cap of today
+        // TODO: if(cap_today!=null) total_prospect  = cap_today.count
+        // TODO: else delivered_today: get prospects delivered today
+        // TODO: if delivered_today > 0 continue;
+        // TODO: else execute the following 2 lines
         $prospects = $this->db->query($sql)->result();
         $total_prospects = count($prospects);
 
@@ -572,8 +579,8 @@ class Prospects_model extends CI_Model
 
                 if ($campaign->deal == 1) {
                     $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
+                    // TODO: clear from carts, if the prospect is exclusive
                 }
-                // TODO: clear from carts
             }
 
             // If everything is successful, commit the transaction
