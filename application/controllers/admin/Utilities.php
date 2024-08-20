@@ -8,7 +8,6 @@ class Utilities extends AdminController
     {
         parent::__construct();
         $this->load->model('utilities_model');
-        $this->load->model('leadevo/Stats_model'); 
     }
 
     /* All perfex activity log */
@@ -371,14 +370,5 @@ class Utilities extends AdminController
         $data['title'] = _l('bulk_pdf_exporter');
         $this->load->view('admin/utilities/bulk_pdf_exporter', $data);
     }
-    public function statistics() {
-        $data['marketplace_stats'] = $this->Stats_model->admin_marketplace();
-        $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
-        $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
-        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
 
-    
-        // Load the view with the stats data
-        $this->load->view('admin/utilities/statistics', $data);
-    }
 }

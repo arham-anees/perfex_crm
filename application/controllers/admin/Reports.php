@@ -19,6 +19,7 @@ class Reports extends AdminController
         }
         $this->ci = &get_instance();
         $this->load->model('reports_model');
+        $this->load->model('leadevo/Stats_model'); 
     }
 
     /* No access on this url */
@@ -1220,5 +1221,16 @@ class Reports extends AdminController
     private function distinct_taxes($rel_type)
     {
         return $this->db->query('SELECT DISTINCT taxname,taxrate FROM ' . db_prefix() . "item_tax WHERE rel_type='" . $rel_type . "' ORDER BY taxname ASC")->result_array();
+    }
+
+    public function statistics() {
+        $data['marketplace_stats'] = $this->Stats_model->admin_marketplace();
+        $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
+        $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
+        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
+
+    
+        // Load the view with the stats data
+        $this->load->view('admin/reports/statistics', $data);
     }
 }

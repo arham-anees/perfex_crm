@@ -207,7 +207,6 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
   $CI->app_menu->add_sidebar_menu_item('information_point_menu', [
-    'slug' => 'information_point', // Ensure this slug is unique
     'name' => _l('Information Points'),
     'href' => admin_url('information_point'), // Use admin_url for admin-side links
     'icon' => 'fa fa-exclamation-circle',
@@ -344,13 +343,6 @@ function app_init_admin_sidebar_menu_items()
             'badge' => [],
         ]);
 
-        $CI->app_menu->add_sidebar_children_item('utilities', [
-            'slug' => 'statistics',
-            'name' => _l('als_statistics_submenu'),
-            'href' => admin_url('utilities/statistics'),
-            'position' => 35,
-            'badge' => [],
-        ]);
     }
 
     if (staff_can('view-timesheets', 'reports') || staff_can('view', 'reports')) {
@@ -408,6 +400,14 @@ function app_init_admin_sidebar_menu_items()
             'name' => _l('als_kb_articles_submenu'),
             'href' => admin_url('reports/knowledge_base_articles'),
             'position' => 30,
+            'badge' => [],
+        ]);
+
+        $CI->app_menu->add_sidebar_children_item('reports', [
+            'slug' => 'statistics',
+            'name' => _l('als_statistics_submenu'),
+            'href' => admin_url('reports/statistics'),
+            'position' => 35,
             'badge' => [],
         ]);
     }

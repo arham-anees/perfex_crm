@@ -975,7 +975,7 @@ class Invoices_model extends App_Model
         $updated = false;
 
         // Perhaps draft?
-        if (isset($data['nubmer'])) {
+        if (isset($data['number'])) {
             $data['number'] = trim($data['number']);
         }
 

@@ -204,7 +204,7 @@
                                 <th>Tags</th>
                                 <th>Status</th>
                                 <th>Source</th>
-                                <th>Created On</th>
+                                <th>Purchased On</th>
                             </tr>
                         </thead>
                         <tbody>

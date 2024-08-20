@@ -27,7 +27,7 @@ class ClientsController extends App_Controller
         if (
             is_staff_logged_in()
         ) {
-            redirect(admin_url());
+            // redirect(admin_url());
         }
 
 
