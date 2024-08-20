@@ -481,7 +481,8 @@ class Prospects_model extends CI_Model
 
     public function deliver_prospects($campaing_id)
     {
-        $sql = "SELECT id, client_id, industry_id, country_id, deal,budget,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence
+        $sql = "SELECT id, client_id, industry_id, country_id, deal,budget,  verify_by_staff, verify_by_sms, verify_by_whatsapp, verify_by_coherence,
+                timings
                 FROM `tblleadevo_campaign`
                 WHERE is_active = 1 AND status_id = 1 AND `start_date` < NOW() AND `end_date` > NOW() AND Id = " . $campaing_id . ";";
 
@@ -518,15 +519,94 @@ class Prospects_model extends CI_Model
 
         $sql = $temp_table;
 
-        // TODO: cap: read market cap
-        // TODO: decode json
-        // TODO: cap_today: get market cap of today
-        // TODO: if(cap_today!=null) total_prospect  = cap_today.count
-        // TODO: else delivered_today: get prospects delivered today
-        // TODO: if delivered_today > 0 continue;
-        // TODO: else execute the following 2 lines
+
+
+        /** MARKET CAP
+         * Market Cap is the amount of max prospects a user wants to receive
+         * on specific date and time.
+         * The logic below is the we fetch prospects delivered today and market caps, find caps for current date. If the market cap is set
+         * within past hour, it will send the prospects to the client.
+         * if the market cap is set we also check the delivered today, if there is delivery in past one hour, then 
+         * we do not send any new lead to user.
+         * 
+         * NOTE: CURRENTLY IT IS SAFE TO KEEP A GAP OF ATLEAST ONE HOUR BETWEEN THE CAP SLOTS.
+         */
+
+        $delivered_today_sql = "SELECT * FROM tblleadevo_leads ll
+        WHERE ll.campaign_id IS NOT NULL  AND DATE(ll.created_at) = CURDATE() AND ll.client_id = " . $campaign->client_id;
+
+        $delivered_today = $this->db->query($delivered_today_sql)->result();
+        // read market cap
+        $cap_str = $campaign->timings;
+        $caps = json_decode($cap_str, true);
+        // total prospects -1 indicates that the cap is not applicable.
+        $total_prospects = -1;
+        if (count($caps) > 0) {
+            $continue_process = true;
+            $dateFound = false;
+            foreach ($caps as $datetimeString) {
+                list($datePart, $numberPart) = explode(' ', $datetimeString);
+
+                $datetime = new DateTime($datePart);
+                $number = (int) $numberPart; // Parse the number as an integer
+
+                $currentDate = new DateTime();
+                $isSameDate = $datetime->format('Y-m-d') === $currentDate->format('Y-m-d');
+
+
+                if ($isSameDate == true) {
+                    $dateFound = true;
+                    $oneHourAgo = (clone $currentDate)->modify('-1 hour');
+
+                    if ($datetime > $oneHourAgo && $datetime <= $currentDate) {
+                        $continue_process = true;
+                        $total_prospects = $number;
+                        break;
+                    }
+                } else {
+                    $continue_process = false;
+                }
+            }
+            if ($continue_process == false && $dateFound == true) {
+                return;
+            } else {
+                /**
+                 * If we have a market cap set, check if we have delivered 
+                 * some prospects in last hour, then we will skip it here.
+                 */
+                $currentDateTime = new DateTime();
+                $oneHourAgo = (clone $currentDateTime)->modify('-1 hour');
+
+                $found = false;
+
+                // Loop through each object in the array
+                foreach ($delivered_today as $entry) {
+                    // Access the datetime attribute
+                    $datetimeString = $entry->created_at;
+
+                    // Parse the datetime string into a DateTime object
+                    $datetime = new DateTime($datetimeString);
+
+                    // Check if the datetime is within the last hour
+                    if ($datetime > $oneHourAgo && $datetime <= $currentDateTime) {
+                        $found = true;
+                        break; // No need to check further, one valid entry is enough
+                    }
+                }
+                if ($found == true) {
+                    return;
+                }
+            }
+        }
+        // else delivered_today: get prospects delivered today
+        //  if delivered_today > 0 continue;
+        else if (count($delivered_today) > 0) {
+            return;
+        }
         $prospects = $this->db->query($sql)->result();
-        $total_prospects = count($prospects);
+        if ($total_prospects == -1) {
+            $total_prospects = count($prospects);
+        }
 
         // now fetch prospects based on star weightage
         $sql = $temp_table;
@@ -560,12 +640,18 @@ class Prospects_model extends CI_Model
             // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect) {
                 $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id)->row()->budget_spent;
-                if ($budget_spent >= $campaign->budget)
-                    // TODO: mark the campaign as completed
+                if ($budget_spent >= $campaign->budget) {
+                    //  mark the campaign as completed
+                    $this->db->query("UPDATE tblleadevo_Campaign SET status_id = 2 WHERE id = " . $campaign->id);
                     continue;
-                $budget = $prospect->desired_amount;
-                if (($budget_spent + $prospect->desired_amount) >= $campaign->budget && ($budget_spent + $prospect->min_amount) <= $campaign->budget)
+                }
+                $budget = 0;
+                if (($budget_spent + $prospect->desired_amount) <= $campaign->budget)
+                    $budget = $prospect->desired_amount;
+                else if (($budget_spent + $prospect->min_amount) <= $campaign->budget)
                     $budget = $prospect->min_amount;
+                else
+                    continue;
 
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
@@ -579,7 +665,8 @@ class Prospects_model extends CI_Model
 
                 if ($campaign->deal == 1) {
                     $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
-                    // TODO: clear from carts, if the prospect is exclusive
+                    // clear from carts, if the prospect is exclusive
+                    $this->db->query("DELETE FROM tblleadevo_cart WHERE invoice_id IS NULL and prospect_id = " . $prospect->id);
                 }
             }
 
@@ -589,6 +676,7 @@ class Prospects_model extends CI_Model
                 $this->db->trans_rollback();
             } else {
                 // Commit the transaction
+                // $this->db->trans_rollback();
                 $this->db->trans_commit();
             }
 
