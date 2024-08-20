@@ -147,7 +147,7 @@ class Prospects_model extends CI_Model
                     p.is_confirmed AS confirm_status,
                     p.is_fake,
                     p.is_available_sale,
-                    P.desired_amount,
+                    p.desired_amount,
                     p.min_amount,
                     r.rating,
                     p.phone,
