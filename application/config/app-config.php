@@ -53,7 +53,7 @@ define('APP_DB_PASSWORD', 'LeadEvo@10');
 /**
  * The name of the database you want to connect to
  */
-define('APP_DB_NAME', 'softosol_perfex');
+define('APP_DB_NAME', 'perfex_crm');
 
 /**
  * @since  2.3.0

@@ -23,12 +23,12 @@
                 <div class="form-group">
                     <label for="start_date"><?php echo _l('Start Date'); ?></label>
                     <input type="date" id="start_date" name="start_date" class="form-control"
-                        value="<?php echo $campaign->start_date; ?>" required>
+                    value="<?php echo date('Y-m-d', strtotime($campaign->start_date)); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="end_date"><?php echo _l('End Date'); ?></label>
                     <input type="date" id="end_date" name="end_date" class="form-control"
-                        value="<?php echo $campaign->end_date; ?>" required>
+                    value="<?php echo date('Y-m-d', strtotime($campaign->end_date)); ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="status_id"><?php echo _l('Status'); ?></label>
@@ -44,6 +44,10 @@
                     <label for="budget"><?php echo _l('Budget'); ?></label>
                     <input type="number" id="budget" name="budget" class="form-control"
                         value="<?php echo $campaign->budget; ?>" required>
+                </div>
+                <div class="form-group">
+                    <label for="is_active"><?php echo _l('Active'); ?></label>
+                    <input type="checkbox" id="is_active" name="is_active" value="1" <?php echo $campaign->is_active ? 'checked' : ''; ?>>
                 </div>
                 <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                 <?php echo form_close(); ?>
