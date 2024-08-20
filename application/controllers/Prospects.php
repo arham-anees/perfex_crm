@@ -19,9 +19,9 @@ class Prospects extends ClientsController
     {
         $filter = $this->input->get('filter');
         if ($filter)
-            $data['prospects'] = $this->Prospects_model->get_all_by_filter($filter);
+            $data['prospects'] = $this->Prospects_model->get_all_client($filter);
         else
-            $data['prospects'] = $this->Prospects_model->get_all_client();
+            $data['prospects'] = $this->Prospects_model->get_all_client('');
 
 
 
