@@ -96,7 +96,7 @@ class Prospects_model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
-    public function get_all_client($filter)
+    public function get_all_client()
     {
         $sql = "SELECT 
                     p.id, 

@@ -1728,7 +1728,7 @@ class Clients_model extends App_Model
             INNER JOIN `tblleadevo_leads` ll
             ON l.id = ll.lead_id 
             LEFT join tblleads_sources s
-            ON S.id = l.source
+            ON s.id = l.source
             LEFT JOIN tblleads_status ls
             ON ls.id = l.status
             LEFT JOIN tblleadevo_reported_prospects rp
