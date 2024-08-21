@@ -20,7 +20,7 @@ class Stats_model extends CI_Model
                 FROM tblclients c
                 INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
                 INNER JOIN tblleadevo_reported_prospects r ON r.client_id = c.userid
-                WHERE c.client_id = " . get_client_user_id();
+                WHERE l.client_id = " . get_client_user_id();
         $query = $this->db->query($sql);
         return $query->result();
     }
@@ -42,7 +42,7 @@ class Stats_model extends CI_Model
                 INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
                 INNER JOIN tblleadevo_prospects p ON p.id = l.prospect_id
                 INNER JOIN tblleadevo_campaign campaigns ON campaigns.client_id = c.userid
-                WHERE c.client_id = " . get_client_user_id();
+                WHERE l.client_id = " . get_client_user_id();
         $query = $this->db->query($sql);
         return $query->result();
     }
