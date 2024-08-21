@@ -11,20 +11,38 @@ class Stats_model extends CI_Model
 
     public function client_dashboard()
     {
-        $sql = "SELECT 10 prospect_amount, 2 reported_today, 20 delivered_today, 22 delivered_yesterday, 100.5 prospect_avg_price 
-            FROM tblleadevo_prospects";
+        $sql = "SELECT 
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS prospect_amount,
+                    COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) reported_today,
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS delivered_today,
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS delivered_yesterday,
+                    AVG(CASE WHEN DATE(l.created_at) = CURDATE() THEN l.price END) AS prospect_avg_price
+                FROM tblclients c
+                INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
+                INNER JOIN tblleadevo_reported_prospects r ON r.client_id = c.userid
+                WHERE c.client_id = " . get_client_user_id();
         $query = $this->db->query($sql);
         return $query->result();
     }
     public function client_campaigns()
     {
-        $sql = "SELECT 10 open_today,0 open_yesterday,  
-                2 closed_today, 5 closed_yesterday, 
-                20 to_deliver_today, 
-                22 exclusive_delivered_yesterday,21 exclusive_delivered_today,
-                26 non_exclusive_delivered_yesterday,29 non_exclusive_delivered_today, 
-                100.5 avg_price_exclusive, 109.3 avg_price_non_exclusive 
-                FROM tblleadevo_prospects";
+        $sql = "SELECT 
+                    COUNT(CASE WHEN DATE(start_date) = CURDATE() THEN 1 END) AS open_today,
+                    COUNT(CASE WHEN DATE(start_date) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS open_yesterday,
+                    COUNT(CASE WHEN DATE(end_date) = CURDATE() AND campaigns.status_id = 1 THEN 1 END) AS closed_today,
+                    COUNT(CASE WHEN DATE(end_date) = CURDATE() - INTERVAL 1 DAY AND campaigns.status_id = 1 THEN 1 END) AS closed_yesterday,
+                    COUNT(CASE WHEN DATE(end_date) = CURDATE() THEN 1 END) AS to_deliver_today,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_yesterday,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE()  AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_today,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_yesterday,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_today,
+                    AVG(CASE WHEN p.is_exclusive = 1 THEN l.price ELSE NULL END) AS avg_price_exclusive,
+                    AVG(CASE WHEN p.is_exclusive = 0 THEN l.price ELSE NULL END) AS avg_price_non_exclusive
+                FROM tblclients c
+                INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
+                INNER JOIN tblleadevo_prospects p ON p.id = l.prospect_id
+                INNER JOIN tblleadevo_campaign campaigns ON campaigns.client_id = c.userid
+                WHERE c.client_id = " . get_client_user_id();
         $query = $this->db->query($sql);
         return $query->result();
     }
