@@ -662,9 +662,15 @@
                                 $invoice_item_taxes = get_invoice_item_taxes($item['id']);
                                 // passed like string
                                 if ($item['id'] == 0) {
-                                    $invoice_item_taxes = $item['taxname'];
-                                    $manual             = true;
+                                    // Check if 'taxname' key exists in the array
+                                    if (isset($item['taxname'])) {
+                                        $invoice_item_taxes = $item['taxname'];
+                                    } else {
+                                        $invoice_item_taxes = ''; // or a default value if 'taxname' is not set
+                                    }
+                                    $manual = true;
                                 }
+                                
                                 $table_row .= form_hidden('' . $items_indicator . '[' . $i . '][itemid]', $item['id']);
                                 $amount = $item['rate'] * $item['qty'];
                                 $amount = app_format_number($amount);
