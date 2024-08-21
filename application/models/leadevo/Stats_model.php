@@ -47,37 +47,116 @@ class Stats_model extends CI_Model
         return $query->result();
     }
 
+    // public function admin_marketplace()
+    // {
+    //     $sql = "SELECT 10 exclusive_for_sale_today, 20 exclusive_for_sale_yesterday,
+    //             12 non_exclusive_for_sale_today, 27 non_exclusive_for_sale_yesterday,
+    //             15 exclusive_sold_today, 33 exclusive_sold_yesterday,
+    //             42 non_exclusive_sold_today, 45 non_exclusive_sold_yesterday,
+    //             3 exclusive_avg_time, 27 non_exclusive_avg_time,
+    //             143 exclusive_avg_price, 100.3 non_exclusive_avg_price,
+    //             2 reported_today, 3 reported_yesterday
+    //             FROM tblleadevo_prospects
+    //             ";
+    // }
+
     public function admin_marketplace()
     {
-        $sql = "SELECT 10 exclusive_for_sale_today, 20 exclusive_for_sale_yesterday,
-                12 non_exclusive_for_sale_today, 27 non_exclusive_for_sale_yesterday,
-                15 exclusive_sold_today, 33 exclusive_sold_yesterday,
-                42 non_exclusive_sold_today, 45 non_exclusive_sold_yesterday,
-                3 exclusive_avg_time, 27 non_exclusive_avg_time,
-                143 exclusive_avg_price, 100.3 non_exclusive_avg_price,
-                2 reported_today, 3 reported_yesterday
-                FROM tblleadevo_prospects
-                ";
-    }
-    public function admin_campaigns()
-    {
-        $sql = "SELECT 10 open_today,0 open_yesterday,  
-                2 closed_today, 5 closed_yesterday, 
-                20 to_deliver_today, 
-                22 exclusive_delivered_yesterday,21 exclusive_delivered_today,
-                26 non_exclusive_delivered_yesterday,29 non_exclusive_delivered_today, 
-                100.5 avg_price_exclusive, 109.3 avg_price_non_exclusive 
-                FROM tblleadevo_prospects";
+        $sql = "SELECT 
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_for_sale_today,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_for_sale_yesterday,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_for_sale_today,
+                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_for_sale_yesterday,
+                    
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_sold_today,
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_sold_yesterday,
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold_today,
+                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold_yesterday,
+                    
+                    AVG(CASE WHEN p.is_exclusive = 1 THEN TIMESTAMPDIFF(HOUR, p.created_at, l.created_at) ELSE NULL END) AS exclusive_avg_time,
+                    AVG(CASE WHEN p.is_exclusive = 0 THEN TIMESTAMPDIFF(HOUR, p.created_at, l.created_at) ELSE NULL END) AS non_exclusive_avg_time,
+                    
+                    AVG(CASE WHEN p.is_exclusive = 1 THEN l.price ELSE NULL END) AS exclusive_avg_price,
+                    AVG(CASE WHEN p.is_exclusive = 0 THEN l.price ELSE NULL END) AS non_exclusive_avg_price,
+                    
+                    COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) AS reported_today,
+                    COUNT(CASE WHEN DATE(r.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS reported_yesterday
+                FROM tblleadevo_prospects p
+                LEFT JOIN tblleadevo_leads l ON l.prospect_id = p.id
+                LEFT JOIN tblleadevo_reported_prospects r ON r.prospect_id = p.id";
+
         $query = $this->db->query($sql);
         return $query->result();
     }
 
-    public function admin_industry_monitoring()
+
+    // public function admin_campaigns()
+    // {
+    //     $sql = "SELECT 10 open_today,0 open_yesterday,  
+    //             2 closed_today, 5 closed_yesterday, 
+    //             20 to_deliver_today, 
+    //             22 exclusive_delivered_yesterday,21 exclusive_delivered_today,
+    //             26 non_exclusive_delivered_yesterday,29 non_exclusive_delivered_today, 
+    //             100.5 avg_price_exclusive, 109.3 avg_price_non_exclusive 
+    //             FROM tblleadevo_prospects";
+    //     $query = $this->db->query($sql);
+    //     return $query->result();
+    // }
+
+    public function admin_campaigns()
     {
-        $sql = "SELECT 'test' industry, 10 received, 23 exclusive_sold, 34 non_exclusive_sold from tblleadevo_prospects";
+        $sql = "SELECT 
+                COUNT(CASE WHEN DATE(campaigns.start_date) = CURDATE() THEN 1 END) AS open_today,
+                COUNT(CASE WHEN DATE(campaigns.start_date) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS open_yesterday,
+                
+                COUNT(CASE WHEN DATE(campaigns.end_date) = CURDATE() AND campaigns.status_id = 1 THEN 1 END) AS closed_today,
+                COUNT(CASE WHEN DATE(campaigns.end_date) = CURDATE() - INTERVAL 1 DAY AND campaigns.status_id = 1 THEN 1 END) AS closed_yesterday,
+                
+                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS to_deliver_today,
+                
+                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_today,
+                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_yesterday,
+                
+                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_today,
+                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_yesterday,
+                
+                AVG(CASE WHEN p.is_exclusive = 1 THEN l.price ELSE NULL END) AS avg_price_exclusive,
+                AVG(CASE WHEN p.is_exclusive = 0 THEN l.price ELSE NULL END) AS avg_price_non_exclusive
+            FROM tblleadevo_campaign campaigns
+            LEFT JOIN tblleadevo_leads l ON campaigns.id = l.campaign_id
+            LEFT JOIN tblleadevo_prospects p ON p.id = l.prospect_id";
+
         $query = $this->db->query($sql);
         return $query->result();
     }
+
+
+
+
+
+    // public function admin_industry_monitoring()
+    // {
+    //     $sql = "SELECT 'test' industry, 10 received, 23 exclusive_sold, 34 non_exclusive_sold from tblleadevo_prospects";
+    //     $query = $this->db->query($sql);
+    //     return $query->result();
+    // }
+
+
+    public function admin_industry_monitoring()
+    {
+        $sql = "SELECT 
+                i.name AS industry, 
+                COUNT(p.id) AS received,
+                COUNT(CASE WHEN p.is_exclusive = 1 THEN 1 END) AS exclusive_sold,
+                COUNT(CASE WHEN p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold
+            FROM tblleadevo_prospects p
+            LEFT JOIN tblleadevo_industries i ON p.industry_id = i.id
+            GROUP BY i.name";
+
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
 
     public function admin_prospect_verification()
     {
