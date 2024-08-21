@@ -132,8 +132,8 @@ class Prospects_model extends CI_Model
                 p.is_active = 1 
                 AND is_fake = 0 
                 AND client_id = " . get_client_user_id();
-                
-         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+
+        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
@@ -716,6 +716,64 @@ class Prospects_model extends CI_Model
                     $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
                     // clear from carts, if the prospect is exclusive
                     $this->db->query("DELETE FROM tblleadevo_cart WHERE invoice_id IS NULL and prospect_id = " . $prospect->id);
+                }
+            }
+
+            // If everything is successful, commit the transaction
+            if ($this->db->trans_status() === FALSE) {
+                // If something went wrong, roll back the transaction
+                $this->db->trans_rollback();
+            } else {
+                // Commit the transaction
+                // $this->db->trans_rollback();
+                $this->db->trans_commit();
+            }
+
+        } catch (Exception $e) {
+            // Rollback transaction if any exception occurs
+            $this->db->trans_rollback();
+            throw new Exception("Transaction failed with exception: " . $e->getMessage());
+        }
+
+        //INSERT INTO tblinvoices (clientid, date, duedate, subtotal, total, status, currency, addedfrom, prefix, number, hash)
+        //VALUES (1, '2024-08-12', '2024-09-12', 100.00, 100.00, 1, 1, 1, 'INV-', 1001, MD5(RAND()));
+        //INSERT INTO tblinvoiceitems (invoiceid, description, qty, rate, taxid, taxrate)
+        //VALUES (LAST_INSERT_ID(), 'Service Description', 1, 100.00, NULL, 0);
+
+
+    }
+
+    public function deliver_prospects_cart($client_id, $prospects)
+    {
+        if (!isset($prospects)) {
+            return;
+        }
+
+        // send these prospects to client
+        $sql = '';
+        $this->db->trans_begin();
+
+        try {
+            // insert each prospect into the tblleadevo_prospects_purchased
+            foreach ($prospects as $prospect_cart) {
+                $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_cart->prospect_id)->row();
+                // create invoice for each
+                $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
+                    . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
+                $this->db->query($sql);
+
+                // Get the last inserted ID from tblleads
+                $lastInsertId = $this->db->insert_id();
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect_cart->price . "');";
+                $this->db->query($sql);
+
+                if ($prospect->is_exclusive == 1) {
+                    $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
+                    // clear from carts, if the prospect is exclusive
+                    $this->db->query("DELETE FROM tblleadevo_cart WHERE prospect_id = " . $prospect->id);
+                } else {
+                    $this->db->query("DELETE FROM tblleadevo_cart WHERE Invoice_id = " . $prospect_cart->invoice_id . " prospect_id = " . $prospect->id);
+
                 }
             }
 

@@ -76,4 +76,11 @@ class Cart_model extends CI_Model
             $this->db->query($sql);
         }
     }
+
+    public function get_by_invoice($invoice_id)
+    {
+        $this->db->where('invoice_id', $invoice_id);
+        $query = $this->db->get('tblleadevo_cart');
+        return $query->result_array();
+    }
 }
