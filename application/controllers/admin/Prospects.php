@@ -277,4 +277,23 @@ class Prospects extends AdminController
         }
 
     }
+
+    public function get_prospect_data()
+    {
+        $id = $this->input->get('id');
+        if ($id) {
+            $prospect = $this->Prospects_model->get($id);
+    
+            $prospect->full_name = $prospect->first_name . ' ' . $prospect->last_name;
+            $prospect->status = $this->Prospect_status_model->get($prospect->status_id)->name ?? 'Unknown';
+            $prospect->type = $this->Prospect_types_model->get($prospect->type_id)->name ?? 'Unknown';
+            $prospect->category = $this->Prospect_categories_model->get($prospect->category_id)->name ?? 'Unknown';
+            $prospect->acquisition_channel = $this->Acquisition_channels_model->get($prospect->acquisition_channel_id)->name ?? 'Unknown';
+            $prospect->industry = $this->Industries_model->get($prospect->industry_id)->name ?? 'Unknown';
+        
+            echo json_encode($prospect);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid prospect ID']);
+        }
+    }
 }
