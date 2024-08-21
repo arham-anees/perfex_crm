@@ -20,39 +20,29 @@ class ClientsController extends App_Controller
     {
         parent::__construct();
 
-        /**
-         * If database upgrade is required, redirect the user to the admin uri because there the upgrade is performed
-         * This code can prevent confusions when there are errors thrown on the client side because the database is not updated yet.
-         */
+
+        $cart_prospects = [];
+        // $currentUser = new stdClass();
+        // $currentUser->direction = 'ltr';
+
         if (
-            is_staff_logged_in()
+            !is_client_logged_in()
         ) {
-            // redirect(admin_url());
+
+            $this->load->model('leadevo/Cart_model');
+            $currentUser = $this->session->get_userdata();
+
+            $cart_prospects = $this->Cart_model->get_cart_prospects();
+
+            // $GLOBALS['current_user'] = $currentUser;
+            $GLOBALS['cart_prospects'] = $cart_prospects;
         }
 
 
         hooks()->do_action('client_init');
         hooks()->do_action('app_client_assets');
 
-        // $this->db->where('id', get_client_user_id());
-        // $this->db->update('contact', ['last_activity' => date('Y-m-d H:i:s')]);
 
-        // $this->load->model('staff_model');
-
-        $currentUser = $this->session->get_userdata();
-
-        // Deleted or inactive but have session
-        // if (!$currentUser || $currentUser->active == 0) {
-        //     $this->authentication_model->logout();
-        //     redirect(site_url('authentication'));
-        // }
-
-        $this->load->model('leadevo/Cart_model');
-
-        $cart_prospects = $this->Cart_model->get_cart_prospects();
-
-        $GLOBALS['current_user'] = $currentUser;
-        $GLOBALS['cart_prospects'] = $cart_prospects;
         $this->load->library('app_clients_area_constructor');
 
         if (method_exists($this, 'validateContact')) {
@@ -61,7 +51,7 @@ class ClientsController extends App_Controller
 
         // init_admin_assets();
         $vars = [
-            'current_user' => $currentUser,
+
             'current_version' => $this->current_db_version,
             'task_statuses' => $this->tasks_model->get_statuses(),
             'cart_prospects' => $cart_prospects

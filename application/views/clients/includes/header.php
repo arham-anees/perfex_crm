@@ -53,18 +53,18 @@
         font-size: 14px;
         padding: 10px;
     }
-    .cart{
+
+    .cart {
         text-align: center;
     }
-    .primary{
+
+    .primary {
         text-align: center;
     }
-    .see_all{
+
+    .see_all {
         text-align: center !important;
     }
- 
-
-
 </style>
 <?php if (is_client_logged_in()) { ?>
     <div id="header">
@@ -91,62 +91,62 @@
                             <ul class="dropdown-menu search-results animated fadeIn search-history" id="search-history">
                             </ul>
                         <?php } ?>
-                        </div>
-                        <ul class="nav navbar-nav visible-md visible-lg">
-                            <?php
-                            $quickActions = collect($this->app->get_quick_actions_links())->reject(function ($action) {
-                                return isset($action['permission']) && staff_cant('create', $action['permission']);
-                            });
-                            ?>
-                            <?php if ($quickActions->isNotEmpty()) { ?>
-                                <li class="icon tw-relative ltr:tw-mr-1.5 rtl:tw-ml-1.5" title="<?php echo _l('quick_create'); ?>"
-                                    data-toggle="tooltip" data-placement="bottom">
-                                    <a href="#" class="!tw-px-0 tw-group !tw-text-white" data-toggle="dropdown">
-                                        <span
-                                            class="tw-rounded-full tw-bg-primary-600 tw-text-white tw-inline-flex tw-items-center tw-justify-center tw-h-7 tw-w-7 -tw-mt-1 group-hover:!tw-bg-primary-700">
-                                            <i class="fa-regular fa-plus fa-lg"></i>
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-right animated fadeIn tw-text-base">
-                                        <li class="dropdown-header tw-mb-1">
-                                            <?php echo _l('quick_create'); ?>
-                                        </li>
-                                        <?php foreach ($quickActions as $key => $item) {
-                                            $url = '';
-                                            if (isset($item['permission'])) {
-                                                if (staff_cant('create', $item['permission'])) {
-                                                    continue;
-                                                }
+                    </div>
+                    <ul class="nav navbar-nav visible-md visible-lg">
+                        <?php
+                        $quickActions = collect($this->app->get_quick_actions_links())->reject(function ($action) {
+                            return isset($action['permission']) && staff_cant('create', $action['permission']);
+                        });
+                        ?>
+                        <?php if ($quickActions->isNotEmpty()) { ?>
+                            <li class="icon tw-relative ltr:tw-mr-1.5 rtl:tw-ml-1.5" title="<?php echo _l('quick_create'); ?>"
+                                data-toggle="tooltip" data-placement="bottom">
+                                <a href="#" class="!tw-px-0 tw-group !tw-text-white" data-toggle="dropdown">
+                                    <span
+                                        class="tw-rounded-full tw-bg-primary-600 tw-text-white tw-inline-flex tw-items-center tw-justify-center tw-h-7 tw-w-7 -tw-mt-1 group-hover:!tw-bg-primary-700">
+                                        <i class="fa-regular fa-plus fa-lg"></i>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right animated fadeIn tw-text-base">
+                                    <li class="dropdown-header tw-mb-1">
+                                        <?php echo _l('quick_create'); ?>
+                                    </li>
+                                    <?php foreach ($quickActions as $key => $item) {
+                                        $url = '';
+                                        if (isset($item['permission'])) {
+                                            if (staff_cant('create', $item['permission'])) {
+                                                continue;
                                             }
-                                            if (isset($item['custom_url'])) {
-                                                $url = $item['url'];
-                                            } else {
-                                                $url = admin_url('' . $item['url']);
+                                        }
+                                        if (isset($item['custom_url'])) {
+                                            $url = $item['url'];
+                                        } else {
+                                            $url = admin_url('' . $item['url']);
+                                        }
+                                        $href_attributes = '';
+                                        if (isset($item['href_attributes'])) {
+                                            foreach ($item['href_attributes'] as $key => $val) {
+                                                $href_attributes .= $key . '=' . '"' . $val . '"';
                                             }
-                                            $href_attributes = '';
-                                            if (isset($item['href_attributes'])) {
-                                                foreach ($item['href_attributes'] as $key => $val) {
-                                                    $href_attributes .= $key . '=' . '"' . $val . '"';
-                                                }
-                                            } ?>
-                                            <li>
-                                                <a href="<?php echo e($url); ?>" <?php echo $href_attributes; ?>
-                                                    class="tw-group tw-inline-flex tw-space-x-0.5 tw-text-neutral-700">
-                                                    <?php if (isset($item['icon'])) { ?>
-                                                        <i
-                                                            class="<?php echo e($item['icon']); ?> tw-text-neutral-400 group-hover:tw-text-neutral-600 tw-h-5 tw-w-5"></i>
-                                                    <?php } ?>
-                                                    <span>
-                                                        <?php echo e($item['name']); ?>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        <?php
                                         } ?>
-                                    </ul>
-                                </li>
-                            <?php } ?>
-                        </ul>
+                                        <li>
+                                            <a href="<?php echo e($url); ?>" <?php echo $href_attributes; ?>
+                                                class="tw-group tw-inline-flex tw-space-x-0.5 tw-text-neutral-700">
+                                                <?php if (isset($item['icon'])) { ?>
+                                                    <i
+                                                        class="<?php echo e($item['icon']); ?> tw-text-neutral-400 group-hover:tw-text-neutral-600 tw-h-5 tw-w-5"></i>
+                                                <?php } ?>
+                                                <span>
+                                                    <?php echo e($item['name']); ?>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <?php
+                                    } ?>
+                                </ul>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 </div>
 
                 <div class="mobile-menu tw-shrink-0 ltr:tw-ml-4 rtl:tw-mr-4">
@@ -161,15 +161,16 @@
                     <div class="mobile-navbar collapse" id="mobile-collapse" aria-expanded="false" style="height: 0px;"
                         role="navigation">
                         <ul class="nav navbar-nav">
-                            <li class="header-my-profile"><a href="<?php echo admin_url('profile'); ?>">
+                            <li class="header-my-profile"><a href="<?php echo site_url('profile'); ?>">
                                     <?php echo _l('nav_my_profile'); ?>
                                 </a>
                             </li>
-                            <li class="header-my-timesheets"><a href="<?php echo admin_url('staff/timesheets'); ?>">
+                            <!-- <li class="header-my-timesheets"><a href="<?php echo site_url('staff/timesheets'); ?>">
                                     <?php echo _l('my_timesheets'); ?>
                                 </a>
-                            </li>
-                            <li class="header-edit-profile"><a href="<?php echo admin_url('staff/edit_profile'); ?>">
+                            </li> -->
+                            <li class="header-edit-profile">
+                                <a href="<?php echo site_url('staff/edit_profile'); ?>">
                                     <?php echo _l('nav_edit_profile'); ?>
                                 </a>
                             </li>
@@ -189,20 +190,21 @@
                     <?php
                     if (is_client_logged_in()) {
                         $cart_count = count($cart_prospects);
-                    ?>
+                        ?>
                         <?php if (is_client_logged_in()) { ?>
-                            
+
                             <ul class="nav navbar-nav navbar-right">
-                           
+
                                 <li>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <i class="fa fa-cart-shopping"></i>
                                         <?php if ($cart_count > 0) { ?>
                                             <span class="badge"><?php echo $cart_count; ?></span>
                                         <?php } ?>
                                     </a>
                                     <ul class="dropdown-menu animated fadeIn">
-                                    <h2 class="cart">Cart</h2>
+                                        <h2 class="cart">Cart</h2>
                                         <?php if ($cart_count > 0) { ?>
                                             <li>
                                                 <table class="table">
@@ -216,33 +218,35 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php foreach ($cart_prospects as $prospect): ?>
-                                                            
+
                                                             <tr>
                                                                 <td>
-                                                                        <?php echo htmlspecialchars($prospect['first_name']); ?>
-                                                                   </td>
+                                                                    <?php echo htmlspecialchars($prospect['first_name']); ?>
+                                                                </td>
                                                                 <td><?php echo htmlspecialchars($prospect['email']); ?></td>
-                                                                <td><?php  echo htmlspecialchars($prospect['desired_amount']); ?></td>
+                                                                <td><?php echo htmlspecialchars($prospect['desired_amount']); ?></td>
                                                                 <td>
-                                                                    <a href="javascript:void(0);" class="text-danger" onclick="deleteItem(<?php echo $prospect['prospect_id']; ?>)">
+                                                                    <a href="javascript:void(0);" class="text-danger"
+                                                                        onclick="deleteItem(<?php echo $prospect['prospect_id']; ?>)">
                                                                         <i class="fa fa-trash"></i>
                                                                     </a>
 
                                                                 </td>
                                                             </tr>
-                                                           
+
                                                         <?php endforeach; ?>
                                                         <tr>
                                                         <tr>
-    <td class="see_all" colspan="4"> 
-        
-            <a href="<?php echo site_url('marketplace/cart_view/'); ?>" class="text-primary primary" >See all</a>
-        
-    </td>
-</tr>
+                                                            <td class="see_all" colspan="4">
+
+                                                                <a href="<?php echo site_url('marketplace/cart_view/'); ?>"
+                                                                    class="text-primary primary">See all</a>
+
+                                                            </td>
+                                                        </tr>
 
 
-                                                            </tr>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </li>
@@ -308,23 +312,23 @@
                                         </a>
                                     </li>
                                     <?php if (!is_language_disabled()) {
-                                    ?>
+                                        ?>
                                         <li class="dropdown-submenu pull-left customers-nav-item-languages">
                                             <a href="#" tabindex="-1">
                                                 <?php echo _l('language'); ?>
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-left">
                                                 <li class="<?php if (get_contact_language() == '') {
-                                                                echo 'active';
-                                                            } ?>">
+                                                    echo 'active';
+                                                } ?>">
                                                     <a href="<?php echo site_url('clients/change_language'); ?>">
                                                         <?php echo _l('system_default_string'); ?>
                                                     </a>
                                                 </li>
                                                 <?php foreach ($this->app->get_available_languages() as $user_lang) { ?>
                                                     <li <?php if (get_contact_language() == $user_lang) {
-                                                            echo 'class="active"';
-                                                        } ?>>
+                                                        echo 'class="active"';
+                                                    } ?>>
                                                         <a href="<?php echo site_url('clients/change_language/' . $user_lang); ?>">
                                                             <?php echo e(ucfirst($user_lang)); ?>
                                                         </a>
@@ -332,24 +336,24 @@
                                                 <?php } ?>
                                             </ul>
                                         </li>
-                                    <?php
+                                        <?php
                                     } ?>
-                                    <li class="customers-nav-item-logout">c
+                                    <li class="customers-nav-item-logout">
                                         <a href="<?php echo site_url('authentication/logout'); ?>">
                                             <?php echo _l('clients_nav_logout'); ?>
                                         </a>
                                     </li>
                                 <?php } ?>
-                                </ul>
-                            </li>
+                            </ul>
+                        </li>
 
-                            <?php hooks()->do_action('client_navbar_end'); ?>
-                </ul>
-            </div>
-        </nav>
-    </div>
-<?php }
-                } ?>
+                        <?php hooks()->do_action('client_navbar_end'); ?>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    <?php }
+} ?>
 
 
 <script>
@@ -364,7 +368,7 @@
                     'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>'
                 },
 
-                success: function(response) {
+                success: function (response) {
                     var result = JSON.parse(response);
                     if (result.status === 'success') {
                         // Remove the item from the UI
@@ -385,7 +389,7 @@
                         alert('Failed to delete the item. Please try again.');
                     }
                 },
-                error: function() {
+                error: function () {
                     alert('Error occurred while deleting the item.');
                 }
             });
