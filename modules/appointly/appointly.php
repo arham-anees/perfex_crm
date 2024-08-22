@@ -20,8 +20,9 @@ define('APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT', 'appointly_ap
 hooks()->add_action('admin_init', 'appointly_register_permissions');
 hooks()->add_action('admin_init', 'appointly_register_menu_items');
 hooks()->add_action('after_cron_run', 'appointly_send_email_templates');
-hooks()->add_action('after_cron_run', 'appointly_send_email_templates_auto');
+// hooks()->add_action('after_cron_run', 'appointly_send_email_templates_auto');
 hooks()->add_action('after_cron_run', 'appointly_recurring_events');
+register_cron_task('appointly_send_email_templates_auto');
 
 register_merge_fields('appointly/merge_fields/appointly_merge_fields');
 
@@ -321,15 +322,16 @@ function appointly_send_email_templates()
 /**
  * Register cron email templates.
  */
-function appointly_send_email_templates_auto()
+function appointly_send_email_templates_auto($manually)
 {
     $CI = &get_instance();
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0 AND booking_page_id IS NOT NULL)');
+    $CI->db->where('( finished = 0 AND cancelled = 0 AND booking_page_id IS NOT NULL)');
 
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
+    log_message('error', 'appointly_send_email_templates_auto ' . count($appointments));
     $notified_users = [];
 
     $reminder_times = ['10 minutes', '4 hours', '24 hours'];
