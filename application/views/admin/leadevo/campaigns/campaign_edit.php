@@ -44,6 +44,10 @@
                             <input type="number" id="budget" name="budget" class="form-control"
                                 value="<?php echo $campaign->budget; ?>" required>
                         </div>
+                        <div class="form-group">
+                    <label for="is_active"><?php echo _l('Active'); ?></label>
+                    <input type="checkbox" id="is_active" name="is_active" value="1" <?php echo $campaign->is_active ? 'checked' : ''; ?>>
+                </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
