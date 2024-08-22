@@ -22,6 +22,79 @@ if (!function_exists('get_appointment_types')) {
         type="text/css">
 </head>
 <style>
+
+
+
+#back-arrow {
+    display: none; 
+    cursor: pointer;
+    font-size: 24px; 
+    color: #0069FF; 
+    position: absolute; 
+    top: 120px; 
+    left: 40px; 
+}
+
+
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    #calendar-container {
+        display: block;
+    }
+
+    #timeslots {
+        display: none;
+    }
+
+    #back-button {
+        display: none;
+    }
+    /* Mobile-specific styles */
+
+    .timeslots {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        justify-content: center; /* Center vertically if needed */
+        width: 100%; /* Full width */
+        padding: 20px; /* Add padding around */
+        box-sizing: border-box; /* Include padding in width calculation */
+    }
+
+    #timeslot-list {
+        width: 100%; /* Full width for the list */
+       
+        margin: 0 auto; /* Center the list within the container */
+    }
+
+    .timeslot {
+        display: block;
+        padding: 15px;
+        margin: 5px 0;
+        border-radius: 5px; /* Rounded corners */
+        text-align: center; /* Center text inside slots */
+        cursor: pointer; /* Change cursor to pointer */
+        font-size: 1.2em; /* Increase font size for better readability */
+    }
+
+    #back-button {
+        display: block; /* Ensure back button is visible */
+        margin-top: 20px; /* Space above the back button */
+        padding: 10px 20px; /* Adjust padding for better click area */
+        font-size: 1.2em; /* Increase font size for readability */
+    }
+}
+
+
+@media (max-width: 768px) {
+    /* Ensure that this content is hidden only when in timeslot view */
+    .timeslots-view .heading,
+    .timeslots-view .calendar-container {
+        display: none; /* Hide these elements in timeslots view on mobile */
+    }
+}
+
     .key-headers {
         /* display: flex;
         flex-direction: column;
@@ -166,8 +239,9 @@ if (!function_exists('get_appointment_types')) {
                                                 </div>
                                             </div> -->
                                         </div>
-
+                                        
                                         <div class="timeslots" id="timeslots">
+                                        
                                             <p id="selected-date"></p>
                                             <p id="timelabel" class="timelabel"></p>
                                             <div id="timeslot-list" class="scroll">
@@ -586,7 +660,108 @@ if (!function_exists('get_appointment_types')) {
         });
     </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarContainer = document.querySelector('.calendar-container');
+    var timeslots = document.getElementById('timeslots');
+    var backArrow = document.getElementById('back-arrow');
 
+    // Function to show timeslots and hide calendar on mobile only
+    function showTimeslots() {
+        if (window.innerWidth <= 768) { // Mobile view only
+            calendarContainer.style.display = 'none';
+            timeslots.style.display = 'block';
+            backArrow.style.display = 'block';
+        }
+    }
+
+    // Function to show calendar and hide timeslots on mobile only
+    function showCalendar() {
+        if (window.innerWidth <= 768) { // Mobile view only
+            calendarContainer.style.display = 'block';
+            timeslots.style.display = 'none';
+            backArrow.style.display = 'none';
+        }
+    }
+
+    // Handle date clicks for mobile
+    var calendarDays = document.querySelectorAll('.calendar div[data-day]');
+    calendarDays.forEach(day => {
+        day.addEventListener('click', function() {
+            // Add 'selected' class to clicked day
+            this.classList.add('selected');
+            showTimeslots();
+        });
+    });
+
+    // Back arrow click event for mobile
+    backArrow.addEventListener('click', function() {
+        showCalendar();
+    });
+
+    // Ensure desktop view is not changed when the page loads
+    if (window.innerWidth > 768) {
+        calendarContainer.style.display = 'block';
+        timeslots.style.display = 'block';
+        backArrow.style.display = 'none';
+    } else {
+        showCalendar(); // Ensure correct state on mobile load
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarContainer = document.querySelector('.calendar-container');
+    var timeslots = document.getElementById('timeslots');
+    var backArrow = document.querySelector('.back-arrow');
+
+    // Function to show timeslots and hide calendar on mobile only
+    function showTimeslots() {
+        if (window.innerWidth <= 768) { // Mobile view only
+            calendarContainer.style.display = 'none';
+            timeslots.style.display = 'block';
+            backArrow.style.display = 'flex'; // Show back arrow
+        }
+    }
+
+    // Function to show calendar and hide timeslots on mobile only
+    function showCalendar() {
+        if (window.innerWidth <= 768) { // Mobile view only
+            calendarContainer.style.display = 'block';
+            timeslots.style.display = 'none';
+            backArrow.style.display = 'none'; // Hide back arrow
+        }
+    }
+
+    // Handle date clicks - only for mobile
+    var calendarDays = document.querySelectorAll('.calendar div[data-day]');
+    calendarDays.forEach(day => {
+        day.addEventListener('click', function() {
+            // Add 'selected' class to clicked day
+            this.classList.add('selected');
+
+            // Show timeslots on mobile only
+            showTimeslots();
+        });
+    });
+
+    // Back arrow click event - only for mobile
+    backArrow.addEventListener('click', function() {
+        showCalendar();
+    });
+
+    // Ensure desktop view is not changed when the page loads
+    if (window.innerWidth > 768) {
+        calendarContainer.style.display = 'block';
+        timeslots.style.display = 'block';
+        backArrow.style.display = 'none'; // Hide back arrow on desktop
+    } else {
+        showCalendar(); // Ensure correct state on mobile load
+    }
+});
+
+
+    </script>
 
 </body>
 
