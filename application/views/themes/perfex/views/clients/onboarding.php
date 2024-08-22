@@ -1,248 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-<style>
-    .card {
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        padding: 20px;
-        background-color: #ffffff;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        font-family: Rubik, sans-serif;
-    }
-
-    .card-title {
-        font-size: 1.25rem;
-        font-weight: 500;
-        margin-bottom: 15px;
-    }
-
-    .card-text {
-        font-size: 1rem;
-        margin-bottom: 20px;
-    }
-
-    .btn-center {
-        display: block;
-        width: auto;
-        max-width: 200px;
-        margin: 20px auto;
-    }
-
-    .list-group-item {
-        border: none;
-        padding: 10px 0;
-        font-size: 1rem;
-        display: flex;
-        align-items: center;
-    }
-
-    .list-group-item i {
-        border-radius: 50%;
-        padding: 5px;
-        margin-right: 10px;
-        transition: background-color 0.3s ease;
-    }
-
-    .tick-completed {
-        color: #ffffff;
-        background-color: rgb(255, 203, 3);
-    }
-
-    .tick-inactive {
-        color: #ffffff;
-        background-color: #e0e0e0;
-    }
-
-    .progress {
-        height: 20px;
-        margin-bottom: 15px;
-    }
-
-    .progress-bar {
-        font-size: 0.875rem;
-        font-weight: 500;
-        line-height: 20px;
-        color: #ffffff;
-        width: 100%;
-        transition: transform 0.4s linear 0s;
-        transform-origin: left center;
-        background-color: rgb(255, 203, 3);
-    }
-
-    .progress-bar[data-percent="0.00"],
-    .progress-bar[data-percent="0"] {
-        margin-left: 0 !important;
-    }
-
-    .progress-text {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        color: rgba(0, 0, 0, 0.6);
-    }
-
-    .facebook-group,
-    .sign-up-alert {
-        border-bottom: 1px solid rgb(255, 203, 3);
-        color: rgb(129, 133, 146);
-        cursor: pointer;
-
-    }
-
-    .facebook-group:hover,
-    .sign-up-alert:hover {
-        background-color: rgb(255, 203, 3);
-    }
-
-    .signup-title {
-        color: rgba(0, 0, 0, 0.87);
-        font-family: Rubik;
-        font-size: 1.5rem;
-        text-align: center;
-        font-weight: 500;
-    }
-
-    .signup-text {
-        color: rgb(1, 67, 97);
-        background-color: rgb(229, 246, 253);
-        padding: 8px;
-        border-radius: 4px;
-    }
-
-    .signup-btn {
-        background-color: rgb(255, 203, 3);
-        color: #ffffff;
-        padding: 10px 20px;
-        border-radius: 4px;
-        border: 0px;
-        cursor: pointer;
-        font-size: 15px;
-    }
-
-    /* General Styles for Form Group */
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    /* Styles for Input Container */
-    .input-container {
-        position: relative;
-    }
-
-    /* Input Wrapper Styles */
-    .input-wrapper {
-        position: relative;
-    }
-
-    /* Label Styles */
-    .floating-label {
-        position: absolute;
-        top: 50%;
-        left: 0.75rem;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        transform: translateY(-50%);
-        pointer-events: none;
-        background-color: #fff;
-        padding: 0 0.25rem;
-    }
-
-    /* Input Field Styles */
-    .custom-input {
-        padding: 1rem 0.75rem;
-        border: 1px solid #ccc;
-        border-radius: 0.25rem;
-        font-size: 1rem;
-        width: 75%;
-        box-sizing: border-box;
-        background-color: #fff;
-        transition: border-color 0.3s ease;
-    }
-
-    /* Focus State Styles */
-    .custom-input:focus {
-        border-color: #007bff;
-        outline: none;
-        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-    }
-
-    /* Floating Label Active Styles */
-    .custom-input:focus+.floating-label,
-    .custom-input:not(:placeholder-shown)+.floating-label {
-        top: 0;
-        left: 5rem;
-        font-size: 0.75rem;
-        color: #007bff;
-        transform: translateY(-50%);
-    }
-
-    /* Placeholder Text Adjustment */
-    .custom-input::placeholder {
-        color: transparent;
-        /* Hide placeholder text */
-    }
-
-    .step-1-content,
-    .step-2-content,
-    .step-3-content,
-    .step-4-content,
-    .step-5-content,
-    .step-6-content {
-        display: none;
-    }
-
-    .step-1 .step-1-content {
-        display: block;
-    }
-
-    .step-2 .step-2-content {
-        display: block;
-    }
-
-    .step-3 .step-3-content {
-        display: block;
-    }
-
-    .step-4 .step-4-content {
-        display: block;
-    }
-
-    .step-5 .step-5-content {
-        display: block;
-    }
-
-    .step-6 .step-6-content {
-        display: block;
-    }
-
-    .step-2 {}
-
-    .step-3 {}
-
-    .step-4 {}
-
-    .step-5 {}
-
-    .step-6 {}
-
-
-
-    /* Responsive Design for smaller screens */
-    @media (max-width: 768px) {
-
-        .col-md-8,
-        .col-md-4 {
-            width: 100%;
-        }
-
-        .card {
-            padding: 15px;
-        }
-
-        .btn-center {
-            width: 100%;
-            max-width: none;
-        }
-    }
-</style>
+<link rel="stylesheet" href="assets/css/onboarding.css" />
 <div class="row">
     <div class="col-md-12 section-client-onboarding">
         <div class="row main_row">
@@ -322,11 +80,11 @@
                                                     </div>
 
                                                     <!-- Coming Soon text -->
-                                                    <div class="videos step-4-content">
+                                                    <div class="videos step-4-content" id="coming-soon-section">
                                                     <?php if (!empty($videos)): ?>
                                                             <?php foreach ($videos as $video): ?>
                                                                 <div>
-                                                                    <video id="coming-soon-section" style=" width: 100%;"
+                                                                    <video id="coming-soon-" style=" width: 100%;"
                                                                         width="100%" controls>
                                                                         <source
                                                                             src="<?php echo htmlspecialchars($video['url']); ?>"
@@ -339,7 +97,7 @@
                                                             <p>No videos available.</p>
                                                         <?php endif; ?>
                                                     </div>
-                                                    <div class="videos step-5-content">
+                                                    <div class="videos step-5-content" id="coming-soon-section">
                                                         <?php if (!empty($videos)): ?>
                                                             <?php foreach ($videos as $video): ?>
                                                                 <div>
@@ -517,6 +275,7 @@
     </div>
 </div>
 <script>
+
     var currentStep = isNaN('<?= $completed_step ?>') ? 0 : '<?= $completed_step ?>';
     currentStep = parseInt(currentStep);
     document.addEventListener('DOMContentLoaded', function () {
@@ -538,11 +297,24 @@
         // Initialize tick styles
         for (let i = 0; i < totalSteps; i++) {
             progressList[i].classList.add('tick-inactive');
+            if (i < currentStep) {
+                progressList[i].classList.remove('tick-inactive');
+                progressList[i].classList.add('tick-completed');
+            }
         }
+
         // complete previously completed steps
-        for (let i = 0; i < currentStep; i++) {
-            progressList[i].classList.remove('tick-inactive');
-            progressList[i].classList.add('tick-completed');
+        if (currentStep >= totalSteps) {
+            for (let i = 0; i < totalSteps; i++) {
+                progressList[i].classList.remove('tick-inactive');
+                progressList[i].classList.remove('tick-completed');
+            }
+            currentStep = 0;
+        } else {
+            for (let i = 0; i < currentStep; i++) {
+                progressList[i].classList.remove('tick-inactive');
+                progressList[i].classList.add('tick-completed');
+            }
         }
 
         var progressPercentage = currentStep * progressPercentagePerStep;
@@ -567,29 +339,31 @@
         });
 
         function onContinueClick() {
-
-            if (currentStep < totalSteps) {
-                var main = document.getElementsByClassName('step-0')[0];
-                if (main) {
-                    main.classList.remove('step-0');
-                } else {
-
-                    main = document.getElementsByClassName('step-' + (currentStep))[0];
-                    main.classList.remove('step-' + (currentStep));
+            if (currentStep < totalSteps + 1) {
+                let section = document.querySelector('.step-' + currentStep);
+                if (section) {
+                    section.classList.remove('step-' + currentStep);
                 }
-                main.classList.add('step-' + (currentStep + 1));
+                if (section){
+                    section.classList.add('step-' + (currentStep + 1));
+                }
                 var progressPercentage = currentStep * progressPercentagePerStep;
 
                 progressBar.style.width = progressPercentage + '%';
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
                 progressBar.textContent = Math.round(progressPercentage) + '%';
 
-                progressText.textContent = currentStep + '/' + totalSteps + ' actions completed';
+                progressText.textContent = (currentStep ) + ' / ' + (totalSteps ) + ' actions completed';
 
                 // Change tick color for completed actions
-                for (let i = 0; i < currentStep; i++) {
-                    progressList[i].classList.remove('tick-inactive');
-                    progressList[i].classList.add('tick-completed');
+                for (let i = 0; i < 6; i++) {
+                    if (i < currentStep) {
+                        progressList[i].classList.remove('tick-inactive');
+                        progressList[i].classList.add('tick-completed');
+                    } else {
+                        progressList[i].classList.remove('tick-completed');
+                        progressList[i].classList.add('tick-inactive');
+                    }
                 }
 
                 // Display the next section based on the current step
@@ -600,21 +374,24 @@
 
                 // Disable complete button if all steps are completed
                 console.log(currentStep, totalSteps);
-                if (currentStep === totalSteps) {
+                if (currentStep === totalSteps + 1) {
                     completeBtn.disabled = true;
                     completeBtn.textContent = 'Completed';
+                    
                 } else {
                     completeBtn.disabled = true;
                 }
             }
         }
+        // function restartOnboarding() {
+        //     location.reload();
+        // }
 
         // Handle click for the continue button
         continueBtn.addEventListener('click', function () {
             currentStep++;
             onContinueClick();
         });
-
         // Handle invite friend form submission
         document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
             event.preventDefault();
@@ -657,6 +434,7 @@
             document.getElementById('coming-soon-section').style.display = 'block';
             completeBtn.style.display = 'none';
             continueBtn.style.display = 'block';
+            
         });
     });
 
@@ -665,6 +443,7 @@
             url: site_url + 'onboarding/update_step',
             type: 'POST',
             data: {
+                'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>',
                 'onboarding_step': ++step
             }
         }).done((x) => { })
