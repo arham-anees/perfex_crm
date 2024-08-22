@@ -20,8 +20,9 @@ define('APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT', 'appointly_ap
 hooks()->add_action('admin_init', 'appointly_register_permissions');
 hooks()->add_action('admin_init', 'appointly_register_menu_items');
 hooks()->add_action('after_cron_run', 'appointly_send_email_templates');
-hooks()->add_action('after_cron_run', 'appointly_send_email_templates_auto');
+// hooks()->add_action('after_cron_run', 'appointly_send_email_templates_auto');
 hooks()->add_action('after_cron_run', 'appointly_recurring_events');
+register_cron_task('appointly_send_email_templates_auto');
 
 register_merge_fields('appointly/merge_fields/appointly_merge_fields');
 
@@ -271,15 +272,24 @@ function appointly_send_email_templates()
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('(notification_date IS NULL AND reminder_before IS NOT NULL AND approved = 1 AND finished = 0 AND cancelled = 0)');
+    $CI->db->where('( approved = 1 AND finished = 0 AND cancelled = 0)');
 
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];
 
+    $reminder_times = ['10 minutes', '4 hours', '24 hours'];
     foreach ($appointments as $appointment) {
         $date_compare = date('Y-m-d H:i', strtotime('+' . $appointment['reminder_before'] . ' ' . strtoupper($appointment['reminder_before_type'])));
+        $date_compare1 = date('Y-m-d H:i', strtotime('+' . $reminder_times[0]));
+        $date_compare2 = date('Y-m-d H:i', strtotime('+' . $reminder_times[1]));
+        $date_compare3 = date('Y-m-d H:i', strtotime('+' . $reminder_times[2]));
 
-        if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare) {
+        if (
+            $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare
+            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
+            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
+            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3
+        ) {
             if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
                 /*
                  * If appointment is missed then skip
@@ -321,15 +331,17 @@ function appointly_send_email_templates()
 /**
  * Register cron email templates.
  */
-function appointly_send_email_templates_auto()
+function appointly_send_email_templates_auto($manually)
 {
+    return;
     $CI = &get_instance();
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0 AND booking_page_id IS NOT NULL)');
+    $CI->db->where('(finished = 0 AND cancelled = 0 AND booking_page_id IS NOT NULL)');
 
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
+    log_message('error', 'appointly_send_email_templates_auto ' . count($appointments));
     $notified_users = [];
 
     $reminder_times = ['10 minutes', '4 hours', '24 hours'];
