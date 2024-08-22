@@ -439,13 +439,17 @@
     });
 
     function update_step(step) {
-        $.ajax({
-            url: site_url + 'onboarding/update_step',
-            type: 'POST',
-            data: {
-                'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>',
-                'onboarding_step': ++step
-            }
-        }).done((x) => { })
+        if(step < 6) {
+            $.ajax({
+                url: site_url + 'onboarding/update_step',
+                type: 'POST',
+                data: {
+                    'csrf_token_name': '<?php echo $this->security->get_csrf_hash(); ?>',
+                    'onboarding_step': ++step
+                }
+            }).done((x) => { });
+        } else {
+            document.getElementById('continue-btn').disabled = true;
+        }
     }
 </script>
