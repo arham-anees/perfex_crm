@@ -33,6 +33,10 @@ if ($this->ci->input->post('cancelled')) {
 if ($this->ci->input->post('finished')) {
     $filters[] = 'AND finished = 1';
 }
+if ($this->ci->input->post('status_id')) {
+    $filters[] = 'AND status_id = ' . (int) $this->ci->input->post('status_id');
+}
+
 if ($this->ci->input->post('internal')) {
     $filters[] = 'AND (source= "internal")';
 }
@@ -43,14 +47,14 @@ if ($this->ci->input->post('lead_related')) {
     $filters[] = 'AND (source= "lead_related")';
 }
 if ($this->ci->input->post('booking_page')) {
-    $filters[] = 'AND (source= "booking_page")';   
+    $filters[] = 'AND (source= "booking_page")';
 }
 if ($this->ci->input->post('internal_staff')) {
     $filters[] = 'AND (source= "internal_staff_crm")';
 }
-if ($this->ci->input->post('finished')) {
-    $filters[] = 'AND finished = 1';
-}
+// if ($this->ci->input->post('finished')) {
+//     $filters[] = 'AND finished = 1';
+// }
 if ($this->ci->input->post('not_approved')) {
     $filters[] = 'AND approved != 1';
 }
@@ -181,15 +185,15 @@ foreach ($rResult as $aRow) {
         $outputStatus = '<div class="dropdown inline-block mleft5">';
         $outputStatus .= '<a href="#" style="font-size:14px;vertical-align:middle;" class="dropdown-toggle text-dark" id="appointmentStatusesDropdown' . $aRow['id'] . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">';
 
-        $outputStatus .=  checkAppointlyStatus($aRow);
-        
+        $outputStatus .= checkAppointlyStatus($aRow);
+
         $outputStatus .= '</a>';
 
-        $customStatuses=get_statuses();
-        $statusHtml='';
-        foreach($customStatuses as $status){
-            if($status['id']!=$aRow['status_id']){
-                $statusHtml .= '<li><a href="" onclick="markAppointmentStatus(' . $aRow['id'] . ', ' . $status['id'] .'); return false" href="">' . _l('task_mark_as', $status['name']) . '</a></li>';
+        $customStatuses = get_statuses();
+        $statusHtml = '';
+        foreach ($customStatuses as $status) {
+            if ($status['id'] != $aRow['status_id']) {
+                $statusHtml .= '<li><a href="" onclick="markAppointmentStatus(' . $aRow['id'] . ', ' . $status['id'] . '); return false" href="">' . _l('task_mark_as', $status['name']) . '</a></li>';
             }
         }
         if ($aRow['finished'] != 1) {
@@ -203,7 +207,7 @@ foreach ($rResult as $aRow) {
 
         if ($aRow['cancelled'] == 0 && $aRow['finished'] == 0) {
             if ($aRow['created_by'] == get_staff_user_id() || staff_appointments_responsible()) {
-                $outputStatus .= '<li><a href="" onclick="markAppointmentAsCancelled(' . $aRow['id'] . '); return false" id-"cancelAppointment">' . _l('task_mark_as', 'Cancelled') . '</a></li>'. $statusHtml;
+                $outputStatus .= '<li><a href="" onclick="markAppointmentAsCancelled(' . $aRow['id'] . '); return false" id-"cancelAppointment">' . _l('task_mark_as', 'Cancelled') . '</a></li>' . $statusHtml;
             }
         }
 
