@@ -19,12 +19,14 @@ class Clients extends ClientsController
         hooks()->do_action('after_clients_area_init', $this);
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Prospects_model');
+        $this->load->model('leadevo/Reported_Prospects_model');
     }
 
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
         $data['prospects'] = $this->Prospects_model->get_all();
+        $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
         // $this->load->view('clients/dashboard/dashboard', $data);
         // $data['is_home'] = true;
         // $this->load->model('reports_model');

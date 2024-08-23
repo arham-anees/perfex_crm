@@ -49,7 +49,7 @@
                                                 text-left">
                                                 <h5 class="no-margin tw-text-left tw-font-semibold font"><?= _l('reported_prospects')?></h5>
 
-                                                    <h1 class="bold">0</h1>
+                                                    <h1 class="bold"><?php echo count($reported_prospects); ?></h1>
                                                 </div>
                                             </div>
                                         </div>
