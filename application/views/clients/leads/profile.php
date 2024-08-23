@@ -70,13 +70,7 @@
             </a>
         </div>
 
-        <div class="mleft5 pull-right<?php echo $lead_locked == true ? ' hide' : ''; ?>">
-            <a href="#" lead-edit data-toggle="tooltip" data-title="<?php echo _l('edit'); ?>"
-                class="btn btn-default lead-top-btn">
 
-                <i class="fa-regular fa-pen-to-square"></i>
-            </a>
-        </div>
 
         <?php
         $client = false;
