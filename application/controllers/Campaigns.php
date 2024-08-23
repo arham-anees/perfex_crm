@@ -126,7 +126,7 @@ class Campaigns extends ClientsController
             $current_date = date('Y-m-d');
 
             // Validate dates
-            if ($start_date < $current_date) {
+            if ($start_date == $current_date) {
                 $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
                 redirect(site_url('campaigns/edit/' . $id));
             }
