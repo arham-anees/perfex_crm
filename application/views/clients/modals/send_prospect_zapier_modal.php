@@ -15,8 +15,6 @@
             </div>
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                 value="<?php echo $this->security->get_csrf_hash(); ?>">
-
-            <input type="hidden" name="lead_data" value="">
             <?php echo form_close(); ?>
         </div>
         <div id="confirm_zapier" style="display:none">
@@ -137,15 +135,11 @@
     })
     $('#send_zapier_config').on('submit', function (e) {
         e.preventDefault(); // Prevent the form from submitting via the browser
-
-        var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
-        var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
-
         // validate the base url
 
         // format pull path of url
         var data = {};
-        data[csrfName] = csrfHash;
+        data['lead'] = $('input[name=lead_data]').val();;
 
         const path = $('#confirm_zapier input[name=webhook]').val();;
         $.ajax({
@@ -153,7 +147,6 @@
             data,
             type: "POST",
             success: (res) => {
-                console.log(res);
                 try {
                     // res = JSON.parse(res);
                     if (res.status == 'success') {
