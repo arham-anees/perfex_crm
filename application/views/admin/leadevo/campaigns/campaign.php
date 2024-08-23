@@ -17,7 +17,7 @@
                       <th><?php echo _l('Description'); ?></th>
                       <th><?php echo _l('Start Date'); ?></th>
                       <th><?php echo _l('End Date'); ?></th>
-                      <th><?php echo _l('Active'); ?></th>
+                      <th><?php echo _l('Budget'); ?></th>
                       <th><?php echo _l('Actions'); ?></th>
                     </tr>
                   </thead>
@@ -32,7 +32,7 @@
                         <td><?php echo !empty($campaign->end_date) && strtotime($campaign->end_date) !== false
                           ? date('d M Y', strtotime($campaign->end_date))
                           : 'N/A'; ?></td>
-                        <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
+                  <td><?php echo $campaign->budget??'N/A'; ?></td>
                         <td>
                           <a href="<?php echo admin_url('campaigns/view/' . $campaign->id); ?>"
                             class="btn btn-default btn-icon">

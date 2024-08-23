@@ -146,7 +146,6 @@ class Campaigns extends ClientsController
                 'end_date' => $this->input->post('end_date'),
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
                 'industry_id' => $this->input->post('industry_id'),
                 'country_id' => $this->input->post('country_id'),
                 'deal' => $this->input->post('deal') ? 1 : 0,
