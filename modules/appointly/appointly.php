@@ -272,24 +272,42 @@ function appointly_send_email_templates()
     $CI->load->model('appointly/appointly_attendees_model', 'atm');
 
     // User events
-    $CI->db->where('( approved = 1 AND finished = 0 AND cancelled = 0)');
-
+    $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0)');
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];
 
+
     $reminder_times = ['10 minutes', '4 hours', '24 hours'];
     foreach ($appointments as $appointment) {
-        $date_compare = date('Y-m-d H:i', strtotime('+' . $appointment['reminder_before'] . ' ' . strtoupper($appointment['reminder_before_type'])));
+        $date_compare = isset($appointment['reminder_before']) ? (date('Y-m-d H:i', strtotime('+' . $appointment['reminder_before'] . ' ' . strtoupper($appointment['reminder_before_type'])))) : null;
         $date_compare1 = date('Y-m-d H:i', strtotime('+' . $reminder_times[0]));
         $date_compare2 = date('Y-m-d H:i', strtotime('+' . $reminder_times[1]));
         $date_compare3 = date('Y-m-d H:i', strtotime('+' . $reminder_times[2]));
+        $last_notification_time = $appointment['last_notification'];
+        $send_notification = false;
 
-        if (
-            $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare
-            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
-            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
-            || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3
-        ) {
+        if ($last_notification_time == null) {
+            $send_notification = ((($date_compare != null) && ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare))
+                || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1
+                || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2
+                || $appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3);
+        } else {
+            $appointment_time = strtotime($appointment['date'] . ' ' . $appointment['start_hour']);
+            $current_time = time();
+            $time_remaining = $appointment_time - $current_time;
+            $time_notification_sent = $current_time - strtotime($last_notification_time);
+
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3) {
+                $send_notification = $time_notification_sent > (24 * 60 * 60) && $time_remaining <= 24 * 60 * 60;// 24 hours
+            }
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2) {
+                $send_notification = $time_notification_sent > (4 * 60 * 60) && $time_remaining <= 4 * 60 * 60;// 4 hours
+            }
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1) {
+                $send_notification = $time_notification_sent > (10 * 60) && $time_remaining <= 10 * 60;// 10 minutes
+            }
+        }
+        if ($send_notification) {
             if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
                 /*
                  * If appointment is missed then skip
