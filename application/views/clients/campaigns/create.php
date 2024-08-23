@@ -543,3 +543,13 @@
     // Initialize by clicking the button once to create the first set of inputs
     // document.getElementById('cap-button').click();
 </script>
+
+
+
+<script>   
+    const today = new Date().toISOString().split('T')[0];
+    const startDateInput = document.getElementById('start-date');
+    const endDateInput = document.getElementById('end-date');
+    startDateInput.setAttribute('min', today);
+    endDateInput.setAttribute('min', today);
+</script>
