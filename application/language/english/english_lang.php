@@ -4021,3 +4021,6 @@ $lang['leadevo_matching_campaign_client_name'] = 'Client';
 $lang['leadevo_replace_name'] = 'Name';
 $lang['leadevo_replace_email'] = 'Email';
 $lang['leadevo_replace_price'] = 'Desired/Min Price';
+$lang['leadevo_create_zapier_description'] = 'Please enter the webhook url that shall be used in future';
+$lang['leadevo_zapier_webhook'] = 'Zapier Webhook URL';
+$lang['leadevo_send_zapier_description'] = "Are you sure you want to send this lead to zapier?";
