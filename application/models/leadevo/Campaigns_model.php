@@ -15,7 +15,7 @@ class Campaigns_model extends CI_Model
 
     public function get_all()
     {
-        return $this->db->get($this->table)->result();
+        return $this->db->get_where($this->table, ['is_active' => 1])->result();
     }
     public function get_all_client()
     {

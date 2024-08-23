@@ -27,7 +27,6 @@ class Affiliate_training_videos extends AdminController
                 'description' => $this->input->post('description'),
                 'url' => $this->input->post('url'),
                 'video_order' => $this->input->post('video_order'),
-                'isactive' => $this->input->post('isactive')
             ];
 
             if ($this->Affiliate_training_videos_model->update($id, $data)) {
