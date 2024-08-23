@@ -18,19 +18,18 @@
                                             <th><?php echo _l('URL'); ?></th>
                                             <th><?php echo _l('Description'); ?></th>
                                             <th><?php echo _l('Order'); ?></th>
-                                            <th><?php echo _l('Is Active'); ?></th>
                                             <th><?php echo _l('Actions'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($videos as $video) : ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($video['id']); ?></td>
-                                                <td><?php echo htmlspecialchars($video['name']); ?></td>
-                                                <td><a href="<?php echo htmlspecialchars($video['url']); ?>" target="_blank"><?php echo _l('Watch Video'); ?></a></td>
-                                                <td><?php echo htmlspecialchars($video['description']); ?></td>
-                                                <td><?php echo htmlspecialchars($video['video_order']??''); ?></td>
-                                                <td><?php echo $video['isactive'] ? _l('Yes') : _l('No'); ?></td>
+                                                <td><?php echo htmlspecialchars($video['id']??'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($video['name']??'N/A'); ?></td>
+                                                <td><a href="<?php echo htmlspecialchars($video['url']??'N/A'); ?>" target="_blank"><?php echo _l('Watch Video'); ?></a></td>
+                                                <td><?php echo htmlspecialchars($video['description']??'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($video['video_order']??'N/A'); ?></td>
+                                               
                                                 <td>
                                                     <a href="<?php echo admin_url('affiliate_training_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>

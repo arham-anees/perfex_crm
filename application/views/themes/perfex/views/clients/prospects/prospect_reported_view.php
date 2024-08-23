@@ -9,13 +9,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p><strong><?php echo _l('Prospect ID:'); ?></strong>
-                            <?php echo htmlspecialchars($reported_prospect['prospect_id']); ?></p>
+                            <?php echo htmlspecialchars($reported_prospect['prospect_id'])?? ''; ?></p>
                         <p><strong><?php echo _l('Reason:'); ?></strong>
-                            <?php echo htmlspecialchars($reported_prospect['reason_name']); ?></p>
+                            <?php echo htmlspecialchars($reported_prospect['reason_name'])?? ''; ?></p>
                         <p><strong><?php echo _l('Created At:'); ?></strong>
-                            <?php echo htmlspecialchars($reported_prospect['created_at']); ?></p>
+                            <?php echo htmlspecialchars($reported_prospect['created_at'])?? ''; ?></p>
                         <p><strong><?php echo _l('Evidence:'); ?></strong>
-                            <?php echo htmlspecialchars($reported_prospect['evidence']); ?></p>
+                            <?php echo htmlspecialchars($reported_prospect['evidence'])?? ''; ?></p>
                     </div>
                 </div>
             </div>

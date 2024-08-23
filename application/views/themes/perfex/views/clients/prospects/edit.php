@@ -12,19 +12,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="first_name"><?php echo _l('First Name'); ?></label>
-                            <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo $prospect->first_name; ?>" required>
+                            <input type="text" class="form-control" name="first_name" id="first_name" value="<?php echo $prospect->first_name??'N/A'; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="last_name"><?php echo _l('Last Name'); ?></label>
-                            <input type="text" class="form-control" name="last_name" id="last_name" value="<?php echo $prospect->last_name; ?>" required>
+                            <input type="text" class="form-control" name="last_name" id="last_name" value="<?php echo $prospect->last_name??'N/A'; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="phone"><?php echo _l('Phone'); ?></label>
-                            <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $prospect->phone; ?>" required>
+                            <input type="text" class="form-control" name="phone" id="phone" value="<?php echo $prospect->phone??'N/A'; ?>" required>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="email"><?php echo _l('Email'); ?></label>
-                            <input type="email" class="form-control" name="email" id="email" value="<?php echo $prospect->email; ?>" required>
+                            <input type="email" class="form-control" name="email" id="email" value="<?php echo $prospect->email??'N/A'; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -105,13 +105,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="desired_amount"><?php echo _l('Desired Amount'); ?></label>
-                                    <input type="text" class="form-control" name="desired_amount" id="desired_amount"  value="<?php echo $prospect->desired_amount; ?>" required>
+                                    <input type="text" class="form-control" name="desired_amount" id="desired_amount"  value="<?php echo $prospect->desired_amount??'N/A'; ?>" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="min_amount"><?php echo _l('Minimum Amount'); ?></label>
-                                    <input type="text" class="form-control" name="min_amount" id="min_amount"  value="<?php echo $prospect->min_amount; ?>"  required>
+                                    <input type="text" class="form-control" name="min_amount" id="min_amount"  value="<?php echo $prospect->min_amount??'N/A'; ?>"  required>
                                 </div>
                             </div>
                         </div>

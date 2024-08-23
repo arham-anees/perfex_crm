@@ -19,15 +19,15 @@
                         <?php echo form_open(admin_url('affiliate_training_videos/edit/' . $video['id'])); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($video['name']); ?>">
+                            <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($video['name']??'N/A'); ?>">
                         </div>
                         <div class="form-group">
                             <label for="url"><?php echo _l('URL'); ?></label>
-                            <input type="text" id="url" name="url" class="form-control" value="<?php echo htmlspecialchars($video['url']); ?>">
+                            <input type="text" id="url" name="url" class="form-control" value="<?php echo htmlspecialchars($video['url']??'N/A'); ?>">
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control"><?php echo htmlspecialchars($video['description']); ?></textarea>
+                            <textarea id="description" name="description" class="form-control"><?php echo htmlspecialchars($video['description']??'N/A'); ?></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
