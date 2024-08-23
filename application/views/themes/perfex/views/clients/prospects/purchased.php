@@ -229,7 +229,7 @@
                                             <?php } ?>
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
-                                            <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
+                                            <a onclick="openSendZapierModal(<?= $prospect->id ?>)">Send via
                                                 Zapier</a>
                                         </div>
                                     </td>
@@ -376,6 +376,10 @@
 
 <div id="sendApiProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <?php echo get_instance()->load->view('clients/modals/send_prospect_api_modal.php') ?>
+</div>
+
+<div id="sendZapierProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <?php echo get_instance()->load->view('clients/modals/send_prospect_zapier_modal.php') ?>
 </div>
 
 
