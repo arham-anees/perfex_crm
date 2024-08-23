@@ -40,9 +40,9 @@
                                 <tbody>
                                     <?php foreach ($information_point as $informationpoint): ?>
                                         <tr>
-                                            <td><?php echo $informationpoint->id; ?></td>
-                                            <td><?php echo $informationpoint->info_key; ?></td>
-                                            <td><?php echo htmlspecialchars($informationpoint->info); ?></td>
+                                            <td><?php echo $informationpoint->id??'N/A'; ?></td>
+                                            <td><?php echo $informationpoint->info_key??'N/A'; ?></td>
+                                            <td><?php echo htmlspecialchars($informationpoint->info ??'N/A'); ?></td>
                                             <td>
                                                 
                                                 <a href="<?php echo admin_url('information_point/edit/' . $informationpoint->id); ?>"

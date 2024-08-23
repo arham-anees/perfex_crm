@@ -311,7 +311,7 @@
               <?php foreach ($campaigns as $campaign): ?>
                 <tr>
                   <td>
-                    <?php echo $campaign->name; ?>
+                    <?php echo $campaign->name??'N/A'; ?>
                     <div class="row-options">
                       <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>">View</a> |
                       <?php
@@ -328,12 +328,16 @@
                     </div>
                     <?php endif; ?>
                   </td>
-                  <td><?php echo $campaign->description; ?></td>
-                  <td><?php echo $campaign->status_name; ?></td>
-                  <td><?php echo $campaign->budget; ?></td>
+                  <td><?php echo $campaign->description??'N/A'; ?></td>
+                  <td><?php echo $campaign->status_name??'N/A'; ?></td>
+                  <td><?php echo $campaign->budget??'N/A'; ?></td>
                   <td><?php echo $campaign->deal == 1 ? 'Exclusive' : 'Non-exclusive'; ?></td>
-                  <td><?php echo date('Y-m-d', strtotime($campaign->start_date)); ?></td>
-                  <td><?php echo date('Y-m-d', strtotime($campaign->end_date)); ?></td>
+                  <td><?php echo !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
+                        ? date('d M Y', strtotime($campaign->start_date))
+                        : 'N/A'; ?></td>
+                  <td><?php  echo  !empty($campaign->end_date) && strtotime($campaign->end_date) !== false 
+                                    ? date('d M Y', strtotime($campaign->end_date)) 
+                                    : 'N/A'; ?></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

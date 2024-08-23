@@ -68,10 +68,10 @@
                                         <tbody>
                                             <?php foreach ($reported_prospects as $prospect): ?>
                                                 <tr>
-                                                    <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['reason_name'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['created_at'] ?? ''); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? ''); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['created_at'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? 'N/A'); ?></td>
                                                     <td>
                                                         <a href="<?php echo admin_url('prospects/view/' . $prospect['prospect_id']); ?>"
                                                             class="">

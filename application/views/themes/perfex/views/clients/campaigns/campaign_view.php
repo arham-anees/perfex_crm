@@ -8,19 +8,23 @@
                 <hr class="hr-panel-heading" />
                 <div class="form-group">
                     <label for="name"><?php echo _l('Name'); ?></label>
-                    <p><?php echo $campaign->name; ?></p>
+                    <p><?php echo !empty($campaign->name) ? $campaign->name : 'N/A'; ?></p>
                 </div>
                 <div class="form-group">
                     <label for="description"><?php echo _l('Description'); ?></label>
-                    <p><?php echo $campaign->description; ?></p>
+                    <p><?php echo !empty($campaign->description) ? $campaign->description : 'N/A'; ?></p>
                 </div>
                 <div class="form-group">
                     <label for="start_date"><?php echo _l('Start Date'); ?></label>
-                    <p><?php echo date('d M Y', strtotime($campaign->start_date)); ?></p>
+                    <p><?php echo !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
+                        ? date('d M Y', strtotime($campaign->start_date))
+                        : 'N/A'; ?></p>
                 </div>
                 <div class="form-group">
                     <label for="end_date"><?php echo _l('End Date'); ?></label>
-                    <p><?php echo date('d M Y', strtotime($campaign->end_date)); ?></p>
+                    <p><?php echo  !empty($campaign->end_date) && strtotime($campaign->end_date) !== false 
+                                    ? date('d M Y', strtotime($campaign->end_date)) 
+                                    : 'N/A'; ?></p>
                 </div>
                 <div class="form-group">
                     <label for="status_id"><?php echo _l('Status'); ?></label>
@@ -40,7 +44,9 @@
                 </div>
                 <div class="form-group">
                     <label for="budget"><?php echo _l('Budget'); ?></label>
-                    <p><?php echo number_format($campaign->budget, 2); ?></p>
+                    <p><?php echo isset($campaign->budget) && is_numeric($campaign->budget) 
+                                    ? number_format($campaign->budget, 2) 
+                                    : 'N/A'; ?></p>
                 </div>
                 <div class="form-group">
                     <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>" class="btn btn-primary">

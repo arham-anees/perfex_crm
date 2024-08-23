@@ -25,12 +25,12 @@
                                     <tbody>
                                         <?php foreach ($prospects as $prospect): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['confirm_status'] == 1 ? 'Confirmed' : 'Not Confirmed'); ?>
                                                 </td>
                                                 <!-- <td>

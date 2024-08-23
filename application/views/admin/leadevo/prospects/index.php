@@ -37,7 +37,7 @@ function displayStars($rating, $maxStars = 5)
                                     <tbody>
                                         <?php foreach ($prospects as $prospect): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? ''); ?>
+                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?>
                                                     <div class="row-options">
                                                         <a href="#" onclick="openViewModal(<?= $prospect['id'] ?>)">View</a> |
                                                         <a href="#" onclick="openRateModal(<?= $prospect['id'] ?>)">Rate</a> |
@@ -68,7 +68,7 @@ function displayStars($rating, $maxStars = 5)
 
                                                     </div>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
                                                 <td>
                                                     <div class="star-rating">
                                                         <?php
@@ -80,10 +80,10 @@ function displayStars($rating, $maxStars = 5)
                                                         ?>
                                                     </div>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                 <td>
                                                     <select name="confirm_status" class="form-control"
                                                         data-id="<?php echo $prospect['id']; ?>">

@@ -20,13 +20,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="info_key"><?php echo _l('info_key'); ?></label>
-                            <input type="text" class="form-control" name="info_key" value="<?php echo $informationpoint->info_key; ?>" required>
+                            <input type="text" class="form-control" name="info_key" value="<?php echo $informationpoint->info_key??'N/A'; ?>" required>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="info"><?php echo _l('info'); ?></label>
-                            <input type="text" class="form-control" name="info" value="<?php echo $informationpoint->info; ?>" required>
+                            <input type="text" class="form-control" name="info" value="<?php echo $informationpoint->info??'N/A'; ?>" required>
                         </div>
                     </div>
                 </div>

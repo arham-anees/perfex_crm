@@ -218,14 +218,14 @@
                                             <?php if (!$prospect->is_reported) { ?>|
                                                 <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
                                                     data-id="<?= $prospect->id ?>"
-                                                    data-name="<?= htmlspecialchars($prospect->name ?? '') ?>"
-                                                    data-status="<?= htmlspecialchars($prospect->status ?? '') ?>"
-                                                    data-type="<?= htmlspecialchars($prospect->type ?? '') ?>"
-                                                    data-category="<?= htmlspecialchars($prospect->category ?? '') ?>"
-                                                    data-acquisition="<?= htmlspecialchars($prospect->source_name ?? '') ?>"
-                                                    data-amount="<?= htmlspecialchars($prospect->desired_amount ?? '') ?>"
-                                                    data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? '') ?>"
-                                                    data-industry="<?= htmlspecialchars($prospect->dateadded ?? '') ?>">Report</a>
+                                                    data-name="<?= htmlspecialchars($prospect->name ?? 'N/A') ?>"
+                                                    data-status="<?= htmlspecialchars($prospect->status ?? 'N/A') ?>"
+                                                    data-type="<?= htmlspecialchars($prospect->type ?? 'N/A') ?>"
+                                                    data-category="<?= htmlspecialchars($prospect->category ?? 'N/A') ?>"
+                                                    data-acquisition="<?= htmlspecialchars($prospect->source_name ?? 'N/A') ?>"
+                                                    data-amount="<?= htmlspecialchars($prospect->desired_amount ?? 'N/A') ?>"
+                                                    data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? 'N/A') ?>"
+                                                    data-industry="<?= htmlspecialchars($prospect->dateadded ?? 'N/A') ?>">Report</a>
                                             <?php } ?>
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
@@ -233,12 +233,12 @@
                                                 Zapier</a>
                                         </div>
                                     </td>
-                                    <td><?php echo htmlspecialchars($prospect->phonenumber ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->lead_value ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars(''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->status_name ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->source_name ?? ''); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->dateadded ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->phonenumber ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->lead_value ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars('N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->status_name ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->source_name ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->dateadded ?? 'N/A'); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
