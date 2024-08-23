@@ -67,7 +67,7 @@
                                         </li>
                                     <?php } ?>
 
-                                    <li role="presentation">
+                                    <!-- <li role="presentation">
                                         <a href="#tab_tasks_leads"
                                             onclick="init_rel_tasks_table(<?php echo e($lead->id); ?>,'lead','.table-rel-tasks-leads');"
                                             aria-controls="tab_tasks_leads" role="tab" data-toggle="tab">
@@ -111,7 +111,7 @@
                                         <a href="#lead_activity" aria-controls="lead_activity" role="tab" data-toggle="tab">
                                             <?php echo _l('lead_add_edit_activity'); ?>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <?php if (is_gdpr() && (get_option('gdpr_enable_lead_public_form') == '1' || get_option('gdpr_enable_consent_for_leads') == '1')) { ?>
                                         <li role="presentation">
                                             <a href="#gdpr" aria-controls="gdpr" role="tab" data-toggle="tab">
