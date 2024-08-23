@@ -314,10 +314,19 @@
                     <?php echo $campaign->name; ?>
                     <div class="row-options">
                       <a href="<?php echo site_url('campaigns/campaign/' . $campaign->id); ?>">View</a> |
-                      <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
-                      <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>" class="text-danger"
-                        onclick="return confirm('Are you sure you want to delete this campaign ?');">Delete</a>
+                      <?php
+                      $current_date = date('Y-m-d');
+                      $start_date = date('Y-m-d', strtotime($campaign->start_date));
+
+                      if (($campaign->status_id == 3) && ($current_date <= $start_date)): ?>
+                        <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
+                      <?php endif; ?>
+
+                      <?php if ($campaign->status_id == 3): ?>
+                        <a href="<?php echo site_url('campaigns/delete/' . $campaign->id); ?>" class="text-danger"
+                          onclick="return confirm('Are you sure you want to delete this campaign ?');">Delete</a>
                     </div>
+                    <?php endif; ?>
                   </td>
                   <td><?php echo $campaign->description; ?></td>
                   <td><?php echo $campaign->status_name; ?></td>
@@ -330,7 +339,7 @@
             </tbody>
           </table>
         <?php else: ?>
-          <p><?php echo _l('No campaigns found.'); ?></p>
+          <p><?php echo _l('no_campaigns_found'); ?></p>
         <?php endif; ?>
       </div>
     </div>
