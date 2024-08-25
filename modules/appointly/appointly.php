@@ -247,7 +247,7 @@ register_deactivation_hook(APPOINTLY_MODULE_NAME, 'appointly_deactivation_hook')
  */
 function appointly_activation_hook()
 {
-    require __DIR__ . '/activation.php';
+    require __DIR__ . '/install.php';
 }
 function appointly_deactivation_hook()
 {
@@ -273,14 +273,13 @@ function appointly_send_email_templates()
 
     // User events
     $CI->db->where('(approved = 1 AND finished = 0 AND cancelled = 0)');
-
     $appointments = $CI->db->get(db_prefix() . 'appointly_appointments')->result_array();
     $notified_users = [];
+
 
     $reminder_times = ['10 minutes', '4 hours', '24 hours'];
     foreach ($appointments as $appointment) {
         $date_compare = isset($appointment['reminder_before']) ? (date('Y-m-d H:i', strtotime('+' . $appointment['reminder_before'] . ' ' . strtoupper($appointment['reminder_before_type'])))) : null;
-
         $date_compare1 = date('Y-m-d H:i', strtotime('+' . $reminder_times[0]));
         $date_compare2 = date('Y-m-d H:i', strtotime('+' . $reminder_times[1]));
         $date_compare3 = date('Y-m-d H:i', strtotime('+' . $reminder_times[2]));
@@ -298,56 +297,51 @@ function appointly_send_email_templates()
             $time_remaining = $appointment_time - $current_time;
             $time_notification_sent = $current_time - strtotime($last_notification_time);
 
-
-            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare) {
-                if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3) {
-                    $send_notification = $time_notification_sent > (24 * 60 * 60) && $time_remaining <= 24 * 60 * 60;// 24 hours
-                }
-                if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2) {
-                    $send_notification = $time_notification_sent > (4 * 60 * 60) && $time_remaining <= 4 * 60 * 60;// 4 hours
-                }
-                if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1) {
-                    $send_notification = $time_notification_sent > (10 * 60) && $time_remaining <= 10 * 60;// 10 minutes
-                }
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare3) {
+                $send_notification = $time_notification_sent > (24 * 60 * 60) && $time_remaining <= 24 * 60 * 60;// 24 hours
             }
-            if ($send_notification) {
-                if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare) {
-                    if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
-                        /*
-                         * If appointment is missed then skip
-                         */
-                        continue;
-                    }
-
-                    $attendees = $CI->atm->get($appointment['id']);
-
-                    foreach ($attendees as $staff) {
-                        add_notification([
-                            'description' => 'appointment_you_have_new_appointment',
-                            'touserid' => $staff['staffid'],
-                            'fromcompany' => true,
-                            'link' => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
-                        ]);
-
-                        $notified_users[] = $staff['staffid'];
-
-                        send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
-                    }
-
-                    $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
-
-                    $merge_fields = $template->get_merge_fields();
-
-                    $template->send();
-
-                    if ($appointment['by_sms']) {
-                        $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
-                    }
-
-                    $CI->db->where('id', $appointment['id']);
-                    $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
-                }
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare2) {
+                $send_notification = $time_notification_sent > (4 * 60 * 60) && $time_remaining <= 4 * 60 * 60;// 4 hours
             }
+            if ($appointment['date'] . ' ' . $appointment['start_hour'] <= $date_compare1) {
+                $send_notification = $time_notification_sent > (10 * 60) && $time_remaining <= 10 * 60;// 10 minutes
+            }
+        }
+        if ($send_notification) {
+            if (date('Y-m-d H:i', strtotime($appointment['date'] . ' ' . $appointment['start_hour'])) < date('Y-m-d H:i')) {
+                /*
+                 * If appointment is missed then skip
+                 */
+                continue;
+            }
+
+            $attendees = $CI->atm->get($appointment['id']);
+
+            foreach ($attendees as $staff) {
+                add_notification([
+                    'description' => 'appointment_you_have_new_appointment',
+                    'touserid' => $staff['staffid'],
+                    'fromcompany' => true,
+                    'link' => 'appointly/appointments/view?appointment_id=' . $appointment['id'],
+                ]);
+
+                $notified_users[] = $staff['staffid'];
+
+                send_mail_template('appointly_appointment_cron_reminder_to_staff', 'appointly', array_to_object($appointment), array_to_object($staff));
+            }
+
+            $template = mail_template('appointly_appointment_cron_reminder_to_contact', 'appointly', array_to_object($appointment));
+
+            $merge_fields = $template->get_merge_fields();
+
+            $template->send();
+
+            if ($appointment['by_sms']) {
+                $CI->app_sms->trigger(APPOINTLY_SMS_APPOINTMENT_APPOINTMENT_REMINDER_TO_CLIENT, $appointment['phone'], $merge_fields);
+            }
+
+            $CI->db->where('id', $appointment['id']);
+            $CI->db->update('appointly_appointments', ['notification_date' => date('Y-m-d H:i:s')]);
         }
     }
     pusher_trigger_notification(array_unique($notified_users));
@@ -662,92 +656,4 @@ function modify_settings_form_post($form)
     }
 
     return $form;
-}
-function runextraquery()
-{
-    $CI->db->query(
-        "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_appointments_statuses (
-            `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-            `name` varchar(191) DEFAULT NULL,
-            `description` varchar(191) DEFAULT NULL,
-            `is_active` bit DEFAULT b'0',           
-            PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-    );
-    try {
-        // Add a new column with an optional relationship
-        $CI->db->query(
-            "ALTER TABLE " . db_prefix() . "appointly_appointments 
-        ADD COLUMN `status_id` int(11) UNSIGNED DEFAULT NULL;"
-        );
-
-        // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
-        $CI->db->query(
-            "ALTER TABLE " . db_prefix() . "appointly_appointments 
-        ADD CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) 
-        REFERENCES " . db_prefix() . "appointly_appointments_statuses(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
-        );
-    } catch (Exception $e) {
-    }
-
-    try {
-
-
-        $CI->db->query(
-            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
-                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `name` varchar(191) DEFAULT NULL,
-                `description` varchar(191) DEFAULT NULL,
-                `url` varchar(191) DEFAULT NULL,
-                `duration_minutes` varchar(191) DEFAULT NULL,
-                `simultaneous_appointments` int(11) UNSIGNED DEFAULT 1,
-                `appointly_responsible_person` int(11) DEFAULT NULL,
-                `callbacks_responsible_person` int(11) DEFAULT NULL,
-                `appointly_available_hours` varchar(191) DEFAULT NULL,
-                `appointly_default_feedbacks` varchar(191) DEFAULT NULL,
-                `google_api_key` varchar(191) DEFAULT NULL,
-                `google_client_id` varchar(191) DEFAULT NULL,
-                `appointly_google_client_secret` varchar(191) DEFAULT NULL,
-                `appointly_outlook_client_id` varchar(191) DEFAULT NULL,
-                `appointly_appointments_recaptcha` bit DEFAULT NULL,
-                `appointly_busy_times_enabled` bit DEFAULT NULL,
-                `appointly_also_delete_in_google_calendar` bit DEFAULT NULL,
-                `appointments_disable_weekends` bit DEFAULT NULL,
-                `appointly_view_all_in_calendar` bit DEFAULT NULL,
-                `appointly_client_meeting_approved_default` bit DEFAULT 0,
-                `appointly_tab_on_clients_page` bit DEFAULT 0,
-                `appointly_show_clients_schedule_button` bit DEFAULT 0,
-                `appointments_show_past_times` bit DEFAULT 0,
-                `callbacks_mode_enabled` bit DEFAULT 0,
-                `is_active` bit DEFAULT b'1',           
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-        );
-        // Create the subjects table
-        $CI->db->query(
-            "CREATE TABLE IF NOT EXISTS  " . db_prefix() . "appointly_appointments_subjects (
-                `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `subject` varchar(191) DEFAULT NULL,  
-                `booking_page_id` int(11) UNSIGNED NOT NULL,
-                PRIMARY KEY (`id`),
-                FOREIGN KEY (`booking_page_id`) REFERENCES  " . db_prefix() . "appointly_booking_pages(`id`) 
-                ON DELETE NO ACTION ON UPDATE NO ACTION
-            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-        );
-        // Add a new column with an optional relationship
-        $CI->db->query(
-            "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                ADD COLUMN `booking_page_id` int(11) UNSIGNED DEFAULT NULL;"
-        );
-
-        // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
-        $CI->db->query(
-            "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                ADD CONSTRAINT `fk_booking_page_id` FOREIGN KEY (`booking_page_id`) 
-                REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
-        );
-
-    } catch (Exception $e) {
-    }
-
 }

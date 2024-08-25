@@ -23,6 +23,8 @@ if (!function_exists('get_appointment_types')) {
 </head>
 <style>
 
+
+
 #back-arrow {
     display: none; 
     cursor: pointer;
@@ -62,7 +64,7 @@ if (!function_exists('get_appointment_types')) {
 
     #timeslot-list {
         width: 100%; /* Full width for the list */
-
+       
         margin: 0 auto; /* Center the list within the container */
     }
 
@@ -237,8 +239,9 @@ if (!function_exists('get_appointment_types')) {
                                                 </div>
                                             </div> -->
                                         </div>
-
+                                        
                                         <div class="timeslots" id="timeslots">
+                                        
                                             <p id="selected-date"></p>
                                             <p id="timelabel" class="timelabel"></p>
                                             <div id="timeslot-list" class="scroll">
@@ -712,7 +715,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var timeslots = document.getElementById('timeslots');
     var backArrow = document.querySelector('.back-arrow');
 
-
     // Function to show timeslots and hide calendar on mobile only
     function showTimeslots() {
         if (window.innerWidth <= 768) { // Mobile view only
@@ -760,7 +762,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     </script>
-
 
 </body>
 

@@ -8,7 +8,6 @@ if (!$appointly_default_table_filter) {
 
 $filters = ['approved', 'not_approved', 'cancelled', 'finished', 'status_id', 'upcoming', 'missed', 'internal', 'external', 'recurring', 'lead_related', 'internal_staff'];
 $statuses = get_statuses();
-
 $appointly_show_summary = get_meta('staff', get_staff_user_id(), 'appointly_show_summary');
 $appointly_outlook_client_id = get_option('appointly_outlook_client_id');
 $edit_appointment_id = ($this->session->userdata('from_view_id')) ? $this->session->userdata('from_view_id') : 0;
@@ -135,10 +134,10 @@ $edit_appointment_id = ($this->session->userdata('from_view_id')) ? $this->sessi
                                             <?php echo _l('all'); ?>
                                         </a>
                                     </li>
-                                   <?php foreach ($filters as $filter) {
-                                    if ($filter == 'status_id')
+                                    <?php foreach ($filters as $filter) {
+                                        if ($filter == 'status_id')
                                             continue; ?>
-                                         <li
+                                        <li
                                             class="filter-group <?= ($appointly_default_table_filter == $filter) ? 'active' : ''; ?>">
                                             <a href="#" data-cview="<?php echo $filter; ?>"
                                                 onclick="dt_custom_view('<?php echo $filter; ?>','.table-appointments', '<?php echo $filter; ?>',true); return false;">
@@ -147,7 +146,7 @@ $edit_appointment_id = ($this->session->userdata('from_view_id')) ? $this->sessi
                                         </li>
                                         <?php
                                         if ($filter === 'finished') { ?>
-                                        <?php foreach ($statuses as $status) { ?>
+                                            <?php foreach ($statuses as $status) { ?>
                                                 <li
                                                     class="filter-group <?= ($appointly_default_table_filter == $filter) ? 'active' : ''; ?>">
                                                     <a href="#" data-cview="status_id"
@@ -207,17 +206,20 @@ $edit_appointment_id = ($this->session->userdata('from_view_id')) ? $this->sessi
                         <div class="clearfix"></div>
                         <hr class="hr-panel-heading" />
                         <?php render_datatable([
+                            _l('id'),
                             [
                                 'th_attrs' => ['width' => '300px'],
-                                'name' => _l('attendee')
+                                'name' => _l('appointment_subject')
                             ],
-                            [
-                                'th_attrs' => ['width' => '400px'],
-                                'name' => _l('appointment_label')
-                            ],
-                            _l('appointment_date'),
-                            _l('initiation'),
+                            _l('appointment_meeting_date'),
+                            _l('appointment_initiated_by'),
+                            _l('appointment_description'),
                             _l('appointment_status'),
+                            _l('appointment_source'),
+                            [
+                                'th_attrs' => ['width' => '120px'],
+                                'name' => _l('appointments_table_calendar')
+                            ]
                         ], 'appointments'); ?>
                     </div>
                 </div>
