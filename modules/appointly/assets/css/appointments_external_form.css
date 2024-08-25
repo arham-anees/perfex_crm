@@ -206,11 +206,11 @@ h1 {
     width: 50%;
 }
 
-.left-area{
-    margin-bottom:15px; 
-    padding-right:20px; 
-    border-right: 1px solid #eee; 
-    max-width:320px
+.left-area {
+    margin-bottom: 15px;
+    padding-right: 20px;
+    border-right: 1px solid #eee;
+    max-width: 320px
 }
 
 
@@ -218,6 +218,7 @@ h1 {
 .calendar-box.slots {
     min-width: 900px;
 }
+
 #lead_appointments .calendar-box.slots {
     min-width: 840px;
 }
@@ -383,6 +384,7 @@ h1 {
     transition: width 2s;
     display: none;
 }
+
 .calendar-box.slots .timeslots {
     display: flex;
 }
@@ -403,20 +405,18 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    
+
     .timeslots button,
-.next-button {
-    width: 150px;
-    padding: 16px;
-    text-align: center;
-    margin-left: 5px;
-    background-color: var(--primary-color, rgb(0, 105, 255));
-    color: var(--primary-text-color, #ffffff);
-    box-shadow: 0 1px 6px 0 rgb(0 0 0 / 10%);
+    .next-button {
+        width: 150px;
+        padding: 16px;
+        text-align: center;
+        margin-left: 5px;
+        background-color: var(--primary-color, rgb(0, 105, 255));
+        color: var(--primary-text-color, #ffffff);
+        box-shadow: 0 1px 6px 0 rgb(0 0 0 / 10%);
+    }
 }
-
-}
-
 
 .next-button {
     align-content: center;
@@ -426,7 +426,6 @@ h1 {
     display: flex;
     align-items: center;
 }
-
 
 .timeslot {
     width: 300px;
@@ -445,8 +444,7 @@ h1 {
 /* Timeslot when clicked */
 .timeslot.active {
     width: 50%; /* Halve the width when active */
-}
-
+}	
 
 .timeslot.selected {
     width: 150px;
@@ -460,24 +458,27 @@ h1 {
     display: flex;
 }
 
-.calendar-box .step2{
-    display: none; padding-left:20px;min-width:516px
+.calendar-box .step2 {
+    display: none;
+    padding-left: 20px;
+    min-width: 516px
 }
 
-.mobile-only{
+.mobile-only {
     display: none;
 }
 
-.timeslot-list{
-    height:45vh;
+.timeslot-list {
+    height: 45vh;
 }
 
-.day{
+.day {
     font-weight: 700;
     text-align: center;
 }
-.logo{
-    margin:0;
+
+.logo {
+    margin: 0;
 }
 
 
@@ -502,90 +503,107 @@ h1 {
     .right-side {
         width: auto;
     }
+
     .calendar-box.slots {
         min-width: auto;
     }
+
     #lead_appointments .calendar-box.slots {
         min-width: auto;
     }
+
     .calendar-box.slots .right-side {
         min-width: auto
     }
-    .left-area{
-        margin-bottom:0px; 
-        padding-right:0px; 
-        border-right: none; 
-        max-width:fit-content;
+
+    .left-area {
+        margin-bottom: 0px;
+        padding-right: 0px;
+        border-right: none;
+        max-width: fit-content;
     }
-    .step2{
-            min-width:auto !important
+
+    .step2 {
+        min-width: auto
     }
 }
 
 @media (max-width: 426px) {
-    #content .container{
-        padding-left : 0 !important;
-        padding-right : 0 !important;
+    #content .container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
-    .right-side{
-        width:100%;
-        max-height:90vh;
+
+    .right-side {
+        width: 100%;
+        max-height: 90vh;
         /* overflow: scroll; */
     }
+
     .calendar-box {
-        margin-top : 0 !important;
-        height:100vh;
-        display:block;
+        margin-top: 0 !important;
+        height: 100vh;
+        display: block;
     }
+
     .calendar-box.slots.step1 .calendar-container,
     .calendar-box.slots.step1 .key-headers,
-    .calendar-box.slots.step1 #logo{
-        display:none !important;
+    .calendar-box.slots.step1 #logo {
+        display: none !important;
     }
-    .calendar-box.slots .timeslot-list{
+
+    .calendar-box.slots .timeslot-list {
         height: unset !important;
     }
-    .calendar-box.slots .timeslots{
+
+    .calendar-box.slots .timeslots {
         height: 80vh;
         overflow: scroll;
     }
-  
-    .mobile-only{
+
+    .mobile-only {
         justify-content: space-between;
-        width:94vw;
+        width: 94vw;
     }
 
-    .calendar-box.slots.step1 .mobile-only{
+    .calendar-box.slots.step1 .mobile-only {
         display: flex;
     }
-    .calendar-box.slots.step1 .timeslot{
-        width:80vw;
+
+    .calendar-box.slots.step1 .timeslot {
+        width: 80vw;
     }
-    #lead_appointments .calendar-box.slots.step1 .timeslot{
-        width:70vw;
+
+    #lead_appointments .calendar-box.slots.step1 .timeslot {
+        width: 70vw;
     }
-    .calendar-box.slots.step1 .timeslot.selected{
-        width:39vw;
+
+    .calendar-box.slots.step1 .timeslot.selected {
+        width: 39vw;
     }
-    #lead_appointments .calendar-box.slots.step1 .timeslot.selected{
-        width:34vw;
+
+    #lead_appointments .calendar-box.slots.step1 .timeslot.selected {
+        width: 34vw;
     }
-    #lead_appointments .next-button{
+
+    #lead_appointments .next-button {
         width: 35vw;
     }
 
-    .next-button{
+    .next-button {
         width: 40vw;
     }
 
-    #logo{
-        max-height:unset;
+    #logo {
+        max-height: unset;
         min-height: unset;
     }
-    #logo img{
-        height:40px;
+
+    #logo img {
+        height: 40px;
     }
-    #lead_appointments #step2{
+
+    #lead_appointments #step2 {
         min-width: unset;
         padding-left: 0;
     }
@@ -593,8 +611,8 @@ h1 {
 
 
 
-#lead_appointments .calendar-box{
-    margin:0;
+#lead_appointments .calendar-box {
+    margin: 0;
 }
 
 
@@ -641,11 +659,12 @@ h1 {
     margin: 0px 15px;
 }
 
-.back-arrow{
+.back-arrow {
 
     position: absolute;
     display: none;
 }
+
 .back-arrow,
 .back-arrow-mobile {
     border: 1px solid rgba(26, 26, 26, 0.1);

@@ -136,29 +136,29 @@
         return `${hours}:${mins}`;
     }
     function loadTimeSlots(date, date2) {
-        const currentMonthYear = $($('#current-month-year')[0]).text();
-        const month = currentMonthYear.split(' ')[0];
-        const monthNumber = monthNames.indexOf(month) + 1;
-        const year = currentMonthYear.split(' ')[1];
-        const dateNumber = date.split(' ')[1];
-        const busySlots = [];
+    const currentMonthYear = $($('#current-month-year')[0]).text();
+    const month = currentMonthYear.split(' ')[0];
+    const monthNumber = monthNames.indexOf(month) + 1;
+    const year = currentMonthYear.split(' ')[1];
+    const dateNumber = date.split(' ')[1];
+    const busySlots = [];
 
-        busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
+    busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
 
-        // Placeholder for dynamic slot loading logic
-        const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
+    // Placeholder for dynamic slot loading logic
+    const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
 
-        const start = new Date(`1970-01-01T${availableTimeSlots[0]}:00Z`);
-        const end = new Date(`1970-01-01T${availableTimeSlots[1]}:00Z`);
+    const start = new Date(`1970-01-01T${availableTimeSlots[0]}:00Z`);
+    const end = new Date(`1970-01-01T${availableTimeSlots[1]}:00Z`);
 
-        // Calculate the difference in milliseconds
-        const diffMs = end - start;
+    // Calculate the difference in milliseconds
+    const diffMs = end - start;
 
-        // Convert milliseconds to minutes
-        const diffMins = Math.floor(diffMs / 60000);
+    // Convert milliseconds to minutes
+    const diffMins = Math.floor(diffMs / 60000);
 
-        timeslotList.innerHTML = '';
-        availableTimeSlots.forEach(slot => {
+    timeslotList.innerHTML = '';
+    availableTimeSlots.forEach(slot => {
 
         const parentDiv = document.createElement('div');
         parentDiv.className = 'parent';

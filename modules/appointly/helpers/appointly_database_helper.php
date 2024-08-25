@@ -89,30 +89,25 @@ if (!function_exists('init_appointly_database_tables')) {
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
         );
-        $appointly = $CI->db->query("SELECT * FROM `" . db_prefix() . "appointly_appointments` LIMIT 1;")->result();
-        $subjects = $CI->db->query("SELECT * FROM `" . db_prefix() . "appointly_appointments_subjects` LIMIT 1;")->result();
-        try {
-            // Add a new column with an optional relationship
-            if (!array_key_exists('status_is', $appointly)) {
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                    ADD COLUMN `status_id` int(11) UNSIGNED DEFAULT NULL;"
-                );
+        try{
+        // Add a new column with an optional relationship
+        $CI->db->query(
+            "ALTER TABLE " . db_prefix() . "appointly_appointments 
+            ADD COLUMN `status_id` int(11) UNSIGNED DEFAULT NULL;"
+        );
 
-                // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                    ADD CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) 
-                    REFERENCES " . db_prefix() . "appointly_appointments_statuses(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
-                );
-            }
-        } catch (Exception $e) {
-        }
-        try {
+        // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
+        $CI->db->query(
+            "ALTER TABLE " . db_prefix() . "appointly_appointments 
+            ADD CONSTRAINT `fk_status_id` FOREIGN KEY (`status_id`) 
+            REFERENCES " . db_prefix() . "appointly_appointments_statuses(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
+        );
+    }catch(Exception $e){}
+    try{
+         
 
-
-            $CI->db->query(
-                "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
+        $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_booking_pages (
                 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 `name` varchar(191) DEFAULT NULL,
                 `description` varchar(191) DEFAULT NULL,
@@ -140,47 +135,33 @@ if (!function_exists('init_appointly_database_tables')) {
                 `is_active` bit DEFAULT b'1',           
                 PRIMARY KEY (`id`)
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-            );
-            // Create the subjects table
-            $CI->db->query(
-                "CREATE TABLE IF NOT EXISTS  " . db_prefix() . "appointly_appointments_subjects (
+        );
+           // Create the subjects table
+           $CI->db->query(
+            "CREATE TABLE IF NOT EXISTS  " . db_prefix() . "appointly_appointments_subjects (
                 `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 `subject` varchar(191) DEFAULT NULL,  
+                `booking_page_id` int(11) UNSIGNED NOT NULL,
                 PRIMARY KEY (`id`),
+                FOREIGN KEY (`booking_page_id`) REFERENCES  " . db_prefix() . "appointly_booking_pages(`id`) 
+                ON DELETE NO ACTION ON UPDATE NO ACTION
             ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+        );
+             // Add a new column with an optional relationship
+             $CI->db->query(
+                "ALTER TABLE " . db_prefix() . "appointly_appointments 
+                ADD COLUMN `booking_page_id` int(11) UNSIGNED DEFAULT NULL;"
             );
-            // Add a new column with an optional relationship
-            if (!array_key_exists('booking_page_id', $subjects)) {
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments_subjects 
-                    ADD COLUMN `booking_page_id` int(11) UNSIGNED DEFAULT NULL;"
-                );
-
-                // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments_subjects 
-                    ADD CONSTRAINT `fk_subjects_booking_page_id` FOREIGN KEY (`booking_page_id`) 
-                    REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
-                );
-            }
-
-            if (!array_key_exists('booking_page_id', $appointly)) {
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                    ADD COLUMN `booking_page_id` int(11) UNSIGNED DEFAULT NULL;"
-                );
-
-                // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
-                $CI->db->query(
-                    "ALTER TABLE " . db_prefix() . "appointly_appointments 
-                    ADD CONSTRAINT `fk_booking_page_id` FOREIGN KEY (`booking_page_id`) 
-                    REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
-                );
-            }
-
-        } catch (Exception $e) {
-        }
-
+    
+            // Optionally, add a foreign key constraint (uncomment if you need a foreign key)
+            $CI->db->query(
+                "ALTER TABLE " . db_prefix() . "appointly_appointments 
+                ADD CONSTRAINT `fk_booking_page_id` FOREIGN KEY (`booking_page_id`) 
+                REFERENCES " . db_prefix() . "appointly_booking_pages(`id`) ON DELETE SET NULL ON UPDATE CASCADE;"
+            );
+        
+        }catch(Exception $e){}
+     
         $CI->db->query(
             "CREATE TABLE IF NOT EXISTS " . db_prefix() . "appointly_attendees (
                 `staff_id` int(11) NOT NULL,
