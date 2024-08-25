@@ -23,7 +23,7 @@
         }
 
 
-        let appointmentsTable = initDataTable(".table-appointments", '<?php echo admin_url('appointly/appointments/table'); ?>', [7], [7], apointmentsServerParams, [1, "desc"]);
+        let appointmentsTable = initDataTable(".table-appointments", '<?php echo admin_url('appointly/appointments/table'); ?>', [3], [3], apointmentsServerParams, [0, "desc"]);
 
 
         appointmentsTable.on("draw", function () {

@@ -362,3 +362,5 @@ $lang['booking_page_thank_scheduled'] = "You have an appointment";
 $lang['booking_page_thanks_email_inviation']="A calendar invitation will be sent to your email address when appointment is approved.";
 $lang['appointment_submit'] = 'Confirm the event';
 $lang['booking_page_terms_use'] = 'By continuing, you confirm that you have read and accepted the Terms of use.';
+$lang['attendee'] = 'Attendee';
+$lang['initiation'] = 'Initiation';

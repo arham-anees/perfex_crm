@@ -1,3 +1,4 @@
+
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
@@ -19,8 +20,10 @@ class Appointments_subject_model extends App_Model
      */
     public function create($subject, $booking_page_id)
     {
-        $sql = "INSERT INTO " . db_prefix() . "appointly_appointments_subjects(subject, booking_page_id) VALUES('" . $subject . "', '" . $booking_page_id . "')";
-        $this->db->query($sql);
+        $this->db->insert('appointly_appointments_subjects', [
+            'subject' => $subject,
+            'booking_page_id' => $booking_page_id
+        ]);
     }
 
     /**
@@ -43,7 +46,7 @@ class Appointments_subject_model extends App_Model
 
     public function get_by_booking_page($booking_page_id)
     {
-        $this->db->where('booking_page_id', $booking_page_id);
+        $this->db->where('booking_page_id',$booking_page_id);
         return $this->db->get('appointly_appointments_subjects')->result_array();
     }
 
@@ -80,7 +83,9 @@ class Appointments_subject_model extends App_Model
 
     public function update($subject_id, $subject, $booking_page_id)
     {
-        $sql = "UPDATE `" . db_prefix() . "appointly_appointments_subjects` SET `subject` = '" . $subject . "', booking_page_id = " . $booking_page_id . " WHERE id = " . $subject_id . ";";
-        return $this->db->query($sql);
+        $data = ['subject' => $subject,
+                'booking_page_id' => $booking_page_id];
+        $this->db->where('id', $subject_id);
+        return $this->db->update(db_prefix() .'appointly_appointments_subjects', $data);
     }
 }
