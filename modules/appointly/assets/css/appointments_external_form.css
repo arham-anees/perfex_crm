@@ -398,7 +398,6 @@ h1 {
 .timeslots button,
 .next-button {
     width: 80px;
-    height: 42px;
     padding: 10px;
     background-color: var(--primary-color, rgb(0, 105, 255));
     color: var(--primary-text-color, #ffffff);
