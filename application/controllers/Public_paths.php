@@ -60,7 +60,7 @@ class Public_paths extends CI_Controller
         $ch = curl_init();
         $data = ['lead'] = $lead;
         // Set the cURL options
-        curl_setopt($ch, CURLOPT_URL, $baseUrl . "/dashboard/receive_prospect"); // The URL to make the request to
+        curl_setopt($ch, CURLOPT_URL, $baseUrl . "/leadevo_api/receive"); // The URL to make the request to
         curl_setopt($ch, CURLOPT_POST, 1); // Specify this is a POST request
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // Attach the data
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response instead of outputting it
