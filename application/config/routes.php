@@ -189,5 +189,3 @@ if (file_exists(APPPATH . 'config/my_routes.php')) {
 }
 
 // $route['(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';
-
-$route['(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';

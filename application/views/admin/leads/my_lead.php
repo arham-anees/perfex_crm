@@ -250,8 +250,7 @@ if (isset($lead)) {
                 </div>
                 <div role="tabpanel" class="tab-pane" id="lead_appointments">
                     <div>
-                        <div class="lead-appointments" id="lead-appointments-content">
-                      
+                        <div class="lead-appointments" id="lead-appointments-content">                  
                         </div>
                     </div>
                 </div>
@@ -410,8 +409,9 @@ if (isset($lead)) {
 <?php hooks()->do_action('lead_modal_profile_bottom', (isset($lead) ? $lead->id : '')); ?>
 
 <script>
-        var leadId = <?= $lead->id ?>
-
+    
+        var leadId = '<?php echo $lead->id ?>'
+      
             // Make an AJAX call to fetch the lead profile content
             $.ajax({
                 url: admin_url + 'appointly/appointments/get_lead_profile_content/' + leadId,
