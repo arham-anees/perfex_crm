@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class ProspectTypes extends AdminController
+class Prospect_types extends AdminController
 {
     public function __construct()
     {
