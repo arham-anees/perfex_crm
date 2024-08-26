@@ -6,7 +6,6 @@ $days_to_discount = get_option('leadevo_deal_days_to_discount');
 $max_sell_time = get_option('leadevo_deal_max_sell_times');
 $discount_type = get_option('leadevo_deal_discount_type');
 $discount_value = get_option('leadevo_deal_discount_amount');
-var_dump($is_deal_settings_applied);
 ?>
 <style>
     .lead-title {

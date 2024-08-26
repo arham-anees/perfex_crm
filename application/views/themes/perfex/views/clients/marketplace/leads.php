@@ -1,5 +1,10 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
+<?php $is_deal_settings_applied = (bool) get_option('leadevo_deal_settings_status');
+$days_to_discount = get_option('leadevo_deal_days_to_discount');
+$max_sell_time = get_option('leadevo_deal_max_sell_times');
+$discount_type = get_option('leadevo_deal_discount_type');
+$discount_value = get_option('leadevo_deal_discount_amount');
+?>
 <style>
     .lead-title {
         font-size: 2rem;
@@ -485,6 +490,7 @@
                     <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th><?php echo _l('Metadata'); ?></th>
                                 <th><?php echo _l('Lead'); ?></th>
                                 <th><?php echo _l('Contact'); ?></th>
@@ -494,7 +500,29 @@
                         </thead>
                         <tbody>
                             <?php foreach ($prospects as $prospect): ?>
+                                <?php
+                                if ($max_sell_time > 0) {
+                                    $dateString = $prospect['created_at'];
+
+                                    // Create DateTime objects
+                                    $givenDate = new DateTime($dateString);
+                                    $currentDate = new DateTime(); // This will use the current date and time
+                            
+                                    // Calculate the difference
+                                    $interval = $currentDate->diff($givenDate);
+
+                                    // Extract total hours from the interval
+                                    $days = $interval->days;
+                                    if ($days >= $max_sell_time) {
+                                        continue;
+                                    }
+                                }
+                                ?>
                                 <tr>
+                                    <td>
+                                        <input type="checkbox"
+                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
+                                    </td>
                                     <td>
                                         <div>
                                             <strong><?php echo _l('Prospect ID'); ?>:</strong>
@@ -549,19 +577,43 @@
                                             <?php } ?>
                                     </td>
                                     <td class="text-center">
+                                        <?php
+                                        $is_discounted = false;
+                                        if ($is_deal_settings_applied == true) {
+                                            $dateString = $prospect['created_at'];
 
+                                            // Create DateTime objects
+                                            $givenDate = new DateTime($dateString);
+                                            $currentDate = new DateTime(); // This will use the current date and time
+                                    
+                                            // Calculate the difference
+                                            $interval = $currentDate->diff($givenDate);
 
+                                            // Extract total hours from the interval
+                                            $days = $interval->days;
+                                            if ($days >= $days_to_discount) {
+                                                $is_discounted = true;
+                                            }
+                                        }
+                                        if ($is_discounted) { ?>
+                                            <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
+                                            <?php
+                                            $discounted_price = $prospect['desired_amount'] ?? 0;
+                                            if ($discount_type == 1) {
+                                                //find percentage
+                                                $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
+                                            } else {
+                                                $discounted_price = $discounted_price - ($discount_value ?? 0);
+                                            }
+                                            echo $discounted_price;
+                                            ?><br>
+                                        <?php } ?>
                                         <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
                                         <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
 
                                         <!-- Submit Button -->
-                                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to
-                            cart" />
+                                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to cart" />
                                         <?php echo form_close(); ?>
-                                        <input type="checkbox"
-                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                                        <label
-                                            for="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>">Select</label>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
