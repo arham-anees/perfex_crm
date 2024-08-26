@@ -1,13 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<style>
-    .row{
-        width:100%;
-        height: 100%;
-    margin-left: 16%;
-    }
-</style>
 
+<div id="wrapper">
+    <div class="content">
 <div class="row">
     <div class="col-md-12">
         <div class="panel_s">
@@ -40,7 +35,8 @@
         </div>
     </div>
 </div>
-
+    </div>
+</div>
 
 
 

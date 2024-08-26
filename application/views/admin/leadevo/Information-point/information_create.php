@@ -1,22 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<style>
-    .container {
-    transform: scale(1);
-    transform-origin: 0 0;
-    height: 100%;
-}
 
-    .row{
-        width:100%;
-    margin-left: 16%;
-    }
-</style>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel_s">
-            <div class="panel-body">
+<div id="wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
                 <h4 class="no-margin"><?php echo _l('Create information point'); ?></h4>
                 <hr class="hr-panel-heading" />
                 <?php echo form_open('', array('id' => 'information-form')); ?>
@@ -44,7 +34,12 @@
             </div>
         </div>
     </div>
-</div><script>
+</div>
+        </div>
+    </div>
+
+    <?php init_tail(); ?>   
+<script>
     $(document).ready(function() {
         $('#information-form').on('submit', function(e) {
             e.preventDefault(); // Prevent the form from submitting the traditional way
