@@ -524,7 +524,7 @@ h1 {
     }
 
     .step2 {
-        min-width: auto
+        min-width: auto !important;
     }
 }
 
@@ -542,7 +542,7 @@ h1 {
 
     .calendar-box {
         margin-top : 0 !important;
-        /* height:100vh; */
+        height:100vh; 
         display:block;
     }
     /* .calendar-box.slots.step1 .calendar-container,
