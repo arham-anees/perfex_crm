@@ -1,13 +1,20 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-
 <div id="wrapper">
     <div class="content">
         <div class="row">
             <div class="col-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                    <div class="_buttons">
+                            <a href="<?php echo admin_url('affiliate_training_videos/create'); ?>" class="btn btn-primary pull-left display-block mleft10">
+                                <i class="fa-regular fa-plus tw-mr-1"></i>
+                                <?php echo _l('Add Affiliate Training Video'); ?>
+                            </a>
+                            <div class="clearfix"></div>
+                        </div>
                         <hr class="hr-panel-heading" />
+
                         <?php if (!empty($videos)) : ?>
                             <div class="table-responsive">
                                 <table class="table table-bordered dt-table nowrap" style="width:100%">
@@ -31,9 +38,15 @@
                                                 <td><?php echo htmlspecialchars($video['video_order']??'N/A'); ?></td>
                                                
                                                 <td>
+                                                    <a href="<?php echo admin_url('affiliate_training_videos/view/' . $video['id']); ?>"
+                                                    class="btn btn-default btn-icon">
+                                                    <i class="fa fa-eye"></i>
                                                     <a href="<?php echo admin_url('affiliate_training_videos/edit/' . $video['id']); ?>" class="btn btn-default btn-icon">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
+                                                    <a href="<?php echo admin_url('affiliate_training_videos/delete/' . $video['id']); ?>" class="btn btn-danger btn-icon" onclick="return confirm('Are you sure you want to delete this video?');">
+                                                    <i class="fa fa-remove"></i>
+                                                    </a>    
                                                
                                                 </td>
                                             </tr>
@@ -54,3 +67,4 @@
 <?php init_tail(); ?>
 </body>
 </html>
+
