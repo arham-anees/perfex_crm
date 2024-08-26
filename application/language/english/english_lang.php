@@ -4024,3 +4024,7 @@ $lang['leadevo_replace_price'] = 'Desired/Min Price';
 $lang['leadevo_create_zapier_description'] = 'Please enter the webhook url that shall be used in future';
 $lang['leadevo_zapier_webhook'] = 'Zapier Webhook URL';
 $lang['leadevo_send_zapier_description'] = "Are you sure you want to send this lead to zapier?";
+$lang['leadevo_new_lead_report_reason'] = 'New Reason';
+$lang['leadevo_lead_report_hours'] = 'Report Hours';
+$lang['leadevo_update_report_reason_description'] = 'How many hours a client can report a prospect?';
+$lang['leadevo_report_hours_input'] = 'Report Hours';
