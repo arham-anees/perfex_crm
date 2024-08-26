@@ -20,7 +20,7 @@ class Lead_reasons extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->lead_reasons_model->insert($data);
             redirect(admin_url('leadevo/lead_reasons'));
@@ -33,8 +33,7 @@ class Lead_reasons extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->lead_reasons_model->update($id, $data);
             redirect(admin_url('leadevo/lead_reasons'));
@@ -57,5 +56,21 @@ class Lead_reasons extends AdminController
     {
         $data['reason'] = $this->lead_reasons_model->get($id);
         $this->load->view('admin/setup/lead_reasons/lead_reason_view', $data);
+    }
+
+    public function get_report_hours()
+    {
+        echo json_encode(['status' => 'success', 'data' => (get_option('leadevo_report_hours') ?? 0)]);
+    }
+
+    public function set_report_hours()
+    {
+        $hours = $this->input->post('report_hours');
+        if (isset($hours) && !empty($hours)) {
+            update_option('leadevo_report_hours', $hours);
+            echo json_encode(['status' => 'success', 'message' => 'Report Hours updated successfully']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request or Invalid values']);
+        }
     }
 }

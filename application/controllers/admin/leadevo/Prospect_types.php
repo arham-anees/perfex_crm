@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class ProspectTypes extends AdminController
+class Prospect_types extends AdminController
 {
     public function __construct()
     {
@@ -20,7 +20,7 @@ class ProspectTypes extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->prospect_types_model->insert($data);
             redirect(admin_url('leadEvo/prospecttypes')); // Updated to match route
@@ -33,8 +33,7 @@ class ProspectTypes extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->prospect_types_model->update($id, $data);
             redirect(admin_url('leadEvo/prospecttypes')); // Updated to match route

@@ -11,12 +11,14 @@ class Industry_categories_model extends CI_Model
 
     public function get_all()
     {
+        $this->db->where('is_active', 1);
         $query = $this->db->get($this->table);
         return $query->result_array();
     }
 
     public function get($id)
     {
+        $this->db->where('is_active', 1);
         $this->db->where('id', $id);
         $query = $this->db->get($this->table);
         return $query->row_array();
@@ -29,12 +31,14 @@ class Industry_categories_model extends CI_Model
 
     public function update($id, $data)
     {
+        $this->db->where('is_active', 1);
         $this->db->where('id', $id);
         return $this->db->update($this->table, $data);
     }
 
     public function delete($id)
     {
+        $this->db->where('is_active', 1);
         $this->db->where('id', $id);
         return $this->db->delete($this->table);
     }

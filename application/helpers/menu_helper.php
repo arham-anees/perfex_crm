@@ -206,13 +206,13 @@ function app_init_admin_sidebar_menu_items()
         'badge' => [],
     ]);
 
-  $CI->app_menu->add_sidebar_menu_item('information_point_menu', [
-    'name' => _l('Information Points'),
-    'href' => admin_url('information_point'), // Use admin_url for admin-side links
-    'icon' => 'fa fa-exclamation-circle',
-    'position' => 8,
-    'badge' => [],
-]);
+    $CI->app_menu->add_sidebar_menu_item('information_point_menu', [
+        'name' => _l('Information Points'),
+        'href' => admin_url('information_point'), // Use admin_url for admin-side links
+        'icon' => 'fa fa-exclamation-circle',
+        'position' => 8,
+        'badge' => [],
+    ]);
 
     $CI->app_menu->add_sidebar_menu_item('leadevo_billing', [
         'name' => _l('billings'),
@@ -668,7 +668,7 @@ function app_init_admin_sidebar_menu_items()
     $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
         'slug' => 'leadevo-setup-prospect-status',
         'name' => _l('leadevo_setup_prospect_status_menu'),
-        'href' => admin_url('leadevo/prospectstatus'),
+        'href' => admin_url('leadevo/prospect_status'),
         'position' => 5,
         'badge' => [],
     ]);
@@ -678,14 +678,14 @@ function app_init_admin_sidebar_menu_items()
         'slug' => 'leadevo-setup-prospect-types',
         'name' => _l('leadevo_setup_prospect_types_menu'),
 
-        'href' => admin_url('leadevo/prospecttypes'),
+        'href' => admin_url('leadevo/prospect_types'),
         'position' => 6,
         'badge' => [],
     ]);
     $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
         'slug' => 'leadevo-setup-prospect-categories',
         'name' => _l('leadevo_setup_prospect_categories_menu'),
-        'href' => admin_url('leadevo/prospectcategories'),
+        'href' => admin_url('leadevo/prospect_categories'),
         'position' => 7,
         'badge' => [],
     ]);

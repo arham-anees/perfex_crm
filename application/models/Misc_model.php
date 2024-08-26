@@ -1533,4 +1533,19 @@ class Misc_model extends App_Model
         return $this->db->get(db_prefix() . 'leadevo_acquisition_channels')->result_array();
 
     }
+
+
+
+    public function get_zapier_config($client_id)
+    {
+        $this->db->where('client_id', $client_id);
+        return $this->db->get(db_prefix() . 'leadevo_zapier_config')->row();
+    }
+
+    public function set_zapier_config($client_id, $web_hook)
+    {
+        $sql = "INSERT INTO " . db_prefix() . "leadevo_zapier_config(client_id, webhook) VALUES('" . $client_id . "','" . $web_hook . "');";
+        $this->db->query($sql);
+        return true;
+    }
 }

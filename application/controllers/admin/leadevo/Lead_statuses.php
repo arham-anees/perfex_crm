@@ -20,7 +20,7 @@ class Lead_statuses extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->Lead_statuses_model->insert($data);
             redirect(admin_url('leadevo/lead_statuses'));
@@ -33,8 +33,7 @@ class Lead_statuses extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->Lead_statuses_model->update($id, $data);
             redirect(admin_url('leadevo/lead_statuses'));

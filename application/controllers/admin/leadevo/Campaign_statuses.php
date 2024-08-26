@@ -20,7 +20,7 @@ class Campaign_statuses extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->campaign_statuses_model->insert($data);
             redirect(admin_url('leadevo/campaign_statuses'));
@@ -34,7 +34,6 @@ class Campaign_statuses extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
             ];
             $this->campaign_statuses_model->update($id, $data);
             redirect(admin_url('leadevo/campaign_statuses'));

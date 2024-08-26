@@ -16,15 +16,13 @@
                                 <th><?php echo _l('Description'); ?></th>
                                 <td><?php echo $type->description; ?></td>
                             </tr>
-                            <tr>
-                                <th><?php echo _l('Is Active'); ?></th>
-                                <td><?php echo $type->is_active ? 'Active' : 'Inactive'; ?></td>
-                            </tr>
                         </table>
-                        <a href="<?php echo admin_url('leadevo/prospecttypes/edit/' . $type->id); ?>" class="btn btn-primary">
-                                <?php echo _l('Edit'); ?>
-                            </a>
-                        <a href="<?php echo admin_url('leadEvo/prospecttypes'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
+                        <a href="<?php echo admin_url('leadevo/prospecttypes/edit/' . $type->id); ?>"
+                            class="btn btn-primary">
+                            <?php echo _l('Edit'); ?>
+                        </a>
+                        <a href="<?php echo admin_url('leadEvo/prospecttypes'); ?>"
+                            class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>
             </div>
@@ -33,4 +31,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

@@ -215,21 +215,36 @@
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
                                                 onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a>
-                                            <?php if (!$prospect->is_reported) { ?>|
-                                                <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
-                                                    data-id="<?= $prospect->id ?>"
-                                                    data-name="<?= htmlspecialchars($prospect->name ?? 'N/A') ?>"
-                                                    data-status="<?= htmlspecialchars($prospect->status ?? 'N/A') ?>"
-                                                    data-type="<?= htmlspecialchars($prospect->type ?? 'N/A') ?>"
-                                                    data-category="<?= htmlspecialchars($prospect->category ?? 'N/A') ?>"
-                                                    data-acquisition="<?= htmlspecialchars($prospect->source_name ?? 'N/A') ?>"
-                                                    data-amount="<?= htmlspecialchars($prospect->desired_amount ?? 'N/A') ?>"
-                                                    data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? 'N/A') ?>"
-                                                    data-industry="<?= htmlspecialchars($prospect->dateadded ?? 'N/A') ?>">Report</a>
-                                            <?php } ?>
+                                            <?php if (!$prospect->is_reported) {
+                                                // check report hours 
+                                                $givenDate = new DateTime($prospect->dateadded);
+                                                $currentDate = new DateTime();
+                                                $interval = $currentDate->diff($givenDate);
+
+                                                $hours = $interval->days * 24 + $interval->h;
+                                                $allowed_hours = get_option('leadevo_report_hours');
+                                                if (!isset($allowed_hours) || empty($allowed_hours)) {
+                                                    $allowed_hours = 0;
+                                                } else {
+                                                    $allowed_hours = intval($allowed_hours);
+                                                }
+
+                                                if ($hours < $allowed_hours) { ?>|
+                                                    <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
+                                                        data-id="<?= $prospect->id ?>"
+                                                        data-name="<?= htmlspecialchars($prospect->name ?? 'N/A') ?>"
+                                                        data-status="<?= htmlspecialchars($prospect->status ?? 'N/A') ?>"
+                                                        data-type="<?= htmlspecialchars($prospect->type ?? 'N/A') ?>"
+                                                        data-category="<?= htmlspecialchars($prospect->category ?? 'N/A') ?>"
+                                                        data-acquisition="<?= htmlspecialchars($prospect->source_name ?? 'N/A') ?>"
+                                                        data-amount="<?= htmlspecialchars($prospect->desired_amount ?? 'N/A') ?>"
+                                                        data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? 'N/A') ?>"
+                                                        data-industry="<?= htmlspecialchars($prospect->dateadded ?? 'N/A') ?>">Report</a>
+                                                <?php }
+                                            } ?>
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
-                                            <a data-toggle="modal" data-target="#sendZapierProspectModal">Send via
+                                            <a onclick="openSendZapierModal(<?= $prospect->id ?>)">Send via
                                                 Zapier</a>
                                         </div>
                                     </td>
@@ -376,6 +391,10 @@
 
 <div id="sendApiProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <?php echo get_instance()->load->view('clients/modals/send_prospect_api_modal.php') ?>
+</div>
+
+<div id="sendZapierProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <?php echo get_instance()->load->view('clients/modals/send_prospect_zapier_modal.php') ?>
 </div>
 
 

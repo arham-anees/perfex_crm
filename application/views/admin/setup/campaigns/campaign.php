@@ -167,7 +167,7 @@
   /* Payment Form Styles */
   .payment-form input[type="text"],
   .payment-form input[type="number"] {
-    width:100%;
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -255,21 +255,24 @@
   }
 
   .time-selectors {
-  display: flex;
-  justify-content: space-between; /* Add space between dropdowns */
-  margin-top: 20px; /* Adjust margin as needed */
-}
+    display: flex;
+    justify-content: space-between;
+    /* Add space between dropdowns */
+    margin-top: 20px;
+    /* Adjust margin as needed */
+  }
 
-.time-selector {
-  flex: 1; /* Allow dropdowns to grow equally */
-  margin-right: 10px; /* Space between dropdowns */
-}
+  .time-selector {
+    flex: 1;
+    /* Allow dropdowns to grow equally */
+    margin-right: 10px;
+    /* Space between dropdowns */
+  }
 
-.time-selector:last-child {
-  margin-right: 0; /* Remove margin from the last dropdown */
-}
-
-
+  .time-selector:last-child {
+    margin-right: 0;
+    /* Remove margin from the last dropdown */
+  }
 </style>
 <div id="wrapper">
   <div class="content">
@@ -293,7 +296,6 @@
                   <tr>
                     <th><?php echo _l('Name'); ?></th>
                     <th><?php echo _l('Description'); ?></th>
-                    <th><?php echo _l('Active'); ?></th>
                     <th><?php echo _l('Actions'); ?></th>
                   </tr>
                 </thead>
@@ -302,7 +304,6 @@
                     <tr>
                       <td><?php echo $campaign->name; ?></td>
                       <td><?php echo $campaign->description; ?></td>
-                      <td><?php echo $campaign->is_active ? 'Yes' : 'No'; ?></td>
                       <td>
                         <a href="<?php echo admin_url('leadevo/campaigns/view/' . $campaign->id); ?>"
                           class="btn btn-default btn-icon">
@@ -397,7 +398,7 @@
         </div>
         <div class="selected-options" id="selected-options"></div>
 
-      </div> 
+      </div>
 
       <!-- Timing -->
 
@@ -570,42 +571,42 @@
 
 
     function collectAndSendData() {
-    const formData = new FormData();
+      const formData = new FormData();
 
-    // Collect Industry data
-    formData.append('industry', document.querySelector('select[name="industry"]').value);
+      // Collect Industry data
+      formData.append('industry', document.querySelector('select[name="industry"]').value);
 
-    // Collect Locations data
-    const selectedCountries = Array.from(document.querySelectorAll('#countryDropdown option:checked')).map(option => option.value).join(',');
-    formData.append('countries', selectedCountries);
+      // Collect Locations data
+      const selectedCountries = Array.from(document.querySelectorAll('#countryDropdown option:checked')).map(option => option.value).join(',');
+      formData.append('countries', selectedCountries);
 
-    // Collect Timing data
-    const selectedDays = Array.from(document.querySelectorAll('.days.active')).map(day => day.getAttribute('data-day')).join(',');
-    formData.append('days', selectedDays);
-    formData.append('time-from', document.getElementById('time-from').value);
-    formData.append('time-to', document.getElementById('time-to').value);
+      // Collect Timing data
+      const selectedDays = Array.from(document.querySelectorAll('.days.active')).map(day => day.getAttribute('data-day')).join(',');
+      formData.append('days', selectedDays);
+      formData.append('time-from', document.getElementById('time-from').value);
+      formData.append('time-to', document.getElementById('time-to').value);
 
-    // Collect Deal data
-    const selectedDeal = document.querySelector('input[name="options"]:checked');
-    if (selectedDeal) {
-      formData.append('deal', selectedDeal.id);
-    }
+      // Collect Deal data
+      const selectedDeal = document.querySelector('input[name="options"]:checked');
+      if (selectedDeal) {
+        formData.append('deal', selectedDeal.id);
+      }
 
-    // Collect Quality data
-    const selectedQualities = Array.from(document.querySelectorAll('input[name="verification"]:checked')).map(input => input.value).join(',');
-    formData.append('quality', selectedQualities);
+      // Collect Quality data
+      const selectedQualities = Array.from(document.querySelectorAll('input[name="verification"]:checked')).map(input => input.value).join(',');
+      formData.append('quality', selectedQualities);
 
-    // Collect Payment data
-    formData.append('card-number', document.getElementById('card-number').value);
-    formData.append('expiry-date', document.getElementById('expiry-date').value);
-    formData.append('cvv', document.getElementById('cvv').value);
-    formData.append('amount', document.getElementById('amount').value);
+      // Collect Payment data
+      formData.append('card-number', document.getElementById('card-number').value);
+      formData.append('expiry-date', document.getElementById('expiry-date').value);
+      formData.append('cvv', document.getElementById('cvv').value);
+      formData.append('amount', document.getElementById('amount').value);
 
-    // Log FormData entries
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-     console.log(formData);
+      // Log FormData entries
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      console.log(formData);
     }
 
     showStep(currentStep);

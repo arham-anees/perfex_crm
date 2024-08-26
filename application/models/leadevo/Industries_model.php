@@ -12,12 +12,14 @@ class Industries_model extends CI_Model
     // Get all industries
     public function get_all()
     {
+        $this->db->where('is_active', 1);
         return $this->db->get($this->table)->result_array();
     }
 
     // Get a single industry by ID
     public function get($id)
     {
+        $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->get($this->table)->row();
     }
 
@@ -30,12 +32,14 @@ class Industries_model extends CI_Model
     // Update an industry
     public function update($id, $data)
     {
+        $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->update($this->table, $data);
     }
 
     // Delete an industry
     public function delete($id)
     {
+        $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->delete($this->table);
     }
 }

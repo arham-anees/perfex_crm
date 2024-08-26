@@ -11,11 +11,13 @@ class Acquisition_channels_model extends CI_Model
 
     public function get_all()
     {
+        $this->db->where('is_active', 1);
         return $this->db->get($this->table)->result();
     }
 
     public function get($id)
     {
+        $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->get($this->table)->row();
     }
 
@@ -31,6 +33,7 @@ class Acquisition_channels_model extends CI_Model
 
     public function delete($id)
     {
+        $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->delete($this->table);
     }
 }

@@ -12,6 +12,7 @@ class Prospects extends ClientsController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Leads_model');
+        $this->load->model('Misc_model');
         $this->load->model('leadevo/Reported_Prospects_model');
     }
 
@@ -40,6 +41,36 @@ class Prospects extends ClientsController
                 echo json_encode(['status' => 'success', 'data' => base64_encode($str)]);
                 return;
             }
+        }
+
+        echo json_encode(['status' => 'error', 'data' => null]);
+
+    }
+    public function fetch_zapier()
+    {
+
+        $config = $this->Misc_model->get_zapier_config(get_client_user_id());
+        if ($config) {
+            $str = json_encode($config);
+            echo json_encode(['status' => 'success', 'data' => ($str)]);
+            return;
+        }
+
+        echo json_encode(['status' => 'success', 'data' => null]);
+
+    }
+    public function create_zapier()
+    {
+        $webhook = $this->input->post('webhook');
+        if (!$webhook) {
+            echo json_encode(['status' => 'error', 'message' => 'webhook is required']);
+            return;
+        }
+        $config = $this->Misc_model->set_zapier_config(get_client_user_id(), $webhook);
+        if ($config) {
+            $str = json_encode($config);
+            echo json_encode(['status' => 'success', 'data' => base64_encode($str)]);
+            return;
         }
 
         echo json_encode(['status' => 'error', 'data' => null]);

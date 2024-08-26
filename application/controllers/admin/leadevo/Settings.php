@@ -41,38 +41,33 @@ class Settings extends AdminController
             $data = $this->input->post();
 
             // Extract form data
-            $nonexclusive_status = $data['nonexclusive_status'];
+            $settings_status = $data['settings_status'];
             $max_sell_times = $data['max_sell_times'];
             $days_to_discount = $data['days_to_discount'];
             $discount_type = $data['discount_type'];
             $discount_amount = $data['discount_amount']; // Assuming you have this field in the form
 
-            // Data array to insert into tblleadevo_deals_settings
-            $updateData = [
-                'nonexclusive_status' => $nonexclusive_status,
-                'max_sell_times' => $max_sell_times,
-                'days_to_discount' => $days_to_discount,
-                'discount_type' => $discount_type,
-                'discount_amount' => $discount_amount
-            ];
+            update_option('leadevo_deal_settings_status', $settings_status);
+            update_option('leadevo_deal_max_sell_times', $max_sell_times);
+            update_option('leadevo_deal_days_to_discount', $days_to_discount);
+            update_option('leadevo_deal_discount_type', $discount_type);
+            update_option('leadevo_deal_discount_amount', $discount_amount);
 
-            $this->db->where('tenant_id', get_marketplace_id());
-            // Insert data into the database
-            $this->db->update('tblleadevo_deals_settings', $updateData);
-
-            // Check if the row was inserted
-            if ($this->db->affected_rows() > 0) {
-                echo json_encode(['status' => 'success', 'message' => 'Settings saved']);
-            } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to save settings']);
-            }
-            exit;
+            echo json_encode(['status' => 'success', 'message' => 'Settings saved']);
+            return;
         }
+        echo json_encode(['status' => 'error', 'message' => 'Failed to save settings']);
     }
     public function get_deals_settings()
     {
         // Fetch the deal settings from the database
-        $deal_settings = $this->db->get('leadevo_deals_settings')->row();
+        $deal_settings = [
+            'settings_status' => get_option('leadevo_deal_settings_status'),
+            'max_sell_times' => get_option('leadevo_deal_max_sell_times'),
+            'days_to_discount' => get_option('leadevo_deal_days_to_discount'),
+            'discount_type' => get_option('leadevo_deal_discount_type'),
+            'discount_amount' => get_option('leadevo_deal_discount_amount'),
+        ];
 
         // Check if the data was retrieved successfully
         if ($deal_settings) {
@@ -85,26 +80,19 @@ class Settings extends AdminController
             // Return an error message if no data was found
 
 
-            $this->db->insert(
-                'tblleadevo_deals_settings',
-                [
-                    'nonexclusive_status' => 1,
-                    'max_sell_times' => 1,
-                    'days_to_discount' => -1,
-                    'discount_type' => 1,
-                    'discount_amount' => 10,
-                    'tenant_id' => get_marketplace_id()
-                ]
-            );
-
+            update_option('leadevo_deal_settings_status', 1);
+            update_option('leadevo_deal_max_sell_times', 1);
+            update_option('leadevo_deal_days_to_discount', -1);
+            update_option('leadevo_deal_discount_type', 1);
+            update_option('leadevo_deal_discount_amount', 10);
             echo json_encode([
                 'status' => 'error',
                 'data' => [
-                    'nonexclusive_status' => 1,
-                    'max_sell_times' => 1,
-                    'days_to_discount' => -1,
-                    'discount_type' => 1,
-                    'discount_amount' => 10
+                    'settings_status' => get_option('leadevo_deal_settings_status'),
+                    'max_sell_times' => get_option('leadevo_deal_max_sell_times'),
+                    'days_to_discount' => get_option('leadevo_deal_days_to_discount'),
+                    'discount_type' => get_option('leadevo_deal_discount_type'),
+                    'discount_amount' => get_option('leadevo_deal_discount_amount')
                 ]
             ]);
         }

@@ -63,7 +63,8 @@
         // validate the base url
 
         // format pull path of url
-        var path = target_base_url + '/dashboard/receive_prospect';
+        var path = target_base_url;
+        path = path. '/leadevo_api/receive';
         var data = {};
         data[csrfName] = csrfHash;
         data['lead'] = $('input[name=lead_data]').val();
