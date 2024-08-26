@@ -27,6 +27,13 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-video',
         'badge' => [],
     ]);
+    $CI->app_menu->add_sidebar_menu_item('leadevo_explanatory_videos', [
+        'name' => _l('leadevo_explanatory_videos_menu'),
+        'href' => admin_url('explanatory_videos'),
+        'position' => 2,
+        'icon' => 'fa fa-video',
+        'badge' => [],
+    ]);
     $CI->app_menu->add_sidebar_menu_item('leadevo_prospects', [
         'name' => _l('leadevo_prospects'),
         'position' => 2,
