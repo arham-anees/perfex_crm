@@ -1,5 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
+<?php
+$is_deal_settings_applied = (bool) get_option('leadevo_deal_settings_status');
+$days_to_discount = get_option('leadevo_deal_days_to_discount');
+$max_sell_time = get_option('leadevo_deal_max_sell_times');
+$discount_type = get_option('leadevo_deal_discount_type');
+$discount_value = get_option('leadevo_deal_discount_amount');
+var_dump($is_deal_settings_applied);
+?>
 <style>
     .lead-title {
         font-size: 2rem;
@@ -490,6 +498,24 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($prospects as $prospect): ?>
+                                        <?php
+                                        if ($max_sell_time > 0) {
+                                            $dateString = $prospect['created_at'];
+
+                                            // Create DateTime objects
+                                            $givenDate = new DateTime($dateString);
+                                            $currentDate = new DateTime(); // This will use the current date and time
+                                    
+                                            // Calculate the difference
+                                            $interval = $currentDate->diff($givenDate);
+
+                                            // Extract total hours from the interval
+                                            $days = $interval->days;
+                                            if ($days >= $max_sell_time) {
+                                                continue;
+                                            }
+                                        }
+                                        ?>
                                         <tr>
                                             <td>
                                                 <div>
@@ -549,8 +575,41 @@
                                             </td>
                                             <td class="text-center">
                                                 <div>
+                                                    <?php
+                                                    $is_discounted = false;
+                                                    if ($is_deal_settings_applied == true) {
+                                                        $dateString = $prospect['created_at'];
+
+                                                        // Create DateTime objects
+                                                        $givenDate = new DateTime($dateString);
+                                                        $currentDate = new DateTime(); // This will use the current date and time
+                                                
+                                                        // Calculate the difference
+                                                        $interval = $currentDate->diff($givenDate);
+
+                                                        // Extract total hours from the interval
+                                                        $days = $interval->days;
+                                                        if ($days >= $days_to_discount) {
+                                                            $is_discounted = true;
+                                                        }
+                                                    }
+                                                    ?>
                                                     <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
                                                     <?php echo ($prospect['desired_amount'] ?? '-') . " / " . ($prospect['min_amount'] ?? '-'); ?><br>
+                                                    <?php if ($is_discounted) { ?>
+                                                        <strong><?php echo _l('leadevo_marketpalce_selling_price_discounted'); ?>:</strong>
+                                                        <?php
+
+                                                        $discounted_price = $prospect['desired_amount'] ?? 0;
+                                                        if ($discount_type == 1) {
+                                                            //find percentage
+                                                            $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
+                                                        } else {
+                                                            $discounted_price = $discounted_price - ($discount_value ?? 0);
+                                                        }
+                                                        echo $discounted_price;
+                                                        ?><br>
+                                                    <?php } ?>
                                                     <strong><?php echo _l('leadevo_marketpalce_deal_sales'); ?>:</strong>
                                                     <?php echo $prospect['exclusive_sales'] . " / " . $prospect['non_exclusive_sales']; ?><br>
                                                 </div>

@@ -41,13 +41,13 @@ class Settings extends AdminController
             $data = $this->input->post();
 
             // Extract form data
-            $nonexclusive_status = $data['nonexclusive_status'];
+            $settings_status = $data['settings_status'];
             $max_sell_times = $data['max_sell_times'];
             $days_to_discount = $data['days_to_discount'];
             $discount_type = $data['discount_type'];
             $discount_amount = $data['discount_amount']; // Assuming you have this field in the form
 
-            update_option('leadevo_deal_nonexclusive_status', $nonexclusive_status);
+            update_option('leadevo_deal_settings_status', $settings_status);
             update_option('leadevo_deal_max_sell_times', $max_sell_times);
             update_option('leadevo_deal_days_to_discount', $days_to_discount);
             update_option('leadevo_deal_discount_type', $discount_type);
@@ -62,7 +62,7 @@ class Settings extends AdminController
     {
         // Fetch the deal settings from the database
         $deal_settings = [
-            'nonexclusive_status' => get_option('leadevo_deal_nonexclusive_status'),
+            'settings_status' => get_option('leadevo_deal_settings_status'),
             'max_sell_times' => get_option('leadevo_deal_max_sell_times'),
             'days_to_discount' => get_option('leadevo_deal_days_to_discount'),
             'discount_type' => get_option('leadevo_deal_discount_type'),
@@ -80,7 +80,7 @@ class Settings extends AdminController
             // Return an error message if no data was found
 
 
-            update_option('leadevo_deal_nonexclusive_status', 1);
+            update_option('leadevo_deal_settings_status', 1);
             update_option('leadevo_deal_max_sell_times', 1);
             update_option('leadevo_deal_days_to_discount', -1);
             update_option('leadevo_deal_discount_type', 1);
@@ -88,7 +88,7 @@ class Settings extends AdminController
             echo json_encode([
                 'status' => 'error',
                 'data' => [
-                    'nonexclusive_status' => get_option('leadevo_deal_nonexclusive_status'),
+                    'settings_status' => get_option('leadevo_deal_settings_status'),
                     'max_sell_times' => get_option('leadevo_deal_max_sell_times'),
                     'days_to_discount' => get_option('leadevo_deal_days_to_discount'),
                     'discount_type' => get_option('leadevo_deal_discount_type'),
