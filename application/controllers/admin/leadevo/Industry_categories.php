@@ -20,6 +20,7 @@ class Industry_categories extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'min_price' => $this->input->post('min_price'),
+                'min_market_price' => $this->input->post('min_market_price'),
                 'description' => $this->input->post('description'),
                 'is_active' => 1,
             ];
@@ -35,6 +36,7 @@ class Industry_categories extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'min_price' => $this->input->post('min_price'),
+                'min_market_price' => $this->input->post('min_market_price'),
                 'description' => $this->input->post('description')
             ];
             $this->industry_categories_model->update($id, $data);

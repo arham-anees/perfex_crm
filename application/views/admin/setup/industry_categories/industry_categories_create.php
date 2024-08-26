@@ -18,6 +18,12 @@
                             <input type="number" id="min_price" name="min_price" class="form-control" required>
                         </div>
                         <div class="form-group">
+                            <label
+                                for="min_market_price"><?php echo _l('leadevo_industry_category_min_market_price'); ?></label>
+                            <input type="number" id="min_market_price" name="min_market_price" class="form-control"
+                                required>
+                        </div>
+                        <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control" required></textarea>
                         </div>

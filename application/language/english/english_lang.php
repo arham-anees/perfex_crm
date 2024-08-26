@@ -4033,3 +4033,4 @@ $lang['leadevo_report_hours_input'] = 'Report Hours';
 $lang['leadevo_deal_discount_percent'] = 'Percentage';
 $lang['leadevo_deal_discount_amount'] = 'Amount';
 $lang['leadevo_industry_category_min_price'] = 'Min Price';
+$lang['leadevo_industry_category_min_market_price'] = 'Min MarketPlace Price';
