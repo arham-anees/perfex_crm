@@ -15,6 +15,11 @@
                                 value="<?php echo $category['name']; ?>" required>
                         </div>
                         <div class="form-group">
+                            <label for="min_price"><?php echo _l('Name'); ?></label>
+                            <input type="number" id="min_price" name="min_price" class="form-control"
+                                value="<?php echo $category['min_price']; ?>" required>
+                        </div>
+                        <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control"
                                 required><?php echo $category['description']; ?></textarea>

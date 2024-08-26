@@ -21,7 +21,8 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
-                                        <th><?php echo _l('Actions'); ?></th>
+                                        <th><?php echo _l('leadevo_industry_category_min_price'); ?></th>
+                                        <th><?php echo _l('actions'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -29,6 +30,7 @@
                                         <tr>
                                             <td><?php echo $category['name']; ?></td>
                                             <td><?php echo $category['description']; ?></td>
+                                            <td><?php echo $category['min_price'] ?? '-'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/industry_categories/view/' . $category['id']); ?>"
                                                     class="btn btn-default btn-icon">
