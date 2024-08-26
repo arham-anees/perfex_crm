@@ -179,8 +179,6 @@ class Prospects_model extends CI_Model
         //     $sql .= " AND status_id = " . $filter;
         // }
 
-        log_message('error', $sql);
-
         return $this->db->query($sql)->result_array();
     }
     public function get_all($filter)
@@ -363,7 +361,7 @@ class Prospects_model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
-    public function get_all_market_place()
+    public function get_all_market_place($filter = [])
     {
         $sql = "SELECT 
                     p.id, 
@@ -407,6 +405,49 @@ class Prospects_model extends CI_Model
                 AND is_fake = 0
                 AND is_available_sale = 1 ;";
 
+        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+            $sql .= " AND industry_id = " . $filter["industry_id"];
+        }
+        if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
+            $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
+        }
+        if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
+            $sql .= " AND zip_code in (" . implode(",", $filter["zip_codes"]) . ")";
+        }
+        if (isset($filter["generated_from"]) && $filter["generated_from"] != "") {
+            $sql .= " AND DATE(created_at) <= DATE('" . $filter["generated_from"] . "')";
+        }
+
+        if (isset($filter["generated_to"]) && $filter["generated_to"] != "") {
+            $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
+        }
+        if (isset($filter["deal"]) && $filter["deal"] != "") {
+
+            $deal = $filter["deal"];
+            if ($deal == 0)
+                $sql .= " AND exclusive_status = 0";
+            else if ($deal == 1)
+                $sql .= " AND nonexclusive_status = 1";
+        }
+
+        if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
+            $sql .= " AND price >=" . $filter["price_range_from"];
+        }
+        if (isset($filter["price_range_to"]) && $filter["price_range_to"] != "") {
+            $sql .= " AND price <=" . $filter["price_range_to"];
+        }
+        if (isset($filter["quality"]) && $filter["quality"] != "") {
+            $quality = $filter["quality"];
+            if ($quality == 1)
+                $sql .= " AND verified_coherence = 1";
+            else if ($quality == 2)
+                $sql .= " AND verified_whatsapp = 1";
+            else if ($quality == 3)
+                $sql .= " AND verified_sms = 1";
+            else if ($quality == 4)
+                $sql .= " AND verified_staff = 1";
+        }
+
         $prospects_all = $this->db->query($sql)->result_array();
         $prospects = [];
         if (get_option('leadevo_deal_settings_status')) {
@@ -416,16 +457,14 @@ class Prospects_model extends CI_Model
                 $cutOffDate->modify('+' . $max_days . ' days'); // Set cutoff date as $max_days ago
                 if (new DateTime() < $cutOffDate) {
                     $prospects[] = $prospect;
-                    var_dump('adding');
                 }
-                var_dump('|-----');
             }
         } else {
             $prospects = $prospects_all;
         }
         return $prospects;
     }
-    public function get_all_market_place_admin()
+    public function get_all_market_place_admin($filter = [])
     {
         $sql = "SELECT 
                 p.id, 
@@ -490,7 +529,48 @@ class Prospects_model extends CI_Model
                 p.desired_amount,
                 p.min_amount;
  ";
+        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+            $sql .= " AND industry_id = " . $filter["industry_id"];
+        }
+        if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
+            $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
+        }
+        if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
+            $sql .= " AND zip_code in (" . implode(",", $filter["zip_codes"]) . ")";
+        }
+        if (isset($filter["generated_from"]) && $filter["generated_from"] != "") {
+            $sql .= " AND DATE(created_at) <= DATE('" . $filter["generated_from"] . "')";
+        }
 
+        if (isset($filter["generated_to"]) && $filter["generated_to"] != "") {
+            $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
+        }
+        if (isset($filter["deal"]) && $filter["deal"] != "") {
+
+            $deal = $filter["deal"];
+            if ($deal == 0)
+                $sql .= " AND exclusive_status = 0";
+            else if ($deal == 1)
+                $sql .= " AND nonexclusive_status = 1";
+        }
+
+        if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
+            $sql .= " AND price >=" . $filter["price_range_from"];
+        }
+        if (isset($filter["price_range_to"]) && $filter["price_range_to"] != "") {
+            $sql .= " AND price <=" . $filter["price_range_to"];
+        }
+        if (isset($filter["quality"]) && $filter["quality"] != "") {
+            $quality = $filter["quality"];
+            if ($quality == 1)
+                $sql .= " AND verified_coherence = 1";
+            else if ($quality == 2)
+                $sql .= " AND verified_whatsapp = 1";
+            else if ($quality == 3)
+                $sql .= " AND verified_sms = 1";
+            else if ($quality == 4)
+                $sql .= " AND verified_staff = 1";
+        }
 
         $prospects_all = $this->db->query($sql)->result_array();
         $prospects = [];
@@ -501,9 +581,7 @@ class Prospects_model extends CI_Model
                 $cutOffDate->modify('+' . $max_days . ' days'); // Set cutoff date as $max_days ago
                 if (new DateTime() < $cutOffDate) {
                     $prospects[] = $prospect;
-                    var_dump('adding');
                 }
-                var_dump('|-----');
             }
         } else {
             $prospects = $prospects_all;

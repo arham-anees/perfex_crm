@@ -60,6 +60,7 @@ function core_merge_fields($fields)
     $fields[] = 'merge_fields/ticket_merge_fields';
     $fields[] = 'merge_fields/contract_merge_fields';
     $fields[] = 'merge_fields/invoice_merge_fields';
+    $fields[] = 'merge_fields/leadevo_merge_fields';
     $fields[] = 'merge_fields/estimate_merge_fields';
     $fields[] = 'merge_fields/tasks_merge_fields';
     $fields[] = 'merge_fields/proposals_merge_fields';

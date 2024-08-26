@@ -30,7 +30,7 @@ class Marketplace extends AdminController
             );
 
             // Get filtered prospects
-            $prospects = $this->Prospects_model->get_all_by_filter($filter);
+            $prospects = $this->Prospects_model->get_all_market_place_admin($filter);
 
             // Check if the request is an AJAX request
             if ($this->input->is_ajax_request()) {

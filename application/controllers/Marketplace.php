@@ -30,7 +30,7 @@ class Marketplace extends ClientsController
             );
 
             // Get filtered prospects
-            $prospects = $this->Prospects_model->get_all_by_filter($filter);
+            $prospects = $this->Prospects_model->get_all_market_place($filter);
 
             // Check if the request is an AJAX request
             if ($this->input->is_ajax_request()) {
@@ -73,29 +73,29 @@ class Marketplace extends ClientsController
         if (!is_client_logged_in()) {
             redirect('login'); // Redirect to login if not logged in
         }
-    
+
         // Fetch all cart prospects for the logged-in client
         $data['cart_prospects'] = $this->Cart_model->get_cart_prospects();
-    
+
         // Load view with cart details
         $this->data($data);
         $this->view('clients/marketplace/cart_view');
         $this->layout();
     }
-    
+
     public function delete_from_cart($prospect_id)
     {
-        
-    
+
+
         $client_id = get_client_user_id();
-        
+
         // Delete the item from the cart
         $this->Cart_model->delete_item($client_id, $prospect_id);
-    
+
         // Return a JSON response
         echo json_encode(['status' => 'success']);
         exit;
     }
-    
-  
+
+
 }
