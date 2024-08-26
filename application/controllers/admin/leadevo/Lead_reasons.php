@@ -20,7 +20,7 @@ class Lead_reasons extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->lead_reasons_model->insert($data);
             redirect(admin_url('leadevo/lead_reasons'));
@@ -33,8 +33,7 @@ class Lead_reasons extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->lead_reasons_model->update($id, $data);
             redirect(admin_url('leadevo/lead_reasons'));

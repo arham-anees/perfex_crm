@@ -9,10 +9,12 @@
                         <h4 class="no-margin"><?php echo _l('Industry Category Details'); ?></h4>
                         <hr class="hr-panel-heading" />
                         <p><strong><?php echo _l('Name'); ?>:</strong> <?php echo $category['name']; ?></p>
-                        <p><strong><?php echo _l('Description'); ?>:</strong> <?php echo $category['description']; ?></p>
-                        <p><strong><?php echo _l('Active'); ?>:</strong> <?php echo $category['is_active'] ? 'Yes' : 'No'; ?></p>
-                        <a href="<?php echo admin_url('leadevo/industry_categories/edit/' . $category['id']); ?>" class="btn btn-primary"><?php echo _l('Edit'); ?></a>
-                        <a href="<?php echo admin_url('leadevo/industry_categories'); ?>" class="btn btn-default"><?php echo _l('Back'); ?></a>
+                        <p><strong><?php echo _l('Description'); ?>:</strong> <?php echo $category['description']; ?>
+                        </p>
+                        <a href="<?php echo admin_url('leadevo/industry_categories/edit/' . $category['id']); ?>"
+                            class="btn btn-primary"><?php echo _l('Edit'); ?></a>
+                        <a href="<?php echo admin_url('leadevo/industry_categories'); ?>"
+                            class="btn btn-default"><?php echo _l('Back'); ?></a>
                     </div>
                 </div>
             </div>
@@ -21,4 +23,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

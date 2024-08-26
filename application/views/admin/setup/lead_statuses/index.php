@@ -21,7 +21,6 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
-                                        <th><?php echo _l('Active'); ?></th>
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -30,7 +29,6 @@
                                         <tr>
                                             <td><?php echo $status->name; ?></td>
                                             <td><?php echo $status->description; ?></td>
-                                            <td><?php echo $status->is_active ? 'Yes' : 'No'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/lead_statuses/view/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">

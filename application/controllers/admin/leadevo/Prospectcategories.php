@@ -20,7 +20,7 @@ class Prospectcategories extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->prospect_categories_model->insert($data);
             redirect(admin_url('leadevo/prospectcategories')); // Route to updated URL
@@ -33,8 +33,7 @@ class Prospectcategories extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->prospect_categories_model->update($id, $data);
             redirect(admin_url('leadevo/prospectcategories')); // Route to updated URL

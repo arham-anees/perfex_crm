@@ -20,7 +20,7 @@ class Industry_categories extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'is_active' => 1,
             ];
             $this->industry_categories_model->insert($data);
             redirect(admin_url('leadevo/industry_categories'));
@@ -33,8 +33,7 @@ class Industry_categories extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
+                'description' => $this->input->post('description')
             ];
             $this->industry_categories_model->update($id, $data);
             redirect(admin_url('leadevo/industry_categories'));
