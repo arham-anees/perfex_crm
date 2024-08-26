@@ -30,15 +30,15 @@
                                             <td><?php echo $status->name; ?></td>
                                             <td><?php echo $status->description; ?></td>
                                             <td>
-                                                <a href="<?php echo admin_url('leadEvo/prospectstatus/view/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadEvo/prospect_status/view/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadEvo/prospectstatus/edit/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadEvo/prospect_status/edit/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadEvo/prospectstatus/delete/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadEvo/prospect_status/delete/' . $status->id); ?>"
                                                     class="btn btn-danger btn-icon"
                                                     onclick="return confirm('Are you sure you want to delete this prospect status?');">
                                                     <i class="fa fa-remove"></i>

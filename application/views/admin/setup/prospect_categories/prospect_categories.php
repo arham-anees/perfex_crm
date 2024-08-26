@@ -30,15 +30,15 @@
                                             <td><?php echo $category->name; ?></td>
                                             <td><?php echo $category->description; ?></td>
                                             <td>
-                                                <a href="<?php echo admin_url('leadevo/prospectcategories/view/' . $category->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_categories/view/' . $category->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadevo/prospectcategories/edit/' . $category->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_categories/edit/' . $category->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadEvo/prospectcategories/delete/' . $category->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_categories/delete/' . $category->id); ?>"
                                                     class="btn btn-danger btn-icon"
                                                     onclick="return confirm('Are you sure you want to delete this prospect category?');">
                                                     <i class="fa fa-remove"></i>

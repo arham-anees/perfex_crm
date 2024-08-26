@@ -23,7 +23,7 @@ class Prospect_categories extends AdminController
                 'is_active' => 1,
             ];
             $this->prospect_categories_model->insert($data);
-            redirect(admin_url('leadevo/prospectcategories')); // Route to updated URL
+            redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
         }
         $this->load->view('admin/setup/prospect_categories/prospect_categories_create');
     }
@@ -36,7 +36,7 @@ class Prospect_categories extends AdminController
                 'description' => $this->input->post('description')
             ];
             $this->prospect_categories_model->update($id, $data);
-            redirect(admin_url('leadevo/prospectcategories')); // Route to updated URL
+            redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
         }
         $data['category'] = $this->prospect_categories_model->get($id);
         $this->load->view('admin/setup/prospect_categories/prospect_category_edit', $data);
@@ -49,7 +49,7 @@ class Prospect_categories extends AdminController
         } else {
             set_alert('danger', 'Failed to delete prospect category.');
         }
-        redirect(admin_url('leadevo/prospectcategories')); // Route to updated URL
+        redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
     }
 
     public function view($id)
