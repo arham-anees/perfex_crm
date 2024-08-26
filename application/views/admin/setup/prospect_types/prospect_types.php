@@ -30,15 +30,15 @@
                                             <td><?php echo $type->name; ?></td>
                                             <td><?php echo $type->description; ?></td>
                                             <td>
-                                                <a href="<?php echo admin_url('leadevo/prospecttypes/view/' . $type->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_types/view/' . $type->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadevo/prospecttypes/edit/' . $type->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_types/edit/' . $type->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadevo/prospecttypes/delete/' . $type->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_types/delete/' . $type->id); ?>"
                                                     class="btn btn-danger btn-icon"
                                                     onclick="return confirm('Are you sure you want to delete this prospect type?');">
                                                     <i class="fa fa-remove"></i>

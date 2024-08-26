@@ -17,11 +17,11 @@
                                 <td><?php echo $type->description; ?></td>
                             </tr>
                         </table>
-                        <a href="<?php echo admin_url('leadevo/prospecttypes/edit/' . $type->id); ?>"
+                        <a href="<?php echo admin_url('leadevo/prospect_types/edit/' . $type->id); ?>"
                             class="btn btn-primary">
                             <?php echo _l('Edit'); ?>
                         </a>
-                        <a href="<?php echo admin_url('leadEvo/prospecttypes'); ?>"
+                        <a href="<?php echo admin_url('leadEvo/prospect_types'); ?>"
                             class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>

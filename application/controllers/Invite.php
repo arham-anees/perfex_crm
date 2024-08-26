@@ -32,9 +32,9 @@ class Invite extends ClientsController
             if (!empty($data['g-recaptcha-response']) && get_option('recaptcha_secret_key') && get_option('recaptcha_site_key')) {
                 if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
                     echo json_encode([
-                        'success'   => false,
+                        'success' => false,
                         'recaptcha' => false,
-                        'message'   => _l('recaptcha_error'),
+                        'message' => _l('recaptcha_error'),
                     ]);
                     exit;
                 }
@@ -44,22 +44,22 @@ class Invite extends ClientsController
             unset($data['g-recaptcha-response'], $data['Array']);
 
             // Prepare and send email using mail_template
-            $template = mail_template('leadevo_invite_friend', 'leadevo', (object)[
+            $template = mail_template('leadevo_invite_friend', (object) [
                 'email' => $email,
-                'name'  => $name
+                'name' => $name
             ]);
 
             $template->send();
 
             // Prepare lead data
             $lead_data = [
-                'email'      => $email,
-                'name'       => $name,
-                'description'=> '', // Adjust as needed
-                'address'    => '', // Adjust as needed
-                'status'     => 2,  // Status ID - adjust as necessary
-                'assigned'   => get_staff_user_id(),
-                'hash'       => app_generate_hash()
+                'email' => $email,
+                'name' => $name,
+                'description' => '', // Adjust as needed
+                'address' => '', // Adjust as needed
+                'status' => 2,  // Status ID - adjust as necessary
+                'assigned' => get_staff_user_id(),
+                'hash' => app_generate_hash()
             ];
 
             // Add lead to the database

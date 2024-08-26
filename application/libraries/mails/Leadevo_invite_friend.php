@@ -10,7 +10,6 @@ class Leadevo_invite_friend extends App_mail_template
     public function __construct($data)
     {
         parent::__construct();
-
         // Ensure $data is an object and has the properties we're trying to access
         if (is_object($data) && isset($data->email) && isset($data->name)) {
             $this->email = $data->email;

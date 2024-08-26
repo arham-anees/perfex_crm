@@ -10,6 +10,11 @@
                         <hr class="hr-panel-heading" />
                         <p><strong><?php echo _l('Name'); ?>:</strong> <?php echo $category['name']; ?></p>
                         <p><strong><?php echo _l('Description'); ?>:</strong> <?php echo $category['description']; ?>
+                        <p><strong><?php echo _l('leadevo_industry_category_min_price'); ?>:</strong>
+                            <?php echo $category['min_price']; ?>
+                        </p>
+                        <p><strong><?php echo _l('leadevo_industry_category_min_market_price'); ?>:</strong>
+                            <?php echo $category['min_market_price']; ?>
                         </p>
                         <a href="<?php echo admin_url('leadevo/industry_categories/edit/' . $category['id']); ?>"
                             class="btn btn-primary"><?php echo _l('Edit'); ?></a>

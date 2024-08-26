@@ -23,9 +23,6 @@ class Prospects extends ClientsController
             $data['prospects'] = $this->Prospects_model->get_all_client($filter);
         else
             $data['prospects'] = $this->Prospects_model->get_all_client('');
-
-
-
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();

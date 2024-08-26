@@ -17,11 +17,12 @@
                                 <td><?php echo $status->description; ?></td>
                             </tr>
                         </table>
-                        <a href="<?php echo admin_url('leadevo/prospectstatus/edit/' . $status->id); ?>"
+                        <a href="<?php echo admin_url('leadevo/prospect_status/edit/' . $status->id); ?>"
                             class="btn btn-primary">
                             <?php echo _l('Edit'); ?>
                         </a>
-                        <a href="<?php echo admin_url('leadEvo/prospectstatus'); ?>" class="btn btn-default""><?php echo _l('Back to List'); ?></a>
+                        <a href="<?php echo admin_url('leadEvo/prospect_status'); ?>"
+                            class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>
             </div>
@@ -30,4 +31,5 @@
 </div>
 <?php init_tail(); ?>
 </body>
+
 </html>

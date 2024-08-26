@@ -20,11 +20,11 @@
                         <?php else: ?>
                             <p><?php echo _l('No category found.'); ?></p>
                         <?php endif; ?>
-                        <a href="<?php echo admin_url('leadevo/prospectcategories/edit/' . $category->id); ?>"
+                        <a href="<?php echo admin_url('leadevo/prospect_categories/edit/' . $category->id); ?>"
                             class="btn btn-primary">
                             <?php echo _l('Edit'); ?>
                         </a>
-                        <a href="<?php echo admin_url('leadevo/prospectcategories'); ?>" class="btn btn-default""><?php echo _l('Back to List'); ?></a>
+                        <a href="<?php echo admin_url('leadevo/prospect_categories'); ?>" class="btn btn-default""><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>
             </div>

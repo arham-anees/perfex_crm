@@ -498,22 +498,22 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                 <tbody>
                                     <?php foreach ($prospects as $prospect): ?>
                                         <?php
-                                        if ($max_sell_time > 0) {
-                                            $dateString = $prospect['created_at'];
-
-                                            // Create DateTime objects
-                                            $givenDate = new DateTime($dateString);
-                                            $currentDate = new DateTime(); // This will use the current date and time
+                                        // if ($max_sell_time > 0) {
+                                        //     $dateString = $prospect['created_at'];
                                     
-                                            // Calculate the difference
-                                            $interval = $currentDate->diff($givenDate);
-
-                                            // Extract total hours from the interval
-                                            $days = $interval->days;
-                                            if ($days >= $max_sell_time) {
-                                                continue;
-                                            }
-                                        }
+                                        //     // Create DateTime objects
+                                        //     $givenDate = new DateTime($dateString);
+                                        //     $currentDate = new DateTime(); // This will use the current date and time
+                                    
+                                        //     // Calculate the difference
+                                        //     $interval = $currentDate->diff($givenDate);
+                                    
+                                        //     // Extract total hours from the interval
+                                        //     $days = $interval->days;
+                                        //     if ($days >= $max_sell_time) {
+                                        //         continue;
+                                        //     }
+                                        // }
                                         ?>
                                         <tr>
                                             <td>

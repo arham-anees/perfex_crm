@@ -23,7 +23,7 @@ class Prospect_types extends AdminController
                 'is_active' => 1,
             ];
             $this->prospect_types_model->insert($data);
-            redirect(admin_url('leadEvo/prospecttypes')); // Updated to match route
+            redirect(admin_url('leadEvo/prospect_types')); // Updated to match route
         }
         $this->load->view('admin/setup/prospect_types/prospect_types_create');
     }
@@ -36,7 +36,7 @@ class Prospect_types extends AdminController
                 'description' => $this->input->post('description')
             ];
             $this->prospect_types_model->update($id, $data);
-            redirect(admin_url('leadEvo/prospecttypes')); // Updated to match route
+            redirect(admin_url('leadEvo/prospect_types')); // Updated to match route
         }
         $data['type'] = $this->prospect_types_model->get($id);
         $this->load->view('admin/setup/prospect_types/prospect_type_edit', $data);
@@ -50,7 +50,7 @@ class Prospect_types extends AdminController
         } else {
             set_alert('danger', 'Failed to delete prospect type.');
         }
-        redirect(admin_url('leadEvo/prospecttypes')); // Updated to match route
+        redirect(admin_url('leadEvo/prospect_types')); // Updated to match route
     }
 
     public function view($id)
