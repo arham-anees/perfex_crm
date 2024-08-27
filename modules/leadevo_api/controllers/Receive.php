@@ -19,8 +19,11 @@ class Receive extends App_Controller
             if (isset($lead['id']))
                 unset($lead['id']);
             $lead = json_decode($lead_str, true);
-            $lead['description'] = '';
-            $lead['address'] = '';
+            
+            if(!isset($lead['description']))$lead['description'] = '';
+            if(!isset($lead['address']))$lead['address'] = '';
+            $lead['source'] = getZapierSourceId()['id'];
+            $lead['status'] = 2;//contact
             $lead['hash'] = app_generate_hash();
 
             $this->Leads_model->add_received($lead);

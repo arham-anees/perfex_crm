@@ -11,16 +11,24 @@ class Industry_categories_model extends CI_Model
 
     public function get_all()
     {
-        $this->db->where('is_active', 1);
-        $query = $this->db->get($this->table);
+        // Join with the tblleadevo_industries table
+        $this->db->select('tblleadevo_industry_categories.*, tblleadevo_industries.name as industry_name');
+        $this->db->from($this->table);
+        $this->db->join('tblleadevo_industries', 'tblleadevo_industry_categories.industry_id = tblleadevo_industries.id');
+        $this->db->where('tblleadevo_industry_categories.is_active', 1);
+        $query = $this->db->get();
         return $query->result_array();
     }
 
     public function get($id)
     {
-        $this->db->where('is_active', 1);
-        $this->db->where('id', $id);
-        $query = $this->db->get($this->table);
+        // Join with the tblleadevo_industries table
+        $this->db->select('tblleadevo_industry_categories.*, tblleadevo_industries.name as industry_name');
+        $this->db->from($this->table);
+        $this->db->join('tblleadevo_industries', 'tblleadevo_industry_categories.industry_id = tblleadevo_industries.id');
+        $this->db->where('tblleadevo_industry_categories.id', $id);
+        $this->db->where('tblleadevo_industry_categories.is_active', 1);
+        $query = $this->db->get();
         return $query->row_array();
     }
 

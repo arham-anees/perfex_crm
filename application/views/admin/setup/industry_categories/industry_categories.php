@@ -23,6 +23,7 @@
                                         <th><?php echo _l('Description'); ?></th>
                                         <th><?php echo _l('leadevo_industry_category_min_price'); ?></th>
                                         <th><?php echo _l('leadevo_industry_category_min_market_price'); ?></th>
+                                        <th><?php echo _l('Industry');?></th>
                                         <th><?php echo _l('actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -33,6 +34,7 @@
                                             <td><?php echo $category['description']; ?></td>
                                             <td><?php echo $category['min_price'] ?? '-'; ?></td>
                                             <td><?php echo $category['min_market_price'] ?? '-'; ?></td>
+                                            <td><?php echo $category['industry_name'] ?? '-'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/industry_categories/view/' . $category['id']); ?>"
                                                     class="btn btn-default btn-icon">

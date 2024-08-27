@@ -51,31 +51,43 @@ class Public_paths extends CI_Controller
         );
     }
     public function receive_zapier()
-    {
+{
+    // Read raw POST data
+    $rawData = file_get_contents('php://input');
 
-        $baseUrl = $this->input->post('baseurl');
-        $lead = $this->input->post('lead');
+    // Decode JSON data
+    $inputData = json_decode($rawData, true);
 
-        // Initialize cURL
-        $ch = curl_init();
-        $data = ['lead'] = $lead;
-        // Set the cURL options
-        curl_setopt($ch, CURLOPT_URL, $baseUrl . "/leadevo_api/receive"); // The URL to make the request to
-        curl_setopt($ch, CURLOPT_POST, 1); // Specify this is a POST request
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // Attach the data
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response instead of outputting it
+    // Debug raw and decoded data
+    var_dump($rawData);        // Raw JSON data
+    var_dump($inputData);      // Decoded JSON data
 
-        // Execute the request and get the response
-        $response = curl_exec($ch);
+    // Extract values from the decoded JSON data
+    $baseUrl = isset($inputData['baseUrl']) ? $inputData['baseUrl'] : null;
+    $lead = isset($inputData['lead']) ? $inputData['lead'] : null;
 
-        // Check for any cURL errors
-        if (curl_errno($ch)) {
-            echo 'cURL error: ' . curl_error($ch);
-        }
+    // Further debug
+    var_dump($baseUrl, $lead);
 
-        // Close the cURL session
-        curl_close($ch);
+    // Initialize cURL
+    $ch = curl_init();
 
+    // Set the cURL options
+    $url = $baseUrl . "/leadevo_api/receive?lead=" . urlencode($lead);
+    curl_setopt($ch, CURLOPT_URL, $url); // Set the URL with encoded lead data
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response instead of outputting it
+
+    // Execute the request and get the response
+    $response = curl_exec($ch);
+
+    // Check for any cURL errors
+    if (curl_errno($ch)) {
+        echo 'cURL error: ' . curl_error($ch);
+    } else {
         echo $response; // Return the response from the external server
     }
+
+    // Close the cURL session
+    curl_close($ch);
+}
 }
