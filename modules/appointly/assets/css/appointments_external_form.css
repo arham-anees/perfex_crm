@@ -180,6 +180,7 @@ body input {
 
 .calendar-container {
     text-align: -webkit-center;
+    max-width: 350px;
 }
 
 h1 {
@@ -249,9 +250,9 @@ h1 {
 }
 
 .calendar div {
-    width: 45px;
+    width:45px;
     height: 40px;
-    margin: 5px;
+    margin: 5px 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -545,6 +546,9 @@ h1 {
         width: 100%;
         max-height: 90vh;
         /* overflow: scroll; */
+    }
+    .calendar div {
+        width: 3rem;
     }
 
     .calendar-box.slots .right-side{
