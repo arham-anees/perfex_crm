@@ -51,8 +51,14 @@ class Campaigns extends AdminController
                 'end_date' => $this->input->post('end_date'),
                 'status_id' => $this->input->post('status_id'),
                 'budget' => $this->input->post('budget'),
-                'is_active' => $this->input->post('is_active') ? 1 : 0,
-                'industry_id' => $this->input->post('industry_id') // Include industry_id
+                'industry_id' => $this->input->post('industry_id'),
+                'country_id' => $this->input->post('country_id'),
+                'deal' => $this->input->post('deal') ? 1 : 0,
+                'verify_by_staff' => $this->input->post('verify_by_staff') ? 1 : 0,
+                'verify_by_sms' => $this->input->post('verify_by_sms') ? 1 : 0,
+                'verify_by_whatsapp' => $this->input->post('verify_by_whatsapp') ? 1 : 0,
+                'verify_by_coherence' => $this->input->post('verify_by_coherence') ? 1 : 0,
+                'timings' => $this->input->post('timings')
 
             ];
             $this->Campaigns_model->update($id, $data);
