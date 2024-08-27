@@ -31,49 +31,68 @@
     </div>
 </div>
 <script>
-    function openSendZapierModal(id) {
-        $('#sendZapierProspectModal').modal('show');
-        $.ajax({
-            url: 'fetch_zapier?id=' + id,
-            type: "GET",
-            success: (res) => {
+function openSendZapierModal(id) {
+    $('#sendZapierProspectModal').modal('show');
+    
+    // First AJAX call to fetch Zapier data
+    $.ajax({
+        url: 'fetch_zapier',
+        type: "GET",
+        success: (res) => {
+            try {
                 res = JSON.parse(res);
-                if (res.status == 'success') {
-                    let webhook = JSON.parse(res.data).webhook;
-                    $('#confirm_zapier input[name=webhook]').val(webhook);
-                    $('#generate_zapier').hide();
-                    $('#confirm_zapier').show();
-                }
-                else {
+                if (res.status === 'success') {
+                    let data = JSON.parse(res.data);
+                    if (data && data.webhook) {
+                        let webhook = data.webhook;
+                        $('#confirm_zapier input[name=webhook]').val(webhook);
+                        $('#generate_zapier').hide();
+                        $('#confirm_zapier').show();
+                    } else {
+                        throw new Error('Webhook not found in data');
+                    }
+                } else {
                     $('#generate_zapier').show();
                     $('#confirm_zapier').hide();
                     alert_float('danger', 'Failed to fetch lead data');
                 }
-            },
-            error: (err) => {
-                console.log(err)
+            } catch (error) {
+                console.error(error);
+                $('#generate_zapier').show();
+                $('#confirm_zapier').hide();
                 alert_float('danger', 'Failed to fetch lead data');
             }
-        })
-        $.ajax({
-            url: 'fetch_to_send?id=' + id,
-            type: "GET",
-            success: (res) => {
-                console.log(res);
+        },
+        error: (err) => {
+            console.log(err);
+            alert_float('danger', 'Failed to fetch lead data');
+        }
+    });
+
+    // Second AJAX call to fetch additional data
+    $.ajax({
+        url: 'fetch_to_send?id=' + id,
+        type: "GET",
+        success: (res) => {
+            try {
                 res = JSON.parse(res);
-                if (res.status == 'success') {
+                if (res.status === 'success') {
                     $('input[name=lead_data]').val(res.data);
-                }
-                else {
+                } else {
                     alert_float('danger', 'Failed to fetch lead data');
                 }
-            },
-            error: (err) => {
-                console.log(err)
+            } catch (error) {
+                console.error(error);
                 alert_float('danger', 'Failed to fetch lead data');
             }
-        });
-    }
+        },
+        error: (err) => {
+            console.log(err);
+            alert_float('danger', 'Failed to fetch lead data');
+        }
+    });
+}
+
 </script>
 
 <script>
