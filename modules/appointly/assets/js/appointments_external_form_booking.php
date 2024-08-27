@@ -136,6 +136,7 @@
         return `${hours}:${mins}`;
     }
     function loadTimeSlots(date, date2) {
+        const timeslotList = document.getElementById('timeslot-list');
     const currentMonthYear = $($('#current-month-year')[0]).text();
     const month = currentMonthYear.split(' ')[0];
     const monthNumber = monthNames.indexOf(month) + 1;

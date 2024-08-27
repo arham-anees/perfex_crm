@@ -139,11 +139,11 @@ if (!function_exists('get_appointment_types')) {
                         <!-- leftside -->
                         <div class="left-side left-area d-flex tw-justify-between tw-flex-col">
                             <div class="">
-                                <!-- <div class="mobile-only">
-                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i class="fas fa-arrow-left"></i></div>
+                                 <div class="mobile-only">
+                                    <!-- <div class="back-arrow-mobile" onclick="unselectDate()"><i class="fas fa-arrow-left"></i></div>
                                     <div id="datetime-mobile" ></div>
-                                    <div></div>
-                                </div> -->
+                                    <div></div> -->
+                                </div> 
                                 <div class="logo">
                                     <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
                                     <div id="logo"
@@ -543,6 +543,7 @@ if (!function_exists('get_appointment_types')) {
                     document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
                     if (this.classList.contains('disabled')) return;
                     this.classList.add('selected');
+                    
                     if (!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
                         document.getElementsByClassName('calendar-box')[0].classList.add('slots');
                        
@@ -551,7 +552,7 @@ if (!function_exists('get_appointment_types')) {
                     var _selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${month}`;
                     selectedDateElem.textContent = _selectedDate;
                     selectedLabel.textContent = "times you are available";
-                    // timeslots.style.display = 'flex';
+                     timeslots.style.display = 'flex';
                     timeslots.className = "timeslots expanded"
 
                     // Load time slots dynamically
@@ -563,9 +564,10 @@ if (!function_exists('get_appointment_types')) {
                         day: 'numeric' 
                     };
                     var dateStr = new Intl.DateTimeFormat('en-US', options).format(new Date(`${year}-${monthNumber}-${i}`));
-                     document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
+                   // document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
+
                     // Show the "Next" button only if a timeslot is selected
-                    // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
+                   // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
 
                 // Function to handle the selection of a timeslot
@@ -573,8 +575,8 @@ if (!function_exists('get_appointment_types')) {
                     document.querySelectorAll('#timeslot-list div').forEach(d => d.classList.remove('selected'));
                     timeslotElement.classList.add('selected');
 
-                    // Show the "Next" button only when a timeslot is selected
-                    // document.getElementById('nextButtonContainer').style.display = 'block';
+                //     Show the "Next" button only when a timeslot is selected
+                //   document.getElementById('nextButtonContainer').style.display = 'block';
                 }
 
             }
