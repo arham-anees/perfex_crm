@@ -27,6 +27,15 @@
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control" required></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="industry_id"><?php echo _l('Industry'); ?></label>
+                            <select name="industry_id" id="industry_id" class="form-control" required>
+                                <?php foreach ($industries as $industry): ?>
+                                    <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
 
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
