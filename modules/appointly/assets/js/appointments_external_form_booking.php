@@ -87,7 +87,7 @@
                     //         })
                     //         .catch(error => console.error('Error fetching and parsing data:', error));
                     // } else {
-                        window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data;
+                    window.location.href = '<?= site_url("/appointly/appointments_public/thank_you") ?>?hash=' + response.data;
                     // }
 
                     // $header = $(".appointment-header");
@@ -136,90 +136,90 @@
         return `${hours}:${mins}`;
     }
     function loadTimeSlots(date, date2) {
-    const currentMonthYear = $($('#current-month-year')[0]).text();
-    const month = currentMonthYear.split(' ')[0];
-    const monthNumber = monthNames.indexOf(month) + 1;
-    const year = currentMonthYear.split(' ')[1];
-    const dateNumber = date.split(' ')[1];
-    const busySlots = [];
+        const currentMonthYear = $($('#current-month-year')[0]).text();
+        const month = currentMonthYear.split(' ')[0];
+        const monthNumber = monthNames.indexOf(month) + 1;
+        const year = currentMonthYear.split(' ')[1];
+        const dateNumber = date.split(' ')[1];
+        const busySlots = [];
 
-    busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
+        busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
 
-    // Placeholder for dynamic slot loading logic
-    const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
+        // Placeholder for dynamic slot loading logic
+        const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
 
-    const start = new Date(`1970-01-01T${availableTimeSlots[0]}:00Z`);
-    const end = new Date(`1970-01-01T${availableTimeSlots[1]}:00Z`);
+        const start = new Date(`1970-01-01T${availableTimeSlots[0]}:00Z`);
+        const end = new Date(`1970-01-01T${availableTimeSlots[1]}:00Z`);
 
-    // Calculate the difference in milliseconds
-    const diffMs = end - start;
+        // Calculate the difference in milliseconds
+        const diffMs = end - start;
 
-    // Convert milliseconds to minutes
-    const diffMins = Math.floor(diffMs / 60000);
+        // Convert milliseconds to minutes
+        const diffMins = Math.floor(diffMs / 60000);
 
-    timeslotList.innerHTML = '';
-    availableTimeSlots.forEach(slot => {
+        timeslotList.innerHTML = '';
+        availableTimeSlots.forEach(slot => {
 
-        const parentDiv = document.createElement('div');
-        parentDiv.className = 'parent';
+            const parentDiv = document.createElement('div');
+            parentDiv.className = 'parent';
 
-        const slotElement = document.createElement('div');
-        slotElement.className = 'timeslot';
-        slotElement.setAttribute('time', slot);
-        slotElement.textContent = slot;
+            const slotElement = document.createElement('div');
+            slotElement.className = 'timeslot';
+            slotElement.setAttribute('time', slot);
+            slotElement.textContent = slot;
 
-        const nextButton = document.createElement('span');
-        nextButton.textContent = 'Following';
-        nextButton.className = 'btn btn-primary next-button ';
-        nextButton.style.display = 'none';
-        nextButton.addEventListener('click', function () {
-            nextStep();
-        });
-
-        parentDiv.appendChild(slotElement);
-        parentDiv.appendChild(nextButton);
-
-        // Append the parent div to the timeslot list
-        timeslotList.appendChild(parentDiv);
-
-        if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length > simultaneous_appointments) {
-            slotElement.className = 'timeslot busy_time';
-        }
-
-        // Handle timeslot selection
-        slotElement.addEventListener('click', function () {
-            // Remove selected class from all timeslots and hide all Next buttons
-            document.querySelectorAll('.timeslot').forEach(t => {
-                t.classList.remove('selected');
+            const nextButton = document.createElement('span');
+            nextButton.textContent = 'Following';
+            nextButton.className = 'btn btn-primary next-button ';
+            nextButton.style.display = 'none';
+            nextButton.addEventListener('click', function () {
+                nextStep();
             });
-            document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
-            
 
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-     
-            document.getElementById('datetime').innerText = slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2);
-            document.getElementById('datetime-hidden').value=( slot +' - '+addMinutesToTime(slot,diffMins) +' '+ new Intl.DateTimeFormat('en-US', options).format(date2));
-            // Apply selected class to the clicked timeslot and show its Next button
-            this.classList.add('selected');
-            this.nextElementSibling.style.display = 'block'; // Show the associated Next button
+            parentDiv.appendChild(slotElement);
+            parentDiv.appendChild(nextButton);
 
-            // When a timeslot is selected, submit the date and time
-            selectedDateTime = {
-                date: `${selectedDateElem.textContent.trim()} ${slot}`
-            };
-            // Send the selectedDateTime to the server via fetch or AJAX
-            submitDateTime(selectedDateTime);
+            // Append the parent div to the timeslot list
+            timeslotList.appendChild(parentDiv);
+
+            if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length > simultaneous_appointments) {
+                slotElement.className = 'timeslot busy_time';
+            }
+
+            // Handle timeslot selection
+            slotElement.addEventListener('click', function () {
+                // Remove selected class from all timeslots and hide all Next buttons
+                document.querySelectorAll('.timeslot').forEach(t => {
+                    t.classList.remove('selected');
+                });
+                document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
+
+
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+
+                document.getElementById('datetime').innerText = slot + ' - ' + addMinutesToTime(slot, diffMins) + ' ' + new Intl.DateTimeFormat('en-US', options).format(date2);
+                document.getElementById('datetime-hidden').value = (slot + ' - ' + addMinutesToTime(slot, diffMins) + ' ' + new Intl.DateTimeFormat('en-US', options).format(date2));
+                // Apply selected class to the clicked timeslot and show its Next button
+                this.classList.add('selected');
+                this.nextElementSibling.style.display = 'block'; // Show the associated Next button
+
+                // When a timeslot is selected, submit the date and time
+                selectedDateTime = {
+                    date: `${selectedDateElem.textContent.trim()} ${slot}`
+                };
+                // Send the selectedDateTime to the server via fetch or AJAX
+                submitDateTime(selectedDateTime);
+            });
         });
-    });
 
-    // Hide the "Next" button initially when time slots are loaded
-    document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
-}
+        // Hide the "Next" button initially when time slots are loaded
+        document.querySelectorAll('.next-button').forEach(button => button.style.display = 'none');
+    }
 
 
 

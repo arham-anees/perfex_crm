@@ -40,9 +40,9 @@ if (!function_exists('get_appointment_types')) {
             display: block;
         }
 
-        #timeslots {
+        /* #timeslots {
             display: none;
-        }
+        } */
 
         #back-button {
             display: none;
@@ -156,11 +156,12 @@ if (!function_exists('get_appointment_types')) {
                         <!-- leftside -->
                         <div class="left-side left-area d-flex tw-justify-between tw-flex-col">
                             <div class="">
-                                <!-- <div class="mobile-only">
-                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i class="fas fa-arrow-left"></i></div>
-                                    <div id="datetime-mobile" ></div>
+                                <div class="mobile-only">
+                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i
+                                            class="fas fa-arrow-left"></i></div>
+                                    <div id="datetime-mobile"></div>
                                     <div></div>
-                                </div> -->
+                                </div>
                                 <div class="logo">
                                     <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
                                     <div id="logo"
@@ -205,7 +206,7 @@ if (!function_exists('get_appointment_types')) {
                         </div>
                         <!-- right side -->
                         <div class="right-side">
-                            <div id="step1" class="mbot20" style=" padding-left:20px;">
+                            <div id="step1" class="mbot20">
 
                                 <?php $appointment_types = get_appointment_types();
 
@@ -581,7 +582,7 @@ if (!function_exists('get_appointment_types')) {
                         day: 'numeric'
                     };
                     var dateStr = new Intl.DateTimeFormat('en-US', options).format(new Date(`${year}-${monthNumber}-${i}`));
-                    document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
+                    if (document.getElementById('datetime-mobile')) document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
                     // Show the "Next" button only if a timeslot is selected
                     // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
@@ -687,18 +688,22 @@ if (!function_exists('get_appointment_types')) {
             // Function to show timeslots and hide calendar on mobile only
             function showTimeslots() {
                 if (window.innerWidth <= 768) { // Mobile view only
-                    calendarContainer.style.display = 'none';
-                    timeslots.style.display = 'block';
-                    backArrow.style.display = 'flex'; // Show back arrow
+                    // calendarContainer.style.display = 'none';
+                    // timeslots.style.display = 'block';
+                    // backArrow.style.display = 'flex'; // Show back arrow
+                    if (!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
+                        document.getElementsByClassName('calendar-box')[0].classList.add('slots');
                 }
             }
 
             // Function to show calendar and hide timeslots on mobile only
             function showCalendar() {
                 if (window.innerWidth <= 768) { // Mobile view only
-                    calendarContainer.style.display = 'block';
-                    timeslots.style.display = 'none';
-                    backArrow.style.display = 'none'; // Hide back arrow
+                    // calendarContainer.style.display = 'block';
+                    // timeslots.style.display = 'none';
+                    // backArrow.style.display = 'none'; // Hide back arrow
+                    if (document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
+                        document.getElementsByClassName('calendar-box')[0].classList.remove('slots');
                 }
             }
 
@@ -720,13 +725,13 @@ if (!function_exists('get_appointment_types')) {
             });
 
             // Ensure desktop view is not changed when the page loads
-            if (window.innerWidth > 768) {
-                calendarContainer.style.display = 'block';
-                timeslots.style.display = 'block';
-                backArrow.style.display = 'none'; // Hide back arrow on desktop
-            } else {
-                showCalendar(); // Ensure correct state on mobile load
-            }
+            // if (window.innerWidth > 768) {
+            //     calendarContainer.style.display = 'block';
+            //     timeslots.style.display = 'block';
+            //     backArrow.style.display = 'none'; // Hide back arrow on desktop
+            // } else {
+            //     showCalendar(); // Ensure correct state on mobile load
+            // }
         });
 
 
