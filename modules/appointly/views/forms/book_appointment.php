@@ -22,76 +22,93 @@ if (!function_exists('get_appointment_types')) {
         type="text/css">
 </head>
 <style>
-
-#back-arrow {
-    display: none; 
-    cursor: pointer;
-    font-size: 24px; 
-    color: #0069FF; 
-    position: absolute; 
-    top: 120px; 
-    left: 40px; 
-}
-
-
-
-/* Mobile styles */
-@media (max-width: 768px) {
-    #calendar-container {
-        display: block;
-    }
-
-    #timeslots {
+    #back-arrow {
         display: none;
+        cursor: pointer;
+        font-size: 24px;
+        color: #0069FF;
+        position: absolute;
+        top: 120px;
+        left: 40px;
     }
 
-    #back-button {
-        display: none;
+
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+        #calendar-container {
+            display: block;
+        }
+
+        #timeslots {
+            display: none;
+        }
+
+        #back-button {
+            display: none;
+        }
+
+        /* Mobile-specific styles */
+
+        .timeslots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Center horizontally */
+            justify-content: center;
+            /* Center vertically if needed */
+            width: 100%;
+            /* Full width */
+            padding: 20px;
+            /* Add padding around */
+            box-sizing: border-box;
+            /* Include padding in width calculation */
+        }
+
+        #timeslot-list {
+            width: 100%;
+            /* Full width for the list */
+
+            margin: 0 auto;
+            /* Center the list within the container */
+        }
+
+        .timeslot {
+            display: block;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            /* Rounded corners */
+            text-align: center;
+            /* Center text inside slots */
+            cursor: pointer;
+            /* Change cursor to pointer */
+            font-size: 1.2em;
+            /* Increase font size for better readability */
+        }
+
+        #back-button {
+            display: block;
+            /* Ensure back button is visible */
+            margin-top: 20px;
+            /* Space above the back button */
+            padding: 10px 20px;
+            /* Adjust padding for better click area */
+            font-size: 1.2em;
+            /* Increase font size for readability */
+        }
     }
-    /* Mobile-specific styles */
 
-    .timeslots {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Center horizontally */
-        justify-content: center; /* Center vertically if needed */
-        width: 100%; /* Full width */
-        padding: 20px; /* Add padding around */
-        box-sizing: border-box; /* Include padding in width calculation */
+
+    @media (max-width: 768px) {
+
+        /* Ensure that this content is hidden only when in timeslot view */
+        .timeslots-view .heading,
+        .timeslots-view .calendar-container {
+            display: none;
+            /* Hide these elements in timeslots view on mobile */
+        }
     }
-
-    #timeslot-list {
-        width: 100%; /* Full width for the list */
-
-        margin: 0 auto; /* Center the list within the container */
-    }
-
-    .timeslot {
-        display: block;
-        padding: 15px;
-        margin: 5px 0;
-        border-radius: 5px; /* Rounded corners */
-        text-align: center; /* Center text inside slots */
-        cursor: pointer; /* Change cursor to pointer */
-        font-size: 1.2em; /* Increase font size for better readability */
-    }
-
-    #back-button {
-        display: block; /* Ensure back button is visible */
-        margin-top: 20px; /* Space above the back button */
-        padding: 10px 20px; /* Adjust padding for better click area */
-        font-size: 1.2em; /* Increase font size for readability */
-    }
-}
-
-
-@media (max-width: 768px) {
-    /* Ensure that this content is hidden only when in timeslot view */
-    .timeslots-view .heading,
-    .timeslots-view .calendar-container {
-        display: none; /* Hide these elements in timeslots view on mobile */
-    }
-}
 
     .key-headers {
         /* display: flex;
@@ -153,36 +170,37 @@ if (!function_exists('get_appointment_types')) {
                                     <hr>
                                 </div>
                                 <div class="key-headers">
-                                <h3 style="font-size:24px; font-weight:700"><?= $booking_page['name'] ?></h3>
-                                <?php if (isset($booking_page['duration_minutes'])) { ?>
-                                    <p class="text"><i
-                                            class="far fa-clock icon tw-w-5"></i><?= $booking_page['duration_minutes'] ?>
-                                        minutes</p>
-                                <?php } ?>
+                                    <h3 style="font-size:24px; font-weight:700"><?= $booking_page['name'] ?></h3>
+                                    <?php if (isset($booking_page['duration_minutes'])) { ?>
+                                        <p class="text"><i
+                                                class="far fa-clock icon tw-w-5"></i><?= $booking_page['duration_minutes'] ?>
+                                            minutes</p>
+                                    <?php } ?>
 
-                                <p class="text d-flex"> 
-                                    <span>
-                                        <i class="fa fa-video icon tw-w-5"></i> 
-                                    </span> 
-                                    <span>
-                                    Online conference information
-                                    provided upon confirmation.
+                                    <p class="text d-flex">
+                                        <span>
+                                            <i class="fa fa-video icon tw-w-5"></i>
+                                        </span>
+                                        <span>
+                                            Online conference information
+                                            provided upon confirmation.
+                                        </span>
+                                    </p>
+
+                                    <p id="datetime-parent" class="text" style="display:none"><i
+                                            class="fa fa-calendar icon tw-w-5"></i><span id="datetime"><? $date ?></span>
+                                    </p>
+                                    <input type="hidden" id="datetime-hidden" name="hashDate" />
+                                    <!-- <p id="timezone"></p> -->
+
+                                    <span style="font-size:14px;">Description: </span>
+                                    <span style="font-size:14px; font-weight:700">
+                                        <?= $booking_page['description'] ?>
                                     </span>
-                                </p>
 
-                                <p id="datetime-parent" class="text" style="display:none"><i
-                                        class="fa fa-calendar icon tw-w-5"></i><span id="datetime"><? $date ?></span></p>
-                                <input type="hidden" id="datetime-hidden" name="hashDate" />
-                                <!-- <p id="timezone"></p> -->
-
-                                <span style="font-size:14px;">Description: </span>
-                                <span style="font-size:14px; font-weight:700">
-                                    <?= $booking_page['description'] ?>
-                                </span>
-
-                                <div id="appointmentsContainer"></div>
+                                    <div id="appointmentsContainer"></div>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <!-- right side -->
@@ -382,11 +400,11 @@ if (!function_exists('get_appointment_types')) {
     <?php endif; ?>
 
     <!-- Javascript functionality -->
-    <?php require ('modules/appointly/assets/js/appointments_external_form_booking.php'); ?>
+    <?php require('modules/appointly/assets/js/appointments_external_form_booking.php'); ?>
 
     <!-- If callbacks is enabled load on appointments external form -->
     <?php if (isset($booking_page['callbacks_mode_enabled']) && $booking_page['callbacks_mode_enabled'] == 1)
-        require ('modules/appointly/views/forms/callbacks_form.php'); ?>
+        require('modules/appointly/views/forms/callbacks_form.php'); ?>
 
     <script>
 
@@ -465,8 +483,8 @@ if (!function_exists('get_appointment_types')) {
             elem.remove();
         }
 
-        function unselectDate(){ 
-            document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));    
+        function unselectDate() {
+            document.querySelectorAll('.calendar div[data-day]').forEach(d => d.classList.remove('selected'));
             if (document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
                 document.getElementsByClassName('calendar-box')[0].classList.remove('slots');
         }
@@ -546,7 +564,7 @@ if (!function_exists('get_appointment_types')) {
                     
                     if (!document.getElementsByClassName('calendar-box')[0].classList.contains('slots'))
                         document.getElementsByClassName('calendar-box')[0].classList.add('slots');
-                       
+
 
                     // Display timeslots and update the selected date
                     var _selectedDate = `${daysOfWeek[(startDay + i - 1) % 7]}, ${i} ${month}`;
@@ -557,15 +575,14 @@ if (!function_exists('get_appointment_types')) {
 
                     // Load time slots dynamically
                     loadTimeSlots(_selectedDate, new Date(`${year}-${monthNumber}-${i}`));
-                    const options = { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
+                    const options = {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
                     };
                     var dateStr = new Intl.DateTimeFormat('en-US', options).format(new Date(`${year}-${monthNumber}-${i}`));
-                   // document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
-
+                     document.getElementById('datetime-mobile').innerHTML = `<span class='day'>${dateStr.split(',')[0]}</span><br>${dateStr.substr(dateStr.split(',')[0].length + 2)}`;
                     // Show the "Next" button only if a timeslot is selected
                    // document.getElementById('nextButtonContainer').style.display = 'none'; // Hide the button initially
                 });
@@ -659,59 +676,59 @@ if (!function_exists('get_appointment_types')) {
         });
     </script>
 
-<script>
+    <script>
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    var calendarContainer = document.querySelector('.calendar-container');
-    var timeslots = document.getElementById('timeslots');
-    var backArrow = document.querySelector('.back-arrow');
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarContainer = document.querySelector('.calendar-container');
+            var timeslots = document.getElementById('timeslots');
+            var backArrow = document.querySelector('.back-arrow');
 
 
-    // Function to show timeslots and hide calendar on mobile only
-    function showTimeslots() {
-        if (window.innerWidth <= 768) { // Mobile view only
-            calendarContainer.style.display = 'none';
-            timeslots.style.display = 'block';
-            backArrow.style.display = 'flex'; // Show back arrow
-        }
-    }
+            // Function to show timeslots and hide calendar on mobile only
+            function showTimeslots() {
+                if (window.innerWidth <= 768) { // Mobile view only
+                    calendarContainer.style.display = 'none';
+                    timeslots.style.display = 'block';
+                    backArrow.style.display = 'flex'; // Show back arrow
+                }
+            }
 
-    // Function to show calendar and hide timeslots on mobile only
-    function showCalendar() {
-        if (window.innerWidth <= 768) { // Mobile view only
-            calendarContainer.style.display = 'block';
-            timeslots.style.display = 'none';
-            backArrow.style.display = 'none'; // Hide back arrow
-        }
-    }
+            // Function to show calendar and hide timeslots on mobile only
+            function showCalendar() {
+                if (window.innerWidth <= 768) { // Mobile view only
+                    calendarContainer.style.display = 'block';
+                    timeslots.style.display = 'none';
+                    backArrow.style.display = 'none'; // Hide back arrow
+                }
+            }
 
-    // Handle date clicks - only for mobile
-    var calendarDays = document.querySelectorAll('.calendar div[data-day]');
-    calendarDays.forEach(day => {
-        day.addEventListener('click', function() {
-            // Add 'selected' class to clicked day
-            this.classList.add('selected');
+            // Handle date clicks - only for mobile
+            var calendarDays = document.querySelectorAll('.calendar div[data-day]');
+            calendarDays.forEach(day => {
+                day.addEventListener('click', function () {
+                    // Add 'selected' class to clicked day
+                    this.classList.add('selected');
 
-            // Show timeslots on mobile only
-            showTimeslots();
+                    // Show timeslots on mobile only
+                    showTimeslots();
+                });
+            });
+
+            // Back arrow click event - only for mobile
+            backArrow.addEventListener('click', function () {
+                showCalendar();
+            });
+
+            // Ensure desktop view is not changed when the page loads
+            if (window.innerWidth > 768) {
+                calendarContainer.style.display = 'block';
+                timeslots.style.display = 'block';
+                backArrow.style.display = 'none'; // Hide back arrow on desktop
+            } else {
+                showCalendar(); // Ensure correct state on mobile load
+            }
         });
-    });
-
-    // Back arrow click event - only for mobile
-    backArrow.addEventListener('click', function() {
-        showCalendar();
-    });
-
-    // Ensure desktop view is not changed when the page loads
-    if (window.innerWidth > 768) {
-        calendarContainer.style.display = 'block';
-        timeslots.style.display = 'block';
-        backArrow.style.display = 'none'; // Hide back arrow on desktop
-    } else {
-        showCalendar(); // Ensure correct state on mobile load
-    }
-});
 
 
     </script>
