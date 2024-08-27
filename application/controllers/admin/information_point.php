@@ -11,7 +11,7 @@ class Information_point extends AdminController
     public function index()
     {
         $data['information_point'] = $this->Information_model->get_all();
-        $this->load->view('admin/leadevo/information-point/information', $data);
+        $this->load->view('admin/leadevo/Information-point/information', $data);
     }
   
 
@@ -34,7 +34,7 @@ class Information_point extends AdminController
         }
     
         // Load the view for creating an information point
-        $this->load->view('admin/leadevo/information-point/information_create');
+        $this->load->view('admin/leadevo/Information-point/information_create');
     }
     
 
@@ -58,7 +58,7 @@ class Information_point extends AdminController
         }
     
         $data['informationpoint'] = $this->Information_model->get($id);
-        $this->load->view('admin/leadevo/information-point/information_edit', $data);
+        $this->load->view('admin/leadevo/Information-point/information_edit', $data);
     }
     
     public function delete($id)
@@ -74,7 +74,7 @@ class Information_point extends AdminController
     public function view($id)
     {
         $data['infomationpoint'] = $this->Information_model->get($id);
-        $this->load->view('admin/leadevo/information-point/information_view', $data);
+        $this->load->view('admin/leadevo/Information-point/information_view', $data);
     }
 
     

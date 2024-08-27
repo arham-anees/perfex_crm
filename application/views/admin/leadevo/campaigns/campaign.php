@@ -13,42 +13,49 @@
                 <table class="table dt-table scroll-responsive">
                   <thead>
                     <tr>
-                      <th><?php echo _l('Name'); ?></th>
-                      <th><?php echo _l('Description'); ?></th>
-                      <th><?php echo _l('Start Date'); ?></th>
-                      <th><?php echo _l('End Date'); ?></th>
-                      <th><?php echo _l('Budget'); ?></th>
-                      <th><?php echo _l('Actions'); ?></th>
+                    <th><?php echo _l('name'); ?></th>
+                <th><?php echo _l('description'); ?></th>
+                <th><?php echo _l('status'); ?></th>
+                <th><?php echo _l('budget'); ?></th>
+                <th><?php echo _l('deal'); ?></th>
+                <th><?php echo _l('Start Date'); ?></th>
+                <th><?php echo _l('End Date'); ?></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php foreach ($campaigns as $campaign): ?>
                       <tr>
-                        <td><?php echo $campaign->name ?? 'N/A'; ?></td>
-                        <td><?php echo $campaign->description ?? 'N/A'; ?></td>
-                        <td><?php echo !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
-                          ? date('d M Y', strtotime($campaign->start_date))
-                          : 'N/A'; ?></td>
-                        <td><?php echo !empty($campaign->end_date) && strtotime($campaign->end_date) !== false
-                          ? date('d M Y', strtotime($campaign->end_date))
-                          : 'N/A'; ?></td>
-                  <td><?php echo $campaign->budget??'N/A'; ?></td>
-                        <td>
-                          <a href="<?php echo admin_url('campaigns/view/' . $campaign->id); ?>"
-                            class="btn btn-default btn-icon">
-                            <i class="fa fa-eye"></i>
-                          </a>
-                          <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>"
-                            class="btn btn-default btn-icon">
-                            <i class="fa fa-pencil"></i>
-                          </a>
-                          <a href="<?php echo admin_url('campaigns/delete/' . $campaign->id); ?>"
-                            class="btn btn-danger btn-icon"
-                            onclick="return confirm('Are you sure you want to delete this campaign ?');">
-                            <i class="fa fa-remove"></i>
-                          </a>
-                        </td>
-                      </tr>
+                  <td>
+                    <?php echo $campaign->name ?? 'N/A'; ?>
+                    <div class="row-options">
+                      <a href="<?php echo admin_url('campaigns/view/' . $campaign->id); ?>">View</a> |
+                      <?php
+                      $current_date = date('Y-m-d');
+                      $start_date = !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
+                        ? date('d M Y', strtotime($campaign->start_date))
+                        : 'N/A';
+
+                      if (($campaign->status_id == 3) && ($current_date <= $start_date)): ?>
+                        <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
+                      <?php endif; ?>
+
+                      <?php if ($campaign->status_id == 3): ?>
+                        <a href="<?php echo admin_url('campaigns/delete/' . $campaign->id); ?>" class="text-danger"
+                          onclick="return confirm('Are you sure you want to delete this campaign ?');">Delete</a>
+                      </div>
+                    <?php endif; ?>
+                  </td>
+                  <td><?php echo $campaign->description ?? 'N/A'; ?></td>
+                  <td><?php echo $campaign->status_name ?? 'N/A'; ?></td>
+                  <td><?php echo $campaign->budget ?? 'N/A'; ?></td>
+                  <td><?php echo $campaign->deal == 1 ? 'Exclusive' : 'Non-exclusive'; ?></td>
+                  <td><?php echo !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
+                    ? date('d M Y', strtotime($campaign->start_date))
+                    : 'N/A'; ?></td>
+                  <td><?php echo !empty($campaign->end_date) && strtotime($campaign->end_date) !== false
+                    ? date('d M Y', strtotime($campaign->end_date))
+                    : 'N/A'; ?></td>
+                </tr>
                     <?php endforeach; ?>
                   </tbody>
                 </table>

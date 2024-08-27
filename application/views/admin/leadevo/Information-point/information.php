@@ -1,19 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <?php init_head(); ?>
-<style>
-    html, body {
-    height: 100%;
-    margin: 0; 
-}
-   .container{
-         margin-left: 16%;
-         height: 100%;
-          background-color: aliceblue;
-          padding: 20px;
-   }
-</style>
+
 <body>
-    <div class="container">
+    <div id="wrapper">
+    <div class="content">
         <div class="row main_row">
             <div class="col-md-12">
                 <div class="panel_s">
@@ -68,6 +58,7 @@
             </div>
         </div>
     </div>
+</div>
 
     
     <?php init_tail(); ?>
