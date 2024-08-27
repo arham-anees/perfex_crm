@@ -524,7 +524,7 @@ h1 {
     }
 
     .step2 {
-        min-width: auto
+        min-width: auto !important;
     }
 }
 
@@ -541,18 +541,16 @@ h1 {
     }
 
     .calendar-box {
-        margin-top: 0 !important;
-        height: 100vh;
-        display: block;
+        margin-top : 0 !important;
+        height:100vh; 
+        display:block;
     }
-
-    .calendar-box.slots.step1 .calendar-container,
+    /* .calendar-box.slots.step1 .calendar-container,
     .calendar-box.slots.step1 .key-headers,
-    .calendar-box.slots.step1 #logo {
-        display: none !important;
-    }
-
-    .calendar-box.slots .timeslot-list {
+    .calendar-box.slots.step1 #logo{
+        display:none !important;
+    } */
+    .calendar-box.slots .timeslot-list{
         height: unset !important;
     }
 
@@ -709,3 +707,14 @@ h1 {
 }
 
 /* Callbacks Popup */
+@media (max-width: 768px) {
+    .calendar-container {
+        display: block;
+    }
+    #timeslots {
+        display: none;
+    }
+    .back-arrow {
+        display: none;
+    }
+}

@@ -156,12 +156,11 @@ if (!function_exists('get_appointment_types')) {
                         <!-- leftside -->
                         <div class="left-side left-area d-flex tw-justify-between tw-flex-col">
                             <div class="">
-                                <div class="mobile-only">
-                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i
-                                            class="fas fa-arrow-left"></i></div>
-                                    <div id="datetime-mobile"></div>
+                                <!-- <div class="mobile-only">
+                                    <div class="back-arrow-mobile" onclick="unselectDate()"><i class="fas fa-arrow-left"></i></div>
+                                    <div id="datetime-mobile" ></div>
                                     <div></div>
-                                </div>
+                                </div> -->
                                 <div class="logo">
                                     <div class="back-arrow" onclick="prevStep()"><i class="fas fa-arrow-left"></i></div>
                                     <div id="logo"
@@ -677,53 +676,6 @@ if (!function_exists('get_appointment_types')) {
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarContainer = document.querySelector('.calendar-container');
-            var timeslots = document.getElementById('timeslots');
-            var backArrow = document.getElementById('back-arrow');
-
-            // Function to show timeslots and hide calendar on mobile only
-            function showTimeslots() {
-                if (window.innerWidth <= 768) { // Mobile view only
-                    calendarContainer.style.display = 'none';
-                    timeslots.style.display = 'block';
-                    backArrow.style.display = 'block';
-                }
-            }
-
-            // Function to show calendar and hide timeslots on mobile only
-            function showCalendar() {
-                if (window.innerWidth <= 768) { // Mobile view only
-                    calendarContainer.style.display = 'block';
-                    timeslots.style.display = 'none';
-                    backArrow.style.display = 'none';
-                }
-            }
-
-            // Handle date clicks for mobile
-            var calendarDays = document.querySelectorAll('.calendar div[data-day]');
-            calendarDays.forEach(day => {
-                day.addEventListener('click', function () {
-                    // Add 'selected' class to clicked day
-                    this.classList.add('selected');
-                    showTimeslots();
-                });
-            });
-
-            // Back arrow click event for mobile
-            backArrow.addEventListener('click', function () {
-                showCalendar();
-            });
-
-            // Ensure desktop view is not changed when the page loads
-            if (window.innerWidth > 768) {
-                calendarContainer.style.display = 'block';
-                timeslots.style.display = 'block';
-                backArrow.style.display = 'none';
-            } else {
-                showCalendar(); // Ensure correct state on mobile load
-            }
-        });
 
 
         document.addEventListener('DOMContentLoaded', function () {
