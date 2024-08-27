@@ -14,6 +14,32 @@ $CI = &get_instance();
 
 define('LEADEVO_API_MODULE_NAME', 'leadevo_api');
 
+
+
+if ( ! function_exists('getDirectAppointmentsSourceId')) {
+    function getZapierSourceId()
+    {
+        $CI = &get_instance();
+        $CI->db->where('name', 'Zapier');
+
+        $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+
+        if (empty($result)) {
+        // Record does not exist, insert one
+            $data = [
+                'name' => 'Zapier',
+                // Add other necessary fields here
+            ];
+            $CI->db->insert(db_prefix().'leads_sources', $data);
+
+            // Get the newly inserted record
+            $CI->db->where('name', 'Zapier');
+            $result = $CI->db->get(db_prefix().'leads_sources')->row_array();
+        }
+
+        return $result;
+    }
+}
 // hooks()->add_action('receive_prospect', 'on_receive_prospect');
 
 /*
