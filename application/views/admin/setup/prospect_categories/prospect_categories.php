@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('leadevo/prospectcategories/create'); ?>"
+                            <a href="<?php echo admin_url('leadevo/prospect_categories/create'); ?>"
                                 class="btn btn-primary pull-left display-block mleft10">
                                 <i class="fa-regular fa-plus tw-mr-1"></i>
                                 <?php echo _l('New Prospect category'); ?>

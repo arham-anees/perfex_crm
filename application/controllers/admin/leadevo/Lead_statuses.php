@@ -11,7 +11,7 @@ class Lead_statuses extends AdminController
     public function index()
     {
         $data['statuses'] = $this->Lead_statuses_model->get_all();
-        $this->load->view('admin/setup/lead_statuses/lead_statuses', $data);
+        $this->load->view('admin/setup/lead_statuses/index', $data);
     }
 
     public function create()
