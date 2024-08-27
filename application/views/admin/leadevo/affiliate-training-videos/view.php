@@ -33,23 +33,8 @@
         padding: 16px;
     }
 
-    .btn {
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        padding: 6px 16px;
-        min-width: 40px;
-        border-radius: 20px;
-        margin-top: 10px;
-    }
-    .btn-primary {
-        background-color: rgb(255, 203, 3);
-        color: rgb(0, 0, 0);
-    }
-    .btn-primary:hover {
-        box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
-    }
+
+
 
 </style>
 <div id="wrapper">
@@ -67,7 +52,6 @@
                             </div>
                             <div class="col-md-6">
                                 <h3 class="card-title">Video ID: <?php echo htmlspecialchars($video['id']??'N/A'); ?></h3>
-                                <p class="card-text"><a href="<?php echo htmlspecialchars($video['url']??'N/A'); ?>" target="_blank"><?php echo _l('Watch Video'); ?></a></p>
                                 <p class="card-text">Title: <?php echo htmlspecialchars($video['name']??'N/A'); ?></p>
                                 <p class="card-text">Description: <?php echo htmlspecialchars($video['description']??'N/A'); ?></p>
                             </div>
@@ -76,7 +60,9 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="<?php echo admin_url('affiliate_training_videos'); ?>" class="btn btn-primary">Back to List</a>
+                            <a href="<?php echo admin_url('affiliate_training_videos'); ?>" class="btn btn-default">
+                                <?php echo _l('Back to videos'); ?>
+                            </a>
                             </div>
                         </div>
                 </div>
