@@ -910,15 +910,16 @@ class Prospects_model extends CI_Model
         try {
             // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect_cart) {
-                $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_cart->prospect_id)->row();
+                $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_cart['prospect_id'])->row();
                 // create invoice for each
                 $sql = "INSERT INTO " . db_prefix() . "leads(name,email, phonenumber, status, source, hash, dateadded, addedfrom) VALUES('" . $prospect->first_name . " " . $prospect->last_name . "','" . $prospect->email
                     . "','" . $prospect->phone . "',2,2,'" . app_generate_hash() . "', '" . date('Y-m-d H:i:s') . "',0);";
                 $this->db->query($sql);
 
                 // Get the last inserted ID from tblleads
+                //TODO: calculate price
                 $lastInsertId = $this->db->insert_id();
-                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect_cart->price . "');";
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect->desired_amount . "');";
                 $this->db->query($sql);
 
                 if ($prospect->is_exclusive == 1) {
