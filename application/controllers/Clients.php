@@ -25,7 +25,7 @@ class Clients extends ClientsController
     public function index()
     {
         $data['campaigns'] = $this->Campaigns_model->get_all();
-        $data['prospects'] = $this->Prospects_model->get_all();
+        $data['prospects'] = $this->Prospects_model->get_all('');
         $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
         // $this->load->view('clients/dashboard/dashboard', $data);
         // $data['is_home'] = true;
