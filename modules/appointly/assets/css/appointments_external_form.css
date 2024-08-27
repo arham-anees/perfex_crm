@@ -249,7 +249,7 @@ h1 {
 }
 
 .calendar div {
-    width: 40px;
+    width: 45px;
     height: 40px;
     margin: 5px;
     display: flex;
@@ -532,7 +532,7 @@ h1 {
     }
 }
 
-@media (max-width: 426px) {
+@media (max-width: 431px) {
     #content .container {
         padding-left: 0 !important;
         padding-right: 0 !important;
