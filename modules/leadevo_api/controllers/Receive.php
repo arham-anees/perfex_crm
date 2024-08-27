@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Receive extends AdminController
+class Receive extends App_Controller
 {
     public function __construct()
     {
@@ -11,7 +11,7 @@ class Receive extends AdminController
     public function index()
     {
         try {
-            $lead_str = $this->input->post('lead');
+            $lead_str = $this->input->get('lead');
             if (!isset($lead_str)) {
                 throw new Exception('Lead data is missing');
             }
