@@ -113,10 +113,16 @@ class Prospects extends ClientsController
     public function prospect($id)
     {
         $data['prospect'] = $this->Prospects_model->get($id);
+        $data['industry_name'] = $this->get_name_by_id('tblleadevo_industries', $data['prospect']->industry_id, 'name');
+        $data['acquisition_channel_name'] = $this->get_name_by_id('tblleadevo_acquisition_channels', $data['prospect']->acquisition_channel_id, 'name');
+        $data['type_name'] = $this->get_name_by_id('tblleadevo_prospect_types', $data['prospect']->type_id, 'name');
+        
         $this->data($data);
         $this->view('clients/prospects/prospect_view');
         $this->layout();
     }
+ 
+
 
     public function create()
     {
@@ -248,5 +254,19 @@ class Prospects extends ClientsController
 
         }
     }
+    public function get_industry_name($industry_id)
+    {
+        $this->load->model('leadevo/Industries_model'); 
+        $industry = $this->Industries_model->get($industry_id);
+        return $industry ? $industry->name : 'N/A';
+    }
+    
+    public function get_name_by_id($table, $id, $name_column)
+{
+    $this->load->model('leadevo/Acquisition_channels_model'); 
+    $result = $this->Acquisition_channels_model->get_by_id($table, $id);
+
+    return $result ? $result->$name_column : 'N/A';
+}
 
 }

@@ -40,7 +40,9 @@ class Industries extends AdminController
         if ($this->input->post()) {
             $data = [
                 'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
+                'description' => $this->input->post('description'),
+                'category_id' => $this->input->post('category_id'),
+
             ];
             $this->industries_model->update($id, $data);
             redirect(admin_url('leadevo/industries'));

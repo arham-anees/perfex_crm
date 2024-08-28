@@ -36,4 +36,8 @@ class Acquisition_channels_model extends CI_Model
         $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->delete($this->table);
     }
+    public function get_by_id($table, $id)
+    {
+        return $this->db->where('id', $id)->get($table)->row();
+    }
 }

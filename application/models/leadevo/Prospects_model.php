@@ -199,6 +199,8 @@ class Prospects_model extends CI_Model
                     i.name AS industry,
                     p.is_confirmed AS confirm_status,
                     p.is_fake,
+                    p. fake_description,
+                    
                     p.is_available_sale,
                     p.desired_amount,
                     p.min_amount,
@@ -655,11 +657,16 @@ class Prospects_model extends CI_Model
     {
         return $this->db->where('id', $id)->delete($this->table);
     }
-    public function mark_fake($id)
-    {
-        $this->db->where('id', $id);
-        return $this->db->update($this->table, array('is_fake' => 1, 'fake_report_date' => date('Y-m-d H:i:s')));
-    }
+    public function mark_fake($id, $description)
+{
+    $this->db->where('id', $id);
+    return $this->db->update($this->table, array(
+        'is_fake' => 1,
+        'fake_report_date' => date('Y-m-d H:i:s'),
+        'fake_description' => $description
+    ));
+}
+
     public function mark_as_auto_deliverable($id)
     {
         $this->db->where('id', $id);
@@ -1054,5 +1061,13 @@ class Prospects_model extends CI_Model
         $query = $this->db->get('tblleadevo_prospects');
         return $query->row_array();
     }
+
+   public function get_prospect_by_id($id)
+{
+    $this->db->where('id', $id);
+    $query = $this->db->get($this->table);
+    return $query->row_array();
+}
+
 
 }
