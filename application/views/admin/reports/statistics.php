@@ -78,14 +78,101 @@ $selected_clients = $filter['selected_clients'] ?? [];
                                 <h4 style="text-align: center;">Campaign Statistics</h4>
                                 <canvas id="campaignChart" style="margin-bottom: 30px;"></canvas>
 
-                                <h4 style="text-align: center;">Industry Monitoring</h4>
-                                <canvas id="industryChart" style="margin-bottom: 30px;"></canvas>
-
                                 <h4 style="text-align: center;">Prospect Verification</h4>
                                 <canvas id="prospectChart"></canvas>
                             </div>
 
 
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <div class="_buttons">
+                                    <h4 class="no-margin">Prospects Received</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr class="hr-panel-heading" />
+                                <table class="table table-leads-report" id="stats-received-table" data-order-col="0"
+                                    data-order-type="asc">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo _l('Name'); ?></th>
+                                            <th><?php echo _l('total_leads'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($industry_stats_received) && is_array($industry_stats_received)) { ?>
+                                            <?php foreach ($industry_stats_received as $source): ?>
+                                                <tr>
+                                                    <td><?php echo $source->name; ?></td>
+                                                    <td><?php echo $source->total_prospects; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <div class="_buttons">
+                                    <h4 class="no-margin">Exclusive Prospects</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr class="hr-panel-heading" />
+                                <table class="table table-leads-report" id="stats-exclusive-table" data-order-col="0"
+                                    data-order-type="asc">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo _l('Name'); ?></th>
+                                            <th><?php echo _l('total_leads'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($industry_stats_exclusive) && is_array($industry_stats_exclusive)) { ?>
+                                            <?php foreach ($industry_stats_exclusive as $source): ?>
+                                                <tr>
+                                                    <td><?php echo $source->name; ?></td>
+                                                    <td><?php echo $source->total_prospects; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel_s">
+                            <div class="panel-body">
+                                <div class="_buttons">
+                                    <h4 class="no-margin">Non-Exclusive Prospects</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                                <hr class="hr-panel-heading" />
+                                <table class="table table-leads-report" id="stats-non-exclusive-table"
+                                    data-order-col="0" data-order-type="asc">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo _l('Name'); ?></th>
+                                            <th><?php echo _l('total_leads'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($industry_stats_non_exclusive) && is_array($industry_stats_non_exclusive)) { ?>
+                                            <?php foreach ($industry_stats_non_exclusive as $source): ?>
+                                                <tr>
+                                                    <td><?php echo $source->name; ?></td>
+                                                    <td><?php echo $source->total_prospects; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -107,15 +194,15 @@ $selected_clients = $filter['selected_clients'] ?? [];
             method: 'GET',             // Specify the HTTP method
             dataType: 'json',          // Expected data type from the server
             success: function (response) {
-                // Handle the success response here
-                console.log('Success:', response);
 
                 // Ensure data is defined
                 var marketplaceData = <?php echo json_encode($marketplace_stats); ?> || [];
                 var campaignData = <?php echo json_encode($campaign_stats); ?> || [];
                 var industryData = <?php echo json_encode($industry_stats); ?> || [];
                 var prospectData = <?php echo json_encode($prospect_stats); ?> || [];
-
+                regenerateTable('stats-received-table', response.data.industry_stats_received);
+                regenerateTable('stats-exclusive-table', response.data.industry_stats_exclusive);
+                regenerateTable('stats-non-exclusive-table', response.data.industry_stats_non_exclusive);
                 // Data for Marketplace Chart
                 var marketplaceLabels = [
                     'Exclusive for Sale Today', 'Exclusive for Sale Yesterday',
@@ -214,29 +301,6 @@ $selected_clients = $filter['selected_clients'] ?? [];
                     industryData[0].non_exclusive_sold ?? 0
                 ] : [];
 
-                var ctxIndustry = document.getElementById('industryChart').getContext('2d');
-                var industryChart = new Chart(ctxIndustry, {
-                    type: 'bar',
-                    data: {
-                        labels: industryLabels,
-                        datasets: [{
-                            label: 'Industry Monitoring',
-                            data: industryValues,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                            borderColor: 'rgba(255, 159, 64, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-
                 // Data for Prospect Chart
                 var prospectLabels = [
                     'To Be Verified by SMS', 'To Be Verified by WhatsApp',
@@ -280,12 +344,10 @@ $selected_clients = $filter['selected_clients'] ?? [];
                 console.error('Error:', textStatus, errorThrown);
             },
             complete: function (jqXHR, textStatus) {
-                // Code to execute regardless of success or failure
-                console.log('Request complete:', textStatus);
             }
         });
     }
-    refreshData();
+
     var form = document.getElementById('filter-form');
     var intervalId;
     function getFormValuesAsQueryString(form) {
@@ -316,7 +378,6 @@ $selected_clients = $filter['selected_clients'] ?? [];
     setAutoSubmit();
     refreshData();
     $('select#period').on('change', function () {
-        console.log($('select#period').val());
         if ($('select#period').val() == -1) {
 
             $('[app-field-wrapper=start_date]').parent().show();
@@ -327,4 +388,33 @@ $selected_clients = $filter['selected_clients'] ?? [];
             $('[app-field-wrapper=end_date]').parent().hide();
         }
     })
+    setTimeout(() => {
+        _reinitDataTable('stats-received-table');
+        _reinitDataTable('stats-exclusive-table')
+        _reinitDataTable('stats-non-exclusive-table');
+    }, 200);
+
+    function regenerateTable(id, data) {
+        const tableBody = document.querySelector('#' + id + ' tbody');
+        tableBody.innerHTML = ''; // Clear existing rows
+
+        data.forEach(source => {
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+               <td>${source.name || '-'}</td>
+               <td>${source.total_prospects || '-'}</td>
+         `;
+
+            tableBody.appendChild(row);
+        });
+        _reinitDataTable(id);
+    }
+    function _reinitDataTable(id) {
+        if ($.fn.DataTable.isDataTable('#' + id)) {
+            $('#' + id).DataTable().destroy();
+        }
+        initDataTableInline($('#' + id));
+        $('#' + id).DataTable().order([1, 'desc']).draw()
+    }
 </script>

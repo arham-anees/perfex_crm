@@ -473,7 +473,7 @@ class Stats_model extends CI_Model
         $client_ids = implode(',', array_map('intval', $clients));
         $source_ids = implode(',', array_map('intval', $sources));
 
-        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+        $sql = "SELECT i.id,i.name, COUNT(p.id) total_prospects FROM tblleadevo_industries i 
                 LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
                 WHERE i.is_active = 1 ";
         if (isset($start_date)) {
@@ -488,7 +488,7 @@ class Stats_model extends CI_Model
         if (count($sources) > 0) {
             $sql .= " AND p.source_id IN (" . $source_ids . ")";
         }
-        $sql .= " GROUP BY i.id, i.name  ORDER BY TotalProspects";
+        $sql .= " GROUP BY i.id, i.name  ORDER BY total_prospects DESC";
 
         $query = $this->db->query($sql);
         return $query->result();
@@ -506,7 +506,7 @@ class Stats_model extends CI_Model
         $client_ids = implode(',', array_map('intval', $clients));
         $source_ids = implode(',', array_map('intval', $sources));
 
-        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+        $sql = "SELECT i.id,i.name, COUNT(p.id) total_prospects FROM tblleadevo_industries i 
                 LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
                 WHERE i.is_active = 1 AND p.is_exclusive = 1 ";
         if (isset($start_date)) {
@@ -521,7 +521,7 @@ class Stats_model extends CI_Model
         if (count($sources) > 0) {
             $sql .= " AND p.source_id IN (" . $source_ids . ")";
         }
-        $sql .= " GROUP BY i.id, i.name ORDER BY TotalProspects";
+        $sql .= " GROUP BY i.id, i.name ORDER BY total_prospects DESC";
 
         $query = $this->db->query($sql);
         return $query->result();
@@ -539,7 +539,7 @@ class Stats_model extends CI_Model
         $client_ids = implode(',', array_map('intval', $clients));
         $source_ids = implode(',', array_map('intval', $sources));
 
-        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+        $sql = "SELECT i.id,i.name, COUNT(p.id) total_prospects FROM tblleadevo_industries i 
                 LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
                 WHERE i.is_active = 1 AND p.is_exclusive = 0 ";
         if (isset($start_date)) {
@@ -554,7 +554,7 @@ class Stats_model extends CI_Model
         if (count($sources) > 0) {
             $sql .= " AND p.source_id IN (" . $source_ids . ")";
         }
-        $sql .= " GROUP BY i.id, i.name ORDER BY TotalProspects";
+        $sql .= " GROUP BY i.id, i.name ORDER BY total_prospects DESC";
 
         $query = $this->db->query($sql);
         return $query->result();
