@@ -392,6 +392,8 @@ class Prospects_model extends CI_Model
                     null AS zip_code,
                     phone,
                     email,
+                    p.desired_amount,
+                    p.min_amount,
                     pso.name AS source,
                     null AS deal,
                     null AS quality,
