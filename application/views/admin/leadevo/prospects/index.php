@@ -12,6 +12,13 @@ function displayStars($rating, $maxStars = 5)
     }
 }
 ?>
+
+<style>
+    .star.filled
+{
+    color:orange;
+}
+</style>
 <div id="wrapper">
     <div class="content">
         <div class="row">
