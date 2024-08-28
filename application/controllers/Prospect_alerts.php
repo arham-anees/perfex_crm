@@ -81,4 +81,11 @@ public function edit($id)
         }
         redirect('prospect_alerts');
     }
+    public function view($id)
+    {
+        $data['alert'] = $this->Prospect_alerts_model->get($id);
+        $this->data($data);
+        $this->view('clients/prospect_alerts/view');
+        $this->layout();
+    }
 }
