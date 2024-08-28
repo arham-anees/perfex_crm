@@ -227,7 +227,7 @@ class Prospects extends ClientsController
             $stars = $this->input->post('rating');
             $this->Prospects_model->client_rate($id, $stars);
         }
-        redirect(site_url('prospects'));
+        redirect(site_url('prospects/purchased'));
     }
 
 

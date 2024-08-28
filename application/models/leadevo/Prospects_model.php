@@ -112,7 +112,7 @@ class Prospects_model extends CI_Model
             p.is_available_sale,
             p.desired_amount,
             p.min_amount,
-            r.rating,
+            
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -131,16 +131,7 @@ class Prospects_model extends CI_Model
             tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
         LEFT JOIN
             tblleadevo_industries i ON p.industry_id = i.id
-        LEFT JOIN   
-                    (SELECT r.*
-                    FROM `tblleadevo_prospects_rating_client` r
-                    INNER JOIN (
-                        SELECT prospect_id, MAX(rated_at) AS max_rated_at
-                        FROM `tblleadevo_prospects_rating_client`
-                        GROUP BY prospect_id
-                    ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
-                    AND r.rated_at = latest_ratings.max_rated_at) r
-                ON r.prospect_id = p.id
+       
                 WHERE
                 p.is_active = 1 
                 AND is_fake = 0 
@@ -688,7 +679,7 @@ class Prospects_model extends CI_Model
     public function client_rate($id, $ratings)
     {
         $data['user_id'] = get_client_user_id();
-        $data['prospect_id'] = $id;
+        $data['lead_id'] = $id;
         $data['rating'] = $ratings;
         $data['rated_at'] = date('Y-m-d H:i:s');
         return $this->db->insert(db_prefix() . 'leadevo_prospects_rating_client', $data);

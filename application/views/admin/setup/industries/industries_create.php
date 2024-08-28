@@ -17,6 +17,16 @@
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control" required></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="category_id"><?php echo _l('Category'); ?></label>
+                            <select id="category_id" name="category_id" class="form-control" required>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo $category['id']; ?>">
+                                        <?php echo $category['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
                     </div>

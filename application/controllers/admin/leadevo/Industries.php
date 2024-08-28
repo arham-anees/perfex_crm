@@ -6,11 +6,13 @@ class Industries extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/industries_model');
+        $this->load->model('leadevo/industry_categories_model'); // Load industry categories model
     }
 
     public function index()
     {
         $data['industries'] = $this->industries_model->get_all();
+        $data['categories'] = $this->industry_categories_model->get_all();
         $this->load->view('admin/setup/industries/industries', $data);
     }
 
@@ -20,12 +22,17 @@ class Industries extends AdminController
             $data = [
                 'name' => $this->input->post('name'),
                 'description' => $this->input->post('description'),
+                'category_id' => $this->input->post('category_id'),
+
                 'is_active' => 1,
             ];
             $this->industries_model->insert($data);
             redirect(admin_url('leadevo/industries'));
         }
-        $this->load->view('admin/setup/industries/industries_create');
+        
+        // Fetch categories to show in the create form
+        $data['categories'] = $this->industry_categories_model->get_all();
+        $this->load->view('admin/setup/industries/industries_create', $data);
     }
 
     public function edit($id)
@@ -38,7 +45,10 @@ class Industries extends AdminController
             $this->industries_model->update($id, $data);
             redirect(admin_url('leadevo/industries'));
         }
+        
+        // Fetch the specific industry and categories to show in the edit form
         $data['industry'] = $this->industries_model->get($id);
+        $data['categories'] = $this->industry_categories_model->get_all();
         $this->load->view('admin/setup/industries/industries_edit', $data);
     }
 
