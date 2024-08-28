@@ -25,7 +25,7 @@
                                         <!-- Left Side: Video and Facebook Group Text -->
                                         <div class="col-md-8">
                                             <div class="panel_s">
-                                                <div class="panel-body step-0">
+                                                <div class="panel-body step-0" id="steps-tracker">
                                                     <div class="videos step-1-content">
 
                                                         <div id="video-section">
@@ -81,11 +81,11 @@
 
                                                     <!-- Coming Soon text -->
                                                     <div class="videos step-4-content" id="coming-soon-section">
-                                                    <?php if (!empty($videos)): ?>
+                                                        <?php if (!empty($videos)): ?>
                                                             <?php foreach ($videos as $video): ?>
                                                                 <div>
-                                                                    <video id="coming-soon-" style=" width: 100%;"
-                                                                        width="100%" controls>
+                                                                    <video id="coming-soon-" style=" width: 100%;" width="100%"
+                                                                        controls>
                                                                         <source
                                                                             src="<?php echo htmlspecialchars($video['url']); ?>"
                                                                             type="video/mp4">
@@ -278,6 +278,7 @@
 
     var currentStep = isNaN('<?= $completed_step ?>') ? 0 : '<?= $completed_step ?>';
     currentStep = parseInt(currentStep);
+    if (isNaN(currentStep) == true) { currentStep = 0; }
     document.addEventListener('DOMContentLoaded', function () {
         var video = document.getElementById('welcome-video');
         var completeBtn = document.getElementById('complete-btn');
@@ -340,12 +341,13 @@
 
         function onContinueClick() {
             if (currentStep < totalSteps + 1) {
+                debugger
                 let section = document.querySelector('.step-' + currentStep);
                 if (section) {
                     section.classList.remove('step-' + currentStep);
                 }
-                if (section){
-                    section.classList.add('step-' + (currentStep + 1));
+                else {
+                    document.querySelector('#steps-tracker').classList.add('step-' + (currentStep + 1));
                 }
                 var progressPercentage = currentStep * progressPercentagePerStep;
 
@@ -353,7 +355,7 @@
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
                 progressBar.textContent = Math.round(progressPercentage) + '%';
 
-                progressText.textContent = (currentStep ) + ' / ' + (totalSteps ) + ' actions completed';
+                progressText.textContent = (currentStep) + ' / ' + (totalSteps) + ' actions completed';
 
                 // Change tick color for completed actions
                 for (let i = 0; i < 6; i++) {
@@ -377,7 +379,7 @@
                 if (currentStep === totalSteps + 1) {
                     completeBtn.disabled = true;
                     completeBtn.textContent = 'Completed';
-                    
+
                 } else {
                     completeBtn.disabled = true;
                 }
@@ -434,12 +436,12 @@
             document.getElementById('coming-soon-section').style.display = 'block';
             completeBtn.style.display = 'none';
             continueBtn.style.display = 'block';
-            
+
         });
     });
 
     function update_step(step) {
-        if(step < 6) {
+        if (step < 6) {
             $.ajax({
                 url: site_url + 'onboarding/update_step',
                 type: 'POST',

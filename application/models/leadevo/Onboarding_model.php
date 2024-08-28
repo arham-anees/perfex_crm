@@ -13,9 +13,9 @@ class Onboarding_model extends App_Model
     {
         // Query to get the last record for the specified client_id
         $sql = "SELECT * FROM `" . db_prefix() . "leadevo_onboarding`
-    WHERE client_id = " . intval($id) . "
-    ORDER BY id DESC
-    LIMIT 1;";
+                WHERE client_id = " . intval($id) . "
+                ORDER BY updated_at DESC
+                LIMIT 1;";
 
         // Execute the query and get the result
         $result = $this->db->query($sql)->row();
