@@ -579,9 +579,28 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                         }
                                         ?>
                                         <div class="align-items-center mbot5" style="display:flex">
+                                            <?php
+                                            $is_discounted = false;
+                                            if ($is_deal_settings_applied == true) {
+                                                $dateString = $prospect['created_at'];
+
+                                                // Create DateTime objects
+                                                $givenDate = new DateTime($dateString);
+                                                $currentDate = new DateTime(); // This will use the current date and time
+                                        
+                                                // Calculate the difference
+                                                $interval = $currentDate->diff($givenDate);
+
+                                                // Extract total hours from the interval
+                                                $days = $interval->days;
+                                                if ($days >= $days_to_discount) {
+                                                    $is_discounted = true;
+                                                }
+                                            }
+                                            ?>
                                             <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
                                             <span class="align-items-center" style="display:flex"><?php
-                                            $discounted_price = $prospect['desired_amount'] ?? 0;
+                                            $discounted_price = $prospect['desired_amount'] ?? $prospect['min_amount'] ?? 0;
                                             if ($discount_type == 1) {
                                                 //find percentage
                                                 $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
