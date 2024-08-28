@@ -15,7 +15,7 @@
         </div>
         <div class="form-group">
             <label for="target_base_url" class="control-label clearfix"><?= _l('Target CRM') ?>
-                <input type="text" name="base_url" id="target_base_url" class="form-control" />
+                <input type="text" name="base_url" placeholder="https://cityups.noblepos.com" id="target_base_url" class="form-control" />
         </div>
         <div>
             <input type="submit" value="<?= _l('leadevo_send_via_api_button') ?>" class="btn btn-primary pull-right" />
