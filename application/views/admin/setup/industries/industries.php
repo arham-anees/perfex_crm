@@ -21,6 +21,7 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
+                                        <th><?php echo _l('Category'); ?></th> <!-- Added Category Column -->
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -29,6 +30,19 @@
                                         <tr>
                                             <td><?php echo $industry['name']; ?></td>
                                             <td><?php echo $industry['description']; ?></td>
+                                            <td>
+                    <?php
+                    // Find the category name based on the category_id
+                    $categoryName = '';
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $industry['category_id']) {
+                            $categoryName = $category['name'];
+                            break;
+                        }
+                    }
+                    echo $categoryName;
+                    ?>
+                                            </td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/industries/view/' . $industry['id']); ?>"
                                                     class="btn btn-default btn-icon">
