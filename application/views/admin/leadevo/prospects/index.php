@@ -167,6 +167,12 @@ function displayStars($rating, $maxStars = 5)
                 <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
                 <input type="hidden" name="id" />
                 <p><?= _l('leadevo_report_fake_prospect_message') ?></p>
+                
+                <!-- Description Input -->
+                <div class="form-group">
+                    <label for="fake_description"><?= _l('leadevo_fake_description_label') ?></label>
+                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required></textarea>
+                </div>
 
                 <!-- Submit Button -->
                 <input type="submit" value="<?php echo _l('leadevo_report_fake_prospect_button'); ?>"
@@ -177,6 +183,7 @@ function displayStars($rating, $maxStars = 5)
         </div>
     </div>
 </div>
+
 
 <div id="mark_prospect_auto_deliverable" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">

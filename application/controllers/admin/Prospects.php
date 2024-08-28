@@ -114,11 +114,14 @@ class Prospects extends AdminController
     public function mark_as_fake()
     {
         $id = $this->input->post('id');
-        if (isset($id)) {
-            $this->Prospects_model->mark_fake($id);
+        $description = $this->input->post('fake_description');
+    
+        if (isset($id) && isset($description)) {
+            $this->Prospects_model->mark_fake($id, $description);
         }
         redirect(admin_url('prospects'));
     }
+    
 
     public function mark_as_auto_deliverable()
     {
@@ -299,4 +302,7 @@ class Prospects extends AdminController
             echo json_encode(['status' => 'error', 'message' => 'Invalid prospect ID']);
         }
     }
+
+    
+
 }
