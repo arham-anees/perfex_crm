@@ -341,7 +341,6 @@
 
         function onContinueClick() {
             if (currentStep < totalSteps + 1) {
-                debugger
                 let section = document.querySelector('.step-' + currentStep);
                 if (section) {
                     section.classList.remove('step-' + currentStep);
