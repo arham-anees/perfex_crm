@@ -783,6 +783,13 @@ function app_init_client_sidebar_menu_items()
         'position' => 3,
         'icon' => 'fa fa-lightbulb',
     ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospect_alerts', [
+        'slug' => 'leadevo-user-prospect_alerts',
+        'name' => 'Prospects Alert',
+        'href' => site_url('prospect_alerts'),
+        'position' => 3,
+        'icon' => 'fa fa-lightbulb',
+    ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects_purchased', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects Purchased',

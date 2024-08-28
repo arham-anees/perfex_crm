@@ -18,8 +18,7 @@
                                             <th><?php echo _l('Category'); ?></th>
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
                                             <th><?php echo _l('Industry'); ?></th>
-                                            <th><?php echo _l('Status'); ?></th>
-                                            <!-- <th><?php echo _l('Actions'); ?></th> -->
+                                            <th><?php echo _l('Fake Description'); ?></th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -31,30 +30,7 @@
                                                 <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['confirm_status'] == 1 ? 'Confirmed' : 'Not Confirmed'); ?>
-                                                </td>
-                                                <!-- <td>
-                                                    <select name="confirm_status" class="form-control"
-                                                        data-id="<?php echo $prospect['id']; ?>">
-                                                        <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>Not Confirmed</option>
-                                                        <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>Confirmed</option>
-                                                    </select>
-                                                </td> -->
-                                                <!-- <td>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/view/' . $prospect['id']); ?>"
-                                                        class="btn btn-default btn-icon">
-                                                        <i class="fa fa-eye"></i>
-                                                    </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/edit/' . $prospect['id']); ?>"
-                                                        class="btn btn-default btn-icon">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>
-                                                    <a href="<?php echo admin_url('leadevo/client/prospect/delete/' . $prospect['id']); ?>"
-                                                        class="btn btn-danger btn-icon"
-                                                        onclick="return confirm('Are you sure you want to delete this prospect?');">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                </td> -->
+                                                <td><?php echo htmlspecialchars($prospect['fake_description'] ?? 'N/A' ); ?></td> 
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -70,6 +46,7 @@
     </div>
 </div>
 
+<!-- Modal Structure -->
 <div id="mark_prospect_fake" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content text-center">
@@ -87,6 +64,12 @@
                 <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
                 <input type="hidden" name="id" />
                 <p><?= _l('leadevo_report_fake_prospect_message') ?></p>
+                
+                <!-- Description Input -->
+                <div class="form-group">
+                    <label for="fake_description"><?= _l('leadevo_fake_description_label') ?></label>
+                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required></textarea>
+                </div>
 
                 <!-- Submit Button -->
                 <input type="submit" value="<?php echo _l('leadevo_report_fake_prospect_button'); ?>"
@@ -98,39 +81,11 @@
     </div>
 </div>
 
-
-<!-- Modal Structure -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="uploadModalLabel">Upload MP3 File</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="uploadForm">
-                    <div class="form-group">
-                        <label for="mp3File">Choose MP3 file</label>
-                        <input type="file" class="form-control-file" id="mp3File" accept=".mp3">
-                    </div>
-                    <div id="error-message" class="text-danger"></div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="storeFile()">Upload</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+<!-- Other Modals -->
 
 <?php init_tail(); ?>
 
+<!-- JavaScript -->
 <script>
     $(document).ready(function () {
         $('select[name="confirm_status"]').on('change', function () {
@@ -154,73 +109,12 @@
         });
     });
 
-</script>
-
-
-<script>
     function openModal(id) {
         document.querySelector('#mark_prospect_fake input[name=id]').value = id;
         $('#mark_prospect_fake').modal('show');
     }
-    function openSaleModal(id) {
-        document.querySelector('#mark_sale_available_modal input[name=id]').value = id;
-        $('#mark_sale_available_modal').modal('show');
-    }
-
 </script>
 
-
-<script>
-    let uploadedFile = null;
-
-    function storeFile() {
-        const fileInput = document.getElementById('mp3File');
-        const file = fileInput.files[0];
-        const errorMessage = document.getElementById('error-message');
-
-        if (file && file.type === 'audio/mpeg') {
-            uploadedFile = file;
-            alert('File stored successfully!');
-            $('#uploadModal').modal('hide');
-        } else {
-            errorMessage.textContent = 'Please upload a valid MP3 file.';
-        }
-    }
-
-</script>
-
-<script>
-    let id = null;
-    function uploadFile() {
-        const fileInput = document.getElementById('mp3File');
-        const file = fileInput.files[0];
-        const errorMessage = document.getElementById('error-message');
-
-        if (file && file.type === 'audio/mpeg') {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('id', id); // Include the prospect ID
-
-            $.ajax({
-                url: '<?php echo admin_url("leadevo/prospects/upload_mp3"); ?>', // Replace with your server upload URL
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    alert('File uploaded successfully!');
-                    $('#uploadModal').modal('hide');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    errorMessage.textContent = 'Error uploading file: ' + errorThrown;
-                }
-            });
-        } else {
-            errorMessage.textContent = 'Please upload a valid MP3 file.';
-        }
-    }
-</script>
-
+<!-- Other JavaScript -->
 </body>
-
 </html>
