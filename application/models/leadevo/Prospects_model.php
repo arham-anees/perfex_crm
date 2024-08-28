@@ -8,6 +8,8 @@ class Prospects_model extends CI_Model
 
     private $report_table = 'tblleadevo_reported_prospects';
 
+    private $client_rating = 'leadevo_prospects_rating_client';
+
     public function __construct()
     {
         parent::__construct();
@@ -131,10 +133,10 @@ class Prospects_model extends CI_Model
             tblleadevo_industries i ON p.industry_id = i.id
         LEFT JOIN   
                     (SELECT r.*
-                    FROM `tblleadevo_prospects_rating` r
+                    FROM `tblleadevo_prospects_rating_client` r
                     INNER JOIN (
                         SELECT prospect_id, MAX(rated_at) AS max_rated_at
-                        FROM `tblleadevo_prospects_rating`
+                        FROM `tblleadevo_prospects_rating_client`
                         GROUP BY prospect_id
                     ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
                     AND r.rated_at = latest_ratings.max_rated_at) r
@@ -143,7 +145,7 @@ class Prospects_model extends CI_Model
                 p.is_active = 1 
                 AND is_fake = 0 
                 AND client_id = " . get_client_user_id();
-        
+
 
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
@@ -193,6 +195,7 @@ class Prospects_model extends CI_Model
 
         return $this->db->query($sql)->result_array();
     }
+
     public function get_all($filter)
     {
         $sql = "SELECT 
@@ -686,7 +689,7 @@ class Prospects_model extends CI_Model
         $data['prospect_id'] = $id;
         $data['rating'] = $ratings;
         $data['rated_at'] = date('Y-m-d H:i:s');
-        return $this->db->insert(db_prefix() . 'leadevo_prospects_rating', $data);
+        return $this->db->insert(db_prefix() . 'leadevo_prospects_rating_client', $data);
     }
     public function update_sale_status($id, $available, $is_exclusive, $desired_amount, $min_amount)
     {
