@@ -226,6 +226,16 @@ class Prospects extends ClientsController
         $this->layout();
     }
 
+    public function rate()
+    {
+        $id = $this->input->post('id');
+        if (isset($id)) {
+            $stars = $this->input->post('rating');
+            $this->Prospects_model->client_rate($id, $stars);
+        }
+        redirect(site_url('prospects/purchased'));
+    }
+
 
     function submit_report()
     {

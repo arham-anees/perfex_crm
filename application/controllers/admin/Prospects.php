@@ -63,7 +63,7 @@ class Prospects extends AdminController
     public function delete($id)
     {
         $this->Prospects_model->delete($id);
-        redirect(admin_url('leadevo/prospects'));
+        redirect(admin_url('/prospects'));
     }
 
     public function view($id)

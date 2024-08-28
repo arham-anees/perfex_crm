@@ -88,6 +88,7 @@
                                                 </div>
                                             </td>
                                             <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
+                                            
                                             <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
@@ -106,6 +107,9 @@
         </div>
     </div>
 </div>
+
+
+
 <script>
     $('#purchased-prospects').DataTable();
 </script>

@@ -82,7 +82,7 @@ class Cart extends ClientsController
 
         foreach ($cart as $prospect) {
             $prospect_obj = $this->Prospects_model->get_by_id($prospect['prospect_id']);
-            $amount = $prospect_obj['desired_amount'] ?? $prospect_obj['min_amount'] ?? 0;
+            $amount = $prospect['desired_amount'] ?? 0;
             $total += $amount;
             // Prepare the prospect item for the invoice
             $item = [

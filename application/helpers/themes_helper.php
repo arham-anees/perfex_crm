@@ -51,7 +51,7 @@ function add_default_theme_menu_items()
         }
         if (has_contact_permission('invoices')) {
             add_theme_menu_item('invoices', [
-                    'name'     => _l('clients_nav_invoices'),
+                    'name'     => _l('clients_nav_billing'),
                     'href'     => site_url('clients/invoices'),
                     'position' => 15,
                 ]);

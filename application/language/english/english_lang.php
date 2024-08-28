@@ -519,7 +519,7 @@ $lang['als_utilities'] = 'Utilities';
 $lang['als_announcements_submenu'] = 'Announcements';
 $lang['als_calendar_submenu'] = 'Calendar';
 $lang['als_activity_log_submenu'] = 'Activity Log';
-$lang['als_statistics_submenu'] = 'Statistics';
+$lang['als_statistics_submenu'] = 'Prospect Report';
 
 # Admin Customizer Sidebar
 $lang['acs_ticket_priority_submenu'] = 'Ticket Priority';
@@ -829,7 +829,7 @@ $lang['clients_register_heading'] = 'Register';
 # Navigation
 $lang['clients_nav_login'] = 'Login';
 $lang['clients_nav_register'] = 'Register';
-$lang['clients_nav_invoices'] = 'Invoices';
+$lang['clients_nav_billing'] = 'Billing';
 $lang['clients_nav_contracts'] = 'Contracts';
 $lang['clients_nav_kb'] = 'Knowledge Base';
 $lang['clients_nav_profile'] = 'Profile';
@@ -4034,3 +4034,8 @@ $lang['leadevo_deal_discount_percent'] = 'Percentage';
 $lang['leadevo_deal_discount_amount'] = 'Amount';
 $lang['leadevo_industry_category_min_price'] = 'Min Price';
 $lang['leadevo_industry_category_min_market_price'] = 'Min MarketPlace Price';
+$lang['leadevo_stats_period_dropdown'] = 'Time Period';
+$lang['leadevo_stats_start_date'] = 'Start Date';
+$lang['leadevo_stats_end_date'] = 'End Date';
+$lang['leadevo_stats_source_dropdown'] = 'Sources';
+$lang['leadevo_stats_clients_dropdown'] = 'Clients';

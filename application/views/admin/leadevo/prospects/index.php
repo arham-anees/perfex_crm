@@ -25,7 +25,7 @@ function displayStars($rating, $maxStars = 5)
                                         <tr>
                                             <th><?php echo _l('Name'); ?></th>
                                             <th><?php echo _l('Status'); ?></th>
-                                            <th><?php echo _l('stars'); ?></th>
+                                            <th><?php echo _l('Stars'); ?></th>
                                             <th><?php echo _l('Type'); ?></th>
                                             <th><?php echo _l('Category'); ?></th>
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
@@ -40,6 +40,15 @@ function displayStars($rating, $maxStars = 5)
                                                 <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?>
                                                     <div class="row-options">
                                                         <a href="#" onclick="openViewModal(<?= $prospect['id'] ?>)">View</a> |
+                                                        <a href="<?php echo admin_url('prospects/edit/' . $prospect['id']); ?>"
+                                                            class="">
+                                                            Edit
+                                                        </a> |
+                                                        <a href="<?php echo admin_url('prospects/delete/' . $prospect['id']); ?>"
+                                                            class=""
+                                                            onclick="return confirm('Are you sure you want to delete this prospect?');">
+                                                            Delete
+                                                        </a> |
                                                         <a href="#" onclick="openRateModal(<?= $prospect['id'] ?>)">Rate</a> |
 
 
@@ -82,7 +91,8 @@ function displayStars($rating, $maxStars = 5)
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                 <td>
                                                     <select name="confirm_status" class="form-control"
@@ -121,7 +131,8 @@ function displayStars($rating, $maxStars = 5)
     </div>
 </div>
 <!-- View Prospect Modal -->
-<div class="modal fade" id="viewProspectModal" tabindex="-1" role="dialog" aria-labelledby="viewProspectModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewProspectModal" tabindex="-1" role="dialog" aria-labelledby="viewProspectModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -426,31 +437,31 @@ function displayStars($rating, $maxStars = 5)
 </script>
 
 <script>
-function openViewModal(prospectId) {
-    $.ajax({
-        url: '<?= admin_url('prospects/get_prospect_data') ?>',
-        type: 'GET',
-        data: { id: prospectId },
-        success: function(response) {
-            const data = JSON.parse(response);
+    function openViewModal(prospectId) {
+        $.ajax({
+            url: '<?= admin_url('prospects/get_prospect_data') ?>',
+            type: 'GET',
+            data: { id: prospectId },
+            success: function (response) {
+                const data = JSON.parse(response);
 
-            // Populate the modal with the first name, last name, and other details
-            $('#prospectFirstName').text(data.first_name);
-            $('#prospectLastName').text(data.last_name);
-            $('#prospectStatus').text(data.status);
-            $('#prospectType').text(data.type);
-            $('#prospectCategory').text(data.category);
-            $('#prospectAcquisitionChannel').text(data.acquisition_channel);
-            $('#prospectIndustry').text(data.industry);
+                // Populate the modal with the first name, last name, and other details
+                $('#prospectFirstName').text(data.first_name);
+                $('#prospectLastName').text(data.last_name);
+                $('#prospectStatus').text(data.status);
+                $('#prospectType').text(data.type);
+                $('#prospectCategory').text(data.category);
+                $('#prospectAcquisitionChannel').text(data.acquisition_channel);
+                $('#prospectIndustry').text(data.industry);
 
-            // Show the modal
-            $('#viewProspectModal').modal('show');
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('Failed to fetch prospect data: ' + errorThrown);
-        }
-    });
-}
+                // Show the modal
+                $('#viewProspectModal').modal('show');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('Failed to fetch prospect data: ' + errorThrown);
+            }
+        });
+    }
 </script>
 
 </body>

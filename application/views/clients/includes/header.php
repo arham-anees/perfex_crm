@@ -19,10 +19,12 @@
         background-color: #ff0000;
         color: #ffffff;
         font-size: 11px;
-        padding: 4px 6px;
+        padding: 2px 6px;
         border-radius: 50%;
         font-weight: bold;
         display: inline-block;
+        height: 20px;
+        width: 20px;
     }
 
 
