@@ -829,7 +829,7 @@ $lang['clients_register_heading'] = 'Register';
 # Navigation
 $lang['clients_nav_login'] = 'Login';
 $lang['clients_nav_register'] = 'Register';
-$lang['clients_nav_invoices'] = 'Invoices';
+$lang['clients_nav_billing'] = 'Billing';
 $lang['clients_nav_contracts'] = 'Contracts';
 $lang['clients_nav_kb'] = 'Knowledge Base';
 $lang['clients_nav_profile'] = 'Profile';

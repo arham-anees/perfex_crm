@@ -35,13 +35,13 @@ function app_init_admin_sidebar_menu_items()
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_menu_item('leadevo_prospects', [
-        'name' => _l('leadevo_prospects'),
+        'name' => _l('leadevo'),
         'position' => 2,
         'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
-        'name' => _l('leadevo'),
+        'name' => _l('leadevo_prospects'),
         'slug' => 'leadevo',
         'href' => admin_url('prospects'),
         'position' => 2,
@@ -73,6 +73,20 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
+
+    if (
+        (staff_can('view', 'invoices') || staff_can('view_own', 'invoices'))
+        || (staff_has_assigned_invoices() && get_option('allow_staff_view_invoices_assigned') == 1)
+    ) {
+        $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+            'slug' => 'invoices',
+            'name' => _l('invoices'),
+            'href' => admin_url('invoices'),
+            'position' => 15,
+            'badge' => [],
+        ]);
+    }
+
     if (
         staff_can('view', 'customers')
         || (have_assigned_customers()

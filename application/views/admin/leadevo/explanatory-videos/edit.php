@@ -8,7 +8,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('leadevo/explanatory_videos'); ?>" class="btn btn-primary mb-3">
+                            <a href="<?php echo admin_url('explanatory_videos'); ?>" class="btn btn-primary mb-3">
                                 <i class="fa fa-arrow-left tw-mr-1"></i>
                                 <?php echo _l('Back to List'); ?>
                             </a>
