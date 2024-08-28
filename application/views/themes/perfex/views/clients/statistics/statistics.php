@@ -8,9 +8,8 @@
                     <h4 class="no-margin"><?php echo _l('Statistics'); ?></h4>
                     <hr class="hr-panel-heading" />
 
-                    <div class="container" style="max-width: 80%; margin: 0 auto;">
-                        <h4 style="text-align: center;">Client Dashboard Statistics</h4>
-                        <div class="row">
+                    <div class="">
+                        <!-- <div class="row">
                             <?php
                             // Ensure $dashboard_stats is not empty
                             if (!empty($dashboard_stats)) {
@@ -20,7 +19,7 @@
                                     if (!in_array($key, ['prospect_amount', 'reported_today', 'delivered_today', 'delivered_yesterday', 'prospect_avg_price'])) {
                                         continue;
                                     }
-                                    
+
                                     // Start a new row every 4 cards
                                     if ($card_count % 4 == 0) {
                                         if ($card_count > 0) {
@@ -46,11 +45,79 @@
                                 }
                             }
                             ?>
+                        </div> -->
+                        <div class="row">
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Open Campaigns</h5>
+                                        <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1>
+                                        <span class="vs-label">vs Yesterday</span>
+                                        <span
+                                            class="vs-value <?php echo $campaign_stats[0]->open_yesterday <= $campaign_stats[0]->open_today ? 'text-success' : 'text-danger'; ?>"><?php echo $campaign_stats[0]->open_yesterday; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Closed Campaigns</h5>
+                                        <h1 class="bold"><?php echo $campaign_stats[0]->closed_today; ?></h1>
+                                        <span class="vs-label">vs Yesterday</span>
+                                        <span
+                                            class="vs-value <?php echo $campaign_stats[0]->closed_yesterday <= $campaign_stats[0]->closed_today ? 'text-success' : 'text-danger'; ?>"><?php echo $campaign_stats[0]->closed_yesterday; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Exclusive Delivered</h5>
+                                        <h1 class="bold"><?php echo $campaign_stats[0]->exclusive_delivered_today; ?>
+                                        </h1>
+                                        <span class="vs-label">vs Yesterday</span>
+                                        <span
+                                            class="vs-value <?php echo $campaign_stats[0]->exclusive_delivered_yesterday <= $campaign_stats[0]->exclusive_delivered_today ? 'text-success' : 'text-danger'; ?>"><?php echo $campaign_stats[0]->exclusive_delivered_yesterday; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Non-Exclusive Delivered</h5>
+                                        <h1 class="bold">
+                                            <?php echo $campaign_stats[0]->non_exclusive_delivered_today; ?>
+                                        </h1>
+                                        <span class="vs-label">vs Yesterday</span>
+                                        <span
+                                            class="vs-value <?php echo $campaign_stats[0]->non_exclusive_delivered_yesterday <= $campaign_stats[0]->non_exclusive_delivered_today ? 'text-success' : 'text-danger'; ?>"><?php echo $campaign_stats[0]->non_exclusive_delivered_yesterday; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Exclusive Avg Price</h5>
+                                        <h1 class="bold">
+                                            <?php echo $campaign_stats[0]->avg_price_exclusive; ?>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="panel_s">
+                                    <div class="panel-body text-left">
+                                        <h5 class="no-margin">Non Exclusive Avg Price</h5>
+                                        <h1 class="bold">
+                                            <?php echo $campaign_stats[0]->avg_price_non_exclusive; ?>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Campaign Stats Chart -->
-                        <h4 style="text-align: center; margin-top: 50px;">Client Campaigns Statistics</h4>
-                        <canvas id="campaignChart" style="margin-bottom: 30px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -58,67 +125,14 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Data for Campaign Chart
-    var campaignData = <?php echo json_encode($campaign_stats); ?>;
-    var campaignLabels = [
-        'Open Today', 
-        'Open Yesterday', 
-        'Closed Today', 
-        'Closed Yesterday', 
-        'To Deliver Today', 
-        'Exclusive Delivered Today', 
-        'Non-exclusive Delivered Today'
-    ];
+<style>
+    h5,
+    h1 {
+        line-height: 14px;
+    }
 
-    var campaignValuesToday = [
-        campaignData[0].open_today,
-        campaignData[0].closed_today,
-        campaignData[0].to_deliver_today,
-        campaignData[0].exclusive_delivered_today,
-        campaignData[0].non_exclusive_delivered_today
-    ];
-
-    var campaignValuesYesterday = [
-        campaignData[0].open_yesterday,
-        campaignData[0].closed_yesterday,
-        campaignData[0].exclusive_delivered_yesterday,
-        campaignData[0].non_exclusive_delivered_yesterday
-    ];
-
-    var ctxCampaign = document.getElementById('campaignChart').getContext('2d');
-    var campaignChart = new Chart(ctxCampaign, {
-        type: 'bar',
-        data: {
-            labels: campaignLabels,
-            datasets: [
-                {
-                    label: 'Today',
-                    data: campaignValuesToday,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                },
-                {
-                    label: 'Yesterday',
-                    data: campaignValuesYesterday,
-                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    borderWidth: 1
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    $('#proposals').DataTable({
-        "search": true
-    });
-</script>
+    .vs-label,
+    .vs-value {
+        font-size: 12px
+    }
+</style>
