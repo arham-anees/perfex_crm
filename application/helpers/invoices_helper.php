@@ -33,7 +33,7 @@ function on_invoice_status_changed($data)
     $CI->load->model('leadevo/Prospects_model');
     $car_prospects = $CI->Cart_model->get_by_invoice($invoice_id);
     if (count($car_prospects) > 0) {
-        $CI->Prospects_model->deliver_prospects_cart($invoice->client_id, $car_prospects);
+        $CI->Prospects_model->deliver_prospects_cart($invoice->clientid, $car_prospects);
         return;
     }
 
