@@ -115,6 +115,10 @@ function displayStars($rating, $maxStars = 5)
         min-height: 300px;
         /* Adjust as needed */
     }
+
+    .star.filled {
+        color: orange;
+    }
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -258,19 +262,19 @@ function displayStars($rating, $maxStars = 5)
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a onclick="openSendZapierModal(<?= $prospect->id ?>)">Send via
                                                 Zapier</a> |
-                                                <a href="#" onclick="openRateModal(<?= $prospect->id ?>)">Rate</a>
+                                            <a href="#" onclick="openRateModal(<?= $prospect->id ?>)">Rate</a>
                                         </div>
                                     </td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? 'N/A'); ?></td>
                                     <td>
-                                                    <div class="star-rating">
-                                                        <?php
-                                                        // Example usage
-                                                        $userRating = $prospect->rating ?? 0; // This value could come from a database
-                                                        displayStars($userRating);
-                                                        ?>
-                                                    </div>
-                                                </td>
+                                        <div class="star-rating">
+                                            <?php
+                                            // Example usage
+                                            $userRating = $prospect->rating ?? 0; // This value could come from a database
+                                            displayStars($userRating);
+                                            ?>
+                                        </div>
+                                    </td>
                                     <td><?php echo htmlspecialchars($prospect->lead_value ?? 'N/A'); ?></td>
                                     <td><?php echo htmlspecialchars('N/A'); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->status_name ?? 'N/A'); ?></td>
@@ -738,7 +742,7 @@ $jsonData = json_encode($table); ?>
     function openRateModal(id) {
         document.querySelector('#rating_modal input[name=id]').value = id;
         console.log(id);
-        
+
         $('#rating_modal').modal('show');
     }
 

@@ -679,7 +679,7 @@ class Prospects_model extends CI_Model
     public function client_rate($id, $ratings)
     {
         $data['user_id'] = get_client_user_id();
-        $data['prospect_id'] = $id;
+        $data['lead_id'] = $id;
         $data['rating'] = $ratings;
         $data['rated_at'] = date('Y-m-d H:i:s');
         return $this->db->insert(db_prefix() . 'leadevo_prospects_rating_client', $data);
