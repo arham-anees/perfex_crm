@@ -443,6 +443,9 @@ class Stats_model extends CI_Model
         if (count($clients) > 0) {
             $sql .= " AND p.client_id IN (" . $client_ids . ")";
         }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
 
         $query = $this->db->query($sql);
         return $query->result();
@@ -460,8 +463,113 @@ class Stats_model extends CI_Model
     // }
 
 
-    public function admin_industry_monitoring()
+    public function admin_industry_monitoring_received($filter)
     {
+        $start_date = $filter["start_date"];
+        $end_date = $filter["end_date"];
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
+        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+                LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
+                WHERE i.is_active = 1 ";
+        if (isset($start_date)) {
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $start_date . "')";
+        }
+        if (isset($end_date)) {
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $end_date . "')";
+        }
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+        $sql .= " GROUP BY i.id, i.name  ORDER BY TotalProspects";
+
+        $query = $this->db->query($sql);
+        return $query->result();
+
+    }
+
+
+    public function admin_industry_monitoring_exclusive($filter)
+    {
+        $start_date = $filter["start_date"];
+        $end_date = $filter["end_date"];
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
+        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+                LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
+                WHERE i.is_active = 1 AND p.is_exclusive = 1 ";
+        if (isset($start_date)) {
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $start_date . "')";
+        }
+        if (isset($end_date)) {
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $end_date . "')";
+        }
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+        $sql .= " GROUP BY i.id, i.name ORDER BY TotalProspects";
+
+        $query = $this->db->query($sql);
+        return $query->result();
+
+    }
+
+
+    public function admin_industry_monitoring_non_exclusive($filter)
+    {
+        $start_date = $filter["start_date"];
+        $end_date = $filter["end_date"];
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
+        $sql = "SELECT i.id,i.name, COUNT(p.id) TotalProspects FROM tblleadevo_industries i 
+                LEFT JOIN tblleadevo_prospects p ON i.id = p.industry_id
+                WHERE i.is_active = 1 AND p.is_exclusive = 0 ";
+        if (isset($start_date)) {
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $start_date . "')";
+        }
+        if (isset($end_date)) {
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $end_date . "')";
+        }
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+        $sql .= " GROUP BY i.id, i.name ORDER BY TotalProspects";
+
+        $query = $this->db->query($sql);
+        return $query->result();
+
+    }
+    public function admin_industry_monitoring($filter)
+    {
+        $start_date = $filter["start_date"];
+        $end_date = $filter["end_date"];
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
         $sql = "SELECT 
                 i.name AS industry, 
                 COUNT(p.id) AS received,
@@ -469,15 +577,31 @@ class Stats_model extends CI_Model
                 COUNT(CASE WHEN p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold
             FROM tblleadevo_prospects p
             LEFT JOIN tblleadevo_industries i ON p.industry_id = i.id
-            GROUP BY i.name";
+            WHERE 1=1 ";
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+        $sql .= " GROUP BY i.name";
 
         $query = $this->db->query($sql);
         return $query->result();
     }
 
 
-    public function admin_prospect_verification()
+    public function admin_prospect_verification($filter)
     {
+        $start_date = $filter["start_date"];
+        $end_date = $filter["end_date"];
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
+
         $sql = "SELECT
                     -- Amount of prospects to be verified (not yet verified)
                     COUNT(CASE WHEN verified_sms = 0 THEN 1 END) AS to_be_verified_by_sms,
@@ -489,7 +613,21 @@ class Stats_model extends CI_Model
                     COUNT(CASE WHEN verified_whatsapp = 1 THEN 1 END) AS verified_by_whatsapp,
                     COUNT(CASE WHEN verified_staff = 1 THEN 1 END) AS verified_by_staff
                 FROM 
-                    tblleadevo_prospects;";
+                    tblleadevo_prospects p
+                    WHERE 1=1 ";
+        if (isset($start_date)) {
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $start_date . "')";
+        }
+        if (isset($end_date)) {
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $end_date . "')";
+        }
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+
         $query = $this->db->query($sql);
         return $query->result();
     }
