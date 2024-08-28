@@ -8,6 +8,8 @@ class Prospects_model extends CI_Model
 
     private $report_table = 'tblleadevo_reported_prospects';
 
+    private $client_rating = 'leadevo_prospects_rating_client';
+
     public function __construct()
     {
         parent::__construct();
@@ -110,6 +112,7 @@ class Prospects_model extends CI_Model
             p.is_available_sale,
             p.desired_amount,
             p.min_amount,
+            
             null AS zip_code,
             null AS phone,
             null AS email,
@@ -128,10 +131,12 @@ class Prospects_model extends CI_Model
             tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
         LEFT JOIN
             tblleadevo_industries i ON p.industry_id = i.id
+       
                 WHERE
                 p.is_active = 1 
                 AND is_fake = 0 
                 AND client_id = " . get_client_user_id();
+
 
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
@@ -181,6 +186,7 @@ class Prospects_model extends CI_Model
 
         return $this->db->query($sql)->result_array();
     }
+
     public function get_all($filter)
     {
         $sql = "SELECT 
@@ -377,6 +383,8 @@ class Prospects_model extends CI_Model
                     null AS zip_code,
                     phone,
                     email,
+                    p.desired_amount,
+                    p.min_amount,
                     pso.name AS source,
                     null AS deal,
                     null AS quality,
@@ -666,6 +674,15 @@ class Prospects_model extends CI_Model
         $data['rating'] = $ratings;
         $data['rated_at'] = date('Y-m-d H:i:s');
         return $this->db->insert(db_prefix() . 'leadevo_prospects_rating', $data);
+    }
+
+    public function client_rate($id, $ratings)
+    {
+        $data['user_id'] = get_client_user_id();
+        $data['lead_id'] = $id;
+        $data['rating'] = $ratings;
+        $data['rated_at'] = date('Y-m-d H:i:s');
+        return $this->db->insert(db_prefix() . 'leadevo_prospects_rating_client', $data);
     }
     public function update_sale_status($id, $available, $is_exclusive, $desired_amount, $min_amount)
     {

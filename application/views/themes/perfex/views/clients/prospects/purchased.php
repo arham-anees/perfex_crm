@@ -1,5 +1,16 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
+<?php
+function displayStars($rating, $maxStars = 5)
+{
+    if ($rating == 0 || $rating == '') {
+        echo '-';
+        return;
+    }
+    for ($i = 1; $i <= $maxStars; $i++) {
+        echo '<span class="star' . ($i <= $rating ? ' filled' : '') . '">&#9733;</span>';
+    }
+}
+?>
 
 <style>
     #backBtn {
@@ -104,6 +115,10 @@
         min-height: 300px;
         /* Adjust as needed */
     }
+
+    .star.filled {
+        color: orange;
+    }
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -200,6 +215,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th><?php echo _l('Stars'); ?></th>
                                 <th>Value</th>
                                 <th>Tags</th>
                                 <th>Status</th>
@@ -245,10 +261,20 @@
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a onclick="openSendZapierModal(<?= $prospect->id ?>)">Send via
-                                                Zapier</a>
+                                                Zapier</a> |
+                                            <a href="#" onclick="openRateModal(<?= $prospect->id ?>)">Rate</a>
                                         </div>
                                     </td>
                                     <td><?php echo htmlspecialchars($prospect->phonenumber ?? 'N/A'); ?></td>
+                                    <td>
+                                        <div class="star-rating">
+                                            <?php
+                                            // Example usage
+                                            $userRating = $prospect->rating ?? 0; // This value could come from a database
+                                            displayStars($userRating);
+                                            ?>
+                                        </div>
+                                    </td>
                                     <td><?php echo htmlspecialchars($prospect->lead_value ?? 'N/A'); ?></td>
                                     <td><?php echo htmlspecialchars('N/A'); ?></td>
                                     <td><?php echo htmlspecialchars($prospect->status_name ?? 'N/A'); ?></td>
@@ -395,6 +421,65 @@
 
 <div id="sendZapierProspectModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <?php echo get_instance()->load->view('clients/modals/send_prospect_zapier_modal.php') ?>
+</div>
+
+<div id="rating_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+            <!-- Modal Header -->
+            <div class="modal-header d-flex">
+                <div></div>
+                <h4 class="modal-title w-100"><?php echo _l('leadevo_prospect_ratings_title'); ?></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <!-- Font Awesome Close Icon -->
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <?php echo form_open(site_url('prospects/rate'), ['id' => 'rate-prospect-form']); ?>
+                <input type="hidden" name="id" />
+                <div class="form-group">
+                    <label for="nonexclusive_status" class="control-label clearfix">
+                        <?= _l('leadevo_prospect_ratings_description'); ?>
+                    </label>
+                    <div class="radio radio-primary radio-inline">
+                        <input type="radio" id="prospect_rating_1stars" name="rating" value="1" ?>>
+                        <label for="prospect_rating_1stars"><?= _l('leadevo_delivery_quality_1stars'); ?></label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                        <input type="radio" id="prospect_rating_2stars" name="rating" value="2" ?>>
+                        <label for="prospect_rating_2stars">
+                            <?= _l('leadevo_delivery_quality_2stars'); ?>
+                        </label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                        <input type="radio" id="prospect_rating_3stars" name="rating" value="3" ?>>
+                        <label for="prospect_rating_3stars">
+                            <?= _l('leadevo_delivery_quality_3stars'); ?>
+                        </label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                        <input type="radio" id="prospect_rating_4stars" name="rating" value="4" ?>>
+                        <label for="prospect_rating_4stars">
+                            <?= _l('leadevo_delivery_quality_4stars'); ?>
+                        </label>
+                    </div>
+                    <div class="radio radio-primary radio-inline">
+                        <input type="radio" id="prospect_rating_5stars" name="rating" value="5" ?>>
+                        <label for="prospect_rating_5stars">
+                            <?= _l('leadevo_delivery_quality_5stars'); ?>
+                        </label>
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <input type="submit" value="<?php echo _l('submit'); ?>" class="btn btn-primary" />
+
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -653,5 +738,12 @@ $jsonData = json_encode($table); ?>
             $('#reportProspectModal').data('prospect-id', id);
         });
     });
+
+    function openRateModal(id) {
+        document.querySelector('#rating_modal input[name=id]').value = id;
+        console.log(id);
+
+        $('#rating_modal').modal('show');
+    }
 
 </script>
