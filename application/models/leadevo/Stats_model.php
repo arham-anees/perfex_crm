@@ -225,31 +225,111 @@ class Stats_model extends CI_Model
     //             ";
     // }
 
-    public function admin_marketplace()
+    public function admin_marketplace($filter)
     {
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+        $sql_market = "SELECT 
+                    COUNT(CASE WHEN p.is_exclusive = 1 THEN 1 END) AS exclusive_for_sale_today,
+                    COUNT(CASE WHEN p.is_exclusive = 0 THEN 1 END) AS non_exclusive_for_sale_today
+                FROM
+                    tblleadevo_prospects p
+                WHERE
+                    p.is_active = 1
+                AND is_fake = 0
+                AND is_available_sale = 1 
+                AND (" . get_option('leadevo_deal_settings_status') . " = 0 OR DATE_ADD(p.created_at, INTERVAL " . get_option('leadevo_deal_max_sell_times') . " DAY ) >= CURDATE())";
+        if (count($sources) > 0) {
+            $sql_market .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+        $sql_sold = "SELECT 
+                        COUNT(CASE 
+                            WHEN DATE(ll.created_at) = CURDATE() AND p.is_exclusive = 1  
+                            THEN 1 
+                            ELSE NULL 
+                        END) AS exclusive_sold_today,
+                        COUNT(CASE 
+                            WHEN DATE(ll.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 
+                            THEN 1 
+                            ELSE NULL 
+                        END) AS exclusive_sold_yesterday,
+                        COUNT(CASE 
+                            WHEN DATE(ll.created_at) = CURDATE() AND p.is_exclusive = 0  
+                            THEN 1 
+                            ELSE NULL 
+                        END) AS non_exclusive_sold_today,
+                        COUNT(CASE 
+                            WHEN DATE(ll.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 
+                            THEN 1 
+                            ELSE NULL 
+                        END) AS non_exclusive_sold_yesterday,
+                        ROUND(AVG(CASE 
+                            WHEN p.is_exclusive = 1 AND ll.created_at IS NOT NULL AND p.created_at IS NOT NULL
+                            THEN TIMESTAMPDIFF(DAY, p.created_at, ll.created_at)
+                            ELSE NULL 
+                        END),2) AS avg_time_to_sell_exclusive_days,
+                        ROUND(AVG(CASE 
+                            WHEN p.is_exclusive = 0 AND ll.created_at IS NOT NULL AND p.created_at IS NOT NULL
+                            THEN TIMESTAMPDIFF(DAY, p.created_at, ll.created_at)
+                            ELSE NULL 
+                        END),2) AS avg_time_to_sell_non_exclusive_days,
+                        ROUND(AVG(CASE 
+                            WHEN p.is_exclusive = 1 
+                            THEN ll.price 
+                            ELSE NULL 
+                        END),2) AS avg_price_exclusive,
+                        ROUND(AVG(CASE 
+                            WHEN p.is_exclusive = 0 
+                            THEN ll.price 
+                            ELSE NULL 
+                        END),2) AS avg_price_non_exclusive
+                    FROM tblleadevo_leads ll 
+                    INNER JOIN tblleadevo_prospects p ON p.id = ll.prospect_id
+                    WHERE ll.campaign_id IS NOT NULL";
+        if (count($clients) > 0) {
+            $sql_sold .= " AND client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql_sold .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+
+
+        $sql_reported = "SELECT 
+                            COUNT(CASE 
+                                WHEN DATE(r.created_at) = CURDATE() 
+                                THEN 1 
+                                ELSE NULL 
+                            END) AS reported_today,
+                            COUNT(CASE 
+                                WHEN DATE(r.created_at) = CURDATE() - INTERVAL 1 DAY 
+                                THEN 1 
+                                ELSE NULL 
+                            END) AS reported_yesterday
+                        FROM tblleadevo_reported_prospects r
+                        INNER JOIN tblleadevo_prospects p ON p.id = r.prospect_id
+                        WHERE 1=1";
+        if (count($clients) > 0) {
+            $sql_reported .= " AND client_id IN (" . $client_ids . ")";
+        }
+        if (count($sources) > 0) {
+            $sql_sold .= " AND p.source_id IN (" . $source_ids . ")";
+        }
+
         $sql = "SELECT 
-                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_for_sale_today,
-                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_for_sale_yesterday,
-                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_for_sale_today,
-                    COUNT(CASE WHEN DATE(p.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_for_sale_yesterday,
-                    
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_sold_today,
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_sold_yesterday,
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold_today,
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_sold_yesterday,
-                    
-                    AVG(CASE WHEN p.is_exclusive = 1 THEN TIMESTAMPDIFF(HOUR, p.created_at, l.created_at) ELSE NULL END) AS exclusive_avg_time,
-                    AVG(CASE WHEN p.is_exclusive = 0 THEN TIMESTAMPDIFF(HOUR, p.created_at, l.created_at) ELSE NULL END) AS non_exclusive_avg_time,
-                    
-                    AVG(CASE WHEN p.is_exclusive = 1 THEN l.price ELSE NULL END) AS exclusive_avg_price,
-                    AVG(CASE WHEN p.is_exclusive = 0 THEN l.price ELSE NULL END) AS non_exclusive_avg_price,
-                    
-                    COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) AS reported_today,
-                    COUNT(CASE WHEN DATE(r.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS reported_yesterday
+                    0 AS exclusive_for_sale_yesterday,
+                    0 AS non_exclusive_for_sale_yesterday,
+                    market.*,
+                    sold.*,
+                    reported.*
                 FROM tblleadevo_prospects p
                 LEFT JOIN tblleadevo_leads l ON l.prospect_id = p.id
-                LEFT JOIN tblleadevo_reported_prospects r ON r.prospect_id = p.id";
-
+                LEFT JOIN tblleadevo_reported_prospects r ON r.prospect_id = p.id
+                JOIN (" . $sql_market . ") AS market
+                JOIN (" . $sql_sold . ") sold
+                JOIN (" . $sql_reported . ") reported";
         $query = $this->db->query($sql);
         return $query->result();
     }

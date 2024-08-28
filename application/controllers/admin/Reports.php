@@ -19,7 +19,9 @@ class Reports extends AdminController
         }
         $this->ci = &get_instance();
         $this->load->model('reports_model');
-        $this->load->model('leadevo/Stats_model'); 
+        $this->load->model('leadevo/Stats_model');
+        $this->load->model('leadevo/Prospect_sources_model');
+        $this->load->model('clients_model');
     }
 
     /* No access on this url */
@@ -33,7 +35,7 @@ class Reports extends AdminController
     {
         $this->load->model('knowledge_base_model');
         $data['groups'] = $this->knowledge_base_model->get_kbg();
-        $data['title']  = _l('kb_reports');
+        $data['title'] = _l('kb_reports');
         $this->load->view('admin/reports/knowledge_base_articles', $data);
     }
 
@@ -50,13 +52,13 @@ class Reports extends AdminController
     {
         $type = 'leads';
         if ($this->input->get('type')) {
-            $type                       = $type . '_' . $this->input->get('type');
+            $type = $type . '_' . $this->input->get('type');
             $data['leads_staff_report'] = json_encode($this->reports_model->leads_staff_report());
         }
         $this->load->model('leads_model');
-        $data['statuses']               = $this->leads_model->get_status();
+        $data['statuses'] = $this->leads_model->get_status();
         $data['leads_this_week_report'] = json_encode($this->reports_model->leads_this_week_report());
-        $data['leads_sources_report']   = json_encode($this->reports_model->leads_sources_report());
+        $data['leads_sources_report'] = json_encode($this->reports_model->leads_sources_report());
         $this->load->view('admin/reports/' . $type, $data);
     }
 
@@ -64,7 +66,7 @@ class Reports extends AdminController
     public function sales()
     {
         $data['mysqlVersion'] = $this->db->query('SELECT VERSION() as version')->row();
-        $data['sqlMode']      = $this->db->query('SELECT @@sql_mode as mode')->row();
+        $data['sqlMode'] = $this->db->query('SELECT @@sql_mode as mode')->row();
 
         if (is_using_multiple_currencies() || is_using_multiple_currencies(db_prefix() . 'creditnotes') || is_using_multiple_currencies(db_prefix() . 'estimates') || is_using_multiple_currencies(db_prefix() . 'proposals')) {
             $this->load->model('currencies_model');
@@ -76,19 +78,19 @@ class Reports extends AdminController
         $this->load->model('credit_notes_model');
 
         $data['credit_notes_statuses'] = $this->credit_notes_model->get_statuses();
-        $data['invoice_statuses']      = $this->invoices_model->get_statuses();
-        $data['estimate_statuses']     = $this->estimates_model->get_statuses();
-        $data['payments_years']        = $this->reports_model->get_distinct_payments_years();
+        $data['invoice_statuses'] = $this->invoices_model->get_statuses();
+        $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+        $data['payments_years'] = $this->reports_model->get_distinct_payments_years();
         $data['estimates_sale_agents'] = $this->estimates_model->get_sale_agents();
 
         $data['invoices_sale_agents'] = $this->invoices_model->get_sale_agents();
 
         $data['proposals_sale_agents'] = $this->proposals_model->get_sale_agents();
-        $data['proposals_statuses']    = $this->proposals_model->get_statuses();
+        $data['proposals_statuses'] = $this->proposals_model->get_statuses();
 
-        $data['invoice_taxes']     = $this->distinct_taxes('invoice');
-        $data['estimate_taxes']    = $this->distinct_taxes('estimate');
-        $data['proposal_taxes']    = $this->distinct_taxes('proposal');
+        $data['invoice_taxes'] = $this->distinct_taxes('invoice');
+        $data['estimate_taxes'] = $this->distinct_taxes('estimate');
+        $data['proposal_taxes'] = $this->distinct_taxes('proposal');
         $data['credit_note_taxes'] = $this->distinct_taxes('credit_note');
 
         $data['title'] = _l('sales_reports');
@@ -120,7 +122,7 @@ class Reports extends AdminController
                 }
             }
             $by_currency = $this->input->post('report_currency');
-            $currency    = $this->currencies_model->get_base_currency();
+            $currency = $this->currencies_model->get_base_currency();
             if ($by_currency) {
                 $i = 0;
                 foreach ($select as $_select) {
@@ -133,17 +135,17 @@ class Reports extends AdminController
                 }
                 $currency = $this->currencies_model->get($by_currency);
             }
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'userid';
-            $sTable       = db_prefix() . 'clients';
-            $where        = [];
+            $sTable = db_prefix() . 'clients';
+            $where = [];
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, [], $where, [
                 'userid',
             ]);
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
-            $x       = 0;
+            $x = 0;
             foreach ($rResult as $aRow) {
                 $row = [];
                 for ($i = 0; $i < count($aColumns); $i++) {
@@ -176,7 +178,7 @@ class Reports extends AdminController
             $this->load->model('currencies_model');
             $this->load->model('payment_modes_model');
             $payment_gateways = $this->payment_modes_model->get_payment_gateways(true);
-            $select           = [
+            $select = [
                 db_prefix() . 'invoicepaymentrecords.id',
                 db_prefix() . 'invoicepaymentrecords.date',
                 'invoiceid',
@@ -203,10 +205,10 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'invoicepaymentrecords';
-            $join         = [
+            $sTable = db_prefix() . 'invoicepaymentrecords';
+            $join = [
                 'JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'invoicepaymentrecords.invoiceid',
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
                 'LEFT JOIN ' . db_prefix() . 'payment_modes ON ' . db_prefix() . 'payment_modes.id = ' . db_prefix() . 'invoicepaymentrecords.paymentmode',
@@ -221,7 +223,7 @@ class Reports extends AdminController
                 'deleted_customer_name',
             ]);
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data['total_amount'] = 0;
@@ -270,7 +272,7 @@ class Reports extends AdminController
             }
 
             $footer_data['total_amount'] = e(app_format_money($footer_data['total_amount'], $currency->name));
-            $output['sums']              = $footer_data;
+            $output['sums'] = $footer_data;
             echo json_encode($output);
             die();
         }
@@ -282,7 +284,7 @@ class Reports extends AdminController
             $this->load->model('currencies_model');
             $this->load->model('proposals_model');
 
-            $proposalsTaxes    = $this->distinct_taxes('proposal');
+            $proposalsTaxes = $this->distinct_taxes('proposal');
             $totalTaxesColumns = count($proposalsTaxes);
 
             $select = [
@@ -313,14 +315,14 @@ class Reports extends AdminController
                     WHERE ' . db_prefix() . 'itemable.rel_type="proposal" AND taxname="' . $tax['taxname'] . '" AND taxrate="' . $tax['taxrate'] . '" AND ' . db_prefix() . 'itemable.rel_id=' . db_prefix() . 'proposals.id) as total_tax_single_' . $key);
             }
 
-            $where              = [];
+            $where = [];
             $custom_date_select = $this->get_where_report_period();
             if ($custom_date_select != '') {
                 array_push($where, $custom_date_select);
             }
 
             if ($this->input->post('proposal_status')) {
-                $statuses  = $this->input->post('proposal_status');
+                $statuses = $this->input->post('proposal_status');
                 $_statuses = [];
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
@@ -335,7 +337,7 @@ class Reports extends AdminController
             }
 
             if ($this->input->post('proposals_sale_agents')) {
-                $agents  = $this->input->post('proposals_sale_agents');
+                $agents = $this->input->post('proposals_sale_agents');
                 $_agents = [];
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
@@ -358,10 +360,10 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'proposals';
-            $join         = [];
+            $sTable = db_prefix() . 'proposals';
+            $join = [];
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [
                 'rel_id',
@@ -369,15 +371,15 @@ class Reports extends AdminController
                 'discount_percent',
             ]);
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data = [
-                'total'          => 0,
-                'subtotal'       => 0,
-                'total_tax'      => 0,
+                'total' => 0,
+                'subtotal' => 0,
+                'total_tax' => 0,
                 'discount_total' => 0,
-                'adjustment'     => 0,
+                'adjustment' => 0,
             ];
 
             foreach ($proposalsTaxes as $key => $tax) {
@@ -427,7 +429,7 @@ class Reports extends AdminController
                 $row[] = e(app_format_money($aRow['adjustment'], $currency->name));
                 $footer_data['adjustment'] += $aRow['adjustment'];
 
-                $row[]              = format_proposal_status($aRow['status']);
+                $row[] = format_proposal_status($aRow['status']);
                 $output['aaData'][] = $row;
             }
 
@@ -447,7 +449,7 @@ class Reports extends AdminController
             $this->load->model('currencies_model');
             $this->load->model('estimates_model');
 
-            $estimateTaxes     = $this->distinct_taxes('estimate');
+            $estimateTaxes = $this->distinct_taxes('estimate');
             $totalTaxesColumns = count($estimateTaxes);
 
             $select = [
@@ -480,14 +482,14 @@ class Reports extends AdminController
                     WHERE ' . db_prefix() . 'itemable.rel_type="estimate" AND taxname="' . $tax['taxname'] . '" AND taxrate="' . $tax['taxrate'] . '" AND ' . db_prefix() . 'itemable.rel_id=' . db_prefix() . 'estimates.id) as total_tax_single_' . $key);
             }
 
-            $where              = [];
+            $where = [];
             $custom_date_select = $this->get_where_report_period();
             if ($custom_date_select != '') {
                 array_push($where, $custom_date_select);
             }
 
             if ($this->input->post('estimate_status')) {
-                $statuses  = $this->input->post('estimate_status');
+                $statuses = $this->input->post('estimate_status');
                 $_statuses = [];
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
@@ -502,7 +504,7 @@ class Reports extends AdminController
             }
 
             if ($this->input->post('sale_agent_estimates')) {
-                $agents  = $this->input->post('sale_agent_estimates');
+                $agents = $this->input->post('sale_agent_estimates');
                 $_agents = [];
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
@@ -524,10 +526,10 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get_base_currency();
             }
 
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'estimates';
-            $join         = [
+            $sTable = db_prefix() . 'estimates';
+            $join = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'estimates.clientid',
             ];
 
@@ -539,15 +541,15 @@ class Reports extends AdminController
                 'deleted_customer_name',
             ]);
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data = [
-                'total'          => 0,
-                'subtotal'       => 0,
-                'total_tax'      => 0,
+                'total' => 0,
+                'subtotal' => 0,
+                'total_tax' => 0,
                 'discount_total' => 0,
-                'adjustment'     => 0,
+                'adjustment' => 0,
             ];
 
             foreach ($estimateTaxes as $key => $tax) {
@@ -619,19 +621,19 @@ class Reports extends AdminController
 
     private function get_where_report_period($field = 'date')
     {
-        $months_report      = $this->input->post('report_months');
+        $months_report = $this->input->post('report_months');
         $custom_date_select = '';
         if ($months_report != '') {
             if (is_numeric($months_report)) {
                 // Last month
                 if ($months_report == '1') {
                     $beginMonth = date('Y-m-01', strtotime('first day of last month'));
-                    $endMonth   = date('Y-m-t', strtotime('last day of last month'));
+                    $endMonth = date('Y-m-t', strtotime('last day of last month'));
                 } else {
                     $months_report = (int) $months_report;
                     $months_report--;
                     $beginMonth = date('Y-m-01', strtotime("-$months_report MONTH"));
-                    $endMonth   = date('Y-m-t');
+                    $endMonth = date('Y-m-t');
                 }
 
                 $custom_date_select = 'AND (' . $field . ' BETWEEN "' . $beginMonth . '" AND "' . $endMonth . '")';
@@ -639,17 +641,17 @@ class Reports extends AdminController
                 $custom_date_select = 'AND (' . $field . ' BETWEEN "' . date('Y-m-01') . '" AND "' . date('Y-m-t') . '")';
             } elseif ($months_report == 'this_year') {
                 $custom_date_select = 'AND (' . $field . ' BETWEEN "' .
-                date('Y-m-d', strtotime(date('Y-01-01'))) .
-                '" AND "' .
-                date('Y-m-d', strtotime(date('Y-12-31'))) . '")';
+                    date('Y-m-d', strtotime(date('Y-01-01'))) .
+                    '" AND "' .
+                    date('Y-m-d', strtotime(date('Y-12-31'))) . '")';
             } elseif ($months_report == 'last_year') {
                 $custom_date_select = 'AND (' . $field . ' BETWEEN "' .
-                date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-01-01'))) .
-                '" AND "' .
-                date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-12-31'))) . '")';
+                    date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-01-01'))) .
+                    '" AND "' .
+                    date('Y-m-d', strtotime(date(date('Y', strtotime('last year')) . '-12-31'))) . '")';
             } elseif ($months_report == 'custom') {
                 $from_date = to_sql_date($this->input->post('report_from'));
-                $to_date   = to_sql_date($this->input->post('report_to'));
+                $to_date = to_sql_date($this->input->post('report_to'));
                 if ($from_date == $to_date) {
                     $custom_date_select = 'AND ' . $field . ' = "' . $this->db->escape_str($from_date) . '"';
                 } else {
@@ -670,23 +672,23 @@ class Reports extends AdminController
 
             if ($v && strpos($v->version, '5.7') !== false) {
                 $aColumns = [
-                        'ANY_VALUE(description) as description',
-                        'ANY_VALUE((SUM(' . db_prefix() . 'itemable.qty))) as quantity_sold',
-                        'ANY_VALUE(SUM(rate*qty)) as rate',
-                        'ANY_VALUE(AVG(rate*qty)) as avg_price',
-                    ];
+                    'ANY_VALUE(description) as description',
+                    'ANY_VALUE((SUM(' . db_prefix() . 'itemable.qty))) as quantity_sold',
+                    'ANY_VALUE(SUM(rate*qty)) as rate',
+                    'ANY_VALUE(AVG(rate*qty)) as avg_price',
+                ];
             } else {
                 $aColumns = [
-                        'description as description',
-                        '(SUM(' . db_prefix() . 'itemable.qty)) as quantity_sold',
-                        'SUM(rate*qty) as rate',
-                        'AVG(rate*qty) as avg_price',
-                    ];
+                    'description as description',
+                    '(SUM(' . db_prefix() . 'itemable.qty)) as quantity_sold',
+                    'SUM(rate*qty) as rate',
+                    'AVG(rate*qty) as avg_price',
+                ];
             }
 
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'itemable';
-            $join         = ['JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'itemable.rel_id'];
+            $sTable = db_prefix() . 'itemable';
+            $join = ['JOIN ' . db_prefix() . 'invoices ON ' . db_prefix() . 'invoices.id = ' . db_prefix() . 'itemable.rel_id'];
 
             $where = ['AND rel_type="invoice"', 'AND status != 5', 'AND status=2'];
 
@@ -703,7 +705,7 @@ class Reports extends AdminController
             }
 
             if ($this->input->post('sale_agent_items')) {
-                $agents  = $this->input->post('sale_agent_items');
+                $agents = $this->input->post('sale_agent_items');
                 $_agents = [];
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
@@ -719,12 +721,12 @@ class Reports extends AdminController
 
             $result = data_tables_init($aColumns, $sIndexColumn, $sTable, $join, $where, [], 'GROUP by description');
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data = [
                 'total_amount' => 0,
-                'total_qty'    => 0,
+                'total_qty' => 0,
             ];
 
             foreach ($rResult as $aRow) {
@@ -807,7 +809,7 @@ class Reports extends AdminController
             }
 
             if ($this->input->post('credit_note_status')) {
-                $statuses  = $this->input->post('credit_note_status');
+                $statuses = $this->input->post('credit_note_status');
                 $_statuses = [];
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
@@ -821,10 +823,10 @@ class Reports extends AdminController
                 }
             }
 
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'creditnotes';
-            $join         = [
+            $sTable = db_prefix() . 'creditnotes';
+            $join = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'creditnotes.clientid',
             ];
 
@@ -836,17 +838,17 @@ class Reports extends AdminController
                 'deleted_customer_name',
             ]);
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data = [
-                'total'            => 0,
-                'subtotal'         => 0,
-                'total_tax'        => 0,
-                'discount_total'   => 0,
-                'adjustment'       => 0,
+                'total' => 0,
+                'subtotal' => 0,
+                'total_tax' => 0,
+                'discount_total' => 0,
+                'adjustment' => 0,
                 'remaining_amount' => 0,
-                'refund_amount'    => 0,
+                'refund_amount' => 0,
             ];
 
             foreach ($credit_note_taxes as $key => $tax) {
@@ -915,7 +917,7 @@ class Reports extends AdminController
     public function invoices_report()
     {
         if ($this->input->is_ajax_request()) {
-            $invoice_taxes     = $this->distinct_taxes('invoice');
+            $invoice_taxes = $this->distinct_taxes('invoice');
             $totalTaxesColumns = count($invoice_taxes);
 
             $this->load->model('currencies_model');
@@ -961,7 +963,7 @@ class Reports extends AdminController
             }
 
             if ($this->input->post('sale_agent_invoices')) {
-                $agents  = $this->input->post('sale_agent_invoices');
+                $agents = $this->input->post('sale_agent_invoices');
                 $_agents = [];
                 if (is_array($agents)) {
                     foreach ($agents as $agent) {
@@ -975,7 +977,7 @@ class Reports extends AdminController
                 }
             }
 
-            $by_currency              = $this->input->post('report_currency');
+            $by_currency = $this->input->post('report_currency');
             $totalPaymentsColumnIndex = (12 + $totalTaxesColumns - 1);
 
             if ($by_currency) {
@@ -986,12 +988,12 @@ class Reports extends AdminController
                 $currency = $this->currencies_model->get($by_currency);
                 array_push($where, 'AND currency=' . $this->db->escape_str($by_currency));
             } else {
-                $currency                          = $this->currencies_model->get_base_currency();
+                $currency = $this->currencies_model->get_base_currency();
                 $select[$totalPaymentsColumnIndex] = $select[$totalPaymentsColumnIndex] .= ' as amount_open';
             }
 
             if ($this->input->post('invoice_status')) {
-                $statuses  = $this->input->post('invoice_status');
+                $statuses = $this->input->post('invoice_status');
                 $_statuses = [];
                 if (is_array($statuses)) {
                     foreach ($statuses as $status) {
@@ -1005,10 +1007,10 @@ class Reports extends AdminController
                 }
             }
 
-            $aColumns     = $select;
+            $aColumns = $select;
             $sIndexColumn = 'id';
-            $sTable       = db_prefix() . 'invoices';
-            $join         = [
+            $sTable = db_prefix() . 'invoices';
+            $join = [
                 'LEFT JOIN ' . db_prefix() . 'clients ON ' . db_prefix() . 'clients.userid = ' . db_prefix() . 'invoices.clientid',
             ];
 
@@ -1020,17 +1022,17 @@ class Reports extends AdminController
                 'deleted_customer_name',
             ]);
 
-            $output  = $result['output'];
+            $output = $result['output'];
             $rResult = $result['rResult'];
 
             $footer_data = [
-                'total'           => 0,
-                'subtotal'        => 0,
-                'total_tax'       => 0,
-                'discount_total'  => 0,
-                'adjustment'      => 0,
+                'total' => 0,
+                'subtotal' => 0,
+                'total_tax' => 0,
+                'discount_total' => 0,
+                'adjustment' => 0,
                 'applied_credits' => 0,
-                'amount_open'     => 0,
+                'amount_open' => 0,
             ];
 
             foreach ($invoice_taxes as $key => $tax) {
@@ -1082,7 +1084,7 @@ class Reports extends AdminController
                 $footer_data['applied_credits'] += $aRow['credits_applied'];
 
                 $amountOpen = $aRow['amount_open'];
-                $row[]      = e(app_format_money($amountOpen, $currency->name));
+                $row[] = e(app_format_money($amountOpen, $currency->name));
                 $footer_data['amount_open'] += $amountOpen;
 
                 $row[] = format_invoice_status($aRow['status']);
@@ -1104,14 +1106,14 @@ class Reports extends AdminController
     {
         $this->load->model('currencies_model');
         $data['base_currency'] = $this->currencies_model->get_base_currency();
-        $data['currencies']    = $this->currencies_model->get();
+        $data['currencies'] = $this->currencies_model->get();
 
         $data['title'] = _l('expenses_report');
         if ($type != 'simple_report') {
             $this->load->model('expenses_model');
             $data['categories'] = $this->expenses_model->get_category();
-            $data['years']      = $this->expenses_model->get_expenses_years();
-            
+            $data['years'] = $this->expenses_model->get_expenses_years();
+
             $data['table'] = App_table::find('expenses_detailed_report');
 
             $this->load->model('payment_modes_model');
@@ -1119,8 +1121,8 @@ class Reports extends AdminController
 
             if ($this->input->is_ajax_request()) {
                 $data['table']->output([
-                    'base_currency'=>$data['base_currency'],
-                    'currencies'=>$data['currencies'],
+                    'base_currency' => $data['base_currency'],
+                    'currencies' => $data['currencies'],
                 ]);
             }
 
@@ -1140,14 +1142,14 @@ class Reports extends AdminController
                 'billable' => 0,
             ], [
                 'backgroundColor' => 'rgba(252,45,66,0.4)',
-                'borderColor'     => '#fc2d42',
+                'borderColor' => '#fc2d42',
             ], $data['current_year']));
 
             $data['chart_billable'] = json_encode($this->reports_model->get_stats_chart_data(_l('billable_expenses_by_categories'), [
                 'billable' => 1,
             ], [
                 'backgroundColor' => 'rgba(37,155,35,0.2)',
-                'borderColor'     => '#84c529',
+                'borderColor' => '#84c529',
             ], $data['current_year']));
 
             $data['expense_years'] = $this->expenses_model->get_expenses_years();
@@ -1168,7 +1170,7 @@ class Reports extends AdminController
     public function expenses_vs_income($year = '')
     {
         $_expenses_years = [];
-        $_years          = [];
+        $_years = [];
         $this->load->model('expenses_model');
         $expenses_years = $this->expenses_model->get_expenses_years();
         $payments_years = $this->reports_model->get_distinct_payments_years();
@@ -1189,10 +1191,10 @@ class Reports extends AdminController
         rsort($_years, SORT_NUMERIC);
         $data['report_year'] = $year == '' ? date('Y') : $year;
 
-        $data['years']                           = $_years;
+        $data['years'] = $_years;
         $data['chart_expenses_vs_income_values'] = json_encode($this->reports_model->get_expenses_vs_income_report($year));
-        $data['base_currency']                   = get_base_currency();
-        $data['title']                           = _l('als_expenses_vs_income');
+        $data['base_currency'] = get_base_currency();
+        $data['title'] = _l('als_expenses_vs_income');
         $this->load->view('admin/reports/expenses_vs_income', $data);
     }
 
@@ -1223,14 +1225,192 @@ class Reports extends AdminController
         return $this->db->query('SELECT DISTINCT taxname,taxrate FROM ' . db_prefix() . "item_tax WHERE rel_type='" . $rel_type . "' ORDER BY taxname ASC")->result_array();
     }
 
-    public function statistics() {
-        $data['marketplace_stats'] = $this->Stats_model->admin_marketplace();
+    public function statistics()
+    {
+        $filter = $this->input->get();
+        if ((count($filter) < 1)) {
+            $filter['period'] = 1;
+            $filter['start_date'] = '';
+            $filter['end_date'] = '';
+            $filter['selected_sources'] = [];
+            $filter['selected_clients'] = [];
+        }
+        $period = $filter['period'];
+
+        // Define the format you want to use for the date strings
+        $dateFormat = 'Y-m-d';  // Example format: '2024-08-27'
+
+        if ($period == 1) {
+            // Set to today
+            $today = new DateTime();
+            $filter['start_date'] = $today->format($dateFormat);
+            $filter['end_date'] = $today->format($dateFormat);
+        } else if ($period == 2) {
+            // Set to yesterday
+            $yesterday = new DateTime('yesterday');
+            $filter['start_date'] = $yesterday->format($dateFormat);
+            $filter['end_date'] = $yesterday->format($dateFormat);
+        } else if ($period == 3) {
+            // Set to this week
+            $start_date = new DateTime();
+            $start_date->modify('this week Monday');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('this week Sunday');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 4) {
+            // Set to last week
+            $start_date = new DateTime();
+            $start_date->modify('last week Monday');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last week Sunday');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 5) {
+            // Set to this month
+            $start_date = new DateTime();
+            $start_date->modify('first day of this month');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of this month');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 6) {
+            // Set to last month
+            $start_date = new DateTime();
+            $start_date->modify('first day of last month');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of last month');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 7) {
+            // Set to this year
+            $start_date = new DateTime();
+            $start_date->modify('first day of January this year');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of December this year');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 8) {
+            // Set to last year
+            $start_date = new DateTime();
+            $start_date->modify('first day of January last year');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of December last year');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        }
+
+        $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
+        $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
+        $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
+        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
+        //filter data
+        $data['sources'] = $this->Prospect_sources_model->get_prospect_sources();
+        $data['clients'] = $this->clients_model->get();
+        $data['filter'] = $filter;
+
+        // Load the view with the stats data
+        $this->load->view('admin/reports/statistics', $data);
+    }
+    public function prospect_statistics()
+    {
+
+        $filter = $this->input->get();
+        $periods = $this->input->get('period');
+
+        if (empty($periods) || count($periods) < 1) {
+            $filter['period'] = 1;
+            $filter['start_date'] = '';
+            $filter['end_date'] = '';
+            $filter['selected_sources'] = [];
+            $filter['selected_clients'] = [];
+        }
+        $period = $filter['period'];
+
+        // Define the format you want to use for the date strings
+        $dateFormat = 'Y-m-d';  // Example format: '2024-08-27'
+
+        if ($period == 1) {
+            // Set to today
+            $today = new DateTime();
+            $filter['start_date'] = $today->format($dateFormat);
+            $filter['end_date'] = $today->format($dateFormat);
+        } else if ($period == 2) {
+            // Set to yesterday
+            $yesterday = new DateTime('yesterday');
+            $filter['start_date'] = $yesterday->format($dateFormat);
+            $filter['end_date'] = $yesterday->format($dateFormat);
+        } else if ($period == 3) {
+            // Set to this week
+            $start_date = new DateTime();
+            $start_date->modify('this week Monday');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('this week Sunday');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 4) {
+            // Set to last week
+            $start_date = new DateTime();
+            $start_date->modify('last week Monday');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last week Sunday');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 5) {
+            // Set to this month
+            $start_date = new DateTime();
+            $start_date->modify('first day of this month');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of this month');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 6) {
+            // Set to last month
+            $start_date = new DateTime();
+            $start_date->modify('first day of last month');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of last month');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 7) {
+            // Set to this year
+            $start_date = new DateTime();
+            $start_date->modify('first day of January this year');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of December this year');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        } else if ($period == 8) {
+            // Set to last year
+            $start_date = new DateTime();
+            $start_date->modify('first day of January last year');
+            $filter['start_date'] = $start_date->format($dateFormat);
+
+            $end_date = new DateTime();
+            $end_date->modify('last day of December last year');
+            $filter['end_date'] = $end_date->format($dateFormat);
+        }
+
+        $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
         $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
         $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
         $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
 
-    
+
+
+
         // Load the view with the stats data
-        $this->load->view('admin/reports/statistics', $data);
+        echo json_encode(['status' => 'success', 'data' => $data]);
     }
 }

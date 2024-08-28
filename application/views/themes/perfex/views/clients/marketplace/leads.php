@@ -624,8 +624,6 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
-
-
                     </table>
                 </div>
             </div>
