@@ -3,7 +3,7 @@
 $days_to_discount = get_option('leadevo_deal_days_to_discount');
 $max_sell_time = get_option('leadevo_deal_max_sell_times');
 $discount_type = get_option('leadevo_deal_discount_type');
-$discount_value = get_option('leadevo_deal_discount_amount');
+$discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
 ?>
 <style>
     .lead-title {
@@ -600,7 +600,7 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                             ?>
                                             <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
                                             <span class="align-items-center" style="display:flex"><?php
-                                            $discounted_price = $prospect['desired_amount'] ?? $prospect['min_amount'] ?? 0;
+                                            $discounted_price = ((float) $prospect['desired_amount']) ?? ((float) $prospect['min_amount']) ?? 0;
                                             if ($discount_type == 1) {
                                                 //find percentage
                                                 $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
