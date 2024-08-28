@@ -350,6 +350,7 @@ class Prospects_model extends CI_Model
                     null AS email,
                     null AS source,
                     null AS deal,
+                    p. fake_description,
                     null AS quality
                 FROM
                     tblleadevo_prospects p
