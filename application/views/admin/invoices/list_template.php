@@ -3,7 +3,7 @@
     <div class="tw-mb-2 sm:tw-mb-4">
         <div class="_buttons">
             <?php $this->load->view('admin/invoices/invoices_top_stats'); ?>
-            <?php if (staff_can('create',  'invoices')) { ?>
+            <?php if (staff_can('create', 'invoices')) { ?>
                 <a href="<?php echo admin_url('invoices/invoice'); ?>"
                     class="btn btn-primary pull-left new new-invoice-list mright5">
                     <i class="fa-regular fa-plus tw-mr-1"></i>
@@ -25,23 +25,50 @@
             <div class="display-block pull-right tw-space-x-0 sm:tw-space-x-1.5">
                 <a href="#" class="btn btn-default btn-with-tooltip toggle-small-view hidden-xs"
                     onclick="toggle_small_view('.table-invoices','#invoice'); return false;" data-toggle="tooltip"
-                    title="<?php echo _l('invoices_toggle_table_tooltip'); ?>"><i
-                        class="fa fa-angle-double-left"></i>
-                    </a>
+                    title="<?php echo _l('invoices_toggle_table_tooltip'); ?>"><i class="fa fa-angle-double-left"></i>
+                </a>
                 <a href="#" class="btn btn-default btn-with-tooltip invoices-total"
                     onclick="slideToggle('#stats-top'); init_invoices_total(true); return false;" data-toggle="tooltip"
                     title="<?php echo _l('view_stats_tooltip'); ?>">
                     <i class="fa fa-bar-chart"></i>
                 </a>
-                <app-filters
-                            id="<?php echo $invoices_table->id(); ?>"
-                            view="<?php echo $invoices_table->viewName(); ?>"
-                            :rules="extra.invoicesRules || <?php echo app\services\utilities\Js::from($this->input->get('status') ? $invoices_table->findRule('status')->setValue([$this->input->get('status')]) : ($this->input->get('not_sent') ?  $invoices_table->findRule('sent')->setValue("0") : [])); ?>"
-                            :saved-filters="<?php echo $invoices_table->filtersJs(); ?>"
-                            :available-rules="<?php echo $invoices_table->rulesJs(); ?>">
+                <app-filters id="<?php echo $invoices_table->id(); ?>" view="<?php echo $invoices_table->viewName(); ?>"
+                    :rules="extra.invoicesRules || <?php echo app\services\utilities\Js::from($this->input->get('status') ? $invoices_table->findRule('status')->setValue([$this->input->get('status')]) : ($this->input->get('not_sent') ? $invoices_table->findRule('sent')->setValue("0") : [])); ?>"
+                    :saved-filters="<?php echo $invoices_table->filtersJs(); ?>"
+                    :available-rules="<?php echo $invoices_table->rulesJs(); ?>">
                 </app-filters>
             </div>
             <div class="clearfix"></div>
+        </div>
+
+        <div>
+            <h1>LeadEvo Statistics</h1>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel_s">
+                    <div class="panel-body text-left">
+                        <h5 class="no-margin">Total Invoices</h5>
+                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel_s">
+                    <div class="panel-body text-left">
+                        <h5 class="no-margin">Cancelled Invoices</h5>
+                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel_s">
+                    <div class="panel-body text-left">
+                        <h5 class="no-margin">Paid Invoices</h5>
+                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

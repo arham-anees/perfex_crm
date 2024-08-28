@@ -60,7 +60,6 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
-                                        <th><?php echo _l('Stars'); ?></th>
                                         <th><?php echo _l('Type'); ?></th>
                                         <th><?php echo _l('Category'); ?></th>
                                         <th><?php echo _l('Acquisition Channels'); ?></th>

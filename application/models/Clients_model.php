@@ -1746,7 +1746,6 @@ class Clients_model extends App_Model
                     AND r.rated_at = latest_ratings.max_rated_at) r ON r.lead_id = l.id
             WHERE ll.client_id = " . get_client_user_id() . "
             ORDER BY `dateadded` DESC";
-        log_message("error", $sql);
         return $this->db->query($sql)->result();
     }
     

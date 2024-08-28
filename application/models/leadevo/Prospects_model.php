@@ -411,7 +411,7 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1
                 AND is_fake = 0
-                AND is_available_sale = 1 ;";
+                AND is_available_sale = 1 ";
 
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
