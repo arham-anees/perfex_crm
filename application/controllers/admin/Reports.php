@@ -1318,8 +1318,11 @@ class Reports extends AdminController
 
         $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
         $data['campaign_stats'] = $this->Stats_model->admin_campaigns($filter);
-        $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
-        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
+        $data['industry_stats'] = []; //$this->Stats_model->admin_industry_monitoring();
+        $data['industry_stats_received'] = $this->Stats_model->admin_industry_monitoring_received($filter);
+        $data['industry_stats_exclusive'] = $this->Stats_model->admin_industry_monitoring_exclusive($filter);
+        $data['industry_stats_non_exclusive'] = $this->Stats_model->admin_industry_monitoring_non_exclusive($filter);
+        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification($filter);
         //filter data
         $data['sources'] = $this->Prospect_sources_model->get_prospect_sources();
         $data['clients'] = $this->clients_model->get();
@@ -1422,8 +1425,11 @@ class Reports extends AdminController
 
         $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
         $data['campaign_stats'] = $this->Stats_model->admin_campaigns($filter);
-        $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
-        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
+        $data['industry_stats'] = [];//$this->Stats_model->admin_industry_monitoring();
+        $data['industry_stats_received'] = $this->Stats_model->admin_industry_monitoring_received($filter);
+        $data['industry_stats_exclusive'] = $this->Stats_model->admin_industry_monitoring_exclusive($filter);
+        $data['industry_stats_non_exclusive'] = $this->Stats_model->admin_industry_monitoring_non_exclusive($filter);
+        $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification($filter);
 
 
 
