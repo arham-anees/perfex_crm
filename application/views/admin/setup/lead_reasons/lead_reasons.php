@@ -116,37 +116,39 @@
 </script>
 
 <script>
-    $('#submit-button').on('click', function (e) {
-        e.preventDefault(); // Prevent the form from submitting via the browser
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#submit-button').on('click', function (e) {
+            e.preventDefault(); // Prevent the form from submitting via the browser
 
-        var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
-        var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
+            var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
+            var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
 
 
-        var report_hours = $('input[name=report_hours]').val();
-        var data = {};
-        data[csrfName] = csrfHash;
-        data['report_hours'] = report_hours;
-        $.ajax({
-            url: 'lead_reasons/set_report_hours',
-            data,
-            type: "POST",
-            success: (res) => {
-                console.log(res);
-                try {
-                    res = JSON.parse(res);
-                    if (res.status == 'success') {
-                        alert_float('success', 'Lead data sent successfully');
-                        $('#report_hours_modal').modal('hide');
+            var report_hours = $('input[name=report_hours]').val();
+            var data = {};
+            data[csrfName] = csrfHash;
+            data['report_hours'] = report_hours;
+            $.ajax({
+                url: 'lead_reasons/set_report_hours',
+                data,
+                type: "POST",
+                success: (res) => {
+                    console.log(res);
+                    try {
+                        res = JSON.parse(res);
+                        if (res.status == 'success') {
+                            alert_float('success', 'Lead data sent successfully');
+                            $('#report_hours_modal').modal('hide');
+                        }
+                    } catch (e) {
+                        alert_float('danger', 'Failed to save lead data');
                     }
-                } catch (e) {
-                    alert_float('danger', 'Failed to save lead data');
-                }
 
-            },
-            error: (err) => {
-                console.log(err);
-            }
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
         })
     })
 </script>

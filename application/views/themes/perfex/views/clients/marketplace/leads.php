@@ -500,24 +500,6 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                         </thead>
                         <tbody>
                             <?php foreach ($prospects as $prospect): ?>
-                                <?php
-                                // if ($max_sell_time > 0) {
-                                //     $dateString = $prospect['created_at'];
-                            
-                                //     // Create DateTime objects
-                                //     $givenDate = new DateTime($dateString);
-                                //     $currentDate = new DateTime(); // This will use the current date and time
-                            
-                                //     // Calculate the difference
-                                //     $interval = $currentDate->diff($givenDate);
-                            
-                                //     // Extract total hours from the interval
-                                //     $days = $interval->days;
-                                //     if ($days >= $max_sell_time) {
-                                //         continue;
-                                //     }
-                                // }
-                                ?>
                                 <tr>
                                     <td>
                                         <input type="checkbox"
@@ -595,9 +577,10 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                                 $is_discounted = true;
                                             }
                                         }
-                                        if ($is_discounted) { ?>
+                                        ?>
+                                        <div class="align-items-center mbot5" style="display:flex">
                                             <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
-                                            <?php
+                                            <span class="align-items-center" style="display:flex"><?php
                                             $discounted_price = $prospect['desired_amount'] ?? 0;
                                             if ($discount_type == 1) {
                                                 //find percentage
@@ -606,10 +589,14 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                                 $discounted_price = $discounted_price - ($discount_value ?? 0);
                                             }
                                             echo $discounted_price;
-                                            ?><br>
-                                        <?php } ?>
-                                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'fake-prospect-form']); ?>
+                                            if ($is_discounted) {
+                                                echo '<span class="material-symbols-outlined" style="font-size:20px; color:orange;">sell</span>'
+                                                    ?><br>
+                                                <?php } ?></span>
+                                        </div>
+                                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'add-to-cart-form']); ?>
                                         <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
+                                        <input type="hidden" name="price" value="<?= $discounted_price ?>" />
 
                                         <!-- Submit Button -->
                                         <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to cart" />

@@ -938,9 +938,8 @@ class Prospects_model extends CI_Model
                 $this->db->query($sql);
 
                 // Get the last inserted ID from tblleads
-                //TODO: calculate price
                 $lastInsertId = $this->db->insert_id();
-                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect->desired_amount . "');";
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect_cart['desired_amount'] . "');";
                 $this->db->query($sql);
 
                 if ($prospect->is_exclusive == 1) {
