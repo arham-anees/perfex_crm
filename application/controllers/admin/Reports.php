@@ -1228,12 +1228,22 @@ class Reports extends AdminController
     public function statistics()
     {
         $filter = $this->input->get();
+        ;
         if ((count($filter) < 1)) {
             $filter['period'] = 1;
             $filter['start_date'] = '';
             $filter['end_date'] = '';
             $filter['selected_sources'] = [];
             $filter['selected_clients'] = [];
+        }
+        $selected_clients = $this->input->get('selected_clients');
+        $selected_sources = $this->input->get('selected_sources');
+
+        if (empty($selected_clients) || count($selected_clients) < 1) {
+            $filter['selected_clients'] = [];
+        }
+        if (empty($selected_sources) || count($selected_sources) < 1) {
+            $filter['selected_sources'] = [];
         }
         $period = $filter['period'];
 
@@ -1307,7 +1317,7 @@ class Reports extends AdminController
         }
 
         $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
-        $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
+        $data['campaign_stats'] = $this->Stats_model->admin_campaigns($filter);
         $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
         $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
         //filter data
@@ -1323,8 +1333,16 @@ class Reports extends AdminController
 
         $filter = $this->input->get();
         $periods = $this->input->get('period');
+        $selected_clients = $this->input->get('selected_clients');
+        $selected_sources = $this->input->get('selected_sources');
 
-        if (empty($periods) || count($periods) < 1) {
+        if (empty($selected_clients) || count($selected_clients) < 1) {
+            $filter['selected_clients'] = [];
+        }
+        if (empty($selected_sources) || count($selected_sources) < 1) {
+            $filter['selected_sources'] = [];
+        }
+        if (!isset($periods) || empty($periods)) {
             $filter['period'] = 1;
             $filter['start_date'] = '';
             $filter['end_date'] = '';
@@ -1403,7 +1421,7 @@ class Reports extends AdminController
         }
 
         $data['marketplace_stats'] = $this->Stats_model->admin_marketplace($filter);
-        $data['campaign_stats'] = $this->Stats_model->admin_campaigns();
+        $data['campaign_stats'] = $this->Stats_model->admin_campaigns($filter);
         $data['industry_stats'] = $this->Stats_model->admin_industry_monitoring();
         $data['prospect_stats'] = $this->Stats_model->admin_prospect_verification();
 

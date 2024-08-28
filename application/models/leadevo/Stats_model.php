@@ -69,10 +69,7 @@ class Stats_model extends CI_Model
 
         $sql_leads = "SELECT 
                     -- Count of campaigns to deliver today
-                    COUNT(CASE 
-                        WHEN true
-                        THEN 1 
-                    END) AS to_deliver_today,
+                    0 AS to_deliver_today,
 
                     -- Count of exclusive delivered yesterday
                     COUNT(CASE 
@@ -122,10 +119,7 @@ class Stats_model extends CI_Model
                 WHERE l.client_id = " . get_client_user_id() . " AND l.campaign_id IS NOT NULL;";
         $sql = "SELECT 
                     -- Count of campaigns to deliver today
-                    COUNT(CASE 
-                        WHEN true
-                        THEN 1 
-                    END) AS to_deliver_today,
+                    0 AS to_deliver_today,
 
                     -- Count of exclusive delivered yesterday
                     COUNT(CASE 
@@ -290,7 +284,7 @@ class Stats_model extends CI_Model
                     INNER JOIN tblleadevo_prospects p ON p.id = ll.prospect_id
                     WHERE ll.campaign_id IS NOT NULL";
         if (count($clients) > 0) {
-            $sql_sold .= " AND client_id IN (" . $client_ids . ")";
+            $sql_sold .= " AND ll.client_id IN (" . $client_ids . ")";
         }
         if (count($sources) > 0) {
             $sql_sold .= " AND p.source_id IN (" . $source_ids . ")";
@@ -312,7 +306,7 @@ class Stats_model extends CI_Model
                         INNER JOIN tblleadevo_prospects p ON p.id = r.prospect_id
                         WHERE 1=1";
         if (count($clients) > 0) {
-            $sql_reported .= " AND client_id IN (" . $client_ids . ")";
+            $sql_reported .= " AND r.client_id IN (" . $client_ids . ")";
         }
         if (count($sources) > 0) {
             $sql_sold .= " AND p.source_id IN (" . $source_ids . ")";
@@ -348,28 +342,107 @@ class Stats_model extends CI_Model
     //     return $query->result();
     // }
 
-    public function admin_campaigns()
+    public function admin_campaigns($filter)
     {
+        $clients = $filter['selected_clients'];
+        $sources = $filter['selected_sources'];
+
+        $client_ids = implode(',', array_map('intval', $clients));
+        $source_ids = implode(',', array_map('intval', $sources));
+
+
         $sql = "SELECT 
-                COUNT(CASE WHEN DATE(campaigns.start_date) = CURDATE() THEN 1 END) AS open_today,
-                COUNT(CASE WHEN DATE(campaigns.start_date) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS open_yesterday,
+                    -- Count of campaigns to deliver today
+                    0 AS to_deliver_today,
+
+                    -- Count of exclusive delivered yesterday
+                    COUNT(CASE 
+                        WHEN DATE(l.created_at) = DATE(CURDATE()) - INTERVAL 1 DAY 
+                        AND p.is_exclusive = 1 
+                        THEN 1 
+                    END) AS exclusive_delivered_yesterday,
+
+                    -- Count of exclusive delivered today
+                    COUNT(CASE 
+                        WHEN DATE(l.created_at) = CURDATE()  
+                        AND p.is_exclusive = 1 
+                        THEN 1 
+                    END) AS exclusive_delivered_today,
+
+                    -- Count of non-exclusive delivered yesterday
+                    COUNT(CASE 
+                        WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY 
+                        AND p.is_exclusive = 0 
+                        THEN 1 
+                    END) AS non_exclusive_delivered_yesterday,
+
+                    -- Count of non-exclusive delivered today
+                    COUNT(CASE 
+                        WHEN DATE(l.created_at) = CURDATE() 
+                        AND p.is_exclusive = 0 
+                        THEN 1 
+                    END) AS non_exclusive_delivered_today,
+
+                    -- Average price of exclusive leads
+                    ROUND(AVG(CASE 
+                        WHEN p.is_exclusive = 1 
+                        THEN l.price 
+                        ELSE NULL 
+                    END),2) AS avg_price_exclusive,
+
+                    -- Average price of non-exclusive leads
+                    ROUND(AVG(CASE 
+                        WHEN p.is_exclusive = 0 
+                        THEN l.price 
+                        ELSE NULL 
+                    END),2) AS avg_price_non_exclusive,
+                    leads.*
+
+                FROM tblclients c
+                INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
+                INNER JOIN tblleadevo_prospects p ON p.id = l.prospect_id
+                JOIN (SELECT 
+                    -- Count of campaigns open today
+                    COUNT(CASE 
+                        WHEN campaigns.status_id = 1 
+                        AND DATE(start_date) < CURDATE() 
+                        AND DATE(end_date) >= CURDATE() 
+                        THEN 1 
+                    END) AS open_today,
+
+                    -- Count of campaigns open yesterday
+                    COUNT(CASE 
+                        WHEN campaigns.status_id = 2 
+                        AND DATE(end_date) = CURDATE() - INTERVAL 1 DAY 
+                        THEN 1 
+                    END) AS open_yesterday,
+
+                    -- Count of campaigns closed today
+                    COUNT(CASE 
+                        WHEN DATE(end_date) = CURDATE() 
+                        AND campaigns.status_id = 2 
+                        THEN 1 
+                    END) AS closed_today,
+
+                    -- Count of campaigns closed yesterday
+                    COUNT(CASE 
+                        WHEN DATE(end_date) = CURDATE() - INTERVAL 1 DAY 
+                        AND campaigns.status_id = 2 
+                        THEN 1 
+                    END) AS closed_yesterday
+
+                FROM tblclients c
+                INNER JOIN tblleadevo_campaign campaigns ON campaigns.client_id = c.userid
+                WHERE 1=1 ";
+        if (count($clients) > 0) {
+            $sql .= " AND campaigns.client_id IN (" . $client_ids . ")";
+        }
+        $sql .= ") AS leads
                 
-                COUNT(CASE WHEN DATE(campaigns.end_date) = CURDATE() AND campaigns.status_id = 1 THEN 1 END) AS closed_today,
-                COUNT(CASE WHEN DATE(campaigns.end_date) = CURDATE() - INTERVAL 1 DAY AND campaigns.status_id = 1 THEN 1 END) AS closed_yesterday,
-                
-                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS to_deliver_today,
-                
-                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_today,
-                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 1 THEN 1 END) AS exclusive_delivered_yesterday,
-                
-                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_today,
-                COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY AND p.is_exclusive = 0 THEN 1 END) AS non_exclusive_delivered_yesterday,
-                
-                AVG(CASE WHEN p.is_exclusive = 1 THEN l.price ELSE NULL END) AS avg_price_exclusive,
-                AVG(CASE WHEN p.is_exclusive = 0 THEN l.price ELSE NULL END) AS avg_price_non_exclusive
-            FROM tblleadevo_campaign campaigns
-            LEFT JOIN tblleadevo_leads l ON campaigns.id = l.campaign_id
-            LEFT JOIN tblleadevo_prospects p ON p.id = l.prospect_id";
+                WHERE 1=1";
+        if (count($clients) > 0) {
+            $sql .= " AND p.client_id IN (" . $client_ids . ")";
+        }
 
         $query = $this->db->query($sql);
         return $query->result();
