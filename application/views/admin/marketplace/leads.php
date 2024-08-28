@@ -375,6 +375,15 @@ $discount_value = get_option('leadevo_deal_discount_amount');
         font-size: 0.75rem;
         margin-top: 2px;
     }
+
+    .quality .material-symbols-outlined {
+        font-size: 14px;
+        color: orange;
+    }
+
+    audio {
+        height: 30px;
+    }
 </style>
 <div id="wrapper">
     <div class="content">
@@ -498,22 +507,6 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                 <tbody>
                                     <?php foreach ($prospects as $prospect): ?>
                                         <?php
-                                        // if ($max_sell_time > 0) {
-                                        //     $dateString = $prospect['created_at'];
-                                    
-                                        //     // Create DateTime objects
-                                        //     $givenDate = new DateTime($dateString);
-                                        //     $currentDate = new DateTime(); // This will use the current date and time
-                                    
-                                        //     // Calculate the difference
-                                        //     $interval = $currentDate->diff($givenDate);
-                                    
-                                        //     // Extract total hours from the interval
-                                        //     $days = $interval->days;
-                                        //     if ($days >= $max_sell_time) {
-                                        //         continue;
-                                        //     }
-                                        // }
                                         ?>
                                         <tr>
                                             <td>
@@ -552,23 +545,30 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                                     <?php echo isset($prospect['deal']) ? htmlspecialchars($prospect['deal']) : 'N/A'; ?><br> -->
                                                     <div style="display:flex">
                                                         <strong><?php echo _l('leadevo_marketpalce_quality'); ?> : </strong>
-                                                        <div>
-                                                            <?php echo ($prospect['verified_staff']) == 1 ? 'Verified by Staff' : ''; ?><br />
-                                                            <?php echo ($prospect['verified_whatsapp']) == 1 ? 'Verified by WhatsApp' : ''; ?><br />
-                                                            <?php echo ($prospect['verified_sms']) == 1 ? 'Verified by SMS' : ''; ?><br />
+                                                        <div class="quality">
+                                                            <div><span>Staff</span>
+                                                                <?php echo ($prospect['verified_staff']) == 1 ? '<span class="material-symbols-outlined">verified</span>' : ''; ?>
+                                                            </div>
+                                                            <div><span>WhatsApp</span>
+                                                                <?php echo ($prospect['verified_whatsapp']) == 1 ? '<span class="material-symbols-outlined">verified</span>' : ''; ?>
+                                                            </div>
+                                                            <div><span>SMS</span>
+                                                                <?php echo ($prospect['verified_sms']) == 1 ? '<span class="material-symbols-outlined">verified</span>' : ''; ?>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <strong><?php echo _l('leadevo_marketpalce_deal_audio'); ?>:</strong>
-                                                    <?php echo ($prospect['share_audio_before_purchase']) == 1 ? 'Public' : 'Private'; ?><br>
-                                                    <?php if (isset($prospect['verified_staff_audio']) && !empty($prospect['verified_staff_audio'])): ?>
+                                                    <?php echo ((int) $prospect['share_audio_before_purchase']) == 1 ? 'Public' : 'Private'; ?><br>
+                                                    <?php if (((int) $prospect['share_audio_before_purchase']) == 1 && isset($prospect['verified_staff_audio']) && !empty($prospect['verified_staff_audio'])): ?>
                                                         <audio controls>
                                                             <source
                                                                 src="<?php echo htmlspecialchars($prospect['verified_staff_audio']); ?>"
                                                                 type="audio/mpeg">
                                                             Your browser does not support the audio element.
                                                         </audio>
+
                                                     <?php else: ?>
-                                                        <p>No audio available</p>
+
                                                     <?php endif; ?>
                                                 </div>
                                             </td>
