@@ -120,7 +120,7 @@
     });
 
     function initAppointmentScheduledDates() {
-        $.post("appointly/appointments_public/busyDates").done(function (r) {
+        $.post('<?php echo site_url("appointly/appointments_public/busyDates") ?>').done(function (r) {
             r = JSON.parse(r);
             busyDates = r;
         });
