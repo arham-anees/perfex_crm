@@ -143,7 +143,10 @@
         const dateNumber = date.split(' ')[1];
         const busySlots = [];
 
-        busySlots.push(...busyDates.filter(x => new Date(x.date).getDate() == new Date(`${year}-${monthNumber}-${dateNumber}`).getDate()));
+        busySlots.push(...busyDates.filter(x => {
+            console.log(x, new Date(x.date).toLocaleDateString(), new Date(`${year}-${monthNumber}-${dateNumber}`).toLocaleDateString());
+            return new Date(x.date).toLocaleDateString() == new Date(`${year}-${monthNumber}-${dateNumber}`).toLocaleDateString()
+        }));
 
         // Placeholder for dynamic slot loading logic
         const availableTimeSlots = <?= $booking_page['appointly_available_hours'] ?>;
