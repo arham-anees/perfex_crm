@@ -3,7 +3,7 @@
     $CI =& get_instance(); // Assuming you're in a CodeIgniter context
 
     // Remove custom route
-    $route = "\n\$route['(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';\n";
+    $route = "\n\$route['a/(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';\n";
     $routesPath = APPPATH . 'config/routes.php';
 
     // Read the current routes file content

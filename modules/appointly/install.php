@@ -6,7 +6,7 @@ $CI->load->helper('appointly' . '/appointly_database');
 
 init_appointly_install_sequence();
 
-$route = "\n\$route['(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';\n";
+$route = "\n\$route['a/(:any)'] = 'appointly/appointments_public/create_external_appointment_booking_page/$1';\n";
 $routesPath = APPPATH . 'config/routes.php';
 
 // Check if route already exists
