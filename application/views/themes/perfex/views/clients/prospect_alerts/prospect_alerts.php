@@ -84,6 +84,10 @@
                                             <td><?php echo htmlspecialchars($alert['id']); ?></td>
                                             <td><?php echo htmlspecialchars($alert['name'] ?? ''); ?>
                                                 <div class="row-options">
+                                                <a href="<?php echo site_url('prospect_alerts/details/' . $alert['id']); ?>"
+                                                        class="">
+                                                        view
+                                                    </a> |
 
                                                     <a href="<?php echo site_url('prospect_alerts/edit/' . $alert['id']); ?>"
                                                         class="">

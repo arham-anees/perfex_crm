@@ -22,7 +22,7 @@
                             data-none-selected-text="<?php echo _l('Select Prospect Category'); ?>">
                             <option value=""><?php echo _l('Select Prospect Category'); ?></option>
                             <?php foreach ($prospect_categories as $category): ?>
-                                <option value="<?php echo $category->id; ?>" <?php echo set_select('prospect_category_id', $category->id, $alert['prospect_category_id'] == $category->id); ?>>
+                                <option value="<?php echo $category->id; ?>" <?php echo set_select('prospect_category_id', $category->id); ?>>
                                     <?php echo $category->name; ?>
                                 </option>
                             <?php endforeach; ?>
