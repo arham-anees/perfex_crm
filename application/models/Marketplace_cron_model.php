@@ -75,6 +75,8 @@ class Marketplace_cron_model extends App_Model
                 $this->Prospects_model->deliver_prospects($campaign->id);
             }
 
+            $this->load->model('leadevo/Prospect_alerts_model');
+            $this->Prospect_alerts_model->send_alerts();
 
             hooks()->do_action('after_marketplace_cron_run', $manually);
 
@@ -1297,7 +1299,7 @@ class Marketplace_cron_model extends App_Model
                 $messages = $mailbox->getMessages();
             }
 
-            include_once (APPPATH . 'third_party/simple_html_dom.php');
+            include_once(APPPATH . 'third_party/simple_html_dom.php');
 
             foreach ($messages as $message) {
                 try {
