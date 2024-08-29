@@ -14,9 +14,14 @@
                             <p><strong><?php echo _l('Last Name'); ?>:</strong> <?php echo $prospect->last_name?? 'N/A'; ?></p>
                             <p><strong><?php echo _l('Phone'); ?>:</strong> <?php echo $prospect->phone?? 'N/A'; ?></p>
                             <p><strong><?php echo _l('Email'); ?>:</strong> <?php echo $prospect->email?? 'N/A'; ?></p>
+                            <p><strong><?php echo _l('Industry'); ?>:</strong> <?php echo $prospect->industry_name ?? 'N/A'; ?></p>
+                            <p><strong><?php echo _l('Acquisition Channel'); ?>:</strong> <?php echo $prospect->acquisition_channel_name ?? 'N/A'; ?></p>
+                            <p><strong><?php echo _l('Category'); ?>:</strong> <?php echo $prospect->category_name ?? 'N/A'; ?></p>
+                            <p><strong><?php echo _l('Type'); ?>:</strong> <?php echo $prospect->type_name ?? 'N/A'; ?></p>
+
                             <!-- Add other fields as needed -->
                             <a href="<?php echo admin_url('prospects/edit/' . $prospect->id); ?>" class="btn btn-default"><?php echo _l('Edit'); ?></a>
-                            <a href="<?php echo admin_url('prospects'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
+                            <a href="<?php echo admin_url('prospects/reported'); ?>" class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                         </div>
                     </div>
                 </div>

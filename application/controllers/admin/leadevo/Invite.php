@@ -52,7 +52,7 @@ class Invite extends AdminController
                 'success' => true,
                 'message' => _l('appointment_sent_successfully'),
             ]);
-            $template = mail_template('leadevo_invite_friend', 'leadevo',array_to_object(['email'=>$email, 'name'=>$name]));
+            $template = mail_template('Leadevo_invite_friend', 'leadevo',array_to_object(['email'=>$email, 'name'=>$name]));
 
             $lead_data = [];
             $lead_data['email'] = $email;

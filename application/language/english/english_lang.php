@@ -4039,3 +4039,12 @@ $lang['leadevo_stats_start_date'] = 'Start Date';
 $lang['leadevo_stats_end_date'] = 'End Date';
 $lang['leadevo_stats_source_dropdown'] = 'Sources';
 $lang['leadevo_stats_clients_dropdown'] = 'Clients';
+$lang['leadevo_alerts_category'] = 'Category';
+$lang['leadevo_alerts_type'] = 'Type';
+$lang['leadevo_prospect_alert_activated'] = 'Prospect Alert activated successfully';
+$lang['leadevo_prospect_alert_activation_failed'] = 'Prospect Alert activation failed';
+
+$lang['leadevo_prospect_alert_deactivated'] = 'Prospect Alert deactivated successfully';
+$lang['leadevo_prospect_alert_deactivation_failed'] = 'Prospect Alert deactivation failed';
+$lang['leadevo_prospect_alert_exclusive'] = 'Exclusive';
+$lang['leadevo_prospect_alert_non_exclusive'] = 'Non-Exclusive';

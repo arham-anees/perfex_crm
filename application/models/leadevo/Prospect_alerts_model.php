@@ -10,22 +10,29 @@ class Prospect_alerts_model extends CI_Model
     }
 
     // Get all prospect alerts
-   // Prospect_alerts_model.php
-public function get_all()
-{
-    $this->db->select('tblleadevo_prospect_alerts.id, tblleadevo_prospect_alerts.name, tblleadevo_prospect_alerts.email, tblleadevo_prospect_alerts.phone, tblleadevo_prospect_alerts.is_active, tblleadevo_prospect_categories.name as prospect_category');
-    $this->db->from('tblleadevo_prospect_alerts');
-    $this->db->join('tblleadevo_prospect_categories', 'tblleadevo_prospect_alerts.prospect_category_id = tblleadevo_prospect_categories.id', 'left');
-    $query = $this->db->get();
-    return $query->result_array();
-}
+    // Prospect_alerts_model.php
+    public function get_all()
+    {
+        $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, c.name as prospect_category');
+        $this->db->from('tblleadevo_prospect_alerts a');
+        $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 
 
     // Get a single prospect alert by ID
-    public function get($id)
-    {
-        return $this->db->where('id', $id)->get($this->table)->row_array();
-    }
+   // Prospect_alerts_model.php
+public function get($id)
+{
+    $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, c.name as prospect_category');
+    $this->db->from('tblleadevo_prospect_alerts a');
+    $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
+    $this->db->where('a.id', $id);
+    $query = $this->db->get();
+    return $query->row_array();
+}
+
 
     // Insert a new prospect alert
     public function insert($data)
@@ -37,6 +44,14 @@ public function get_all()
     public function update($id, $data)
     {
         return $this->db->where('id', $id)->update($this->table, $data);
+    }
+    public function activate($id)
+    {
+        return $this->db->where('id', $id)->update($this->table, ['status' => 1]);
+    }
+    public function deactivate($id)
+    {
+        return $this->db->where('id', $id)->update($this->table, ['status' => 0]);
     }
 
     // Delete a prospect alert
@@ -55,5 +70,37 @@ public function get_all()
         }
 
         return $this->db->get($this->table)->result_array();
+    }
+
+    public function send_alerts()
+    {
+        $sql = "SELECT * FROM tblleadevo_prospect_alerts
+                WHERE is_active = 1 AND status = 1 AND id NOT IN (
+                SELECT alert_id FROM tblleadevo_prospect_alert_logs WHERE DATE(last_alert_sent) = CURDATE())";
+
+        $alerts = $this->db->query($sql)->result_array();
+
+        //foreach alert
+        foreach ($alerts as $alert) {
+            $sql = "SELECT * FROM tblleadevo_prospects 
+                    WHERE is_active = 1 
+                        AND is_available_sale = 1 
+                        AND is_fake = 0 
+                        AND client_id <> " . ($alert['client_id'] ?? 0) . "
+                        AND is_exclusive = " . $alert['is_exclusive'] . "  
+                        AND category = " . $alert['prospect_category_id'] . " ";
+            $prospects = $this->db->query($sql)->result_array();
+            if (count($prospects) == 0)
+                continue;
+            $html = "<table><thead><tr><th>Name</th><th>Actions</th></tr></thead><tbody>";
+            // generate html table
+            foreach ($prospects as $prospect) {
+                $html .= "<tr><td>" . $prospect["first_name"] . " " . $prospect["last_name"] . "</td><td><a href=\"" . site_url("prospect/" . $prospect["id"]) . "\">View</a></td></tr>";
+            }
+            $html .= "</tbody></table>";
+
+            $template = mail_template('Leadevo_prospect_alert', array_to_object(['email' => $alert['email'], 'name' => $html]));
+            $template->send();
+        }
     }
 }
