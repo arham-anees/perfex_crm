@@ -71,4 +71,36 @@ public function get($id)
 
         return $this->db->get($this->table)->result_array();
     }
+
+    public function send_alerts()
+    {
+        $sql = "SELECT * FROM tblleadevo_prospect_alerts
+                WHERE is_active = 1 AND status = 1 AND id NOT IN (
+                SELECT alert_id FROM tblleadevo_prospect_alert_logs WHERE DATE(last_alert_sent) = CURDATE())";
+
+        $alerts = $this->db->query($sql)->result_array();
+
+        //foreach alert
+        foreach ($alerts as $alert) {
+            $sql = "SELECT * FROM tblleadevo_prospects 
+                    WHERE is_active = 1 
+                        AND is_available_sale = 1 
+                        AND is_fake = 0 
+                        AND client_id <> " . ($alert['client_id'] ?? 0) . "
+                        AND is_exclusive = " . $alert['is_exclusive'] . "  
+                        AND category = " . $alert['prospect_category_id'] . " ";
+            $prospects = $this->db->query($sql)->result_array();
+            if (count($prospects) == 0)
+                continue;
+            $html = "<table><thead><tr><th>Name</th><th>Actions</th></tr></thead><tbody>";
+            // generate html table
+            foreach ($prospects as $prospect) {
+                $html .= "<tr><td>" . $prospect["first_name"] . " " . $prospect["last_name"] . "</td><td><a href=\"" . site_url("prospect/" . $prospect["id"]) . "\">View</a></td></tr>";
+            }
+            $html .= "</tbody></table>";
+
+            $template = mail_template('Leadevo_prospect_alert', array_to_object(['email' => $alert['email'], 'name' => $html]));
+            $template->send();
+        }
+    }
 }

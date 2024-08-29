@@ -111,4 +111,9 @@ class Prospect_alerts extends ClientsController
         $this->view('clients/prospect_alerts/view');
         $this->layout();
     }
+
+    public function send_alerts()
+    {
+        $this->Prospect_alerts_model->send_alerts();
+    }
 }
