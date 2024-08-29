@@ -81,7 +81,7 @@ public function edit($id)
         }
         redirect('prospect_alerts');
     }
-    public function view($id)
+    public function view_details($id)
     {
         $data['alert'] = $this->Prospect_alerts_model->get($id);
         $this->data($data);
