@@ -632,12 +632,22 @@ class Prospects_model extends CI_Model
     //     return $this->db->query($sql, [$id])->row_array();
     // }
 
+   
+
     public function get($id)
-    {
-        return $this->db->where('id', $id)->get($this->table)->row();
-    }
+{
+    $this->db->select('c.*, i.name as industry_name, a.name as acquisition_channel_name, cat.name as category_name, t.name as type_name'); // Select campaign details, industry, acquisition channel, category, and type name
+    $this->db->from($this->table . ' c'); // Alias for the campaign table
+    $this->db->join('tblleadevo_industries i', 'c.industry_id = i.id', 'left'); // Join industries table on industry_id
+    $this->db->join('tblleadevo_acquisition_channels a', 'c.acquisition_channel_id = a.id', 'left'); // Join acquisition channels table on acquisition_channel_id
+    $this->db->join('tblleadevo_prospect_categories cat', 'c.category_id = cat.id', 'left'); // Join categories table on category_id
+    $this->db->join('tblleadevo_prospect_types t', 'c.type_id = t.id', 'left'); // Join prospect types table on type_id
+    $this->db->where('c.id', $id); // Filter by campaign ID
+    return $this->db->get()->row(); // Return the row with campaign, industry, acquisition channel, category, and type name
+}
 
 
+    
     public function insert($data)
     {
         if (!isset($data['client_id'])) {

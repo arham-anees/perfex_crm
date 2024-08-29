@@ -18,5 +18,5 @@
 </div>
 
 <!-- Include JavaScript file using <script> tags -->
-<?php require ('modules/leadevo/assets/js/invite/invite.php'); ?>
+<!-- <?php require ('modules/leadevo/assets/js/invite/invite.php'); ?> -->
 <?php init_tail(); ?>
