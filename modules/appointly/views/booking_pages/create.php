@@ -252,7 +252,7 @@
                                     <hr>
                                     <p><b>Form url:</b>
                                     <span class="label label-default">
-                                          <span><?= site_url( ''); ?>
+                                          <span><?= site_url('a'); ?>
                                           <input type="text" name="url" value="<?= $url ?>" require pattern="^[a-zA-Z0-9_-]+$"/>
                               </span>
                                        </span>
