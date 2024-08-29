@@ -312,9 +312,9 @@
                         </div>
                         <h4 class="bold">Form Info</h4>
                         <p><b>Form url:</b>
-                           <span class="label label-default">
-                              <a href="<?= site_url($booking_page['url']); ?>" target="_blank">
-                                 <?= site_url($booking_page['url']); ?>
+                        <span class="label label-default">
+                              <a href="<?= site_url('a/' . $booking_page['url']); ?>" target="_blank">
+                                 <?= site_url('a/' . $booking_page['url']); ?>
                               </a>
                            </span>
                         </p>
