@@ -144,8 +144,9 @@
         const busySlots = [];
 
         busySlots.push(...busyDates.filter(x => {
-            console.log(x, new Date(x.date).toLocaleDateString(), new Date(`${year}-${monthNumber}-${dateNumber}`).toLocaleDateString());
-            return new Date(x.date).toLocaleDateString() == new Date(`${year}-${monthNumber}-${dateNumber}`).toLocaleDateString()
+            let xDate = new Date(x.date);
+            let selectedDate = new Date(`${year}-${monthNumber}-${dateNumber}`);
+            return xDate.getDate() == selectedDate.getDate() && xDate.getMonth() == selectedDate.getMonth() && xDate.getFullYear() == selectedDate.getFullYear()
         }));
 
         // Placeholder for dynamic slot loading logic
@@ -185,7 +186,7 @@
             // Append the parent div to the timeslot list
             timeslotList.appendChild(parentDiv);
 
-            if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length > simultaneous_appointments) {
+            if (<?= $booking_page['appointly_busy_times_enabled'] ?> && busySlots.filter(x => x.start_hour == slot).length >= simultaneous_appointments) {
                 slotElement.className = 'timeslot busy_time';
             }
 
