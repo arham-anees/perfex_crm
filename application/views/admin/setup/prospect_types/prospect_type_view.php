@@ -21,7 +21,7 @@
                             class="btn btn-primary">
                             <?php echo _l('Edit'); ?>
                         </a>
-                        <a href="<?php echo admin_url('leadEvo/prospect_types'); ?>"
+                        <a href="<?php echo admin_url('leadevo/prospect_types'); ?>"
                             class="btn btn-default"><?php echo _l('Back to List'); ?></a>
                     </div>
                 </div>

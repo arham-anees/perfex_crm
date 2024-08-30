@@ -10,6 +10,9 @@ class Invite extends ClientsController
     {
         parent::__construct();
         $this->load->model('leads_model'); // Use lowercase for model loading
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

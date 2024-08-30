@@ -34,8 +34,21 @@
                                             <td><?php echo $category['description']; ?></td>
                                             <td><?php echo $category['min_price'] ?? '-'; ?></td>
                                             <td><?php echo $category['min_market_price'] ?? '-'; ?></td>
-                                            <td><?php echo $category['industry_name'] ?? '-'; ?></td>
                                             <td>
+                                            <?php
+                                // Find the industry name from the industries array
+                                $industry_name = 'N/A';
+                                foreach ($industries as $industry) {
+                                    if ((isset($industry['id']) ? $industry['id'] : (isset($industry->id) ? $industry->id : 0)) == (isset($category['industry_id']) ? $category['industry_id'] : (isset($category->industry_id) ? $category->industry_id : 0))) {
+                                        $industry_name = isset($industry['name']) ? $industry['name'] : (isset($industry->name) ? $industry->name : 'N/A');
+                                        break;
+                                    }
+                                }
+                                echo $industry_name;
+                                ?>
+                            </td>
+                            <td>
+
                                                 <a href="<?php echo admin_url('leadevo/industry_categories/view/' . $category['id']); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-eye"></i>

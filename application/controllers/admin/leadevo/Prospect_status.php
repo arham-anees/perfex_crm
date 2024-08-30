@@ -24,7 +24,7 @@ class Prospect_status extends AdminController
                 'is_active' => 1,
             ];
             $this->prospect_status_model->insert($data);
-            redirect(admin_url('leadEvo/prospect_status'));
+            redirect(admin_url('leadevo/prospect_status'));
         }
         $this->load->view('admin/setup/prospect_status/prospect_status_create');
     }
@@ -36,7 +36,7 @@ class Prospect_status extends AdminController
                 'description' => $this->input->post('description')
             ];
             $this->prospect_status_model->update($id, $data);
-            redirect(admin_url('leadEvo/prospect_status'));
+            redirect(admin_url('leadevo/prospect_status'));
         }
         $data['status'] = $this->prospect_status_model->get($id);
         $this->load->view('admin/setup/prospect_status/prospect_status_edit', $data);
@@ -49,7 +49,7 @@ class Prospect_status extends AdminController
         } else {
             set_alert('danger', 'Failed to delete prospect status.');
         }
-        redirect(admin_url('leadEvo/prospect_status'));
+        redirect(admin_url('leadevo/prospect_status'));
     }
 
 

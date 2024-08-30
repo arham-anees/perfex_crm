@@ -14,6 +14,12 @@ class Prospects extends ClientsController
         $this->load->model('Leads_model');
         $this->load->model('Misc_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
+        if (is_client_logged_in() && !is_contact_email_verified()) {
+            redirect(site_url('verification'));
+        }
     }
 
     public function index()

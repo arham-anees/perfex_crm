@@ -19,6 +19,9 @@ class Contacts extends ClientsController
     {
         parent::__construct();
         $this->load->model('clients_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
 
         $this->contactId = get_contact_user_id();
         $this->contact   = $this->clients_model->get_contact($this->contactId);

@@ -82,7 +82,8 @@ function app_init_admin_sidebar_menu_items()
             'slug' => 'invoices',
             'name' => _l('invoices'),
             'href' => admin_url('invoices'),
-            'position' => 15,
+            'position' => 4,
+            'icon' => 'fa fa-file-invoice',
             'badge' => [],
         ]);
     }
