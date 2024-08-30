@@ -47,7 +47,7 @@
                               id="simultaneous_appointments" disabled="true">
                         </div>
                         <!-- Only shown for system admins -->
-                        <?php if (is_admin()) {
+                        <?php if (is_admin() || false) {
 
                            if (isset($staff_members)) {
                               echo render_select(
@@ -287,8 +287,8 @@
                            <span class="label label-info"><strong><?= get_appointly_version(); ?></strong></span>
                         </div>
                      </div>
-                     <?php if (is_admin()) { ?>
-                        <div role="tabpanel" class="tab-pane" id="form">
+                     <div role="tabpanel" class="tab-pane" id="form">
+                        <?php if (is_admin() || false) { ?>
                            <div class="form-group mtop10">
                               <label for="callbacks_mode_enabled" class="control-label clearfix">
                                  <?= _l('callbacks_enable_on_external_form'); ?>
@@ -312,7 +312,7 @@
                         </div>
                         <h4 class="bold">Form Info</h4>
                         <p><b>Form url:</b>
-                        <span class="label label-default">
+                           <span class="label label-default">
                               <a href="<?= site_url('a/' . $booking_page['url']); ?>" target="_blank">
                                  <?= site_url('a/' . $booking_page['url']); ?>
                               </a>
@@ -359,8 +359,8 @@
                         </p>
                         <p>
                            <span class="label label-default">
-                              <a href="<?= site_url('a/'.$booking_page['url'] . '?col=col-md-5'); ?>" target="_blank">
-                                 <?= site_url('a/'.$booking_page['url'] . '?col=col-md-5'); ?>
+                              <a href="<?= site_url('a/' . $booking_page['url'] . '?col=col-md-5'); ?>" target="_blank">
+                                 <?= site_url('a/' . $booking_page['url'] . '?col=col-md-5'); ?>
                               </a>
                            </span>
                         </p>
