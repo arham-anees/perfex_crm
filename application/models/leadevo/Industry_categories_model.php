@@ -9,45 +9,36 @@ class Industry_categories_model extends CI_Model
         parent::__construct();
     }
 
+    // Fetch all active categories with industry names
     public function get_all()
     {
-        // Join with the tblleadevo_industries table
-        $this->db->select('tblleadevo_industry_categories.*, tblleadevo_industries.name as industry_name');
-        $this->db->from($this->table);
-        $this->db->join('tblleadevo_industries', 'tblleadevo_industry_categories.industry_id = tblleadevo_industries.id');
-        $this->db->where('tblleadevo_industry_categories.is_active', 1);
-        $query = $this->db->get();
-        return $query->result_array();
+        $this->db->where('is_active', 1);
+        return $this->db->get($this->table)->result_array();
     }
 
+    // Fetch a single category by ID
     public function get($id)
     {
-        // Join with the tblleadevo_industries table
-        $this->db->select('tblleadevo_industry_categories.*, tblleadevo_industries.name as industry_name');
-        $this->db->from($this->table);
-        $this->db->join('tblleadevo_industries', 'tblleadevo_industry_categories.industry_id = tblleadevo_industries.id');
-        $this->db->where('tblleadevo_industry_categories.id', $id);
-        $this->db->where('tblleadevo_industry_categories.is_active', 1);
-        $query = $this->db->get();
-        return $query->row_array();
+        $this->db->where('is_active', 1);
+        return $this->db->where('id', $id)->get($this->table)->row();
     }
-
+    // Insert a new category
     public function insert($data)
     {
         return $this->db->insert($this->table, $data);
     }
 
+    // Update an existing category
     public function update($id, $data)
     {
         $this->db->where('is_active', 1);
-        $this->db->where('id', $id);
-        return $this->db->update($this->table, $data);
+        return $this->db->where('id', $id)->update($this->table, $data);
     }
-
+    // 
+    // Delete a category (soft delete)
     public function delete($id)
     {
         $this->db->where('is_active', 1);
-        $this->db->where('id', $id);
-        return $this->db->delete($this->table);
+        return $this->db->where('id', $id)->delete($this->table);
     }
 }

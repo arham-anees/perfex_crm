@@ -12,6 +12,7 @@ class Industry_categories extends AdminController
     public function index()
     {
         $data['categories'] = $this->Industry_categories_model->get_all();
+        $data['industries'] = $this->Industries_model->get_all();
         $this->load->view('admin/setup/industry_categories/industry_categories', $data);
     }
 
@@ -24,7 +25,6 @@ class Industry_categories extends AdminController
                 'min_market_price' => $this->input->post('min_market_price'),
                 'description' => $this->input->post('description'),
                 'industry_id' => $this->input->post('industry_id'), // Capture the industry ID
-                'is_active' => 1,
             ];
             $this->Industry_categories_model->insert($data);
             redirect(admin_url('leadevo/industry_categories'));
@@ -50,7 +50,9 @@ class Industry_categories extends AdminController
         }
 
         // Fetch the current category and all industries
-        $data['category'] = $this->Industry_categories_model->get($id);
+        // $data['category'] = $this->Industry_categories_model->get($id);
+        $category = $this->Industry_categories_model->get($id);
+        $data['category'] = (array) $category;
         $data['industries'] = $this->Industries_model->get_all(); // Get all industries
         $this->load->view('admin/setup/industry_categories/industry_category_edit', $data);
     }
@@ -67,7 +69,10 @@ class Industry_categories extends AdminController
 
     public function view($id)
     {
-        $data['category'] = $this->Industry_categories_model->get($id);
+        // $data['category'] = $this->Industry_categories_model->get($id);
+        $category = $this->Industry_categories_model->get($id);
+        $data['category'] = (array) $category;
         $this->load->view('admin/setup/industry_categories/industry_category_view', $data);
     }
 }
+
