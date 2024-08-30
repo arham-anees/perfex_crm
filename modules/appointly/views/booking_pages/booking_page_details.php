@@ -47,7 +47,7 @@
                               id="simultaneous_appointments" disabled="true">
                         </div>
                         <!-- Only shown for system admins -->
-                        <?php if (is_admin() || false) {
+                        <?php if (is_admin()) {
 
                            if (isset($staff_members)) {
                               echo render_select(
@@ -288,7 +288,7 @@
                         </div>
                      </div>
                      <div role="tabpanel" class="tab-pane" id="form">
-                        <?php if (is_admin() || false) { ?>
+                        <?php if (is_admin()) { ?>
                            <div class="form-group mtop10">
                               <label for="callbacks_mode_enabled" class="control-label clearfix">
                                  <?= _l('callbacks_enable_on_external_form'); ?>

@@ -541,12 +541,12 @@ if (!function_exists('get_appointment_types')) {
                 if (<?= $booking_page['appointments_disable_weekends'] ?> && (daysOfWeek[(startDay + i - 1) % 7] == 'SUN' || daysOfWeek[(startDay + i - 1) % 7] == 'SAT')) {
                     dayElement.className = 'disabled';
                 }
+                var currentMonthYear = $($('#current-month-year')[0]).text()
+                var month = currentMonthYear.split(' ')[0];
+                var monthNumber = monthNames.indexOf(month) + 1;
+                var year = currentMonthYear.split(' ')[1];
+                let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
                 if (<?= $booking_page['appointments_show_past_times'] ?>) {
-                    var currentMonthYear = $($('#current-month-year')[0]).text()
-                    var month = currentMonthYear.split(' ')[0];
-                    var monthNumber = monthNames.indexOf(month) + 1;
-                    var year = currentMonthYear.split(' ')[1];
-                    let selectedDate = new Date(`${year}-${monthNumber}-${i}`);
                     if (firstOfThisMonth <= firstOfSelectedMonth) {
                         if (firstOfThisMonth.getFullYear() == firstOfSelectedMonth.getFullYear() &&
                             firstOfThisMonth.getMonth() == firstOfSelectedMonth.getMonth())
