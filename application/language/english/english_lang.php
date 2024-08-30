@@ -4048,3 +4048,7 @@ $lang['leadevo_prospect_alert_deactivated'] = 'Prospect Alert deactivated succes
 $lang['leadevo_prospect_alert_deactivation_failed'] = 'Prospect Alert deactivation failed';
 $lang['leadevo_prospect_alert_exclusive'] = 'Exclusive';
 $lang['leadevo_prospect_alert_non_exclusive'] = 'Non-Exclusive';
+$lang['leadevo_zapier_webhook'] = 'Webhook';
+$lang['leadevo_zapier_new_webhook'] = 'New Webhook';
+$lang['leadevo_zapier_no_row'] = 'No Zapier webhook is added';
+$lang['leadevo-zapier'] = 'Zapier';

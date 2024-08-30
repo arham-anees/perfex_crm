@@ -49,36 +49,8 @@ class Prospects extends ClientsController
         echo json_encode(['status' => 'error', 'data' => null]);
 
     }
-    public function fetch_zapier()
-    {
 
-        $config = $this->Misc_model->get_zapier_config(get_client_user_id());
-        if ($config) {
-            $str = json_encode($config);
-            echo json_encode(['status' => 'success', 'data' => ($str)]);
-            return;
-        }
 
-        echo json_encode(['status' => 'success', 'data' => null]);
-
-    }
-    public function create_zapier()
-    {
-        $webhook = $this->input->post('webhook');
-        if (!$webhook) {
-            echo json_encode(['status' => 'error', 'message' => 'webhook is required']);
-            return;
-        }
-        $config = $this->Misc_model->set_zapier_config(get_client_user_id(), $webhook);
-        if ($config) {
-            $str = json_encode($config);
-            echo json_encode(['status' => 'success', 'data' => base64_encode($str)]);
-            return;
-        }
-
-        echo json_encode(['status' => 'error', 'data' => null]);
-
-    }
     public function purchased()
     {
 
@@ -122,12 +94,12 @@ class Prospects extends ClientsController
         $data['industry_name'] = $this->get_name_by_id('tblleadevo_industries', $data['prospect']->industry_id, 'name');
         $data['acquisition_channel_name'] = $this->get_name_by_id('tblleadevo_acquisition_channels', $data['prospect']->acquisition_channel_id, 'name');
         $data['type_name'] = $this->get_name_by_id('tblleadevo_prospect_types', $data['prospect']->type_id, 'name');
-        
+
         $this->data($data);
         $this->view('clients/prospects/prospect_view');
         $this->layout();
     }
- 
+
 
 
     public function create()
@@ -262,17 +234,17 @@ class Prospects extends ClientsController
     }
     public function get_industry_name($industry_id)
     {
-        $this->load->model('leadevo/Industries_model'); 
+        $this->load->model('leadevo/Industries_model');
         $industry = $this->Industries_model->get($industry_id);
         return $industry ? $industry->name : 'N/A';
     }
-    
-    public function get_name_by_id($table, $id, $name_column)
-{
-    $this->load->model('leadevo/Acquisition_channels_model'); 
-    $result = $this->Acquisition_channels_model->get_by_id($table, $id);
 
-    return $result ? $result->$name_column : 'N/A';
-}
+    public function get_name_by_id($table, $id, $name_column)
+    {
+        $this->load->model('leadevo/Acquisition_channels_model');
+        $result = $this->Acquisition_channels_model->get_by_id($table, $id);
+
+        return $result ? $result->$name_column : 'N/A';
+    }
 
 }
