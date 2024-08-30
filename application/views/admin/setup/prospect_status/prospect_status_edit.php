@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <h4 class="no-margin"><?php echo _l('Edit Prospect Status'); ?></h4>
                         <hr class="hr-panel-heading" />
-                        <?php echo form_open(admin_url('leadEvo/prospect_status/edit/' . $status->id)); ?>
+                        <?php echo form_open(admin_url('leadevo/prospect_status/edit/' . $status->id)); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
                             <input type="text" id="name" name="name" class="form-control"
