@@ -21,6 +21,7 @@ class Clients extends ClientsController
         $this->load->model('leadevo/Stats_model');
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        $this->load->model('Misc_model');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
@@ -62,6 +63,15 @@ class Clients extends ClientsController
         $data['title'] = $data['announcement']->name;
         $this->data($data);
         $this->view('announcement');
+        $this->layout();
+    }
+
+    public function zapier()
+    {
+
+        $data['webhooks'] = $this->Misc_model->get_zapier_config(get_client_user_id());
+        $this->data($data);
+        $this->view('clients/zapier/index');
         $this->layout();
     }
 
