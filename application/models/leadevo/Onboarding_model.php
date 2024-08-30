@@ -46,11 +46,22 @@ class Onboarding_model extends App_Model
 
     public function insert($data)
     {
+        // Check if a record already exists for the client_id
+        if ($this->exists($data['client_id'])) {
+            return false; // Record already exists, no need to insert again
+        }
+
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['status'] = true;
         return $this->db->insert($this->table, $data);
     }
 
+    private function exists($client_id)
+    {
+        $this->db->where('client_id', $client_id);
+        $query = $this->db->get($this->table);
+        return $query->num_rows() > 0;
+    }
 
     public function update($id, $data)
     {
