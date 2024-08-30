@@ -20,6 +20,16 @@ class Reported_Prospects_model extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_client()
+    {
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
+        $this->db->from('tblleadevo_reported_prospects');
+        $this->db->where('tblleadevo_reported_prospects.client_id', get_client_user_id());
+        $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 
     public function get($id)
     {
