@@ -28,11 +28,10 @@ class Clients extends ClientsController
 
     public function index()
     {
-        $data['campaigns'] = $this->Campaigns_model->get_all();
-
+        $data['campaigns'] = $this->Campaigns_model->get_all_client();
         $data['dashboard_stats'] = $this->Stats_model->client_dashboard();
-        $data['prospects'] = $this->Prospects_model->get_all('');
-        $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
+        $data['prospects'] = $this->Prospects_model->get_all_client('');
+        $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_client();
         // $this->load->view('clients/dashboard/dashboard', $data);
         // $data['is_home'] = true;
         // $this->load->model('reports_model');
@@ -823,7 +822,7 @@ class Clients extends ClientsController
         $this->layout();
     }
 
-    public function invoices($status = false)
+    public function billing($status = false)
     {
         if (!has_contact_permission('invoices')) {
             set_alert('warning', _l('access_denied'));

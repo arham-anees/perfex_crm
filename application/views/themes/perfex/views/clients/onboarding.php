@@ -343,7 +343,7 @@
                 if (section) {
                     section.classList.remove('step-' + currentStep);
                 }
-                if (section){
+                if (section) {
                     section.classList.add('step-' + (currentStep + 1));
                 }
                 var progressPercentage = currentStep * progressPercentagePerStep;
@@ -352,7 +352,7 @@
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
                 progressBar.textContent = Math.round(progressPercentage) + '%';
 
-                progressText.textContent = (currentStep ) + ' / ' + (totalSteps ) + ' actions completed';
+                progressText.textContent = (currentStep) + ' / ' + (totalSteps) + ' actions completed';
 
                 // Change tick color for completed actions
                 for (let i = 0; i < 6; i++) {
@@ -376,7 +376,7 @@
                 if (currentStep === totalSteps + 1) {
                     completeBtn.disabled = true;
                     completeBtn.textContent = 'Completed';
-                    
+
                 } else {
                     completeBtn.disabled = true;
                 }
@@ -401,8 +401,11 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        alert('<?php echo _l('Invitation sent!'); ?>');
+                        alert_float('success', '<?php echo _l('Invitation sent!'); ?>');
                         $('#inviteFriendModal').modal('hide');
+                    }
+                    else {
+                        alert_float('error', '<?php echo _l('Invitation sent!'); ?>');
                     }
                 });
         });
@@ -433,12 +436,12 @@
             document.getElementById('coming-soon-section').style.display = 'block';
             completeBtn.style.display = 'none';
             continueBtn.style.display = 'block';
-            
+
         });
     });
 
     function update_step(step) {
-        if(step < 6) {
+        if (step < 6) {
             $.ajax({
                 url: site_url + 'onboarding/update_step',
                 type: 'POST',

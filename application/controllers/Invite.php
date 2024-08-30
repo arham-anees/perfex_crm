@@ -25,7 +25,7 @@ class Invite extends ClientsController
 
             if (empty($email)) {
                 echo json_encode([
-                    'success' => false,
+                    'status' => 'error',
                     'message' => _l('appointment_dates_required')
                 ]);
                 exit; // Prefer exit over die for clarity
@@ -35,7 +35,7 @@ class Invite extends ClientsController
             if (!empty($data['g-recaptcha-response']) && get_option('recaptcha_secret_key') && get_option('recaptcha_site_key')) {
                 if (!do_recaptcha_validation($data['g-recaptcha-response'])) {
                     echo json_encode([
-                        'success' => false,
+                        'status' => 'error',
                         'recaptcha' => false,
                         'message' => _l('recaptcha_error'),
                     ]);
@@ -70,7 +70,7 @@ class Invite extends ClientsController
 
             // Send success response
             echo json_encode([
-                'success' => true,
+                'status' => 'success',
                 'message' => _l('appointment_sent_successfully'),
             ]);
             exit;

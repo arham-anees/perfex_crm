@@ -10,6 +10,9 @@ class Prospect_alerts extends ClientsController
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
+        if (is_client_logged_in() && !is_contact_email_verified()) {
+            redirect(site_url('verification'));
+        }
     }
 
     public function index()

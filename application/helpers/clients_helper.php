@@ -929,7 +929,7 @@ function send_customer_registered_email_to_administrators($client_id)
     $admins = $CI->staff_model->get('', ['active' => 1, 'admin' => 1]);
 
     foreach ($admins as $admin) {
-        send_mail_template('customer_new_registration_to_admins', $admin['email'], $client_id, $admin['staffid']);
+        send_mail_template('Customer_new_registration_to_admins', $admin['email'], $client_id, $admin['staffid']);
     }
 }
 
