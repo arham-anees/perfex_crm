@@ -12,6 +12,13 @@ class Leadevo_merge_fields extends App_merge_fields
                 'available' => [
                     'leadevo',
                 ],
+            ],
+            [
+                'name' => 'prospects',
+                'key' => '{prospects}',
+                'available' => [
+                    'leadevo',
+                ],
             ]
         ];
     }
