@@ -7,7 +7,7 @@
                 <div class="panel_s">
                     <div class="panel-body">
                         <div class="_buttons">
-                            <a href="<?php echo admin_url('leadEvo/prospect_status/create'); ?>"
+                            <a href="<?php echo admin_url('leadevo/prospect_status/create'); ?>"
                                 class="btn btn-primary pull-left display-block mleft10">
                                 <i class="fa-regular fa-plus tw-mr-1"></i>
                                 <?php echo _l('New Prospect Status'); ?>
@@ -30,15 +30,15 @@
                                             <td><?php echo $status->name; ?></td>
                                             <td><?php echo $status->description; ?></td>
                                             <td>
-                                                <a href="<?php echo admin_url('leadEvo/prospect_status/view/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_status/view/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-eye"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadEvo/prospect_status/edit/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_status/edit/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a href="<?php echo admin_url('leadEvo/prospect_status/delete/' . $status->id); ?>"
+                                                <a href="<?php echo admin_url('leadevo/prospect_status/delete/' . $status->id); ?>"
                                                     class="btn btn-danger btn-icon"
                                                     onclick="return confirm('Are you sure you want to delete this prospect status?');">
                                                     <i class="fa fa-remove"></i>
