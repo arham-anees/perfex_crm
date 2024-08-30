@@ -13,6 +13,7 @@ class Dashboard extends ClientsController
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
+        
     }
 
     public function index()

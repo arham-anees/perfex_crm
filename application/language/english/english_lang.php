@@ -4048,3 +4048,8 @@ $lang['leadevo_prospect_alert_deactivated'] = 'Prospect Alert deactivated succes
 $lang['leadevo_prospect_alert_deactivation_failed'] = 'Prospect Alert deactivation failed';
 $lang['leadevo_prospect_alert_exclusive'] = 'Exclusive';
 $lang['leadevo_prospect_alert_non_exclusive'] = 'Non-Exclusive';
+$lang['leadevo_client_dashboard_total_campaigns'] = 'Total Campaigns';
+$lang['leadevo_client_dashboard_total_prospects'] = 'Total Prospects';
+$lang['leadevo_client_dashboard_prospects_average_cost'] = 'Prospects Average Cost';
+$lang['leadevo_client_dashboard_reported_prospects'] = 'Reported Prospects';
+

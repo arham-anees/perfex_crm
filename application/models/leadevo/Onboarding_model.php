@@ -57,4 +57,13 @@ class Onboarding_model extends App_Model
         $data['updated_at'] = date('Y-m-d H:i:s');
         return $this->db->where('client_id', $id)->update($this->table, $data);
     }
+
+    public function get_steps_client($id)
+    {
+        return $this->db->select('onboarding_step')
+            ->where('client_id', $id)
+            ->get($this->table)
+            ->row();
+    }
+
 }
