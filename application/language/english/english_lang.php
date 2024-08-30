@@ -4052,3 +4052,8 @@ $lang['leadevo_zapier_webhook'] = 'Webhook';
 $lang['leadevo_zapier_new_webhook'] = 'New Webhook';
 $lang['leadevo_zapier_no_row'] = 'No Zapier webhook is added';
 $lang['leadevo-zapier'] = 'Zapier';
+$lang['leadevo_client_dashboard_total_campaigns'] = 'Total Campaigns';
+$lang['leadevo_client_dashboard_total_prospects'] = 'Total Prospects';
+$lang['leadevo_client_dashboard_prospects_average_cost'] = 'Prospects Average Cost';
+$lang['leadevo_client_dashboard_reported_prospects'] = 'Reported Prospects';
+

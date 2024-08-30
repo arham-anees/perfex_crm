@@ -12,6 +12,9 @@ class Statistics extends ClientsController
         if (is_client_logged_in() && !is_contact_email_verified()) {
             redirect(site_url('verification'));
         }
+        if(!is_onboarding_completed()){
+            redirect(site_url('onboarding'));
+        }
     }
 
     public function index()

@@ -25,6 +25,9 @@ class Clients extends ClientsController
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
+        if(!is_onboarding_completed()){
+            redirect(site_url('onboarding'));
+        }
     }
 
     public function index()

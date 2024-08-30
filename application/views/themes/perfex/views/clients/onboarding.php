@@ -451,7 +451,7 @@
                 }
             }).done((x) => { });
         } else {
-            window.location.reload();
+            window.location.href = site_url;
             document.getElementById('continue-btn').disabled = true;
         }
     }

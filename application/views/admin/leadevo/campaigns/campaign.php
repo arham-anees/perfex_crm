@@ -36,7 +36,7 @@
                         : 'N/A';
 
                       if (($campaign->status_id == 3) && ($start_date >= $current_date)): ?>
-                        <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
+                        <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
                       <?php endif; ?>
 
                       <?php if ($campaign->status_id == 3): ?>

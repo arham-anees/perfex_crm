@@ -31,6 +31,19 @@ function is_contact_email_verified($id = null)
     return !is_null($contact->email_verified_at);
 }
 
+function is_onboarding_completed() {
+    $CI = &get_instance();
+    $CI->load->model('leadevo/Onboarding_model');
+    $client_id = get_client_user_id();
+    $steps = $CI->Onboarding_model->get_steps_client($client_id);
+    if ($steps !=null && $steps->onboarding_step >= 6) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 function init_client_head($aside = true)
 {
     $CI = &get_instance();
