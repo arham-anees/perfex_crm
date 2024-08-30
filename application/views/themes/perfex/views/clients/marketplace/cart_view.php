@@ -89,7 +89,7 @@ $(document).ready(function() {
                         // Handle success (e.g., show a message or redirect)
                         alert('Checkout successful! Invoice ID: ' + response.data);
                         // Optionally, redirect to another page
-                        window.location.href = '<?php echo site_url('clients/invoices'); ?>';
+                        window.location.href = '<?php echo site_url('clients/billing'); ?>';
                     } else {
                         // Handle error
                         alert('Error: ' + (response.message || 'Something went wrong.'));
