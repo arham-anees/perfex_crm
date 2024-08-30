@@ -820,7 +820,7 @@ class Clients extends ClientsController
         $this->layout();
     }
 
-    public function invoices($status = false)
+    public function billing($status = false)
     {
         if (!has_contact_permission('invoices')) {
             set_alert('warning', _l('access_denied'));

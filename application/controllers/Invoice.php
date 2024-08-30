@@ -25,7 +25,7 @@ class Invoice extends ClientsController
             }
 
             $invoice_number = format_invoice_number($invoice->id);
-            $companyname    = get_option('invoice_company_name');
+            $companyname = get_option('invoice_company_name');
             if ($companyname != '') {
                 $invoice_number .= '-' . mb_strtoupper(slug_it($companyname), 'UTF-8');
             }
@@ -51,7 +51,7 @@ class Invoice extends ClientsController
             // Confirm that the payment is related to the invoice.
             if ($payment->invoiceid == $id) {
                 $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
-                $paymentpdf            = payment_pdf($payment);
+                $paymentpdf = payment_pdf($payment);
                 $paymentpdf->Output(mb_strtoupper(slug_it(_l('payment') . '-' . $payment->paymentid), 'UTF-8') . '.pdf', 'D');
                 die;
             }
@@ -63,13 +63,13 @@ class Invoice extends ClientsController
         ], 'numberword');
         $this->load->model('payment_modes_model');
         $this->load->model('payments_model');
-        $data['payments']      = $this->payments_model->get_invoice_payments($id);
+        $data['payments'] = $this->payments_model->get_invoice_payments($id);
         $data['payment_modes'] = $this->payment_modes_model->get();
-        $data['title']         = format_invoice_number($invoice->id);
+        $data['title'] = format_invoice_number($invoice->id);
         $this->disableNavigation();
         $this->disableSubMenu();
-        $data['hash']      = $hash;
-        $data['invoice']   = hooks()->apply_filters('invoice_html_pdf_data', $invoice);
+        $data['hash'] = $hash;
+        $data['invoice'] = hooks()->apply_filters('invoice_html_pdf_data', $invoice);
         $data['bodyclass'] = 'viewinvoice';
         $this->data($data);
         $this->view('invoicehtml');

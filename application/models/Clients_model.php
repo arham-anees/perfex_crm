@@ -591,7 +591,7 @@ class Clients_model extends App_Model
 
             if ($send_welcome_email == true && !empty($data['email'])) {
                 send_mail_template(
-                    'customer_created_welcome_mail',
+                    'Customer_created_welcome_mail',
                     $data['email'],
                     $data['userid'],
                     $contact_id,
@@ -674,7 +674,7 @@ class Clients_model extends App_Model
 
             if ($send_welcome_email === true) {
                 send_mail_template(
-                    'customer_created_welcome_mail',
+                    'Customer_created_welcome_mail',
                     $data['email'],
                     $customer_id,
                     $contact_id,
@@ -1578,7 +1578,7 @@ class Clients_model extends App_Model
             return false;
         }
 
-        $success = send_mail_template('customer_contact_verification', $contact);
+        $success = send_mail_template('Customer_contact_verification', $contact);
 
         if ($success) {
             $this->db->where('id', $id);
@@ -1748,7 +1748,7 @@ class Clients_model extends App_Model
             ORDER BY `dateadded` DESC";
         return $this->db->query($sql)->result();
     }
-    
-    
+
+
 
 }
