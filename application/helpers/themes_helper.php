@@ -20,76 +20,76 @@ function add_default_theme_menu_items()
 {
     if (is_knowledge_base_viewable(true)) {
         add_theme_menu_item('knowledge-base', [
-            'name'     => _l('clients_nav_kb'),
-            'href'     => site_url('knowledge-base'),
+            'name' => _l('clients_nav_kb'),
+            'href' => site_url('knowledge-base'),
             'position' => 5,
         ]);
     }
 
     if (!is_client_logged_in() && get_option('allow_registration') == 1) {
         add_theme_menu_item('register', [
-                'name'     => _l('clients_nav_register'),
-                'href'     => site_url('authentication/register'),
-                'position' => 99,
-            ]);
+            'name' => _l('clients_nav_register'),
+            'href' => site_url('authentication/register'),
+            'position' => 99,
+        ]);
     }
 
     if (!is_client_logged_in()) {
         add_theme_menu_item('login', [
-                    'name'     => _l('clients_nav_login'),
-                    'href'     => site_url('authentication/login'),
-                    'position' => 100,
-                    'icon'     => 'fa-regular fa-user',
-                ]);
+            'name' => _l('clients_nav_login'),
+            'href' => site_url('authentication/login'),
+            'position' => 100,
+            'icon' => 'fa-regular fa-user',
+        ]);
     } else {
         if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
-                    'name'     => _l('clients_nav_projects'),
-                    'href'     => site_url('clients/projects'),
-                    'position' => 10,
-                ]);
+                'name' => _l('clients_nav_projects'),
+                'href' => site_url('clients/projects'),
+                'position' => 10,
+            ]);
         }
         if (has_contact_permission('invoices')) {
             add_theme_menu_item('invoices', [
-                    'name'     => _l('clients_nav_billing'),
-                    'href'     => site_url('clients/invoices'),
-                    'position' => 15,
-                ]);
+                'name' => _l('clients_nav_billing'),
+                'href' => site_url('clients/billing'),
+                'position' => 15,
+            ]);
         }
         if (has_contact_permission('contracts')) {
             add_theme_menu_item('contracts', [
-                    'name'     => _l('clients_nav_contracts'),
-                    'href'     => site_url('clients/contracts'),
-                    'position' => 20,
-                ]);
+                'name' => _l('clients_nav_contracts'),
+                'href' => site_url('clients/contracts'),
+                'position' => 20,
+            ]);
         }
         if (has_contact_permission('estimates')) {
             add_theme_menu_item('estimates', [
-                    'name'     => _l('clients_nav_estimates'),
-                    'href'     => site_url('clients/estimates'),
-                    'position' => 25,
-                ]);
+                'name' => _l('clients_nav_estimates'),
+                'href' => site_url('clients/estimates'),
+                'position' => 25,
+            ]);
         }
         if (has_contact_permission('proposals')) {
             add_theme_menu_item('proposals', [
-                    'name'     => _l('clients_nav_proposals'),
-                    'href'     => site_url('clients/proposals'),
-                    'position' => 30,
-                ]);
+                'name' => _l('clients_nav_proposals'),
+                'href' => site_url('clients/proposals'),
+                'position' => 30,
+            ]);
         }
         if (can_logged_in_contact_view_subscriptions()) {
             add_theme_menu_item('subscriptions', [
-                    'name'     => _l('subscriptions'),
-                    'href'     => site_url('clients/subscriptions'),
-                    'position' => 40,
-                ]);
+                'name' => _l('subscriptions'),
+                'href' => site_url('clients/subscriptions'),
+                'position' => 40,
+            ]);
         }
         if (has_contact_permission('support')) {
             add_theme_menu_item('support', [
-                    'name'     => _l('clients_nav_support'),
-                    'href'     => site_url('clients/tickets'),
-                    'position' => 45,
-                ]);
+                'name' => _l('clients_nav_support'),
+                'href' => site_url('clients/tickets'),
+                'position' => 45,
+            ]);
         }
     }
 }
@@ -208,7 +208,7 @@ function get_template_part($name, $data = [], $return = false)
         return '';
     }
 
-    $CI   = & get_instance();
+    $CI = &get_instance();
     $path = 'themes/' . get_option('clients_default_theme') . '/' . 'template_parts/';
 
     if ($return == true) {
@@ -233,7 +233,7 @@ function get_all_client_themes()
  */
 function active_clients_theme()
 {
-    $CI = & get_instance();
+    $CI = &get_instance();
 
     $theme = get_option('clients_default_theme');
 
@@ -276,59 +276,59 @@ function app_theme_head_hook()
     $date_format = get_option('dateformat');
     $date_format = explode('|', $date_format);
     $date_format = $date_format[0]; ?>
-<script>
-<?php if (is_staff_logged_in()) {
-        ?>
-var admin_url = '<?php echo admin_url(); ?>';
-<?php
-    } ?>
+    <script>
+        <?php if (is_staff_logged_in()) {
+            ?>
+            var admin_url = '<?php echo admin_url(); ?>';
+            <?php
+        } ?>
 
-var site_url = '<?php echo site_url(''); ?>',
-    app = {},
-    cfh_popover_templates = {};
+        var site_url = '<?php echo site_url(''); ?>',
+            app = {},
+            cfh_popover_templates = {};
 
-app.isRTL = '<?php echo $isRTL; ?>';
-app.is_mobile = '<?php echo is_mobile(); ?>';
-app.months_json =
-    '<?php echo json_encode([_l('January'), _l('February'), _l('March'), _l('April'), _l('May'), _l('June'), _l('July'), _l('August'), _l('September'), _l('October'), _l('November'), _l('December')]); ?>';
+        app.isRTL = '<?php echo $isRTL; ?>';
+        app.is_mobile = '<?php echo is_mobile(); ?>';
+        app.months_json =
+            '<?php echo json_encode([_l('January'), _l('February'), _l('March'), _l('April'), _l('May'), _l('June'), _l('July'), _l('August'), _l('September'), _l('October'), _l('November'), _l('December')]); ?>';
 
-app.browser = "<?php echo strtolower($CI->agent->browser()); ?>";
-app.max_php_ini_upload_size_bytes = "<?php echo $maxUploadSize; ?>";
-app.locale = "<?php echo $locale; ?>";
+        app.browser = "<?php echo strtolower($CI->agent->browser()); ?>";
+        app.max_php_ini_upload_size_bytes = "<?php echo $maxUploadSize; ?>";
+        app.locale = "<?php echo $locale; ?>";
 
-app.options = {
-    calendar_events_limit: "<?php echo get_option('calendar_events_limit'); ?>",
-    calendar_first_day: "<?php echo get_option('calendar_first_day'); ?>",
-    tables_pagination_limit: "<?php echo get_option('tables_pagination_limit'); ?>",
-    enable_google_picker: "<?php echo get_option('enable_google_picker'); ?>",
-    google_client_id: "<?php echo get_option('google_client_id'); ?>",
-    google_api: "<?php echo get_option('google_api_key'); ?>",
-    default_view_calendar: "<?php echo get_option('default_view_calendar'); ?>",
-    timezone: "<?php echo get_option('default_timezone'); ?>",
-    allowed_files: "<?php echo get_option('allowed_files'); ?>",
-    date_format: "<?php echo $date_format; ?>",
-    time_format: "<?php echo get_option('time_format'); ?>",
-};
+        app.options = {
+            calendar_events_limit: "<?php echo get_option('calendar_events_limit'); ?>",
+            calendar_first_day: "<?php echo get_option('calendar_first_day'); ?>",
+            tables_pagination_limit: "<?php echo get_option('tables_pagination_limit'); ?>",
+            enable_google_picker: "<?php echo get_option('enable_google_picker'); ?>",
+            google_client_id: "<?php echo get_option('google_client_id'); ?>",
+            google_api: "<?php echo get_option('google_api_key'); ?>",
+            default_view_calendar: "<?php echo get_option('default_view_calendar'); ?>",
+            timezone: "<?php echo get_option('default_timezone'); ?>",
+            allowed_files: "<?php echo get_option('allowed_files'); ?>",
+            date_format: "<?php echo $date_format; ?>",
+            time_format: "<?php echo get_option('time_format'); ?>",
+        };
 
-app.lang = {
-    file_exceeds_maxfile_size_in_form: "<?php echo _l('file_exceeds_maxfile_size_in_form'); ?>" +
-        ' (<?php echo bytesToSize('', $maxUploadSize); ?>)',
-    file_exceeds_max_filesize: "<?php echo _l('file_exceeds_max_filesize'); ?>" +
-        ' (<?php echo bytesToSize('', $maxUploadSize); ?>)',
-    validation_extension_not_allowed: "<?php echo _l('validation_extension_not_allowed'); ?>",
-    sign_document_validation: "<?php echo _l('sign_document_validation'); ?>",
-    dt_length_menu_all: "<?php echo _l('dt_length_menu_all'); ?>",
-    drop_files_here_to_upload: "<?php echo _l('drop_files_here_to_upload'); ?>",
-    browser_not_support_drag_and_drop: "<?php echo _l('browser_not_support_drag_and_drop'); ?>",
-    confirm_action_prompt: "<?php echo _l('confirm_action_prompt'); ?>",
-    datatables: <?php echo json_encode(get_datatables_language_array()); ?>,
-    discussions_lang: <?php echo json_encode(get_project_discussions_language_array()); ?>,
-};
-window.addEventListener('load', function() {
-    custom_fields_hyperlink();
-});
-</script>
-<?php
+        app.lang = {
+            file_exceeds_maxfile_size_in_form: "<?php echo _l('file_exceeds_maxfile_size_in_form'); ?>" +
+                ' (<?php echo bytesToSize('', $maxUploadSize); ?>)',
+            file_exceeds_max_filesize: "<?php echo _l('file_exceeds_max_filesize'); ?>" +
+                ' (<?php echo bytesToSize('', $maxUploadSize); ?>)',
+            validation_extension_not_allowed: "<?php echo _l('validation_extension_not_allowed'); ?>",
+            sign_document_validation: "<?php echo _l('sign_document_validation'); ?>",
+            dt_length_menu_all: "<?php echo _l('dt_length_menu_all'); ?>",
+            drop_files_here_to_upload: "<?php echo _l('drop_files_here_to_upload'); ?>",
+            browser_not_support_drag_and_drop: "<?php echo _l('browser_not_support_drag_and_drop'); ?>",
+            confirm_action_prompt: "<?php echo _l('confirm_action_prompt'); ?>",
+            datatables: <?php echo json_encode(get_datatables_language_array()); ?>,
+            discussions_lang: <?php echo json_encode(get_project_discussions_language_array()); ?>,
+        };
+        window.addEventListener('load', function () {
+            custom_fields_hyperlink();
+        });
+    </script>
+    <?php
 
     _do_clients_area_deprecated_js_vars($date_format, $locale, $maxUploadSize, $isRTL);
 
@@ -340,49 +340,49 @@ window.addEventListener('load', function() {
 function _do_clients_area_deprecated_js_vars($date_format, $locale, $maxUploadSize, $isRTL)
 {
     ?>
-<script>
-/**
- * @deprecated 2.3.2
- * Do not use any of these below as will be removed in future updates.
- */
-var isRTL = '<?php echo $isRTL; ?>';
+    <script>
+        /**
+         * @deprecated 2.3.2
+         * Do not use any of these below as will be removed in future updates.
+         */
+        var isRTL = '<?php echo $isRTL; ?>';
 
-var calendar_events_limit = "<?php echo get_option('calendar_events_limit'); ?>";
-var maximum_allowed_ticket_attachments = "<?php echo get_option('maximum_allowed_ticket_attachments'); ?>";
+        var calendar_events_limit = "<?php echo get_option('calendar_events_limit'); ?>";
+        var maximum_allowed_ticket_attachments = "<?php echo get_option('maximum_allowed_ticket_attachments'); ?>";
 
-var max_php_ini_upload_size_bytes = "<?php echo $maxUploadSize; ?>";
+        var max_php_ini_upload_size_bytes = "<?php echo $maxUploadSize; ?>";
 
-var file_exceeds_maxfile_size_in_form = "<?php echo _l('file_exceeds_maxfile_size_in_form'); ?>" +
-    ' (<?php echo bytesToSize('', $maxUploadSize); ?>)';
-var file_exceeds_max_filesize = "<?php echo _l('file_exceeds_max_filesize'); ?>" +
-    ' (<?php echo bytesToSize('', $maxUploadSize); ?>)';
+        var file_exceeds_maxfile_size_in_form = "<?php echo _l('file_exceeds_maxfile_size_in_form'); ?>" +
+            ' (<?php echo bytesToSize('', $maxUploadSize); ?>)';
+        var file_exceeds_max_filesize = "<?php echo _l('file_exceeds_max_filesize'); ?>" +
+            ' (<?php echo bytesToSize('', $maxUploadSize); ?>)';
 
-var validation_extension_not_allowed = "<?php echo _l('validation_extension_not_allowed'); ?>";
-var sign_document_validation = "<?php echo _l('sign_document_validation'); ?>";
-var dt_length_menu_all = "<?php echo _l('dt_length_menu_all'); ?>";
+        var validation_extension_not_allowed = "<?php echo _l('validation_extension_not_allowed'); ?>";
+        var sign_document_validation = "<?php echo _l('sign_document_validation'); ?>";
+        var dt_length_menu_all = "<?php echo _l('dt_length_menu_all'); ?>";
 
-var drop_files_here_to_upload = "<?php echo _l('drop_files_here_to_upload'); ?>";
-var browser_not_support_drag_and_drop = "<?php echo _l('browser_not_support_drag_and_drop'); ?>";
-var remove_file = "<?php echo _l('remove_file'); ?>";
-var tables_pagination_limit = "<?php echo get_option('tables_pagination_limit'); ?>";
-var enable_google_picker = "<?php echo get_option('enable_google_picker'); ?>";
-var google_client_id = "<?php echo get_option('google_client_id'); ?>";
-var google_api = "<?php echo get_option('google_api_key'); ?>";
-var acceptable_mimes = "<?php echo get_form_accepted_mimes(); ?>";
-var date_format = "<?php echo $date_format; ?>";
-var time_format = "<?php echo get_option('time_format'); ?>";
-var default_view_calendar = "<?php echo get_option('default_view_calendar'); ?>";
-var dt_lang = <?php echo json_encode(get_datatables_language_array()); ?>;
-var discussions_lang = <?php echo json_encode(get_project_discussions_language_array()); ?>;
-var confirm_action_prompt = "<?php echo _l('confirm_action_prompt'); ?>";
-var cf_translate_input_link_tip = "<?php echo _l('cf_translate_input_link_tip'); ?>";
+        var drop_files_here_to_upload = "<?php echo _l('drop_files_here_to_upload'); ?>";
+        var browser_not_support_drag_and_drop = "<?php echo _l('browser_not_support_drag_and_drop'); ?>";
+        var remove_file = "<?php echo _l('remove_file'); ?>";
+        var tables_pagination_limit = "<?php echo get_option('tables_pagination_limit'); ?>";
+        var enable_google_picker = "<?php echo get_option('enable_google_picker'); ?>";
+        var google_client_id = "<?php echo get_option('google_client_id'); ?>";
+        var google_api = "<?php echo get_option('google_api_key'); ?>";
+        var acceptable_mimes = "<?php echo get_form_accepted_mimes(); ?>";
+        var date_format = "<?php echo $date_format; ?>";
+        var time_format = "<?php echo get_option('time_format'); ?>";
+        var default_view_calendar = "<?php echo get_option('default_view_calendar'); ?>";
+        var dt_lang = <?php echo json_encode(get_datatables_language_array()); ?>;
+        var discussions_lang = <?php echo json_encode(get_project_discussions_language_array()); ?>;
+        var confirm_action_prompt = "<?php echo _l('confirm_action_prompt'); ?>";
+        var cf_translate_input_link_tip = "<?php echo _l('cf_translate_input_link_tip'); ?>";
 
-var locale = '<?php echo $locale; ?>';
-var timezone = "<?php echo get_option('default_timezone'); ?>";
-var allowed_files = "<?php echo get_option('allowed_files'); ?>";
-var calendar_first_day = '<?php echo get_option('calendar_first_day'); ?>';
-var months_json =
-    '<?php echo json_encode([_l('January'), _l('February'), _l('March'), _l('April'), _l('May'), _l('June'), _l('July'), _l('August'), _l('September'), _l('October'), _l('November'), _l('December')]); ?>';
-</script>
-<?php
+        var locale = '<?php echo $locale; ?>';
+        var timezone = "<?php echo get_option('default_timezone'); ?>";
+        var allowed_files = "<?php echo get_option('allowed_files'); ?>";
+        var calendar_first_day = '<?php echo get_option('calendar_first_day'); ?>';
+        var months_json =
+            '<?php echo json_encode([_l('January'), _l('February'), _l('March'), _l('April'), _l('May'), _l('June'), _l('July'), _l('August'), _l('September'), _l('October'), _l('November'), _l('December')]); ?>';
+    </script>
+    <?php
 }

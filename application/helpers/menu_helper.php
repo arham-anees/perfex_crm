@@ -765,7 +765,6 @@ function app_init_client_sidebar_menu_items()
         'name' => _l('als_dashboard'),
         'href' => site_url(),
         'position' => 1,
-        'icon' => 'fa fa-home',
         'badge' => [],
     ]);
 
@@ -774,58 +773,50 @@ function app_init_client_sidebar_menu_items()
         'slug' => 'leadevo-marketplace-onboarding',
         'name' => 'Onboarding',
         'href' => site_url('onboarding'),
-        'position' => 2,
-        'icon' => 'fa fa-gear',
+        'position' => 2
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects',
         'href' => site_url('prospects'),
-        'position' => 3,
-        'icon' => 'fa fa-lightbulb',
+        'position' => 3
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospect_alerts', [
         'slug' => 'leadevo-user-prospect_alerts',
         'name' => 'Prospects Alert',
         'href' => site_url('prospect_alerts'),
-        'position' => 3,
-        'icon' => 'fa fa-lightbulb',
+        'position' => 3
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects_purchased', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects Purchased',
         'href' => site_url('prospects/purchased'),
-        'position' => 3,
-        'icon' => 'fa fa-lightbulb',
+        'position' => 3
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_reported_prospects', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Reported Prospects',
         'href' => site_url('prospects/reported'),
-        'position' => 4,
-        'icon' => 'fa fa-lightbulb',
+        'position' => 4
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_campaign', [
         'slug' => 'leadevo-user-comaigns',
         'name' => 'Campaigns',
         'href' => site_url('campaigns'),
-        'position' => 5,
-        'icon' => 'fa fa-th-list',
+        'position' => 5
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_marketplace', [
         'slug' => 'leadevo-marketplace-leads',
         'name' => 'Marketplace',
         'href' => site_url('marketplace'),
-        'position' => 6,
-        'icon' => 'fa fa-shopping-cart',
+        'position' => 6
     ]);
 
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_statistics', [
         'slug' => 'leadevo-marketplace-leads',
         'name' => 'Statistics',
         'href' => site_url('statistics'),
-        'position' => 7,
-        'icon' => 'fa fa-chart-bar',
+        'position' => 7
     ]);
 
 }
