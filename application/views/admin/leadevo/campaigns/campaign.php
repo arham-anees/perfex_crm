@@ -32,11 +32,11 @@
                       <?php
                       $current_date = date('Y-m-d');
                       $start_date = !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
-                        ? date('d M Y', strtotime($campaign->start_date))
+                        ? date('Y-m-d', strtotime($campaign->start_date))
                         : 'N/A';
 
-                      if (($campaign->status_id == 3) && ($current_date <= $start_date)): ?>
-                        <a href="<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
+                      if (($campaign->status_id == 3) && ($start_date >= $current_date)): ?>
+                        <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>">Edit</a> |
                       <?php endif; ?>
 
                       <?php if ($campaign->status_id == 3): ?>
