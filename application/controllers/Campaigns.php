@@ -8,8 +8,12 @@ class Campaigns extends ClientsController
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Client_invoices_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
 
     }
+
 
     public function index()
     {

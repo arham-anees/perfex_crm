@@ -10,6 +10,9 @@ class Marketplace extends ClientsController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Cart_model'); // Ensure Cart_model is loaded
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

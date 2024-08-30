@@ -10,6 +10,9 @@ class Dashboard extends ClientsController
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Cart_model');
         $this->load->model('Leads_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

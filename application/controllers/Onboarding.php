@@ -10,6 +10,9 @@ class Onboarding extends ClientsController
 
         $this->load->database();
         $this->load->model('leadevo/Onboarding_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

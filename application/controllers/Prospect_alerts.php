@@ -7,6 +7,9 @@ class Prospect_alerts extends ClientsController
         parent::__construct();
         $this->load->model('leadevo/Prospect_alerts_model');
         $this->load->model('leadevo/Prospect_categories_model'); // Assuming you need this model for categories
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

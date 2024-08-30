@@ -6,6 +6,9 @@ class Statistics extends ClientsController
         parent::__construct();
 
         $this->load->model('leadevo/Stats_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

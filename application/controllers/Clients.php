@@ -21,6 +21,9 @@ class Clients extends ClientsController
         $this->load->model('leadevo/Stats_model');
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     public function index()

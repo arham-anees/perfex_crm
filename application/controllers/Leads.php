@@ -15,6 +15,9 @@ class Leads extends ClientsController
     {
         parent::__construct();
         $this->load->model('leads_model');
+        if (!is_client_logged_in()) {
+            redirect(site_url('authentication'));
+        }
     }
 
     /* List all leads */
