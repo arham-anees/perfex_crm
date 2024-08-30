@@ -20,13 +20,10 @@ class Prospect_alerts extends ClientsController
 
     public function index()
     {
-        log_message('error', 'step1');
         $search = $this->input->get('search');
         $data['categories'] = $this->Prospect_categories_model->get_all();
-        log_message('error', 'step2');
         $filter = $this->input->get('filter');
-        $data['alerts'] = $this->Prospect_alerts_model->get_all();
-        log_message('error', 'step3');
+        $data['alerts'] = $this->Prospect_alerts_model->get_all_client();
         $this->data($data);
         $this->view('clients/prospect_alerts/prospect_alerts');
         $this->layout();
@@ -40,6 +37,12 @@ class Prospect_alerts extends ClientsController
                 'prospect_category_id' => $this->input->post('prospect_category_id'),
                 'email' => $this->input->post('email'),
                 'phone' => $this->input->post('phone'),
+                'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
+                'industry_id' => $this->input->post('industry_id'),
+                'source_id' => $this->input->post('source_id'),
+                'verified_whatsapp' => $this->input->post('verified_whatsapp') == null ? null : (int) $this->input->post('verified_whatsapp'),
+                'verified_sms' => $this->input->post('verified_sms') == null ? null : (int) $this->input->post('verified_sms'),
+                'verified_staff' => $this->input->post('verified_staff') == null ? null : (int) $this->input->post('verified_staff'),
                 'status' => 0,
                 'is_exclusive' => (int) $this->input->post('is_exclusive'),
             ];
@@ -67,7 +70,13 @@ class Prospect_alerts extends ClientsController
                 'prospect_category_id' => $this->input->post('prospect_category_id'),
                 'email' => $this->input->post('email'),
                 'phone' => $this->input->post('phone'),
-                'is_exclusive' => (int) $this->input->post('is_exclusive')
+                'is_exclusive' => (int) $this->input->post('is_exclusive'),
+                'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
+                'industry_id' => $this->input->post('industry_id'),
+                'source_id' => $this->input->post('source_id'),
+                'verified_whatsapp' => $this->input->post('verified_whatsapp') == null ? null : (int) $this->input->post('verified_whatsapp'),
+                'verified_sms' => $this->input->post('verified_sms') == null ? null : (int) $this->input->post('verified_sms'),
+                'verified_staff' => $this->input->post('verified_staff') == null ? null : (int) $this->input->post('verified_staff')
             ];
 
             // Update the prospect alert in the database

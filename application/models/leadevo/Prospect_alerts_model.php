@@ -20,18 +20,28 @@ class Prospect_alerts_model extends CI_Model
         return $query->result_array();
     }
 
+    public function get_all_client()
+    {
+        $this->db->select('a.*, c.name as prospect_category');
+        $this->db->from('tblleadevo_prospect_alerts a');
+        $this->db->where('a.client_id', get_client_user_id());
+        $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
 
     // Get a single prospect alert by ID
-   // Prospect_alerts_model.php
-public function get($id)
-{
-    $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, c.name as prospect_category');
-    $this->db->from('tblleadevo_prospect_alerts a');
-    $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
-    $this->db->where('a.id', $id);
-    $query = $this->db->get();
-    return $query->row_array();
-}
+    // Prospect_alerts_model.php
+    public function get($id)
+    {
+        $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, c.name as prospect_category');
+        $this->db->from('tblleadevo_prospect_alerts a');
+        $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
+        $this->db->where('a.id', $id);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 
 
     // Insert a new prospect alert
