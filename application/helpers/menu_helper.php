@@ -692,13 +692,13 @@ function app_init_admin_sidebar_menu_items()
         'position' => 6,
         'badge' => [],
     ]);
-    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
-        'slug' => 'leadevo-setup-prospect-categories',
-        'name' => _l('leadevo_setup_prospect_categories_menu'),
-        'href' => admin_url('leadevo/prospect_categories'),
-        'position' => 7,
-        'badge' => [],
-    ]);
+    // $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+    //     'slug' => 'leadevo-setup-prospect-categories',
+    //     'name' => _l('leadevo_setup_prospect_categories_menu'),
+    //     'href' => admin_url('leadevo/prospect_categories'),
+    //     'position' => 7,
+    //     'badge' => [],
+    // ]);
     $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
         'slug' => 'leadevo-setup-industries',
         'name' => _l('leadevo_setup_industries_menu'),

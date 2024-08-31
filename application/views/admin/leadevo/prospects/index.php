@@ -34,7 +34,6 @@ function displayStars($rating, $maxStars = 5)
                                             <th><?php echo _l('Status'); ?></th>
                                             <th><?php echo _l('Stars'); ?></th>
                                             <th><?php echo _l('Type'); ?></th>
-                                            <th><?php echo _l('Category'); ?></th>
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
                                             <th><?php echo _l('Industry'); ?></th>
                                             <th><?php echo _l('Status'); ?></th>
@@ -457,7 +456,7 @@ function displayStars($rating, $maxStars = 5)
                 $('#prospectLastName').text(data.last_name);
                 $('#prospectStatus').text(data.status);
                 $('#prospectType').text(data.type);
-                $('#prospectCategory').text(data.category);
+              
                 $('#prospectAcquisitionChannel').text(data.acquisition_channel);
                 $('#prospectIndustry').text(data.industry);
 

@@ -61,7 +61,6 @@
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
                                         <th><?php echo _l('Type'); ?></th>
-                                        <th><?php echo _l('Category'); ?></th>
                                         <th><?php echo _l('Acquisition Channels'); ?></th>
                                         <th><?php echo _l('Desired Amount'); ?></th>
                                         <th><?php echo _l('Industry'); ?></th>
@@ -90,7 +89,7 @@
                                             <td><?php echo htmlspecialchars($prospect['status'] ?? ''); ?></td>
                                             
                                             <td><?php echo htmlspecialchars($prospect['type'] ?? ''); ?></td>
-                                            <td><?php echo htmlspecialchars($prospect['category'] ?? ''); ?></td>
+                                            
                                             <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['desired_amount'] ?? ''); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['industry'] ?? ''); ?></td>
