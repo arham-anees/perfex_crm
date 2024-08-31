@@ -6,6 +6,7 @@ class Prospect_status extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/prospect_status_model');
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -17,26 +18,40 @@ class Prospect_status extends AdminController
 
     public function create()
     {
+
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => 1,
-            ];
-            $this->prospect_status_model->insert($data);
-            redirect(admin_url('leadevo/prospect_status'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
+               
+                $this->prospect_status_model->insert($data);
+                redirect(admin_url('leadevo/prospect_status'));
+            }
         }
         $this->load->view('admin/setup/prospect_status/prospect_status_create');
     }
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        
+        // $this->form_validation->set_rules('description', 'Description','required');
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
-            ];
-            $this->prospect_status_model->update($id, $data);
-            redirect(admin_url('leadevo/prospect_status'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
+                
+                $this->prospect_status_model->update($id, $data);
+                redirect(admin_url('leadevo/prospect_status'));
+            }
         }
         $data['status'] = $this->prospect_status_model->get($id);
         $this->load->view('admin/setup/prospect_status/prospect_status_edit', $data);
@@ -56,6 +71,7 @@ class Prospect_status extends AdminController
     public function view($id) // Add this method to handle the view route
     {
         $data['status'] = $this->prospect_status_model->get($id);
+
         $this->load->view('admin/setup/prospect_status/prospect_status_view', $data); // Create this view file
     }
 }

@@ -6,6 +6,7 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
+                        <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
                         <?php echo form_open(); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>

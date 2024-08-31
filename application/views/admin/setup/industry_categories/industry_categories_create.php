@@ -8,6 +8,8 @@
                     <div class="panel-body">
                         <h4 class="no-margin"><?php echo _l('New Industry Category'); ?></h4>
                         <hr class="hr-panel-heading" />
+                        <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
+
                         <?php echo form_open(admin_url('leadevo/industry_categories/create')); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>

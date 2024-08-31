@@ -6,37 +6,49 @@ class Prospect_categories extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/prospect_categories_model');
+        $this->load->library('form_validation');
+
     }
 
     public function index()
     {
         $data['categories'] = $this->prospect_categories_model->get_all();
         $this->load->view('admin/setup/prospect_categories/prospect_categories', $data); // Ensure this view file exists
+
     }
 
     public function create()
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => 1,
-            ];
-            $this->prospect_categories_model->insert($data);
-            redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => 1,
+                ];
+                $this->prospect_categories_model->insert($data);
+                redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
+            }
         }
         $this->load->view('admin/setup/prospect_categories/prospect_categories_create');
     }
 
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
-            ];
-            $this->prospect_categories_model->update($id, $data);
-            redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description')
+                ];
+                $this->prospect_categories_model->update($id, $data);
+                redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
+            }
         }
         $data['category'] = $this->prospect_categories_model->get($id);
         $this->load->view('admin/setup/prospect_categories/prospect_category_edit', $data);

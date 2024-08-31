@@ -7,6 +7,7 @@ class Industries extends AdminController
         parent::__construct();
         $this->load->model('leadevo/industries_model');
         $this->load->model('leadevo/industry_categories_model'); // Load industry categories model
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -18,16 +19,22 @@ class Industries extends AdminController
 
     public function create()
     {
-        if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'category_id' => $this->input->post('category_id'),
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+        $this->form_validation->set_rules('category_id', 'Select Category','required');
 
-                'is_active' => 1,
-            ];
-            $this->industries_model->insert($data);
-            redirect(admin_url('leadevo/industries'));
+        if ($this->input->post()) {
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'category_id' => $this->input->post('category_id'),
+
+                    'is_active' => 1,
+                ];
+                $this->industries_model->insert($data);
+                redirect(admin_url('leadevo/industries'));
+            }
         }
         
         // Fetch categories to show in the create form
@@ -37,15 +44,22 @@ class Industries extends AdminController
 
     public function edit($id)
     {
-        if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'category_id' => $this->input->post('category_id'),
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+        $this->form_validation->set_rules('category_id', 'Select Category','required');
 
-            ];
-            $this->industries_model->update($id, $data);
-            redirect(admin_url('leadevo/industries'));
+        if ($this->input->post()) {
+            if ($this->form_validation->run() !== false) {
+
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'category_id' => $this->input->post('category_id'),
+
+                ];
+                $this->industries_model->update($id, $data);
+                redirect(admin_url('leadevo/industries'));
+            }
         }
         
         // Fetch the specific industry and categories to show in the edit form

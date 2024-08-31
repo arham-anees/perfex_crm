@@ -7,6 +7,8 @@ class Prospect_types extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/prospect_types_model');
+        $this->load->library('form_validation');
+
     }
 
     public function index()
@@ -17,27 +19,38 @@ class Prospect_types extends AdminController
 
     public function create()
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => 1,
-            ];
-            $this->prospect_types_model->insert($data);
-            redirect(admin_url('leadevo/prospect_types')); // Updated to match route
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => 1,
+                ];
+                $this->prospect_types_model->insert($data);
+                redirect(admin_url('leadevo/prospect_types')); // Updated to match route
+            }
         }
         $this->load->view('admin/setup/prospect_types/prospect_types_create');
     }
 
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
-            ];
-            $this->prospect_types_model->update($id, $data);
-            redirect(admin_url('leadevo/prospect_types')); // Updated to match route
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description')
+                ];
+                $this->prospect_types_model->update($id, $data);
+                redirect(admin_url('leadevo/prospect_types')); // Updated to match route
+            }
         }
         $data['type'] = $this->prospect_types_model->get($id);
         $this->load->view('admin/setup/prospect_types/prospect_type_edit', $data);

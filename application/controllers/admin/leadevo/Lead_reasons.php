@@ -6,6 +6,8 @@ class Lead_reasons extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/lead_reasons_model');
+        $this->load->library('form_validation');
+
     }
 
     public function index()
@@ -16,27 +18,37 @@ class Lead_reasons extends AdminController
 
     public function create()
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => 1,
-            ];
-            $this->lead_reasons_model->insert($data);
-            redirect(admin_url('leadevo/lead_reasons'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => 1,
+                ];
+                $this->lead_reasons_model->insert($data);
+                redirect(admin_url('leadevo/lead_reasons'));
+            }
         }
         $this->load->view('admin/setup/lead_reasons/lead_reason_create');
     }
 
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
-            ];
-            $this->lead_reasons_model->update($id, $data);
-            redirect(admin_url('leadevo/lead_reasons'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description')
+                ];
+                $this->lead_reasons_model->update($id, $data);
+                redirect(admin_url('leadevo/lead_reasons'));
+            }
         }
         $data['reason'] = $this->lead_reasons_model->get($id);
         $this->load->view('admin/setup/lead_reasons/lead_reason_edit', $data);
