@@ -130,7 +130,6 @@ class Campaigns extends ClientsController
     public function edit($id)
     {
         $campaign = $this->Campaigns_model->get($id);
-
         $status = $this->Campaigns_model->get_campaign_statuses();
         $status_name = '';
         foreach ($status as $stat) {
@@ -157,19 +156,7 @@ class Campaigns extends ClientsController
             $end_date = $this->input->post('end_date');
             $current_date = date('Y-m-d');
 
-            // Validate dates
-            if ($start_date == $current_date) {
-                $this->session->set_flashdata('error', 'Start date cannot be before the current date.');
-                redirect(site_url('campaigns/edit/' . $id));
-            }
-            if ($end_date < $start_date) {
-                $this->session->set_flashdata('error', 'End date cannot be before the start date.');
-                redirect(site_url('campaigns/edit/' . $id));
-            }
-            if ($end_date < $current_date) {
-                $this->session->set_flashdata('error', 'End date cannot be before the current date.');
-                redirect(site_url('campaigns/edit/' . $id));
-            }
+
 
             $data = [
                 'name' => $this->input->post('name'),

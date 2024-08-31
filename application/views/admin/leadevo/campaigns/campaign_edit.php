@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        fetch('<?php echo site_url('campaigns/edit/' . $campaign->id); ?>', {
+        fetch('<?php echo admin_url('campaigns/edit/' . $campaign->id); ?>', {
             method: 'POST',
             body: formData,
             headers: {
