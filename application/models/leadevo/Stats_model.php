@@ -631,4 +631,20 @@ class Stats_model extends CI_Model
         $query = $this->db->query($sql);
         return $query->result();
     }
+
+
+    public function client_billing_stats()
+    {
+        $sql = "SELECT 
+                    SUM(i.total ) total_invoices,
+                    SUM(CASE WHEN i.status = 1 THEN i.total ELSE NULL END ) pending_invoices,
+                    SUM(CASE WHEN i.status = 2 THEN i.total ELSE NULL END ) paid_invoices,
+                    SUM(CASE WHEN i.status = 4 THEN i.total ELSE NULL END ) overdue_invoice,
+                    SUM(CASE WHEN i.status = 5 THEN i.total ELSE NULL END ) cancelled_invoices
+                FROM `tblinvoices` i 
+                INNER JOIN tbltaggables t ON t.rel_id = i.id
+                INNER JOIN tbltags tags ON tags.id = t.tag_id
+                WHERE i.clientid = " . get_client_user_id() . " AND t.rel_type = 'invoice' AND (tags.name LIKE 'LeadEvo Campaign Checkout'  OR tags.name='LeadEvo Checkout')";
+        return $this->db->query($sql)->result_array();
+    }
 }
