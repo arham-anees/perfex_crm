@@ -124,6 +124,19 @@ class Prospects extends AdminController
         redirect(admin_url('prospects'));
     }
 
+    public function reject_prospect_report()
+    {
+        $campaign_id = $this->input->post('campaign_id');
+        $prospect_id = $this->input->post('id'); // Assuming 'id' is used for 'prospect_id'
+        $description = $this->input->post('reject_description');
+    
+        if (isset($campaign_id) && isset($prospect_id) && isset($description)) {
+            $this->Prospects_model->reject_prospect_report($campaign_id, $prospect_id, $description);
+        }
+        redirect(admin_url('prospects/reported'));
+    }
+    
+
 
     public function mark_as_auto_deliverable()
     {
