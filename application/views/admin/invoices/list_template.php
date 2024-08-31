@@ -41,31 +41,49 @@
             <div class="clearfix"></div>
         </div>
 
-        <div>
+        <div class="row">
             <h1>LeadEvo Statistics</h1>
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="panel_s">
                     <div class="panel-body text-left">
                         <h5 class="no-margin">Total Invoices</h5>
-                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                        <h1 class="bold"><?php echo $leadevo_invoice_data['total_invoices']??0; ?></h1>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="panel_s">
                     <div class="panel-body text-left">
                         <h5 class="no-margin">Cancelled Invoices</h5>
-                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                        <h1 class="bold"><?php echo $leadevo_invoice_data['cancelled_invoices']??0; ?></h1>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="panel_s">
                     <div class="panel-body text-left">
                         <h5 class="no-margin">Paid Invoices</h5>
-                        <!-- <h1 class="bold"><?php echo $campaign_stats[0]->open_today; ?></h1> -->
+                        <h1 class="bold"><?php echo $leadevo_invoice_data['paid_invoices']??0; ?></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="panel_s">
+                    <div class="panel-body text-left">
+                        <h5 class="no-margin">Pending Invoices</h5>
+                        <h1 class="bold"><?php echo $leadevo_invoice_data['pending_invoices']??0; ?></h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="panel_s">
+                    <div class="panel-body text-left">
+                        <h5 class="no-margin">Overdue Invoices</h5>
+                        <h1 class="bold"><?php echo $leadevo_invoice_data['overdue_invoices']??0; ?></h1>
                     </div>
                 </div>
             </div>

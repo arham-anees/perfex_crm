@@ -54,13 +54,13 @@ class Marketplace extends AdminController
         $this->load->view('admin/marketplace/leads', $data);
     }
 
-    public function remove_from_market()
+    public function remove_from_market($id)
     {
-        $id = $this->input->post('id');
+        // $id = $this->input->post('id');
         if (isset($id)) {
-            $this->Prospects_model->update_sale_status($id, 0);
+            $this->Prospects_model->update_sale_status($id, 0,0,0,0);
         }
-        redirect(admin_url('prospects'));
+        redirect(admin_url('/marketplace'));
     }
 
 }

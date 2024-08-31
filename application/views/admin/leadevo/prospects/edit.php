@@ -64,18 +64,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="category_id"><?php echo _l('Category'); ?></label>
-                                    <select name="category_id" id="category_id" class="form-control" required>
-                                        <?php foreach ($categories as $category) : ?>
-                                            <option value="<?php echo $category->id; ?>" <?php echo $category->id == $prospect->category_id ? 'selected' : ''; ?>>
-                                                <?php echo $category->name; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
+                           
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="acquisition_channel_id"><?php echo _l('Acquisition Channel'); ?></label>
