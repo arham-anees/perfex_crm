@@ -189,7 +189,7 @@ function displayStars($rating, $maxStars = 5)
                 <!-- Description Input -->
                 <div class="form-group">
                     <label for="fake_description"><?= _l('leadevo_fake_description_label') ?></label>
-                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required></textarea>
+                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required placeholder="<?= _l('leadevo_fake_prospect_description_placeholder') ?>"></textarea>
                 </div>
 
                 <!-- Submit Button -->

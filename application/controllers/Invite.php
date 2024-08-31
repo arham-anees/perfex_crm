@@ -47,7 +47,7 @@ class Invite extends ClientsController
             unset($data['g-recaptcha-response'], $data['Array']);
 
             // Prepare and send email using mail_template
-            $template = mail_template('leadevo_invite_friend', (object) [
+            $template = mail_template('Leadevo_invite_friend', (object) [
                 'email' => $email,
                 'name' => $name
             ]);
