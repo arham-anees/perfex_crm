@@ -9,6 +9,7 @@ class Billings extends AdminController
         parent::__construct();
         $this->load->model('invoices_model');
         $this->load->model('credit_notes_model');
+        $this->load->model('leadevo/Stats_model');
     }
 
     /* Get all invoices in case user go on index page */
@@ -39,6 +40,7 @@ class Billings extends AdminController
         $data['invoices_statuses'] = $this->invoices_model->get_statuses();
         $data['invoices_table'] = App_table::find('invoices');
         $data['bodyclass'] = 'invoices-total-manual';
+        $data['leadevo_invoice_data'] = $this->Stats_model->admin_billing_stats()[0];
         $this->load->view('admin/invoices/manage', $data);
     }
 
