@@ -723,6 +723,7 @@ $jsonData = json_encode($table); ?>
 <script>
     $(document).ready(function () {
         $('#reportProspectModal').on('show.bs.modal', function (event) {
+            currentStep = 1;
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var name = button.data('name');
@@ -746,6 +747,12 @@ $jsonData = json_encode($table); ?>
             $('#reportProspectModal input[name=campaign_id]').val(campaignId);
 
             $('#reportProspectModal').data('prospect-id', id);
+
+            // clear evidence
+            $('#evidence-upload').val(null);
+            $('#reasonSelect').val(null);
+            $('#reportProspectModal .filter-option-inner-inner').text('Select Reason');
+
         });
     });
 
