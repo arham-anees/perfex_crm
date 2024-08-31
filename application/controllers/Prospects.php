@@ -226,6 +226,7 @@ class Prospects extends ClientsController
                 'campaign_id' => $this->input->post('campaign_id'),
             ];
             $this->Prospects_model->submit_report($data);
+            notify_all_admins('leadevo_prospect_reported', null, 'prospects/reported');
             $this->view('clients/prospects/purchased');
         } else {
 
