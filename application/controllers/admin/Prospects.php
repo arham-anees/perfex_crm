@@ -8,7 +8,6 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Prospect_status_model');
         $this->load->model('leadevo/Prospect_types_model');
-        $this->load->model('leadevo/Prospect_categories_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('leadevo/Campaigns_model');
@@ -53,7 +52,6 @@ class Prospects extends AdminController
         $data['prospect'] = $this->Prospects_model->get($id);
         $data['statuses'] = $this->Prospect_status_model->get_all();
         $data['types'] = $this->Prospect_types_model->get_all();
-        $data['categories'] = $this->Prospect_categories_model->get_all();
         $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $data['industries'] = $this->Industries_model->get_all();
 
@@ -73,7 +71,6 @@ class Prospects extends AdminController
         // Load additional data if needed for displaying in the view
         $data['status'] = $this->Prospect_status_model->get($data['prospect']->status_id);
         $data['type'] = $this->Prospect_types_model->get($data['prospect']->type_id);
-        $data['category'] = $this->Prospect_categories_model->get($data['prospect']->category_id);
         $data['acquisition_channel'] = $this->Acquisition_channels_model->get($data['prospect']->acquisition_channel_id);
         $data['industry'] = $this->Industries_model->get($data['prospect']->industry_id);
 
@@ -111,17 +108,35 @@ class Prospects extends AdminController
         }
     }
 
+    public function sold()
+    {
+        $data['prospects'] = $this->clients_model->get_sold();
+        $this->load->view('admin/leadevo/prospects/sold', $data);
+    }
     public function mark_as_fake()
     {
         $id = $this->input->post('id');
         $description = $this->input->post('fake_description');
-    
+
         if (isset($id) && isset($description)) {
             $this->Prospects_model->mark_fake($id, $description);
         }
         redirect(admin_url('prospects'));
     }
+
+    public function reject_prospect_report()
+    {
+        $campaign_id = $this->input->post('campaign_id');
+        $prospect_id = $this->input->post('id'); // Assuming 'id' is used for 'prospect_id'
+        $description = $this->input->post('reject_description');
     
+        if (isset($campaign_id) && isset($prospect_id) && isset($description)) {
+            $this->Prospects_model->reject_prospect_report($campaign_id, $prospect_id, $description);
+        }
+        redirect(admin_url('prospects/reported'));
+    }
+    
+
 
     public function mark_as_auto_deliverable()
     {
@@ -293,7 +308,7 @@ class Prospects extends AdminController
             $prospect->full_name = $prospect->first_name . ' ' . $prospect->last_name;
             $prospect->status = $this->Prospect_status_model->get($prospect->status_id)->name ?? 'Unknown';
             $prospect->type = $this->Prospect_types_model->get($prospect->type_id)->name ?? 'Unknown';
-            $prospect->category = $this->Prospect_categories_model->get($prospect->category_id)->name ?? 'Unknown';
+        
             $prospect->acquisition_channel = $this->Acquisition_channels_model->get($prospect->acquisition_channel_id)->name ?? 'Unknown';
             $prospect->industry = $this->Industries_model->get($prospect->industry_id)->name ?? 'Unknown';
 
@@ -303,6 +318,6 @@ class Prospects extends AdminController
         }
     }
 
-    
+
 
 }

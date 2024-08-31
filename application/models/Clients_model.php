@@ -1729,12 +1729,17 @@ class Clients_model extends App_Model
                 ls.name AS status_name,
                 ll.campaign_id, 
                 CASE WHEN rp.prospect_id IS NULL THEN 0 ELSE 1 END AS is_reported,
-                r.rating
+                r.rating,
+                i.id AS invoice_id,
+                i.hash AS invoice_hash,
+                ll.price AS purchase_price,
+                ll.prospect_id
             FROM `tblleads` l
             INNER JOIN `tblleadevo_leads` ll ON l.id = ll.lead_id 
             LEFT JOIN tblleads_sources s ON s.id = l.source
             LEFT JOIN tblleads_status ls ON ls.id = l.status
             LEFT JOIN tblleadevo_reported_prospects rp ON rp.prospect_id = ll.prospect_id
+            LEFT JOIN tblinvoices i ON i.id = ll.invoice_id
             LEFT JOIN 
              (SELECT r.*
                     FROM `tblleadevo_prospects_rating_client` r
@@ -1744,7 +1749,44 @@ class Clients_model extends App_Model
                         GROUP BY lead_id
                     ) AS latest_ratings ON r.lead_id = latest_ratings.lead_id
                     AND r.rated_at = latest_ratings.max_rated_at) r ON r.lead_id = l.id
-            WHERE ll.client_id = " . get_client_user_id() . "
+            WHERE i.status = 2 AND ll.client_id = " . get_client_user_id() . "
+            ORDER BY `dateadded` DESC";
+        return $this->db->query($sql)->result();
+    }
+
+    /**
+     * Get All prospects sold via marketplace or campaign
+     * @return mixed
+     */
+    public function get_sold()
+    {
+        $sql = "SELECT 
+                l.*, 
+                s.name AS source_name, 
+                ls.name AS status_name,
+                ll.campaign_id, 
+                CASE WHEN rp.prospect_id IS NULL THEN 0 ELSE 1 END AS is_reported,
+                r.rating,
+                i.id AS invoice_id,
+                i.hash AS invoice_hash,
+                ll.price AS sold_price,
+                ll.prospect_id
+            FROM `tblleads` l
+            INNER JOIN `tblleadevo_leads` ll ON l.id = ll.lead_id 
+            LEFT JOIN tblleads_sources s ON s.id = l.source
+            LEFT JOIN tblleads_status ls ON ls.id = l.status
+            LEFT JOIN tblleadevo_reported_prospects rp ON rp.prospect_id = ll.prospect_id
+            LEFT JOIN tblinvoices i ON i.id = ll.invoice_id
+            LEFT JOIN 
+             (SELECT r.*
+                    FROM `tblleadevo_prospects_rating_client` r
+                    INNER JOIN (
+                        SELECT lead_id, MAX(rated_at) AS max_rated_at
+                        FROM `tblleadevo_prospects_rating_client`
+                        GROUP BY lead_id
+                    ) AS latest_ratings ON r.lead_id = latest_ratings.lead_id
+                    AND r.rated_at = latest_ratings.max_rated_at) r ON r.lead_id = l.id
+            WHERE i.status = 2
             ORDER BY `dateadded` DESC";
         return $this->db->query($sql)->result();
     }

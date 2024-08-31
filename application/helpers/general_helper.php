@@ -39,18 +39,18 @@ function app_generate_short_link($data)
 {
     hooks()->do_action('before_generate_short_link', $data);
     $accessToken = get_option('bitly_access_token');
-    $client      = new Client();
+    $client = new Client();
 
     try {
         $response = $client->request('POST', 'https://api-ssl.bitly.com/v4/bitlinks', [
             'headers' => [
                 'Authorization' => "Bearer $accessToken",
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
             ],
             'json' => [
                 'long_url' => $data['long_url'],
-                'domain'   => 'bit.ly',
-                'title'    => $data['title'],
+                'domain' => 'bit.ly',
+                'title' => $data['title'],
             ],
         ]);
 
@@ -88,7 +88,7 @@ function app_archive_short_link($link)
         $client->patch('https://api-ssl.bitly.com/v4/bitlinks/' . $link, [
             'headers' => [
                 'Authorization' => "Bearer $accessToken",
-                'Accept'        => 'application/json',
+                'Accept' => 'application/json',
             ],
             'json' => [
                 'archived' => true,
@@ -264,10 +264,10 @@ function do_recaptcha_validation($str = '')
     $CI = &get_instance();
     $CI->load->library('form_validation');
     $google_url = 'https://www.google.com/recaptcha/api/siteverify';
-    $secret     = get_option('recaptcha_secret_key');
-    $ip         = $CI->input->ip_address();
-    $url        = $google_url . '?secret=' . $secret . '&response=' . $str . '&remoteip=' . $ip;
-    $curl       = curl_init();
+    $secret = get_option('recaptcha_secret_key');
+    $ip = $CI->input->ip_address();
+    $url = $google_url . '?secret=' . $secret . '&response=' . $str . '&remoteip=' . $ip;
+    $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_TIMEOUT, 10);
@@ -335,7 +335,7 @@ function get_staff_user_id()
         $CI->load->config('rest');
 
         $api_key_variable = $CI->config->item('rest_key_name');
-        $key_name         = 'HTTP_' . strtoupper(str_replace('-', '_', $api_key_variable));
+        $key_name = 'HTTP_' . strtoupper(str_replace('-', '_', $api_key_variable));
 
         if ($key = $CI->input->server($key_name)) {
             $CI->db->where('key', $key);
@@ -536,7 +536,7 @@ function _l($line, $label = '', $log_errors = true)
 
     $hook_data = hooks()->apply_filters('before_get_language_text', ['line' => $line, 'label' => $label]);
 
-    $line  = $hook_data['line'];
+    $line = $hook_data['line'];
     $label = $hook_data['label'];
 
     if (is_array($label) && count($label) > 0) {
@@ -545,7 +545,7 @@ function _l($line, $label = '', $log_errors = true)
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             try {
                 $_line = sprintf($CI->lang->line(trim($line), $log_errors), $label);
-            } catch (\ValueError|\ArgumentCountError $e) {
+            } catch (\ValueError | \ArgumentCountError $e) {
                 $_line = $CI->lang->line(trim($line), $log_errors);
             }
         } else {
@@ -556,7 +556,7 @@ function _l($line, $label = '', $log_errors = true)
     $hook_data = hooks()->apply_filters('after_get_language_text', ['line' => $line, 'formatted_line' => $_line]);
 
     $_line = $hook_data['formatted_line'];
-    $line  = $hook_data['line'];
+    $line = $hook_data['line'];
 
     if ($_line != '') {
         if (preg_match('/"/', $_line) && !is_html($_line)) {
@@ -593,7 +593,7 @@ function _d($date)
     $format = get_current_date_format();
 
     try {
-        $dateTime  = new DateTime($date);
+        $dateTime = new DateTime($date);
         $formatted = $dateTime->format(str_replace('%', '', $format));
     } catch (Exception $e) {
         $formatted = $date;
@@ -634,7 +634,7 @@ function _dt($date, $is_timesheet = false)
 
         try {
             $dateTime = new DateTime($date);
-            $date     = $dateTime->format(str_replace('%', '', $format . ' ' . $tf));
+            $date = $dateTime->format(str_replace('%', '', $format . ' ' . $tf));
         } catch (Exception $e) {
         }
     } else {
@@ -655,7 +655,7 @@ function to_sql_date($date, $datetime = false)
         return null;
     }
 
-    $to_date     = 'Y-m-d';
+    $to_date = 'Y-m-d';
     $from_format = get_current_date_format(true);
 
     $date = hooks()->apply_filters('before_sql_date_format', $date, [
@@ -681,20 +681,20 @@ function to_sql_date($date, $datetime = false)
         $hour12 = (get_option('time_format') == 24 ? false : true);
         if ($hour12 == false) {
             $_temp = explode(' ', $date);
-            $time  = explode(':', $_temp[1]);
+            $time = explode(':', $_temp[1]);
             if (count($time) == 2) {
                 $date .= ':00';
             }
         } else {
-            $tmp  = _simplify_date_fix($date, $from_format);
+            $tmp = _simplify_date_fix($date, $from_format);
             $time = date('G:i', strtotime($tmp));
-            $tmp  = explode(' ', $tmp);
+            $tmp = explode(' ', $tmp);
             $date = $tmp[0] . ' ' . $time . ':00';
         }
     }
 
     $date = _simplify_date_fix($date, $from_format);
-    $d    = date('Y-m-d H:i:s', strtotime($date));
+    $d = date('Y-m-d H:i:s', strtotime($date));
 
     return hooks()->apply_filters('to_sql_date_formatted', $d);
 }
@@ -761,7 +761,7 @@ function get_locale_key($language = 'english')
  */
 function current_full_url()
 {
-    $CI  = &get_instance();
+    $CI = &get_instance();
     $url = $CI->config->site_url($CI->uri->uri_string());
 
     return $_SERVER['QUERY_STRING'] ? $url . '?' . $_SERVER['QUERY_STRING'] : $url;
@@ -796,7 +796,7 @@ function pusher_trigger_notification($users = [])
 
     try {
         $CI->app_pusher->trigger($channels, 'notification', []);
-    } catch(\Exception $e) {
+    } catch (\Exception $e) {
         update_option('pusher_realtime_notifications', '0');
     }
 }
@@ -818,10 +818,10 @@ function app_generate_hash()
  */
 function get_csrf_for_ajax()
 {
-    $csrf               = [];
-    $csrf['formatted']  = [get_instance()->security->get_csrf_token_name() => get_instance()->security->get_csrf_hash()];
+    $csrf = [];
+    $csrf['formatted'] = [get_instance()->security->get_csrf_token_name() => get_instance()->security->get_csrf_hash()];
     $csrf['token_name'] = get_instance()->security->get_csrf_token_name();
-    $csrf['hash']       = get_instance()->security->get_csrf_hash();
+    $csrf['hash'] = get_instance()->security->get_csrf_hash();
 
     return $csrf;
 }
@@ -833,50 +833,50 @@ function get_csrf_for_ajax()
 function csrf_jquery_token()
 {
     ?>
-<script>
-if (typeof(jQuery) === 'undefined' && !window.deferAfterjQueryLoaded) {
-    window.deferAfterjQueryLoaded = [];
-    Object.defineProperty(window, "$", {
-        set: function(value) {
-            window.setTimeout(function() {
-                $.each(window.deferAfterjQueryLoaded, function(index, fn) {
-                    fn();
-                });
-            }, 0);
+    <script>
+        if (typeof (jQuery) === 'undefined' && !window.deferAfterjQueryLoaded) {
+            window.deferAfterjQueryLoaded = [];
             Object.defineProperty(window, "$", {
-                value: value
+                set: function (value) {
+                    window.setTimeout(function () {
+                        $.each(window.deferAfterjQueryLoaded, function (index, fn) {
+                            fn();
+                        });
+                    }, 0);
+                    Object.defineProperty(window, "$", {
+                        value: value
+                    });
+                },
+                configurable: true
             });
-        },
-        configurable: true
-    });
-}
-
-var csrfData = <?php echo json_encode(get_csrf_for_ajax()); ?>;
-
-if (typeof(jQuery) == 'undefined') {
-    window.deferAfterjQueryLoaded.push(function() {
-        csrf_jquery_ajax_setup();
-    });
-    window.addEventListener('load', function() {
-        csrf_jquery_ajax_setup();
-    }, true);
-} else {
-    csrf_jquery_ajax_setup();
-}
-
-function csrf_jquery_ajax_setup() {
-    $.ajaxSetup({
-        data: csrfData.formatted
-    });
-
-    $(document).ajaxError(function(event, request, settings) {
-        if (request.status === 419) {
-            alert_float('warning', 'Page expired, refresh the page make an action.')
         }
-    });
-}
-</script>
-<?php
+
+        var csrfData = <?php echo json_encode(get_csrf_for_ajax()); ?>;
+
+        if (typeof (jQuery) == 'undefined') {
+            window.deferAfterjQueryLoaded.push(function () {
+                csrf_jquery_ajax_setup();
+            });
+            window.addEventListener('load', function () {
+                csrf_jquery_ajax_setup();
+            }, true);
+        } else {
+            csrf_jquery_ajax_setup();
+        }
+
+        function csrf_jquery_ajax_setup() {
+            $.ajaxSetup({
+                data: csrfData.formatted
+            });
+
+            $(document).ajaxError(function (event, request, settings) {
+                if (request.status === 419) {
+                    alert_float('warning', 'Page expired, refresh the page make an action.')
+                }
+            });
+        }
+    </script>
+    <?php
 }
 
 /**
@@ -892,7 +892,7 @@ function app_happy_text($text)
     }
 
     $regex = hooks()->apply_filters('app_happy_text_regex', '\b(congratulations!?|congrats!?|happy!?|feel happy!?|awesome!?|yay!?)\b');
-    $re    = '/' . $regex . '/i';
+    $re = '/' . $regex . '/i';
 
     $app_happy_color = hooks()->apply_filters('app_happy_text_color', 'rgb(255, 59, 0)');
 
@@ -1000,8 +1000,38 @@ if (!function_exists('previous_url')) {
      * @since  3.1.3
      * @return string|null
      */
-    function previous_url() 
+    function previous_url()
     {
         return get_instance()->session->userdata('_prev_url');
+    }
+}
+
+/**
+ * author: Arham Anees
+ * This method will be used to generate general notification for all staff
+ */
+if (!function_exists('notify_all_admins')) {
+    function notify_all_admins($description, $additional_data, $link)
+    {
+        $CI = &get_instance();
+        // Load the necessary models
+        $CI->load->model('staff_model');
+
+        // Retrieve all admins
+        $admins = $CI->staff_model->get();
+
+        // Insert notification for each admin
+        foreach ($admins as $admin) {
+            add_notification([
+                'description' => $description,
+                'touserid' => $admin['staffid'],
+                'fromcompany' => 1,
+                'fromuserid' => 0,
+                'additional_data' => $additional_data == null ? null : serialize([
+                    $additional_data,
+                ]),
+                'link' => $link,
+            ]);
+        }
     }
 }

@@ -8,7 +8,6 @@ class Prospects extends ClientsController
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Prospect_status_model');
         $this->load->model('leadevo/Prospect_types_model');
-        $this->load->model('leadevo/Prospect_categories_model');
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Leads_model');
@@ -21,7 +20,7 @@ class Prospects extends ClientsController
             redirect(site_url('verification'));
         }
 
-        if(!is_onboarding_completed()){
+        if (!is_onboarding_completed()) {
             redirect(site_url('onboarding'));
         }
 
@@ -59,7 +58,6 @@ class Prospects extends ClientsController
 
     public function purchased()
     {
-
 
         $this->load->model('contracts_model');
         $data['contract_types'] = $this->contracts_model->get_contract_types();
@@ -118,7 +116,6 @@ class Prospects extends ClientsController
                 'email' => $this->input->post('email'),
                 'status_id' => $this->input->post('status_id'),
                 'type_id' => $this->input->post('type_id'),
-                'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
                 'desired_amount' => $this->input->post('desired_amount'),
@@ -131,7 +128,6 @@ class Prospects extends ClientsController
         } else {
             $data['statuses'] = $this->Prospect_status_model->get_all();
             $data['types'] = $this->Prospect_types_model->get_all();
-            $data['categories'] = $this->Prospect_categories_model->get_all();
             $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
             $data['industries'] = $this->Industries_model->get_all();
             $this->data($data);
@@ -160,7 +156,6 @@ class Prospects extends ClientsController
                 'email' => $this->input->post('email'),
                 'status_id' => $this->input->post('status_id'),
                 'type_id' => $this->input->post('type_id'),
-                'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
                 'desired_amount' => $this->input->post('desired_amount'),
@@ -172,7 +167,6 @@ class Prospects extends ClientsController
             $data['prospect'] = $this->Prospects_model->get($id);
             $data['statuses'] = $this->Prospect_status_model->get_all();
             $data['types'] = $this->Prospect_types_model->get_all();
-            $data['categories'] = $this->Prospect_categories_model->get_all();
             $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
             $data['industries'] = $this->Industries_model->get_all();
             $this->data($data);
@@ -232,6 +226,7 @@ class Prospects extends ClientsController
                 'campaign_id' => $this->input->post('campaign_id'),
             ];
             $this->Prospects_model->submit_report($data);
+            notify_all_admins('leadevo_prospect_reported', null, 'prospects/reported');
             $this->view('clients/prospects/purchased');
         } else {
 

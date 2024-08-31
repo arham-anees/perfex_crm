@@ -530,6 +530,14 @@ $discount_value = get_option('leadevo_deal_discount_amount');
                                                     <strong><?php echo _l('leadevo_marketpalce_zip_code'); ?>:</strong>
                                                     <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
                                                 </div>
+                                                <div class="row-options">
+                                                    <?php if (!isset($prospect['is_available_sale']) || $prospect['is_available_sale'] == true) { ?>
+                                                        <a href="<?php echo admin_url('marketplace/remove_from_market/' . $prospect['id']); ?>"
+                                                            class=""
+                                                            onclick="return confirm('Are you sure you want to remove this prospect from marketplace?');">
+                                                            Remove from Sale</a>
+                                                    <?php } ?>
+                                                </div>
                                             </td>
                                             <td>
                                                 <strong><?php echo _l('settings_sales_phonenumber'); ?>:</strong>

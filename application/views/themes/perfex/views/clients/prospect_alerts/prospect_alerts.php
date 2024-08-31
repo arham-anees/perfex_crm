@@ -170,12 +170,11 @@
                                     </div>
                                 </div>
                                 <div class="category">
-                                    <span><strong>Category:</strong></span>
-                                    <span><?php echo htmlspecialchars($alert['prospect_category']); ?></span><br>
+        
                                     <span><strong>Industry:</strong></span>
-                                    <span><?php echo htmlspecialchars($alert['prospect_industry']); ?></span><br>
+                                    <span><?php echo htmlspecialchars($alert['prospect_industry']??''); ?></span><br>
                                     <span><strong>Acquisition Channel:</strong></span>
-                                    <span><?php echo htmlspecialchars($alert['acquisition_channel']); ?></span>
+                                    <span><?php echo htmlspecialchars($alert['acquisition_channel']??''); ?></span>
                                 </div>
                             </div>
                             <div class="alert-options">
