@@ -630,6 +630,17 @@ class Prospects_model extends CI_Model
         ));
     }
 
+    public function reject_prospect_report($campaign_id, $prospect_id, $description)
+    {
+        $this->db->where('campaign_id', $campaign_id);
+        $this->db->where('prospect_id', $prospect_id);
+        return $this->db->update($this->report_table, array(
+            'status' => 2,
+            'feedback' => $description
+        ));
+    }
+    
+
     public function mark_as_auto_deliverable($id)
     {
         $this->db->where('id', $id);

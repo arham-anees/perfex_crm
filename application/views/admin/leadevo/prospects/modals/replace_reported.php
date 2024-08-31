@@ -2,9 +2,10 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <!-- Modal Header -->
-        <div class="modal-header d-flex">
+        <div class="modal-header">
             <div></div>
-            <h4 class="modal-title w-100"><?php echo _l('leadevo_sale_send_campaign_prospect_title'); ?></h4>
+            <h4 class="modal-title w-100"><?php echo _l('leadevo_sale_replace_prospect_title'); ?></h4>
+            <h6 class="modal-title w-100"><?php echo _l('leadevo_sale_replace_prospect_description'); ?></h6>
         </div>
 
         <!-- Modal Body -->

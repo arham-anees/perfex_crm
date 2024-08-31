@@ -62,27 +62,36 @@
                                                 <th><?php echo _l('Reason'); ?></th>
                                                 <th><?php echo _l('Created At'); ?></th>
                                                 <th><?php echo _l('Evidence'); ?></th>
-                                                <th><?php echo _l('Actions'); ?></th>
+                                                <th><?php echo _l('Status'); ?></th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($reported_prospects as $prospect): ?>
                                                 <tr>
                                                     <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? 'N/A'); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['created_at'] ?? 'N/A'); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? 'N/A'); ?></td>
-                                                    <td>
+                                                    <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?>
+                                                        <div class="row-options">
                                                         <a href="<?php echo admin_url('prospects/view/' . $prospect['prospect_id']); ?>"
                                                             class="">
-                                                            View
+                                                            View |
                                                         </a>
                                                         <a href="#"
                                                             onclick="openReplaceModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
                                                             class="">
-                                                            Replace
+                                                            Replace |
                                                         </a>
+                                                        <a href="#"
+                                                            onclick="openRejectModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
+                                                            class="">
+                                                            Reject
+                                                        </a>
+                                                        </div>
                                                     </td>
+                                                    <td><?php echo htmlspecialchars($prospect['created_at'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
+                                                   
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -103,6 +112,10 @@
     <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/replace_reported.php') ?>
 </div>
 
+<div id="reject_prospect_modal" class="modal fade" tabindex="-1" role="dialog">
+    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/reject_reported.php') ?>
+</div>
+
 <?php init_tail(); ?>
 <script>
     $(document).ready(function () {
@@ -121,5 +134,12 @@
         document.querySelector('#replace_prospect_modal input[name=id]').value = id;
         document.querySelector('#replace_prospect_modal input[name=campaign_id]').value = campaign_id;
         $('#replace_prospect_modal').modal('show');
+    }
+
+    function openRejectModal(id, campaign_id) {
+        console.log(id)
+        document.querySelector('#reject_prospect_modal input[name=id]').value = id;
+        document.querySelector('#reject_prospect_modal input[name=campaign_id]').value = campaign_id;
+        $('#reject_prospect_modal').modal('show');
     }
 </script>
