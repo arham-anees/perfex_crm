@@ -17,7 +17,7 @@
                                     <div class="panel-body
                                                 text-left">
                                         <h5 class="no-margin tw-text-left tw-font-semibold font">
-                                            <?= _l('total_campaigns') ?>
+                                            <?= _l('leadevo_client_dashboard_total_campaigns') ?>
                                         </h5>
                                         <h1 class="bold"><?php echo count($campaigns); ?></h1>
 
@@ -29,7 +29,7 @@
                                     <div class="panel-body
                                                 text-left">
                                         <h5 class="no-margin tw-text-left tw-font-semibold font">
-                                            <?= _l('total_prospects') ?>
+                                            <?= _l('leadevo_client_dashboard_total_prospects') ?>
                                         </h5>
                                         <h1 class="bold"><?php echo count($prospects); ?></h1>
                                     </div>
@@ -40,7 +40,7 @@
                                     <div class="panel-body
                                                 text-left">
                                         <h5 class="no-margin tw-text-left tw-font-semibold font">
-                                            <?= _l('prospects_average_cost') ?>
+                                            <?= _l('leadevo_client_dashboard_prospects_average_cost') ?>
                                         </h5>
                                         <h1 class="bold">0</h1>
                                     </div>
@@ -51,7 +51,7 @@
                                     <div class="panel-body
                                                 text-left">
                                         <h5 class="no-margin tw-text-left tw-font-semibold font">
-                                            <?= _l('reported_prospects') ?>
+                                            <?= _l('leadevo_client_dashboard_reported_prospects') ?>
                                         </h5>
 
                                         <h1 class="bold"><?php echo count($reported_prospects); ?></h1>

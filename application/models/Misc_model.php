@@ -1538,14 +1538,32 @@ class Misc_model extends App_Model
 
     public function get_zapier_config($client_id)
     {
+        $this->db->select('*');
         $this->db->where('client_id', $client_id);
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_zapier_config')->result_array();
+    }
+    public function get_zapier_config_id($id)
+    {
+        $this->db->select('*');
+        $this->db->where('id', $id);
+        $this->db->where('is_active', 1);
         return $this->db->get(db_prefix() . 'leadevo_zapier_config')->row();
     }
 
-    public function set_zapier_config($client_id, $web_hook)
+    public function set_zapier_config($client_id, $data)
     {
-        $sql = "INSERT INTO " . db_prefix() . "leadevo_zapier_config(client_id, webhook) VALUES('" . $client_id . "','" . $web_hook . "');";
-        $this->db->query($sql);
+        $data['client_id'] = $client_id;
+        $this->db->insert(db_prefix() . "leadevo_zapier_config", $data);
+        // $sql = "INSERT INTO " . db_prefix() . "leadevo_zapier_config(client_id, webhook) VALUES('" . $client_id . "','" . $web_hook . "');";
+        // $this->db->query($sql);
+        return true;
+    }
+    public function update_zapier_config($id, $client_id, $data)
+    {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . "leadevo_zapier_config", $data);
         return true;
     }
 }

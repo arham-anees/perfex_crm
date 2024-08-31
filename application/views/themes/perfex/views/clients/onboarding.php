@@ -275,7 +275,6 @@
     </div>
 </div>
 <script>
-
     var currentStep = isNaN(parseInt('<?= $completed_step ?>')) ? 0 : parseInt('<?= $completed_step ?>');
     document.addEventListener('DOMContentLoaded', function () {
         var video = document.getElementById('welcome-video');
@@ -284,11 +283,6 @@
         var progressBar = document.getElementById('progress-bar');
         var progressText = document.getElementById('progress-text');
         var progressList = document.getElementById('progress-list').querySelectorAll('.list-group-item i');
-
-        // var main = document.getElementsByClassName('step-0')[0];
-        // main.classList.remove('step-0');
-        // main.classList.add('step-' + currentStep - 1);
-        // debugger;
 
         var totalSteps = progressList.length;
         var progressPercentagePerStep = 100 / totalSteps;
@@ -306,9 +300,9 @@
         if (currentStep >= totalSteps) {
             for (let i = 0; i < totalSteps; i++) {
                 progressList[i].classList.remove('tick-inactive');
-                progressList[i].classList.remove('tick-completed');
+                progressList[i].classList.add('tick-completed');
             }
-            currentStep = 0;
+            currentStep = totalSteps;
         } else {
             for (let i = 0; i < currentStep; i++) {
                 progressList[i].classList.remove('tick-inactive');
@@ -321,24 +315,22 @@
         progressBar.style.width = progressPercentage + '%';
         progressBar.setAttribute('aria-valuenow', progressPercentage);
         progressBar.textContent = Math.round(progressPercentage) + '%';
+
         // Enable complete button when video ends
         video.addEventListener('ended', function () {
             completeBtn.disabled = false;
         });
-        // currentStep++;
-        onContinueClick();
+
         // Handle click for the complete button
         completeBtn.addEventListener('click', function () {
-            // if (currentStep === 0 && !video.ended) {
-            //     alert("Please watch the video before continuing.");
-            //     return;
-            // }
-            currentStep++;
-            onContinueClick();
+            if (currentStep < totalSteps) {
+                currentStep++;
+                onContinueClick();
+            }
         });
 
         function onContinueClick() {
-            if (currentStep < totalSteps + 1) {
+            if (currentStep <= totalSteps) {
                 let section = document.querySelector('.step-' + currentStep);
                 if (section) {
                     section.classList.remove('step-' + currentStep);
@@ -352,10 +344,10 @@
                 progressBar.setAttribute('aria-valuenow', progressPercentage);
                 progressBar.textContent = Math.round(progressPercentage) + '%';
 
-                progressText.textContent = (currentStep) + ' / ' + (totalSteps) + ' actions completed';
+                progressText.textContent = currentStep + ' / ' + totalSteps + ' actions completed';
 
                 // Change tick color for completed actions
-                for (let i = 0; i < 6; i++) {
+                for (let i = 0; i < totalSteps; i++) {
                     if (i < currentStep) {
                         progressList[i].classList.remove('tick-inactive');
                         progressList[i].classList.add('tick-completed');
@@ -366,31 +358,32 @@
                 }
 
                 // Display the next section based on the current step
-                if (currentStep === 1) { } else if (currentStep === 2) { } else if (currentStep === 3) {
+                if (currentStep === totalSteps) {
                     completeBtn.style.display = 'none';
                     continueBtn.style.display = 'block';
+                    progressBar.style.width = '100%';
+                    progressBar.setAttribute('aria-valuenow', 100);
+                    progressBar.textContent = '100%';
+                    // Make ticks yellow when all steps are completed
+                    for (let i = 0; i < totalSteps; i++) {
+                        progressList[i].classList.remove('tick-inactive');
+                        progressList[i].classList.add('tick-completed');
+                        progressList[i].style.color = 'yellow'; // Change tick color to yellow
+                    }
                 }
-
-                // Disable complete button if all steps are completed
-                console.log(currentStep, totalSteps);
-                if (currentStep === totalSteps + 1) {
-                    completeBtn.disabled = true;
-                    completeBtn.textContent = 'Completed';
-
-                } else {
-                    completeBtn.disabled = true;
-                }
+            } else {
+                // Redirect and show completion message
+                window.location.href = site_url;
+                alert('Congratulations! You have completed all the steps.');
             }
         }
-        // function restartOnboarding() {
-        //     location.reload();
-        // }
 
         // Handle click for the continue button
         continueBtn.addEventListener('click', function () {
             currentStep++;
             onContinueClick();
         });
+
         // Handle invite friend form submission
         document.getElementById('invite-friend-form').addEventListener('submit', function (event) {
             event.preventDefault();
@@ -403,9 +396,8 @@
                     if (data.status === 'success') {
                         alert_float('success', '<?php echo _l('Invitation sent!'); ?>');
                         $('#inviteFriendModal').modal('hide');
-                    }
-                    else {
-                        alert_float('error', '<?php echo _l('Invitation sent!'); ?>');
+                    } else {
+                        alert_float('error', '<?php echo _l('Invitation failed!'); ?>');
                     }
                 });
         });
@@ -451,7 +443,7 @@
                 }
             }).done((x) => { });
         } else {
-            window.location.reload();
+            window.location.href = site_url;
             document.getElementById('continue-btn').disabled = true;
         }
     }

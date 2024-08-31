@@ -145,7 +145,7 @@ class Authentication_model extends App_Model
                     log_activity('Failed Login Attempt [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
                     // Password failed, return
-                    return false;
+                    return json_encode(['status' => 'error', 'message' => 'Incorrect password']);
                 }
             } else {
                 hooks()->do_action('non_existent_user_login_attempt', [
@@ -155,7 +155,7 @@ class Authentication_model extends App_Model
 
                 log_activity('Non Existing User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
-                return false;
+                return json_encode(['status' => 'error', 'message' => 'User not found']);
             }
 
             if ($user->active == 0) {
@@ -165,9 +165,9 @@ class Authentication_model extends App_Model
                 ]);
                 log_activity('Inactive User Tried to Login [Email: ' . $email . ', Is Staff Member: ' . ($staff == true ? 'Yes' : 'No') . ', IP: ' . $this->input->ip_address() . ']');
 
-                return [
+                echo json_encode([
                     'memberinactive' => true,
-                ];
+                ]);
             }
 
             $twoFactorAuth = false;
@@ -217,10 +217,10 @@ class Authentication_model extends App_Model
             //     return ['two_factor_auth' => true, 'user' => $user];
             // }
 
-            return true;
+            return json_encode($user_data);
         }
 
-        return false;
+        return json_encode(['status' => 'error', 'message' => 'Empty email or password']);
     }
 
     /**
