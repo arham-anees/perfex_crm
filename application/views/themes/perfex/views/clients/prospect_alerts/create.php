@@ -10,7 +10,6 @@
                 <?php echo form_open(site_url('prospect_alerts/create'), ['method' => 'POST']); ?>
 
                 <div class="row">
-
                     <div class="form-group">
                         <label for="name"><?php echo _l('Name'); ?></label>
                         <input type="text" name="name" class="form-control" id="name"
@@ -30,6 +29,56 @@
                         </select>
                     </div>
 
+                    <div class="form-group">
+                        <label for="industry"><?php echo _l('Prospect Industry'); ?></label>
+                        <select name="industry_id" class="selectpicker" data-width="100%"
+                            data-none-selected-text="<?php echo _l('Select Prospect Industry'); ?>">
+                            <option value=""><?php echo _l('Select Prospect Industry'); ?></option>
+                            <?php foreach ($industries as $industry): ?>
+                                <option value="<?php echo $industry->id; ?>" <?php echo set_select('industry_id', $industry->id); ?>>
+                                    <?php echo $industry->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="acquisition_channel"><?php echo _l('Acquisition Channel'); ?></label>
+                        <select name="acquisition_channel_id" class="selectpicker" data-width="100%"
+                            data-none-selected-text="<?php echo _l('Select Acquisition Channel'); ?>">
+                            <option value=""><?php echo _l('Select Acquisition Channel'); ?></option>
+                            <?php foreach ($acquisition_channels as $channel): ?>
+                                <option value="<?php echo $channel->id; ?>" <?php echo set_select('acquisition_channel_id', $channel->id); ?>>
+                                    <?php echo $channel->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><?php echo _l('Verification Methods'); ?></label><br>
+
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" id="verified_whatsapp" name="verified_whatsapp" value="1" <?php echo set_checkbox('verified_whatsapp', '1'); ?>>
+                            <label for="verified_whatsapp">
+                                <?php echo _l('Verified via WhatsApp'); ?>
+                            </label>
+                        </div>
+
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" id="verified_sms" name="verified_sms" value="1" <?php echo set_checkbox('verified_sms', '1'); ?>>
+                            <label for="verified_sms">
+                                <?php echo _l('Verified via SMS'); ?>
+                            </label>
+                        </div>
+
+                        <div class="checkbox checkbox-primary">
+                            <input type="checkbox" id="verified_staff" name="verified_staff" value="1" <?php echo set_checkbox('verified_staff', '1'); ?>>
+                            <label for="verified_staff">
+                                <?php echo _l('Verified by Staff'); ?>
+                            </label>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="opt_1_prospect_type" class="control-label clearfix">
@@ -74,5 +123,4 @@
 </div>
 
 </body>
-
 </html>

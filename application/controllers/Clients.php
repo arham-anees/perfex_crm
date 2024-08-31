@@ -25,7 +25,7 @@ class Clients extends ClientsController
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
-        if(!is_onboarding_completed()){
+        if (!is_onboarding_completed()) {
             redirect(site_url('onboarding'));
         }
     }
@@ -68,7 +68,6 @@ class Clients extends ClientsController
 
     public function zapier()
     {
-
         $data['webhooks'] = $this->Misc_model->get_zapier_config(get_client_user_id());
         $this->data($data);
         $this->view('clients/zapier/index');

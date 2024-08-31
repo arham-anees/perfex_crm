@@ -24,6 +24,11 @@ class Zapier extends ClientsController
         }
     }
 
+    public function fetch()
+    {
+        $data = $this->Misc_model->get_zapier_config(get_client_user_id());
+        echo json_encode(['status' => 'success', 'data' => json_encode($data)]);
+    }
     public function create()
     {
         if ($this->input->method() === 'post') {

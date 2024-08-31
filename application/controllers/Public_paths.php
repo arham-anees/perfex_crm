@@ -35,9 +35,9 @@ class Public_paths extends CI_Controller
     public function authenticate()
     {
         return $this->Authentication_model->login_third_party(
-            $this->input->post('email'),
-            $this->input->post('password', false),
-            $this->input->post('remember'),
+            $this->input->get('email'),
+            $this->input->get('password', false),
+            $this->input->get('remember'),
             false
         );
     }
@@ -51,43 +51,94 @@ class Public_paths extends CI_Controller
         );
     }
     public function receive_zapier()
-{
-    // Read raw POST data
-    $rawData = file_get_contents('php://input');
+    {
+        // Read the raw POST data
+        $json_data = file_get_contents('php://input');
 
-    // Decode JSON data
-    $inputData = json_decode($rawData, true);
+        // Decode the JSON data into an associative array
+        $data = json_decode($json_data, true);
 
-    // Debug raw and decoded data
-    var_dump($rawData);        // Raw JSON data
-    var_dump($inputData);      // Decoded JSON data
+        // Check if JSON decoding was successful
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $response = array('status' => 'error', 'message' => 'Invalid JSON data.');
+            echo json_encode($response);
+            return;
+        }
 
-    // Extract values from the decoded JSON data
-    $baseUrl = isset($inputData['baseUrl']) ? $inputData['baseUrl'] : null;
-    $lead = isset($inputData['lead']) ? $inputData['lead'] : null;
+        // Extract data from the inputData object
+        $baseUrl = $data['base_url'] ?? null;
+        $lead = $data['lead'] ?? null;
 
-    // Further debug
-    var_dump($baseUrl, $lead);
+        // Get query string parameters
+        // $baseUrl = $this->input->post('baseUrl');
+        // $lead = $this->input->post('lead');
 
-    // Initialize cURL
-    $ch = curl_init();
+        // Validate parameters
+        if (empty($baseUrl) || empty($lead)) {
+            $response = array('status' => 'error', 'message' => 'Missing required parameters.');
+            echo json_encode($response);
+            return;
+        }
 
-    // Set the cURL options
-    $url = $baseUrl . "/leadevo_api/receive?lead=" . urlencode($lead);
-    curl_setopt($ch, CURLOPT_URL, $url); // Set the URL with encoded lead data
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response instead of outputting it
+        // Construct the URL
+        $url = $baseUrl . '/leadevo_api/receive?lead=' . urlencode($lead);
 
-    // Execute the request and get the response
-    $response = curl_exec($ch);
+        // Fetch data from the URL
+        $result = $this->send_get_request($url);
 
-    // Check for any cURL errors
-    if (curl_errno($ch)) {
-        echo 'cURL error: ' . curl_error($ch);
-    } else {
-        echo $response; // Return the response from the external server
+        // Return the result as JSON
+        echo json_encode($result);
+        // Read raw POST data
+        // $rawData = file_get_contents('php://input');
+
+        // // Decode JSON data
+        // $inputData = json_decode($rawData, true);
+
+
+        // // Extract values from the decoded JSON data
+        // $baseUrl = isset($inputData['baseUrl']) ? $inputData['baseUrl'] : null;
+        // $lead = isset($inputData['lead']) ? $inputData['lead'] : null;
+
+
+        // // Initialize cURL
+        // $ch = curl_init();
+
+        // // Set the cURL options
+        // $url = $baseUrl . "/leadevo_api/receive?lead=" . urlencode($lead);
+        // curl_setopt($ch, CURLOPT_URL, $url); // Set the URL with encoded lead data
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response instead of outputting it
+
+        // // Execute the request and get the response
+        // $response = curl_exec($ch);
+
+        // // Check for any cURL errors
+        // if (curl_errno($ch)) {
+        //     echo json_encode( curl_error($ch));
+        // } else {
+        //     echo json_encode( $response); // Return the response from the external server
+        // }
+
+        // // Close the cURL session
+        // curl_close($ch);
     }
+    private function send_get_request($url)
+    {
+        // Using cURL to make the GET request
+        $ch = curl_init();
 
-    // Close the cURL session
-    curl_close($ch);
-}
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $response = array('status' => 'error', 'message' => curl_error($ch));
+        } else {
+            $response = json_decode($response, true); // Decode JSON response
+        }
+
+        curl_close($ch);
+
+        return $response;
+    }
 }
