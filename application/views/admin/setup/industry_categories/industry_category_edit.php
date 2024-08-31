@@ -26,14 +26,7 @@
                             <input type="number" id="min_market_price" name="min_market_price" class="form-control"
                                 value="<?php echo $category['min_market_price']; ?>" required>
                         </div>
-                        <div class="form-group">
-                            <label for="industry_id"><?php echo _l('Industry'); ?></label>
-                            <select name="industry_id" id="industry_id" class="form-control" required>
-                                <?php foreach ($industries as $industry): ?>
-                                    <option value="<?php echo $industry['id']; ?>" <?php echo ($industry['id'] == $category['industry_id']) ? 'selected' : ''; ?>><?php echo $industry['name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control"
