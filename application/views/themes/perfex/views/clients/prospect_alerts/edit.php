@@ -28,6 +28,32 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="industry"><?php echo _l('Prospect Industry'); ?></label>
+                        <select name="industry_id" class="selectpicker" data-width="100%"
+                            data-none-selected-text="<?php echo _l('Select Prospect Industry'); ?>">
+                            <option value=""><?php echo _l('Select Prospect Industry'); ?></option>
+                            <?php foreach ($industries as $industry): ?>
+                                <option value="<?php echo $industry->id; ?>" <?php echo set_select('industry_id', $industry->id); ?>>
+                                    <?php echo $industry->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="acquisition_channel"><?php echo _l('Acquisition Channel'); ?></label>
+                        <select name="acquisition_channel_id" class="selectpicker" data-width="100%"
+                            data-none-selected-text="<?php echo _l('Select Acquisition Channel'); ?>">
+                            <option value=""><?php echo _l('Select Acquisition Channel'); ?></option>
+                            <?php foreach ($acquisition_channels as $channel): ?>
+                                <option value="<?php echo $channel->id; ?>" <?php echo set_select('acquisition_channel_id', $channel->id); ?>>
+                                    <?php echo $channel->name; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
 
                     <div class="form-group">
                         <label for="opt_1_prospect_type" class="control-label clearfix">
