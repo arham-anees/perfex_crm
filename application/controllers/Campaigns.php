@@ -130,6 +130,29 @@ class Campaigns extends ClientsController
 
     public function edit($id)
     {
+        $campaign = $this->Campaigns_model->get($id);
+
+        $status = $this->Campaigns_model->get_campaign_statuses();
+        $status_name = '';
+        foreach ($status as $stat) {
+            if ($stat['id'] == $campaign->status_id) {
+                $status_name = $stat['name'];
+                break;
+            }
+        }
+        if ($status_name === 'Active') {
+            set_alert('danger', 'You cannot edit this campaign. It is already started');
+            redirect(site_url('campaigns'));
+        }
+        if ($status_name === 'Completed') {
+            set_alert('danger', 'You do not have permission to edit this campaign.');
+            redirect(site_url('campaigns'));
+        }
+        if ($campaign->start_date < date('Y-m-d')) {
+            set_alert('danger', 'You cannot edit this campaign. It is either already started or completed.');
+            redirect(site_url('campaigns'));
+        }
+
         if ($this->input->post()) {
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
@@ -180,6 +203,30 @@ class Campaigns extends ClientsController
 
     public function delete($id)
     {
+        $campaign = $this->Campaigns_model->get($id);
+        $status = $this->Campaigns_model->get_campaign_statuses();
+        $status_name = '';
+        foreach ($status as $stat) {
+            if ($stat['id'] == $campaign->status_id) {
+                $status_name = $stat['name'];
+                break;
+            }
+        }
+        if ($status_name === 'Active') {
+            set_alert('danger', 'You cannot delete this campaign. It is already started');
+            redirect(site_url('campaigns'));
+        }
+        if ($status_name === 'Completed') {
+            set_alert('danger', 'You do not have permission to delete this campaign.');
+            redirect(site_url('campaigns'));
+        }
+        if ($campaign->start_date < date('Y-m-d')) {
+            set_alert('danger', 'You cannot delete this campaign. It is either already started or completed.');
+            redirect(site_url('campaigns'));
+        }
+
+
+
         if ($this->Campaigns_model->delete($id)) {
             set_alert('success', 'Campaign deleted successfully.');
         } else {

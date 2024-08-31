@@ -57,9 +57,15 @@
                 </div>
 
                 <div class="form-group">
-                    <a href="<?php echo site_url('campaigns/edit/' . $campaign->id); ?>" class="btn btn-primary">
-                        <?php echo _l('Edit'); ?>
-                    </a>
+                <?php
+                      $current_date = date('Y-m-d');
+                      $start_date = !empty($campaign->start_date) && strtotime($campaign->start_date) !== false
+                        ? date('Y-m-d', strtotime($campaign->start_date))
+                        : 'N/A';
+
+                      if (($campaign->status_id == 3) && ($start_date >= $current_date)): ?>
+                        <a href="<?php echo site_url('campaigns/edit/' . $campaign->id);   ?> " class="btn btn-primary ">Edit</a> |
+                      <?php endif; ?>
                     <a href="<?php echo site_url('campaigns'); ?>" class="btn btn-default">
                         <?php echo _l('Back'); ?>
                     </a>
