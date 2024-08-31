@@ -3955,6 +3955,8 @@ $lang['leadevo_explanatory_videos_menu'] = 'Explanatory Videos';
 $lang['leadevo_report_fake_prospect'] = 'Report Fake Prospect';
 $lang['leadevo_report_fake_prospect_button'] = 'Report Fake';
 $lang['leadevo_report_fake_prospect_message'] = 'Are you sure you want to report the prospect as fake?';
+$lang['leadevo_fake_prospect_description_placeholder'] = 'Enter reason for report';
+$lang['leadevo_fake_description_label'] = 'Reason';
 
 $lang['leadevo_sale_available_prospect'] = 'Make Prospect Available for Sale';
 $lang['leadevo_sale_available_prospect_button'] = 'Make Available';
