@@ -14,7 +14,7 @@ class Campaigns extends ClientsController
         if (is_client_logged_in() && !is_contact_email_verified()) {
             redirect(site_url('verification'));
         }
-        if(!is_onboarding_completed()){
+        if (!is_onboarding_completed()) {
             redirect(site_url('onboarding'));
         }
 
@@ -114,7 +114,6 @@ class Campaigns extends ClientsController
 
 
                 // Return success response
-                log_message('error', ' creating invoice');
                 $budget = $data['budget'];
                 $invoice = $this->checkout($budget);
 

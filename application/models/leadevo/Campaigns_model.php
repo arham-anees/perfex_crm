@@ -10,13 +10,18 @@ class Campaigns_model extends CI_Model
     }
     public function get_all()
     {
-        return $this->db->get_where($this->table, ['is_active' => 1])->result();
+        $sql = "SELECT c.*, s.name status_name, i.status invoice_status, i.hash invoice_hash FROM `tblleadevo_campaign` c
+        LEFT JOIN tblleadevo_campaign_statuses s ON c.status_id = s.id
+        LEFT JOIN tblinvoices i ON c.invoice_id = i.id
+        WHERE c.is_active = 1";
+        return $this->db->query($sql)->result();
+        // return $this->db->get_where($this->table, ['is_active' => 1])->result();
     }
     public function get_all_client()
     {
-        $sql = "SELECT c.*, s.name status_name FROM `tblleadevo_campaign` c
-                LEFT JOIN tblleadevo_campaign_statuses s
-                ON c.status_id = s.id
+        $sql = "SELECT c.*, s.name status_name, i.status invoice_status, i.hash invoice_hash FROM `tblleadevo_campaign` c
+                LEFT JOIN tblleadevo_campaign_statuses s ON c.status_id = s.id
+                LEFT JOIN tblinvoices i ON c.invoice_id = i.id
                 WHERE c.is_active = 1 AND client_id = " . get_client_user_id() . "";
         return $this->db->query($sql)->result();
     }
@@ -32,13 +37,13 @@ class Campaigns_model extends CI_Model
         return $this->db->query($sql)->result();
     }
     public function get($id)
-{
-    $this->db->select('c.*, i.name as industry_name'); // Select campaign details and industry name
-    $this->db->from($this->table . ' c'); // Alias for the campaign table
-    $this->db->join('tblleadevo_industries i', 'c.industry_id = i.id', 'left'); // Join industries table on industry_id
-    $this->db->where('c.id', $id); // Filter by campaign ID
-    return $this->db->get()->row(); // Return the row with campaign and industry name
-}
+    {
+        $this->db->select('c.*, i.name as industry_name'); // Select campaign details and industry name
+        $this->db->from($this->table . ' c'); // Alias for the campaign table
+        $this->db->join('tblleadevo_industries i', 'c.industry_id = i.id', 'left'); // Join industries table on industry_id
+        $this->db->where('c.id', $id); // Filter by campaign ID
+        return $this->db->get()->row(); // Return the row with campaign and industry name
+    }
 
     public function get_by_client_id($id)
     {
