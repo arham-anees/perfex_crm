@@ -4064,4 +4064,9 @@ $lang['leadevo_client_dashboard_total_campaigns'] = 'Total Campaigns';
 $lang['leadevo_client_dashboard_total_prospects'] = 'Total Prospects';
 $lang['leadevo_client_dashboard_prospects_average_cost'] = 'Prospects Average Cost';
 $lang['leadevo_client_dashboard_reported_prospects'] = 'Reported Prospects';
-
+$lang['leadevo_email'] = 'Email';
+$lang['leadevo_phone'] = 'Phone';
+$lang['leadevo_lead_phone'] = 'Phone';
+$lang['leadevo_price'] = 'Price';
+$lang['leadevo_sold_prospects_admin_menu'] = 'Sold Prospects';
+$lang['leadevo_prospect_reported'] = 'A prospect has been reported';

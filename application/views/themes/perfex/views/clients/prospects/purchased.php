@@ -606,28 +606,7 @@ $jsonData = json_encode($table); ?>
             console.log('Prospect ID:', prospectId);
         });
 
-        function showStep(step) {
-            steps.forEach((element, index) => {
-                element.classList.toggle('active', index === step - 1);
-            });
-            circles.forEach((element, index) => {
-                element.classList.toggle('active', index === step - 1);
-                element.classList.toggle('completed', index < step - 1);
-            });
 
-            backBtn.style.display = step === 1 ? 'none' : 'inline-flex';
-
-            // Show the Next button only on the first step and the Finish button on the last step
-            if (step === 1) {
-                nextBtn.style.display = 'inline-flex';
-                nextBtn.textContent = 'Next';
-            } else if (step === totalSteps) {
-                nextBtn.style.display = 'inline-flex';
-                nextBtn.textContent = 'Report';
-            } else {
-                nextBtn.style.display = 'none';
-            }
-        }
 
         // Get CSRF token from the hidden field
         var csrfName = $('#reportProspectModal input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
@@ -679,6 +658,28 @@ $jsonData = json_encode($table); ?>
             }
         });
 
+        function showStep(step) {
+            steps.forEach((element, index) => {
+                element.classList.toggle('active', index === step - 1);
+            });
+            circles.forEach((element, index) => {
+                element.classList.toggle('active', index === step - 1);
+                element.classList.toggle('completed', index < step - 1);
+            });
+
+            backBtn.style.display = step === 1 ? 'none' : 'inline-flex';
+
+            // Show the Next button only on the first step and the Finish button on the last step
+            if (step === 1) {
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.textContent = 'Next';
+            } else if (step === totalSteps) {
+                nextBtn.style.display = 'inline-flex';
+                nextBtn.textContent = 'Report';
+            } else {
+                nextBtn.style.display = 'none';
+            }
+        }
         // Handle the "Oops, I don’t have any evidence" button click
         document.getElementById('no-evidence').addEventListener('click', function () {
             $('#reportProspectModal').modal('hide');
@@ -716,13 +717,10 @@ $jsonData = json_encode($table); ?>
                 }
             });
         }
-    });
-</script>
-<script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
 
-<script>
-    $(document).ready(function () {
         $('#reportProspectModal').on('show.bs.modal', function (event) {
+            currentStep = 1;
+            showStep(currentStep);
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id');
             var name = button.data('name');
@@ -746,6 +744,52 @@ $jsonData = json_encode($table); ?>
             $('#reportProspectModal input[name=campaign_id]').val(campaignId);
 
             $('#reportProspectModal').data('prospect-id', id);
+
+            // clear evidence
+            $('#evidence-upload').val(null);
+            $('#reasonSelect').val(null);
+            $('#reportProspectModal .filter-option-inner-inner').text('Select Reason');
+
+        });
+
+    });
+</script>
+<script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#1reportProspectModal').on('show.bs.modal', function (event) {
+            currentStep = 1;
+            showStep(currentStep);
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var id = button.data('id');
+            var name = button.data('name');
+            var status = button.data('status');
+            var type = button.data('type');
+            var category = button.data('category');
+            var acquisition = button.data('acquisition');
+            var amount = button.data('amount');
+            var industry = button.data('industry');
+            var campaignId = button.data('campaign');
+
+            // Update the table cells with the prospect's data
+            $('#prospect-name').text(name);
+            $('#prospect-status').text(status);
+            $('#prospect-type').text(type);
+            $('#prospect-category').text(category);
+            $('#prospect-acquisition').text(acquisition);
+            $('#prospect-amount').text(amount);
+            $('#prospect-industry').text(industry);
+
+            $('#reportProspectModal input[name=campaign_id]').val(campaignId);
+
+            $('#reportProspectModal').data('prospect-id', id);
+
+            // clear evidence
+            $('#evidence-upload').val(null);
+            $('#reasonSelect').val(null);
+            $('#reportProspectModal .filter-option-inner-inner').text('Select Reason');
+
         });
     });
 
