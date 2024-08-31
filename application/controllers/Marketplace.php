@@ -16,7 +16,7 @@ class Marketplace extends ClientsController
         if (is_client_logged_in() && !is_contact_email_verified()) {
             redirect(site_url('verification'));
         }
-        if(!is_onboarding_completed()){
+        if (!is_onboarding_completed()) {
             redirect(site_url('onboarding'));
         }
     }
@@ -94,8 +94,6 @@ class Marketplace extends ClientsController
 
     public function delete_from_cart($prospect_id)
     {
-
-
         $client_id = get_client_user_id();
 
         // Delete the item from the cart

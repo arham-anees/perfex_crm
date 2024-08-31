@@ -282,55 +282,7 @@ class Prospects_model extends CI_Model
 
         return $this->db->query($sql)->result_array();
     }
-    public function get_all_purchased()
-    {
-        $sql = "SELECT 
-                    p.id, 
-                    CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
-                    ps.name AS status, 
-                    pt.name AS type, 
-                    pc.name AS category, 
-                    ac.name AS acquisition_channel, 
-                    i.name AS industry,
-                    p.is_confirmed AS confirm_status,
-                    p.is_fake,
-                    p.is_available_sale,
-                    r.rating,
-                    null AS zip_code,
-                    null AS phone,
-                    null AS email,
-                    null AS source,
-                    null AS deal,
-                    null AS quality
-                FROM
-                    tblleadevo_prospects p
-                LEFT JOIN
-                    tblleadevo_prospect_statuses ps ON p.status_id = ps.id
-                LEFT JOIN
-                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
-                LEFT JOIN
-                    tblleadevo_prospect_categories pc ON p.category_id = pc.id
-                LEFT JOIN
-                    tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
-                LEFT JOIN
-                    tblleadevo_industries i ON p.industry_id = i.id
-                LEFT JOIN   
-                    (SELECT r.*
-                    FROM `tblleadevo_prospects_rating` r
-                    INNER JOIN (
-                        SELECT prospect_id, MAX(rated_at) AS max_rated_at
-                        FROM `tblleadevo_prospects_rating`
-                        GROUP BY prospect_id
-                    ) AS latest_ratings ON r.prospect_id = latest_ratings.prospect_id
-                    AND r.rated_at = latest_ratings.max_rated_at) r
-                ON r.prospect_id = p.id
-                INNER JOIN tblleadevo_prospects_purchased lpp
-                ON lpp.prospect_id = p.id
-                WHERE
-                    p.is_active = 1 AND lpp.client_id = " . get_client_user_id();
 
-        return $this->db->query($sql)->result_array();
-    }
     public function get_all_fake()
     {
         $sql = "SELECT 
@@ -632,22 +584,22 @@ class Prospects_model extends CI_Model
     //     return $this->db->query($sql, [$id])->row_array();
     // }
 
-   
+
 
     public function get($id)
-{
-    $this->db->select('c.*, i.name as industry_name, a.name as acquisition_channel_name, cat.name as category_name, t.name as type_name'); // Select campaign details, industry, acquisition channel, category, and type name
-    $this->db->from($this->table . ' c'); // Alias for the campaign table
-    $this->db->join('tblleadevo_industries i', 'c.industry_id = i.id', 'left'); // Join industries table on industry_id
-    $this->db->join('tblleadevo_acquisition_channels a', 'c.acquisition_channel_id = a.id', 'left'); // Join acquisition channels table on acquisition_channel_id
-    $this->db->join('tblleadevo_prospect_categories cat', 'c.category_id = cat.id', 'left'); // Join categories table on category_id
-    $this->db->join('tblleadevo_prospect_types t', 'c.type_id = t.id', 'left'); // Join prospect types table on type_id
-    $this->db->where('c.id', $id); // Filter by campaign ID
-    return $this->db->get()->row(); // Return the row with campaign, industry, acquisition channel, category, and type name
-}
+    {
+        $this->db->select('c.*, i.name as industry_name, a.name as acquisition_channel_name, cat.name as category_name, t.name as type_name'); // Select campaign details, industry, acquisition channel, category, and type name
+        $this->db->from($this->table . ' c'); // Alias for the campaign table
+        $this->db->join('tblleadevo_industries i', 'c.industry_id = i.id', 'left'); // Join industries table on industry_id
+        $this->db->join('tblleadevo_acquisition_channels a', 'c.acquisition_channel_id = a.id', 'left'); // Join acquisition channels table on acquisition_channel_id
+        $this->db->join('tblleadevo_prospect_categories cat', 'c.category_id = cat.id', 'left'); // Join categories table on category_id
+        $this->db->join('tblleadevo_prospect_types t', 'c.type_id = t.id', 'left'); // Join prospect types table on type_id
+        $this->db->where('c.id', $id); // Filter by campaign ID
+        return $this->db->get()->row(); // Return the row with campaign, industry, acquisition channel, category, and type name
+    }
 
 
-    
+
     public function insert($data)
     {
         if (!isset($data['client_id'])) {
@@ -669,14 +621,14 @@ class Prospects_model extends CI_Model
         return $this->db->where('id', $id)->delete($this->table);
     }
     public function mark_fake($id, $description)
-{
-    $this->db->where('id', $id);
-    return $this->db->update($this->table, array(
-        'is_fake' => 1,
-        'fake_report_date' => date('Y-m-d H:i:s'),
-        'fake_description' => $description
-    ));
-}
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array(
+            'is_fake' => 1,
+            'fake_report_date' => date('Y-m-d H:i:s'),
+            'fake_description' => $description
+        ));
+    }
 
     public function mark_as_auto_deliverable($id)
     {
@@ -875,7 +827,6 @@ class Prospects_model extends CI_Model
         $this->db->trans_begin();
 
         try {
-            // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect) {
                 $budget_spent = $this->db->query("SELECT IFNULL(SUM(price), 0) AS budget_spent  FROM tblleadevo_leads WHERE campaign_id = " . $campaign->id)->row()->budget_spent;
                 if ($budget_spent >= $campaign->budget) {
@@ -932,18 +883,18 @@ class Prospects_model extends CI_Model
 
     }
 
-    public function deliver_prospects_cart($client_id, $prospects)
+    public function deliver_prospects_cart($invoice, $prospects)
     {
+
         if (!isset($prospects)) {
             return;
         }
-
+        $client_id = $invoice->clientid;
         // send these prospects to client
         $sql = '';
         $this->db->trans_begin();
 
         try {
-            // insert each prospect into the tblleadevo_prospects_purchased
             foreach ($prospects as $prospect_cart) {
                 $prospect = $this->db->query("SELECT * FROM tblleadevo_prospects WHERE id = " . $prospect_cart['prospect_id'])->row();
                 // create invoice for each
@@ -953,17 +904,15 @@ class Prospects_model extends CI_Model
 
                 // Get the last inserted ID from tblleads
                 $lastInsertId = $this->db->insert_id();
-                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect_cart['desired_amount'] . "');";
+                $sql = "INSERT INTO " . db_prefix() . "leadevo_leads(lead_id, prospect_id, client_id, created_at, price, invoice_id) VALUES(" . $lastInsertId . "," . $prospect->id . "," . $client_id . ", '" . date('Y-m-d H:i:s') . "', '" . $prospect_cart['price'] . "', " . $invoice->id . ");";
                 $this->db->query($sql);
 
                 if ($prospect->is_exclusive == 1) {
                     $this->db->query("UPDATE tblleadevo_prospects SET is_active=0, updated_at = UTC_TIMESTAMP() WHERE id = " . $prospect->id);
                     // clear from carts, if the prospect is exclusive
                     $this->db->query("DELETE FROM tblleadevo_cart WHERE prospect_id = " . $prospect->id);
-                } else {
-                    $this->db->query("DELETE FROM tblleadevo_cart WHERE Invoice_id = " . $prospect_cart->invoice_id . " prospect_id = " . $prospect->id);
-
                 }
+                $this->db->query("DELETE FROM tblleadevo_cart WHERE Invoice_id = " . $invoice->id . " AND prospect_id = " . $prospect_cart['prospect_id']);
             }
 
             // If everything is successful, commit the transaction
@@ -989,7 +938,6 @@ class Prospects_model extends CI_Model
 
 
     }
-
 
     public function get_Reasons()
     {
@@ -1073,12 +1021,12 @@ class Prospects_model extends CI_Model
         return $query->row_array();
     }
 
-   public function get_prospect_by_id($id)
-{
-    $this->db->where('id', $id);
-    $query = $this->db->get($this->table);
-    return $query->row_array();
-}
+    public function get_prospect_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get($this->table);
+        return $query->row_array();
+    }
 
 
 }

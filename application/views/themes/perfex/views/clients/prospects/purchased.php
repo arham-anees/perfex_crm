@@ -191,6 +191,11 @@ function displayStars($rating, $maxStars = 5)
                         'name' => _l('date_created'),
                         'th_attrs' => ['class' => 'toggleable', 'id' => 'th-date-created'],
                     ],
+
+                    [
+                        'name' => _l('campaign_id'),
+                        'th_attrs' => ['class' => 'toggleable', 'id' => 'th-date-created'],
+                    ],
                 ];
                 foreach ($_table_data as $_t) {
                     array_push($table_data, $_t);
@@ -206,21 +211,20 @@ function displayStars($rating, $maxStars = 5)
                 }
                 $table_data = hooks()->apply_filters('customers_table_columns', $table_data);
                 ?>
-                <div class="panel-table-full">
-
-                    <table class="table clients" id="clients">
+                <div class="table-responsive">
+                    <table class="table table-bordered dt-table" id="clients">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th><?php echo _l('Stars'); ?></th>
-                                <th>Value</th>
-                                <th>Tags</th>
-                                <th>Status</th>
-                                <th>Source</th>
-                                <th>Purchased On</th>
+                                <th><?= _l('id') ?></th>
+                                <th><?= _l('name') ?></th>
+                                <th><?= _l('leadevo_email') ?></th>
+                                <th><?= _l('leadevo_phone') ?></th>
+                                <th><?= _l('Stars'); ?></th>
+                                <th><?= _l('leadevo_price') ?></th>
+                                <th><?= _l('lead_import_source') ?></th>
+                                <th><?= _l('invoice_dt_table_heading_status') ?></th>
+                                <th><?= _l('lead_source') ?></th>
+                                <th><?= _l('expense_dt_table_heading_date') ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -275,11 +279,20 @@ function displayStars($rating, $maxStars = 5)
                                             ?>
                                         </div>
                                     </td>
-                                    <td><?php echo htmlspecialchars($prospect->lead_value ?? 'N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars('N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->status_name ?? 'N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->source_name ?? 'N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars($prospect->dateadded ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->purchase_price ?? ''); ?></td>
+                                    <td><?php echo $prospect->campaign_id == null ? 'Cart' : 'Campaign' ?>
+
+                                        <div class="row-options">
+                                            <?php if ($prospect->campaign_id != null): ?><a
+                                                    href="<?php echo site_url('campaigns/campaign/' . $prospect->campaign_id) ?>">View</a><?php endif; ?>
+                                            <?php if ($prospect->campaign_id == null): ?><a
+                                                    href="<?php echo site_url('invoice/' . $prospect->invoice_id . '/' . $prospect->invoice_hash) ?>">View
+                                                    Invoice</a><?php endif; ?>
+                                        </div>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($prospect->status_name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->source_name ?? ''); ?></td>
+                                    <td><?php echo htmlspecialchars($prospect->dateadded ?? ''); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -703,10 +716,7 @@ $jsonData = json_encode($table); ?>
                 }
             });
         }
-
     });
-
-
 </script>
 <script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
 

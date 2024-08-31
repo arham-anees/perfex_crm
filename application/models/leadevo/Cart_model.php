@@ -72,7 +72,7 @@ class Cart_model extends CI_Model
         $client_id = get_client_user_id();
         foreach ($prospects as $item) {
             $sql = "UPDATE " . db_prefix() . "leadevo_cart SET invoice_id = " . $invoice_id . "
-            WHERE client_id = " . $client_id . " AND prospect_id = " . $item['prospect_id'];
+            WHERE invoice_id IS NULL AND client_id = " . $client_id . " AND prospect_id = " . $item['prospect_id'];
             $this->db->query($sql);
         }
     }

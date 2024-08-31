@@ -61,7 +61,7 @@ function app_init_admin_sidebar_menu_items()
         'href' => admin_url('prospects/fake'),
         'slug' => 'leadevo_fake_prospects',
         'position' => 2,
-        'icon' => 'fa fa-tty',
+        'icon' => 'fa fa-x',
         'badge' => [],
     ]);
 
@@ -70,7 +70,15 @@ function app_init_admin_sidebar_menu_items()
         'href' => admin_url('prospects/reported'),
         'slug' => 'leadevo_reported_prospects',
         'position' => 3,
-        'icon' => 'fa fa-tty',
+        'icon' => 'fa fa-phone',
+        'badge' => [],
+    ]);
+    $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+        'name' => _l('leadevo_sold_prospects_admin_menu'),
+        'href' => admin_url('prospects/sold'),
+        'slug' => 'leadevo_sold_prospects',
+        'position' => 3,
+        'icon' => 'fa fa-cart-shopping',
         'badge' => [],
     ]);
 

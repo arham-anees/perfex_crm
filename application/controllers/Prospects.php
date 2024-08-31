@@ -21,7 +21,7 @@ class Prospects extends ClientsController
             redirect(site_url('verification'));
         }
 
-        if(!is_onboarding_completed()){
+        if (!is_onboarding_completed()) {
             redirect(site_url('onboarding'));
         }
 
@@ -59,7 +59,6 @@ class Prospects extends ClientsController
 
     public function purchased()
     {
-
 
         $this->load->model('contracts_model');
         $data['contract_types'] = $this->contracts_model->get_contract_types();
