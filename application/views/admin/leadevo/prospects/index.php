@@ -96,7 +96,7 @@ function displayStars($rating, $maxStars = 5)
                                                     </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
-                                                <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>
+                                               
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
@@ -155,7 +155,6 @@ function displayStars($rating, $maxStars = 5)
                     <p><strong>Last Name:</strong> <span id="prospectLastName"></span></p>
                     <p><strong>Status:</strong> <span id="prospectStatus"></span></p>
                     <p><strong>Type:</strong> <span id="prospectType"></span></p>
-                    <p><strong>Category:</strong> <span id="prospectCategory"></span></p>
                     <p><strong>Acquisition Channel:</strong> <span id="prospectAcquisitionChannel"></span></p>
                     <p><strong>Industry:</strong> <span id="prospectIndustry"></span></p>
                 </div>
