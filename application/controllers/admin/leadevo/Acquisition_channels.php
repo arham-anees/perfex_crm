@@ -11,7 +11,7 @@ class Acquisition_channels extends AdminController
 
     public function index()
     {
-        $data['channels'] = $this->acquisition_channels_model->get_all();
+        $data['channels'] = $this->acquisition_channels_model->get_all('');
         $this->load->view('admin/setup/acquisition_channels/acquisition_channels', $data);
     }
 
@@ -25,7 +25,7 @@ class Acquisition_channels extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->acquisition_channels_model->insert($data);
                 redirect(admin_url('leadevo/acquisition_channels'));
@@ -43,7 +43,8 @@ class Acquisition_channels extends AdminController
             if ($this->form_validation->run() !== false) {
                 $data = [
                     'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description')
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->acquisition_channels_model->update($id, $data);
                 redirect(admin_url('leadevo/acquisition_channels'));

@@ -12,7 +12,7 @@ class Prospect_categories extends AdminController
 
     public function index()
     {
-        $data['categories'] = $this->prospect_categories_model->get_all();
+        $data['categories'] = $this->prospect_categories_model->get_all('');
         $this->load->view('admin/setup/prospect_categories/prospect_categories', $data); // Ensure this view file exists
 
     }
@@ -27,7 +27,7 @@ class Prospect_categories extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->prospect_categories_model->insert($data);
                 redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL
@@ -44,7 +44,8 @@ class Prospect_categories extends AdminController
             if ($this->form_validation->run() !== false) {
                 $data = [
                     'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description')
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->prospect_categories_model->update($id, $data);
                 redirect(admin_url('leadevo/prospect_categories')); // Route to updated URL

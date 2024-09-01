@@ -22,6 +22,7 @@
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
                                         <th><?php echo _l('Category'); ?></th> <!-- Added Category Column -->
+                                        <th><?php echo _l('Status'); ?></th> <!-- Added Category Column -->
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -43,6 +44,7 @@
                     echo $categoryName;
                     ?>
                                             </td>
+                                            <td><?php echo $industry['is_active']==1?'Active':'Inactive'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/industries/view/' . $industry['id']); ?>"
                                                     class="btn btn-default btn-icon">

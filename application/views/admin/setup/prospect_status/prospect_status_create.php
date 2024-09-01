@@ -25,7 +25,7 @@
                                 <label for="is_active" >Active</label>
                             </div>
                             <div class="radio radio-primary radio-inline">
-                                <input type="radio" id="is_actives" name="is_active" value="0">
+                                <input type="radio" id="is_actives" name="is_active" value="">
                                 <label for="is_actives">In Active</label>
                             </div>
                         </div>

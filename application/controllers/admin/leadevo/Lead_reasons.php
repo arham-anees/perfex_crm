@@ -12,7 +12,7 @@ class Lead_reasons extends AdminController
 
     public function index()
     {
-        $data['reasons'] = $this->lead_reasons_model->get_all();
+        $data['reasons'] = $this->lead_reasons_model->get_all('');
         $this->load->view('admin/setup/lead_reasons/lead_reasons', $data);
     }
 
@@ -26,7 +26,7 @@ class Lead_reasons extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->lead_reasons_model->insert($data);
                 redirect(admin_url('leadevo/lead_reasons'));
@@ -44,7 +44,8 @@ class Lead_reasons extends AdminController
             if ($this->form_validation->run() !== false) {
                 $data = [
                     'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description')
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->lead_reasons_model->update($id, $data);
                 redirect(admin_url('leadevo/lead_reasons'));

@@ -66,7 +66,16 @@
                 data: data,
                 success: function (response) {
                     // Handle success response
-                    alert_float('success', '<?= _l('settings_updated') ?>');
+                    console.log(response);
+                     var res = JSON.parse(response);
+        
+                    if (res.status === 'success') {
+                        // Handle success response
+                        alert_float('success', '<?= _l('settings_updated') ?>');
+                    } else if (res.status === 'error') {
+                        // Handle error response
+                        alert_float('danger', res.message || 'Failed to save settings');
+                    }
                 },
                 error: function (xhr, status, error) {
                     // Handle error response

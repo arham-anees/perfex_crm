@@ -51,11 +51,11 @@ class Prospects extends AdminController
         }
 
         $data['prospect'] = $this->Prospects_model->get($id);
-        $data['statuses'] = $this->Prospect_status_model->get_all();
-        $data['types'] = $this->Prospect_types_model->get_all();
-        $data['categories'] = $this->Prospect_categories_model->get_all();
-        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
-        $data['industries'] = $this->Industries_model->get_all();
+        $data['statuses'] = $this->Prospect_status_model->get_all(array('is_active'=>1));
+        $data['types'] = $this->Prospect_types_model->get_all(array('is_active'=>1));
+        $data['categories'] = $this->Prospect_categories_model->get_all(array('is_active'=>1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all(array('is_active'=>1));
+        $data['industries'] = $this->Industries_model->get_all(array('is_active'=>1));
 
         $this->load->view('admin/leadevo/prospects/edit', $data);
     }

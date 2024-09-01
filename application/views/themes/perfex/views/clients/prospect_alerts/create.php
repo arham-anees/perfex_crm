@@ -6,7 +6,7 @@
             <div class="panel-body text-left">
                 <h4><?php echo _l('Add New Prospect Alert'); ?></h4>
                 <hr class="hr-panel-heading">
-
+                <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
                 <?php echo form_open(site_url('prospect_alerts/create'), ['method' => 'POST']); ?>
 
                 <div class="row">

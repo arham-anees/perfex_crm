@@ -13,7 +13,7 @@ class Prospect_types extends AdminController
 
     public function index()
     {
-        $data['types'] = $this->prospect_types_model->get_all();
+        $data['types'] = $this->prospect_types_model->get_all('');
         $this->load->view('admin/setup/prospect_types/prospect_types', $data); // Ensure this view file exists
     }
 
@@ -27,7 +27,7 @@ class Prospect_types extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->prospect_types_model->insert($data);
                 redirect(admin_url('leadevo/prospect_types')); // Updated to match route
@@ -46,7 +46,9 @@ class Prospect_types extends AdminController
             if ($this->form_validation->run() !== false) {
                 $data = [
                     'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description')
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+
                 ];
                 $this->prospect_types_model->update($id, $data);
                 redirect(admin_url('leadevo/prospect_types')); // Updated to match route

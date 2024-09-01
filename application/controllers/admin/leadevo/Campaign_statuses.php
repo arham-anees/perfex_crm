@@ -12,7 +12,7 @@ class Campaign_statuses extends AdminController
 
     public function index()
     {
-        $data['statuses'] = $this->campaign_statuses_model->get_all();
+        $data['statuses'] = $this->campaign_statuses_model->get_all('');
         $this->load->view('admin/setup/campaign_statuses/campaign_statuses', $data);
     }
 
@@ -27,7 +27,7 @@ class Campaign_statuses extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->campaign_statuses_model->insert($data);
                 redirect(admin_url('leadevo/campaign_statuses'));
@@ -47,6 +47,7 @@ class Campaign_statuses extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->campaign_statuses_model->update($id, $data);
                 redirect(admin_url('leadevo/campaign_statuses'));

@@ -12,7 +12,7 @@ class Industry_categories extends AdminController
 
     public function index()
     {
-        $data['categories'] = $this->Industry_categories_model->get_all();
+        $data['categories'] = $this->Industry_categories_model->get_all('');
         $this->load->view('admin/setup/industry_categories/industry_categories', $data);
     }
 
@@ -31,6 +31,7 @@ class Industry_categories extends AdminController
                     'min_price' => $this->input->post('min_price'),
                     'min_market_price' => $this->input->post('min_market_price'),
                     'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->Industry_categories_model->insert($data);
                 redirect(admin_url('leadevo/industry_categories'));
@@ -53,6 +54,7 @@ class Industry_categories extends AdminController
                     'min_price' => $this->input->post('min_price'),
                     'min_market_price' => $this->input->post('min_market_price'),
                     'description' => $this->input->post('description'),
+                     'is_active' => $this->input->post('is_active'),
                 ];
                 $this->Industry_categories_model->update($id, $data);
                 redirect(admin_url('leadevo/industry_categories'));

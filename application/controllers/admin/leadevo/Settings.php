@@ -46,7 +46,11 @@ class Settings extends AdminController
             $days_to_discount = $data['days_to_discount'];
             $discount_type = $data['discount_type'];
             $discount_amount = $data['discount_amount']; // Assuming you have this field in the form
-
+            if ($max_sell_times < 0 || $days_to_discount < 0 || $discount_amount < 0) {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid input: Values cannot be negative']);
+            return;
+            exit;
+        }
             update_option('leadevo_deal_settings_status', $settings_status);
             update_option('leadevo_deal_max_sell_times', $max_sell_times);
             update_option('leadevo_deal_days_to_discount', $days_to_discount);

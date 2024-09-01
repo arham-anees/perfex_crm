@@ -11,7 +11,7 @@ class Lead_statuses extends AdminController
 
     public function index()
     {
-        $data['statuses'] = $this->Lead_statuses_model->get_all();
+        $data['statuses'] = $this->Lead_statuses_model->get_all('');
         $this->load->view('admin/setup/lead_statuses/index', $data);
     }
 
@@ -25,8 +25,9 @@ class Lead_statuses extends AdminController
                 $data = [
                     'name' => $this->input->post('name'),
                     'description' => $this->input->post('description'),
-                    'is_active' => 1,
+                    'is_active' => $this->input->post('is_active'),
                 ];
+               
                 $this->Lead_statuses_model->insert($data);
                 redirect(admin_url('leadevo/lead_statuses'));
             }
@@ -43,7 +44,8 @@ class Lead_statuses extends AdminController
             if ($this->form_validation->run() !== false) {
                 $data = [
                     'name' => $this->input->post('name'),
-                    'description' => $this->input->post('description')
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
                 ];
                 $this->Lead_statuses_model->update($id, $data);
                 redirect(admin_url('leadevo/lead_statuses'));

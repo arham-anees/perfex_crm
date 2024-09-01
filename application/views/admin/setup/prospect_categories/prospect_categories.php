@@ -21,6 +21,7 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
+                                        <th><?php echo _l('Status'); ?></th>
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -29,6 +30,7 @@
                                         <tr>
                                             <td><?php echo $category->name; ?></td>
                                             <td><?php echo $category->description; ?></td>
+                                            <td><?php echo $category->is_active==1?'Active':'Inactive'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/prospect_categories/view/' . $category->id); ?>"
                                                     class="btn btn-default btn-icon">

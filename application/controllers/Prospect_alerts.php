@@ -35,7 +35,7 @@ class Prospect_alerts extends ClientsController
         $data['alerts'] = $this->Prospect_alerts_model->get_all($conditions);
         
         // Fetch categories (assuming they are needed for some filtering or display)
-        $data['prospect_categories'] = $this->Prospect_categories_model->get_all();
+        $data['prospect_categories'] = $this->Prospect_categories_model->get_all(array('is_active'=>1));
     
         // Fetch industries for other purposes if needed
         $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
@@ -51,7 +51,15 @@ class Prospect_alerts extends ClientsController
     
    public function create()
 {
-    if ($this->input->post()) {
+        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('phone','Phone', 'required');
+        $this->form_validation->set_rules('email','Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('prospect_category_id','Prospect Category', 'required');
+        $this->form_validation->set_rules('is_exclusive','Type', 'required');
+  
+        $this->form_validation->set_rules('acquisition_channel_id','Acquisition Channel', 'required');
+      
+    if ($this->input->post() && $this->form_validation->run() !== false) {
         $data = [
             'name' => $this->input->post('name'),
             'prospect_category_id' => $this->input->post('prospect_category_id'),
@@ -88,7 +96,14 @@ class Prospect_alerts extends ClientsController
     
     public function edit($id)
     {
-        if ($this->input->post()) {
+        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('phone','Phone', 'required');
+        $this->form_validation->set_rules('email','Email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('prospect_category_id','Prospect Category', 'required');
+        $this->form_validation->set_rules('is_exclusive','Type', 'required');
+  
+        $this->form_validation->set_rules('acquisition_channel_id','Acquisition Channel', 'required');
+        if ($this->input->post() && $this->form_validation->run() !== false) {
             // Fetch and prepare the updated data
             $data = [
                 'name' => $this->input->post('name'),

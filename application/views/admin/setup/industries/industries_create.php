@@ -28,6 +28,17 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="description" class="control-label clearfix"><?php echo _l('Status'); ?></label>
+                            <div class="radio radio-primary radio-inline">
+                                <input type="radio" id="is_active" name="is_active" value="1" checked>
+                                <label for="is_active" >Active</label>
+                            </div>
+                            <div class="radio radio-primary radio-inline">
+                                <input type="radio" id="is_actives" name="is_active" value="">
+                                <label for="is_actives">In Active</label>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
                     </div>

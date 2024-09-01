@@ -5,7 +5,8 @@
             <div class="panel-body">
                 <h4 class="no-margin"><?php echo _l('Create Prospect'); ?></h4>
                 <hr class="hr-panel-heading" />
-                <?php echo form_open('prospects/create', array('id' => 'prospect-form')); ?>
+                <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
+                <?php echo form_open('', array('id' => 'prospect-form')); ?>
 
 
                 <div class="row">

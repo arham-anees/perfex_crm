@@ -21,6 +21,7 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
+                                        <th><?php echo _l('Status'); ?></th>
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -29,6 +30,7 @@
                                         <tr>
                                             <td><?php echo $channel->name; ?></td>
                                             <td><?php echo $channel->description; ?></td>
+                                            <td><?php echo $channel->is_active==1?'Active':'Inactive'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/acquisition_channels/view/' . $channel->id); ?>"
                                                     class="btn btn-default btn-icon">

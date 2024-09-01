@@ -9,15 +9,17 @@ class Prospect_categories_model extends CI_Model
         parent::__construct();
     }
 
-    public function get_all()
+    public function get_all($filter=0)
     {
-        $this->db->where('is_active', 1);
+        if(isset($filter['is_active']) && $filter["is_active"] != ""){
+            $this->db->where('is_active', 1);
+        }
         return $this->db->get($this->table)->result();
     }
 
     public function insert($data)
     {
-        $this->db->where('is_active', 1);
+        // $this->db->where('is_active', 1);
         return $this->db->insert($this->table, $data);
     }
 
@@ -28,13 +30,13 @@ class Prospect_categories_model extends CI_Model
 
     public function delete($id)
     {
-        $this->db->where('is_active', 1);
+        // $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->delete($this->table);
     }
 
     public function get($id)
     {
-        $this->db->where('is_active', 1);
+        // $this->db->where('is_active', 1);
         return $this->db->where('id', $id)->get($this->table)->row();
     }
 }

@@ -21,7 +21,19 @@
                             <textarea id="description" name="description" class="form-control"
                                 required><?php echo isset($category) ? htmlspecialchars($category->description) : ''; ?></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="description" class="control-label clearfix"><?php echo _l('Status'); ?></label>
+                            <div class="radio radio-primary radio-inline">
+                                <input type="radio" id="is_active" name="is_active" value="1" <?= $category->is_active=='1'?'checked':''?>>
+                                <label for="is_active" >Active</label>
+                            </div>
 
+                            <div class="radio radio-primary radio-inline">
+
+                                <input type="radio" id="is_actives" name="is_active" value="" <?= $category->is_active=='0'?'checked':''?>>
+                                <label for="is_actives">In Active</label>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
