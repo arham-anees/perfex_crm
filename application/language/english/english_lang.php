@@ -3979,6 +3979,8 @@ $lang['leadevo_setup_campaign_status_menu'] = 'Campaign Status';
 $lang['leadevo_setup_lead_reason_menu'] = 'Lead Report Reason';
 $lang['leadevo_setup_lead_status_menu'] = 'Lead Status';
 $lang['setup_leadevo_delivery_quality'] = 'Delivery Quality';
+$lang['leadevo_setup_onboarding_manager_menu'] = 'Onboarding Manager';
+
 
 $lang['setting_leadevo_delivery_quality'] = 'Delivery Quality';
 $lang['setup_leadevo_delivery_quality'] = 'Delivery Quality';
