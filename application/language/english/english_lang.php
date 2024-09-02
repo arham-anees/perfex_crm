@@ -3992,6 +3992,7 @@ $lang['leadevo_delivery_quality_4stars'] = '4 Stars';
 $lang['leadevo_delivery_quality_5stars'] = '5 Stars';
 $lang['leadevo_delivery_quality_apply'] = 'Quality Delivery Algorithem will apply to campaign';
 $lang['setting_leadevo_deals'] = 'LeadEvo Deals';
+$lang['setting_leadevo_zapier'] = 'Zapier';
 $lang['leadevo_deals_max_sell_time'] = 'Max Sell time(days)';
 $lang['leadevo_deals_days_to_discount'] = 'Days to Discount';
 $lang['leadevo_deals_discount_type'] = 'Deals Discount Type';
