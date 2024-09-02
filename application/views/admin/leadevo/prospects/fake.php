@@ -26,7 +26,16 @@
                                     <tbody>
                                         <?php foreach ($prospects as $prospect): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?>
+                                                    <div class="row-options">
+                                                    <?php if (!isset($prospect['is_fake']) || $prospect['is_fake'] == true) { ?>
+                                                            | <a href="<?php echo admin_url('prospects/remove_fake/' . $prospect['id']); ?>"
+                                                            class=""
+                                                            onclick="return confirm('Are you sure you want to remove from fake ?');">
+                                                            Remove from fake
+                                                        </a> <?php } ?>
+                                                    </div>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['category'] ?? 'N/A'); ?></td>

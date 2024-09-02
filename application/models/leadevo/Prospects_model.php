@@ -635,6 +635,15 @@ class Prospects_model extends CI_Model
         ));
     }
 
+    public function mark_unfake($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update($this->table, array(
+            'is_fake' => 0,
+            'fake_report_date' => date('00-00-0 0:0:0'),
+        ));
+    }  
+
     public function reject_prospect_report($campaign_id, $prospect_id, $description)
     {
         $this->db->where('campaign_id', $campaign_id);
