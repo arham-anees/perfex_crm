@@ -26,7 +26,7 @@
                 </div>
                 <div class="tw-flex tw-items-end tw-space-x-2 tw-mt-3 sm:tw-mt-0">
                     <?php if (is_client_logged_in() && has_contact_permission('invoices')) { ?>
-                    <a href="<?php echo site_url('clients/invoices/'); ?>"
+                    <a href="<?php echo site_url('clients/billing/'); ?>"
                         class="btn btn-default action-button go-to-portal">
                         <?php echo _l('client_go_to_dashboard'); ?>
                     </a>
