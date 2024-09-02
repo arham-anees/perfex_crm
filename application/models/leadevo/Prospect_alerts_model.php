@@ -13,9 +13,10 @@ class Prospect_alerts_model extends CI_Model
     // Prospect_alerts_model.php
     public function get_all()
     {
-        $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, i.name as prospect_industry, ac.name as acquisition_channel');
+        $this->db->select('a.id, a.name, a.email, a.phone, a.is_active,a.status, a.is_exclusive, i.name as prospect_industry, ac.name as acquisition_channel, c.name as prospect_category');
         $this->db->from('tblleadevo_prospect_alerts a');
         $this->db->join('tblleadevo_industries i', 'a.industry_id = i.id', 'left');
+        $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
         $this->db->join('tblleadevo_acquisition_channels ac', 'a.acquisition_channel_id = ac.id', 'left');
         $query = $this->db->get();
         return $query->result_array();
@@ -42,6 +43,12 @@ public function get_all_industries()
     $query = $this->db->get();
     return $query->result();
 }
+public function get_all_categories() {
+    $this->db->select('id, name');
+    $query = $this->db->get('tblleadevo_prospect_categories');
+    return $query->result();
+}
+
 // Prospect_alerts_model.php
 
 public function get_all_acquisition_channels()

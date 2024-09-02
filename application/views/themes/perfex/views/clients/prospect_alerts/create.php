@@ -17,7 +17,18 @@
                     </div>
 
     
+                    <div class="form-group">
+                        <label for="email"><?php echo _l('Email'); ?></label>
+                        <input type="text" name="email" class="form-control" id="email"
+                            value="<?php echo set_value('email'); ?>">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="phone"><?php echo _l('Phone'); ?></label>
+                        <input type="text" name="phone" class="form-control" id="phone"
+                            value="<?php echo set_value('phone'); ?>">
+                    </div>
+                </div>
                     <div class="form-group">
                         <label for="industry"><?php echo _l('Prospect Industry'); ?></label>
                         <select name="industry_id" class="selectpicker" data-width="100%"
@@ -30,6 +41,7 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
+
 
                     <div class="form-group">
                         <label for="acquisition_channel"><?php echo _l('Acquisition Channel'); ?></label>
@@ -87,18 +99,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email"><?php echo _l('Email'); ?></label>
-                        <input type="text" name="email" class="form-control" id="email"
-                            value="<?php echo set_value('email'); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone"><?php echo _l('Phone'); ?></label>
-                        <input type="text" name="phone" class="form-control" id="phone"
-                            value="<?php echo set_value('phone'); ?>">
-                    </div>
-                </div>
+               
 
                 <div class="form-group text-left">
                     <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>

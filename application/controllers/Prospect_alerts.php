@@ -6,7 +6,8 @@ class Prospect_alerts extends ClientsController
     {
         parent::__construct();
         $this->load->model('leadevo/Prospect_alerts_model');
-        $this->load->model('leadevo/Prospect_categories_model'); // Assuming you need this model for categories
+        
+      
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
@@ -34,9 +35,6 @@ class Prospect_alerts extends ClientsController
         // Fetch alerts
         $data['alerts'] = $this->Prospect_alerts_model->get_all($conditions);
         
-        // Fetch categories (assuming they are needed for some filtering or display)
-        $data['prospect_categories'] = $this->Prospect_categories_model->get_all(array('is_active'=>1));
-    
         // Fetch industries for other purposes if needed
         $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
     
@@ -54,7 +52,7 @@ class Prospect_alerts extends ClientsController
         $this->form_validation->set_rules('name','Name', 'required');
         $this->form_validation->set_rules('phone','Phone', 'required');
         $this->form_validation->set_rules('email','Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('prospect_category_id','Prospect Category', 'required');
+        
         $this->form_validation->set_rules('is_exclusive','Type', 'required');
   
         $this->form_validation->set_rules('acquisition_channel_id','Acquisition Channel', 'required');
@@ -62,7 +60,6 @@ class Prospect_alerts extends ClientsController
     if ($this->input->post() && $this->form_validation->run() !== false) {
         $data = [
             'name' => $this->input->post('name'),
-            'prospect_category_id' => $this->input->post('prospect_category_id'),
             'email' => $this->input->post('email'),
             'phone' => $this->input->post('phone'),
             'industry_id' => $this->input->post('industry_id'),
@@ -77,8 +74,7 @@ class Prospect_alerts extends ClientsController
         $this->Prospect_alerts_model->insert($data);
         redirect('prospect_alerts');
     } else {
-        // Fetch categories from tblleadevo_prospect_categories for the dropdown
-        $data['prospect_categories'] = $this->Prospect_categories_model->get_all();
+      
 
         // Fetch industries from tblleadevo_industries for the dropdown
         $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
@@ -94,49 +90,41 @@ class Prospect_alerts extends ClientsController
 }
 
     
-    public function edit($id)
-    {
-        $this->form_validation->set_rules('name','Name', 'required');
-        $this->form_validation->set_rules('phone','Phone', 'required');
-        $this->form_validation->set_rules('email','Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('prospect_category_id','Prospect Category', 'required');
-        $this->form_validation->set_rules('is_exclusive','Type', 'required');
-  
-        $this->form_validation->set_rules('acquisition_channel_id','Acquisition Channel', 'required');
-        if ($this->input->post() && $this->form_validation->run() !== false) {
-            // Fetch and prepare the updated data
-            $data = [
-                'name' => $this->input->post('name'),
-                'prospect_category_id' => $this->input->post('prospect_category_id'),
-                'email' => $this->input->post('email'),
-                'phone' => $this->input->post('phone'),
-                'is_exclusive' => (int) $this->input->post('is_exclusive'),
-                'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
-                'industry_id' => $this->input->post('industry_id'),
-                'source_id' => $this->input->post('source_id'),
-                'verified_whatsapp' => $this->input->post('verified_whatsapp') == null ? null : (int) $this->input->post('verified_whatsapp'),
-                'verified_sms' => $this->input->post('verified_sms') == null ? null : (int) $this->input->post('verified_sms'),
-                'verified_staff' => $this->input->post('verified_staff') == null ? null : (int) $this->input->post('verified_staff')
-            ];
+public function edit($id)
+{
+    if ($this->input->post()) {
+        // Fetch and prepare the updated data
+        $data = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'phone' => $this->input->post('phone'),
+            'is_exclusive' => (int) $this->input->post('is_exclusive'),
+            'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
+            'industry_id' => $this->input->post('industry_id'),
+            'source_id' => $this->input->post('source_id'),
+            'verified_whatsapp' => $this->input->post('verified_whatsapp') === null ? null : (int) $this->input->post('verified_whatsapp'),
+            'verified_sms' => $this->input->post('verified_sms') === null ? null : (int) $this->input->post('verified_sms'),
+            'verified_staff' => $this->input->post('verified_staff') === null ? null : (int) $this->input->post('verified_staff')
+        ];
 
-            // Update the prospect alert in the database
-            $this->Prospect_alerts_model->update($id, $data);
-            redirect('prospect_alerts');
-        } else {
-            // Fetch the current prospect alert data
-            $data['alert'] = $this->Prospect_alerts_model->get($id);
-            $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
-            $data['acquisition_channels'] = $this->Prospect_alerts_model->get_all_acquisition_channels();
-
-            // Fetch all categories for the dropdown
-            $data['prospect_categories'] = $this->Prospect_categories_model->get_all();
-
-            // Load the edit view with the current data
-            $this->data($data);
-            $this->view('clients/prospect_alerts/edit');
-            $this->layout();
-        }
+        // Update the prospect alert in the database
+        $this->Prospect_alerts_model->update($id, $data);
+        redirect('prospect_alerts');
+    } else {
+        // Fetch the current prospect alert data
+        $data['alert'] = $this->Prospect_alerts_model->get($id);
+        
+        // Fetch industries for the dropdown
+        $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
+        
+        // Fetch acquisition channels for the dropdown
+        $data['acquisition_channels'] = $this->Prospect_alerts_model->get_all_acquisition_channels();
+        // Load the edit view with the current data
+        $this->data($data);
+        $this->view('clients/prospect_alerts/edit');
+        $this->layout();
     }
+}
 
 
     public function delete($id)

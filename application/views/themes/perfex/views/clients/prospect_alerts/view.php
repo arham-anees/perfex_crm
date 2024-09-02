@@ -8,11 +8,7 @@
                 <div class="prospect-details">
                     <p><strong><?php echo _l('ID'); ?>:</strong> <?php echo htmlspecialchars($alert['id'] ?? 'N/A'); ?></p>
                     <p><strong><?php echo _l('Name'); ?>:</strong> <?php echo htmlspecialchars($alert['name'] ?? 'N/A'); ?></p>
-                    <p><strong><?php echo _l('Category'); ?>:</strong> 
-                        <?php 
-                            echo isset($alert['prospect_category']) ? htmlspecialchars($alert['prospect_category']) : 'N/A';
-                        ?>
-                    </p>
+                    
                     <p><strong><?php echo _l('Type'); ?>:</strong> 
                         <?php echo $alert['is_exclusive'] == 1 ? 'Exclusive' : 'Non-Exclusive'; ?>
                     </p>
