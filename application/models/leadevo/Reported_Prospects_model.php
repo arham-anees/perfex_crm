@@ -10,31 +10,28 @@ class Reported_Prospects_model extends CI_Model
 
     public function get_all()
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
-        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $query = $this->db->get();
         return $query->result_array();
     }
 
     public function get_all_client()
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->where('tblleadevo_reported_prospects.client_id', get_client_user_id());
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
-        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $query = $this->db->get();
         return $query->result_array();
     }
 
     public function get($id)
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
-        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $this->db->where('tblleadevo_reported_prospects.campaign_id', $id);
         $query = $this->db->get();
         return $query->row_array();
@@ -42,12 +39,46 @@ class Reported_Prospects_model extends CI_Model
 
     public function get_all_by_filter($filter)
     {
+        // Ensure valid filter is passed
+        $valid_filters = ['rejected', 'pending', 'replaced'];
+        if (!in_array($filter, $valid_filters)) {
+            return []; // Return empty array if filter is not valid
+        }
+    
         $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
         $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
-        $this->db->like('tblleadevo_report_lead_reasons.name', $filter); // Example filter
+    
+        // Apply the status filter with case-insensitivity
+        $this->db->where('LOWER(tblleadevo_reject_prospect_status.status)', strtolower($filter));
+    
+        $query = $this->db->get();
+        echo $this->db->last_query(); // Debug: Show the final query being executed
+    
+        return $query->result_array();
+    }
+    
+
+    public function get_status_options()
+    {
+        $this->db->select('id, status');
+        $this->db->from('tblleadevo_reject_prospect_status');
         $query = $this->db->get();
         return $query->result_array();
+    }
+
+    public function get_status_name_by_id($status_id)
+    {
+        $this->db->select('status');
+        $this->db->from('tblleadevo_reject_prospect_status');
+        $this->db->where('id', $status_id);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() > 0) {
+            return $query->row()->status;
+        } else {
+            return 'Unknown'; // Return 'Unknown' if status ID does not exist
+        }
     }
 }

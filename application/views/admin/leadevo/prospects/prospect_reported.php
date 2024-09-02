@@ -16,20 +16,11 @@
 
                         <!-- Filters -->
                         <div class="col-md-8" style="display:flex;justify-content:end">
-                            <form method="GET" action="<?php echo site_url('prospects/reported'); ?>"
+                            <form method="GET" action="<?php echo admin_url('prospects/reported'); ?>"
                                 style="margin-right: 10px;">
-                                <div class="input-group" style="width:200px">
-                                    <input type="text" name="search" class="form-control"
-                                        placeholder="<?php echo _l('Search Reported Prospects'); ?>"
-                                        value="<?php echo isset($search) ? $search : ''; ?>">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
+                               
                             </form>
-                            <form method="GET" action="<?php echo site_url('prospects/reported'); ?>">
+                            <form method="GET" action="<?php echo admin_url('prospects/reported'); ?>">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle"
                                         data-toggle="dropdown">
@@ -37,10 +28,10 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                         <li><a
-                                                href="<?php echo site_url('prospects/reported?filter=active'); ?>"><?php echo _l('Active Reported Prospects'); ?></a>
+                                                href="<?php echo admin_url('prospects/reported?filter=active'); ?>"><?php echo _l('Active Reported Prospects'); ?></a>
                                         </li>
                                         <li><a
-                                                href="<?php echo site_url('prospects/reported?filter=inactive'); ?>"><?php echo _l('Inactive Reported Prospects'); ?></a>
+                                                href="<?php echo admin_url('prospects/reported?filter=inactive'); ?>"><?php echo _l('Inactive Reported Prospects'); ?></a>
                                         </li>
                                     </ul>
                                 </div>

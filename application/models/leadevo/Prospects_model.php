@@ -297,30 +297,35 @@ class Prospects_model extends CI_Model
                     p.is_fake,
                     p.fake_report_date,
                     p.is_available_sale,
-                    null AS zip_code,
-                    null AS phone,
-                    null AS email,
-                    null AS source,
-                    null AS deal,
-                    p. fake_description,
-                    null AS quality
+                    NULL AS zip_code,  -- Assuming these columns are not available or not needed
+                    NULL AS phone,    -- Confirm with your actual schema if these should be NULL
+                    NULL AS email,
+                    NULL AS source,
+                    NULL AS deal,
+                    p.fake_description,
+                    NULL AS quality,  -- Assuming 'quality' is not available or not needed
+                    CONCAT(s.firstname, ' ', s.lastname) AS marked_by_admin  -- Admin's name
                 FROM
                     tblleadevo_prospects p
                 LEFT JOIN
                     tblleadevo_prospect_statuses ps ON p.status_id = ps.id
                 LEFT JOIN
-                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
+                    tblleadevo_prospect_types pt ON p.type_id = pt.id
                 LEFT JOIN
                     tblleadevo_prospect_categories pc ON p.category_id = pc.id
                 LEFT JOIN
                     tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
                 LEFT JOIN
                     tblleadevo_industries i ON p.industry_id = i.id
+                LEFT JOIN
+                    tblstaff s ON p.mark_fake_by = s.staffid  -- Join to get admin details
                 WHERE
-                    p.is_active = 1 AND is_fake = 1";
-
+                    p.is_active = 1 
+                    AND p.is_fake = 1";  // Ensure this is the correct column name for filtering fake prospects
+    
         return $this->db->query($sql)->result_array();
     }
+    
 
     public function get_all_market_place($filter = [])
     {
@@ -1066,6 +1071,14 @@ class Prospects_model extends CI_Model
         $data['client_id'] = get_client_user_id();
         $data['client_name'] = get_contact_full_name();
         $this->db->insert('tblleadevo_prospect_activity_log', $data);
+    }
+    public function get_all_prospects_with_admin() {
+        $this->db->select('p.*, s.firstname AS admin_firstname, s.lastname AS admin_lastname');
+        $this->db->from('tblleadevo_prospects p');
+        $this->db->join('tblstaff s', 'p.mark_fake_by = s.staffid', 'left');
+        $this->db->order_by('p.fake_description', 'ASC');
+        $query = $this->db->get();
+        return $query->result();
     }
 
 }
