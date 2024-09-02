@@ -47,6 +47,14 @@ class Prospects extends AdminController
         $this->load->view('admin/leadevo/prospects/fake', $data);
     }
 
+    public function remove_fake($id){
+
+        if (isset($id)) {
+            $this->Prospects_model->mark_unfake($id);
+        }
+        redirect(admin_url('prospects/fake'));
+    }
+
     public function edit($id)
     {
         if ($this->input->post()) {
