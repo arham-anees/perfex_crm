@@ -22,9 +22,12 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                 <?php foreach ($status_options as $option): ?>
-                                    <li><a href="<?php echo site_url('prospects/reported?filter=' . urlencode($option['status'])); ?>">
-                                        <?php echo htmlspecialchars($option['status']); ?>
-                                    </a></li>
+                                    <li>
+                                        <a href="<?php echo site_url('prospects/reported?filter=' . urlencode($option['status'])); ?>"
+                                            class="<?php echo (isset($_GET['filter']) && $_GET['filter'] == $option['status'] ? 'active' : ''); ?>">
+                                            <?php echo htmlspecialchars($option['status']); ?>
+                                        </a>
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -89,3 +92,4 @@
 <script>
     $('#reported-prospects').DataTable();
 </script>
+

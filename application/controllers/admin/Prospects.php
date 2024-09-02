@@ -200,14 +200,30 @@ class Prospects extends AdminController
 
     public function reported()
     {
+        // Get the filter value from the URL query string (e.g., ?filter=rejected)
         $filter = $this->input->get('filter');
-
+    
+        // Fetch status options for the dropdown
+        $status_options = $this->Reported_Prospects_model->get_status_options();
+    
+        // Fetch all prospects based on the filter
         if ($filter) {
-            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_by_filter($filter);
+            // If a filter is provided, fetch prospects based on the filter
+            $reported_prospects = $this->Reported_Prospects_model->get_all_by_filter($filter);
         } else {
-            $data['reported_prospects'] = $this->Reported_Prospects_model->get_all();
+            // If no filter is provided, fetch all prospects
+            $reported_prospects = $this->Reported_Prospects_model->get_all();
         }
-
+    
+        // Add the status name to each prospect
+        foreach ($reported_prospects as &$prospect) {
+            $prospect['status_name'] = $this->Reported_Prospects_model->get_status_name_by_id($prospect['status']);
+        }
+    
+        // Prepare data for the view
+        $data['reported_prospects'] = $reported_prospects;
+        $data['status_options'] = $status_options;
+    
         $this->load->view('admin/leadevo/prospects/prospect_reported', $data);
     }
 

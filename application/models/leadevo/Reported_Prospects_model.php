@@ -40,25 +40,22 @@ class Reported_Prospects_model extends CI_Model
     public function get_all_by_filter($filter)
     {
         // Ensure valid filter is passed
-        $valid_filters = ['rejected', 'pending', 'replaced'];
-        if (!in_array($filter, $valid_filters)) {
+        $valid_filters = ['rejected', 'pending', 'replaced'];  // Adjust these filters based on your requirements
+        if (!in_array(strtolower($filter), $valid_filters)) {
             return []; // Return empty array if filter is not valid
         }
-    
+
         $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
         $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
-    
+
         // Apply the status filter with case-insensitivity
         $this->db->where('LOWER(tblleadevo_reject_prospect_status.status)', strtolower($filter));
-    
+
         $query = $this->db->get();
-        echo $this->db->last_query(); // Debug: Show the final query being executed
-    
         return $query->result_array();
     }
-    
 
     public function get_status_options()
     {
@@ -74,7 +71,7 @@ class Reported_Prospects_model extends CI_Model
         $this->db->from('tblleadevo_reject_prospect_status');
         $this->db->where('id', $status_id);
         $query = $this->db->get();
-        
+
         if ($query->num_rows() > 0) {
             return $query->row()->status;
         } else {

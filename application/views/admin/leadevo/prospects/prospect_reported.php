@@ -16,26 +16,24 @@
 
                         <!-- Filters -->
                         <div class="col-md-8" style="display:flex;justify-content:end">
-                            <form method="GET" action="<?php echo admin_url('prospects/reported'); ?>"
-                                style="margin-right: 10px;">
-                               
-                            </form>
-                            <form method="GET" action="<?php echo admin_url('prospects/reported'); ?>">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle"
-                                        data-toggle="dropdown">
-                                        <?php echo _l('Filter By'); ?> <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li><a
-                                                href="<?php echo admin_url('prospects/reported?filter=active'); ?>"><?php echo _l('Active Reported Prospects'); ?></a>
-                                        </li>
-                                        <li><a
-                                                href="<?php echo admin_url('prospects/reported?filter=inactive'); ?>"><?php echo _l('Inactive Reported Prospects'); ?></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
+                        <form method="GET" action="<?php echo admin_url('prospects/reported'); ?>"
+                        style="margin-right: 10px;">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <?php echo _l('Filter By'); ?> <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <?php foreach ($status_options as $option): ?>
+                                    <li>
+                                        <a href="<?php echo admin_url('prospects/reported?filter=' . urlencode($option['status'])); ?>"
+                                            class="<?php echo (isset($_GET['filter']) && $_GET['filter'] == $option['status'] ? 'active' : ''); ?>">
+                                            <?php echo htmlspecialchars($option['status']); ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </form>
                         </div>
                     </div>
                 </div>
