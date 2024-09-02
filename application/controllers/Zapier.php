@@ -36,28 +36,28 @@ class Zapier extends ClientsController
             $name = $this->input->post('name');
             $description = $this->input->post('description');
             $webhook = $this->input->post('webhook');
-    
+
             // Validate the presence of necessary fields
             if (!$webhook) {
                 echo json_encode(['status' => 'error', 'message' => 'Webhook is required']);
                 return;
             }
-    
+
             if (!$name || !$description) {
                 echo json_encode(['status' => 'error', 'message' => 'Name and Description are required']);
                 return;
             }
-    
+
             // Prepare data to be inserted into the database
             $data = [
                 'name' => $name,
                 'description' => $description,
                 'webhook' => $webhook  // Include the webhook in the insert data
             ];
-    
+
             // Optional: If you have additional model operations for zapier config
             $config = $this->Misc_model->set_zapier_config(get_client_user_id(), $data);
-    
+
             // Redirect after successful insertion
             redirect(site_url('clients/zapier/'));
         } else {
@@ -66,70 +66,69 @@ class Zapier extends ClientsController
             $this->layout();
         }
     }
-    
-   public function edit($id)
-{
-    if ($this->input->method() === 'post') {
-        // Retrieve POST data
-        $webhook = $this->input->post('webhook');
-        
-        // Check if webhook is provided
-        if (!$webhook) {
-            echo json_encode(['status' => 'error', 'message' => 'Webhook is required']);
-            return;
+
+    public function edit($id)
+    {
+        if ($this->input->method() === 'post') {
+            // Retrieve POST data
+            $webhook = $this->input->post('webhook');
+
+            // Check if webhook is provided
+            if (!$webhook) {
+                echo json_encode(['status' => 'error', 'message' => 'Webhook is required']);
+                return;
+            }
+
+            // Prepare data for update
+            $data = [
+                'name' => $this->input->post('name'),
+                'description' => $this->input->post('description'),
+                'webhook' => $this->input->post('webhook')
+            ];
+
+            $config = $this->Misc_model->update_zapier_config($id, get_client_user_id(), $data);
+
+            redirect(site_url('clients/zapier'));
+        } else {
+            // Retrieve current webhook data
+            $data['webhook'] = $this->Misc_model->get_zapier_config_id($id);
+
+            // Set data and load view
+            $this->data($data);
+            $this->view('clients/zapier/edit');
+            $this->layout();
         }
-
-        // Prepare data for update
-        $data = [
-            'name' => $this->input->post('name'),
-            'description' => $this->input->post('description'),
-            'webhook' => $this->input->post('webhook')
-        ];
-
-        $config = $this->Misc_model->update_zapier_config($id, get_client_user_id(), $data);
-        
-        redirect(site_url('clients/zapier'));
-    } else {
-        // Retrieve current webhook data
-        $data['webhook'] = $this->Misc_model->get_zapier_config_id($id);
-        
-        // Set data and load view
-        $this->data($data);
-        $this->view('clients/zapier/edit');
-        $this->layout();
     }
+
     public function fetch_webhook()
     {
         if ($this->input->method() !== 'get') {
             echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
             return;
         }
-    
+
         $id = $this->input->get('id');
-    
+
         if (!$id) {
             echo json_encode(['status' => 'error', 'message' => 'Webhook ID is required']);
             return;
         }
-    
+
         $webhook = $this->Misc_model->get_webhook_by_id($id);
-    
+
         if ($webhook) {
             echo json_encode(['status' => 'success', 'webhook_url' => $webhook->webhook]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Webhook not found']);
         }
     }
-    
-
-}
 
     public function delete($id)
     {
         $data = ['is_active' => 0];
-       $this->Misc_model->update_zapier_config($id, get_client_user_id(), $data);
-                redirect(site_url('clients/zapier'));
+        $this->Misc_model->update_zapier_config($id, get_client_user_id(), $data);
+        redirect(site_url('clients/zapier'));
     }
-  
-    
+
+
 }
