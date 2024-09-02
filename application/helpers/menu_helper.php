@@ -699,14 +699,16 @@ function app_init_admin_sidebar_menu_items()
     ]);
 
     // Register Prospect Types menu item
-    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
-        'slug' => 'leadevo-setup-prospect-types',
-        'name' => _l('leadevo_setup_prospect_types_menu'),
+    if (staff_can('see', 'leadevo')) {
+        $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
+            'slug' => 'leadevo-setup-prospect-types',
+            'name' => _l('leadevo_setup_prospect_types_menu'),
 
-        'href' => admin_url('leadevo/prospect_types'),
-        'position' => 6,
-        'badge' => [],
-    ]);
+            'href' => admin_url('leadevo/prospect_types'),
+            'position' => 6,
+            'badge' => [],
+        ]);
+    }
     $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
         'slug' => 'leadevo-setup-prospect-sources',
         'name' => _l('leadevo_setup_prospect_sources_menu'),

@@ -1,4 +1,3 @@
-
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Prospect_types extends AdminController
@@ -8,7 +7,9 @@ class Prospect_types extends AdminController
         parent::__construct();
         $this->load->model('leadevo/prospect_types_model');
         $this->load->library('form_validation');
-
+        if (!staff_can('manage_types', 'leadevo')) {
+            access_denied();
+        }
     }
 
     public function index()
@@ -19,7 +20,7 @@ class Prospect_types extends AdminController
 
     public function create()
     {
-        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required');
         // $this->form_validation->set_rules('description', 'Description','required');
 
         if ($this->input->post()) {
@@ -38,7 +39,7 @@ class Prospect_types extends AdminController
 
     public function edit($id)
     {
-        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('name', 'Name', 'required');
 
         // $this->form_validation->set_rules('description', 'Description','required');
 
