@@ -52,6 +52,7 @@ class Clients_model extends App_Model
         return $this->db->get(db_prefix() . 'clients')->result_array();
     }
 
+
     /**
      * Get customers contacts
      * @param  mixed $customer_id
