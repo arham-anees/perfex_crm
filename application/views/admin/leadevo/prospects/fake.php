@@ -20,6 +20,7 @@
                                             <th><?php echo _l('Industry'); ?></th>
                                             <th><?php echo _l('Fake Description'); ?></th> 
                                             <th><?php echo _l('Report Date'); ?></th>
+                                             <th><?php echo _l('Marked By');?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -33,6 +34,7 @@
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['fake_description'] ?? 'N/A' ); ?></td> 
                                                 <td><?php echo htmlspecialchars($prospect['fake_report_date'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['marked_by_admin'] ?? 'N/A'); ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
