@@ -751,13 +751,7 @@ function app_init_admin_sidebar_menu_items()
         'position' => 12,
         'badge' => [],
     ]);
-    $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
-        'slug' => 'leadevo-setup-lead_status',
-        'name' => _l('leadevo_setup_lead_status_menu'),
-        'href' => admin_url('leadevo/lead_statuses'),
-        'position' => 12,
-        'badge' => [],
-    ]);
+
     $CI->app_menu->add_setup_children_item('leadevo_setup_menu_items', [
         'slug' => 'leadevo-setup-onboarding_manager',
         'name' => _l('leadevo_setup_onboarding_manager_menu'),

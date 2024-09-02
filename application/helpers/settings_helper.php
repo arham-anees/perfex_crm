@@ -270,4 +270,10 @@ function app_init_settings_tabs()
         'view' => 'admin/setup/deals_settings',
         'position' => 36,
     ]);
+    $CI->app_tabs->add_settings_tab('leadevo-zapier', [
+        'name' => _l('setting_leadevo_zapier'),
+        'view' => 'admin/setup/zapier_settings',
+        'position' => 36,
+        'icon' => 'fa fa-bolt',
+    ]);
 }
