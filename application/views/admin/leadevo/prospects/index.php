@@ -460,7 +460,6 @@ function displayStars($rating, $maxStars = 5)
             data: { id: prospectId },
             success: function (response) {
                 const res = JSON.parse(response);
-                console.log(res.logs);
                 const data = res.prospect;
                 const logs = res.logs ?? [];
 
@@ -474,7 +473,6 @@ function displayStars($rating, $maxStars = 5)
                 $('#prospectIndustry').text(data.industry);
 
                 let logsHtml = '';
-                console.log(res.logs.length)
                 for (let i = 0; i < logs.length; i++) {
                     const log = logs[i];
                     let type = '';

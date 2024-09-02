@@ -12,6 +12,7 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('Clients_model');
         $this->load->model('leadevo/Reported_Prospects_model');
     }
 
@@ -24,6 +25,17 @@ class Prospects extends AdminController
             $data['prospects'] = $this->Prospects_model->get_all('');
         }
         $this->load->view('admin/leadevo/prospects/index', $data);
+
+    }
+    public function sold()
+    {
+        $filter = $this->input->get('filter');
+        if ($filter) {
+            $data['prospects'] = $this->Clients_model->get_sold($filter);
+        } else {
+            $data['prospects'] = $this->Clients_model->get_sold([]);
+        }
+        $this->load->view('admin/leadevo/prospects/sold', $data);
 
     }
     public function fake()
