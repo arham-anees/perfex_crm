@@ -1035,3 +1035,20 @@ if (!function_exists('notify_all_admins')) {
         }
     }
 }
+
+
+/**
+ * author: Arham Anees
+ * This method will be used to generate general notification for all staff
+ */
+if (!function_exists('prospect_activity')) {
+    function prospect_activity($prospect_id, $type, $comments)
+    {
+        $CI = &get_instance();
+        // Load the necessary models
+        $CI->load->model('leadevo/Prospects_model');
+
+        $CI->Prospects_model->log_activity($prospect_id, $type, $comments);
+    }
+}
+

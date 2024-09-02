@@ -8,6 +8,18 @@ class Prospect_sources_model extends CI_Model
     {
         parent::__construct();
     }
+    public function get_all($where)
+    {
+        $this->db->select('id, name, description');
+        $this->db->from($this->table);
+
+        // Fetch prospect sources based on the search parameter
+        if ($where) {
+            $this->db->where($where); // Assuming you want to search by 'name'
+        }
+
+        return $this->db->get()->result_array();
+    }
 
     //get all prospect sources
     public function get_prospect_sources($search = '')

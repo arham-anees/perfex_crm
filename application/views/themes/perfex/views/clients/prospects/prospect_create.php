@@ -41,10 +41,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label for="status_id"><?php echo _l('Status'); ?></label>
-                            <select name="status_id" id="status_id" class="form-control" required>
-                                <?php foreach ($statuses as $status): ?>
-                                    <option value="<?php echo $status->id; ?>"><?php echo $status->name; ?></option>
+                            <label for="source_id"><?php echo _l('leadevo_prospect_source'); ?></label>
+                            <select name="source_id" id="source_id" class="form-control" required>
+                                <?php foreach ($sources as $source): ?>
+                                    <option value="<?php echo $source['id']; ?>"><?php echo $source['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -63,7 +63,7 @@
 
 
                 <div class="row">
-                    
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="acquisition_channel_id"><?php echo _l('Acquisition Channel'); ?></label>

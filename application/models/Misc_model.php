@@ -1566,4 +1566,18 @@ class Misc_model extends App_Model
         $this->db->update(db_prefix() . "leadevo_zapier_config", $data);
         return true;
     }
+
+    public function get_webhook_by_id($id)
+    {
+        $this->db->select('webhook'); 
+        $this->db->where('id', $id);
+        $this->db->where('is_active', 1);
+        $query = $this->db->get(db_prefix() . 'leadevo_zapier_config');
+
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return null;
+    }
+
 }

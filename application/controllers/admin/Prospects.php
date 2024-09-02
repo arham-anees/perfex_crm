@@ -12,6 +12,7 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('leadevo/Campaigns_model');
+        $this->load->model('Clients_model');
         $this->load->model('leadevo/Reported_Prospects_model');
     }
 
@@ -24,6 +25,17 @@ class Prospects extends AdminController
             $data['prospects'] = $this->Prospects_model->get_all('');
         }
         $this->load->view('admin/leadevo/prospects/index', $data);
+
+    }
+    public function sold()
+    {
+        $filter = $this->input->get('filter');
+        if ($filter) {
+            $data['prospects'] = $this->Clients_model->get_sold($filter);
+        } else {
+            $data['prospects'] = $this->Clients_model->get_sold([]);
+        }
+        $this->load->view('admin/leadevo/prospects/sold', $data);
 
     }
     public function fake()
@@ -51,11 +63,11 @@ class Prospects extends AdminController
         }
 
         $data['prospect'] = $this->Prospects_model->get($id);
-        $data['statuses'] = $this->Prospect_status_model->get_all(array('is_active'=>1));
-        $data['types'] = $this->Prospect_types_model->get_all(array('is_active'=>1));
-        $data['categories'] = $this->Prospect_categories_model->get_all(array('is_active'=>1));
-        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all(array('is_active'=>1));
-        $data['industries'] = $this->Industries_model->get_all(array('is_active'=>1));
+        $data['statuses'] = $this->Prospect_status_model->get_all(array('is_active' => 1));
+        $data['types'] = $this->Prospect_types_model->get_all(array('is_active' => 1));
+        $data['categories'] = $this->Prospect_categories_model->get_all(array('is_active' => 1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all(array('is_active' => 1));
+        $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
 
         $this->load->view('admin/leadevo/prospects/edit', $data);
     }
@@ -76,6 +88,7 @@ class Prospects extends AdminController
         $data['category'] = $this->Prospect_categories_model->get($data['prospect']->category_id);
         $data['acquisition_channel'] = $this->Acquisition_channels_model->get($data['prospect']->acquisition_channel_id);
         $data['industry'] = $this->Industries_model->get($data['prospect']->industry_id);
+        $data['logs'] = $this->Prospects_model->get_log_by_id($id);
 
         $this->load->view('admin/leadevo/prospects/view', $data);
     }
@@ -115,19 +128,21 @@ class Prospects extends AdminController
     {
         $id = $this->input->post('id');
         $description = $this->input->post('fake_description');
-    
+
         if (isset($id) && isset($description)) {
             $this->Prospects_model->mark_fake($id, $description);
+            prospect_activity($id, 'marked_fake', $description);
         }
         redirect(admin_url('prospects'));
     }
-    
+
 
     public function mark_as_auto_deliverable()
     {
         $id = $this->input->post('id');
         if (isset($id)) {
             $this->Prospects_model->mark_as_auto_deliverable($id);
+            prospect_activity($id, 'auto_devliverable', '');
         }
         redirect(admin_url('prospects'));
     }
@@ -296,13 +311,13 @@ class Prospects extends AdminController
             $prospect->category = $this->Prospect_categories_model->get($prospect->category_id)->name ?? 'Unknown';
             $prospect->acquisition_channel = $this->Acquisition_channels_model->get($prospect->acquisition_channel_id)->name ?? 'Unknown';
             $prospect->industry = $this->Industries_model->get($prospect->industry_id)->name ?? 'Unknown';
-
-            echo json_encode($prospect);
+            $logs = $this->Prospects_model->get_log_by_id($id);
+            echo json_encode(['prospect' => $prospect, 'logs' => $logs]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Invalid prospect ID']);
         }
     }
 
-    
+
 
 }

@@ -20,10 +20,19 @@ class ClientsController extends App_Controller
     {
         parent::__construct();
 
+        $this->load->model('clients_model');
+        $this->load->model('authentication_model');
 
         $cart_prospects = [];
         // $currentUser = new stdClass();
         // $currentUser->direction = 'ltr';
+        $currentUser = $this->clients_model->get_contact(get_contact_user_id());
+
+        // Deleted or inactive but have session
+        if (!$currentUser || $currentUser->active == 0) {
+            //$this->authentication_model->logout();
+            //redirect(site_url('authentication'));
+        }
 
         if (
             !is_client_logged_in()
@@ -34,7 +43,7 @@ class ClientsController extends App_Controller
 
             $cart_prospects = $this->Cart_model->get_cart_prospects();
 
-            // $GLOBALS['current_user'] = $currentUser;
+            $GLOBALS['current_user'] = $currentUser;
             $GLOBALS['cart_prospects'] = $cart_prospects;
         }
 
@@ -51,7 +60,7 @@ class ClientsController extends App_Controller
 
         // init_admin_assets();
         $vars = [
-
+            'current_user' => $currentUser,
             'current_version' => $this->current_db_version,
             'task_statuses' => $this->tasks_model->get_statuses(),
             'cart_prospects' => $cart_prospects

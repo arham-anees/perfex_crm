@@ -4072,3 +4072,5 @@ $lang['leadevo_lead_phone'] = 'Phone';
 $lang['leadevo_price'] = 'Price';
 $lang['leadevo_sold_prospects_admin_menu'] = 'Sold Prospects';
 $lang['leadevo_prospect_reported'] = 'A prospect has been reported';
+$lang['leadevo_setup_prospect_sources_menu'] = 'Prospect Sources';
+$lang['leadevo_prospect_source'] = 'Source';

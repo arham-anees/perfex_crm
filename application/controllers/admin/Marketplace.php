@@ -58,7 +58,8 @@ class Marketplace extends AdminController
     {
         // $id = $this->input->post('id');
         if (isset($id)) {
-            $this->Prospects_model->update_sale_status($id, 0,0,0,0);
+            $this->Prospects_model->update_sale_status($id, 0, 0, 0, 0);
+            prospect_activity($id, 'remove_from_market', '');
         }
         redirect(admin_url('/marketplace'));
     }

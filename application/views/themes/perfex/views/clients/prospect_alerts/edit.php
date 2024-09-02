@@ -17,17 +17,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="prospect_category"><?php echo _l('Prospect Category'); ?></label>
-                        <select name="prospect_category_id" class="selectpicker" data-width="100%"
-                            data-none-selected-text="<?php echo _l('Select Prospect Category'); ?>">
-                            <option value=""><?php echo _l('Select Prospect Category'); ?></option>
-                            <?php foreach ($prospect_categories as $category): ?>
-                                <option value="<?php echo $category->id; ?>" <?php echo set_select('prospect_category_id', $category->id); ?>>
-                                    <?php echo $category->name; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="email"><?php echo _l('Email'); ?></label>
+                        <input type="text" name="email" class="form-control" id="email"
+                            value="<?php echo set_value('email', $alert['email']); ?>">
                     </div>
+
+                    <div class="form-group">
+                        <label for="phone"><?php echo _l('Phone'); ?></label>
+                        <input type="text" name="phone" class="form-control" id="phone"
+                            value="<?php echo set_value('phone', $alert['phone']); ?>">
+                    </div>
+
                     <div class="form-group">
                         <label for="industry"><?php echo _l('Prospect Industry'); ?></label>
                         <select name="industry_id" class="selectpicker" data-width="100%"
@@ -40,7 +40,7 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="acquisition_channel"><?php echo _l('Acquisition Channel'); ?></label>
                         <select name="acquisition_channel_id" class="selectpicker" data-width="100%"
@@ -73,17 +73,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="email"><?php echo _l('Email'); ?></label>
-                        <input type="text" name="email" class="form-control" id="email"
-                            value="<?php echo set_value('email', $alert['email']); ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone"><?php echo _l('Phone'); ?></label>
-                        <input type="text" name="phone" class="form-control" id="phone"
-                            value="<?php echo set_value('phone', $alert['phone']); ?>">
-                    </div>
+                 
 
                 </div>
 
