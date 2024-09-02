@@ -639,7 +639,7 @@ class Prospects_model extends CI_Model
             'feedback' => $description
         ));
     }
-    
+
 
     public function mark_as_auto_deliverable($id)
     {
@@ -1031,6 +1031,12 @@ class Prospects_model extends CI_Model
         $query = $this->db->get('tblleadevo_prospects');
         return $query->row_array();
     }
+    public function get_log_by_id($id)
+    {
+        $this->db->where('prospect_id', $id);
+        $query = $this->db->get('tblleadevo_prospect_activity_log');
+        return $query->result_array();
+    }
 
     public function get_prospect_by_id($id)
     {
@@ -1039,5 +1045,18 @@ class Prospects_model extends CI_Model
         return $query->row_array();
     }
 
+    public function log_activity($prospect_id, $type, $comments)
+    {
+        $data = [];
+        $data['prospect_id'] = $prospect_id;
+        $data['type'] = $type;
+        $data['comments'] = $comments;
+        $data['date'] = date('Y-m-d H:i:s');
+        $data['staff_id'] = get_staff_user_id();
+        $data['staff_name'] = get_staff_full_name();
+        $data['client_id'] = get_client_user_id();
+        $data['client_name'] = get_contact_full_name();
+        $this->db->insert('tblleadevo_prospect_activity_log', $data);
+    }
 
 }
