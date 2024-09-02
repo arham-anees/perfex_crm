@@ -19,6 +19,7 @@
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
                                             <th><?php echo _l('Industry'); ?></th>
                                             <th><?php echo _l('Fake Description'); ?></th> 
+                                            <th><?php echo _l('Report Date'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -31,6 +32,7 @@
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                 <td><?php echo htmlspecialchars($prospect['fake_description'] ?? 'N/A' ); ?></td> 
+                                                <td><?php echo htmlspecialchars($prospect['fake_report_date'] ?? 'N/A'); ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
