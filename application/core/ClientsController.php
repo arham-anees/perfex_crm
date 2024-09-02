@@ -41,13 +41,13 @@ class ClientsController extends App_Controller
 
             $GLOBALS['current_user'] = $currentUser;
             $GLOBALS['cart_prospects'] = $cart_prospects;
-            $vars['cart_prospects'] = $cart_prospects;
         } else {
             hooks()->do_action('client_init');
             hooks()->do_action('app_client_assets');
             $currentUser = $this->clients_model->get_contact(get_contact_user_id());
 
             $vars['current_user'] = $currentUser;
+            $vars['cart_prospects'] = $cart_prospects;
         }
         $this->load->library('app_clients_area_constructor');
 
