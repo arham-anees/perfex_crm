@@ -7,6 +7,10 @@ class Campaigns extends AdminController
         parent::__construct();
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
+
+        if (!staff_can('manage_campaign', 'leadevo')) {
+            access_denied();
+        }
     }
 
     public function index()

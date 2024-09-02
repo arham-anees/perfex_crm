@@ -13,13 +13,15 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-home',
         'badge' => [],
     ]);
-    $CI->app_menu->add_sidebar_menu_item('leadevo_campaign', [
-        'name' => _l('leadevo_client_campaigns_menu'),
-        'href' => admin_url('campaigns'),
-        'position' => 2,
-        'icon' => 'fa fa-th-list',
-        'badge' => [],
-    ]);
+    if (staff_can('manage_campaign', 'leadevo')) {
+        $CI->app_menu->add_sidebar_menu_item('leadevo_campaign', [
+            'name' => _l('leadevo_client_campaigns_menu'),
+            'href' => admin_url('campaigns'),
+            'position' => 2,
+            'icon' => 'fa fa-th-list',
+            'badge' => [],
+        ]);
+    }
     $CI->app_menu->add_sidebar_menu_item('leadevo_affiliate_training_videos', [
         'name' => _l('leadevo_affiliate_training_videos_menu'),
         'href' => admin_url('affiliate_training_videos'),
@@ -40,22 +42,27 @@ function app_init_admin_sidebar_menu_items()
         'icon' => 'fa fa-tty',
         'badge' => [],
     ]);
-    $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
-        'name' => _l('leadevo_prospects'),
-        'slug' => 'leadevo',
-        'href' => admin_url('prospects'),
-        'position' => 2,
-        'icon' => 'fa fa-tty',
-        'badge' => [],
-    ]);
-    $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
-        'name' => _l('leadevo_marketplace'),
-        'href' => admin_url('marketplace'),
-        'slug' => 'marketplace',
-        'position' => 2,
-        'icon' => 'fa fa-shop',
-        'badge' => [],
-    ]);
+
+    if (staff_can('see', 'leadevo')) {
+        $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+            'name' => _l('leadevo_prospects'),
+            'slug' => 'leadevo',
+            'href' => admin_url('prospects'),
+            'position' => 2,
+            'icon' => 'fa fa-tty',
+            'badge' => [],
+        ]);
+    }
+    if (staff_can('manage_marketplace', 'leadevo')) {
+        $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
+            'name' => _l('leadevo_marketplace'),
+            'href' => admin_url('marketplace'),
+            'slug' => 'marketplace',
+            'position' => 2,
+            'icon' => 'fa fa-shop',
+            'badge' => [],
+        ]);
+    }
     $CI->app_menu->add_sidebar_children_item('leadevo_prospects', [
         'name' => _l('leadevo_fake_prospects'),
         'href' => admin_url('prospects/fake'),

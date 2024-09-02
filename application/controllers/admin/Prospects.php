@@ -14,6 +14,9 @@ class Prospects extends AdminController
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('Clients_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        if (!staff_can('see', 'leadevo')) {
+            access_denied();
+        }
     }
 
     public function index()
@@ -148,6 +151,9 @@ class Prospects extends AdminController
     }
     public function rate()
     {
+        if (!staff_can('rate', 'leadevo')) {
+            access_denied();
+        }
         $id = $this->input->post('id');
         if (isset($id)) {
             $stars = $this->input->post('rating');
