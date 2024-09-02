@@ -10,6 +10,10 @@ class Marketplace extends AdminController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Cart_model');
+
+        if (!staff_can('manage_marketplace', 'leadevo')) {
+            access_denied();
+        }
     }
 
     public function index()

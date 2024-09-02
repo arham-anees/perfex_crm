@@ -9,7 +9,15 @@
         border-radius: 4px;
         text-align: center;
         text-decoration: none;
-        margin-left: 80%;
+        float: right;
+        margin-top: 10px;
+    }
+
+    .btn-primary-custom.disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.6;
     }
 
     h1 {
@@ -61,7 +69,9 @@
                             <p>Your cart is empty.</p>
                         <?php endif; ?>
                     </div>
-                    <a href="<?php echo site_url('cart/checkout/'); ?>" class="btn-primary-custom">Checkout</a>
+                    <div>
+                        <a href="<?php echo site_url('cart/checkout/'); ?>" id="checkoutBtn" class="btn-primary-custom">Checkout</a>
+                    </div>
                 <?php } else { ?>
                     <p>You need to be logged in to view this page.</p>
                 <?php } ?>
@@ -72,6 +82,14 @@
 
 <script>
     $(document).ready(function () {
+
+
+        var cartIsEmpty = <?php echo empty($cart_prospects) ? 'true' : 'false'; ?>;
+
+        if (cartIsEmpty) {
+            $('#checkoutBtn').addClass('disabled');
+        }
+
         // Fetch CSRF token from meta tags
         $('.btn-primary-custom').on('click', function (e) {
             e.preventDefault(); // Prevent the default link behavior

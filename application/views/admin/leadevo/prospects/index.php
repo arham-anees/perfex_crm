@@ -61,11 +61,12 @@ function displayStars($rating, $maxStars = 5)
                                                             class=""
                                                             onclick="return confirm('Are you sure you want to delete this prospect?');">
                                                             Delete
-                                                        </a> |
-                                                        <a href="#" onclick="openRateModal(<?= $prospect['id'] ?>)">Rate</a> |
-
-
-                                                        <a href="#" data-toggle="modal" data-target="#mark_prospect_fake">Upload
+                                                        </a>
+                                                        <?php if (staff_can('rate', 'leadevo')): ?>
+                                                            | <a href="#"
+                                                                onclick="openRateModal(<?= $prospect['id'] ?>)">Rate</a><?php endif; ?>
+                                                        | <a href="#" data-toggle="modal"
+                                                            data-target="#upload_conversation_modal">Upload
                                                             Conversation</a>
                                                         <?php if (!isset($prospect['is_fake']) || $prospect['is_fake'] == false) { ?>
                                                             | <a href="#" onclick="openModal(<?= $prospect['id'] ?>)">Mark
@@ -206,6 +207,17 @@ function displayStars($rating, $maxStars = 5)
                     class="btn btn-primary" />
 
                 <?php echo form_close(); ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="upload_conversation_modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center">
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center">
+                <p>Please integrate AirCall API</p>
             </div>
         </div>
     </div>
