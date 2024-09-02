@@ -63,7 +63,7 @@
                                                 <th><?php echo _l('Created At'); ?></th>
                                                 <th><?php echo _l('Evidence'); ?></th>
                                                 <th><?php echo _l('Status'); ?></th>
-                                              
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -72,26 +72,37 @@
                                                     <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? 'N/A'); ?></td>
                                                     <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?>
                                                         <div class="row-options">
-                                                        <a href="<?php echo admin_url('prospects/view/' . $prospect['prospect_id']); ?>"
-                                                            class="">
-                                                            View |
-                                                        </a>
-                                                        <a href="#"
-                                                            onclick="openReplaceModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
-                                                            class="">
-                                                            Replace |
-                                                        </a>
-                                                        <a href="#"
-                                                            onclick="openRejectModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
-                                                            class="">
-                                                            Reject
-                                                        </a>
+                                                            <a href="<?php echo admin_url('prospects/view/' . $prospect['prospect_id']); ?>"
+                                                                class="">
+                                                                View |
+                                                            </a>
+                                                            <a href="#"
+                                                                onclick="openReplaceModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
+                                                                class="">
+                                                                Replace |
+                                                            </a>
+                                                            <a href="#"
+                                                                onclick="openRejectModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)"
+                                                                class="">
+                                                                Reject
+                                                            </a>
                                                         </div>
                                                     </td>
                                                     <td><?php echo htmlspecialchars($prospect['created_at'] ?? 'N/A'); ?></td>
-                                                    <td><?php echo htmlspecialchars($prospect['evidence'] ?? 'N/A'); ?></td>
+                                                    <td>
+                                                        <?php if (isset($prospect['evidence']) && !empty($prospect['evidence'])): ?>
+                                                            <audio controls>
+                                                                <source src="<?php echo htmlspecialchars($prospect['evidence']); ?>"
+                                                                    type="audio/mpeg">
+                                                                Your browser does not support the audio element.
+                                                            </audio>
+                                                        <?php else: ?>
+
+                                                            No evidence available.
+                                                        <?php endif; ?>
+                                                    </td>
                                                     <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
-                                                   
+
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>

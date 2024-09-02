@@ -70,4 +70,28 @@ class Zapier extends ClientsController
         $config = $this->Misc_model->update_zapier_config($id, get_client_user_id(), $data);
         redirect(site_url('clients/zapier'));
     }
+    public function fetch_webhook()
+    {
+        if ($this->input->method() !== 'get') {
+            echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+            return;
+        }
+    
+        $id = $this->input->get('id');
+    
+        if (!$id) {
+            echo json_encode(['status' => 'error', 'message' => 'Webhook ID is required']);
+            return;
+        }
+    
+        $webhook = $this->Misc_model->get_webhook_by_id($id);
+    
+        if ($webhook) {
+            echo json_encode(['status' => 'success', 'webhook_url' => $webhook->webhook]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Webhook not found']);
+        }
+    }
+    
+
 }
