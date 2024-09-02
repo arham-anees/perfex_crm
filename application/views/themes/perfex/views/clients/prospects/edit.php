@@ -95,7 +95,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="desired_amount"><?php echo _l('Desired Amount'); ?></label>
@@ -110,7 +110,7 @@
                                 value="<?php echo $prospect->min_amount ?? 'N/A'; ?>" required>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"><?php echo _l('Update Prospect'); ?></button>

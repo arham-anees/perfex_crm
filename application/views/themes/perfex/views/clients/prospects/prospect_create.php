@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="desired_amount"><?php echo _l('Desired Amount'); ?></label>
@@ -100,7 +100,7 @@
                             <input type="text" class="form-control" name="min_amount" id="min_amount" required>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
 

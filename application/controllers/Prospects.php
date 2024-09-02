@@ -119,11 +119,11 @@ class Prospects extends ClientsController
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('source_id', 'Source', 'required');
         $this->form_validation->set_rules('type_id', 'Type', 'required');
-        $this->form_validation->set_rules('category_id', 'Category', 'required');
+        // $this->form_validation->set_rules('category_id', 'Category', 'required');
         $this->form_validation->set_rules('acquisition_channel_id', 'Acquisition Channel', 'required');
         $this->form_validation->set_rules('industry_id', 'Industry', 'required');
-        $this->form_validation->set_rules('desired_amount', 'Desired Amount', 'required');
-        $this->form_validation->set_rules('min_amount', 'Min Amount', 'required');
+        // $this->form_validation->set_rules('desired_amount', 'Desired Amount', 'required');
+        // $this->form_validation->set_rules('min_amount', 'Min Amount', 'required');
         if ($this->input->post() && $this->form_validation->run() !== false) {
 
             $data = [
@@ -133,11 +133,11 @@ class Prospects extends ClientsController
                 'email' => $this->input->post('email'),
                 'source_id' => $this->input->post('source_id'),
                 'type_id' => $this->input->post('type_id'),
-                'category_id' => $this->input->post('category_id'),
+                // 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
-                'desired_amount' => $this->input->post('desired_amount'),
-                'min_amount' => $this->input->post('min_amount'),
+                // 'desired_amount' => $this->input->post('desired_amount'),
+                // 'min_amount' => $this->input->post('min_amount'),
             ];
 
 
@@ -174,11 +174,11 @@ class Prospects extends ClientsController
         $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
         $this->form_validation->set_rules('source_id', 'Source', 'required');
         $this->form_validation->set_rules('type_id', 'Type', 'required');
-        $this->form_validation->set_rules('category_id', 'Category', 'required');
+        // $this->form_validation->set_rules('category_id', 'Category', 'required');
         $this->form_validation->set_rules('acquisition_channel_id', 'Acquisition Channel', 'required');
         $this->form_validation->set_rules('industry_id', 'Industry', 'required');
-        $this->form_validation->set_rules('desired_amount', 'Desired Amount', 'required');
-        $this->form_validation->set_rules('min_amount', 'Min Amount', 'required');
+        // $this->form_validation->set_rules('desired_amount', 'Desired Amount', 'required');
+        // $this->form_validation->set_rules('min_amount', 'Min Amount', 'required');
         if ($this->input->post() && $this->form_validation->run() !== false) {
             $data = [
                 'first_name' => $this->input->post('first_name'),
@@ -187,11 +187,11 @@ class Prospects extends ClientsController
                 'email' => $this->input->post('email'),
                 'source_id' => $this->input->post('source_id'),
                 'type_id' => $this->input->post('type_id'),
-                'category_id' => $this->input->post('category_id'),
+                // 'category_id' => $this->input->post('category_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition_channel_id'),
                 'industry_id' => $this->input->post('industry_id'),
-                'desired_amount' => $this->input->post('desired_amount'),
-                'min_amount' => $this->input->post('min_amount'),
+                // 'desired_amount' => $this->input->post('desired_amount'),
+                // 'min_amount' => $this->input->post('min_amount'),
             ];
             $this->Prospects_model->update($id, $data);
             redirect('prospects');
