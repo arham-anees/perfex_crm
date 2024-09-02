@@ -59,6 +59,7 @@
                                         <th><?php echo _l('Reason'); ?></th>
                                         <th><?php echo _l('Created At'); ?></th>
                                         <th><?php echo _l('Evidence'); ?></th>
+                                        <th><?php echo _l('Feedback'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
 
                                     </tr>
@@ -87,8 +88,8 @@
                                                     No evidence available.
                                                 <?php endif; ?>
                                             </td>
-
-                                            <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
+                                            <td><?php echo htmlspecialchars($prospect['feedback'] ?? 'N/A'); ?></td>
+                                            <td><?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?></td>
 
                                         </tr>
                                     <?php endforeach; ?>
