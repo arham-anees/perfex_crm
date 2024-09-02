@@ -11,24 +11,29 @@ class Stats_model extends CI_Model
 
     public function client_dashboard()
     {
-        $sql = "SELECT 
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS prospect_amount,
-                   reported.*,
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS delivered_today,
-                    COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS delivered_yesterday,
-                    ROUND(AVG(l.price),2) AS prospect_avg_price
-                FROM tblclients c
-                INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
-               
-                CROSS JOIN (SELECT 
-                         COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) reported_today
-                         FROM tblclients c
-                         
-                INNER JOIN tblleadevo_reported_prospects r ON r.client_id = c.userid
-                 WHERE r.client_id = " . get_client_user_id() . ") AS reported
-                  WHERE l.client_id = " . get_client_user_id() . " AND l.campaign_id IS NOT NULL";
-        $query = $this->db->query($sql);
-        return $query->result();
+        $sql = "
+    SELECT 
+        COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS prospect_amount,
+        reported.reported_today,
+        COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS delivered_today,
+        COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS delivered_yesterday,
+        ROUND(AVG(l.price),2) AS prospect_avg_price
+    FROM tblclients c
+    INNER JOIN tblleadevo_leads l ON l.client_id = c.userid
+    CROSS JOIN (
+        SELECT 
+            COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) AS reported_today
+        FROM tblclients c
+        INNER JOIN tblleadevo_reported_prospects r ON r.client_id = c.userid
+        WHERE r.client_id = " . get_client_user_id() . "
+    ) AS reported
+    WHERE l.client_id = " . get_client_user_id() . " 
+    AND l.campaign_id IS NOT NULL
+    GROUP BY reported.reported_today;
+";
+$query = $this->db->query($sql);
+return $query->result();
+
     }
     public function client_campaigns()
     {

@@ -21,6 +21,7 @@
                                     <tr>
                                         <th><?php echo _l('Name'); ?></th>
                                         <th><?php echo _l('Description'); ?></th>
+                                        <th><?php echo _l('Status'); ?></th>
                                         <th><?php echo _l('Actions'); ?></th>
                                     </tr>
                                 </thead>
@@ -29,6 +30,7 @@
                                         <tr>
                                             <td><?php echo $status->name; ?></td>
                                             <td><?php echo $status->description; ?></td>
+                                            <td><?= $status->is_active==1?'Active':'Inactive'; ?></td>
                                             <td>
                                                 <a href="<?php echo admin_url('leadevo/prospect_status/view/' . $status->id); ?>"
                                                     class="btn btn-default btn-icon">

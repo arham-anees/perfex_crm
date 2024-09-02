@@ -6,25 +6,36 @@ class Industry_categories extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/Industry_categories_model');
+        $this->load->library('form_validation');
+
     }
 
     public function index()
     {
-        $data['categories'] = $this->Industry_categories_model->get_all();
+        $data['categories'] = $this->Industry_categories_model->get_all('');
         $this->load->view('admin/setup/industry_categories/industry_categories', $data);
     }
 
     public function create()
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('min_price','Min Price', 'required');
+        $this->form_validation->set_rules('min_market_price','Min MarketPlace Price', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'min_price' => $this->input->post('min_price'),
-                'min_market_price' => $this->input->post('min_market_price'),
-                'description' => $this->input->post('description'),
-            ];
-            $this->Industry_categories_model->insert($data);
-            redirect(admin_url('leadevo/industry_categories'));
+            if ($this->form_validation->run() !== false) {
+
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'min_price' => $this->input->post('min_price'),
+                    'min_market_price' => $this->input->post('min_market_price'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
+                $this->Industry_categories_model->insert($data);
+                redirect(admin_url('leadevo/industry_categories'));
+            }
         }
 
         $this->load->view('admin/setup/industry_categories/industry_categories_create');
@@ -32,15 +43,22 @@ class Industry_categories extends AdminController
 
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        $this->form_validation->set_rules('min_price','Min Price', 'required');
+        $this->form_validation->set_rules('min_market_price','Min MarketPlace Price', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'min_price' => $this->input->post('min_price'),
-                'min_market_price' => $this->input->post('min_market_price'),
-                'description' => $this->input->post('description'),
-            ];
-            $this->Industry_categories_model->update($id, $data);
-            redirect(admin_url('leadevo/industry_categories'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'min_price' => $this->input->post('min_price'),
+                    'min_market_price' => $this->input->post('min_market_price'),
+                    'description' => $this->input->post('description'),
+                     'is_active' => $this->input->post('is_active'),
+                ];
+                $this->Industry_categories_model->update($id, $data);
+                redirect(admin_url('leadevo/industry_categories'));
+            }
         }
 
         $category = $this->Industry_categories_model->get($id);

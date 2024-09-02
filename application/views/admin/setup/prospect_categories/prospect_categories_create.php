@@ -6,10 +6,10 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h4 class="no-margin"><?php echo _l('Create New Lead Status'); ?></h4>
+                        <h4 class="no-margin"><?php echo _l('Create Prospect Category'); ?></h4>
                         <hr class="hr-panel-heading" />
                         <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
-                        <?php echo form_open(admin_url('leadevo/lead_statuses/create')); ?>
+                        <?php echo form_open(admin_url('leadevo/prospect_categories/create')); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
                             <input type="text" id="name" name="name" class="form-control" required>
@@ -29,7 +29,7 @@
                                 <label for="is_actives">In Active</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
+                        <button type="submit" class="btn btn-primary"><?php echo _l('Create'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
                 </div>

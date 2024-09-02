@@ -6,37 +6,49 @@ class Acquisition_channels extends AdminController
     {
         parent::__construct();
         $this->load->model('leadevo/acquisition_channels_model');
+        $this->load->library('form_validation');
     }
 
     public function index()
     {
-        $data['channels'] = $this->acquisition_channels_model->get_all();
+        $data['channels'] = $this->acquisition_channels_model->get_all('');
         $this->load->view('admin/setup/acquisition_channels/acquisition_channels', $data);
     }
 
     public function create()
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-                'is_active' => 1,
-            ];
-            $this->acquisition_channels_model->insert($data);
-            redirect(admin_url('leadevo/acquisition_channels'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
+                $this->acquisition_channels_model->insert($data);
+                redirect(admin_url('leadevo/acquisition_channels'));
+            }
         }
         $this->load->view('admin/setup/acquisition_channels/acquisition_channel_create');
     }
 
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
+        // $this->form_validation->set_rules('description', 'Description','required');
+
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description')
-            ];
-            $this->acquisition_channels_model->update($id, $data);
-            redirect(admin_url('leadevo/acquisition_channels'));
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
+                $this->acquisition_channels_model->update($id, $data);
+                redirect(admin_url('leadevo/acquisition_channels'));
+            }
         }
         $data['channel'] = $this->acquisition_channels_model->get($id);
         $this->load->view('admin/setup/acquisition_channels/acquisition_channel_edit', $data);

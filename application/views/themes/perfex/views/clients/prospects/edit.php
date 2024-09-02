@@ -6,6 +6,7 @@
             <div class="panel-body">
                 <h4 class="no-margin"><?php echo _l('Edit Prospect'); ?></h4>
                 <hr class="hr-panel-heading" />
+                <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
                 <?php echo form_open('prospects/edit/' . $prospect->id, array('id' => 'prospect-form')); ?>
                 
                 <div class="row">

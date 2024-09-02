@@ -6,30 +6,35 @@
             <div class="col-md-12">
                 <div class="panel_s">
                     <div class="panel-body">
-                        <h4 class="no-margin"><?php echo _l('Create New Lead Status'); ?></h4>
+                        <h4 class="no-margin"><?php echo _l('Edit Prospect Category'); ?></h4>
                         <hr class="hr-panel-heading" />
                         <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
-                        <?php echo form_open(admin_url('leadevo/lead_statuses/create')); ?>
+                        <?php echo form_open(admin_url('leadevo/prospect_categories/edit/' . (isset($category) ? $category->id : ''))); ?>
                         <div class="form-group">
                             <label for="name"><?php echo _l('Name'); ?></label>
-                            <input type="text" id="name" name="name" class="form-control" required>
+                            <input type="text" id="name" name="name" class="form-control"
+                                value="<?php echo isset($category) ? htmlspecialchars($category->name) : ''; ?>"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control" required></textarea>
+                            <textarea id="description" name="description" class="form-control"
+                                required><?php echo isset($category) ? htmlspecialchars($category->description) : ''; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="description" class="control-label clearfix"><?php echo _l('Status'); ?></label>
                             <div class="radio radio-primary radio-inline">
-                                <input type="radio" id="is_active" name="is_active" value="1" checked>
+                                <input type="radio" id="is_active" name="is_active" value="1" <?= $category->is_active=='1'?'checked':''?>>
                                 <label for="is_active" >Active</label>
                             </div>
+
                             <div class="radio radio-primary radio-inline">
-                                <input type="radio" id="is_actives" name="is_active" value="">
+
+                                <input type="radio" id="is_actives" name="is_active" value="" <?= $category->is_active=='0'?'checked':''?>>
                                 <label for="is_actives">In Active</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
+                        <button type="submit" class="btn btn-primary"><?php echo _l('Save Changes'); ?></button>
                         <?php echo form_close(); ?>
                     </div>
                 </div>
