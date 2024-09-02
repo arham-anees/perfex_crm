@@ -14,10 +14,17 @@ function displayStars($rating, $maxStars = 5)
 ?>
 
 <style>
-    .star.filled
-{
-    color:orange;
-}
+    .star.filled {
+        color: orange;
+    }
+
+    #activity-log {
+        margin: 10px 0;
+    }
+
+    .prospect-log-item {
+        font-size: 12px;
+    }
 </style>
 <div id="wrapper">
     <div class="content">
@@ -96,7 +103,7 @@ function displayStars($rating, $maxStars = 5)
                                                     </div>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
-                                               
+
                                                 <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
@@ -157,6 +164,9 @@ function displayStars($rating, $maxStars = 5)
                     <p><strong>Type:</strong> <span id="prospectType"></span></p>
                     <p><strong>Acquisition Channel:</strong> <span id="prospectAcquisitionChannel"></span></p>
                     <p><strong>Industry:</strong> <span id="prospectIndustry"></span></p>
+                    <p><strong>Activity log:</strong>
+                    <div id="activity-log"></div>
+                    </p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -183,11 +193,12 @@ function displayStars($rating, $maxStars = 5)
                 <?php echo form_open(admin_url('prospects/mark_as_fake'), ['id' => 'fake-prospect-form']); ?>
                 <input type="hidden" name="id" />
                 <p><?= _l('leadevo_report_fake_prospect_message') ?></p>
-                
+
                 <!-- Description Input -->
                 <div class="form-group">
                     <label for="fake_description"><?= _l('leadevo_fake_description_label') ?></label>
-                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required placeholder="<?= _l('leadevo_fake_prospect_description_placeholder') ?>"></textarea>
+                    <textarea name="fake_description" id="fake_description" class="form-control" rows="4" required
+                        placeholder="<?= _l('leadevo_fake_prospect_description_placeholder') ?>"></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -448,16 +459,38 @@ function displayStars($rating, $maxStars = 5)
             type: 'GET',
             data: { id: prospectId },
             success: function (response) {
-                const data = JSON.parse(response);
+                const res = JSON.parse(response);
+                console.log(res.logs);
+                const data = res.prospect;
+                const logs = res.logs ?? [];
 
                 // Populate the modal with the first name, last name, and other details
                 $('#prospectFirstName').text(data.first_name);
                 $('#prospectLastName').text(data.last_name);
                 $('#prospectStatus').text(data.status);
                 $('#prospectType').text(data.type);
-              
+
                 $('#prospectAcquisitionChannel').text(data.acquisition_channel);
                 $('#prospectIndustry').text(data.industry);
+
+                let logsHtml = '';
+                console.log(res.logs.length)
+                for (let i = 0; i < logs.length; i++) {
+                    const log = logs[i];
+                    let type = '';
+                    let name = log.staff_name;
+                    if (name == null || name == '') name = log.client_name;
+                    let date = log.date;
+                    if (log.type == 'marked_fake') type = 'Marked as Fake';
+                    if (log.type == 'remove_from_market') type = 'Remove from Marketplace';
+                    if (log.type == 'auto_deliverable') type = 'Deliver Automatically';
+
+
+                    logsHtml += `<div class='prospect-log-item'>${name} at ${date} - ${type}`
+                    if (log.comments != null && log.comments != '') { logsHtml += ` - ${log.comments}`; }
+                    logsHtml += '</div>'
+                }
+                $('#activity-log').html(logsHtml);
 
                 // Show the modal
                 $('#viewProspectModal').modal('show');
