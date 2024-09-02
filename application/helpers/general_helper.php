@@ -148,7 +148,7 @@ function is_rtl($client_area = false)
             return true;
         }
     } elseif (is_staff_logged_in()) {
-        if (isset($GLOBALS['current_user'])) {
+        if (isset($GLOBALS['current_user']) && isset($GLOBALS['current_user']->direction)) {
             $direction = $GLOBALS['current_user']->direction;
         } else {
             $CI->db->select('direction')->from(db_prefix() . 'staff')->where('staffid', get_staff_user_id());

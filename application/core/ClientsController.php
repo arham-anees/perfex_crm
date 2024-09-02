@@ -26,14 +26,10 @@ class ClientsController extends App_Controller
         $cart_prospects = [];
         // $currentUser = new stdClass();
         // $currentUser->direction = 'ltr';
-        $currentUser = $this->clients_model->get_contact(get_contact_user_id());
-
-        // Deleted or inactive but have session
-        if (!$currentUser || $currentUser->active == 0) {
-            //$this->authentication_model->logout();
-            //redirect(site_url('authentication'));
-        }
-
+        $vars = [
+            'current_version' => $this->current_db_version,
+            'task_statuses' => $this->tasks_model->get_statuses(),
+        ];
         if (
             !is_client_logged_in()
         ) {
@@ -45,26 +41,26 @@ class ClientsController extends App_Controller
 
             $GLOBALS['current_user'] = $currentUser;
             $GLOBALS['cart_prospects'] = $cart_prospects;
+            $vars['cart_prospects'] = $cart_prospects;
+        } else {
+            hooks()->do_action('client_init');
+            hooks()->do_action('app_client_assets');
+            $currentUser = $this->clients_model->get_contact(get_contact_user_id());
+
+            $vars['current_user'] = $currentUser;
         }
-
-
-        hooks()->do_action('client_init');
-        hooks()->do_action('app_client_assets');
-
-
         $this->load->library('app_clients_area_constructor');
+
+
+
+
 
         if (method_exists($this, 'validateContact')) {
             $this->validateContact();
         }
 
         // init_admin_assets();
-        $vars = [
-            'current_user' => $currentUser,
-            'current_version' => $this->current_db_version,
-            'task_statuses' => $this->tasks_model->get_statuses(),
-            'cart_prospects' => $cart_prospects
-        ];
+
 
         $vars['sidebar_menu'] = $this->app_menu->get_client_sidebar_menu_items();
         $this->load->vars($vars);
