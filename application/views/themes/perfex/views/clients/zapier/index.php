@@ -23,6 +23,7 @@
                                     <th><?php echo _l('name'); ?></th>
                                     <th><?php echo _l('leadevo_description'); ?></th>
                                     <th><?php echo _l('leadevo_zapier_webhook'); ?></th>
+                                    <th><?php echo _l('Status'); ?></th>
 
                                 </tr>
                             </thead>
@@ -32,6 +33,9 @@
                                         <td><?php echo htmlspecialchars($webhook['id']); ?></td>
                                         <td><?php echo htmlspecialchars($webhook['name'] ?? '-'); ?>
                                             <div class="row-options">
+                                            <a href="<?php echo site_url('zapier/details/' . $webhook['id']); ?>" class="">
+                                                    view
+                                                </a> |
                                                 <a href="<?php echo site_url('zapier/edit/' . $webhook['id']); ?>" class="">
                                                     Edit
                                                 </a> |
@@ -45,6 +49,7 @@
 
                                         <td><?php echo htmlspecialchars($webhook['description'] ?? '-'); ?></td>
                                         <td><?php echo htmlspecialchars($webhook['webhook'] ?? '-'); ?></td>
+                                        <td><?php echo $webhook['status'] == 1 ? 'Active' : 'Inactive'; ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

@@ -101,7 +101,7 @@
                                                             No evidence available.
                                                         <?php endif; ?>
                                                     </td>
-                                                    <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
+                                                    <td><?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?></td>
 
                                                 </tr>
                                             <?php endforeach; ?>

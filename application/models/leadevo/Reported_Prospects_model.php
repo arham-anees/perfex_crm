@@ -2,9 +2,6 @@
 
 class Reported_Prospects_model extends CI_Model
 {
-
-
-
     public function __construct()
     {
         parent::__construct();
@@ -13,45 +10,44 @@ class Reported_Prospects_model extends CI_Model
 
     public function get_all()
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
+        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $query = $this->db->get();
         return $query->result_array();
     }
 
     public function get_all_client()
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->where('tblleadevo_reported_prospects.client_id', get_client_user_id());
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
+        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $query = $this->db->get();
         return $query->result_array();
     }
 
-
     public function get($id)
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
+        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $this->db->where('tblleadevo_reported_prospects.campaign_id', $id);
         $query = $this->db->get();
         return $query->row_array();
     }
 
-
     public function get_all_by_filter($filter)
     {
-        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name');
+        $this->db->select('tblleadevo_reported_prospects.*, tblleadevo_report_lead_reasons.name as reason_name, tblleadevo_reject_prospect_status.status as status_name');
         $this->db->from('tblleadevo_reported_prospects');
         $this->db->join('tblleadevo_report_lead_reasons', 'tblleadevo_reported_prospects.reason = tblleadevo_report_lead_reasons.id', 'left');
-        // Apply your filter logic here if needed
+        $this->db->join('tblleadevo_reject_prospect_status', 'tblleadevo_reported_prospects.status = tblleadevo_reject_prospect_status.id', 'left');
         $this->db->like('tblleadevo_report_lead_reasons.name', $filter); // Example filter
         $query = $this->db->get();
         return $query->result_array();
     }
-
-
 }

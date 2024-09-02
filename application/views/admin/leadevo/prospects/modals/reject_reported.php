@@ -10,7 +10,7 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-            <?php echo form_open(admin_url('prospects/reject_prospect_report'), ['id' => 'reject-prospect-report-form']); ?>
+            <?php echo form_open(admin_url('prospects/reported'), ['id' => 'reject-prospect-report-form']); ?>
             <input type="hidden" name="id" />
             <input type="hidden" name="campaign_id" />
 
