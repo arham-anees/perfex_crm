@@ -16,29 +16,16 @@
                 <div class="col-md-8" style="display:flex;justify-content:end">
                     <form method="GET" action="<?php echo site_url('prospects/reported'); ?>"
                         style="margin-right: 10px;">
-                        <div class="input-group" style="width:200px">
-                            <input type="text" name="search" class="form-control"
-                                placeholder="<?php echo _l('Search Reported Prospects'); ?>"
-                                value="<?php echo isset($search) ? $search : ''; ?>">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                    <form method="GET" action="<?php echo site_url('prospects/reported'); ?>">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <?php echo _l('Filter By'); ?> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li><a
-                                        href="<?php echo site_url('prospects/reported?filter=active'); ?>"><?php echo _l('Active Reported Prospects'); ?></a>
-                                </li>
-                                <li><a
-                                        href="<?php echo site_url('prospects/reported?filter=inactive'); ?>"><?php echo _l('Inactive Reported Prospects'); ?></a>
-                                </li>
+                                <?php foreach ($status_options as $option): ?>
+                                    <li><a href="<?php echo site_url('prospects/reported?filter=' . urlencode($option['status'])); ?>">
+                                        <?php echo htmlspecialchars($option['status']); ?>
+                                    </a></li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                     </form>
@@ -59,9 +46,7 @@
                                         <th><?php echo _l('Reason'); ?></th>
                                         <th><?php echo _l('Created At'); ?></th>
                                         <th><?php echo _l('Evidence'); ?></th>
-                                        <th><?php echo _l('Feedback'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,13 +69,10 @@
                                                         Your browser does not support the audio element.
                                                     </audio>
                                                 <?php else: ?>
-                                                   
                                                     No evidence available.
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?php echo htmlspecialchars($prospect['feedback'] ?? 'N/A'); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?></td>
-
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
