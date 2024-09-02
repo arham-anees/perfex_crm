@@ -4081,3 +4081,4 @@ $lang['leadevo_permission_confirm'] = 'Confirm Prospects';
 $lang['leadevo_permission_marketplace'] = 'Manage Marketplace';
 $lang['leadevo_permission_settings'] = 'Modify Delivery Settings';
 $lang['leadevo_permission_campaign'] = 'Manage Campaigns';
+$lang['leadevo_permission_types'] = 'Manage Types';

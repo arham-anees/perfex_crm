@@ -1580,4 +1580,11 @@ class Misc_model extends App_Model
         return null;
     }
 
+
+    public function get_webhook_id($id) {
+        $this->db->where('id', $id);
+        $query = $this->db->get('leadevo_zapier_config');
+        return $query->row(); 
+    }
+    
 }

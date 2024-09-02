@@ -163,6 +163,7 @@ function get_available_staff_permissions($data = [])
                 'confirm' => _l('leadevo_permission_confirm'),
                 'manage_marketplace' => _l('leadevo_permission_marketplace'),
                 'manage_campaign' => _l('leadevo_permission_campaign'),
+                'manage_types' => _l('leadevo_permission_types'),
                 'delivery_algo_settings' => _l('leadevo_permission_settings')
             ]
         ]
