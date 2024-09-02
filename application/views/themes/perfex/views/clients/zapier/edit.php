@@ -4,6 +4,7 @@
     <div class="col-md-12">
         <div class="panel_s">
             <div class="panel-body">
+            <h4><?php echo _l('leadevo_zapier_webhook_edit'); ?></h4>
                 <?php echo form_open('Zapier/edit/' . $webhook->id); ?>
 
                 <div class="form-group">
@@ -22,6 +23,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
+                <a href="<?php echo site_url('clients/zapier'); ?>" class="btn btn-default"><?php echo _l('back_to_list'); ?></a>
 
                 <?php echo form_close(); ?>
             </div>
