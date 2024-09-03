@@ -28,70 +28,70 @@ function displayStars($rating, $maxStars = 5)
 </style>
 <div id="wrapper">
     <div class="content">
-    <div class="row">
-                        <!-- Search Bar -->
-                        <div class="col-md-4">
-                            <!-- Optionally add a button or functionality here -->
-                        </div>
-
-                        <div class="col-md-8" style="display:flex;justify-content:end">
-                            <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                        <?php echo _l('Filter By Acquisition Channel'); ?> <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li>
-                                            <a href="<?php echo admin_url('prospects/fake'); ?>"
-                                                class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == 'all' ? 'active' : ''); ?>">
-                                                <?php echo _l('all'); ?>
-                                            </a>
-                                        </li>
-                                        <?php foreach ($acquisition_channels as $channel): ?>
-                                            <li>
-                                                <a href="<?php echo admin_url('prospects/fake?acquisition_channel_id=' . $channel->id); ?>"
-                                                    class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == $channel->id ? 'active' : ''); ?>">
-                                                    <?php echo htmlspecialchars($channel->name); ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            </form>
-
-                            <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                        <?php echo _l('Filter By Industry'); ?> <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <li>
-                                            <a href="<?php echo admin_url('prospects/fake'); ?>"
-                                                class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == 'all' ? 'active' : ''); ?>">
-                                                <?php echo _l('all'); ?>
-                                            </a>
-                                        </li>
-                                        <?php foreach ($industries as $industry): ?>
-                                            <li>
-                                                <a href="<?php echo admin_url('prospects/fake?industry_id=' . $industry['id']); ?>"
-                                                    class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == $industry['id'] ? 'active' : ''); ?>">
-                                                    <?php echo htmlspecialchars($industry['name']); ?>
-                                                </a>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
         <div class="row">
-            
+            <!-- Search Bar -->
+            <div class="col-md-4">
+                <!-- Optionally add a button or functionality here -->
+            </div>
+
+            <div class="col-md-8" style="display:flex;justify-content:end">
+                <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <?php echo _l('Filter By Acquisition Channel'); ?> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a href="<?php echo admin_url('prospects/fake'); ?>"
+                                    class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == 'all' ? 'active' : ''); ?>">
+                                    <?php echo _l('all'); ?>
+                                </a>
+                            </li>
+                            <?php foreach ($acquisition_channels as $channel): ?>
+                                <li>
+                                    <a href="<?php echo admin_url('prospects/fake?acquisition_channel_id=' . $channel->id); ?>"
+                                        class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == $channel->id ? 'active' : ''); ?>">
+                                        <?php echo htmlspecialchars($channel->name); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </form>
+
+                <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <?php echo _l('Filter By Industry'); ?> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li>
+                                <a href="<?php echo admin_url('prospects/fake'); ?>"
+                                    class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == 'all' ? 'active' : ''); ?>">
+                                    <?php echo _l('all'); ?>
+                                </a>
+                            </li>
+                            <?php foreach ($industries as $industry): ?>
+                                <li>
+                                    <a href="<?php echo admin_url('prospects/fake?industry_id=' . $industry['id']); ?>"
+                                        class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == $industry['id'] ? 'active' : ''); ?>">
+                                        <?php echo htmlspecialchars($industry['name']); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+
             <div class="col-12">
                 <div class="panel_s">
                     <div class="panel-body">
                         <?php if (!empty($prospects)): ?>
                             <div class="table-responsive">
-                                <table class="table table-bordered dt-table nowrap" style="width:100%">
+                                <table class="table table-bordered dt-table " style="width:100%">
                                     <thead>
                                         <tr>
                                             <th><?php echo _l('Name'); ?></th>
@@ -101,13 +101,16 @@ function displayStars($rating, $maxStars = 5)
                                             <th><?php echo _l('Acquisition Channels'); ?></th>
                                             <th><?php echo _l('Industry'); ?></th>
                                             <th><?php echo _l('Status'); ?></th>
-                                            <!-- <th><?php echo _l('actions'); ?></th> -->
+                                            <th><?php echo _l('Phone Normalization'); ?></th>
+                                            <th><?php echo _l('Attempted At'); ?></th>
+                                            <th><?php echo _l('Email Normalization'); ?></th>
+                                            <th><?php echo _l('Attempted At'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($prospects as $prospect): ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? 'N/A'); ?>
+                                                <td><?php echo htmlspecialchars($prospect['prospect_name'] ?? '-'); ?>
                                                     <div class="row-options">
                                                         <a href="#" onclick="openViewModal(<?= $prospect['id'] ?>)">View</a> |
                                                         <a href="<?php echo admin_url('prospects/edit/' . $prospect['id']); ?>"
@@ -148,7 +151,7 @@ function displayStars($rating, $maxStars = 5)
 
                                                     </div>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($prospect['status'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['status'] ?? '-'); ?></td>
                                                 <td>
                                                     <div class="star-rating">
                                                         <?php
@@ -160,17 +163,26 @@ function displayStars($rating, $maxStars = 5)
                                                         ?>
                                                     </div>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($prospect['type'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['type'] ?? '-'); ?></td>
 
-                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? 'N/A'); ?>
+                                                <td><?php echo htmlspecialchars($prospect['acquisition_channel'] ?? '-'); ?>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
+                                                <td><?php echo htmlspecialchars($prospect['industry'] ?? '-'); ?></td>
                                                 <td>
                                                     <select name="confirm_status" class="form-control"
                                                         data-id="<?php echo $prospect['id']; ?>">
                                                         <option value="0" <?php echo ($prospect['confirm_status'] == 0) ? 'selected' : ''; ?>>Not Confirmed</option>
                                                         <option value="1" <?php echo ($prospect['confirm_status'] == 1) ? 'selected' : ''; ?>>Confirmed</option>
                                                     </select>
+                                                </td>
+
+                                                <td><?php echo htmlspecialchars($prospect['phone_normalize_status'] ?? '-'); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($prospect['phone_normalize_attempt'] ?? '-'); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($prospect['email_normalize_status'] ?? '-'); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($prospect['email_normalize_attempt'] ?? '-'); ?>
                                                 </td>
                                                 <!-- <td>
                                                     <a href="<?php echo admin_url('prospects/view/' . $prospect['id']); ?>"
@@ -203,7 +215,7 @@ function displayStars($rating, $maxStars = 5)
 </div>
 <!-- View Prospect Modal -->
 <div class="modal fade" id="viewProspectModal" tabindex="-1" role="dialog">
-<?php echo get_instance()->load->view('admin/leadevo/prospects/modals/view_prospect.php') ?>
+    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/view_prospect.php') ?>
 </div>
 
 <div id="mark_prospect_fake" class="modal fade" tabindex="-1" role="dialog">

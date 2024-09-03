@@ -200,7 +200,6 @@ class Prospects_model extends CI_Model
                     p.is_confirmed AS confirm_status,
                     p.is_fake,
                     p. fake_description,
-                    
                     p.is_available_sale,
                     p.desired_amount,
                     p.min_amount,
@@ -211,19 +210,19 @@ class Prospects_model extends CI_Model
                     null AS source,
                     null AS deal,
                     null AS quality,
-                    p.is_auto_deliverable
-                FROM
-                    tblleadevo_prospects p
-                LEFT JOIN
-                    tblleadevo_prospect_statuses ps ON p.status_id = ps.id
-                LEFT JOIN
-                    tblleadevo_prospect_types pt ON p.type_id = pt.id   
-                LEFT JOIN
-                    tblleadevo_prospect_categories pc ON p.category_id = pc.id
-                LEFT JOIN
-                    tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
-                LEFT JOIN
-                    tblleadevo_industries i ON p.industry_id = i.id
+                    p.is_auto_deliverable,
+                    p.phone_normalize_attempt,
+                    p.email_normalize_attempt,
+                    nsp.name phone_normalize_status,
+                    nse.name email_normalize_status
+                FROM tblleadevo_prospects p
+                LEFT JOIN tblleadevo_prospect_statuses ps ON p.status_id = ps.id
+                LEFT JOIN tblleadevo_prospect_types pt ON p.type_id = pt.id   
+                LEFT JOIN tblleadevo_prospect_categories pc ON p.category_id = pc.id
+                LEFT JOIN tblleadevo_acquisition_channels ac ON p.acquisition_channel_id = ac.id
+                LEFT JOIN tblleadevo_industries i ON p.industry_id = i.id
+                LEFT JOIN tblleadevo_normalization_statuses nsp ON nsp.id = p.phone_normalize_status
+                LEFT JOIN tblleadevo_normalization_statuses nse ON nse.id = p.email_normalize_status
                 LEFT JOIN   
                     (SELECT r.*
                     FROM `tblleadevo_prospects_rating` r
@@ -322,7 +321,7 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1 
                     AND p.is_fake = 1";
-    
+
         // Apply filters if provided
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
@@ -363,31 +362,31 @@ class Prospects_model extends CI_Model
             else if ($quality == 4)
                 $sql .= " AND verified_staff = 1";
         }
-    
+
         return $this->db->query($sql)->result_array();
     }
     public function get_filtered_fake($filters)
-{
-    $this->db->from('prospects');
-    $this->db->where('is_fake', true);
+    {
+        $this->db->from('prospects');
+        $this->db->where('is_fake', true);
 
-    if (!empty($filters['name'])) {
-        $this->db->like('prospect_name', $filters['name']);
-    }
-    if (!empty($filters['status'])) {
-        $this->db->like('status', $filters['status']);
-    }
-    if (!empty($filters['type'])) {
-        $this->db->like('type', $filters['type']);
-    }
-    if (!empty($filters['category'])) {
-        $this->db->like('category', $filters['category']);
+        if (!empty($filters['name'])) {
+            $this->db->like('prospect_name', $filters['name']);
+        }
+        if (!empty($filters['status'])) {
+            $this->db->like('status', $filters['status']);
+        }
+        if (!empty($filters['type'])) {
+            $this->db->like('type', $filters['type']);
+        }
+        if (!empty($filters['category'])) {
+            $this->db->like('category', $filters['category']);
+        }
+
+        return $this->db->get()->result_array();
     }
 
-    return $this->db->get()->result_array();
-}
 
-    
 
     public function get_all_market_place($filter = [])
     {
@@ -704,7 +703,7 @@ class Prospects_model extends CI_Model
             'is_fake' => 0,
             'fake_report_date' => date('00-00-0 0:0:0'),
         ));
-    }  
+    }
 
     public function reject_prospect_report($campaign_id, $prospect_id, $description)
     {
@@ -1134,7 +1133,8 @@ class Prospects_model extends CI_Model
         $data['client_name'] = get_contact_full_name();
         $this->db->insert('tblleadevo_prospect_activity_log', $data);
     }
-    public function get_all_prospects_with_admin() {
+    public function get_all_prospects_with_admin()
+    {
         $this->db->select('p.*, s.firstname AS admin_firstname, s.lastname AS admin_lastname');
         $this->db->from('tblleadevo_prospects p');
         $this->db->join('tblstaff s', 'p.mark_fake_by = s.staffid', 'left');
