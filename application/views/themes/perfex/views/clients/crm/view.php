@@ -10,7 +10,14 @@
                         <th><?php echo _l('id'); ?></th>
                         <td><?= $link['id']; ?></td>
                     </tr>
-                   
+                    <tr>
+                        <th><?php echo _l('name'); ?></th>
+                        <td><?= $link['name']; ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo _l('description'); ?></th>
+                        <td><?= $link['description']; ?></td>
+                    </tr>
                     <tr>
                         <th><?php echo _l('link'); ?></th>
                         <td><?= $link['links']; ?></td>

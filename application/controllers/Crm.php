@@ -30,31 +30,40 @@ class Crm extends ClientsController
 
     // Create a new link
     public function create()
-{
-    $this->form_validation->set_rules('links', 'Link', 'trim|required');
-
-    if ($this->input->post() && $this->form_validation->run() !== false) {
-        $data = [
-            'links' => $this->input->post('links', true) ?? '' // Ensure non-null value
-        ];
-
-        $this->Misc_model->insert_crm_link($data);
-        redirect('crm');
-    } else {
-        $this->view('clients/crm/create');
-        $this->layout();
+    {
+        $this->form_validation->set_rules('links', 'Link', 'trim|required');
+        $this->form_validation->set_rules('name', 'Name', 'trim|required');
+        $this->form_validation->set_rules('description', 'Description', 'trim');
+    
+        if ($this->input->post() && $this->form_validation->run() !== false) {
+            $data = [
+                'links' => $this->input->post('links', true) ?? '', // Ensure non-null value
+                'name' => $this->input->post('name', true) ?? '', // Ensure non-null value
+                'description' => $this->input->post('description', true) ?? '' // Ensure non-null value
+            ];
+    
+            $this->Misc_model->insert_crm_link($data);
+            redirect('crm');
+        } else {
+            $this->view('clients/crm/create');
+            $this->layout();
+        }
     }
-}
+    
 
 
     // Edit an existing link
     public function edit($id)
 {
     $this->form_validation->set_rules('links', 'Link', 'trim|required');
+    $this->form_validation->set_rules('name', 'Name', 'trim|required');
+    $this->form_validation->set_rules('description', 'Description', 'trim');
 
     if ($this->input->post() && $this->form_validation->run() !== false) {
         $data = [
-            'links' => $this->input->post('links', true) ?? ''  // Ensure non-null value
+            'links' => $this->input->post('links', true) ?? '',  // Ensure non-null value
+            'name' => $this->input->post('name', true) ?? '',  // Ensure non-null value
+            'description' => $this->input->post('description', true) ?? ''  // Ensure non-null value
         ];
 
         $this->Misc_model->update_crm_link($id, $data);
@@ -71,6 +80,7 @@ class Crm extends ClientsController
         }
     }
 }
+
 
 // View the details of a link
 public function details($id)

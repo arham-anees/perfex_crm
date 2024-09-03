@@ -4041,6 +4041,7 @@ $lang['leadevo_zapier_webhook_details'] = "Webhook Details";
 $lang['leadevo_zapier_webhook_create'] = "Create Webhook";
 $lang['leadevo_zapier_webhook_edit'] = "Edit Webhook";
 $lang['back_to_list'] = "Back to list";
+$lang['leadevo_crm_new_link'] = "Create Link";
 $lang['leadevo_new_lead_report_reason'] = 'New Reason';
 $lang['leadevo_lead_report_hours'] = 'Report Hours';
 $lang['leadevo_update_report_reason_description'] = 'How many hours a client can report a prospect?';
