@@ -1586,5 +1586,34 @@ class Misc_model extends App_Model
         $query = $this->db->get('leadevo_zapier_config');
         return $query->row(); 
     }
-    
+       // Fetch all records from tblleadevo_crm_links
+    public function get_all_crm_links()
+    {
+        return $this->db->get('tblleadevo_crm_links')->result_array();
+    }
+
+    // Fetch a specific record by ID from tblleadevo_crm_links
+    public function get_crm_link_by_id($id)
+    {
+        return $this->db->get_where('tblleadevo_crm_links', ['id' => $id])->row_array();
+    }
+
+    // Insert a new record into tblleadevo_crm_links
+    public function insert_crm_link($data)
+    {
+        return $this->db->insert('tblleadevo_crm_links', $data);
+    }
+
+    // Update an existing record in tblleadevo_crm_links
+    public function update_crm_link($id, $data)
+    {
+        return $this->db->where('id', $id)->update('tblleadevo_crm_links', $data);
+    }
+
+    // Delete a record by ID from tblleadevo_crm_links
+    public function delete_crm_link($id)
+    {
+        return $this->db->delete('tblleadevo_crm_links', ['id' => $id]);
+    }
+
 }
