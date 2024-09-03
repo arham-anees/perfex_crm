@@ -1052,3 +1052,32 @@ if (!function_exists('prospect_activity')) {
     }
 }
 
+
+function isNormalizedPhoneNumber($phoneNumber)
+{
+    // Regular expression to match a normalized phone number
+    // ^\+ : starts with a '+'
+    // \d{1,3} : followed by 1 to 3 digits (country code)
+    // \d{4,14}$ : followed by 4 to 14 digits (local number)
+    $pattern = '/^\+\d{1,3}\d{4,14}$/';
+
+    // Check if the phone number matches the pattern
+    return preg_match($pattern, $phoneNumber) === 1;
+}
+function isValidEmail($email)
+{
+    // Regular expression to match a valid email address
+    $pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+
+    // Check if the email matches the pattern
+    if (preg_match($pattern, $email) !== 1) {
+        return false;
+    }
+
+    // Extract the domain from the email address
+    $domain = substr(strrchr($email, "@"), 1);
+
+    // Check if the domain has MX records
+    return checkdnsrr($domain, 'MX');
+}
+
