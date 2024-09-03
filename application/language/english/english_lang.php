@@ -4087,3 +4087,5 @@ $lang['leadevo_permission_settings'] = 'Modify Delivery Settings';
 $lang['leadevo_permission_campaign'] = 'Manage Campaigns';
 $lang['leadevo_permission_types'] = 'Manage Types';
 $lang['leadevo_invite_sent_successfully'] = 'Invitation sent successfully';
+$lang['leadevo_onboarding_finished_header'] = 'Thanks for completing onboarding steps';
+$lang['leadevo_onboarding_finished_content'] = 'Thanks for completing the onboarding steps. You can now use the application';
