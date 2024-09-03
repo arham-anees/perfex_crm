@@ -239,3 +239,6 @@
             max-width: none;
         }
     }
+    .step-container a{
+        word-break: break-all;
+    }
