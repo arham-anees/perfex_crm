@@ -21,15 +21,22 @@
                                 <?php echo _l('Filter By'); ?> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li>
+                                    <a href="<?php echo site_url('prospects/reported'); ?>"
+                                        class="<?php echo (!isset($_GET['filter']) || empty($_GET['filter']) ? 'active' : ''); ?>">
+                                        <?php echo _l('all'); ?>
+                                    </a>
+                                </li>
                                 <?php foreach ($status_options as $option): ?>
                                     <li>
                                         <a href="<?php echo site_url('prospects/reported?filter=' . urlencode($option['status'])); ?>"
-                                            class="<?php echo (isset($_GET['filter']) && $_GET['filter'] == $option['status'] ? 'active' : ''); ?>">
+                                            class="<?php echo (isset($_GET['filter']) && $_GET['filter'] == urlencode($option['status']) ? 'active' : ''); ?>">
                                             <?php echo htmlspecialchars($option['status']); ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
+
                         </div>
                     </form>
                 </div>
@@ -92,4 +99,3 @@
 <script>
     $('#reported-prospects').DataTable();
 </script>
-
