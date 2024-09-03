@@ -28,14 +28,14 @@ class Marketplace extends ClientsController
             // Retrieve filters from POST request
             $filter = array(
                 'industry_id' => $this->input->post('industry'),
-                'acquisition_id' => $this->input->post('acquisition'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
                 'price_range_from' => $this->input->post('price_range_start'),
                 'price_range_to' => $this->input->post('price_range_end'),
                 'generated_from' => $this->input->post('location_from'),
                 'generated_to' => $this->input->post('location_to'),
                 'deal' => $this->input->post('deal'),
                 'quality' => $this->input->post('quality'),
-                'zip_codes' => $this->input->post('zip_codes')
+                // 'zip_codes' => $this->input->post('zip_codes')
             );
 
             // Get filtered prospects
@@ -47,6 +47,7 @@ class Marketplace extends ClientsController
                 echo json_encode($prospects);
                 exit;
             } else {
+                
                 $data['prospects'] = $prospects;
             }
         } else {

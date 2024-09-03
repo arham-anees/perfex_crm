@@ -62,6 +62,7 @@
                                                 <tr>
                                                     <th><?php echo _l('Name'); ?></th>
                                                     <th><?php echo _l('Description'); ?></th>
+                                                    <th><?php echo _l('Status'); ?></th>
                                                     <th class="text-right"><?php echo _l('Actions'); ?></th>
                                                 </tr>
                                             </thead>
@@ -70,6 +71,7 @@
                                                     <tr>
                                                         <td><?php echo htmlspecialchars($source['name'] ?? ''); ?></td>
                                                         <td><?php echo htmlspecialchars($source['description'] ?? ''); ?></td>
+                                                        <td><?php echo $source['is_active']==1?'Active':'Inactive' ; ?></td>
                                                         <td class="text-right">
                                                             <a href="<?php echo admin_url('leadevo/Prospect_sources/edit/' . $source['id']); ?>"
                                                                 class="btn btn-default btn-icon">

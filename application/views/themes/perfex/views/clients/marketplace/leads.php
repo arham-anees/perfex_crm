@@ -395,12 +395,7 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
 
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="zip"><?php echo _l('Zip Codes'); ?></label>
-                                <input type="number" id="zip_code" name="zip" class="filter-input">
-                            </div>
-                        </div>
+                        
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>

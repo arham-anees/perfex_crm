@@ -7,6 +7,8 @@ class Prospect_sources extends AdminController
         parent::__construct();
         //load some models
         $this->load->model('leadevo/Prospect_sources_model');
+        $this->load->library('form_validation');
+
     }
 
     public function index()
@@ -41,15 +43,18 @@ class Prospect_sources extends AdminController
     public function add()
     {
         // log_message('error', 'prospectsource add() called');
-
+        $this->form_validation->set_rules('name','Name', 'required');
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-            ];
+            if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
 
-            $this->Prospect_sources_model->insert_prospect_source($data);
-            redirect('admin/prospect_sources');
+                $this->Prospect_sources_model->insert_prospect_source($data);
+                redirect('admin/leadevo/prospect_sources');
+            }
         } else {
             $this->load->view('admin/prospect_sources/add_prospect_source');
         }
@@ -58,19 +63,25 @@ class Prospect_sources extends AdminController
     // Edit a prospect source
     public function edit($id)
     {
+        $this->form_validation->set_rules('name','Name', 'required');
 
         if ($this->input->post()) {
-            $data = [
-                'name' => $this->input->post('name'),
-                'description' => $this->input->post('description'),
-            ];
+             if ($this->form_validation->run() !== false) {
+                $data = [
+                    'name' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'is_active' => $this->input->post('is_active'),
+                ];
 
-            if ($this->Prospect_sources_model->update_prospect_source($id, $data)) {
-                set_alert('success', 'Prospect Source updated successfully.');
-            } else {
-                set_alert('danger', 'Failed to update Prospect Source.');
+
+                if ($this->Prospect_sources_model->update_prospect_source($id, $data)) {
+                    set_alert('success', 'Prospect Source updated successfully.');
+                } else {
+                    set_alert('danger', 'Failed to update Prospect Source.');
+                }
+                // redirect('admin/leadevo/prospect_sources');
+                redirect(admin_url('leadevo/prospect_sources'));
             }
-            redirect('admin/prospect_sources');
         } else {
             $data['prospect_source'] = $this->Prospect_sources_model->get_prospect_source($id);
             $this->load->view('admin/prospect_sources/edit_prospect_source', $data);
@@ -86,7 +97,7 @@ class Prospect_sources extends AdminController
             set_alert('danger', 'Failed to delete Prospect Source.');
         }
 
-        redirect('admin/prospect_sources');
+        redirect('admin/leadevo/prospect_sources');
     }
 
     // public function get_prospet_sources_effectiveness()

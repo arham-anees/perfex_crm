@@ -36,6 +36,24 @@ $delivery_settings = get_option('delivery_settings')
 <script>
 
     document.addEventListener('DOMContentLoaded', function() {
+           // Function to toggle star fields visibility
+        function toggleStarFields() {
+            if ($('#y_opt_2_appointly_busy_times_enabled').is(':checked')) {
+                // Hide star fields when "No" is selected
+                $('[app-field-wrapper^="delivery_settings_"]').hide();
+            } else {
+                // Show star fields when "Yes" is selected
+                $('[app-field-wrapper^="delivery_settings_"]').show();
+            }
+        }
+
+        // Initially call the function to set correct visibility on page load
+        toggleStarFields();
+
+        // Attach change event to radio buttons
+        $('input[name="delivery_settings"]').on('change', function() {
+            toggleStarFields();
+        });
         $('#settings-form').on('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
 

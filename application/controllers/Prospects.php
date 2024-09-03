@@ -15,6 +15,7 @@ class Prospects extends ClientsController
         $this->load->model('Leads_model');
         $this->load->model('Misc_model');
         $this->load->library('form_validation');
+
         $this->load->model('leadevo/Reported_Prospects_model');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
@@ -33,11 +34,51 @@ class Prospects extends ClientsController
 
     public function index()
     {
-        $filter = $this->input->get('filter');
-        if ($filter)
-            $data['prospects'] = $this->Prospects_model->get_all_client($filter);
-        else
-            $data['prospects'] = $this->Prospects_model->get_all_client('');
+
+        if ($this->input->post()) {
+            // echo "<pre>";
+            // print_r($this->input->post());
+            // exit;
+            $search = array(
+                'industry_name' => $this->input->post('industry'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
+                'price_range_from' => $this->input->post('price_range_start'),
+                'price_range_to' => $this->input->post('price_range_end'),
+                'generated_from' => $this->input->post('start_date'),
+                'generated_to' => $this->input->post('end_date'),
+                'type' => $this->input->post('type'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+            $prospects = $this->Prospects_model->get_all_market_place($search);
+            if ($this->input->is_ajax_request()) {
+                // Return JSON response
+                echo json_encode($prospects);
+                exit;
+            } else {
+                // echo "<pre>";
+                // print_r($prospects);exit;
+                $data['prospects'] = $prospects;
+            }
+         }else {
+            // Get all prospects if no filter is applied
+            $data['prospects'] = $this->Prospects_model->get_all_market_place();
+        }
+
+        // $filter = $this->input->get('filter');
+        // if ($filter)
+        //     $data['prospects'] = $this->Prospects_model->get_all_client($filter);
+        // else
+        //     $data['prospects'] = $this->Prospects_model->get_all_client('');
+
+
+        
+        $data['acquisitions'] = $this->Acquisition_channels_model->get_all(array('is_active'=>1));
+        $data['types'] = $this->Prospect_types_model->get_all(array('is_active'=>1));
+        $data['industries'] = $this->Industries_model->get_all(array('is_active'=>1));
+        // $data['type'] = $this->->get_all();
+        // echo "<pre>";
+        // print_r($data['industries']);exit;
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();

@@ -17,12 +17,40 @@ class Campaigns_model extends CI_Model
         return $this->db->query($sql)->result();
         // return $this->db->get_where($this->table, ['is_active' => 1])->result();
     }
-    public function get_all_client()
+    public function get_all_client($filter=[])
     {
+
         $sql = "SELECT c.*, s.name status_name, i.status invoice_status, i.hash invoice_hash FROM `tblleadevo_campaign` c
                 LEFT JOIN tblleadevo_campaign_statuses s ON c.status_id = s.id
                 LEFT JOIN tblinvoices i ON c.invoice_id = i.id
                 WHERE c.is_active = 1 AND client_id = " . get_client_user_id() . "";
+           $conditions = [];
+        if (!empty($filter['industry_name'])) {
+            $conditions[] = "c.industry_name = '" . $this->db->escape_like_str($filter['industry_name']) . "'";
+        }
+        if (!empty($filter['acquisition_channel_id'])) {
+            $conditions[] = "c.acquisition_channel_id = " . (int)$filter['acquisition_channel_id'];
+        }
+        if (!empty($filter['budget_range_from'])) {
+            $conditions[] = "c.budget >= " . (float)$filter['budget_range_from'];
+        }
+        if (!empty($filter['budget_range_to'])) {
+            $conditions[] = "c.budget <= " . (float)$filter['budget_range_to'];
+        }
+        if (!empty($filter['generated_from'])) {
+            $conditions[] = "c.generated_date >= '" . $this->db->escape_str($filter['generated_from']) . "'";
+        }
+        if (!empty($filter['generated_to'])) {
+            $conditions[] = "c.generated_date <= '" . $this->db->escape_str($filter['generated_to']) . "'";
+        }
+
+        // Append filter conditions to the base query if any conditions are present
+        if (!empty($conditions)) {
+            $sql .= ' AND ' . implode(' AND ', $conditions);
+        }
+        // echo "<pre>";
+        // print_r($sql);
+        // exit;
         return $this->db->query($sql)->result();
     }
     public function get_active()

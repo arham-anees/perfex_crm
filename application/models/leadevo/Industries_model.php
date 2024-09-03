@@ -12,6 +12,7 @@ class Industries_model extends CI_Model
     // Get all industries
     public function get_all($filter=0)
     {
+        
         if(isset($filter['is_active']) && $filter["is_active"] != ""){
             $this->db->where('is_active', 1);
         }
@@ -28,6 +29,8 @@ class Industries_model extends CI_Model
     // Insert a new industry
     public function insert($data)
     {
+        // echo "<pre>";
+        // print_r($data);exit;
         return $this->db->insert($this->table, $data);
     }
 

@@ -19,7 +19,7 @@
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control"
-                                required><?php echo $campaign->description; ?></textarea>
+                                ><?php echo $campaign->description; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="start_date"><?php echo _l('Start Date'); ?></label>

@@ -29,6 +29,10 @@
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea id="description" name="description" class="form-control"><?php echo htmlspecialchars($video['description']??'N/A'); ?></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="video_order"><?php echo _l('video_order'); ?></label>
+                            <input type="number" id="video_order" name="video_order" class="form-control" value="<?php echo htmlspecialchars($video['video_order']??'N/A'); ?>">
+                        </div>
                         <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
                         <?php echo form_close(); ?>
                     </div>

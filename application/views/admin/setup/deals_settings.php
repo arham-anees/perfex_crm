@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-
+<style type="text/css">
+    
+</style>
 <!-- Include CSRF Token -->
 <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
     value="<?php echo $this->security->get_csrf_hash(); ?>">
@@ -21,7 +23,7 @@
 </div>
 <?php echo render_input('max_sell_times', _l('leadevo_deals_max_sell_time'), '', 'number') ?>
 <?php echo render_input('days_to_discount', _l('leadevo_deals_days_to_discount'), '', 'number') ?>
-<div class="form-group">
+<div class="form-group discount_type_show">
     <label for="delivery_settings" class="control-label clearfix">
         <?= _l('leadevo_deals_discount_type'); ?>
     </label>
@@ -42,6 +44,29 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
+
+
+            // Function to toggle visibility based on settings_status
+        function toggleFieldsBasedOnSettingsStatus() {
+            if ($('#y_opt_2_leadevo_settings').is(':checked')) {
+                // Hide related fields when "No" is selected
+                $('[app-field-wrapper="max_sell_times"], [app-field-wrapper="days_to_discount"], [app-field-wrapper="discount_amount"], [class="discount_type_show"]').hide();
+                $(".discount_type_show").hide();
+            } else {
+                // Show related fields when "Yes" is selected
+                $('[app-field-wrapper="max_sell_times"], [app-field-wrapper="days_to_discount"], [app-field-wrapper="discount_amount"], [class="discount_type_show"]').show();
+                $(".discount_type_show").show();
+
+            }
+        }
+
+        // Initially call the function to set correct visibility on page load
+        toggleFieldsBasedOnSettingsStatus();
+
+        // Attach change event to settings_status radio buttons
+        $('input[name="settings_status"]').on('change', function () {
+            toggleFieldsBasedOnSettingsStatus();
+        });
         $('#settings-form').on('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
 
@@ -66,6 +91,7 @@
                 data: data,
                 success: function (response) {
                     // Handle success response
+
                     console.log(response);
                      var res = JSON.parse(response);
         
@@ -90,11 +116,15 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        
+
+
         // Define the URL to fetch data from
         var endpointUrl = admin_url + 'leadevo/settings/get_deals_settings'; // Replace `admin_url` with your actual base URL
 
         // Function to fetch and populate data
         function fetchAndPopulateData() {
+
             $.ajax({
                 url: endpointUrl,
                 method: 'GET',
@@ -113,9 +143,15 @@
                         $('input[name="discount_type"][value="' + data.discount_type + '"]').prop('checked', true);
                         $('input[name="settings_status"][value="' + data.settings_status + '"]').prop('checked', true);
 
+                        if(data.settings_status==0){
+                             $('[app-field-wrapper="max_sell_times"], [app-field-wrapper="days_to_discount"], [app-field-wrapper="discount_amount"], [app-field-wrapper="discount_type"]').hide();
+                                $(".discount_type_show").hide();
 
+
+
+                        }
                     }
-
+                    toggleFieldsBasedOnSettingsStatus();
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', status, error);

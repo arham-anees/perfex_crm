@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
                             <textarea name="description" id="description" class="form-control"
-                                required><?php echo set_value('description', $type->description); ?></textarea>
+                                ><?php echo set_value('description', $type->description); ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="description" class="control-label clearfix"><?php echo _l('Status'); ?></label>

@@ -24,7 +24,7 @@ class Prospect_sources_model extends CI_Model
     //get all prospect sources
     public function get_prospect_sources($search = '')
     {
-        $this->db->select('id, name, description');
+        $this->db->select('id, name, description,is_active');
         $this->db->from($this->table);
 
         // Fetch prospect sources based on the search parameter
@@ -41,7 +41,7 @@ class Prospect_sources_model extends CI_Model
     // Get prospect source by ID
     public function get_prospect_source($id)
     {
-        $this->db->select('id, name, description');
+        $this->db->select('id, name, description,is_active');
         $this->db->from($this->table);
         $this->db->where('id', $id);
         $query = $this->db->get();

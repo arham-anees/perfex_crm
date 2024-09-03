@@ -148,6 +148,7 @@
     <div class="col-md-12">
     <div class="panel_s">
         <div class="panel-body">
+            
             <?php if (!empty($alerts)): ?>
                 <?php foreach ($alerts as $alert): ?>
                     <!-- Separate Card for Each Alert -->

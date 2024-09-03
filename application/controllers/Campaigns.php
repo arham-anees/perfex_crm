@@ -23,7 +23,28 @@ class Campaigns extends ClientsController
 
     public function index()
     {
-        $data['campaigns'] = $this->Campaigns_model->get_all_client();
+
+
+        if($this->input->post()){
+        //    echo "<pre>";
+        // print_r($this->input->post());
+        // exit;
+            $search = array(
+                'industry_name' => $this->input->post('industry'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
+                'budget_range_from' => $this->input->post('budget_range_start'),
+                'budget_range_to' => $this->input->post('budget_range_end'),
+                'generated_from' => $this->input->post('start_date'),
+                'generated_to' => $this->input->post('end_date'),
+                // 'type' => $this->input->post('type'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+            $data['campaigns'] = $this->Campaigns_model->get_all_client($search);
+        }else{
+
+        $data['campaigns'] = $this->Campaigns_model->get_all_client('');
+        }
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
