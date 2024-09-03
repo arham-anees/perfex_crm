@@ -73,7 +73,7 @@
             data,
             type: "POST",
             success: (res) => {
-                console.log(res);
+                console.log("===>",res, 'end');
                 try {
                     res = JSON.parse(res);
                     if (res.status == 'success') {
