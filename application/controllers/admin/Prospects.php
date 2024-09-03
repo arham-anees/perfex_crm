@@ -43,7 +43,16 @@ class Prospects extends AdminController
     }
     public function fake()
     {
-        $data['prospects'] = $this->Prospects_model->get_all_fake();
+        $filter = array();
+        if ($this->input->get('industry_id')) {
+            $filter['industry_id'] = $this->input->get('industry_id');
+        }
+        if ($this->input->get('acquisition_channel_id')) {
+            $filter['acquisition_channel_id'] = $this->input->get('acquisition_channel_id');
+        }
+        $data['prospects'] = $this->Prospects_model->get_all_fake($filter);
+        $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $this->load->view('admin/leadevo/prospects/fake', $data);
     }
 
