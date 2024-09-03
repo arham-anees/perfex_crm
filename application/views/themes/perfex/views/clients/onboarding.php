@@ -73,7 +73,8 @@
                                                     </div>
                                                     <p id="progress-text">
                                                         <?php echo $completed_step . '/' . count($steps); ?> actions
-                                                        completed</p>
+                                                        completed
+                                                    </p>
                                                     <ul id="progress-list" class="list-group">
                                                         <?php foreach ($steps as $step): ?>
                                                             <li class="list-group-item">
@@ -257,4 +258,45 @@
     }
 
 
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#invite-friend-form').on('submit', function (e) {
+            e.preventDefault();
+
+            let name = (e.target).querySelectorAll('input#name')[0].value;
+            let email = (e.target).querySelectorAll('input#email')[0].value;
+            let token = (e.target).querySelectorAll('input')[0].value;
+
+
+            $.ajax({
+                url: '<?= site_url('invite') ?>',
+                type: "POST",
+                data: {
+                    name,
+                    email,
+                    'csrf_token_name': token
+                },
+                success: (res) => {
+                    try {
+                        res = JSON.parse(res);
+                        if (res.status == 'success') {
+                            alert_float('success', res.message);
+                            $('#inviteFriendModal').modal('hide');
+                        } else {
+                            alert_float('error', 'Failed to send intivation. Please try again later');
+                        }
+                    }
+                    catch (e) {
+
+                        alert_float('error', e.message || 'Failed to send intivation. Please try again later');
+                    }
+                },
+                error: (e) => {
+                    alert_float('error', e.message || 'Failed to send intivation. Please try again later');
+                }
+            });
+        })
+    })
 </script>

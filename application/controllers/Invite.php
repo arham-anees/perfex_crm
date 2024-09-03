@@ -71,13 +71,13 @@ class Invite extends ClientsController
             // Send success response
             echo json_encode([
                 'status' => 'success',
-                'message' => _l('appointment_sent_successfully'),
+                'message' => _l('leadevo_invite_sent_successfully'),
             ]);
-            exit;
-        }
+        } else {
 
-        // Load the view
-        $this->view('clients/invite/invite_view');
-        $this->layout();
+            // Load the view
+            $this->view('clients/invite/invite_view');
+            $this->layout();
+        }
     }
 }
