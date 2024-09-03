@@ -283,7 +283,7 @@ class Prospects_model extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
-    public function get_all_fake()
+    public function get_all_fake($filter = array())
     {
         $sql = "SELECT 
                     p.id, 
@@ -321,10 +321,72 @@ class Prospects_model extends CI_Model
                     tblstaff s ON p.mark_fake_by = s.staffid  -- Join to get admin details
                 WHERE
                     p.is_active = 1 
-                    AND p.is_fake = 1";  // Ensure this is the correct column name for filtering fake prospects
+                    AND p.is_fake = 1";
+    
+        // Apply filters if provided
+        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+            $sql .= " AND industry_id = " . $filter["industry_id"];
+        }
+        if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
+            $sql .= " AND acquisition_channel_id = " . $filter["acquisition_channel_id"];
+        }
+        if (isset($filter["zip_codes"]) && !empty($filter["zip_codes"])) {
+            $sql .= " AND zip_code IN (" . implode(",", $filter["zip_codes"]) . ")";
+        }
+        if (isset($filter["generated_from"]) && $filter["generated_from"] != "") {
+            $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_from"] . "')";
+        }
+        if (isset($filter["generated_to"]) && $filter["generated_to"] != "") {
+            $sql .= " AND DATE(created_at) <= DATE('" . $filter["generated_to"] . "')";
+        }
+        if (isset($filter["deal"]) && $filter["deal"] != "") {
+            $deal = $filter["deal"];
+            if ($deal == 0)
+                $sql .= " AND exclusive_status = 0";
+            else if ($deal == 1)
+                $sql .= " AND nonexclusive_status = 1";
+        }
+        if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
+            $sql .= " AND price >= " . $filter["price_range_from"];
+        }
+        if (isset($filter["price_range_to"]) && $filter["price_range_to"] != "") {
+            $sql .= " AND price <= " . $filter["price_range_to"];
+        }
+        if (isset($filter["quality"]) && $filter["quality"] != "") {
+            $quality = $filter["quality"];
+            if ($quality == 1)
+                $sql .= " AND verified_coherence = 1";
+            else if ($quality == 2)
+                $sql .= " AND verified_whatsapp = 1";
+            else if ($quality == 3)
+                $sql .= " AND verified_sms = 1";
+            else if ($quality == 4)
+                $sql .= " AND verified_staff = 1";
+        }
     
         return $this->db->query($sql)->result_array();
     }
+    public function get_filtered_fake($filters)
+{
+    $this->db->from('prospects');
+    $this->db->where('is_fake', true);
+
+    if (!empty($filters['name'])) {
+        $this->db->like('prospect_name', $filters['name']);
+    }
+    if (!empty($filters['status'])) {
+        $this->db->like('status', $filters['status']);
+    }
+    if (!empty($filters['type'])) {
+        $this->db->like('type', $filters['type']);
+    }
+    if (!empty($filters['category'])) {
+        $this->db->like('category', $filters['category']);
+    }
+
+    return $this->db->get()->result_array();
+}
+
     
 
     public function get_all_market_place($filter = [])
