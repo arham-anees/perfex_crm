@@ -28,7 +28,64 @@ function displayStars($rating, $maxStars = 5)
 </style>
 <div id="wrapper">
     <div class="content">
+    <div class="row">
+                        <!-- Search Bar -->
+                        <div class="col-md-4">
+                            <!-- Optionally add a button or functionality here -->
+                        </div>
+
+                        <div class="col-md-8" style="display:flex;justify-content:end">
+                            <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <?php echo _l('Filter By Acquisition Channel'); ?> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li>
+                                            <a href="<?php echo admin_url('prospects/fake'); ?>"
+                                                class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == 'all' ? 'active' : ''); ?>">
+                                                <?php echo _l('all'); ?>
+                                            </a>
+                                        </li>
+                                        <?php foreach ($acquisition_channels as $channel): ?>
+                                            <li>
+                                                <a href="<?php echo admin_url('prospects/fake?acquisition_channel_id=' . $channel->id); ?>"
+                                                    class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == $channel->id ? 'active' : ''); ?>">
+                                                    <?php echo htmlspecialchars($channel->name); ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </form>
+
+                            <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <?php echo _l('Filter By Industry'); ?> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <li>
+                                            <a href="<?php echo admin_url('prospects/fake'); ?>"
+                                                class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == 'all' ? 'active' : ''); ?>">
+                                                <?php echo _l('all'); ?>
+                                            </a>
+                                        </li>
+                                        <?php foreach ($industries as $industry): ?>
+                                            <li>
+                                                <a href="<?php echo admin_url('prospects/fake?industry_id=' . $industry['id']); ?>"
+                                                    class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == $industry['id'] ? 'active' : ''); ?>">
+                                                    <?php echo htmlspecialchars($industry['name']); ?>
+                                                </a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
         <div class="row">
+            
             <div class="col-12">
                 <div class="panel_s">
                     <div class="panel-body">

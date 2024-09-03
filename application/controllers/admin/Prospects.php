@@ -27,6 +27,8 @@ class Prospects extends AdminController
         } else {
             $data['prospects'] = $this->Prospects_model->get_all('');
         }
+        $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $this->load->view('admin/leadevo/prospects/index', $data);
 
     }
