@@ -18,8 +18,8 @@
                 
                 <!-- Description Input -->
                 <div class="form-group">
-                    <label for="reject_description"><?= _l('leadevo_fake_description_label') ?></label>
-                    <textarea name="reject_description" id="reject_description" class="form-control" rows="4" required placeholder="<?= _l('leadevo_reject_prospect_description_placeholder') ?>"></textarea>
+                    <label for="feedback"><?= _l('leadevo_fake_description_label') ?></label>
+                    <textarea name="feedback"  class="form-control" rows="4" required placeholder="<?= _l('leadevo_reject_prospect_description_placeholder') ?>"></textarea>
                 </div>
 
                 <!-- Submit Button -->
@@ -43,7 +43,7 @@
             // get data 
             let id = $('#reject_prospect_modal input[name=id]').val();
             let campaign_id = $('#reject_prospect_modal input[name=campaign_id]').val();
-            let feedback = $('#reject_prospect_modal textarea[name=reject_description]').val();
+            let feedback = $('#reject_prospect_modal textarea[name=feedback]').val();
             
 
             $.ajax({
@@ -59,22 +59,22 @@
                         if (res.status == 'success') {
                             alert_float('success', res.message);
                             $('#reject_prospect_modal').modal('hide');
-                            // setTimeout(() => {
-                            //     window.location.reload();
-                            // }, 500);
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 500);
                             
                         }
                         else {
-                            alert_float('danger', 'Failed to put the prospect to marketplace');
+                            alert_float('danger', 'Failed to reject the prospect');
                         }
                     }
                     catch (e) {
-                        alert_float('danger', 'Failed to put the prospect to marketplace');
+                        alert_float('danger', 'Failed to reject the prospect');
 
                     }
                 },
                 error: (err) => {
-                    alert_float('danger', 'Failed to put the prospect to marketplace');
+                    alert_float('danger', 'Failed to reject the prospect');
                 }
             })
             return false;
