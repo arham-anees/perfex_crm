@@ -45,24 +45,32 @@
                                                             </div>
                                                         </div>
                                                     <?php endforeach; ?>
+                                                    <div class="step-container thank-you-content" style="display: none">
+                                                        <h5><?= _l('leadevo_onboarding_finished_header') ?></h5>
+                                                        <div class="step-content">
+                                                            <p><?php echo _l('leadevo_onboarding_finished_content'); ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <button id="complete-btn" class="btn btn-success btn-center"
+                                                        disabled>
+                                                        <i class="fa-solid fa-check tw-mr-1"></i>
+                                                        <?php echo _l('Complete and Continue'); ?>
+                                                    </button>
+                                                    <button id="finish-btn" class="btn btn-success btn-center"
+                                                        style="display: none;" onclick="finishOnboarding()" disabled>
+                                                        <i class="fa-solid fa-arrow-right tw-mr-1"></i>
+                                                        <?php echo _l('Finish Onboarding'); ?>
+                                                    </button>
                                                 </div>
-                                                <button id="complete-btn" class="btn btn-success btn-center" disabled
-                                                    onclick="completeStep()">
-                                                    <i class="fa-solid fa-check tw-mr-1"></i>
-                                                    <?php echo _l('Complete and Continue'); ?>
-                                                </button>
-                                                <button id="finish-btn" class="btn btn-success btn-center"
-                                                    style="display: none;" onclick="finishOnboarding()">
-                                                    <i class="fa-solid fa-arrow-right tw-mr-1"></i>
-                                                    <?php echo _l('Finish Onboarding'); ?>
-                                                </button>
                                             </div>
                                         </div>
                                         <!-- Right Side: Onboarding Progress -->
                                         <div class="col-md-4">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <p class="card-title"><?php echo _l('Onboarding Progress'); ?></p>
+                                                    <p class="card-title"><?php echo _l('Onboarding Progress'); ?>
+                                                    </p>
                                                     <div class="progress">
                                                         <div id="progress-bar" class="progress-bar" role="progressbar"
                                                             style="width: <?php echo ($completed_step / count($steps)) * 100; ?>%;"
@@ -73,7 +81,8 @@
                                                     </div>
                                                     <p id="progress-text">
                                                         <?php echo $completed_step . '/' . count($steps); ?> actions
-                                                        completed</p>
+                                                        completed
+                                                    </p>
                                                     <ul id="progress-list" class="list-group">
                                                         <?php foreach ($steps as $step): ?>
                                                             <li class="list-group-item">
@@ -187,15 +196,23 @@
         progressBar.textContent = Math.round(progressPercentage) + '%';
 
         // Handle video ended event
-        var video = document.querySelector('.step-' + (currentStep + 1) + '-content video');
-        if (video) {
-            video.addEventListener('ended', function () {
+        for (let i = 0; i < totalSteps; i++) {
+            let selector = '.step-' + (i + 1) + '-content video';
+            var video = document.querySelector(selector);
+            if (video) {
+                video.addEventListener('ended', function () {
+                    completeBtn.disabled = false;
+                    console.log(currentStep, totalSteps);
+                    if (currentStep == totalSteps) finishBtn.disabled = false;
+                    // completeStep();
+                });
+            } else {
                 completeBtn.disabled = false;
-                completeStep();
-            });
-        } else {
-            completeBtn.disabled = false;
+                if (currentStep == totalSteps) finishBtn.disabled = false;
+            }
         }
+
+        if ($('.step-' + (currentStep + 1) + '-content video').length) completeBtn.disabled = true;
 
         // Handle link click event
         var link = document.querySelector('.step-' + (currentStep + 1) + '-content a');
@@ -207,6 +224,10 @@
                 // Optionally open the link in a new tab after processing
                 window.open(link.href, '_blank');
             });
+        }
+
+        if (currentStep >= totalSteps) {
+            $('.thank-you-content').show();
         }
 
         completeBtn.addEventListener('click', function () {
@@ -224,6 +245,7 @@
                 if (currentStep < totalSteps) {
                     document.querySelector('.step-' + (currentStep) + '-content').style.display = 'none';
                     document.querySelector('.step-' + (currentStep + 1) + '-content').style.display = 'block';
+                    if ($('.step-' + (currentStep + 1) + '-content video').length) completeBtn.disabled = true;
                 }
                 updateProgressBar();
             });
@@ -242,19 +264,61 @@
                 progressBar.style.width = '100%';
                 progressBar.setAttribute('aria-valuenow', 100);
                 progressBar.textContent = '100%';
-                for (let i = 0; i < totalSteps; i++) {
-                    progressList[i].classList.remove('tick-inactive');
-                    progressList[i].classList.add('tick-completed');
-                    progressList[i].style.color = 'yellow'; // Change tick color to yellow
-                }
+                // display thank you content
+                $('.thank-you-content').show();
+            }
+            for (let i = 0; i < currentStep; i++) {
+                progressList[i].classList.remove('tick-inactive');
+                progressList[i].classList.add('tick-completed');
+                progressList[i].style.color = 'yellow'; // Change tick color to yellow
             }
         }
     });
 
     function finishOnboarding() {
-        alert('Congratulations! You have completed all the steps.');
-        window.location.href = '<?php echo site_url(); ?>';
+        completeStep();
     }
 
 
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#invite-friend-form').on('submit', function (e) {
+            e.preventDefault();
+
+            let name = (e.target).querySelectorAll('input#name')[0].value;
+            let email = (e.target).querySelectorAll('input#email')[0].value;
+            let token = (e.target).querySelectorAll('input')[0].value;
+
+
+            $.ajax({
+                url: '<?= site_url('invite') ?>',
+                type: "POST",
+                data: {
+                    name,
+                    email,
+                    'csrf_token_name': token
+                },
+                success: (res) => {
+                    try {
+                        res = JSON.parse(res);
+                        if (res.status == 'success') {
+                            alert_float('success', res.message);
+                            $('#inviteFriendModal').modal('hide');
+                        } else {
+                            alert_float('error', 'Failed to send intivation. Please try again later');
+                        }
+                    }
+                    catch (e) {
+
+                        alert_float('error', e.message || 'Failed to send intivation. Please try again later');
+                    }
+                },
+                error: (e) => {
+                    alert_float('error', e.message || 'Failed to send intivation. Please try again later');
+                }
+            });
+        })
+    })
 </script>

@@ -11,9 +11,10 @@ class Receive extends App_Controller
     public function index()
     {
         try {
-            $lead_str = $this->input->get('lead');
+            
+            $lead_str = $this->input->post('lead');
             if (!isset($lead_str)) {
-                throw new Exception('Lead data is missing');
+                throw new Exception('Lead data is missing in recieving end');
             }
             $lead_str = base64_decode($lead_str);
             if (isset($lead['id']))

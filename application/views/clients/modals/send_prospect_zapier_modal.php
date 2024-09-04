@@ -5,10 +5,10 @@
         <div id="confirm_zapier">
             <p><?= _l('leadevo_send_zapier_description') ?></p>
             <?php echo form_open('', ['id' => 'send_zapier_config']) ?>
+            <div class="form-group" id="radio-buttons"></div>
             <input type="submit" value="<?= _l('leadevo_send_via_api_button') ?>" class="btn btn-primary pull-right" />
             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
                 value="<?php echo $this->security->get_csrf_hash(); ?>">
-            <div class="form-group" id="radio-buttons"></div>
             <input type="hidden" name="webhook" />
             <input type="hidden" name="lead_data" value="">
             <?php echo form_close(); ?>
@@ -67,10 +67,11 @@
 
     }
 
+    // fetch zaper links from the database
     function fetchZapierData() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: site_url + 'zapier/fetch',
+                url: site_url + 'Zapier/fetch',
                 type: "GET",
                 success: (res) => resolve(JSON.parse(res)),
                 error: (err) => reject(err)
@@ -201,7 +202,7 @@
     });
 
     $('#send_zapier_config').on('submit', function (e) {
-    e.preventDefault();
-    fetchSelectedWebhook();
-});
+        e.preventDefault();
+        fetchSelectedWebhook();
+    });
 </script>

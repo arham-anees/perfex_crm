@@ -9,8 +9,10 @@
                     <div class="panel-body text-left">
                         <h4><?php echo _l('Add Prospect Source'); ?></h4>
                         <hr class="hr-panel-heading">
+
                         <?php echo validation_errors('<div class="alert alert-danger text-center">', '</div>'); ?>
-                        <?php echo form_open('', ['method' => 'POST']); ?>
+                        
+                        <?php echo form_open(admin_url('leadevo/Prospect_sources/add'), ['method' => 'POST']); ?>
                             <div class="form-group text-left">
                                 <label for="name"><?php echo _l('Name'); ?></label>
                                 <input type="text" name="name" class="form-control" id="name" value="<?php echo set_value('name'); ?>" required>
@@ -32,7 +34,7 @@
                             </div>
                             <div class="form-group text-left">
                                 <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
-                                <a href="<?php echo admin_url('Prospect_sources'); ?>" class="btn btn-info"><?php echo _l('Cancel'); ?></a>
+                                <a href="<?php echo admin_url('leadevo/Prospect_sources'); ?>" class="btn btn-info"><?php echo _l('Cancel'); ?></a>
                             </div>
                         </form>
                     </div>

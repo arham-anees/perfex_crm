@@ -51,7 +51,6 @@ class Prospect_sources extends AdminController
                     'description' => $this->input->post('description'),
                     'is_active' => $this->input->post('is_active'),
                 ];
-
                 $this->Prospect_sources_model->insert_prospect_source($data);
                 redirect('admin/leadevo/prospect_sources');
             }
@@ -82,6 +81,7 @@ class Prospect_sources extends AdminController
                 // redirect('admin/leadevo/prospect_sources');
                 redirect(admin_url('leadevo/prospect_sources'));
             }
+            redirect('admin/leadevo/prospect_sources');
         } else {
             $data['prospect_source'] = $this->Prospect_sources_model->get_prospect_source($id);
             $this->load->view('admin/prospect_sources/edit_prospect_source', $data);

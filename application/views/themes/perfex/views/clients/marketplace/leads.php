@@ -11,7 +11,6 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         font-weight: 500;
         color: rgba(0, 0, 0, 0.87);
     }
-
     .lead-description {
         font-size: 1rem;
         color: rgba(0, 0, 0, 0.87);
@@ -21,13 +20,31 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
     .lead_marketplace_video {
         border-radius: 20px;
     }
-
     .buttons {
         margin-top: 20px;
     }
+    .add-to-cart-button {
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    width: 150px;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column; /* Stack text vertically */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 10px; /* Space between price and button */
+}
 
-    .buy_lead_btn,
-    .learn_more_btn {
+.add-to-cart-button:disabled {
+    background-color: #c0c0c0; /* Gray color when disabled */
+    cursor: not-allowed;
+}
+    .buy_lead_btn, .learn_more_btn {
         cursor: pointer;
         font-weight: 500;
         font-size: 0.875rem;
@@ -37,43 +54,36 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         border-radius: 20px;
         margin-top: 10px;
     }
-
     .buy_lead_btn {
         background-color: rgb(255, 203, 3);
         color: rgb(0, 0, 0);
     }
-
     .learn_more_btn {
         border: 1px solid rgba(255, 203, 3, 0.5);
         color: rgb(0, 0, 0);
         background-color: rgb(255, 255, 255);
     }
-
-    .learn_more_btn:hover,
-    .buy_lead_btn:hover {
+    .learn_more_btn:hover, .buy_lead_btn:hover {
         box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
     }
-
     .video-card {
-        background-color: rgb(240, 240, 241);
-        color: rgba(0, 0, 0, 0.87);
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-        border-radius: 20px;
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-    }
+    background-color: rgb(240, 240, 241);
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+}
 
     .video-container {
         position: relative;
     }
-
     .video-container video {
         width: 100%;
         height: auto;
         border-radius: 20px;
     }
-
     .video-overlay {
         position: absolute;
         top: 0;
@@ -83,7 +93,6 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         background-color: rgba(128, 128, 128, 0.5);
         border-radius: 20px;
     }
-
     .video-container button {
         position: absolute;
         top: 50%;
@@ -97,27 +106,24 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         cursor: pointer;
         font-size: 2rem;
     }
-
     .video-container button:hover {
         background-color: rgba(0, 0, 0, 0.8);
     }
-
-    .filters {
-        background-color: rgb(255, 255, 255);
-        color: rgba(0, 0, 0, 0.87);
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
-        position: sticky;
-        z-index: 1;
-        top: 5%;
-        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 20px;
-        padding: 10px 16px 18px;
-        margin: 20px 0;
+    .filters  {
+    background-color: rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    position: sticky;
+    z-index: 1;
+    top: 5%;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    padding: 10px 16px 18px;
+    margin: 20px 0;
 
     }
 
-    .filter-group input,
-    .filter-group select {
+    .filter-group input, .filter-group select {
         width: 100%;
         padding: 5px;
         margin-top: 5px;
@@ -125,274 +131,264 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         border-radius: 5px;
     }
 
-    .lead-card {
-        display: flex;
-        background-color: rgb(240, 240, 241);
-        color: rgba(0, 0, 0, 0.87);
-        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-        border-radius: 20px;
-        overflow: hidden;
-        padding: 16px;
-        margin: 10px 0;
-    }
-
-    .fullscreenBtn {
+.lead-card {
+    display: flex;
+    background-color: #f1f5f9;
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 16px;
+    margin: 10px 0 0 40px;
+}
+.fullscreenBtn {
         padding: 5px 10px !important;
         font-size: 1.2rem !important;
-    }
+}
+.sticky{
+  
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-self: start;
+    position: sticky;
+    top: 160px;
+}
+.sticky-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.image-container {
+    margin-top: 20px;
+}
 
-    .sticky {
+.video-card {
+    background-color: rgb(240, 240, 241);
+    color: rgba(0, 0, 0, 0.87);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    border-radius: 20px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-self: start;
+    position: sticky;
+    top: 160px;
+}
+.lead-card img {
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 20px;
+    width: 262px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-        align-self: start;
-        position: sticky;
-        top: 160px;
-    }
+.info-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
 
-    .sticky-container {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
+.info-button {
+    font-size: 0.8125rem;
+    align-items: center;
+    height: 24px;
+    border: 1px solid rgb(189, 189, 189);
+    background-color: rgb(255, 255, 255);
+    color: rgba(0, 0, 0, 0.87);
+    display: inline-flex;
+  
 
-
-    }
-
-    .image-container {
-        margin-top: 20px;
-    }
-
-
-    .video-card {
-        background-color: rgb(240, 240, 241);
-        color: rgba(0, 0, 0, 0.87);
-        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-        border-radius: 20px;
-        padding: 6px;
-        display: flex;
-        flex-direction: column;
-        flex-shrink: 0;
-        align-self: start;
-        position: sticky;
-        top: 160px;
-    }
-
-    .lead-card img {
-        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-        border: 1px solid rgba(0, 0, 0, 0.12);
-        border-radius: 20px;
-        width: 262px;
-        height: 152px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .info-buttons {
-        display: flex;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .info-button {
-        font-size: 0.8125rem;
-        align-items: center;
-        height: 24px;
-        border: 1px solid rgb(189, 189, 189);
-        background-color: rgb(255, 255, 255);
-        color: rgba(0, 0, 0, 0.87);
-        display: inline-flex;
-
-
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
-        border-radius: 20px;
-
-        padding: 16px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    border-radius: 20px;
+  
+    padding: 16px;
+  
 
 
+}
+.verified {
+    color : green;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    
+}
 
-    }
+.details {
+  margin: -22px auto;
+  padding: 10px;
+}
 
-    .verified {
-        color: green;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .details {
-        margin: 0 auto;
-        padding: 10px;
-    }
-
-    #show-more,
-    #show-less {
-        cursor: pointer;
-        text-transform: uppercase;
-        color: grey;
-    }
+#show-more, #show-less {
+  cursor: pointer;
+  text-transform: uppercase;
+  color: grey;
+}
 
 
 
 
-    .lead-card-right {
-        padding-left: 20px;
-        width: 100%;
-    }
+.lead-card-right {
+    padding-left: 20px;
+    width: 100%;
+}
 
-    .title-favorite-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+.title-favorite-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    .lead-card-title {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: rgba(0, 0, 0, 0.87);
-    }
+.lead-card-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+}
 
-    .favorite-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: rgb(255, 203, 3);
-        font-size: 1.5rem;
-    }
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(255, 203, 3);
+    font-size: 1.5rem;
+}
 
-    .lead-card-description {
-        font-size: 0.9rem;
-        color: rgba(0, 0, 0, 0.87);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
+.lead-card-description {
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.87);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
-    ol {
-        margin-top: 0;
-        margin-bottom: 10px;
-        list-style: inside !important;
-    }
+ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+    list-style: inside !important;
+}
 
-    .lead-description li {
-        margin-bottom: 10px;
+.lead-description li {
+    margin-bottom: 10px;
 
-    }
+}
 
-    .lead-details-container {
-        display: none;
-        margin-top: 20px;
-    }
+.lead-details-container {
+    display: none;
+    margin-top: 20px;
+}
 
-    .toggle-details-btn {
-        margin-top: 10px;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        color: #000;
-        cursor: pointer;
-        font-weight: 500;
-    }
+.toggle-details-btn {
+    padding: 10px 15px;
+    border: none;
+    margin-top: 0;
+    border-radius: 5px;
+    color: #000;
+    cursor: pointer;
+    font-weight: 500;
+}
+/* .button-container {
+    
+} */
 
-    /* .button-container {
-    position: absolute;
-    top: 52%;
-    left: 72%;
-    } */
-
-    .button-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        /* Space between buttons */
-        justify-content: center;
-        /* Center vertically */
-        align-items: flex-end;
-        /* Align to the right */
-        margin-top: -132px;
-        /* Add some margin if needed */
-    }
+.buttonn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between buttons */
+    justify-content: center; /* Center vertically */
+    align-items: flex-end; /* Align to the right */
+    margin-top: -102px; /* Add some margin if needed */
+}
 
 
 
-    .lead-description.expanded {
-        white-space: normal;
-    }
+.lead-description.expanded {
+    white-space: normal;
+}
+.save_discount_btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin:4px;
+}
 
-    .save_discount_btn,
-    .regular_price_btn {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 2px 16px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 0.875rem;
-        margin: 4px;
-    }
+.save_discount_btn {
+    background-color: transparent;
+    color: black;
+}
 
-    .save_discount_btn {
-        background-color: rgb(255, 203, 3);
-        color: rgb(0, 0, 0);
-    }
+.regular_price_btn {
+    border: 1px solid rgba(255, 203, 3, 0.5);
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+}
 
-    .regular_price_btn {
-        border: 1px solid rgba(255, 203, 3, 0.5);
-        color: rgb(0, 0, 0);
-        background-color: rgb(255, 255, 255);
-    }
+.save_discount_btn:hover {
+    box-shadow: #0284C7;
+}
 
-    .save_discount_btn:hover,
-    .regular_price_btn:hover {
-        box-shadow: rgba(255, 203, 3, 0.5) 0px 5px 20px;
-    }
+.button-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 
-    .button-content {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
+.text-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
 
-    .text-container {
-        display: flex;
-        flex-direction: column;
-        margin-left: 10px;
-    }
+.bold-text {
+    font-weight: bold;
+}
 
-    .bold-text {
-        font-weight: bold;
-    }
-
-    .small-text {
-        font-size: 0.75rem;
-        margin-top: 2px;
-    }
+.small-text {
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+.lead-card-left{
+     width: 50%;
+}
 </style>
-<div class="row main_row">
-    <div class="col-md-12">
-        <div class="panel_s">
-            <div class="panel-body">
-                <!-- Marketplace Results Section -->
-                <!-- <div class="row">
-                    <div class="col-md-6">
-                        <p class="lead-title">
-                            <?php echo _l("Meet Industry's Most Advanced Real Estate Lead Marketplace"); ?>
-                        </p>
-                        <p class="lead-description">Buy and sell real-time, high-intent, geo-targeted real estate leads
-                            through the industry's largest and most advanced lead marketplace in the US!</p>
-                        <button class="btn buy_lead_btn"><?php echo _l('Buy Lead'); ?></button>
-                        <button class="btn learn_more_btn"><?php echo _l('Learn More'); ?></button>
-                    </div>
-                </div> -->
-                <form id="filterForm" action="marketplace/index" method="post">
-                    <?php $csrf = $this->security->get_csrf_hash(); ?>
 
+        <div class="row main_row">
+            <div class="col-md-12">
+                <div class="panel_s">
+                    <div class="panel-body">
+
+                        <!-- Marketplace Results Section -->
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                                <p class="lead-title"><?php echo _l("Meet Industry's Most Advanced Real Estate Lead Marketplace"); ?></p>
+                                <p class="lead-description">Buy and sell real-time, high-intent, geo-targeted real estate leads through the industry's largest and most advanced lead marketplace in the US!</p>
+                                <button class="btn buy_lead_btn"><?php echo _l('Buy Lead'); ?></button>
+                                <button class="btn learn_more_btn"><?php echo _l('Learn More'); ?></button>
+                            </div>
+                            <div class="col-md-6 text-right">
+    <div class="video-container">
+        <video id="marketplaceVideo" class="lead_marketplace_video" src="<?php echo base_url('/modules/leadevo/assets/videos/reb_dashboard_lead_marketplace.mp4'); ?>"></video>
+        <div class="video-overlay"></div>
+        <button id="fullscreenBtn" onClick="enterFullscreen()"><i class="fa fa-play"></i></button>
+    </div>
+</div>
+</div> 
+<br>-->
+                     <!-- Filters section -->
+                    <form id="filterForm" action="marketplace/index" method="post">
+                    <?php $csrf = $this->security->get_csrf_hash(); ?>
 
                     <div class="row">
                         
@@ -460,19 +456,7 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <!-- <button class="btn regular_price_btn">
-                                <div class="button-content">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <div class="text-container">
-                                        <span class="bold-text">$345-$563 Buy lead</span>
-                                        <span class="small-text">regular price</span>
-                                    </div>
-                                </div>
-                            </button> -->
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                value="<?php echo $this->security->get_csrf_hash(); ?>">
-                        </div>
+                      
 
                     </div>
                     <div style="height:20px">
@@ -480,168 +464,157 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
                     </div>
                 </form>
 
-                <hr />
-                <div class="table-responsive">
-                    <table class="table table-bordered dt-table nowrap" `id="prospectsTable" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th><?php echo _l('Metadata'); ?></th>
-                                <th><?php echo _l('Lead'); ?></th>
-                                <th><?php echo _l('Contact'); ?></th>
-                                <th><?php echo _l('Lead Type'); ?></th>
-                                <th><?php echo _l('Actions'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($prospects as $prospect): ?>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox"
-                                            id="select<?php echo isset($prospect['id']) ? $prospect['id'] : ''; ?>" />
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Prospect ID'); ?>:</strong>
-                                            <?php echo isset($prospect['id']) ? $prospect['id'] : '-'; ?><br>
-                                            <strong><?php echo _l('date'); ?>:</strong>
-                                            <?php echo isset($prospect['created_at'])
-                                                ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : '-'; ?><br />
-                                            <strong><?php echo _l('Industry'); ?>:</strong>
-                                            <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'Unknown'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong>Full name:</strong>
-                                            <?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?><br>
-                                            <strong><?php echo _l('Zip code'); ?>:</strong>
-                                            <?php echo isset($prospect['zip_code']) ? htmlspecialchars($prospect['zip_code']) : 'N/A'; ?>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <strong>Phone:</strong>
-                                        <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?><br>
-                                        <strong>Email:</strong>
-                                        <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <strong><?php echo _l('Source'); ?>:</strong>
-                                            <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?><br>
 
+                        <!-- Prospects Table Section -->
 
-                                            <div style="display:flex">
-                                                <strong><?php echo _l('Quality'); ?> : </strong>
-                                                <div>
-                                                    <?php echo ($prospect['verified_staff']) == 1 ? 'Verified by Staff' : ''; ?><br />
-                                                    <?php echo ($prospect['verified_whatsapp']) == 1 ? 'Verified by WhatsApp' : ''; ?><br />
-                                                    <?php echo ($prospect['verified_sms']) == 1 ? 'Verified by SMS' : ''; ?><br />
-                                                </div>
-                                            </div>
-                                            <?php if ($prospect['share_audio_before_purchase'] == 1) { ?>
-                                                <strong><?php echo _l('deal_audio'); ?>:</strong>
-                                                <?php if (isset($prospect['verified_staff_audio']) && !empty($prospect['verified_staff_audio'])): ?>
-                                                    <audio controls>
-                                                        <source
-                                                            src="<?php echo htmlspecialchars($prospect['verified_staff_audio']); ?>"
-                                                            type="audio/mpeg">
-                                                        Your browser does not support the audio element.
-                                                    </audio>
-                                                <?php else: ?>
-                                                    <p>No audio available</p>
-                                                <?php endif; ?>
-                                            <?php } ?>
-                                    </td>
-                                    <td class="text-center">
-                                        <?php
-                                        $is_discounted = false;
-                                        if ($is_deal_settings_applied == true) {
-                                            $dateString = $prospect['created_at'];
+                    
+                        <!-- Lead Card Section -->
+                        <div class="row">
+<!-- Existing Card  -->
+<div class="col-md-10">
+    <?php foreach ($prospects as $prospect): ?>
+        <div class="lead-card">
+            <div class="lead-card-left">
+            <h3><?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?></h3>
+            <ol>  <li><strong>Created at:</strong> <?php echo isset($prospect['created_at']) ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : 'N/A'; ?></li>  
+            <li><strong>Phone:</strong> <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?></li>
+                        <li><strong>Email:</strong> <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?></li>
+                     </ol>
 
-                                            // Create DateTime objects
-                                            $givenDate = new DateTime($dateString);
-                                            $currentDate = new DateTime(); // This will use the current date and time
-                                    
-                                            // Calculate the difference
-                                            $interval = $currentDate->diff($givenDate);
+            </div>
+            <div class="lead-card-right">
+                <div class="title-favorite-container">
+                    <hr class="line">
+                    <?php
+        $is_discounted = false;
+        if ($is_deal_settings_applied == true) {
+            $dateString = $prospect['created_at'];
+            $givenDate = new DateTime($dateString);
+            $currentDate = new DateTime();
+            $interval = $currentDate->diff($givenDate);
+            $days = $interval->days;
+            if ($days >= $days_to_discount) {
+                $is_discounted = true;
+            }
+        }
+        ?>
+        <span class="selling-price">
+        <i class='fas fa-tag'></i>
+        <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?></strong> <?php
 
-                                            // Extract total hours from the interval
-                                            $days = $interval->days;
-                                            if ($days >= $days_to_discount) {
-                                                $is_discounted = true;
-                                            }
-                                        }
-                                        ?>
-                                        <div class="align-items-center mbot5" style="display:flex">
-                                            <?php
-                                            $is_discounted = false;
-                                            if ($is_deal_settings_applied == true) {
-                                                $dateString = $prospect['created_at'];
-
-                                                // Create DateTime objects
-                                                $givenDate = new DateTime($dateString);
-                                                $currentDate = new DateTime(); // This will use the current date and time
-                                        
-                                                // Calculate the difference
-                                                $interval = $currentDate->diff($givenDate);
-
-                                                // Extract total hours from the interval
-                                                $days = $interval->days;
-                                                if ($days >= $days_to_discount) {
-                                                    $is_discounted = true;
-                                                }
-                                            }
-                                            ?>
-                                            <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?>:</strong>
-                                            <span class="align-items-center" style="display:flex"><?php
-                                            $discounted_price = ((float) $prospect['desired_amount']) ?? ((float) $prospect['min_amount']) ?? 0;
-                                            if ($discount_type == 1) {
-                                                //find percentage
-                                                $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
-                                            } else {
-                                                $discounted_price = $discounted_price - ($discount_value ?? 0);
-                                            }
-                                            echo $discounted_price;
-                                            if ($is_discounted) {
-                                                echo '<span class="material-symbols-outlined" style="font-size:20px; color:orange;">sell</span>'
-                                                    ?><br>
-                                                <?php } ?></span>
-                                        </div>
-                                        <?php echo form_open(('dashboard/add_to_cart'), ['id' => 'add-to-cart-form']); ?>
-                                        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>)" />
-                                        <input type="hidden" name="price" value="<?= $discounted_price ?>" />
-
-                                        <!-- Submit Button -->
-                                        <input type="submit" class="btn btn-primary" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to cart" />
-                                        <?php echo form_close(); ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+            $discounted_price = ((float) $prospect['desired_amount']) ?? ((float) $prospect['min_amount']) ?? 0;
+            if ($discount_type == 1) {
+                $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
+            } else {
+                $discounted_price = $discounted_price - ($discount_value ?? 0);
+            }
+            echo  $discounted_price;
+            if ($is_discounted) {
+                echo '<span class="material-symbols-outlined" style="font-size:20px; color:black;">sell</span>';
+            }
+            ?></span>
                 </div>
+                <div class="details">
+                    <ol>
+                         <p><b>Lead Details:</b></p>
+                        <li><strong>Industry:</strong> <?php echo isset($prospect['industry']) ? htmlspecialchars($prospect['industry']) : 'N/A'; ?></li>
+                            <li><strong>Acquisition Channel:</strong> <?php echo isset($prospect['acquisition_channel']) ? htmlspecialchars($prospect['acquisition_channel']) : 'N/A'; ?></li>
+                            <li><strong>Desired Amount:</strong> <?php echo isset($prospect['desired_amount']) ? htmlspecialchars($prospect['desired_amount']) : 'N/A'; ?></li>
+       
+                        </span>
+                    </ol>
+                    </div>
+                    <div class="buttonn-container">
+                        <button class="btn save_discount_btn">
+                            <div class="button-content">
+                               
+                                <div class="text-container">
+                                    <span class="bold-text"></span>
+                                    <div class="add-to-cart-container">
+        <?php
+        $is_discounted = false;
+        if ($is_deal_settings_applied == true) {
+            $dateString = $prospect['created_at'];
+            $givenDate = new DateTime($dateString);
+            $currentDate = new DateTime();
+            $interval = $currentDate->diff($givenDate);
+            $days = $interval->days;
+            if ($days >= $days_to_discount) {
+                $is_discounted = true;
+            }
+        }
+        ?>
+        <span class="selling-price">
+         <strong><?php //echo _l('leadevo_marketpalce_selling_price'); ?></strong> <?php
+            $discounted_price = ((float) $prospect['desired_amount']) ?? ((float) $prospect['min_amount']) ?? 0;
+            if ($discount_type == 1) {
+                $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
+            } else {
+                $discounted_price = $discounted_price - ($discount_value ?? 0);
+            }
+           // echo  $discounted_price;
+            if ($is_discounted) {
+                echo '<span class="material-symbols-outlined" style="font-size:20px; color:black;">sell</span>';
+            }
+            ?></span>
+        <?php echo form_open('dashboard/add_to_cart', ['id' => 'add-to-cart-form']); ?>
+        <input type="hidden" name="prospect_id" value="<?= $prospect['id'] ?>" />
+        <input type="hidden" name="price" value="<?= $discounted_price ?>" /> 
+        <input type="submit" class="btn btn-primary add-to-cart-button" <?= isset($prospect['is_in_cart']) && $prospect['is_in_cart'] == true ? 'disabled' : '' ?> value="Add to cart" />
+        <?php echo form_close(); ?>
+    </div>
+                                </div>
+                                
+                            </div>
+                        </button>
+                    </div>
+              
             </div>
         </div>
-    </div>
+    <?php endforeach; ?>
 </div>
 
+
+<!-- Duplicate Card -->
+
+<!-- 
+<div class="col-md-2 sticky">
+    <div class="sticky-container">
+                                <div class="video-card">
+                                <div class="video-container">
+                                <video  id="marketplaceVideo" class="lead_marketplace_video" src="<?php echo base_url('/modules/leadevo/assets/videos/request_a_custom_lead_generation_1.mp4'); ?>"></video>
+                                <div class="video-overlay"></div>
+                                <button id="fullscreenBtn" onClick="enterFullscreen()"><i class="fa fa-play"></i></button>
+                                </div>
+                                <button class="btn buy_lead_btn"><?php echo _l('Learn More'); ?></button>
+    </div>
+
+                            <div class="image-container">
+            <img src="<?php echo base_url('/modules/leadevo/assets/images/Chatbot.png'); ?>" alt="Sticky Image" class="sticky-image">
+        </div>
+
+</div>
+</div>   </div>
+-->
+                     
+
+</div>
 <script>
-    function enterFullscreen() {
-        var video = document.getElementById('marketplaceVideo');
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.mozRequestFullScreen) { /* Firefox */
-            video.mozRequestFullScreen();
-        } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-            video.webkitRequestFullscreen();
-        } else if (video.msRequestFullscreen) { /* IE/Edge */
-            video.msRequestFullscreen();
-        }
+function enterFullscreen() {
+    var video = document.getElementById('marketplaceVideo');
+    if (video.requestFullscreen) {
+        video.requestFullscreen();
+    } else if (video.mozRequestFullScreen) { /* Firefox */
+        video.mozRequestFullScreen();
+    } else if (video.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        video.webkitRequestFullscreen();
+    } else if (video.msRequestFullscreen) { /* IE/Edge */
+        video.msRequestFullscreen();
     }
+}
 
 
-    function showMoreDetails(button) {
+function showMoreDetails(button) {
         var details = button.closest('.details');
         var showMoreContent = details.querySelector('#show-more-content');
         var showLessButton = details.querySelector('#show-less');
@@ -660,12 +633,7 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         button.style.display = 'none';  // Hide "Show Less" button
         showMoreButton.style.display = 'inline';  // Show "Show More" button
     }
-
-
 </script>
-
-
-
 <!-- Include jQuery (ensure it's included before your script) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -696,7 +664,7 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
                                 <div>
                                     <strong><?php echo _l('Prospect ID'); ?>:</strong> ${prospect.id || 'N/A'}<br>
                                     <strong><?php echo _l('Generated date'); ?>:</strong> N/A<br>
-                                    <strong><?php echo _l('Industry'); ?>:</strong> ${prospect.industry || 'Unknown'}
+                                    <strong><?php echo _l('Industry'); ?>:</strong> ${prospect.industry || 'N/A'}
                                 </div>
                             </td>
                             <td>
@@ -711,7 +679,7 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
                             </td>
                             <td>
                                 <div>
-                                    <strong><?php echo _l('Source'); ?>:</strong> ${prospect.source || 'Unknown'}<br>
+                                    <strong><?php echo _l('Source'); ?>:</strong> ${prospect.source || 'N/A'}<br>
                                     <strong><?php echo _l('Deal'); ?>:</strong> ${prospect.deal || 'N/A'}<br>
                                     <strong><?php echo _l('Quality'); ?>:</strong> ${prospect.quality || 'N/A'}
                                        <strong><?php echo _l('Quality'); ?>:</strong> ${prospect.quality || 'N/A'}
@@ -748,4 +716,6 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
             }
         })
     }
+</script>
+
 </script>

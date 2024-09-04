@@ -1586,5 +1586,55 @@ class Misc_model extends App_Model
         $query = $this->db->get('leadevo_zapier_config');
         return $query->row(); 
     }
-    
+       // Fetch all records from tblleadevo_crm_links
+    public function get_all_crm_links($client_id)
+    {
+        $this->db->select('*');
+        $this->db->where('client_id', $client_id);
+        $this->db->where('is_active', 1);
+        return $this->db->get(db_prefix() . 'leadevo_crm_links')->result_array();
+    }
+
+    // Fetch a specific record by ID from tblleadevo_crm_links
+    public function get_crm_link_by_id($id)
+    {
+        return $this->db->get_where('tblleadevo_crm_links', ['id' => $id])->row_array();
+    }
+
+    // Insert a new record into tblleadevo_crm_links
+    public function insert_crm_link($client_id,$data)
+    {
+        $data['client_id'] = $client_id;
+        $this->db->insert(db_prefix() . "leadevo_crm_links", $data);
+        return true;
+    }
+
+    // Update an existing record in tblleadevo_crm_links
+    public function update_crm_link($id,$client_id, $data)
+    {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('id', $id);
+        $this->db->update(db_prefix() . "leadevo_crm_links", $data);
+        return true;
+    }
+
+    // Delete a record by ID from tblleadevo_crm_links
+    public function delete_crm_link($id)
+    {
+        return $this->db->delete('tblleadevo_crm_links', ['id' => $id]);
+    }
+
+    public function get_link_by_id($id)
+    {
+        $this->db->select('links'); 
+        $this->db->where('id', $id);
+        $this->db->where('is_active', 1);
+        $query = $this->db->get(db_prefix() . 'leadevo_crm_links');
+
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+        return null;
+    }
+
 }

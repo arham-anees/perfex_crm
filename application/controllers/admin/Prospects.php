@@ -27,6 +27,8 @@ class Prospects extends AdminController
         } else {
             $data['prospects'] = $this->Prospects_model->get_all('');
         }
+        $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $this->load->view('admin/leadevo/prospects/index', $data);
 
     }
@@ -43,7 +45,16 @@ class Prospects extends AdminController
     }
     public function fake()
     {
-        $data['prospects'] = $this->Prospects_model->get_all_fake();
+        $filter = array();
+        if ($this->input->get('industry_id')) {
+            $filter['industry_id'] = $this->input->get('industry_id');
+        }
+        if ($this->input->get('acquisition_channel_id')) {
+            $filter['acquisition_channel_id'] = $this->input->get('acquisition_channel_id');
+        }
+        $data['prospects'] = $this->Prospects_model->get_all_fake($filter);
+        $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
+        $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $this->load->view('admin/leadevo/prospects/fake', $data);
     }
 
@@ -347,6 +358,24 @@ class Prospects extends AdminController
             echo json_encode(['status' => 'error', 'message' => 'Invalid prospect ID']);
         }
     }
+
+    public function reject_prospect_reported() {
+        try {
+            if ($this->input->server('REQUEST_METHOD') == 'POST') {
+                $prospect_id = $this->input->post('id');
+                $campaign_id = $this->input->post('campaign_id');
+                $feedback = $this->input->post('feedback');
+                
+                $this->Prospects_model->reject_prospect_report($campaign_id, $prospect_id, $feedback);
+                echo json_encode(array('status' => 'success', 'message' => 'Prospect has been rejected'));
+            } else {
+                echo json_encode(array('status' => 'error', 'message' => 'Method not allowed'));
+            }
+        } catch (Exception $e) {
+            echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+        }
+    }
+    
 
 
 

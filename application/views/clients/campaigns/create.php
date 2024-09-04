@@ -228,6 +228,14 @@
                 this.classList.toggle('active');
             });
         });
+        
+
+    function validateCurrentStep() {
+        const step = steps[currentStep - 1];
+        const inputs = step.querySelectorAll('input, select');
+        const isValid = Array.from(inputs).every(input => input.value.trim() !== '');
+        nextBtn.disabled = !isValid;
+    }
 
         nextBtn.addEventListener('click', function () {
             if (currentStep != 4 && currentStep != 5)
@@ -235,6 +243,7 @@
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
+                validateCurrentStep();
             } else if (currentStep === totalSteps) {
                 // Finish button action
                 $('#create-campaign-form').submit();
@@ -247,6 +256,7 @@
         if (currentStep > 1) {
             currentStep--;
             showStep(currentStep);
+            validateCurrentStep();
         }
     });
         $('#createCampaignModal').on('shown.bs.modal', function () {
