@@ -10,7 +10,7 @@
                         <h4><?php echo _l('Add Prospect Source'); ?></h4>
                         <hr class="hr-panel-heading">
 
-                        <?php echo form_open(admin_url('Prospect_sources/add'), ['method' => 'POST']); ?>
+                        <?php echo form_open(admin_url('leadevo/Prospect_sources/add'), ['method' => 'POST']); ?>
                             <div class="form-group text-left">
                                 <label for="name"><?php echo _l('Name'); ?></label>
                                 <input type="text" name="name" class="form-control" id="name" value="<?php echo set_value('name'); ?>">

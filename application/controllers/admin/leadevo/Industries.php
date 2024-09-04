@@ -65,7 +65,7 @@ class Industries extends AdminController
         
         // Fetch the specific industry and categories to show in the edit form
         $data['industry'] = $this->industries_model->get($id);
-        $data['categories'] = $this->industry_categories_model->get_all();
+        $data['categories'] = $this->industry_categories_model->get_all('');
         $this->load->view('admin/setup/industries/industries_edit', $data);
     }
 

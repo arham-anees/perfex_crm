@@ -49,7 +49,7 @@ class Prospect_sources extends AdminController
             ];
 
             $this->Prospect_sources_model->insert_prospect_source($data);
-            redirect('admin/prospect_sources');
+            redirect('/admin/leadevo/prospect_sources');
         } else {
             $this->load->view('admin/prospect_sources/add_prospect_source');
         }
@@ -70,7 +70,7 @@ class Prospect_sources extends AdminController
             } else {
                 set_alert('danger', 'Failed to update Prospect Source.');
             }
-            redirect('admin/prospect_sources');
+            redirect('admin/leadevo/prospect_sources');
         } else {
             $data['prospect_source'] = $this->Prospect_sources_model->get_prospect_source($id);
             $this->load->view('admin/prospect_sources/edit_prospect_source', $data);
@@ -86,7 +86,7 @@ class Prospect_sources extends AdminController
             set_alert('danger', 'Failed to delete Prospect Source.');
         }
 
-        redirect('admin/prospect_sources');
+        redirect('admin/leadevo/prospect_sources');
     }
 
     // public function get_prospet_sources_effectiveness()
