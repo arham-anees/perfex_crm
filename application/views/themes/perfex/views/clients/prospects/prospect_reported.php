@@ -57,6 +57,7 @@
                                         <th><?php echo _l('Created At'); ?></th>
                                         <th><?php echo _l('Evidence'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
+                                        <th><?php echo _l('Feedback'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -83,6 +84,7 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td><?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?></td>
+                                            <td><?php echo htmlspecialchars($prospect['feedback'] ?? 'N/A'); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
