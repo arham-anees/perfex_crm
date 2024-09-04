@@ -257,7 +257,7 @@ class Payments_model extends App_Model
                 || ($subscription != false && $after_success == 'send_invoice_and_receipt')
                 || ($subscription != false && $after_success == 'send_invoice')
             ) {
-                $template_name        = 'invoice_payment_recorded_to_customer';
+                $template_name        = 'Invoice_payment_recorded_to_customer';
                 $pdfInvoiceAttachment = false;
                 $attachPaymentReceipt = true;
                 $emails_sent          = [];
@@ -555,7 +555,7 @@ class Payments_model extends App_Model
         // to get structure matching payment_pdf()
         $payment               = $this->get($id);
         $payment->invoice_data = $this->invoices_model->get($payment->invoiceid);
-        $template              = mail_template('invoice_payment_recorded_to_customer', (array) $contact, $payment->invoice_data, false, $id);
+        $template              = mail_template('Invoice_payment_recorded_to_customer', (array) $contact, $payment->invoice_data, false, $id);
         $template              = $this->_add_payment_mail_attachments_to_template($template, $payment);
 
         return $template->send();

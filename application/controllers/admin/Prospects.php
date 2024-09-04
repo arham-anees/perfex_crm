@@ -359,6 +359,24 @@ class Prospects extends AdminController
         }
     }
 
+    public function reject_prospect_reported() {
+        try {
+            if ($this->input->server('REQUEST_METHOD') == 'POST') {
+                $prospect_id = $this->input->post('id');
+                $campaign_id = $this->input->post('campaign_id');
+                $feedback = $this->input->post('feedback');
+                
+                $this->Prospects_model->reject_prospect_report($campaign_id, $prospect_id, $feedback);
+                echo json_encode(array('status' => 'success', 'message' => 'Prospect has been rejected'));
+            } else {
+                echo json_encode(array('status' => 'error', 'message' => 'Method not allowed'));
+            }
+        } catch (Exception $e) {
+            echo json_encode(array('status' => 'error', 'message' => $e->getMessage()));
+        }
+    }
+    
+
 
 
 }
