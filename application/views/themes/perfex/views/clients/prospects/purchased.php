@@ -119,12 +119,173 @@ function displayStars($rating, $maxStars = 5)
     .star.filled {
         color: orange;
     }
+    .filters {
+        background-color: rgb(255, 255, 255);
+        color: rgba(0, 0, 0, 0.87);
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+        position: sticky;
+        z-index: 1;
+        top: 5%;
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 20px;
+        padding: 10px 16px 18px;
+        margin: 20px 0;
+
+    }
+
+    .filter-group input,
+    .filter-group select {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .lead-card {
+        display: flex;
+        background-color: rgb(240, 240, 241);
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 16px;
+        margin: 10px 0;
+    }
+
+    .fullscreenBtn {
+        padding: 5px 10px !important;
+        font-size: 1.2rem !important;
+    }
+    ._buttons a {
+    margin-left: 0px !important;
+    /* padding: 0; */
+    margin-bottom: 10px;
+}
 </style>
 <div class="row">
     <div class="col-md-12">
         <div class="panel_s tw-mt-2 sm:tw-mt-4">
             <div class="panel-body">
+                <form id="filterForm" action="" method="post">
+                    <?php $csrf = $this->security->get_csrf_hash(); ?>
+                    <div class="row">
+                      <div class="col-md-4">
+                          <div class="filter-group">
+                              <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
+                              <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  value="<?= !empty($_POST['price_range_start']) ? $_POST['price_range_start']:''?>">
+                          </div>
+                      </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
+                                <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?= !empty($_POST['price_range_end']) ? $_POST['price_range_end']:''?>">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="start_date"><?php echo _l('From'); ?></label>
+                                <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date'])?date('d-m-Y', strtotime($_POST['start_date'])):''?>">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="end_date"><?php echo _l('To'); ?></label>
+                                <input type="date" id="end_date" name="end_date" class="form-control" value=" <?=!empty($this->input->post('end_date')) ? $this->input->post('end_date '):''?>">
+                            </div>
+                        </div>
 
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="type"><?php echo _l('Lead Source'); ?></label>
+                                <select id="type" name="lead_source" class="filter-input">
+                                  <option value="">Select Lead Source</option>
+                                  <?php foreach ($sources as $source): ?>
+                                    <option value="<?php echo $source['id']; ?>" <?=$this->input->post('lead_source')==$source['id'] ?'selected':''?>><?php echo $source['name']; ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="type"><?php echo _l('Status'); ?></label>
+                                <select id="type" name="status" class="filter-input">
+                                  <option value="">Select Status</option>
+                                  <?php foreach ($status as $statu): ?>
+                                    <option value="<?php echo $statu['id']; ?>" <?=$this->input->post('status')==$statu['id'] ?'selected':''?>><?php echo $statu['name']; ?>
+                                    </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="filter-group">
+                            <label for=" source"><?php echo _l('Source'); ?></label>
+                            <select id=" source" name="source" class="filter-input">
+                              <option value="">Select  Source</option>
+                              <option value="" <?=$this->input->post('source')!='1' ?'selected':''?>>Cart
+                              </option>
+                              <option value="1" <?=$this->input->post('source')=='1' ?'selected':''?>>Campaign
+                              </option>
+
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                        <div class="filter-group">
+                            <label for="email"><?php echo _l('Enail'); ?></label>
+                           <input type="text" id="email" name="email" class="filter-input"  value="<?= !empty($_POST['email']) ? $_POST['email']:''?>">
+                      </div>
+                  </div>
+                   <div class="col-md-4">
+                        <div class="filter-group">
+                            <label for="rating"><?php echo _l('Rating'); ?></label>
+                            <select id="rating" name="rating" class="filter-input">
+                              <option value="">Select rating</option>
+                              <option value="0" <?=$this->input->post('rating')=='0' ?'selected':''?>>0
+                              </option>
+                              <option value="1" <?=$this->input->post('rating')=='1' ?'selected':''?>>1
+                              </option> 
+                              <option value="2" <?=$this->input->post('rating')=='2' ?'selected':''?>>2
+                              </option>
+                             <option value="3" <?=$this->input->post('rating')=='3' ?'selected':''?>>3
+                              </option>
+                                <option value="4" <?=$this->input->post('rating')=='4' ?'selected':''?>>4
+                              </option>
+                               <option value="5" <?=$this->input->post('rating')=='5' ?'selected':''?>>5
+                              </option>
+                          </select>
+                      </div>
+                  </div>
+                </div>
+      <div class="row">
+
+        <div class="col-md-4">
+                    <!-- <button class="btn regular_price_btn">
+                        <div class="button-content">
+                            <i class="fa fa-shopping-cart"></i>
+                            <div class="text-container">
+                                <span class="bold-text">$345-$563 Buy lead</span>
+                                <span class="small-text">regular price</span>
+                            </div>
+                        </div>
+                    </button> -->
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                    value="<?php echo $this->security->get_csrf_hash(); ?>">
+                </div>
+
+
+                <div style="height:20px">
+                    <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
+                </div>
+            </form>
+                <hr class="hr-panel-heading" />
                 <a href="#" data-toggle="modal" data-target="#customers_bulk_action"
                     class="bulk-actions-btn table-btn hide"
                     data-table=".table-clients"><?php echo _l('bulk_actions'); ?></a>

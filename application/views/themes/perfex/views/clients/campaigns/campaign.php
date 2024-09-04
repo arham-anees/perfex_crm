@@ -339,27 +339,23 @@
         </div>
         <form id="filterForm" action="" method="post">
             <?php $csrf = $this->security->get_csrf_hash(); ?>
-
-
-            
-
             <div class="row">
               <div class="col-md-4">
-                    <div class="filter-group">
-                        <label for="budget_range_start"><?php echo _l('Budget Range start'); ?></label>
-                        <input type="text" id="budget_range_start" name="budget_range_start" class="filter-input"  value="<?= !empty($this->input->post('budget_range_start')) ? $this->input->post('budget_range_start '):'454'?>">
-                    </div>
+                  <div class="filter-group">
+                      <label for="budget_range_start"><?php echo _l('Budget Range start'); ?></label>
+                      <input type="text" id="budget_range_start" name="budget_range_start" class="filter-input"  value="<?= !empty($_POST['budget_range_start']) ? $_POST['budget_range_start']:''?>">
+                  </div>
                 </div>
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label for="budget_range_end"><?php echo _l('Budget Range end'); ?></label>
-                        <input type="text" id="budget_range_end" name="budget_range_end" class="filter-input" value="<?=!empty($this->input->post('budget_range_end')) ? $this->input->post('budget_range_end '):''?>">
+                        <input type="text" id="budget_range_end" name="budget_range_end" class="filter-input" value="<?= !empty($_POST['budget_range_end']) ? $_POST['budget_range_end']:''?>">
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label for="start_date"><?php echo _l('From'); ?></label>
-                        <input type="date" id="start_date" name="start_date" class="form-control" value=" <?=!empty($this->input->post('start_date')) ? $this->input->post('start_date '):''?>">
+                        <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date'])?date('d-m-Y', strtotime($_POST['start_date'])):''?>">
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -371,9 +367,10 @@
                 <div class="col-md-4">
                     <div class="filter-group">
                         <label for="type"><?php echo _l('Status'); ?></label>
-                        <select id="type" name="type" class="filter-input">
-                           <?php foreach ($types as $type): ?>
-                                <option value="<?php echo $type->name; ?>" <?=$this->input->post('type')==$type->name ?'selected':''?>><?php echo $type->name; ?>
+                        <select id="type" name="status" class="filter-input">
+                          <option value="">Select Status</option>
+                           <?php foreach ($statuses as $status): ?>
+                                <option value="<?php echo $status->name; ?>" <?=$this->input->post('status')==$status->name ?'selected':''?>><?php echo $status->name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -383,11 +380,11 @@
                     <div class="filter-group">
                         <label for="deal"><?php echo _l('Deal'); ?></label>
                         <select id="deal" name="deal" class="filter-input">
-                            
-                                <option value="1" <?=$this->input->post('deal')==1 ?'selected':''?>>Exclusive
-                                </option>
-                                  <option value="0" <?=$this->input->post('deal')==1 ?'selected':''?>>Non-Exclusive
-                                </option>
+                          <option value="">Select Deal</option>
+                              <option value="1" <?=$this->input->post('deal')=='1' ?'selected':''?>>Exclusive
+                              </option>
+                                <option value="0" <?=$this->input->post('deal')=='0' ?'selected':''?>>Non-Exclusive
+                              </option>
                            
                         </select>
                     </div>

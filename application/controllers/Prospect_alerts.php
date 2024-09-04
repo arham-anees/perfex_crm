@@ -7,7 +7,8 @@ class Prospect_alerts extends ClientsController
         parent::__construct();
         $this->load->model('leadevo/Prospect_alerts_model');
         
-      
+        $this->load->model('leadevo/Industries_model');
+        
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
@@ -31,16 +32,36 @@ class Prospect_alerts extends ClientsController
         } elseif ($filter == 'inactive') {
             $conditions['status'] = 0;
         }
-    
-        // Fetch alerts
-        $data['alerts'] = $this->Prospect_alerts_model->get_all($conditions);
+        if($this->input->post()){
+        
+            $search = array(
+                'industry_name' => $this->input->post('industry'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
+                'status' => $this->input->post('status'),
+                'deal' => $this->input->post('deal'),
+                'name' => $this->input->post('name'),
+                'email' => $this->input->post('email'),
+                'phone_no' => $this->input->post('phone_no'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+        //        echo "<pre>";
+        // print_r($search);
+        // exit;
+            $data['alerts'] = $this->Prospect_alerts_model->get_all($search);
+        }else{
+            // Fetch alerts
+
+            $data['alerts'] = $this->Prospect_alerts_model->get_all($conditions);
+        }
         
         // Fetch industries for other purposes if needed
-        $data['industries'] = $this->Prospect_alerts_model->get_all_industries();
+        $data['industries'] = $this->Industries_model->get_all('');
     
         // Fetch acquisition channels if needed
         $data['acquisition_channels'] = $this->Prospect_alerts_model->get_all_acquisition_channels();
-    
+        // echo "<pre>";
+        // print_r($data['alerts']);exit;
         // Passing data to the view
         $this->data($data);
         $this->view('clients/prospect_alerts/prospect_alerts');

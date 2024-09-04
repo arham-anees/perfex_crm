@@ -8,6 +8,7 @@ class Campaigns extends ClientsController
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
         $this->load->model('Client_invoices_model');
+        $this->load->model('leadevo/campaign_statuses_model');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
@@ -23,12 +24,12 @@ class Campaigns extends ClientsController
 
     public function index()
     {
-
-
-        if($this->input->post()){
         //    echo "<pre>";
         // print_r($this->input->post());
         // exit;
+
+        if($this->input->post()){
+        
             $search = array(
                 'industry_name' => $this->input->post('industry'),
                 'acquisition_channel_id' => $this->input->post('acquisition'),
@@ -36,15 +37,20 @@ class Campaigns extends ClientsController
                 'budget_range_to' => $this->input->post('budget_range_end'),
                 'generated_from' => $this->input->post('start_date'),
                 'generated_to' => $this->input->post('end_date'),
-                // 'type' => $this->input->post('type'),
+                'status' => $this->input->post('status'),
+                'deal' => $this->input->post('deal'),
                 
                 // 'zip_codes' => $this->input->post('zip_codes')
             );
+            //    echo "<pre>";
+        // print_r($this->input->post());
+        // exit;
             $data['campaigns'] = $this->Campaigns_model->get_all_client($search);
         }else{
 
         $data['campaigns'] = $this->Campaigns_model->get_all_client('');
         }
+        $data['statuses'] = $this->campaign_statuses_model->get_all('');
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 

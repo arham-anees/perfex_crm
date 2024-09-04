@@ -1722,9 +1722,9 @@ class Clients_model extends App_Model
         return $this->db->get(db_prefix() . 'contacts')->result_array();
     }
 
-    public function get_purchased()
-    {
-        $sql = "SELECT 
+    public function get_purchased($filters = array())
+{
+    $sql = "SELECT 
                 l.*, 
                 s.name AS source_name, 
                 ls.name AS status_name,
@@ -1750,10 +1750,44 @@ class Clients_model extends App_Model
                         GROUP BY lead_id
                     ) AS latest_ratings ON r.lead_id = latest_ratings.lead_id
                     AND r.rated_at = latest_ratings.max_rated_at) r ON r.lead_id = l.id
-            WHERE i.status = 2 AND ll.client_id = " . get_client_user_id() . "
-            ORDER BY `dateadded` DESC";
-        return $this->db->query($sql)->result();
+            WHERE i.status = 2 AND ll.client_id = " . get_client_user_id();
+
+    // Apply filters dynamically
+    if (!empty($filters)) {
+        if (!empty($filters['lead_source'])) {
+            $sql .= " AND l.source = " . $this->db->escape($filters['lead_source']);
+        }
+        if (!empty($filters['source'])) {
+            $sql .= " AND s.name LIKE '%" . $this->db->escape_like_str($filters['source']) . "%'";
+        }
+        if (!empty($filters['price_range_from'])) {
+            $sql .= " AND ll.price >= " . $this->db->escape($filters['price_range_from']);
+        }
+        if (!empty($filters['price_range_to'])) {
+            $sql .= " AND ll.price <= " . $this->db->escape($filters['price_range_to']);
+        }
+        if (!empty($filters['generated_from'])) {
+            $sql .= " AND l.dateadded >= " . $this->db->escape($filters['generated_from']);
+        }
+        if (!empty($filters['generated_to'])) {
+            $sql .= " AND l.dateadded <= " . $this->db->escape($filters['generated_to']);
+        }
+        if (!empty($filters['status'])) {
+            $sql .= " AND l.status = " . $this->db->escape($filters['status']);
+        }
+        if (!empty($filters['rating'])) {
+            $sql .= " AND r.rating = " . $this->db->escape($filters['rating']);
+        }
+        if (!empty($filters['email'])) {
+            $sql .= " AND l.email LIKE '%" . $this->db->escape_like_str($filters['email']) . "%'";
+        }
     }
+
+    $sql .= " ORDER BY `dateadded` DESC";
+
+    return $this->db->query($sql)->result();
+}
+
 
     /**
      * Get All prospects sold via marketplace or campaign

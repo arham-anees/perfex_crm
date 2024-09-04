@@ -58,33 +58,7 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="col-md-8" style="display:flex;justify-content:end">
-                    <form method="GET" action="<?php echo site_url('prospects'); ?>" style="margin-right: 10px;">
-                        <div class="input-group" style="width:200px">
-                            <input type="text" name="search" class="form-control"
-                                placeholder="<?php echo _l('Search Prospects'); ?>"
-                                value="<?php echo isset($search) ? $search : ''; ?>">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </form>
-                    <form method="GET" action="<?php echo site_url('prospects'); ?>">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <?php echo _l('Filter By'); ?> <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li><a href="<?php echo site_url('prospects?filter=active'); ?>"><?php echo _l('Active Prospects'); ?></a>
-                                </li>
-                                <li><a href="<?php echo site_url('prospects?filter=inactive'); ?>"><?php echo _l('Inactive Prospects'); ?></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
+                
             </div>
         </div>
 
@@ -102,6 +76,7 @@
                                 <div class="filter-group">
                                     <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
                                     <select id="acquisition" name="acquisition" class="filter-input">
+                                        <option value="">Select Acquisition Channel</option>
                                         <?php foreach ($acquisitions as $acquisition): ?>
                                             <option value="<?php echo $acquisition->id; ?>" <?=$this->input->post('acquisition')==$acquisition->id ?'selected':''?>><?php echo $acquisition->name; ?>
                                             </option>
@@ -112,7 +87,7 @@
                             <div class="col-md-4">
                                 <div class="filter-group">
                                     <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
-                                    <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  <?=!empty($this->input->post('price_range_start')) ? $this->input->post('price_range_start '):''?>>
+                                    <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  value="<?=!empty($this->input->post('price_range_start')) ? $this->input->post('price_range_start'):''?>">
                                 </div>
                             </div>
 
@@ -122,7 +97,7 @@
                             <div class="col-md-4">
                                 <div class="filter-group">
                                     <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
-                                    <input type="text" id="price_range_end" name="price_range_end" class="filter-input" <?=!empty($this->input->post('price_range_end')) ? $this->input->post('price_range_end '):''?>>
+                                    <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?=!empty($this->input->post('price_range_end')) ? $this->input->post('price_range_end'):''?>">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -144,6 +119,7 @@
                                 <div class="filter-group">
                                     <label for="type"><?php echo _l('Type'); ?></label>
                                     <select id="type" name="type" class="filter-input">
+                                        <option value="">Select Type</option>
                                        <?php foreach ($types as $type): ?>
                                             <option value="<?php echo $type->name; ?>" <?=$this->input->post('type')==$type->name ?'selected':''?>><?php echo $type->name; ?>
                                             </option>
@@ -155,6 +131,7 @@
                                 <div class="filter-group">
                                     <label for="industry"><?php echo _l('Industry'); ?></label>
                                     <select id="industry" name="industry" class="filter-input">
+                                        <option value="">Select Industry</option>
                                         <?php foreach ($industries as $industrie): ?>
                                             <option value="<?php echo $industrie['name']; ?>" <?=$this->input->post('industry_name')==$industrie['name'] ?'selected':''?>><?php echo $industrie['name']; ?>
                                             </option>

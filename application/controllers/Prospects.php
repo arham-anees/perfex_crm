@@ -110,28 +110,53 @@ class Prospects extends ClientsController
         $data['groups'] = $this->clients_model->get_groups();
         $data['title'] = _l('clients');
 
+        if($this->input->post()){
+        
+            $search = array(
+                'lead_source' => $this->input->post('lead_source'),
+                'source' => $this->input->post('source'),
+                'price_range_from' => $this->input->post('price_range_start'),
+                'price_range_to' => $this->input->post('price_range_end'),
+                'generated_from' => $this->input->post('start_date'),
+                'generated_to' => $this->input->post('end_date'),
+                'status' => $this->input->post('status'),
+                'rating' => $this->input->post('rating'),
+                'email' => $this->input->post('email'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+               
+            $data['table'] = $this->clients_model->get_purchased($search);
+        }else{
+            
+            $data['table'] = $this->clients_model->get_purchased();
+            
+        }
         $this->load->model('proposals_model');
-        $data['proposal_statuses'] = $this->proposals_model->get_statuses();
+            $data['sources']  = $this->Leads_model->get_source();
+            $data['status']  = $this->Leads_model->get_status();
+            $data['proposal_statuses'] = $this->proposals_model->get_statuses();
 
-        $this->load->model('invoices_model');
-        $data['invoice_statuses'] = $this->invoices_model->get_statuses();
+            $this->load->model('invoices_model');
+            $data['invoice_statuses'] = $this->invoices_model->get_statuses();
 
-        $this->load->model('estimates_model');
-        $data['estimate_statuses'] = $this->estimates_model->get_statuses();
+            $this->load->model('estimates_model');
+            $data['estimate_statuses'] = $this->estimates_model->get_statuses();
 
-        $this->load->model('projects_model');
-        $data['project_statuses'] = $this->projects_model->get_project_statuses();
+            $this->load->model('projects_model');
+            $data['project_statuses'] = $this->projects_model->get_project_statuses();
 
-        $data['customer_admins'] = $this->clients_model->get_customers_admin_unique_ids();
+            $data['customer_admins'] = $this->clients_model->get_customers_admin_unique_ids();
 
-        $whereContactsLoggedIn = '';
+            $whereContactsLoggedIn = '';
 
 
-        $data['contacts_logged_in_today'] = $this->clients_model->get_contacts('', 'last_login LIKE "' . date('Y-m-d') . '%"' . $whereContactsLoggedIn);
+            $data['contacts_logged_in_today'] = $this->clients_model->get_contacts('', 'last_login LIKE "' . date('Y-m-d') . '%"' . $whereContactsLoggedIn);
 
-        $data['countries'] = $this->clients_model->get_clients_distinct_countries();
-        $data['table'] = $this->clients_model->get_purchased();
-        $data['reasons'] = $this->Prospects_model->get_Reasons();
+            $data['countries'] = $this->clients_model->get_clients_distinct_countries();
+            $data['reasons'] = $this->Prospects_model->get_Reasons();
+        // echo "<pre>";
+        // print_r($data['sources']);exit;
         $this->data($data);
 
         $this->view('clients/prospects/purchased');
@@ -255,25 +280,42 @@ class Prospects extends ClientsController
     
         // Fetch status options for the dropdown
         $status_options = $this->Reported_Prospects_model->get_status_options();
-    
-        // Fetch all prospects based on the filter
-        if ($filter) {
-            // If a filter is provided, fetch prospects based on the filter
-            $reported_prospects = $this->Reported_Prospects_model->get_all_by_filter($filter);
-        } else {
-            // If no filter is provided, fetch all prospects
+         if($this->input->post()){
+        
+            $search = array(
+                'start_date' => $this->input->post('start_date'),
+                'end_date' => $this->input->post('end_date'),
+                'status' => $this->input->post('status'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+        //        echo "<pre>";
+        // print_r($search);
+        // exit;
+            $reported_prospects = $this->Reported_Prospects_model->get_all_by_filter($search);
+        }else{
+            // Fetch alerts
+
             $reported_prospects = $this->Reported_Prospects_model->get_all();
         }
+        // Fetch all prospects based on the filter
+        // if ($filter) {
+        //     // If a filter is provided, fetch prospects based on the filter
+        //     $reported_prospects = $this->Reported_Prospects_model->get_all_by_filter($filter);
+        // } else {
+        //     // If no filter is provided, fetch all prospects
+        //     $reported_prospects = $this->Reported_Prospects_model->get_all();
+        // }
     
         // Add the status name to each prospect
-        foreach ($reported_prospects as &$prospect) {
-            $prospect['status_name'] = $this->Reported_Prospects_model->get_status_name_by_id($prospect['status']);
-        }
-    
+       
+
         // Prepare data for the view
         $data['reported_prospects'] = $reported_prospects;
         $data['status_options'] = $status_options;
-    
+        // echo "<pre>";
+        // print_r($data['status_options']);
+        // exit;
         // Load the view
         $this->data($data);
         $this->view('clients/prospects/prospect_reported');
