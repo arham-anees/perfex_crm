@@ -122,17 +122,18 @@ class Zapier extends ClientsController
             echo json_encode(['status' => 'error', 'message' => 'Webhook not found']);
         }
     }
-public function details($id) {
-   
-    $data['webhook'] = $this->Misc_model->get_webhook_id($id);
-    
-    // Load the view and pass the data
-    $this->data($data);
-    $this->view('clients/zapier/view');
+    public function details($id)
+    {
 
-    $this->layout();
-}
-   
+        $data['webhook'] = $this->Misc_model->get_webhook_id($id);
+
+        // Load the view and pass the data
+        $this->data($data);
+        $this->view('clients/zapier/view');
+
+        $this->layout();
+    }
+
     public function delete($id)
     {
         $data = ['is_active' => 0];
