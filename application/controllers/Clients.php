@@ -21,6 +21,7 @@ class Clients extends ClientsController
         $this->load->model('leadevo/Stats_model');
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Reported_Prospects_model');
+        $this->load->model('leadevo/Industries_model');
         $this->load->model('Misc_model');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
@@ -34,7 +35,10 @@ class Clients extends ClientsController
     {
         $data['campaigns'] = $this->Campaigns_model->get_all_client();
         $data['dashboard_stats'] = $this->Stats_model->client_dashboard();
+        $data['industries'] = $this->Industries_model->get_all();
         $data['prospects'] = $this->Prospects_model->get_all_client('');
+        $data['countries'] = $this->Campaigns_model->get_all_countries();
+
         $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_client();
         // $this->load->view('clients/dashboard/dashboard', $data);
         // $data['is_home'] = true;
