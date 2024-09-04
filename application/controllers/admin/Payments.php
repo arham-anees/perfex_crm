@@ -103,7 +103,7 @@ class Payments extends AdminController
 
         $this->load->model('invoices_model');
         $payment->invoice = $this->invoices_model->get($payment->invoiceid);
-        $template_name    = 'invoice_payment_recorded_to_customer';
+        $template_name    = 'Invoice_payment_recorded_to_customer';
 
         $data = prepare_mail_preview_data($template_name, $payment->invoice->clientid);
 
@@ -210,7 +210,7 @@ class Payments extends AdminController
                 if ($contact_id != '') {
                     $contact = $this->clients_model->get_contact($contact_id);
 
-                    $template = mail_template('invoice_payment_recorded_to_customer', (array) $contact, $payment->invoice_data, false, $payment->paymentid);
+                    $template = mail_template('Invoice_payment_recorded_to_customer', (array) $contact, $payment->invoice_data, false, $payment->paymentid);
 
                     $template->add_attachment([
                             'attachment' => $attach,

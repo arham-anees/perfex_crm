@@ -706,14 +706,23 @@ class Prospects_model extends CI_Model
     }
 
     public function reject_prospect_report($campaign_id, $prospect_id, $description)
-    {
-        $this->db->where('campaign_id', $campaign_id);
-        $this->db->where('prospect_id', $prospect_id);
-        return $this->db->update($this->report_table, array(
-            'status' => 2,
-            'feedback' => $description
-        ));
+{
+    log_message('debug', 'Rejecting prospect: campaign_id=' . $campaign_id . ', prospect_id=' . $prospect_id);
+
+    $this->db->where('campaign_id', $campaign_id);
+    $this->db->where('prospect_id', $prospect_id);
+    $result = $this->db->update($this->report_table, array(
+        'status' => 2,
+        'feedback' => $description
+    ));
+    
+    if (!$result) {
+        log_message('error', 'Failed to update prospect report: ' . $this->db->last_query());
     }
+
+    return $result;
+}
+
 
 
     public function mark_as_auto_deliverable($id)

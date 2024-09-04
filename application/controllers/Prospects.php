@@ -275,6 +275,7 @@ class Prospects extends ClientsController
                 'client_id' => $this->input->post('client_id'),
                 'lead_id' => $this->input->post('prospect_id'),
                 'campaign_id' => $this->input->post('campaign_id'),
+                'status'=> 0
             ];
             $this->Prospects_model->submit_report($data);
             $this->view('clients/prospects/purchased');
