@@ -21,7 +21,7 @@
                             </div>
                             <div class="form-group text-left">
                                 <button type="submit" class="btn btn-primary"><?php echo _l('Save'); ?></button>
-                                <a href="<?php echo admin_url('Prospect_sources'); ?>" class="btn btn-info"><?php echo _l('Cancel'); ?></a>
+                                <a href="<?php echo admin_url('leadevo/Prospect_sources'); ?>" class="btn btn-info"><?php echo _l('Cancel'); ?></a>
                             </div>
                         </form>
                     </div>
