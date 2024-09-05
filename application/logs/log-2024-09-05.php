@@ -5681,3 +5681,42 @@ ERROR - 2024-09-05 17:48:36 --> Could not find the language line "Industry"
 ERROR - 2024-09-05 17:48:36 --> client
 ERROR - 2024-09-05 17:48:36 --> 12
 ERROR - 2024-09-05 17:48:36 --> client
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Information Points"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "billings"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Learn More"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Name"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Industries"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "deal"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "From"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "To"
+ERROR - 2024-09-05 18:05:04 --> Could not find the language line "quality"
+ERROR - 2024-09-05 18:05:04 --> admin
+ERROR - 2024-09-05 18:05:04 --> 12
+ERROR - 2024-09-05 18:05:04 --> admin
+ERROR - 2024-09-05 13:05:04 --> 404 Page Not Found: /index
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Information Points"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "billings"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Filter By Acquisition Channel"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Filter By Industry"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Name"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Status"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Stars"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Type"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Acquisition Channels"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Industry"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Status"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Phone Normalization"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Attempted At"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Email Normalization"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Attempted At"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "deal"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Desired Amount"
+ERROR - 2024-09-05 18:05:25 --> Could not find the language line "Minimum Amount"
+ERROR - 2024-09-05 18:05:25 --> admin
+ERROR - 2024-09-05 18:05:26 --> 12
+ERROR - 2024-09-05 18:05:26 --> admin
+ERROR - 2024-09-05 13:05:26 --> 404 Page Not Found: /index
