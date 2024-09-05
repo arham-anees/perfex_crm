@@ -360,7 +360,7 @@ ol {
     margin-top: 2px;
 }
 .lead-card-left{
-     width: 50%;
+     width:75%;
 }
 </style>
 
