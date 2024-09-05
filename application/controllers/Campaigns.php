@@ -28,8 +28,8 @@ class Campaigns extends ClientsController
         // print_r($this->input->post());
         // exit;
 
-        if($this->input->post()){
-        
+        if ($this->input->post()) {
+
             $search = array(
                 'industry_name' => $this->input->post('industry'),
                 'acquisition_channel_id' => $this->input->post('acquisition'),
@@ -39,16 +39,16 @@ class Campaigns extends ClientsController
                 'generated_to' => $this->input->post('end_date'),
                 'status' => $this->input->post('status'),
                 'deal' => $this->input->post('deal'),
-                
+
                 // 'zip_codes' => $this->input->post('zip_codes')
             );
             //    echo "<pre>";
-        // print_r($this->input->post());
-        // exit;
+            // print_r($this->input->post());
+            // exit;
             $data['campaigns'] = $this->Campaigns_model->get_all_client($search);
-        }else{
+        } else {
 
-        $data['campaigns'] = $this->Campaigns_model->get_all_client('');
+            $data['campaigns'] = $this->Campaigns_model->get_all_client('');
         }
         $data['statuses'] = $this->campaign_statuses_model->get_all('');
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
@@ -142,7 +142,7 @@ class Campaigns extends ClientsController
 
                 // Return success response
                 $budget = $data['budget'];
-                $invoice = $this->checkout($budget);
+                $invoice = $this->checkout($budget, $campaign_id, $data);
 
 
                 $this->Campaigns_model->update_invoice($campaign_id, $invoice['id']);
@@ -257,7 +257,7 @@ class Campaigns extends ClientsController
         $this->layout();
     }
 
-    public function checkout($total)
+    public function checkout($total, $campaign_id, $campaign)
     {
         $client_id = get_client_user_id();
         // hooks()->do_action('after_prospect_purchased', ['client_id' => get_client_user_id(), 'prospects' => $cart]);
@@ -295,8 +295,22 @@ class Campaigns extends ClientsController
             'discount_type' => 0,
             'repeat_every_custom' => 1,
             'repeat_type_custom' => 'day',
-            'adminnote' => ''
+            'adminnote' => '',
+            'newitem' => [
+                [
+                    'description' => 'Campaign ' . $campaign_id,
+                    'long_description' => $campaign_id . ' ' . $campaign['name'] . ' ' . $campaign['description'],
+                    'rate' => $total,
+                    'unit' => 0,
+                    'order' => 1,
+                    'qty' => 1,
+                ]
+            ]
         ];
+
+
+        // Add the item to the invoice items array
+        $invoice_data['newitems'][] = $item;
 
 
         if (hooks()->apply_filters('validate_invoice_number', true)) {
