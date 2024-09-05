@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <style type="text/css">
-     .filters {
+    .filters {
         background-color: rgb(255, 255, 255);
         color: rgba(0, 0, 0, 0.87);
         box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
@@ -39,12 +39,12 @@
         padding: 5px 10px !important;
         font-size: 1.2rem !important;
     }
-    ._buttons a {
-    margin-left: 0px !important;
-    /* padding: 0; */
-    margin-bottom: 10px;
-}
 
+    ._buttons a {
+        margin-left: 0px !important;
+        /* padding: 0; */
+        margin-bottom: 10px;
+    }
 </style>
 <div class="row main_row">
     <div class="col-md-12">
@@ -65,40 +65,40 @@
             <div class="panel_s">
                 <div class="panel-body">
                     <form id="filterForm" action="" method="post">
-                            <?php $csrf = $this->security->get_csrf_hash(); ?>
-                            <div class="row">
-                             
-                                <div class="col-md-4">
-                                    <div class="filter-group">
-                                        <label for="start_date"><?php echo _l('From'); ?></label>
-                                        <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date'])?date('d-m-Y', strtotime($_POST['start_date'])):''?>">
-                                    </div>
+                        <?php $csrf = $this->security->get_csrf_hash(); ?>
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="start_date"><?php echo _l('From'); ?></label>
+                                    <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date']) ? date('d-m-Y', strtotime($_POST['start_date'])) : '' ?>">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="filter-group">
-                                        <label for="end_date"><?php echo _l('To'); ?></label>
-                                        <input type="date" id="end_date" name="end_date" class="form-control" value=" <?=!empty($this->input->post('end_date')) ? $this->input->post('end_date '):''?>">
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="end_date"><?php echo _l('To'); ?></label>
+                                    <input type="date" id="end_date" name="end_date" class="form-control" value=" <?= !empty($this->input->post('end_date')) ? $this->input->post('end_date ') : '' ?>">
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="filter-group">
-                                        <label for="type"><?php echo _l('Status'); ?></label>
-                                        <select id="type" name="status" class="filter-input">
-                                          <option value="">Select Status</option>
-                                           <?php foreach ($status_options as $status): ?>
-                                                <option value="<?php echo $status['id'] ?>" <?=$this->input->post('status')==$status['id'] ?'selected':''?>><?php echo $status['status'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="type"><?php echo _l('Status'); ?></label>
+                                    <select id="type" name="status" class="filter-input">
+                                        <option value="">Select Status</option>
+                                        <?php foreach ($status_options as $status): ?>
+                                            <option value="<?php echo $status['id'] ?>" <?= $this->input->post('status') == $status['id'] ? 'selected' : '' ?>><?php echo $status['status'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
-                                
                             </div>
 
-                            <div class="row">
-                                
-                                <div class="col-md-4">
-                                    <!-- <button class="btn regular_price_btn">
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-4">
+                                <!-- <button class="btn regular_price_btn">
                                         <div class="button-content">
                                             <i class="fa fa-shopping-cart"></i>
                                             <div class="text-container">
@@ -107,11 +107,11 @@
                                             </div>
                                         </div>
                                     </button> -->
-                                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                        value="<?php echo $this->security->get_csrf_hash(); ?>">
-                                </div>
+                                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                    value="<?php echo $this->security->get_csrf_hash(); ?>">
+                            </div>
 
-                         
+
                             <div style="height:20px">
                                 <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
                             </div>
@@ -127,7 +127,6 @@
                                         <th><?php echo _l('Created At'); ?></th>
                                         <th><?php echo _l('Evidence'); ?></th>
                                         <th><?php echo _l('Status'); ?></th>
-                                        <th><?php echo _l('Feedback'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,8 +152,13 @@
                                                     No evidence available.
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?></td>
-                                            <td><?php echo htmlspecialchars($prospect['feedback'] ?? 'N/A'); ?></td>
+                                            <td>
+                                                <?php echo htmlspecialchars($prospect['status_name'] ?? 'N/A'); ?>
+
+                                                <span data-toggle="tooltip" data-placement="top" title="<?php echo htmlspecialchars($prospect['feedback'] ?? 'N/A'); ?>">
+                                                    <i class="fa fa-info-circle"></i>
+                                                </span>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
