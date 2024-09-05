@@ -413,7 +413,7 @@ function displayStars($rating, $maxStars = 5)
                                                     $allowed_hours = intval($allowed_hours);
                                                 }
 
-                                                if ($hours < $allowed_hours) {
+                                                if ($hours > $allowed_hours) {
                                                     echo '<a style="cursor: not-allowed;" disabled>Report</a>';
                                                 } else {
                                                     echo '<a data-toggle="modal" data-target="#reportProspectModal" class="text-danger" 
