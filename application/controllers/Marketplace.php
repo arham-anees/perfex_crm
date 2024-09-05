@@ -28,7 +28,8 @@ class Marketplace extends ClientsController
         if ($this->input->post()) {
             // Retrieve filters from POST request
             $filter = array(
-                'industry_id' => $this->input->post('industry'),
+                'prospect_name' => $this->input->post('name'),
+                'industry_id' => $this->input->post('industry_id'),
                 'acquisition_channel_id' => $this->input->post('acquisition'),
                 'price_range_from' => $this->input->post('price_range_start'),
                 'price_range_to' => $this->input->post('price_range_end'),
@@ -38,7 +39,7 @@ class Marketplace extends ClientsController
                 'quality' => $this->input->post('quality'),
                 // 'zip_codes' => $this->input->post('zip_codes')
             );
-
+            
             // Get filtered prospects
             $prospects = $this->Prospects_model->get_all_market_place($filter);
     

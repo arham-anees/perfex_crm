@@ -50,7 +50,7 @@ class Prospects extends ClientsController
                 
                 // 'zip_codes' => $this->input->post('zip_codes')
             );
-            $prospects = $this->Prospects_model->get_all_market_place($search);
+            $prospects = $this->Prospects_model->get_all_client($search);
             if ($this->input->is_ajax_request()) {
                 // Return JSON response
                 echo json_encode($prospects);
@@ -58,11 +58,12 @@ class Prospects extends ClientsController
             } else {
                 // echo "<pre>";
                 // print_r($prospects);exit;
+                $data['prospects'] = $this->Prospects_model->get_all_client('');
                 $data['prospects'] = $prospects;
             }
          }else {
             // Get all prospects if no filter is applied
-            $data['prospects'] = $this->Prospects_model->get_all_market_place();
+            $data['prospects'] = $this->Prospects_model->get_all_client('');
         }
 
         // $filter = $this->input->get('filter');
@@ -78,7 +79,7 @@ class Prospects extends ClientsController
         $data['industries'] = $this->Industries_model->get_all(array('is_active'=>1));
         // $data['type'] = $this->->get_all();
         // echo "<pre>";
-        // print_r($data['industries']);exit;
+        // print_r($data['prospects']);exit;
         $this->data($data);
         $this->view('clients/prospects/prospects');
         $this->layout();

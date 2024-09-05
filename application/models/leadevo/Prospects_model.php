@@ -143,19 +143,23 @@ class Prospects_model extends CI_Model
 
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
+        } if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
+           $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
-            $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
+            $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
+        }if (isset($filter["type"]) && $filter["type"] != "") {
+            $sql .= " AND pt.name LIKE '%" . $filter["type"] . "%'";
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
             $sql .= " AND zip_code in (" . implode(",", $filter["zip_codes"]) . ")";
         }
         if (isset($filter["generated_from"]) && $filter["generated_from"] != "") {
-            $sql .= " AND DATE(created_at) <= DATE('" . $filter["generated_from"] . "')";
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $filter["generated_from"] . "')";
         }
 
         if (isset($filter["generated_to"]) && $filter["generated_to"] != "") {
-            $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $filter["generated_to"] . "')";
         }
         if (isset($filter["deal"]) && $filter["deal"] != "") {
 
@@ -167,10 +171,10 @@ class Prospects_model extends CI_Model
         }
 
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
-            $sql .= " AND price >=" . $filter["price_range_from"];
+            $sql .= " AND p.desired_amount >=" . $filter["price_range_from"];
         }
         if (isset($filter["price_range_to"]) && $filter["price_range_to"] != "") {
-            $sql .= " AND price <=" . $filter["price_range_to"];
+            $sql .= " AND p.desired_amount <=" . $filter["price_range_to"];
         }
         if (isset($filter["quality"]) && $filter["quality"] != "") {
             $quality = $filter["quality"];
@@ -239,8 +243,10 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1 ";
 
-        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
-            $sql .= " AND industry_id = " . $filter["industry_id"];
+        if (isset($filter["name"]) && $filter["name"] != "") {
+            $sql .= " AND p.prospect_name = " . $filter["name"];
+        }if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+            $sql .= " AND p.industry_id = " . $filter["industry_id"];
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
@@ -259,9 +265,9 @@ class Prospects_model extends CI_Model
 
             $deal = $filter["deal"];
             if ($deal == 0)
-                $sql .= " AND exclusive_status = 0";
+                $sql .= " AND p.is_exclusive = 0";
             else if ($deal == 1)
-                $sql .= " AND nonexclusive_status = 1";
+                $sql .= " AND p.is_exclusive = 1";
         }
 
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
@@ -440,9 +446,11 @@ class Prospects_model extends CI_Model
                     p.is_active = 1
                 AND is_fake = 0
                 AND is_available_sale = 1 ";
-
+        if (isset($filter["prospect_name"]) && $filter["prospect_name"] != "") {
+            $sql .= " AND CONCAT(p.first_name, ' ', p.last_name) LIKE '%" . $filter["prospect_name"] . "%'";
+        }
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
-            $sql .= " AND industry_id = " . $filter["industry_id"];
+            $sql .= " AND p.industry_id = " . $filter["industry_id"];
         } if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
            $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
         }
@@ -465,9 +473,9 @@ class Prospects_model extends CI_Model
 
             $deal = $filter["deal"];
             if ($deal == 0)
-                $sql .= " AND exclusive_status = 0";
+                $sql .= " AND p.is_exclusive = 0";
             else if ($deal == 1)
-                $sql .= " AND nonexclusive_status = 1";
+                $sql .= " AND p.is_exclusive = 1";
         }
 
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
@@ -488,10 +496,8 @@ class Prospects_model extends CI_Model
                 $sql .= " AND verified_staff = 1";
         }
         // $query=$this->db->last_query();
-    //      echo "<pre>";
-    // print_r($sql);
-    // exit;
         $prospects_all = $this->db->query($sql)->result_array();
+    
 
         $prospects = [];
         if (get_option('leadevo_deal_settings_status')) {

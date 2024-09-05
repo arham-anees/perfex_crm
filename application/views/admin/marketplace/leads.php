@@ -372,18 +372,16 @@ ol {
 <!-- Filters section -->
 <form id="filterForm" action="" method="post">
                     <?php $csrf = $this->security->get_csrf_hash(); ?>
-                
-               
-
-
+                     <input type="hidden" name="<?= $this->security->get_csrf_token_name(); ?>" value="<?= $csrf; ?>">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="zip"><?php echo _l('Zip Codes'); ?></label>
-                                <input type="number" id="zip_code" name="zip" class="filter-input">
+                                <label for="name"><?php echo _l('Name'); ?></label>
+                                <input type="text" id="name" name="name" class="filter-input">
                             </div>
                         </div>
                         <div class="col-md-4">
+
                             <div class="filter-group">
                                 <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
                                 <select id="acquisition" name="acquisition" class="filter-input">
@@ -396,20 +394,46 @@ ol {
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
+                                 <label for="acquisition"><?php echo _l('Industries'); ?></label>
+                                <select id="industry_id" name="industry_id" class="filter-input">
+                                 <option value="">Select Industries</option>
+                                    <?php foreach ($industries as $industry): ?>
+                                        <option value="<?php echo $industry['id']; ?>"><?php echo $industry['name']; ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="filter-group">
                                 <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
                                 <input type="text" id="price_range_start" name="price_range_start" class="filter-input">
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="row">
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
                                 <input type="text" id="price_range_end" name="price_range_end" class="filter-input">
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="deal"><?php echo _l('deal'); ?></label>
+                                <select id="deal" name="deal" class="filter-input">
+                                    <option value="" disabled selected>Select Deals</option>
+                                    <option value="0">Exclusive Deal</option>
+                                    <option value="1">Non Exclusive Deal</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="start_date"><?php echo _l('From'); ?></label>
@@ -420,19 +444,6 @@ ol {
                             <div class="filter-group">
                                 <label for="end_date"><?php echo _l('To'); ?></label>
                                 <input type="date" id="end_date" name="end_date" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="filter-group">
-                                <label for="deal"><?php echo _l('deal'); ?></label>
-                                <select id="deal" name="deal" class="filter-input">
-                                    <option value="" disabled selected>Select Deals</option>
-                                    <option value="0">Exclusive Deal</option>
-                                    <option value="1">Non Exclusive Deal</option>
-                                </select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -447,19 +458,7 @@ ol {
                                 </select>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <button class="btn regular_price_btn">
-                                <div class="button-content">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <div class="text-container">
-                                        <span class="bold-text">$345-$563 Buy lead</span>
-                                        <span class="small-text">regular price</span>
-                                    </div>
-                                </div>
-                            </button>  -->
-                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                                value="<?php echo $this->security->get_csrf_hash(); ?>">
-                        </div>
+                      
 
                     </div>
                     <div style="height:20px">
@@ -471,7 +470,7 @@ ol {
                         <!-- Lead Card Section -->
                         <div class="row">
 <!-- Existing Card -->
-<div class="col-md-10">
+<div class="col-md-10 ajaxappedn">
 <?php foreach ($prospects as $prospect): ?>
         <div class="lead-card">
             <div class="lead-card-left">
@@ -534,6 +533,90 @@ ol {
 </body>
 <?php init_tail(); ?>
 <script>
+    $(document).ready(function () {
+        $('#filterForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting via the browser
+            // alert("Sds");
+            // Get CSRF token from the hidden field
+            var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
+            var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
+
+            $.ajax({
+                url: $(this).attr('action'), // Use the form's action attribute
+                type: $(this).attr('method'), // Use the form's method attribute
+                data: $(this).serialize() + '&' + csrfName + '=' + csrfHash, // Serialize the form data and append CSRF token
+                dataType: 'json', // Expect JSON response
+                success: function (response) {
+                    // Check if the response is an array
+                    if (Array.isArray(response)) {
+                        // Update the table with the filtered data
+                        let container = $('.panel-body .ajaxappedn');
+                        container.empty(); // Clear the current table body
+
+                        // Append new rows to the table body
+                         response.forEach(prospect => {
+                        let prospectHtml = `
+                            <div class="lead-card">
+                                <div class="lead-card-left">
+                                    <h3>${prospect.prospect_name || 'N/A'}</h3>
+                                    <ol>
+                                        <li><strong>Created at:</strong> ${prospect.created_at ? new Date(prospect.created_at).toISOString().split('T')[0] : 'N/A'}</li>
+                                        <li><strong>Phone:</strong> ${prospect.phone || 'N/A'}</li>
+                                        <li><strong>Email:</strong> ${prospect.email || 'N/A'}</li>
+                                    </ol>
+                                </div>
+                                <div class="lead-card-right">
+                                    <div class="title-favorite-container">
+                                        <hr class="line">
+                                        <span class="selling-price">
+                                            <i class='fas fa-tag'></i>
+                                            <strong>Selling Price:</strong> ${calculateDiscountedPrice(prospect)}
+                                        </span>
+                                    </div>
+                                    <div class="details">
+                                        <ol>
+                                            <p><b>Lead Details:</b></p>
+                                            <li><strong>Industry:</strong> ${prospect.industry || 'N/A'}</li>
+                                            <li><strong>Acquisition Channel:</strong> ${prospect.acquisition_channel || 'N/A'}</li>
+                                            <li><strong>Desired Amount:</strong> ${prospect.desired_amount || 'N/A'}</li>
+                                        </ol>
+                                    </div>
+                                    <div class="button-container">
+                                        <button class="btn save_discount_btn">
+                                            <div class="button-content">
+                                                <div class="add-to-cart-container">
+                                                    <form id="add-to-cart-form">
+                                                        <input type="hidden" name="prospect_id" value="${prospect.id}" />
+                                                        <input type="hidden" name="price" value="${calculateDiscountedPrice(prospect)}" />
+                                                        <input type="submit" class="btn btn-primary add-to-cart-button" ${prospect.is_in_cart ? 'disabled' : ''} value="Add to cart" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>`;
+                        container.append(prospectHtml); // Append the new HTML to the container
+                    });
+                    } else {
+                        console.error('Invalid response format');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                }
+            });
+        });
+    });
+function calculateDiscountedPrice(prospect) {
+    let discounted_price = parseFloat(prospect.desired_amount) || 0;
+    if (prospect.discount_type == 1) {
+        discounted_price = discounted_price - (discounted_price * prospect.discount_value) / 100;
+    } else {
+        discounted_price = discounted_price - (prospect.discount_value || 0);
+    }
+    return discounted_price;
+}
 function enterFullscreen() {
     var video = document.getElementById('marketplaceVideo');
     if (video.requestFullscreen) {

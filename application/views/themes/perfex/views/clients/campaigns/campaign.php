@@ -370,7 +370,7 @@
                         <select id="type" name="status" class="filter-input">
                           <option value="">Select Status</option>
                            <?php foreach ($statuses as $status): ?>
-                                <option value="<?php echo $status->name; ?>" <?=$this->input->post('status')==$status->name ?'selected':''?>><?php echo $status->name; ?>
+                                <option value="<?php echo $status->id; ?>" <?=$_POST['status']==$status->id ?'selected':''?>><?php echo $status->name; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

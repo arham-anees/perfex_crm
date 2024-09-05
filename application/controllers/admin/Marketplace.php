@@ -22,19 +22,20 @@ class Marketplace extends AdminController
         if ($this->input->post()) {
             // Retrieve filters from POST request
             $filter = array(
-                'industry_id' => $this->input->post('industry'),
-                'acquisition_id' => $this->input->post('acquisition'),
+                'prospect_name' => $this->input->post('name'),
+                'industry_id' => $this->input->post('industry_id'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
                 'price_range_from' => $this->input->post('price_range_start'),
                 'price_range_to' => $this->input->post('price_range_end'),
                 'generated_from' => $this->input->post('location_from'),
                 'generated_to' => $this->input->post('location_to'),
                 'deal' => $this->input->post('deal'),
                 'quality' => $this->input->post('quality'),
-                'zip_codes' => $this->input->post('zip_codes')
+                // 'zip_codes' => $this->input->post('zip_codes')
             );
 
             // Get filtered prospects
-            $prospects = $this->Prospects_model->get_all_market_place_admin($filter);
+            $prospects = $this->Prospects_model->get_all_market_place($filter);
 
             // Check if the request is an AJAX request
             if ($this->input->is_ajax_request()) {
@@ -46,9 +47,10 @@ class Marketplace extends AdminController
             }
         } else {
             // Get all prospects if no filter is applied
-            $data['prospects'] = $this->Prospects_model->get_all_market_place_admin();
+            $data['prospects'] = $this->Prospects_model->get_all_market_place();
         }
-
+        // echo "<pre>";
+        // print_r($data['prospects']);exit;
         // Fetch other necessary data
         $data['industries'] = $this->Industries_model->get_all();
         $data['acquisitions'] = $this->Acquisition_channels_model->get_all();

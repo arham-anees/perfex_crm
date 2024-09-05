@@ -7901,3 +7901,89 @@ ERROR - 2024-09-04 17:48:03 --> Could not find the language line "No prospects f
 ERROR - 2024-09-04 17:48:03 --> client
 ERROR - 2024-09-04 17:48:03 --> 12
 ERROR - 2024-09-04 17:48:03 --> client
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "New Prospect"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "From"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "To"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "Type"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "Industry"
+ERROR - 2024-09-04 18:40:50 --> Could not find the language line "No prospects found."
+ERROR - 2024-09-04 18:40:50 --> client
+ERROR - 2024-09-04 18:40:50 --> 12
+ERROR - 2024-09-04 18:40:50 --> client
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "New Prospect Alert"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Name"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Email"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Phone No"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Industry"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Deal"
+ERROR - 2024-09-04 18:40:58 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:40:58 --> client
+ERROR - 2024-09-04 18:40:58 --> 12
+ERROR - 2024-09-04 18:40:58 --> client
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "From"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "To"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Lead Source"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Source"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Enail"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Rating"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "clients_list_value"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "clients_list_tags"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "clients_list_status"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "clients_list_source"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "campaign_id"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Stars"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Reasons"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Select Reason"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Select Reason"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Details"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Name"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Type"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Category"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Acquisition Channels"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Desired Amount"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Industry"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Upload Evidence (MP3)"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Target CRM"
+ERROR - 2024-09-04 18:41:01 --> Could not find the language line "Target CRM"
+ERROR - 2024-09-04 18:41:01 --> client
+ERROR - 2024-09-04 18:41:01 --> 12
+ERROR - 2024-09-04 18:41:01 --> client
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "From"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "To"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Prospect"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Reason"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Created At"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Evidence"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:41:03 --> Could not find the language line "Feedback"
+ERROR - 2024-09-04 18:41:03 --> client
+ERROR - 2024-09-04 18:41:03 --> 12
+ERROR - 2024-09-04 18:41:03 --> client
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "New Campaign"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Budget Range start"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Budget Range end"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "From"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "To"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Status"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Deal"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "status"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "budget"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "deal"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Start Date"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "End Date"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Industry"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Select Industry"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Select Industry"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "countries"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Select Country"
+ERROR - 2024-09-04 18:41:06 --> Could not find the language line "Select Country"
+ERROR - 2024-09-04 18:41:06 --> client
+ERROR - 2024-09-04 18:41:06 --> 12
+ERROR - 2024-09-04 18:41:06 --> client

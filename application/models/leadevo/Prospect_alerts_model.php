@@ -21,13 +21,13 @@ class Prospect_alerts_model extends CI_Model
 
     // Apply filters if they are set
     if (!empty($search)) {
-        if (!empty($search['industry_name'])) {
+        if (isset($search['industry_name'])) {
             $this->db->where('i.name', $search['industry_name']);
         }
         if (!empty($search['acquisition_channel_id'])) {
             $this->db->where('a.acquisition_channel_id', $search['acquisition_channel_id']);
         }
-        if (!empty($search['status'])) {
+        if (isset($search['status']) && $search['status']!="") {
             $this->db->where('a.status', $search['status']);
         }
         if (isset($search['deal']) && $search['deal']!="" ) {
