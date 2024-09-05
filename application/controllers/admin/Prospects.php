@@ -43,6 +43,39 @@ class Prospects extends AdminController
         $this->load->view('admin/leadevo/prospects/sold', $data);
 
     }
+    public function get_sold_data() {
+        $prospect_id = $this->input->get('id');  // Get prospect ID from the request
+    
+        $prospects_data = $this->Clients_model->get_sold();
+    
+        // Filter the data to only get the specific prospect
+        $filtered_data = array_filter($prospects_data, function ($prospect) use ($prospect_id) {
+            return $prospect->prospect_id == $prospect_id;
+        });
+    
+        // If the prospect is found, format the response
+        if (!empty($filtered_data)) {
+            $prospect = array_shift($filtered_data);  
+    
+            $response = [
+                'prospect' => [
+                    'first_name' => $prospect->name,
+                    'status' => $prospect->status_name,
+                    'source_name' => $prospect->source_name,
+                    'campaign_id' => $prospect->campaign_id,
+                    'sold_price' => $prospect->sold_price,
+                    'invoice_id' => $prospect->invoice_id,
+                    'invoice_hash' => $prospect->invoice_hash,
+                ],
+                'logs' => []  // Add logs if needed
+            ];
+        } else {
+            $response = ['error' => 'Prospect not found.'];
+        }
+    
+        echo json_encode($response);
+    }
+    
     public function fake()
     {
         $filter = array();
