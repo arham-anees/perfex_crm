@@ -119,6 +119,7 @@ function displayStars($rating, $maxStars = 5)
     .star.filled {
         color: orange;
     }
+
     .filters {
         background-color: rgb(255, 255, 255);
         color: rgba(0, 0, 0, 0.87);
@@ -158,11 +159,12 @@ function displayStars($rating, $maxStars = 5)
         padding: 5px 10px !important;
         font-size: 1.2rem !important;
     }
+
     ._buttons a {
-    margin-left: 0px !important;
-    /* padding: 0; */
-    margin-bottom: 10px;
-}
+        margin-left: 0px !important;
+        /* padding: 0; */
+        margin-bottom: 10px;
+    }
 </style>
 <div class="row">
     <div class="col-md-12">
@@ -171,28 +173,28 @@ function displayStars($rating, $maxStars = 5)
                 <form id="filterForm" action="" method="post">
                     <?php $csrf = $this->security->get_csrf_hash(); ?>
                     <div class="row">
-                      <div class="col-md-4">
-                          <div class="filter-group">
-                              <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
-                              <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  value="<?= !empty($_POST['price_range_start']) ? $_POST['price_range_start']:''?>">
-                          </div>
-                      </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
+                                <input type="text" id="price_range_start" name="price_range_start" class="filter-input" value="<?= !empty($_POST['price_range_start']) ? $_POST['price_range_start'] : '' ?>">
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
-                                <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?= !empty($_POST['price_range_end']) ? $_POST['price_range_end']:''?>">
+                                <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?= !empty($_POST['price_range_end']) ? $_POST['price_range_end'] : '' ?>">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="start_date"><?php echo _l('From'); ?></label>
-                                <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date'])?date('d-m-Y', strtotime($_POST['start_date'])):''?>">
+                                <input type="date" id="start_date" name="start_date" class="form-control" value=" <?= !empty($_POST['start_date']) ? date('d-m-Y', strtotime($_POST['start_date'])) : '' ?>">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
                                 <label for="end_date"><?php echo _l('To'); ?></label>
-                                <input type="date" id="end_date" name="end_date" class="form-control" value=" <?=!empty($this->input->post('end_date')) ? $this->input->post('end_date '):''?>">
+                                <input type="date" id="end_date" name="end_date" class="form-control" value=" <?= !empty($this->input->post('end_date')) ? $this->input->post('end_date ') : '' ?>">
                             </div>
                         </div>
 
@@ -200,10 +202,10 @@ function displayStars($rating, $maxStars = 5)
                             <div class="filter-group">
                                 <label for="type"><?php echo _l('Lead Source'); ?></label>
                                 <select id="type" name="lead_source" class="filter-input">
-                                  <option value="">Select Lead Source</option>
-                                  <?php foreach ($sources as $source): ?>
-                                    <option value="<?php echo $source['id']; ?>" <?=$this->input->post('lead_source')==$source['id'] ?'selected':''?>><?php echo $source['name']; ?>
-                                    </option>
+                                    <option value="">Select Lead Source</option>
+                                    <?php foreach ($sources as $source): ?>
+                                        <option value="<?php echo $source['id']; ?>" <?= $this->input->post('lead_source') == $source['id'] ? 'selected' : '' ?>><?php echo $source['name']; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -212,62 +214,62 @@ function displayStars($rating, $maxStars = 5)
                             <div class="filter-group">
                                 <label for="type"><?php echo _l('Status'); ?></label>
                                 <select id="type" name="status" class="filter-input">
-                                  <option value="">Select Status</option>
-                                  <?php foreach ($status as $statu): ?>
-                                    <option value="<?php echo $statu['id']; ?>" <?=$this->input->post('status')==$statu['id'] ?'selected':''?>><?php echo $statu['name']; ?>
-                                    </option>
+                                    <option value="">Select Status</option>
+                                    <?php foreach ($status as $statu): ?>
+                                        <option value="<?php echo $statu['id']; ?>" <?= $this->input->post('status') == $statu['id'] ? 'selected' : '' ?>><?php echo $statu['name']; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
 
-                        
+
                     </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="filter-group">
-                            <label for=" source"><?php echo _l('Source'); ?></label>
-                            <select id=" source" name="source" class="filter-input">
-                              <option value="">Select  Source</option>
-                              <option value="" <?=$this->input->post('source')!='1' ?'selected':''?>>Cart
-                              </option>
-                              <option value="1" <?=$this->input->post('source')=='1' ?'selected':''?>>Campaign
-                              </option>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for=" source"><?php echo _l('Source'); ?></label>
+                                <select id=" source" name="source" class="filter-input">
+                                    <option value="">Select Source</option>
+                                    <option value="" <?= $this->input->post('source') != '1' ? 'selected' : '' ?>>Cart
+                                    </option>
+                                    <option value="1" <?= $this->input->post('source') == '1' ? 'selected' : '' ?>>Campaign
+                                    </option>
 
-                          </select>
-                      </div>
-                  </div>
-                  <div class="col-md-4">
-                        <div class="filter-group">
-                            <label for="email"><?php echo _l('Enail'); ?></label>
-                           <input type="text" id="email" name="email" class="filter-input"  value="<?= !empty($_POST['email']) ? $_POST['email']:''?>">
-                      </div>
-                  </div>
-                   <div class="col-md-4">
-                        <div class="filter-group">
-                            <label for="rating"><?php echo _l('Rating'); ?></label>
-                            <select id="rating" name="rating" class="filter-input">
-                              <option value="">Select rating</option>
-                              <option value="0" <?=$this->input->post('rating')=='0' ?'selected':''?>>0
-                              </option>
-                              <option value="1" <?=$this->input->post('rating')=='1' ?'selected':''?>>1
-                              </option> 
-                              <option value="2" <?=$this->input->post('rating')=='2' ?'selected':''?>>2
-                              </option>
-                             <option value="3" <?=$this->input->post('rating')=='3' ?'selected':''?>>3
-                              </option>
-                                <option value="4" <?=$this->input->post('rating')=='4' ?'selected':''?>>4
-                              </option>
-                               <option value="5" <?=$this->input->post('rating')=='5' ?'selected':''?>>5
-                              </option>
-                          </select>
-                      </div>
-                  </div>
-                </div>
-      <div class="row">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="email"><?php echo _l('Enail'); ?></label>
+                                <input type="text" id="email" name="email" class="filter-input" value="<?= !empty($_POST['email']) ? $_POST['email'] : '' ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="filter-group">
+                                <label for="rating"><?php echo _l('Rating'); ?></label>
+                                <select id="rating" name="rating" class="filter-input">
+                                    <option value="">Select rating</option>
+                                    <option value="0" <?= $this->input->post('rating') == '0' ? 'selected' : '' ?>>0
+                                    </option>
+                                    <option value="1" <?= $this->input->post('rating') == '1' ? 'selected' : '' ?>>1
+                                    </option>
+                                    <option value="2" <?= $this->input->post('rating') == '2' ? 'selected' : '' ?>>2
+                                    </option>
+                                    <option value="3" <?= $this->input->post('rating') == '3' ? 'selected' : '' ?>>3
+                                    </option>
+                                    <option value="4" <?= $this->input->post('rating') == '4' ? 'selected' : '' ?>>4
+                                    </option>
+                                    <option value="5" <?= $this->input->post('rating') == '5' ? 'selected' : '' ?>>5
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
 
-        <div class="col-md-4">
-                    <!-- <button class="btn regular_price_btn">
+                        <div class="col-md-4">
+                            <!-- <button class="btn regular_price_btn">
                         <div class="button-content">
                             <i class="fa fa-shopping-cart"></i>
                             <div class="text-container">
@@ -276,15 +278,15 @@ function displayStars($rating, $maxStars = 5)
                             </div>
                         </div>
                     </button> -->
-                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
-                    value="<?php echo $this->security->get_csrf_hash(); ?>">
-                </div>
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>"
+                                value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        </div>
 
 
-                <div style="height:20px">
-                    <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
-                </div>
-            </form>
+                        <div style="height:20px">
+                            <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
+                        </div>
+                </form>
                 <hr class="hr-panel-heading" />
                 <a href="#" data-toggle="modal" data-target="#customers_bulk_action"
                     class="bulk-actions-btn table-btn hide"
@@ -396,33 +398,40 @@ function displayStars($rating, $maxStars = 5)
                                     <td><?php echo htmlspecialchars($prospect->email ?? ''); ?>
                                         <div class="row-options"><a href="#"
                                                 onclick="init_lead_purchased(<?= $prospect->id ?>);return false;">View</a>
+                                            |
                                             <?php if (!$prospect->is_reported) {
-                                                // check report hours 
+                                                // Check report hours
                                                 $givenDate = new DateTime($prospect->dateadded);
                                                 $currentDate = new DateTime();
                                                 $interval = $currentDate->diff($givenDate);
 
                                                 $hours = $interval->days * 24 + $interval->h;
                                                 $allowed_hours = get_option('leadevo_report_hours');
-                                                if (!isset($allowed_hours) || empty($allowed_hours)) {
+                                                if (empty($allowed_hours)) {
                                                     $allowed_hours = 0;
                                                 } else {
                                                     $allowed_hours = intval($allowed_hours);
                                                 }
 
-                                                if ($hours < $allowed_hours) { ?>|
-                                                    <a data-toggle="modal" data-target="#reportProspectModal" class="text-danger"
-                                                        data-id="<?= $prospect->id ?>"
-                                                        data-name="<?= htmlspecialchars($prospect->name ?? 'N/A') ?>"
-                                                        data-status="<?= htmlspecialchars($prospect->status ?? 'N/A') ?>"
-                                                        data-type="<?= htmlspecialchars($prospect->type ?? 'N/A') ?>"
-                                                        data-category="<?= htmlspecialchars($prospect->category ?? 'N/A') ?>"
-                                                        data-acquisition="<?= htmlspecialchars($prospect->source_name ?? 'N/A') ?>"
-                                                        data-amount="<?= htmlspecialchars($prospect->desired_amount ?? 'N/A') ?>"
-                                                        data-campaign="<?= htmlspecialchars($prospect->campaign_id ?? 'N/A') ?>"
-                                                        data-industry="<?= htmlspecialchars($prospect->dateadded ?? 'N/A') ?>">Report</a>
-                                                <?php }
-                                            } ?>
+                                                if ($hours < $allowed_hours) {
+                                                    echo '<a style="cursor: not-allowed;" disabled>Report</a>';
+                                                } else {
+                                                    echo '<a data-toggle="modal" data-target="#reportProspectModal" class="text-danger" 
+                                                 data-id="' . $prospect->id . '" 
+                                                 data-name="' . htmlspecialchars($prospect->name ?? 'N/A') . '" 
+                                                 data-status="' . htmlspecialchars($prospect->status ?? 'N/A') . '" 
+                                                data-type="' . htmlspecialchars($prospect->type ?? 'N/A') . '" 
+                                                 data-category="' . htmlspecialchars($prospect->category ?? 'N/A') . '" 
+                                                  data-acquisition="' . htmlspecialchars($prospect->source_name ?? 'N/A') . '" 
+                                                 data-amount="' . htmlspecialchars($prospect->desired_amount ?? 'N/A') . '" 
+                                                 data-campaign="' . htmlspecialchars($prospect->campaign_id ?? 'N/A') . '" 
+                                                 data-industry="' . htmlspecialchars($prospect->dateadded ?? 'N/A') . '">Report</a>';
+                                                }
+                                            } else {
+                                                echo '<a style="cursor: not-allowed;" disabled>Report</a>';
+                                            }
+
+                                            ?>
                                             |
                                             <a onclick="openSendApiModal(<?= $prospect->id ?>)">Send via API</a> |
                                             <a onclick="openSendZapierModal(<?= $prospect->id ?>)">Send via
@@ -673,7 +682,7 @@ $jsonData = json_encode($table); ?>
             var mass_delete = $('#mass_delete').prop('checked');
             var ids = [];
             var data = {};
-            if (mass_delete == false || typeof (mass_delete) == 'undefined') {
+            if (mass_delete == false || typeof(mass_delete) == 'undefined') {
                 data.groups = $('select[name="move_to_groups_customers_bulk[]"]').selectpicker('val');
                 if (data.groups.length == 0) {
                     data.groups = 'remove_all';
@@ -682,7 +691,7 @@ $jsonData = json_encode($table); ?>
                 data.mass_delete = true;
             }
             var rows = $('.table-clients').find('tbody tr');
-            $.each(rows, function () {
+            $.each(rows, function() {
                 var checkbox = $($(this).find('td').eq(0)).find('input');
                 if (checkbox.prop('checked') == true) {
                     ids.push(checkbox.val());
@@ -690,8 +699,8 @@ $jsonData = json_encode($table); ?>
             });
             data.ids = ids;
             $(event).addClass('disabled');
-            setTimeout(function () {
-                $.post(site_url + 'clients/bulk_action', data).done(function () {
+            setTimeout(function() {
+                $.post(site_url + 'clients/bulk_action', data).done(function() {
                     window.location.reload();
                 });
             }, 50);
@@ -715,6 +724,7 @@ $jsonData = json_encode($table); ?>
         params.dataType = "json";
         return requestGet_purchased(uri, params);
     }
+
     function init_lead_modal_data_purchased(id, url, isEdit) {
         var requestURL =
             (typeof url != "undefined" ? url : "leads/lead/") +
@@ -729,13 +739,14 @@ $jsonData = json_encode($table); ?>
         }
 
         requestGetJSON_purchased(requestURL)
-            .done(function (response) {
+            .done(function(response) {
                 _lead_init_data(response, id);
             })
-            .fail(function (data) {
+            .fail(function(data) {
                 alert_float("danger", data.responseText);
             });
     }
+
     function init_lead_purchased(id, isEdit) {
         if ($("#task-modal").is(":visible")) {
             $("#task-modal").modal("hide");
@@ -749,7 +760,7 @@ $jsonData = json_encode($table); ?>
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         let currentStep = 1;
         const totalSteps = 4;
         const steps = document.querySelectorAll('.wizard-step');
@@ -759,7 +770,7 @@ $jsonData = json_encode($table); ?>
         const reasonSelect = document.getElementById('reasonSelect');
         let prospectId = null;
 
-        $('a[data-toggle="modal"]').on('click', function () {
+        $('a[data-toggle="modal"]').on('click', function() {
             // Retrieve data attributes
             prospectId = $(this).data('id');
 
@@ -775,7 +786,7 @@ $jsonData = json_encode($table); ?>
 
 
         // Functionality for the Next button (only on the first step)
-        nextBtn.addEventListener('click', function () {
+        nextBtn.addEventListener('click', function() {
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
@@ -785,7 +796,7 @@ $jsonData = json_encode($table); ?>
         });
 
         // Functionality for the Back button
-        backBtn.addEventListener('click', function () {
+        backBtn.addEventListener('click', function() {
             if (currentStep > 1) {
                 currentStep--;
                 showStep(currentStep);
@@ -793,7 +804,7 @@ $jsonData = json_encode($table); ?>
         });
 
         // Move to the next step when "I confirm that the details are correct" is clicked
-        document.getElementById('confirm-details').addEventListener('click', function () {
+        document.getElementById('confirm-details').addEventListener('click', function() {
             if (currentStep < totalSteps) {
                 currentStep++;
                 showStep(currentStep);
@@ -801,12 +812,12 @@ $jsonData = json_encode($table); ?>
         });
 
         // Handle the "Oops, I made a mistake" button click
-        document.getElementById('mistake-details').addEventListener('click', function () {
+        document.getElementById('mistake-details').addEventListener('click', function() {
             $('#reportProspectModal').modal('hide');
         });
 
         // Move to the next step when "I confirm that I uploaded the evidence" is clicked
-        document.getElementById('confirm-evidence').addEventListener('click', function () {
+        document.getElementById('confirm-evidence').addEventListener('click', function() {
             var fileInput = document.getElementById('evidence-upload');
             if (fileInput.files.length === 0) {
                 alert('Please upload an MP3 file before confirming.');
@@ -842,7 +853,7 @@ $jsonData = json_encode($table); ?>
             }
         }
         // Handle the "Oops, I don’t have any evidence" button click
-        document.getElementById('no-evidence').addEventListener('click', function () {
+        document.getElementById('no-evidence').addEventListener('click', function() {
             $('#reportProspectModal').modal('hide');
         });
 
@@ -868,18 +879,18 @@ $jsonData = json_encode($table); ?>
                 url: 'submit_report', // Endpoint URL
                 type: 'POST', // HTTP method
                 data: data, // JSON data and appended CSRF token
-                success: function (response) {
+                success: function(response) {
                     alert_float('success', 'Report submitted successfully!');
                     $('#reportProspectModal').modal('hide');
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     console.error('Error:', error);
                     alert('There was an error submitting the report.');
                 }
             });
         }
 
-        $('#reportProspectModal').on('show.bs.modal', function (event) {
+        $('#reportProspectModal').on('show.bs.modal', function(event) {
             currentStep = 1;
             showStep(currentStep);
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -918,8 +929,8 @@ $jsonData = json_encode($table); ?>
 <script src="<?= site_url('assets/js/main_purchased.js') ?>"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#1reportProspectModal').on('show.bs.modal', function (event) {
+    $(document).ready(function() {
+        $('#1reportProspectModal').on('show.bs.modal', function(event) {
             currentStep = 1;
             showStep(currentStep);
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -960,5 +971,4 @@ $jsonData = json_encode($table); ?>
 
         $('#rating_modal').modal('show');
     }
-
 </script>
