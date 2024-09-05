@@ -475,7 +475,7 @@ ol {
     <?php foreach ($prospects as $prospect): ?>
         <div class="lead-card">
             <div class="lead-card-left">
-            <h3><?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?></h3>
+            <h3><?php echo isset($prospect['first_name'], $prospect['last_name']) ? htmlspecialchars($prospect['first_name'] . ' ' . $prospect['last_name']) : 'N/A'; ?></h3>
             <ol>  <li><strong>Created at:</strong> <?php echo isset($prospect['created_at']) ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : 'N/A'; ?></li>  
             <li><strong>Phone:</strong> <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?></li>
                         <li><strong>Email:</strong> <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?></li>

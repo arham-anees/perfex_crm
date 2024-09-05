@@ -398,6 +398,8 @@ class Prospects_model extends CI_Model
         $sql = "SELECT 
                     p.id, 
                     CONCAT(p.first_name, ' ', p.last_name) AS prospect_name, 
+                    p.last_name,
+                    p.first_name,
                     ps.name AS status, 
                     pt.name AS type, 
                     pc.name AS category, 

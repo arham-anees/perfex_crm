@@ -10,6 +10,7 @@ class Marketplace extends ClientsController
         $this->load->model('leadevo/Acquisition_channels_model');
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Cart_model'); // Ensure Cart_model is loaded
+        $this->load->helper('general');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
         }
@@ -40,7 +41,14 @@ class Marketplace extends ClientsController
 
             // Get filtered prospects
             $prospects = $this->Prospects_model->get_all_market_place($filter);
-
+    
+            // Apply masking functions
+            foreach ($prospects as &$prospect) {
+                $prospect['last_name'] = maskLastNameFunction($prospect['last_name']);
+                $prospect['phone'] = maskPhoneNumber($prospect['phone']);
+                $prospect['email'] = maskEmailAddress($prospect['email']);
+            }
+    
             // Check if the request is an AJAX request
             if ($this->input->is_ajax_request()) {
                 // Return JSON response
@@ -53,6 +61,13 @@ class Marketplace extends ClientsController
         } else {
             // Get all prospects if no filter is applied
             $data['prospects'] = $this->Prospects_model->get_all_market_place();
+    
+            // Apply masking functions
+            foreach ($data['prospects'] as &$prospect) {
+                $prospect['last_name'] = maskLastNameFunction($prospect['last_name']);
+                $prospect['phone'] = maskPhoneNumber($prospect['phone']);
+                $prospect['email'] = maskEmailAddress($prospect['email']);
+            }
         }
 
         // Fetch other necessary data

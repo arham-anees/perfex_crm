@@ -35,6 +35,46 @@ function load_custom_lang_file($language)
  * @param  array $data
  * @return mixed Url
  */
+if (!function_exists('maskLastNameFunction')) {
+    function maskLastNameFunction($lastName) {
+        if (empty($lastName)) {
+            return false; // Return false if the last name is empty
+        }
+        $maskedLastName = substr($lastName, 0, 1) . str_repeat('#', strlen($lastName) - 1);
+        return $maskedLastName;
+    }
+}
+
+if (!function_exists('maskPhoneNumber')) {
+    function maskPhoneNumber($phoneNumber) {
+        $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
+        if (strlen($phoneNumber) != 9) {
+            return false; // Return false if the number isn't valid
+        }
+        $maskedNumber = '+336' . str_repeat('#', 6) . substr($phoneNumber, -1);
+        return $maskedNumber;
+    }
+}
+
+if (!function_exists('maskEmailAddress')) {
+    function maskEmailAddress($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false; // Return false if the email isn't valid
+        }
+
+        list($localPart, $domainPart) = explode('@', $email);
+
+        $maskedLocal = substr($localPart, 0, 1) . str_repeat('#', strlen($localPart) - 1);
+
+        list($domainName, $domainExtension) = explode('.', $domainPart);
+
+        $maskedDomain = str_repeat('#', strlen($domainName));
+
+        return $maskedLocal . '@' . $maskedDomain . '.' . $domainExtension;
+    }
+
+}
+
 function app_generate_short_link($data)
 {
     hooks()->do_action('before_generate_short_link', $data);
