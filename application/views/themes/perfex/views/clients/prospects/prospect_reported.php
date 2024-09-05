@@ -136,7 +136,7 @@
                                             <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? 'N/A'); ?></td>
                                             <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?>
                                                 <div class="row-options"><a
-                                                        href="<?php echo site_url('prospects/prospect/' . $prospect['prospect_id']); ?>"
+                                                        href="<?php echo site_url('prospects/view_reported/' . $prospect['prospect_id']); ?>"
                                                         class="">
                                                         View
                                                     </a></div>
