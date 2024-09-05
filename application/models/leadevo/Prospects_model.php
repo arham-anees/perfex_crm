@@ -697,18 +697,14 @@ class Prospects_model extends CI_Model
     }
 
     public function delete($id)
-{
-
-    // disable foreign key 
-    $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
-    // enable foreign key again
-    $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
-
-    // Delete from the prospects table
-    $result = $this->db->where('id', $id)->delete($this->table);
-
-    return $result;
-}
+    {
+        
+        $this->db->where('id', $id);
+        $result = $this->db->update($this->table, ['is_active' => 0]);
+    
+        return $result;
+    }
+    
 
     public function mark_fake($id, $description)
     {
