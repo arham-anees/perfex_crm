@@ -370,7 +370,7 @@ ol {
 </div>
 <br> -->
 <!-- Filters section -->
-<form id="filterForm" action="marketplace/index" method="post">
+<form id="filterForm" action="" method="post">
                     <?php $csrf = $this->security->get_csrf_hash(); ?>
                 
                

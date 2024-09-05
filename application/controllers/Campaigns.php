@@ -309,10 +309,6 @@ class Campaigns extends ClientsController
         ];
 
 
-        // Add the item to the invoice items array
-        $invoice_data['newitems'][] = $item;
-
-
         if (hooks()->apply_filters('validate_invoice_number', true)) {
             $number = ltrim($invoice_data['number'], '0');
             if (
