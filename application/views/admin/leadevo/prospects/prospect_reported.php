@@ -68,7 +68,7 @@
                                     <td><?php echo htmlspecialchars($prospect['prospect_id'] ?? 'N/A'); ?></td>
                                     <td><?php echo htmlspecialchars($prospect['reason_name'] ?? 'N/A'); ?>
                                         <div class="row-options">
-                                            <a href="<?php echo admin_url('prospects/view/' . $prospect['prospect_id']); ?>" class="">
+                                            <a href="<?php echo admin_url('prospects/view_reported/' . $prospect['prospect_id']); ?>" class="">
                                                 View |
                                             </a>
                                             <a href="#" onclick="openReplaceModal(<?= $prospect['prospect_id'] ?>, <?= $prospect['campaign_id'] ?>)" class="">
