@@ -369,10 +369,13 @@
                         <label for="type"><?php echo _l('Status'); ?></label>
                         <select id="type" name="status" class="filter-input">
                           <option value="">Select Status</option>
-                           <?php foreach ($statuses as $status): ?>
-                                <option value="<?php echo $status->id; ?>" <?=$_POST['status']==$status->id ?'selected':''?>><?php echo $status->name; ?>
+                           <?php foreach ($statuses as $status){
+                              // var_dump($status->name);
+                              // exit;
+                            ?>
+                                <option value="<?php echo $status->id; ?>" <?php echo isset($_POST['status'])&& $_POST['status']==$status->id ?'selected':''?>><?php echo $status->name; ?>
                                 </option>
-                            <?php endforeach; ?>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>

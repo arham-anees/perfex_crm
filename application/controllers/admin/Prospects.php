@@ -27,6 +27,24 @@ class Prospects extends AdminController
         } else {
             $data['prospects'] = $this->Prospects_model->get_all('');
         }
+        if ($this->input->post()) {
+
+            $search = array(
+                'industry_name' => $this->input->post('industry'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
+                'price_range_from' => $this->input->post('price_range_start'),
+                'price_range_to' => $this->input->post('price_range_end'),
+                'generated_from' => $this->input->post('start_date'),
+                'generated_to' => $this->input->post('end_date'),
+                'type' => $this->input->post('type'),
+                
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+            $data['prospects'] = $this->Prospects_model->get_all($search);
+        }else{
+            $data['prospects'] = $this->Prospects_model->get_all('');
+        }
+        $data['types'] = $this->Prospect_types_model->get_all(array('is_active'=>1));
         $data['industries'] = $this->Industries_model->get_all(array('is_active' => 1));
         $data['acquisition_channels'] = $this->Acquisition_channels_model->get_all();
         $this->load->view('admin/leadevo/prospects/index', $data);
@@ -253,7 +271,7 @@ class Prospects extends AdminController
     public function reported()
     {
         // Get the filter value from the URL query string (e.g., ?filter=rejected)
-        $filter = $this->input->get('filter');
+        $filter['status'] = $this->input->get('filter');
     
         // Fetch status options for the dropdown
         $status_options = $this->Reported_Prospects_model->get_status_options();
@@ -271,7 +289,7 @@ class Prospects extends AdminController
         foreach ($reported_prospects as &$prospect) {
             $prospect['status_name'] = $this->Reported_Prospects_model->get_status_name_by_id($prospect['status']);
         }
-    
+
         // Prepare data for the view
         $data['reported_prospects'] = $reported_prospects;
         $data['status_options'] = $status_options;
