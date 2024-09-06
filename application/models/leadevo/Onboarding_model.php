@@ -76,5 +76,10 @@ class Onboarding_model extends App_Model
             ->get($this->table)
             ->row();
     }
+    public function get_onboarding_steps()
+    {
+        $this->db->order_by('step_number', 'ASC');
+        return $this->db->get('tblleadevo_onboarding_steps')->result_array();
+    }
 
 }

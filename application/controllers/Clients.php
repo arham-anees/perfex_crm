@@ -22,6 +22,7 @@ class Clients extends ClientsController
         $this->load->model('leadevo/Prospects_model');
         $this->load->model('leadevo/Reported_Prospects_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('leadevo/Onboarding_model');
         $this->load->model('Misc_model');
         if (!is_client_logged_in()) {
             redirect(site_url('authentication'));
@@ -40,6 +41,8 @@ class Clients extends ClientsController
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
         $data['reported_prospects'] = $this->Reported_Prospects_model->get_all_client();
+        $data['onboarding_total_steps'] = count($this->Onboarding_model->get_onboarding_steps() ?? []);
+        $data['onboarding_steps'] = $this->Onboarding_model->get_steps_client(get_client_user_id())->onboarding_step ?? 0;
         // $this->load->view('clients/dashboard/dashboard', $data);
         // $data['is_home'] = true;
         // $this->load->model('reports_model');

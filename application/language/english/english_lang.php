@@ -4090,3 +4090,5 @@ $lang['leadevo_permission_types'] = 'Manage Types';
 $lang['leadevo_invite_sent_successfully'] = 'Invitation sent successfully';
 $lang['leadevo_onboarding_finished_header'] = 'Thanks for completing onboarding steps';
 $lang['leadevo_onboarding_finished_content'] = 'Thanks for completing the onboarding steps. You can now use the application';
+$lang['leadevo_client_dashboard_onboarding_steps'] = 'Onboarding Progress';
+$lang['leadevo_new_campaign'] = 'New Campaign';
