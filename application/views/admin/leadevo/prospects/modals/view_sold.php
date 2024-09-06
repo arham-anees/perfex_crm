@@ -10,12 +10,12 @@
             <input type="hidden" name="id" />
             <!-- Prospect data will be loaded here via AJAX -->
             <div id="prospectDetails">
-                <p><strong>Full Name:</strong> <span id="prospectFullName"></span></p>
+                <p><strong>First Name:</strong> <span id="prospectFirstName"></span></p>
                 <p><strong>Status:</strong> <span id="prospectStatus"></span></p>
-                <p><strong>Type:</strong> <span id="prospectType"></span></p>
-                <p><strong>Category:</strong> <span id="prospectCategory"></span></p>
-                <p><strong>Acquisition Channel:</strong> <span id="prospectAcquisitionChannel"></span></p>
-                <p><strong>Industry:</strong> <span id="prospectIndustry"></span></p>
+                <p><strong>Source:</strong> <span id="prospectAcquisitionChannel"></span></p>
+                <p><strong>Campaign ID:</strong> <span id="prospectIndustry"></span></p>
+                <p><strong>Sold Price:</strong> <span id="soldPrice"></span></p>
+                <p><strong>Invoice ID:</strong> <span id="invoiceId"></span></p>
             </div>
         </div>
         <div class="modal-footer">
@@ -23,7 +23,6 @@
         </div>
     </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         $('#viewProspectModal').on('shown.bs.modal', function () {
@@ -31,27 +30,28 @@
             let prospectId = $('#viewProspectModal input[name=id]').val();
 
             $.ajax({
-                url: '<?= admin_url('prospects/get_prospect_data') ?>',
+                url: '<?= admin_url('prospects/get_sold_data') ?>',
                 type: 'GET',
                 data: { id: prospectId },
                 success: function (response) {
                     const res = JSON.parse(response);
 
-                    if (res.status === 'error') {
-                        alert(res.message);
+                    if (res.error) {
+                        alert(res.error);
                         return;
                     }
 
                     const data = res.prospect;
 
-                    $('#prospectFullName').text(data.full_name || 'N/A');
-                    $('#prospectStatus').text(data.status || 'Unknown');
-                    $('#prospectType').text(data.type || 'Unknown');
-                    $('#prospectCategory').text(data.category || 'Unknown');
-                    $('#prospectAcquisitionChannel').text(data.acquisition_channel || 'Unknown');
-                    $('#prospectIndustry').text(data.industry || 'Unknown');
+                   
+                    $('#prospectFirstName').text(data.first_name);
+                    $('#prospectLastName').text(data.last_name || 'N/A');
+                    $('#prospectStatus').text(data.status);
+                    $('#prospectAcquisitionChannel').text(data.source_name);
+                    $('#soldPrice').text(data.sold_price);
+                    $('#invoiceId').text(data.invoice_id);
+                    $('#invoiceHash').text(data.invoice_hash);
 
-                    // Show the modal
                     $('#viewProspectModal').modal('show');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

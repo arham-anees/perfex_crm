@@ -279,7 +279,7 @@ function displayStars($rating, $maxStars = 5)
 
 <!-- View Prospect Modal -->
 <div class="modal fade" id="viewProspectModal" tabindex="-1" role="dialog">
-<?php echo get_instance()->load->view('admin/leadevo/prospects/modals/view_prospect.php') ?>
+<?php echo get_instance()->load->view('admin/leadevo/prospects/modals/view_sold.php') ?>
 </div>
 
 
