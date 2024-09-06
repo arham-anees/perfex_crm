@@ -13,15 +13,18 @@ class Prospect_alerts_model extends CI_Model
     // Prospect_alerts_model.php
    public function get_all($search = array())
 {
+    //  echo "<pre>";
+    // print_r($search);
+    // exit;
     $this->db->select('a.id, a.name, a.email, a.phone, a.is_active, a.status, a.is_exclusive, i.name as prospect_industry, ac.name as acquisition_channel, c.name as prospect_category');
-    $this->db->from('tblleadevo_prospect_alerts a');
+    $this->db->from('tblleadevo_prospect_alerts as a');
     $this->db->join('tblleadevo_industries i', 'a.industry_id = i.id', 'left');
     $this->db->join('tblleadevo_prospect_categories c', 'a.prospect_category_id = c.id', 'left');
     $this->db->join('tblleadevo_acquisition_channels ac', 'a.acquisition_channel_id = ac.id', 'left');
 
     // Apply filters if they are set
     if (!empty($search)) {
-        if (isset($search['industry_name'])) {
+        if (isset($search['industry_name']) && $search['industry_name']!="") {
             $this->db->where('i.name', $search['industry_name']);
         }
         if (!empty($search['acquisition_channel_id'])) {
@@ -33,18 +36,21 @@ class Prospect_alerts_model extends CI_Model
         if (isset($search['deal']) && $search['deal']!="" ) {
             $this->db->where('a.is_exclusive', $search['deal']); // Assuming there is a 'deal' column in the table
         }
-        if (!empty($search['name'])) {
+        if (isset($search['name'])  && $search['name']!="") {
             $this->db->like('a.name', $search['name']);
         }
-        if (!empty($search['email'])) {
+        if (isset($search['email']) && $search['email']!="") {
             $this->db->like('a.email', $search['email']);
         }
-        if (!empty($search['phone_no'])) {
+        if (isset($search['phone_no']) && $search['phone_no']!="") {
             $this->db->like('a.phone', $search['phone_no']);
         }
     }
 
     $query = $this->db->get();
+    // $sql = $this->db->last_query();
+    // echo "<pre>";
+    // print_r($sql);exit;
     return $query->result_array();
 }
 

@@ -46,7 +46,7 @@ class Campaigns_model extends CI_Model
         if (!empty($filter['generated_to'])) {
             $conditions[] = "c.end_date <= '" . $this->db->escape_str($filter['generated_to']) . "'";
         }if (isset($filter['status']) && $filter['status']!='') {
-            $conditions[] = "c.status_id <= '" . $this->db->escape_str($filter['status']) . "'";
+            $conditions[] = "c.status_id = '" . $this->db->escape_str($filter['status']) . "'";
         }if (isset($filter['deal']) && $filter['deal']!='') {
             $conditions[] = "c.deal = '" . $this->db->escape_str($filter['deal']) . "'";
         }
