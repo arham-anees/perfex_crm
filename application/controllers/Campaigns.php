@@ -144,8 +144,9 @@ class Campaigns extends ClientsController
 
 
                 $this->Campaigns_model->update_invoice($campaign_id, $invoice['id']);
+                $hash =  $this->Campaigns_model->get_hash($invoice['id']);
 
-                echo json_encode(['status' => 'success', 'data' => site_url('invoice/' . $invoice['id'] . '/' . $invoice['hash'])]);
+                echo json_encode(['status' => 'success', 'data' => site_url('invoice/' . $invoice['id'] . '/' . $hash)]);
                 // echo json_encode(['success' => true, 'message' => 'Campaign created successfully.']);
                 set_alert('success', 'Campaign created successfully.');
             }
