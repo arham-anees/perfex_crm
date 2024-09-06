@@ -249,7 +249,12 @@ class Prospects_model extends CI_Model
             $sql .= " AND CONCAT(p.first_name, ' ', p.last_name) LIKE '%" . $filter["prospect_name"] . "%'";
         }if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND p.industry_id = " . $filter["industry_id"];
+        }if (isset($filter["email_normalization"]) && $filter["email_normalization"] != "") {
+            $sql .= " AND p.email_normalize_status = " . $filter["email_normalization"];
+        }if (isset($filter["phone_normalization"]) && $filter["phone_normalization"] != "") {
+            $sql .= " AND p.phone_normalize_status = " . $filter["phone_normalization"];
         }
+        
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
         }

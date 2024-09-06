@@ -74,55 +74,7 @@ function displayStars($rating, $maxStars = 5)
                 <!-- Optionally add a button or functionality here -->
             </div>
 
-            <div class="col-md-8" style="display:flex;justify-content:end">
-                <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <?php echo _l('Filter By Acquisition Channel'); ?> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li>
-                                <a href="<?php echo admin_url('prospects/fake'); ?>"
-                                    class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == 'all' ? 'active' : ''); ?>">
-                                    <?php echo _l('all'); ?>
-                                </a>
-                            </li>
-                            <?php foreach ($acquisition_channels as $channel): ?>
-                                <li>
-                                    <a href="<?php echo admin_url('prospects/fake?acquisition_channel_id=' . $channel->id); ?>"
-                                        class="<?php echo (isset($_GET['acquisition_channel_id']) && $_GET['acquisition_channel_id'] == $channel->id ? 'active' : ''); ?>">
-                                        <?php echo htmlspecialchars($channel->name); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </form>
-
-                <form method="GET" action="<?php echo admin_url('prospects/fake'); ?>" style="margin-right: 10px;">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <?php echo _l('Filter By Industry'); ?> <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                            <li>
-                                <a href="<?php echo admin_url('prospects/fake'); ?>"
-                                    class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == 'all' ? 'active' : ''); ?>">
-                                    <?php echo _l('all'); ?>
-                                </a>
-                            </li>
-                            <?php foreach ($industries as $industry): ?>
-                                <li>
-                                    <a href="<?php echo admin_url('prospects/fake?industry_id=' . $industry['id']); ?>"
-                                        class="<?php echo (isset($_GET['industry_id']) && $_GET['industry_id'] == $industry['id'] ? 'active' : ''); ?>">
-                                        <?php echo htmlspecialchars($industry['name']); ?>
-                                    </a>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </form>
-            </div>
+           
         </div>
         <div class="row">
 
@@ -132,50 +84,6 @@ function displayStars($rating, $maxStars = 5)
                         <form id="filterForm" action="" method="post">
                         <?php $csrf = $this->security->get_csrf_hash(); ?>
 
-
-                        <div class="row">
-                            
-                            <div class="col-md-4">
-                                <div class="filter-group">
-                                    <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
-                                    <select id="acquisition" name="acquisition" class="filter-input">
-                                        <option value="">Select Acquisition Channel</option>
-                                        <?php foreach ($acquisition_channels as $acquisition): ?>
-                                            <option value="<?php echo $acquisition->id; ?>" <?=$this->input->post('acquisition')==$acquisition->id ?'selected':''?>><?php echo $acquisition->name; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="filter-group">
-                                    <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
-                                    <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  value="<?=!empty($this->input->post('price_range_start')) ? $this->input->post('price_range_start'):''?>">
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="filter-group">
-                                    <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
-                                    <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?=!empty($this->input->post('price_range_end')) ? $this->input->post('price_range_end'):''?>">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="filter-group">
-                                    <label for="start_date"><?php echo _l('From'); ?></label>
-                                    <input type="date" id="start_date" name="start_date" class="form-control" value=" <?=!empty($this->input->post('start_date')) ? $this->input->post('start_date '):''?>">
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="filter-group">
-                                    <label for="end_date"><?php echo _l('To'); ?></label>
-                                    <input type="date" id="end_date" name="end_date" class="form-control" value=" <?=!empty($this->input->post('end_date')) ? $this->input->post('end_date '):''?>">
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="col-md-4">
@@ -202,6 +110,83 @@ function displayStars($rating, $maxStars = 5)
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
+                                    <select id="acquisition" name="acquisition" class="filter-input">
+                                        <option value="">Select Acquisition Channel</option>
+                                        <?php foreach ($acquisition_channels as $acquisition): ?>
+                                            <option value="<?php echo $acquisition->id; ?>" <?=$this->input->post('acquisition')==$acquisition->id ?'selected':''?>><?php echo $acquisition->name; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="email_normalization"><?php echo _l('Email Normalization'); ?></label>
+                                    <select id="email_normalization" name="email_normalization" class="filter-input">
+                                        <option value="">Select Email Normalization</option>
+                                       
+                                            <option value="1" <?=$this->input->post('email_normalization')==1 ?'selected':''?>>Pending
+                                            </option>
+                                             <option value="2" <?=$this->input->post('email_normalization')==2 ?'selected':''?>>Failed
+                                            </option>
+                                             <option value="1" <?=$this->input->post('email_normalization')==3 ?'selected':''?>>Normalized
+                                            </option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="phone_normalization"><?php echo _l('Phone Normalization'); ?></label>
+                                    <select id="phone_normalization" name="phone_normalization" class="filter-input">
+                                        <option value="">Select Phone Normalization</option>
+                                       
+                                            <option value="1" <?=$this->input->post('phone_normalization')==1 ?'selected':''?>>Pending
+                                            </option>
+                                             <option value="2" <?=$this->input->post('phone_normalization')==2 ?'selected':''?>>Failed
+                                            </option>
+                                             <option value="1" <?=$this->input->post('phone_normalization')==3 ?'selected':''?>>Normalized
+                                            </option>
+                                       
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="price_range_start"><?php echo _l('Price Range start'); ?></label>
+                                    <input type="text" id="price_range_start" name="price_range_start" class="filter-input"  value="<?=!empty($this->input->post('price_range_start')) ? $this->input->post('price_range_start'):''?>">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                              
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="price_range_end"><?php echo _l('Price Range end'); ?></label>
+                                    <input type="text" id="price_range_end" name="price_range_end" class="filter-input" value="<?=!empty($this->input->post('price_range_end')) ? $this->input->post('price_range_end'):''?>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="start_date"><?php echo _l('From'); ?></label>
+                                    <input type="date" id="start_date" name="start_date" class="form-control" value=" <?=!empty($this->input->post('start_date')) ? $this->input->post('start_date '):''?>">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="filter-group">
+                                    <label for="end_date"><?php echo _l('To'); ?></label>
+                                    <input type="date" id="end_date" name="end_date" class="form-control" value=" <?=!empty($this->input->post('end_date')) ? $this->input->post('end_date '):''?>">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            
                             <div class="col-md-4">
                                 <!-- <button class="btn regular_price_btn">
                                     <div class="button-content">

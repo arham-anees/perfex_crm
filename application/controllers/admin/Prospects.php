@@ -37,6 +37,8 @@ class Prospects extends AdminController
                 'generated_from' => $this->input->post('start_date'),
                 'generated_to' => $this->input->post('end_date'),
                 'type' => $this->input->post('type'),
+                'email_normalization' => $this->input->post('email_normalization'),
+                'phone_normalization' => $this->input->post('phone_normalization'),
                 
                 // 'zip_codes' => $this->input->post('zip_codes')
             );
