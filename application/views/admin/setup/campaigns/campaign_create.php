@@ -20,7 +20,7 @@
 
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
-                            <textarea id="description" name="description" class="form-control" ></textarea>
+                            <textarea id="description" name="description" class="form-control"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -59,6 +59,8 @@
     document.getElementById('campaign-form').addEventListener('submit', function (event) {
         var startDate = new Date(document.getElementById('start_date').value);
         var endDate = new Date(document.getElementById('end_date').value);
+        console.log(startDate);
+        console.log(endDate);
         var currentDate = new Date();
 
         if (startDate < currentDate) {
@@ -72,6 +74,11 @@
             event.preventDefault();
         }
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#createCampaignModal').on('bs.show', function () {
+            console.log('modal is opened');
+        })
+    })
 </script>
 <?php init_tail(); ?>
 </body>

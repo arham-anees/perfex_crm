@@ -196,7 +196,6 @@
 
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function () {
         let currentStep = 1;
         const totalSteps = 7;
@@ -228,14 +227,14 @@
                 this.classList.toggle('active');
             });
         });
-        
 
-    function validateCurrentStep() {
-        const step = steps[currentStep - 1];
-        const inputs = step.querySelectorAll('input, select');
-        const isValid = Array.from(inputs).every(input => input.value.trim() !== '');
-        nextBtn.disabled = !isValid;
-    }
+
+        function validateCurrentStep() {
+            const step = steps[currentStep - 1];
+            const inputs = step.querySelectorAll('input, select');
+            const isValid = Array.from(inputs).every(input => input.value.trim() !== '');
+            nextBtn.disabled = !isValid;
+        }
 
         nextBtn.addEventListener('click', function () {
             if (currentStep != 4 && currentStep != 5)
@@ -252,13 +251,13 @@
         });
 
         backBtn.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default button behavior
-        if (currentStep > 1) {
-            currentStep--;
-            showStep(currentStep);
-            validateCurrentStep();
-        }
-    });
+            event.preventDefault(); // Prevent default button behavior
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+                validateCurrentStep();
+            }
+        });
         $('#createCampaignModal').on('shown.bs.modal', function () {
             showStep(currentStep);
             document.getElementById('nextBtn').disabled = true;
@@ -339,8 +338,6 @@
             const nameInput = document.getElementById('pname');
             const descInput = document.getElementById('desc');
 
-            console.log('nameInput:', nameInput.value);
-            console.log('descInput:', descInput.value);
 
             if (nameInput && descInput) {
                 formData.append('name', nameInput.value);
@@ -368,19 +365,19 @@
             // const timeTo = timeToElement ? timeToElement.value : '';
             // const timings = JSON.stringify({ days: selectedDays.split(','), from: timeFrom, to: timeTo });
             // formData.append('timings', timings);
-            formData.append('start_date', $('input[name=start_date]').val());
-            formData.append('end_date', $('input[name=end_date]').val());
-            var capValues = $('input[name="caps[]"]').map(function () {
+            formData.append('start_date', $('#createCampaignModal input[name=start_date]').val());
+            formData.append('end_date', $('#createCampaignModal input[name=end_date]').val());
+            var capValues = $('#createCampaignModal input[name="caps[]"]').map(function () {
                 return $(this).val();
             }).get();
 
             formData.append('caps[]', capValues);
 
             // Collect Deal data
-            formData.append('deal', $('input[name=deal]:checked').val());
+            formData.append('deal', $('#createCampaignModal input[name=deal]:checked').val());
 
             // Collect Quality data
-            const selectedQualities = Array.from(document.querySelectorAll('input[name="verification"]:checked')).map(input => input.value).join(',');
+            const selectedQualities = Array.from(document.querySelectorAll('#createCampaignModal input[name="verification"]:checked')).map(input => input.value).join(',');
             formData.append('verify_by_staff', selectedQualities.includes('staff') ? 1 : 0);
             formData.append('verify_by_sms', selectedQualities.includes('sms') ? 1 : 0);
             formData.append('verify_by_whatsapp', selectedQualities.includes('whatsapp') ? 1 : 0);
@@ -414,7 +411,7 @@
                         // Optionally redirect or update the UI
                         window.location.reload();
                     } else {
-                        alert('Error: ' + data.status=='success' );
+                        alert('Error: ' + data.status == 'success');
                     }
                 })
                 .catch(error => {
@@ -435,7 +432,7 @@
             if (isFormSubmitted) return;
             isFormSubmitted = true;
             console.log('submitted')
-            if (isFormSubmitted){
+            if (isFormSubmitted) {
                 document.getElementById('nextBtn').disabled = true;
                 document.getElementById('backBtn').disabled = true;
             }
@@ -556,7 +553,7 @@
 
 
 
-<script>   
+<script>
     const today = new Date().toISOString().split('T')[0];
     const startDateInput = document.getElementById('start-date');
     const endDateInput = document.getElementById('end-date');

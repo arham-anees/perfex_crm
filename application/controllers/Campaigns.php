@@ -138,8 +138,6 @@ class Campaigns extends ClientsController
                     unset($data['id']);
                 $campaign_id = $this->Campaigns_model->insert($data);
 
-
-
                 // Return success response
                 $budget = $data['budget'];
                 $invoice = $this->checkout($budget, $campaign_id, $data);
@@ -296,7 +294,7 @@ class Campaigns extends ClientsController
             'repeat_every_custom' => 1,
             'repeat_type_custom' => 'day',
             'adminnote' => '',
-            'newitem' => [
+            'newitems' => [
                 [
                     'description' => 'Campaign ' . $campaign_id,
                     'long_description' => $campaign_id . ' ' . $campaign['name'] . ' ' . $campaign['description'],
