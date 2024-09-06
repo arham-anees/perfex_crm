@@ -433,6 +433,7 @@
                         // Optionally redirect or update the UI
                         // window.location.reload();
                         window.open(data.data, '_blank');
+                         window.location.reload();
                         alert_float('success', 'Campaign has been created successfully.');
 
                     } else {

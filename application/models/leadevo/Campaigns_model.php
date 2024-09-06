@@ -213,4 +213,25 @@ class Campaigns_model extends CI_Model
             $this->db->trans_commit();
         }
     }
+
+    public function get_hash($invoice_id)
+    {
+        // Make sure to sanitize the input to prevent SQL injection
+        $invoice_id = (int) $invoice_id;
+
+        // Query the database for the hash
+        $this->db->select('hash');
+        $this->db->from('tblinvoices');
+        $this->db->where('id', $invoice_id);
+        $query = $this->db->get();
+
+        // Check if any row is returned
+        if ($query->num_rows() > 0) {
+            $result = $query->row();
+            return $result->hash;
+        }
+
+        // Return null if no hash is found
+        return null;
+    }
 }

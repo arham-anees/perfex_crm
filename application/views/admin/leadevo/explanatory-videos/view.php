@@ -42,7 +42,6 @@
             <div class="col-md-12">
  
                         <hr class="my-4">
-                        <div class="container">
                         <div class="card p-3">
 
                         <div class="row">
@@ -65,7 +64,6 @@
                 </div>
         </div>
     </div>
-</div>
 
 <?php init_tail(); ?>
 </body>
