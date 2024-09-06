@@ -31,7 +31,7 @@
                                         </li>
                                         <?php foreach ($status_options as $option): ?>
                                             <li>
-                                                <a href="<?php echo admin_url('prospects/reported?filter=' . urlencode($option['status'])); ?>"
+                                                <a href="<?php echo admin_url('prospects/reported?filter=' . urlencode($option['id'])); ?>"
                                                     class="<?php echo (isset($_GET['filter']) && $_GET['filter'] == urlencode($option['status']) ? 'active' : ''); ?>">
                                                     <?php echo htmlspecialchars($option['status']); ?>
                                                 </a>

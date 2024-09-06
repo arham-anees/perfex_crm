@@ -7,6 +7,7 @@ class Campaigns extends AdminController
         parent::__construct();
         $this->load->model('leadevo/Campaigns_model');
         $this->load->model('leadevo/Industries_model');
+        $this->load->model('leadevo/campaign_statuses_model');
 
         if (!staff_can('manage_campaign', 'leadevo')) {
             access_denied();
@@ -15,7 +16,35 @@ class Campaigns extends AdminController
 
     public function index()
     {
-        $data['campaigns'] = $this->Campaigns_model->get_all();
+         if ($this->input->post()) {
+
+            $search = array(
+                'industry_name' => $this->input->post('industry'),
+                'acquisition_channel_id' => $this->input->post('acquisition'),
+                'budget_range_from' => $this->input->post('budget_range_start'),
+                'budget_range_to' => $this->input->post('budget_range_end'),
+                'generated_from' => $this->input->post('start_date'),
+                'generated_to' => $this->input->post('end_date'),
+                'status' => $this->input->post('status'),
+                'deal' => $this->input->post('deal'),
+
+                // 'zip_codes' => $this->input->post('zip_codes')
+            );
+            //    echo "<pre>";
+            // print_r($search);
+            // exit;
+            $data['campaigns'] = $this->Campaigns_model->get_all($search);
+        } else {
+
+            $data['campaigns'] = $this->Campaigns_model->get_all('');
+        }
+        $data['statuses'] = $this->campaign_statuses_model->get_all('');
+        // echo "<pre>";
+        // print_r($data['statuses']);
+        // exit;
+         // Fetch all industries
+        $data['countries'] = $this->Campaigns_model->get_all_countries();
+        // $data['campaigns'] = $this->Campaigns_model->get_all();
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $this->load->view('admin/leadevo/campaigns/campaign', $data);
     }

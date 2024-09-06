@@ -52,7 +52,7 @@ class Prospect_alerts extends ClientsController
         }else{
             // Fetch alerts
 
-            $data['alerts'] = $this->Prospect_alerts_model->get_all($conditions);
+            $data['alerts'] = $this->Prospect_alerts_model->get_all();
         }
         
         // Fetch industries for other purposes if needed

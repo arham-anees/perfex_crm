@@ -402,6 +402,7 @@ ol {
                             <div class="filter-group">
                                 <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
                                 <select id="acquisition" name="acquisition" class="filter-input">
+                                    <option value="">Select Acquisition Channel</option>
                                     <?php foreach ($acquisitions as $acquisition): ?>
                                         <option value="<?php echo $acquisition->id; ?>"><?php echo $acquisition->name; ?>
                                         </option>
@@ -441,7 +442,7 @@ ol {
                             <div class="filter-group">
                                 <label for="deal"><?php echo _l('deal'); ?></label>
                                 <select id="deal" name="deal" class="filter-input">
-                                    <option value="" disabled selected>Select Deals</option>
+                                    <option value="" >Select Deals</option>
                                     <option value="0">Exclusive Deal</option>
                                     <option value="1">Non Exclusive Deal</option>
                                 </select>
@@ -467,7 +468,7 @@ ol {
                             <div class="filter-group">
                                 <label for="quality"><?php echo _l('quality'); ?></label>
                                 <select id="quality" name="quality" class="filter-input">
-                                    <option value="" disabled selected>Select verification method</option>
+                                    <option value="" >Select verification method</option>
                                     <option value="4">Verified By Staff</option>
                                     <option value="3">Verified By SMS</option>
                                     <option value="2">Verified By WhatsApp</option>

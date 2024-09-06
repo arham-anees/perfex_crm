@@ -8,12 +8,43 @@ class Campaigns_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
-    public function get_all()
+    public function get_all($filter=[])
     {
+
         $sql = "SELECT c.*, s.name status_name, i.status invoice_status, i.hash invoice_hash FROM `tblleadevo_campaign` c
         LEFT JOIN tblleadevo_campaign_statuses s ON c.status_id = s.id
         LEFT JOIN tblinvoices i ON c.invoice_id = i.id
         WHERE c.is_active = 1";
+         $conditions = [];
+        if (!empty($filter['industry_name'])) {
+            $conditions[] = "c.industry_name = '" . $this->db->escape_like_str($filter['industry_name']) . "'";
+        }
+        if (!empty($filter['acquisition_channel_id'])) {
+            $conditions[] = "c.acquisition_channel_id = " . (int)$filter['acquisition_channel_id'];
+        }
+         
+        if (!empty($filter['budget_range_from'])) {
+            $conditions[] = "c.budget >= " . (float)$filter['budget_range_from'];
+        }
+        if (!empty($filter['budget_range_to'])) {
+            $conditions[] = "c.budget <= " . (float)$filter['budget_range_to'];
+        }
+        if (!empty($filter['generated_from'])) {
+            $conditions[] = "c.start_date >= '" . $this->db->escape_str($filter['generated_from']) . "'";
+        }
+        if (!empty($filter['generated_to'])) {
+            $conditions[] = "c.end_date <= '" . $this->db->escape_str($filter['generated_to']) . "'";
+        }if (isset($filter['status']) && $filter['status']!='') {
+            $conditions[] = "c.status_id = '" . $this->db->escape_str($filter['status']) . "'";
+        }if (isset($filter['deal']) && $filter['deal']!='') {
+            $conditions[] = "c.deal = '" . $this->db->escape_str($filter['deal']) . "'";
+        }
+
+        // Append filter conditions to the base query if any conditions are present
+        if (!empty($conditions) ) {
+            $sql .= ' AND ' . implode(' AND ', $conditions);
+        }
+
         return $this->db->query($sql)->result();
         // return $this->db->get_where($this->table, ['is_active' => 1])->result();
     }
@@ -46,7 +77,7 @@ class Campaigns_model extends CI_Model
         if (!empty($filter['generated_to'])) {
             $conditions[] = "c.end_date <= '" . $this->db->escape_str($filter['generated_to']) . "'";
         }if (isset($filter['status']) && $filter['status']!='') {
-            $conditions[] = "c.status_id <= '" . $this->db->escape_str($filter['status']) . "'";
+            $conditions[] = "c.status_id = '" . $this->db->escape_str($filter['status']) . "'";
         }if (isset($filter['deal']) && $filter['deal']!='') {
             $conditions[] = "c.deal = '" . $this->db->escape_str($filter['deal']) . "'";
         }

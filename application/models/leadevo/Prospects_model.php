@@ -242,24 +242,34 @@ class Prospects_model extends CI_Model
                 ON r.prospect_id = p.id
                 WHERE
                     p.is_active = 1 ";
-
-        if (isset($filter["name"]) && $filter["name"] != "") {
-            $sql .= " AND p.prospect_name = " . $filter["name"];
+        if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
+           $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
+        }
+        if (isset($filter["prospect_name"]) && $filter["prospect_name"] != "") {
+            $sql .= " AND CONCAT(p.first_name, ' ', p.last_name) LIKE '%" . $filter["prospect_name"] . "%'";
         }if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND p.industry_id = " . $filter["industry_id"];
+        }if (isset($filter["email_normalization"]) && $filter["email_normalization"] != "") {
+            $sql .= " AND p.email_normalize_status = " . $filter["email_normalization"];
+        }if (isset($filter["phone_normalization"]) && $filter["phone_normalization"] != "") {
+            $sql .= " AND p.phone_normalize_status = " . $filter["phone_normalization"];
         }
+        
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
-            $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
+            $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
+        }
+        if (isset($filter["type"]) && $filter["type"] != "") {
+            $sql .= " AND pt.name LIKE '%" . $filter["type"] . "%'";
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
             $sql .= " AND zip_code in (" . implode(",", $filter["zip_codes"]) . ")";
         }
         if (isset($filter["generated_from"]) && $filter["generated_from"] != "") {
-            $sql .= " AND DATE(created_at) <= DATE('" . $filter["generated_from"] . "')";
+            $sql .= " AND DATE(p.created_at) <= DATE('" . $filter["generated_from"] . "')";
         }
 
         if (isset($filter["generated_to"]) && $filter["generated_to"] != "") {
-            $sql .= " AND DATE(created_at) >= DATE('" . $filter["generated_to"] . "')";
+            $sql .= " AND DATE(p.created_at) >= DATE('" . $filter["generated_to"] . "')";
         }
         if (isset($filter["deal"]) && $filter["deal"] != "") {
 
@@ -271,10 +281,10 @@ class Prospects_model extends CI_Model
         }
 
         if (isset($filter["price_range_from"]) && $filter["price_range_from"] != "") {
-            $sql .= " AND price >=" . $filter["price_range_from"];
+            $sql .= " AND p.desired_amount >=" . $filter["price_range_from"];
         }
         if (isset($filter["price_range_to"]) && $filter["price_range_to"] != "") {
-            $sql .= " AND price <=" . $filter["price_range_to"];
+            $sql .= " AND p.desired_amount <=" . $filter["price_range_to"];
         }
         if (isset($filter["quality"]) && $filter["quality"] != "") {
             $quality = $filter["quality"];
@@ -335,6 +345,7 @@ class Prospects_model extends CI_Model
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
         }
+
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND acquisition_channel_id = " . $filter["acquisition_channel_id"];
         }

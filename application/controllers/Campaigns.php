@@ -51,6 +51,9 @@ class Campaigns extends ClientsController
             $data['campaigns'] = $this->Campaigns_model->get_all_client('');
         }
         $data['statuses'] = $this->campaign_statuses_model->get_all('');
+        // echo "<pre>";
+        // print_r($data['statuses']);
+        // exit;
         $data['industries'] = $this->Industries_model->get_all(); // Fetch all industries
         $data['countries'] = $this->Campaigns_model->get_all_countries();
 
@@ -137,6 +140,8 @@ class Campaigns extends ClientsController
                 if (isset($data['id']))
                     unset($data['id']);
                 $campaign_id = $this->Campaigns_model->insert($data);
+
+
 
                 // Return success response
                 $budget = $data['budget'];
