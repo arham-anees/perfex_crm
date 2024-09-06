@@ -259,8 +259,30 @@
             }
         });
         $('#createCampaignModal').on('shown.bs.modal', function () {
+            currentStep = 1;
             showStep(currentStep);
             document.getElementById('nextBtn').disabled = true;
+            const form = document.getElementById('createCampaignModal');
+            const inputs = form.querySelectorAll('input');
+
+            // Loop through each input
+            inputs.forEach(function (input) {
+                // If the input type is not 'hidden', reset its value
+                if (input.type !== 'hidden') {
+                    input.value = input.defaultValue; // Reset to default value
+                }
+            });
+
+            // Optionally, reset select and textarea fields as well (excluding hidden inputs)
+            const selects = form.querySelectorAll('select');
+            selects.forEach(function (select) {
+                select.value = select.defaultValue;
+            });
+
+            const textareas = form.querySelectorAll('textarea');
+            textareas.forEach(function (textarea) {
+                textarea.value = textarea.defaultValue;
+            });
         });
 
         $('#createCampaignModal input[name=campaing-name]').on('input', function (e) {
@@ -409,14 +431,20 @@
                 .then(data => {
                     if (data.status) {
                         // Optionally redirect or update the UI
-                        window.location.reload();
+                        // window.location.reload();
+                        window.open(data.data, '_blank');
+                        alert_float('success', 'Campaign has been created successfully.');
+
                     } else {
-                        alert('Error: ' + data.status == 'success');
+                        // alert('Error: ' + data.status == 'success');
+                        alert_float('error', data.message || 'Failed to save campaign.');
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error, csrfToken);
-                    alert('There was an error creating the campaign.');
+                    // console.error('Error:', error, csrfToken);
+                    // alert('There was an error creating the campaign.');
+
+                    alert_float('error', error.message || 'Failed to save campaign.');
                 }).finally(() => {
                     isFormSubmitted = false;
                 });
