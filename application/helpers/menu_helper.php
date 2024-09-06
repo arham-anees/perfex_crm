@@ -793,6 +793,12 @@ function app_init_client_sidebar_menu_items()
         'href' => site_url('prospect_alerts'),
         'position' => 3
     ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_crm', [
+        'slug' => 'crm',
+        'name' => 'Crm',
+        'href' => site_url('crm'),
+        'position' => 8
+    ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_prospects_purchased', [
         'slug' => 'leadevo-user-prospects',
         'name' => 'Prospects Purchased',
@@ -819,11 +825,12 @@ function app_init_client_sidebar_menu_items()
         'position' => 6
     ]);
 
-    $CI->app_menu->add_client_sidebar_menu_item('leadevo_crm', [
-        'slug' => 'crm',
-        'name' => 'Crm',
-        'href' => site_url('crm'),
-        'position' => 8
+   
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_zapier', [
+        'slug' => 'leadevo-zapier',
+        'name' => 'Zapier',
+        'href' => site_url('clients/zapier'),
+        'position' => 7
     ]);
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_statistics', [
         'slug' => 'leadevo-marketplace-leads',
@@ -831,6 +838,6 @@ function app_init_client_sidebar_menu_items()
         'href' => site_url('statistics'),
         'position' => 9
     ]);
-   
-   
+
+
 }
