@@ -1838,3 +1838,222 @@ ERROR - 2024-09-06 16:43:06 --> admin
 ERROR - 2024-09-06 16:43:06 --> 12
 ERROR - 2024-09-06 16:43:06 --> admin
 ERROR - 2024-09-06 11:43:06 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:50:54 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:50:54 --> admin
+ERROR - 2024-09-06 16:50:54 --> 12
+ERROR - 2024-09-06 16:50:54 --> admin
+ERROR - 2024-09-06 11:50:55 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Status"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Prospect"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Reason"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Created At"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Evidence"
+ERROR - 2024-09-06 16:53:40 --> Could not find the language line "Status"
+ERROR - 2024-09-06 16:53:40 --> client
+ERROR - 2024-09-06 16:53:40 --> 12
+ERROR - 2024-09-06 16:53:40 --> client
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:53:46 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:53:46 --> admin
+ERROR - 2024-09-06 16:53:46 --> 12
+ERROR - 2024-09-06 16:53:46 --> admin
+ERROR - 2024-09-06 11:53:47 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:53:50 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:53:50 --> client
+ERROR - 2024-09-06 16:53:50 --> 12
+ERROR - 2024-09-06 16:53:50 --> client
+ERROR - 2024-09-06 16:54:15 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:54:15 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:54:16 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:54:16 --> admin
+ERROR - 2024-09-06 16:54:16 --> 12
+ERROR - 2024-09-06 16:54:16 --> admin
+ERROR - 2024-09-06 11:54:16 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:55:13 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:55:13 --> client
+ERROR - 2024-09-06 16:55:13 --> 12
+ERROR - 2024-09-06 16:55:13 --> client
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:56:16 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:56:16 --> admin
+ERROR - 2024-09-06 16:56:16 --> 12
+ERROR - 2024-09-06 16:56:16 --> admin
+ERROR - 2024-09-06 11:56:16 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:56:20 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:56:20 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:56:26 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:56:26 --> admin
+ERROR - 2024-09-06 16:56:26 --> 12
+ERROR - 2024-09-06 16:56:26 --> admin
+ERROR - 2024-09-06 11:56:26 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:57:03 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:03 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:57:06 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:57:06 --> admin
+ERROR - 2024-09-06 16:57:06 --> 12
+ERROR - 2024-09-06 16:57:06 --> admin
+ERROR - 2024-09-06 11:57:07 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:57:09 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:09 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:57:13 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:57:13 --> admin
+ERROR - 2024-09-06 16:57:13 --> 12
+ERROR - 2024-09-06 16:57:13 --> admin
+ERROR - 2024-09-06 11:57:14 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:57:17 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:17 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:57:20 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:57:20 --> admin
+ERROR - 2024-09-06 16:57:20 --> 12
+ERROR - 2024-09-06 16:57:20 --> admin
+ERROR - 2024-09-06 11:57:21 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:57:23 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:23 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:27 --> Could not find the language line "Information Points"
+ERROR - 2024-09-06 16:57:27 --> Could not find the language line "billings"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:57:28 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:57:28 --> admin
+ERROR - 2024-09-06 16:57:28 --> 12
+ERROR - 2024-09-06 16:57:28 --> admin
+ERROR - 2024-09-06 11:57:28 --> 404 Page Not Found: /index
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Meet Industry's Most Advanced Real Estate Lead Marketplace"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Buy Lead"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Name"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Industries"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Price Range start"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Price Range end"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "deal"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "From"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "To"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "quality"
+ERROR - 2024-09-06 16:57:47 --> Could not find the language line "Learn More"
+ERROR - 2024-09-06 16:57:47 --> client
+ERROR - 2024-09-06 16:57:47 --> 12
+ERROR - 2024-09-06 16:57:47 --> client
