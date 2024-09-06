@@ -241,7 +241,7 @@ function displayStars($rating, $maxStars = 5)
                         </div>
                         <div class="col-md-4">
                             <div class="filter-group">
-                                <label for="email"><?php echo _l('Enail'); ?></label>
+                                <label for="email"><?php echo _l('Email'); ?></label>
                                 <input type="text" id="email" name="email" class="filter-input" value="<?= !empty($_POST['email']) ? $_POST['email'] : '' ?>">
                             </div>
                         </div>
