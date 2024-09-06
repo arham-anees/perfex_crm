@@ -300,7 +300,7 @@ class Campaigns extends ClientsController
             'repeat_every_custom' => 1,
             'repeat_type_custom' => 'day',
             'adminnote' => '',
-            'newitem' => [
+            'newitems' => [
                 [
                     'description' => 'Campaign ' . $campaign_id,
                     'long_description' => $campaign_id . ' ' . $campaign['name'] . ' ' . $campaign['description'],
