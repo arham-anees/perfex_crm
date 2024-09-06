@@ -385,6 +385,7 @@ ol {
                             <div class="filter-group">
                                 <label for="acquisition"><?php echo _l('acquisition_channel'); ?></label>
                                 <select id="acquisition" name="acquisition" class="filter-input">
+                                    <option value="">Select Acquisition Channel</option>
                                     <?php foreach ($acquisitions as $acquisition): ?>
                                         <option value="<?php echo $acquisition->id; ?>"><?php echo $acquisition->name; ?>
                                         </option>

@@ -132,7 +132,7 @@ function displayStars($rating, $maxStars = 5)
                                             </option>
                                              <option value="2" <?=$this->input->post('email_normalization')==2 ?'selected':''?>>Failed
                                             </option>
-                                             <option value="1" <?=$this->input->post('email_normalization')==3 ?'selected':''?>>Normalized
+                                             <option value="3" <?=$this->input->post('email_normalization')==3 ?'selected':''?>>Normalized
                                             </option>
                                         
                                     </select>
@@ -148,7 +148,7 @@ function displayStars($rating, $maxStars = 5)
                                             </option>
                                              <option value="2" <?=$this->input->post('phone_normalization')==2 ?'selected':''?>>Failed
                                             </option>
-                                             <option value="1" <?=$this->input->post('phone_normalization')==3 ?'selected':''?>>Normalized
+                                             <option value="3" <?=$this->input->post('phone_normalization')==3 ?'selected':''?>>Normalized
                                             </option>
                                        
                                     </select>
