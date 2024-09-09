@@ -106,7 +106,9 @@
                                                             <td><?php echo htmlspecialchars($prospect['industry'] ?? 'N/A'); ?></td>
                                                             <td><?php echo htmlspecialchars($prospect['fake_description'] ?? 'N/A'); ?></td>
                                                             <td><?php echo htmlspecialchars($prospect['fake_report_date'] ?? 'N/A'); ?></td>
-                                                            <td><?php echo htmlspecialchars($prospect['marked_by_admin'] ?? 'N/A'); ?></td>
+                                                            <td><?php
+                                                                echo get_staff_full_name($prospect['marked_by_admin_id']);
+                                                                ?></td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 </tbody>
