@@ -315,6 +315,7 @@ class Prospects_model extends CI_Model
                     p.is_fake,
                     p.fake_report_date,
                     p.is_available_sale,
+                    p.mark_fake_by AS marked_by_admin_id, 
                     NULL AS zip_code,  -- Assuming these columns are not available or not needed
                     NULL AS phone,    -- Confirm with your actual schema if these should be NULL
                     NULL AS email,
