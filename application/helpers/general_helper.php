@@ -36,7 +36,8 @@ function load_custom_lang_file($language)
  * @return mixed Url
  */
 if (!function_exists('maskLastNameFunction')) {
-    function maskLastNameFunction($lastName) {
+    function maskLastNameFunction($lastName)
+    {
         if (empty($lastName)) {
             return false; // Return false if the last name is empty
         }
@@ -46,18 +47,22 @@ if (!function_exists('maskLastNameFunction')) {
 }
 
 if (!function_exists('maskPhoneNumber')) {
-    function maskPhoneNumber($phoneNumber) {
+    function maskPhoneNumber($phoneNumber)
+    {
         $phoneNumber = preg_replace('/\D/', '', $phoneNumber);
-        if (strlen($phoneNumber) != 9) {
+        if (strlen($phoneNumber) < 4) {
             return false; // Return false if the number isn't valid
         }
-        $maskedNumber = '+336' . str_repeat('#', 6) . substr($phoneNumber, -1);
+        $maskedNumber = substr($phoneNumber, 0, 3) // Get the first 3 digits
+            . str_repeat('#', (strlen($phoneNumber) - 4)) // Apply enough asterisks to cover the middle numbers
+            . substr($phoneNumber, -1); // Get the last digit
         return $maskedNumber;
     }
 }
 
 if (!function_exists('maskEmailAddress')) {
-    function maskEmailAddress($email) {
+    function maskEmailAddress($email)
+    {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false; // Return false if the email isn't valid
         }
@@ -72,7 +77,6 @@ if (!function_exists('maskEmailAddress')) {
 
         return $maskedLocal . '@' . $maskedDomain . '.' . $domainExtension;
     }
-
 }
 
 function app_generate_short_link($data)
@@ -872,14 +876,14 @@ function get_csrf_for_ajax()
  */
 function csrf_jquery_token()
 {
-    ?>
+?>
     <script>
-        if (typeof (jQuery) === 'undefined' && !window.deferAfterjQueryLoaded) {
+        if (typeof(jQuery) === 'undefined' && !window.deferAfterjQueryLoaded) {
             window.deferAfterjQueryLoaded = [];
             Object.defineProperty(window, "$", {
-                set: function (value) {
-                    window.setTimeout(function () {
-                        $.each(window.deferAfterjQueryLoaded, function (index, fn) {
+                set: function(value) {
+                    window.setTimeout(function() {
+                        $.each(window.deferAfterjQueryLoaded, function(index, fn) {
                             fn();
                         });
                     }, 0);
@@ -893,11 +897,11 @@ function csrf_jquery_token()
 
         var csrfData = <?php echo json_encode(get_csrf_for_ajax()); ?>;
 
-        if (typeof (jQuery) == 'undefined') {
-            window.deferAfterjQueryLoaded.push(function () {
+        if (typeof(jQuery) == 'undefined') {
+            window.deferAfterjQueryLoaded.push(function() {
                 csrf_jquery_ajax_setup();
             });
-            window.addEventListener('load', function () {
+            window.addEventListener('load', function() {
                 csrf_jquery_ajax_setup();
             }, true);
         } else {
@@ -909,14 +913,14 @@ function csrf_jquery_token()
                 data: csrfData.formatted
             });
 
-            $(document).ajaxError(function (event, request, settings) {
+            $(document).ajaxError(function(event, request, settings) {
                 if (request.status === 419) {
                     alert_float('warning', 'Page expired, refresh the page make an action.')
                 }
             });
         }
     </script>
-    <?php
+<?php
 }
 
 /**
@@ -1120,4 +1124,3 @@ function isValidEmail($email)
     // Check if the domain has MX records
     return checkdnsrr($domain, 'MX');
 }
-
