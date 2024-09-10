@@ -31,6 +31,20 @@ class Stats_model extends CI_Model
     AND l.campaign_id IS NOT NULL
     GROUP BY reported.reported_today;
 ";
+
+$sql="SELECT 
+IFNULL(COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END), 0) AS prospect_amount,
+COUNT(CASE WHEN DATE(l.created_at) = CURDATE() THEN 1 END) AS delivered_today,
+COUNT(CASE WHEN DATE(l.created_at) = CURDATE() - INTERVAL 1 DAY THEN 1 END) AS delivered_yesterday,
+IFNULL(ROUND(AVG(l.price), 2),'-') AS prospect_avg_price,
+(SELECT COUNT(CASE WHEN DATE(r.created_at) = CURDATE() THEN 1 END) 
+    FROM tblleadevo_reported_prospects r 
+    WHERE r.client_id =  " . get_client_user_id() . " ) AS reported_today
+FROM tblclients c
+LEFT JOIN tblleadevo_leads l ON l.client_id = c.userid
+WHERE c.userid =  " . get_client_user_id() . " 
+AND l.campaign_id IS NOT NULL;
+";
 $query = $this->db->query($sql);
 return $query->result();
 

@@ -363,7 +363,6 @@
             <div class="row">
               <?php
               // Ensure $dashboard_stats is not empty
-              if (!empty($dashboard_stats)) {
                 $card_count = 0; // Counter to handle columns in rows
                 foreach ($dashboard_stats[0] as $key => $value) {
                   // Skip keys that are not part of the statistics to display
@@ -410,7 +409,7 @@
                 if ($card_count > 0) {
                   echo '</div></div>';
                 }
-              }
+              
               ?>
             </div>
             <!-- End of panel body -->

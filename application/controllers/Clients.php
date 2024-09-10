@@ -51,6 +51,7 @@ class Clients extends ClientsController
         // $data['project_statuses'] = $this->projects_model->get_project_statuses();
         // $data['title']            = get_company_name(get_client_user_id());
         $this->data($data);
+        $this->data($data);
         $this->view('clients/dashboard/dashboard');
         $this->layout();
     }
