@@ -24,7 +24,7 @@
 
                         <div class="form-group">
                             <label for="video_url"><?php echo _l('Video URL'); ?></label>
-                            <input type="text" id="url" name="url" class="form-control" required>
+                            <input type="url" id="url" name="url" class="form-control" required>
                         </div>
 
 
@@ -49,3 +49,4 @@
 </body>
 
 </html>
+

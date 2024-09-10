@@ -28,7 +28,10 @@ class Affiliate_training_videos extends AdminController
                 'url' => $this->input->post('url'),
                 'video_order' => $this->input->post('video_order'),
             ];
-
+            if (filter_var($data['url'], FILTER_VALIDATE_URL) === false) {
+                set_alert('danger', 'Video URL is not valid.');
+                redirect(admin_url('affiliate_training_videos/create'));
+            }
             if ($this->Affiliate_training_videos_model->insert($data)) {
                 set_alert('success', 'Video added successfully.');
             } else {
@@ -49,7 +52,10 @@ class Affiliate_training_videos extends AdminController
                 'url' => $this->input->post('url'),
                 'video_order' => $this->input->post('video_order'),
             ];
-
+            if (filter_var($data['url'], FILTER_VALIDATE_URL) === false) {
+                set_alert('danger', 'Video URL is not valid.');
+                redirect(admin_url('affiliate_training_videos/edit/' . $id));
+            }
             if ($this->Affiliate_training_videos_model->update($id, $data)) {
                 set_alert('success', 'Video information updated successfully.');
             } else {

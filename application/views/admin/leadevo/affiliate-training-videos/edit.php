@@ -23,7 +23,7 @@
                         </div>
                         <div class="form-group">
                             <label for="url"><?php echo _l('URL'); ?></label>
-                            <input type="text" id="url" name="url" class="form-control" value="<?php echo htmlspecialchars($video['url']??'N/A'); ?>">
+                            <input type="url" id="url" name="url" class="form-control" value="<?php echo htmlspecialchars($video['url']??'N/A'); ?>">
                         </div>
                         <div class="form-group">
                             <label for="description"><?php echo _l('Description'); ?></label>
