@@ -128,7 +128,9 @@
 
          
             <div style="height:20px">
-                <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
+                                <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
+                                <input type="button" value="Remove Filters" class="btn btn-warning pull-right" onclick="resetForm();">
+
             </div>
         </form>
         <hr class="hr-panel-heading" />
@@ -211,3 +213,12 @@
 </body>
 
 </html>
+<script>
+      function resetForm() {
+        // Reset form fields
+        document.getElementById('filterForm').reset();
+        
+        // Reload the page without any filters (remove query parameters)
+        window.location.href = window.location.pathname;
+    }
+</script>
