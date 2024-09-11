@@ -838,6 +838,12 @@ function app_init_client_sidebar_menu_items()
         'href' => site_url('statistics'),
         'position' => 9
     ]);
+    $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_settings', [
+        'slug' => 'settings',
+        'name' => 'Settings',
+        'href' => site_url('settings'),
+        'position' => 10
+    ]);
 
 
 }
