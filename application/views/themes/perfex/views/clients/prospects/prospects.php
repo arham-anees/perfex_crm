@@ -154,10 +154,11 @@
                             </div>
 
                         </div>
-                        <div style="height:20px">
-                            <input type="submit" value="Apply Filters" class="btn btn-info pull-right">
-                            <input type="button" value="Remove Filters" class="btn btn-warning pull-right" onclick="resetForm();">
-                            </div>
+                        <div style="height: 40px; display: flex; justify-content: flex-end; gap: 10px;">
+                        <input type="button" value="Clear Filters" class="btn btn-warning" onclick="resetForm();">
+                        <input type="submit" value="Apply Filters" class="btn btn-info">
+                    </div>
+
 
                     </form>
                     <hr class="hr-panel-heading">
@@ -218,13 +219,17 @@
 
 
 <script>
-    $('#purchased-prospects').DataTable();
+  
 
-   function resetForm() {
+    function resetForm() {
         // Reset form fields
         document.getElementById('filterForm').reset();
         
         // Reload the page without any filters (remove query parameters)
         window.location.href = window.location.pathname;
+
+        // Disable the Clear Filter button again
+        $('.btn-warning').prop('disabled', true);
     }
+
 </script>
