@@ -590,7 +590,6 @@ ol {
                                                     <form id="add-to-cart-form">
                                                         <input type="hidden" name="prospect_id" value="${prospect.id}" />
                                                         <input type="hidden" name="price" value="${calculateDiscountedPrice(prospect)}" />
-                                                        <input type="submit" class="btn btn-primary add-to-cart-button" ${prospect.is_in_cart ? 'disabled' : ''} value="Add to cart" />
                                                     </form>
                                                 </div>
                                             </div>
