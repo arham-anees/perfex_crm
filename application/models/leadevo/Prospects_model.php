@@ -432,16 +432,21 @@ class Prospects_model extends CI_Model
                     p.desired_amount,
                     p.min_amount,
                     pso.name AS source,
-                    null AS deal,
-                    null AS quality,
-                    p.verified_sms,
-                    p.verified_whatsapp,
-                    p.verified_staff,
-                    p.created_at,
-                    p.share_audio_before_purchase,
-                    p.verified_staff_audio
-                FROM
-                    tblleadevo_prospects p
+                     p.is_exclusive AS deal,
+                    CONCAT(
+                CASE WHEN p.verified_coherence = 1 THEN 'Coherence' ELSE '' END,
+                CASE WHEN p.verified_whatsapp = 1 THEN ' WhatsApp' ELSE '' END,
+                CASE WHEN p.verified_sms = 1 THEN ' SMS' ELSE '' END,
+                CASE WHEN p.verified_staff = 1 THEN ' Staff' ELSE '' END
+            ) AS quality,
+            p.verified_sms,
+            p.verified_whatsapp,
+            p.verified_staff,
+            p.created_at,
+            p.share_audio_before_purchase,
+            p.verified_staff_audio
+        FROM
+            tblleadevo_prospects p
                 LEFT JOIN
                     tblleadevo_prospect_statuses ps ON p.status_id = ps.id
                 LEFT JOIN

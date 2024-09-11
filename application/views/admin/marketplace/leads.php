@@ -480,6 +480,25 @@ ol {
             <ol>  <li><strong>Created at:</strong> <?php echo isset($prospect['created_at']) ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : '-'; ?></li>  
             <li><strong>Phone:</strong> <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?></li>
                         <li><strong>Email:</strong> <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?></li>
+                        <li><strong>Quality:</strong>
+        <ul>
+            <?php 
+            if (isset($prospect['quality']) && !empty($prospect['quality'])) {
+                // Split the quality string into an array of quality types
+                $qualities = explode(' ', trim($prospect['quality']));
+                
+                // Iterate over the array and display each quality as a sublist item
+                foreach ($qualities as $quality) {
+                    if (!empty($quality)) {
+                        echo "<li style='list-style: list; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
+                    }
+                }
+            } else {
+                echo "<li>N/A</li>";
+            }
+            ?>
+        </ul>
+    </li>
                      </ol>
                      
             </div>
@@ -522,6 +541,8 @@ ol {
                         <li><strong>Acquisition Channel:</strong> <?php echo isset($prospect['acquisition_channel']) ? htmlspecialchars($prospect['acquisition_channel']) : 'N/A'; ?></li>
                         <li><strong>Desired Amount:</strong> <?php echo isset($prospect['desired_amount']) ? htmlspecialchars($prospect['desired_amount']) : 'N/A'; ?></li>
                         <li><strong>Minimum Amount:</strong> <?php echo isset($prospect['min_amount']) ? htmlspecialchars($prospect['min_amount']) : 'N/A'; ?></li>
+                        <li><strong>Source:</strong> <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?></li>
+                        <li><strong>Deal:</strong> <?php echo isset($prospect['deal']) ? ($prospect['deal'] == 0 ? 'Exclusive' : 'Non-exclusive') : 'N/A'; ?>
                         </span>
                     </ol>
                 
@@ -535,80 +556,66 @@ ol {
 </body>
 <?php init_tail(); ?>
 <script>
-    $(document).ready(function () {
-        $('#filterForm').on('submit', function (e) {
-            e.preventDefault(); // Prevent the form from submitting via the browser
-            // alert("Sds");
-            // Get CSRF token from the hidden field
-            var csrfName = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').attr('name');
-            var csrfHash = $('input[name="<?php echo $this->security->get_csrf_token_name(); ?>"]').val();
+   
+    if (Array.isArray(response)) {
+        let container = $('.panel-body .ajaxappedn');
+        container.empty(); // Clear the current content
 
-            $.ajax({
-                url: $(this).attr('action'), // Use the form's action attribute
-                type: $(this).attr('method'), // Use the form's method attribute
-                data: $(this).serialize() + '&' + csrfName + '=' + csrfHash, // Serialize the form data and append CSRF token
-                dataType: 'json', // Expect JSON response
-                success: function (response) {
-                    // Check if the response is an array
-                    if (Array.isArray(response)) {
-                        // Update the table with the filtered data
-                        let container = $('.panel-body .ajaxappedn');
-                        container.empty(); // Clear the current table body
-
-                        // Append new rows to the table body
-                         response.forEach(prospect => {
-                        let prospectHtml = `
-                            <div class="lead-card">
-                                <div class="lead-card-left">
-                                    <h3>${prospect.prospect_name || 'N/A'}</h3>
-                                    <ol>
-                                        <li><strong>Created at:</strong> ${prospect.created_at ? new Date(prospect.created_at).toISOString().split('T')[0] : 'N/A'}</li>
-                                        <li><strong>Phone:</strong> ${prospect.phone || 'N/A'}</li>
-                                        <li><strong>Email:</strong> ${prospect.email || 'N/A'}</li>
-                                    </ol>
-                                </div>
-                                <div class="lead-card-right">
-                                    <div class="title-favorite-container">
-                                        <hr class="line">
-                                        <span class="selling-price">
-                                            <i class='fas fa-tag'></i>
-                                            <strong>Selling Price:</strong> ${calculateDiscountedPrice(prospect)}
-                                        </span>
-                                    </div>
-                                    <div class="details">
-                                        <ol>
-                                            <p><b>Lead Details:</b></p>
-                                            <li><strong>Industry:</strong> ${prospect.industry || 'N/A'}</li>
-                                            <li><strong>Acquisition Channel:</strong> ${prospect.acquisition_channel || 'N/A'}</li>
-                                            <li><strong>Desired Amount:</strong> ${prospect.desired_amount || 'N/A'}</li>
-                                        </ol>
-                                    </div>
-                                    <div class="button-container">
-                                        <button class="btn save_discount_btn">
-                                            <div class="button-content">
-                                                <div class="add-to-cart-container">
-                                                    <form id="add-to-cart-form">
-                                                        <input type="hidden" name="prospect_id" value="${prospect.id}" />
-                                                        <input type="hidden" name="price" value="${calculateDiscountedPrice(prospect)}" />
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>`;
-                        container.append(prospectHtml); // Append the new HTML to the container
-                    });
-                    } else {
-                        console.error('Invalid response format');
+        response.forEach(prospect => {
+            let prospectHtml = `
+                <div class="lead-card">
+                    <div class="lead-card-left">
+                        <h3>${prospect.prospect_name || 'N/A'}</h3>
+                        <ol>
+                            <li><strong>Created at:</strong> ${prospect.created_at ? new Date(prospect.created_at).toISOString().split('T')[0] : 'N/A'}</li>
+                            <li><strong>Phone:</strong> ${prospect.phone || 'N/A'}</li>
+                            <li><strong>Email:</strong> ${prospect.email || 'N/A'}</li>
+                             <li><strong>Quality:</strong>
+        <ul>
+            <?php 
+            if (isset($prospect['quality']) && !empty($prospect['quality'])) {
+                               
+                // Iterate over the array and display each quality as a sublist item
+                foreach ($qualities as $quality) {
+                    if (!empty($quality)) {
+                        echo "<li style='list-style: list; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
                 }
-            });
+            } else {
+                echo "<li>N/A</li>";
+            }
+            ?>
+        </ul>
+    </li>
+                        </ol>
+                    </div>
+                    <div class="lead-card-right">
+                        <div class="title-favorite-container">
+                            <hr class="line">
+                            <span class="selling-price">
+                                <i class='fas fa-tag'></i>
+                                <strong>Selling Price:</strong> ${calculateDiscountedPrice(prospect)}
+                            </span>
+                        </div>
+                        <div class="details">
+                            <ol>
+                                <p><b>Lead Details:</b></p>
+                                <li><strong>Industry:</strong> ${prospect.industry || 'N/A'}</li>
+                                <li><strong>Acquisition Channel:</strong> ${prospect.acquisition_channel || 'N/A'}</li>
+                                <li><strong>Desired Amount:</strong> ${prospect.desired_amount || 'N/A'}</li>
+                                <li><strong>Source:</strong> <?php echo isset($prospect['source']) ? htmlspecialchars($prospect['source']) : 'N/A'; ?></li>
+                                <li><strong>Deal:</strong> <?php echo isset($prospect['deal']) ? ($prospect['deal'] == 0 ? 'Exclusive' : 'Non-exclusive') : 'N/A'; ?>
+                            </ol>
+                        </div>
+                    </div>
+                </div>`;
+            container.append(prospectHtml); // Append the updated HTML
         });
-    });
+    } else {
+        console.error('Invalid response format');
+    }
+
+
 function calculateDiscountedPrice(prospect) {
     let discounted_price = parseFloat(prospect.desired_amount) || 0;
     if (prospect.discount_type == 1) {

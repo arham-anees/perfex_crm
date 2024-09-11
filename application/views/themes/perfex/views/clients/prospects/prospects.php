@@ -227,9 +227,6 @@
         
         // Reload the page without any filters (remove query parameters)
         window.location.href = window.location.pathname;
-
-        // Disable the Clear Filter button again
-        $('.btn-warning').prop('disabled', true);
     }
 
 </script>
