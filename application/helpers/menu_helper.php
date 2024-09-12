@@ -841,7 +841,7 @@ function app_init_client_sidebar_menu_items()
     $CI->app_menu->add_client_sidebar_menu_item('leadevo_client_settings', [
         'slug' => 'settings',
         'name' => 'Settings',
-        'href' => site_url('settings'),
+        'href' => site_url('settings/profile'),
         'position' => 10
     ]);
 
