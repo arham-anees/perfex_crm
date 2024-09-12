@@ -59,7 +59,8 @@ class Prospects_model extends CI_Model
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND acquisition_id =" . $filter["acquisition_id"];
-        }if (isset($filter["type_id"]) && $filter["type_id"] != "") {
+        }
+        if (isset($filter["type_id"]) && $filter["type_id"] != "") {
             $sql .= " AND type_id =" . $filter["type_id"];
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
@@ -143,12 +144,14 @@ class Prospects_model extends CI_Model
 
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND industry_id = " . $filter["industry_id"];
-        } if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
-           $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
+        }
+        if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
+            $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
-        }if (isset($filter["type"]) && $filter["type"] != "") {
+        }
+        if (isset($filter["type"]) && $filter["type"] != "") {
             $sql .= " AND pt.name LIKE '%" . $filter["type"] . "%'";
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
@@ -243,18 +246,21 @@ class Prospects_model extends CI_Model
                 WHERE
                     p.is_active = 1 ";
         if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
-           $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
+            $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
         }
         if (isset($filter["prospect_name"]) && $filter["prospect_name"] != "") {
             $sql .= " AND CONCAT(p.first_name, ' ', p.last_name) LIKE '%" . $filter["prospect_name"] . "%'";
-        }if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
+        }
+        if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND p.industry_id = " . $filter["industry_id"];
-        }if (isset($filter["email_normalization"]) && $filter["email_normalization"] != "") {
+        }
+        if (isset($filter["email_normalization"]) && $filter["email_normalization"] != "") {
             $sql .= " AND p.email_normalize_status = " . $filter["email_normalization"];
-        }if (isset($filter["phone_normalization"]) && $filter["phone_normalization"] != "") {
+        }
+        if (isset($filter["phone_normalization"]) && $filter["phone_normalization"] != "") {
             $sql .= " AND p.phone_normalize_status = " . $filter["phone_normalization"];
         }
-        
+
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
         }
@@ -468,12 +474,14 @@ class Prospects_model extends CI_Model
         }
         if (isset($filter["industry_id"]) && $filter["industry_id"] != "") {
             $sql .= " AND p.industry_id = " . $filter["industry_id"];
-        } if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
-           $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
+        }
+        if (isset($filter["industry_name"]) && $filter["industry_name"] != "") {
+            $sql .= " AND i.name LIKE '%" . $filter["industry_name"] . "%'";
         }
         if (isset($filter["acquisition_channel_id"]) && $filter["acquisition_channel_id"] != "") {
             $sql .= " AND ac.id =" . $filter["acquisition_channel_id"];
-        }if (isset($filter["type"]) && $filter["type"] != "") {
+        }
+        if (isset($filter["type"]) && $filter["type"] != "") {
             $sql .= " AND pt.name LIKE '%" . $filter["type"] . "%'";
         }
         if (isset($filter["zip_codes"]) && $filter["zip_codes"] != "" && count($filter["zip_codes"]) > 0) {
@@ -514,7 +522,7 @@ class Prospects_model extends CI_Model
         }
         // $query=$this->db->last_query();
         $prospects_all = $this->db->query($sql)->result_array();
-    
+
 
         $prospects = [];
         if (get_option('leadevo_deal_settings_status')) {
@@ -723,13 +731,13 @@ class Prospects_model extends CI_Model
 
     public function delete($id)
     {
-        
+
         $this->db->where('id', $id);
         $result = $this->db->update($this->table, ['is_active' => 0]);
-    
+
         return $result;
     }
-    
+
 
     public function mark_fake($id, $description)
     {
@@ -841,7 +849,6 @@ class Prospects_model extends CI_Model
         $sql = $temp_table;
 
 
-
         /** MARKET CAP
          * Market Cap is the amount of max prospects a user wants to receive
          * on specific date and time.
@@ -859,13 +866,18 @@ class Prospects_model extends CI_Model
         $delivered_today = $this->db->query($delivered_today_sql)->result();
         // read market cap
         $cap_str = $campaign->timings;
-        $caps = json_decode($cap_str, true);
+        $caps = [];
+        if ($cap_str != null) {
+            $caps = json_decode($cap_str, true);
+        }
         // total prospects -1 indicates that the cap is not applicable.
         $total_prospects = -1;
         if (count($caps) > 0) {
+
             $continue_process = true;
             $dateFound = false;
             foreach ($caps as $datetimeString) {
+
                 list($datePart, $numberPart) = explode(' ', $datetimeString);
 
                 $datetime = new DateTime($datePart);
@@ -1081,7 +1093,6 @@ class Prospects_model extends CI_Model
             $data['client_id'] = get_client_user_id();
         }
         $prospect_id = $this->db->query('SELECT prospect_id FROM tblleadevo_leads where lead_id = ' . $data['lead_id'])->row()->prospect_id;
-        // log_message('error', );
         if (!$prospect_id || $prospect_id == 0) {
             throw new Exception('There is not prospect against this lead');
         }
