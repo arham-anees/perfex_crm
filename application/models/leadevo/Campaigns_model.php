@@ -244,6 +244,73 @@ class Campaigns_model extends CI_Model
 
     public function closed_campaigns_automatically()
     {
-        // search for campaigns that have the budget completed or enddate has passed, marked then as completed
+        // Get the current date
+        $current_date = date('Y-m-d');
+
+        // Updated SQL query to include client_id
+        $sql = "
+            SELECT 
+                c.id, 
+                c.client_id, 
+                c.start_date, 
+                c.end_date, 
+                c.budget, 
+                c.status_id, 
+                i.status AS invoice_status, 
+                SUM(ll.price) AS budget_spent
+            FROM 
+                tblleadevo_campaign c
+            LEFT JOIN 
+                tblleadevo_leads ll ON ll.campaign_id = c.id
+            LEFT JOIN 
+                tblinvoices i ON c.invoice_id = i.id
+            WHERE 
+                c.is_active = 1
+            GROUP BY 
+                c.id, 
+                c.client_id,   
+                c.start_date, 
+                c.end_date, 
+                c.budget, 
+                c.status_id, 
+                i.status
+        ";
+
+        // Execute the query
+        $query = $this->db->query($sql);
+        $campaigns = $query->result();
+
+        // Loop through each campaign and update the status based on conditions
+        foreach ($campaigns as $campaign) {
+
+            // 1. If the invoice is 'Unpaid', set the campaign status to 'Pending'
+            if ($campaign->invoice_status == 'Unpaid') {
+                $this->db->where('id', $campaign->id);
+                $this->db->where('client_id', $campaign->client_id);
+                $this->db->update('tblleadevo_campaign', ['status_id' => 0]);
+                continue;
+            } else {
+                // 2. If the invoice is 'Paid' and the start date is in the future, set status to 'Planned'
+                if ( $campaign->start_date > $current_date) {
+                    $this->db->where('id', $campaign->id);
+                    $this->db->where('client_id', $campaign->client_id);
+                    $this->db->update('tblleadevo_campaign', ['status_id' => 3]);
+                    continue;
+                }
+
+                // 3. If the campaign has ended or the budget has been exceeded, set status to 'Completed'
+                if ($campaign->end_date < $current_date || $campaign->budget_spent > $campaign->budget) {
+                    $this->db->where('id', $campaign->id);
+                    $this->db->where('client_id', $campaign->client_id);
+                    $this->db->update('tblleadevo_campaign', ['status_id' => 2]);
+                    continue;
+                }
+            }
+
+
+        }
+
+        return true;
     }
+
 }
