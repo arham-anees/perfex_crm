@@ -477,29 +477,29 @@ ol {
         <div class="lead-card">
             <div class="lead-card-left">
             <h3><?php echo isset($prospect['prospect_name']) ? htmlspecialchars($prospect['prospect_name']) : 'N/A'; ?></h3>
-            <ol>  <li><strong>Created at:</strong> <?php echo isset($prospect['created_at']) ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : '-'; ?></li>  
-            <li><strong>Phone:</strong> <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?></li>
-                        <li><strong>Email:</strong> <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?></li>
-                        <li><strong>Quality:</strong>
+            <ol>
+    <li><strong>Created at:</strong> <?php echo isset($prospect['created_at']) ? htmlspecialchars(date('Y-m-d', strtotime($prospect['created_at']))) : '-'; ?></li>
+    <li><strong>Phone:</strong> <?php echo isset($prospect['phone']) ? htmlspecialchars($prospect['phone']) : 'N/A'; ?></li>
+    <li><strong>Email:</strong> <?php echo isset($prospect['email']) ? htmlspecialchars($prospect['email']) : 'N/A'; ?></li>
+    <li><strong>Quality:</strong>
         <ul>
             <?php 
-            if (isset($prospect['quality']) && !empty($prospect['quality'])) {
-                // Split the quality string into an array of quality types
-                $qualities = explode(' ', trim($prospect['quality']));
-                
-                // Iterate over the array and display each quality as a sublist item
-                foreach ($qualities as $quality) {
-                    if (!empty($quality)) {
-                        echo "<li style='list-style: list; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
-                    }
+            $allQualities = ['Coherence', 'WhatsApp', 'SMS', 'Staff'];
+            $verifiedQualities = isset($prospect['quality']) ? explode(' ', trim($prospect['quality'])) : [];
+
+            foreach ($allQualities as $quality) {
+
+                if (in_array($quality, $verifiedQualities)) {
+                    echo "<li style='list-style: none; margin-left:35px;'>" . htmlspecialchars($quality) . " <span style='color: green;'>&#10004;</span></li>";  // Green tick for verified qualities
+                } else {
+                    echo "<li style='list-style: none; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
                 }
-            } else {
-                echo "<li>N/A</li>";
             }
             ?>
         </ul>
     </li>
-                     </ol>
+</ol>
+
                      
             </div>
             <div class="lead-card-right">
@@ -570,19 +570,19 @@ ol {
                             <li><strong>Created at:</strong> ${prospect.created_at ? new Date(prospect.created_at).toISOString().split('T')[0] : 'N/A'}</li>
                             <li><strong>Phone:</strong> ${prospect.phone || 'N/A'}</li>
                             <li><strong>Email:</strong> ${prospect.email || 'N/A'}</li>
-                             <li><strong>Quality:</strong>
+                              <li><strong>Quality:</strong>
         <ul>
             <?php 
-            if (isset($prospect['quality']) && !empty($prospect['quality'])) {
-                               
-                // Iterate over the array and display each quality as a sublist item
-                foreach ($qualities as $quality) {
-                    if (!empty($quality)) {
-                        echo "<li style='list-style: list; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
-                    }
+            $allQualities = ['Coherence', 'WhatsApp', 'SMS', 'Staff'];
+
+            $verifiedQualities = isset($prospect['quality']) ? explode(' ', trim($prospect['quality'])) : [];
+
+            foreach ($allQualities as $quality) {
+                if (in_array($quality, $verifiedQualities)) {
+                    echo "<li style='list-style: none; margin-left:35px;'>" . htmlspecialchars($quality) . " <span style='color: green;'>&#10004;</span></li>";  // Green tick for verified qualities
+                } else {
+                    echo "<li style='list-style: none; margin-left:35px;'>" . htmlspecialchars($quality) . "</li>";
                 }
-            } else {
-                echo "<li>N/A</li>";
             }
             ?>
         </ul>
