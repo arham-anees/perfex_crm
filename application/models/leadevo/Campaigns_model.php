@@ -11,9 +11,10 @@ class Campaigns_model extends CI_Model
     public function get_all($filter = [])
     {
 
-        $sql = "SELECT c.*, s.name status_name, i.status invoice_status, i.hash invoice_hash FROM `tblleadevo_campaign` c
+        $sql = "SELECT c.id, c.name, c.description, c.start_date,c.end_date, c.status_id, c.budget, c.industry_id, c.deal, c.verify_by_staff, c.verify_by_sms, c.verify_by_whatsapp, c.verify_by_coherence, c.timings, c.client_id, c.invoice_id, s.name AS status_name, i.status invoice_status, i.hash invoice_hash, SUM(ll.price) budget_spent FROM `tblleadevo_campaign` c
         LEFT JOIN tblleadevo_campaign_statuses s ON c.status_id = s.id
         LEFT JOIN tblinvoices i ON c.invoice_id = i.id
+        LEFT JOIN tblleadevo_leads ll ON ll.campaign_id = c.id
         WHERE c.is_active = 1";
         $conditions = [];
         if (!empty($filter['industry_name'])) {
@@ -46,6 +47,8 @@ class Campaigns_model extends CI_Model
         if (!empty($conditions)) {
             $sql .= ' AND ' . implode(' AND ', $conditions);
         }
+
+        $sql .= "         GROUP BY c.id, c.name, c.description, c.start_date,c.end_date, c.status_id, c.budget, c.industry_id, c.deal, c.verify_by_staff, c.verify_by_sms, c.verify_by_whatsapp, c.verify_by_coherence, c.timings, c.client_id, c.invoice_id , s.name, i.status, i.hash";
 
         return $this->db->query($sql)->result();
         // return $this->db->get_where($this->table, ['is_active' => 1])->result();
