@@ -54,7 +54,8 @@ class Marketplace_cron_model extends App_Model
         if ($this->can_cron_run()) {
             hooks()->do_action('before_marketplace_cron_run', $manually);
 
-            update_option('last_marketplace_cron_run', new DateTime.now());
+            update_option('last_marketplace_cron_run', (new DateTime())->format('Y-m-d H:i:s'));
+
 
             if ($manually == true) {
                 $this->manually = true;
