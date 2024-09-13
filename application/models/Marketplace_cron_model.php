@@ -68,8 +68,8 @@ class Marketplace_cron_model extends App_Model
 
             $this->load->model('leadevo/Prospects_model');
             $this->load->model('leadevo/Campaigns_model');
+            $this->Campaigns_model->closed_campaigns_automatically();
             $campaigns = $this->Campaigns_model->get_active();
-            log_message('error', 'active campaigns ' . count($campaigns));
             foreach ($campaigns as $campaign) {
                 $this->Prospects_model->deliver_prospects($campaign->id);
             }
