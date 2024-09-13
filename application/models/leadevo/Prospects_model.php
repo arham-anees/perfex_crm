@@ -432,6 +432,7 @@ class Prospects_model extends CI_Model
                     p.is_confirmed AS confirm_status,
                     p.is_fake,
                     p.is_available_sale,
+                    p.is_auto_deliverable,
                     null AS zip_code,
                     phone,
                     email,
