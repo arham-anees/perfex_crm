@@ -531,7 +531,34 @@ ol {
             if ($is_discounted) {
                 echo '<span class="material-symbols-outlined" style="font-size:20px; color:black;">sell</span>';
             }
-            ?></span>
+            ?>
+
+<div>
+    <span>Is Auto Deliverable: <?php echo isset($prospect['is_auto_deliverable']) ? ($prospect['is_auto_deliverable'] == 1 ? 'Yes' : 'No') : 'N/A'; ?></span>
+</div>
+<div class="onoffswitch">
+    <input type="checkbox" id="is_auto_deliverable_<?php echo $prospect['id']; ?>" class="onoffswitch-checkbox" 
+           <?php echo isset($prospect['is_auto_deliverable']) && $prospect['is_auto_deliverable'] == '1' ? 'checked' : ''; ?> 
+           value="1" name="is_auto_deliverable" data-id="<?php echo $prospect['id']; ?>" onchange="updateLeadAutoDeliverableStatus(this)">
+    <label class="onoffswitch-label" for="is_auto_deliverable_<?php echo $prospect['id']; ?>"></label>
+</div>
+
+<script>
+    function updateLeadAutoDeliverableStatus(checkbox) {
+        var id = checkbox.getAttribute('data-id');
+        var checked = checkbox.checked ? 1 : 0;
+        $.post('<?php echo site_url('marketplace/update_is_auto_deliverable'); ?>', {id: id, is_auto_deliverable: checked})
+            .done(function (response) {
+                if (response.status === 'success') {
+                    alert_float('success', 'Database updated successfully');
+                } else {
+                    alert_float('danger', 'Error: ' + response.message);
+                }
+            });
+    }
+</script>
+
+            
                 </div>
                 <div class="details">
                     <ol>
@@ -658,6 +685,32 @@ function showLessDetails(button) {
     button.style.display = 'none';  // Hide "Show Less" button
     showMoreButton.style.display = 'inline';  // Show "Show More" button
 }
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.querySelector('.onoffswitch-checkbox');
+    
+    checkbox.addEventListener('change', function() {
+        const isChecked = this.checked ? 1 : 0;
+        const prospectId = this.getAttribute('data-id');
+        
+        // Perform AJAX request
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'update_prospect.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Database updated successfully');
+            } else {
+                console.error('Failed to update database');
+            }
+        };
+        xhr.send('id=' + encodeURIComponent(prospectId) + '&is_auto_deliverable=' + encodeURIComponent(isChecked));
+    });
+});
+
+    // Attach event listeners to buttons
+    const buttons = document.querySelectorAll('.mainSwitch button');
+    buttons.forEach(button => button.addEventListener('click', () => movePill(button)));
+
 
 
 </script>
@@ -669,4 +722,36 @@ function showLessDetails(button) {
         // Reload the page without any filters (remove query parameters)
         window.location.href = window.location.pathname;
     }
+</script>
+<script>
+    function updateLeadAutoDeliverableStatus(checkbox) {
+        var id = checkbox.getAttribute('data-id');
+        var checked = checkbox.checked ? 1 : 0;
+        $.post(admin_url + 'marketplace/update_auto_deliverable', {id: id, is_auto_deliverable: checked})
+            .done(function (response) {
+                if (response.status === 'success') {
+                    alert_float('success', 'Database updated successfully');
+                } else {
+                    alert_float('danger', response.message);
+                }
+            });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.onoffswitch-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const isChecked = this.checked ? '1' : '0';
+            const prospectId = this.getAttribute('data-id');
+
+            $.post('<?php echo site_url('marketplace/update_auto_deliverable'); ?>', {id: prospectId, is_auto_deliverable: isChecked})
+                .done(function (response) {
+                    if (response.status === 'success') {
+                        console.log('Database updated successfully');
+                    } else {
+                        console.error('Error: ' + response.message);
+                    }
+                });
+        });
+    });
+});
+
 </script>
