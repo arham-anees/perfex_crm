@@ -420,6 +420,9 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
     .lead-card-left {
         width: 75%;
     }
+    .mtop-10 {
+    margin-top: 10px;
+}
 </style>
 <div id="wrapper">
     <div class="content">
@@ -608,16 +611,15 @@ if ($is_discounted) {
     echo '<span class="material-symbols-outlined" style="font-size:20px; color:black;">sell</span>';
 }
 ?>
-
-                                                    <div class="auto-deliverable-container text-right float-right" ;>
-                                                        <label class="switch-btn">
+                                                    <div class="mtop-10 d-flex  justify-content-between">
+                                                        <label style="margin-right:10px;" class="me-2">Auto Deliverable</label>
+                                                        <label class="switch-btn ms-auto">
                                                             <input type="checkbox" id="auto-deliverable-checkbox-<?=$prospect['id']?>"
                                                                 <?=isset($prospect['is_auto_deliverable']) && $prospect['is_auto_deliverable'] == 1 ? 'checked' : ''?>
                                                                 onchange="toggleAutoDeliverable(<?=$prospect['id']?>, this.checked ? 1 : 0)">
                                                             <span></span>
                                                         </label>
                                                     </div>
-
 
 
 
