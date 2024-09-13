@@ -11,8 +11,6 @@ use Ddeboer\Imap\Exception\MessageDoesNotExistException;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-define('CRON', true);
-
 class Marketplace_cron_model extends App_Model
 {
     public $manually = false;
@@ -56,7 +54,7 @@ class Marketplace_cron_model extends App_Model
         if ($this->can_cron_run()) {
             hooks()->do_action('before_marketplace_cron_run', $manually);
 
-            update_option('last_marketplace_cron_run', time());
+            update_option('last_marketplace_cron_run', new DateTime.now());
 
             if ($manually == true) {
                 $this->manually = true;
@@ -70,6 +68,7 @@ class Marketplace_cron_model extends App_Model
 
             $this->load->model('leadevo/Prospects_model');
             $this->load->model('leadevo/Campaigns_model');
+            $this->Campaigns_model->closed_campaigns_automatically();
             $campaigns = $this->Campaigns_model->get_active();
             foreach ($campaigns as $campaign) {
                 $this->Prospects_model->deliver_prospects($campaign->id);

@@ -215,12 +215,14 @@ class Prospects extends AdminController
     public function mark_as_auto_deliverable()
     {
         $id = $this->input->post('id');
+        $status = (int) $this->input->post('status'); 
         if (isset($id)) {
-            $this->Prospects_model->mark_as_auto_deliverable($id);
-            prospect_activity($id, 'auto_devliverable', '');
+            $this->Prospects_model->mark_as_auto_deliverable($id, $status);
+            prospect_activity($id, 'auto_deliverable', '');
         }
         redirect(admin_url('prospects'));
     }
+    
     public function rate()
     {
         if (!staff_can('rate', 'leadevo')) {

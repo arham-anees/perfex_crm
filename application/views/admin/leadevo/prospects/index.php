@@ -255,10 +255,16 @@ function displayStars($rating, $maxStars = 5)
                                                                 Put to Sale</a>
                                                         <?php } ?>
                                                         <?php if (!isset($prospect['is_auto_deliverable']) || $prospect['is_auto_deliverable'] == false) { ?>
-                                                            | <a href="#"
-                                                                onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>)">
-                                                                Auto Deliverable</a>
-                                                        <?php } ?>
+    | <a href="#"
+        onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>, 1)">  <!-- Use integer 1 -->
+        Auto Deliverable</a>
+<?php } else { ?>
+    | <a href="#"
+        onclick="openAutoDeliverableModal(<?= $prospect['id'] ?>, 0)">  <!-- Use integer 0 -->
+        Disable Auto Delivery</a>
+<?php } ?>
+
+
                                                         <?php if (!isset($prospect['verified_staff']) || $prospect['verified_staff'] == false) { ?>
                                                             | <a href="#" class="make-call-button disabled" style="color:grey"
                                                                 data-phone="<?= $prospect['phone'] ?>">
@@ -394,9 +400,10 @@ function displayStars($rating, $maxStars = 5)
 
             <!-- Modal Body -->
             <div class="modal-body text-center">
-                <?php echo form_open(admin_url('prospects/mark_as_auto_deliverable'), ['id' => 'fake-prospect-form']); ?>
+                <?php echo form_open(admin_url('prospects/mark_as_auto_deliverable'), ['id' => 'fake-prospect-form', 'status' =>'1']); ?>
                 <input type="hidden" name="id" />
-                <p><?= _l('leadevo_report_auto_deliverable_message') ?></p>
+                <input type="hidden" name="status" />
+                <p class="modal-desc"><?= _l('leadevo_report_auto_deliverable_message') ?></p>
 
                 <!-- Submit Button -->
                 <input type="submit" value="<?php echo _l('submit'); ?>" class="btn btn-primary" />
@@ -406,6 +413,7 @@ function displayStars($rating, $maxStars = 5)
         </div>
     </div>
 </div>
+
 
 <div id="mark_sale_available_modal" class="modal fade" tabindex="-1" role="dialog">
     <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/put_to_sale.php') ?>
@@ -542,10 +550,26 @@ function displayStars($rating, $maxStars = 5)
         document.querySelector('#mark_sale_available_modal input[name=id]').value = id;
         $('#mark_sale_available_modal').modal('show');
     }
-    function openAutoDeliverableModal(id) {
-        document.querySelector('#mark_prospect_auto_deliverable input[name=id]').value = id;
-        $('#mark_prospect_auto_deliverable').modal('show');
+    function openAutoDeliverableModal(id, status) {
+    document.querySelector('#mark_prospect_auto_deliverable input[name=id]').value = id;
+    document.querySelector('#mark_prospect_auto_deliverable input[name=status]').value = status;  
+
+    // Update modal title based on status
+    let modalTitle = document.querySelector('#mark_prospect_auto_deliverable .modal-title');
+    let modalDescription = document.querySelector('#mark_prospect_auto_deliverable .modal-desc');  // Get modal description element
+
+    if (status == 1) {
+        modalTitle.innerHTML = "<?php echo _l('leadevo_report_auto_deliverable_title'); ?>";
+        modalDescription.innerHTML = "<?= _l('leadevo_report_auto_deliverable_message'); ?>";  // Set innerHTML for the description
+    } else {
+        modalTitle.innerHTML = "<?php echo _l('leadevo_report_disable_auto_deliverable_title'); ?>";
+        modalDescription.innerHTML = "<?= _l('leadevo_report_disable_auto_deliverable_message'); ?>";  // Set innerHTML for the description
     }
+    
+    $('#mark_prospect_auto_deliverable').modal('show');
+}
+
+
     function openSendCampaignModal(id) {
         document.querySelector('#send_via_campaign_modal input[name=id]').value = id;
         $('#send_via_campaign_modal').modal('show');
