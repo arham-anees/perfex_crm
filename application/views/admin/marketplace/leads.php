@@ -421,7 +421,9 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
         margin-top: 2px;
     }
 
-    .lead-card-left {}
+    .mtop-10 {
+        margin-top: 10px;
+    }
 </style>
 <div id="wrapper">
     <div class="content">
@@ -612,6 +614,52 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
 
                                             </div>
                                             <div class="lead-card-right">
+                                                <div class="title-favorite-container">
+                                                    <hr class="line">
+                                                    <?php
+                                                    $is_discounted = false;
+                                                    if ($is_deal_settings_applied == true) {
+                                                        $dateString = $prospect['created_at'];
+                                                        $givenDate = new DateTime($dateString);
+                                                        $currentDate = new DateTime();
+                                                        $interval = $currentDate->diff($givenDate);
+                                                        $days = $interval->days;
+                                                        if ($days >= $days_to_discount) {
+                                                            $is_discounted = true;
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <span class="selling-price">
+                                                        <i class='fas fa-tag'></i>
+                                                        <strong><?php echo _l('leadevo_marketpalce_selling_price'); ?></strong>
+                                                        <?php
+                                                        $discounted_price = ((float) $prospect['desired_amount']) ?? ((float) $prospect['min_amount']) ?? 0;
+                                                        if ($discount_type == 1) {
+                                                            $discounted_price = $discounted_price - ($discounted_price * $discount_value) / 100;
+                                                        } else {
+                                                            $discounted_price = $discounted_price - ($discount_value ?? 0);
+                                                        }
+                                                        echo $discounted_price;
+                                                        if ($is_discounted) {
+                                                            echo '<span class="material-symbols-outlined" style="font-size:20px; color:black;">sell</span>';
+                                                        }
+                                                        ?>
+
+                                                        <div class="auto-deliverable-container text-right float-right" ;>
+                                                            <label class="switch-btn">
+                                                                <input type="checkbox"
+                                                                    id="auto-deliverable-checkbox-<?= $prospect['id'] ?>"
+                                                                    <?= isset($prospect['is_auto_deliverable']) && $prospect['is_auto_deliverable'] == 1 ? 'checked' : '' ?>
+                                                                    onchange="toggleAutoDeliverable(<?= $prospect['id'] ?>, this.checked ? 1 : 0)">
+                                                                <span></span>
+                                                            </label>
+                                                        </div>
+
+
+
+
+
+                                                </div>
                                                 <div class="details">
                                                     <ol>
                                                         <p><b>Lead Details:</b></p>
@@ -638,33 +686,12 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
 
                                                 </div>
                                             </div>
-                                            <div>
-                                                <div class="auto-deliverable-container text-right float-right"
-                                                    style="display:flex;align-items:center">
-                                                    <label>Auto Deliverable</label>
-                                                    <div class="auto-deliverable-container text-right float-right mleft10">
-                                                        <label class="switch-btn">
-                                                            <input type="checkbox"
-                                                                id="auto-deliverable-checkbox-<?= $prospect['id'] ?>"
-                                                                <?= isset($prospect['is_auto_deliverable']) && $prospect['is_auto_deliverable'] == 1 ? 'checked' : '' ?>
-                                                                onchange="toggleAutoDeliverable(<?= $prospect['id'] ?>, this.checked ? 1 : 0)">
-                                                            <span></span>
-                                                        </label>
-                                                    </div>
-
-                                                </div>
-                                                <div>
-                                                    <a href="#" onclick="openSendCampaignModal(<?= $prospect['id'] ?>)">
-                                                        Send via Campaign</a>
-                                                </div>
-
-                                            </div>
                                         </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <div id="send_via_campaign_modal" class="modal fade" tabindex="-1" role="dialog">
-                                <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/send_via_campaign.php') ?>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div id="send_via_campaign_modal" class="modal fade" tabindex="-1" role="dialog">
+                                    <?php echo get_instance()->load->view('admin/leadevo/prospects/modals/send_via_campaign.php') ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -672,16 +699,15 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
             </div>
         </div>
     </div>
-</div>
-</body>
-<?php init_tail(); ?>
-<script>
-    if (Array.isArray(response)) {
-        let container = $('.panel-body .ajaxappedn');
-        container.empty(); // Clear the current content
+    </body>
+    <?php init_tail(); ?>
+    <script>
+        if (Array.isArray(response)) {
+            let container = $('.panel-body .ajaxappedn');
+            container.empty(); // Clear the current content
 
-        response.forEach(prospect => {
-            let prospectHtml = `
+            response.forEach(prospect => {
+                let prospectHtml = `
                 <div class="lead-card">
                     <div class="lead-card-left">
                         <h3>${prospect.prospect_name || 'N/A'}</h3>
@@ -728,96 +754,96 @@ $discount_value = (int) (get_option('leadevo_deal_discount_amount') ?? 0);
                         </div>
                     </div>
                 </div>`;
-            container.append(prospectHtml); // Append the updated HTML
-        });
-    } else {
-        console.error('Invalid response format');
-    }
-
-
-    function calculateDiscountedPrice(prospect) {
-        let discounted_price = parseFloat(prospect.desired_amount) || 0;
-        if (prospect.discount_type == 1) {
-            discounted_price = discounted_price - (discounted_price * prospect.discount_value) / 100;
+                container.append(prospectHtml); // Append the updated HTML
+            });
         } else {
-            discounted_price = discounted_price - (prospect.discount_value || 0);
+            console.error('Invalid response format');
         }
-        return discounted_price;
-    }
-
-    function enterFullscreen() {
-        var video = document.getElementById('marketplaceVideo');
-        if (video.requestFullscreen) {
-            video.requestFullscreen();
-        } else if (video.mozRequestFullScreen) {
-            /* Firefox */
-            video.mozRequestFullScreen();
-        } else if (video.webkitRequestFullscreen) {
-            /* Chrome, Safari and Opera */
-            video.webkitRequestFullscreen();
-        } else if (video.msRequestFullscreen) {
-            /* IE/Edge */
-            video.msRequestFullscreen();
-        }
-    }
 
 
-    function showMoreDetails(button) {
-        var details = button.closest('.details');
-        var showMoreContent = details.querySelector('#show-more-content');
-        var showLessButton = details.querySelector('#show-less');
-
-        showMoreContent.style.display = 'block'; // Show additional details
-        button.style.display = 'none'; // Hide "Show More" button
-        showLessButton.style.display = 'inline'; // Show "Show Less" button
-    }
-
-    function showLessDetails(button) {
-        var details = button.closest('.details');
-        var showMoreContent = details.querySelector('#show-more-content');
-        var showMoreButton = details.querySelector('#show-more');
-
-        showMoreContent.style.display = 'none'; // Hide additional details
-        button.style.display = 'none'; // Hide "Show Less" button
-        showMoreButton.style.display = 'inline'; // Show "Show More" button
-    }
-
-    // Attach event listeners to buttons
-    const buttons = document.querySelectorAll('.mainSwitch button');
-    buttons.forEach(button => button.addEventListener('click', () => movePill(button)));
-
-    function resetForm() {
-        // Reset form fields
-        document.getElementById('filterForm').reset();
-
-        // Reload the page without any filters (remove query parameters)
-        window.location.href = window.location.pathname;
-    }
-
-    function toggleAutoDeliverable(id, status) {
-        // Send AJAX request to update the status
-        $.ajax({
-            url: '<?= admin_url("marketplace/mark_as_auto_deliverable") ?>',
-            type: 'POST',
-            data: {
-                id: id,
-                status: status
-            },
-            success: function (response) {
-                // Update the label dynamically based on the status
-                let label = document.querySelector('label[for="auto-deliverable-checkbox-' + id + '"]');
-                label.textContent = status === 1 ? 'On' : 'Off';
-            },
-            error: function (error) {
-                console.error('Error updating status', error);
+        function calculateDiscountedPrice(prospect) {
+            let discounted_price = parseFloat(prospect.desired_amount) || 0;
+            if (prospect.discount_type == 1) {
+                discounted_price = discounted_price - (discounted_price * prospect.discount_value) / 100;
+            } else {
+                discounted_price = discounted_price - (prospect.discount_value || 0);
             }
-        });
-    }
-</script>
+            return discounted_price;
+        }
 
-<script>
-    function openSendCampaignModal(id) {
-        document.querySelector('#send_via_campaign_modal input[name=id]').value = id;
-        $('#send_via_campaign_modal').modal('show');
-    }
-</script>
+        function enterFullscreen() {
+            var video = document.getElementById('marketplaceVideo');
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.mozRequestFullScreen) {
+                /* Firefox */
+                video.mozRequestFullScreen();
+            } else if (video.webkitRequestFullscreen) {
+                /* Chrome, Safari and Opera */
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                /* IE/Edge */
+                video.msRequestFullscreen();
+            }
+        }
+
+
+        function showMoreDetails(button) {
+            var details = button.closest('.details');
+            var showMoreContent = details.querySelector('#show-more-content');
+            var showLessButton = details.querySelector('#show-less');
+
+            showMoreContent.style.display = 'block'; // Show additional details
+            button.style.display = 'none'; // Hide "Show More" button
+            showLessButton.style.display = 'inline'; // Show "Show Less" button
+        }
+
+        function showLessDetails(button) {
+            var details = button.closest('.details');
+            var showMoreContent = details.querySelector('#show-more-content');
+            var showMoreButton = details.querySelector('#show-more');
+
+            showMoreContent.style.display = 'none'; // Hide additional details
+            button.style.display = 'none'; // Hide "Show Less" button
+            showMoreButton.style.display = 'inline'; // Show "Show More" button
+        }
+
+        // Attach event listeners to buttons
+        const buttons = document.querySelectorAll('.mainSwitch button');
+        buttons.forEach(button => button.addEventListener('click', () => movePill(button)));
+
+        function resetForm() {
+            // Reset form fields
+            document.getElementById('filterForm').reset();
+
+            // Reload the page without any filters (remove query parameters)
+            window.location.href = window.location.pathname;
+        }
+
+        function toggleAutoDeliverable(id, status) {
+            // Send AJAX request to update the status
+            $.ajax({
+                url: '<?= admin_url("marketplace/mark_as_auto_deliverable") ?>',
+                type: 'POST',
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function (response) {
+                    // Update the label dynamically based on the status
+                    let label = document.querySelector('label[for="auto-deliverable-checkbox-' + id + '"]');
+                    label.textContent = status === 1 ? 'On' : 'Off';
+                },
+                error: function (error) {
+                    console.error('Error updating status', error);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function openSendCampaignModal(id) {
+            document.querySelector('#send_via_campaign_modal input[name=id]').value = id;
+            $('#send_via_campaign_modal').modal('show');
+        }
+    </script>
