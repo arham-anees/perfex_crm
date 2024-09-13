@@ -769,12 +769,12 @@ class Prospects_model extends CI_Model
     }
 
 
-    public function mark_as_auto_deliverable($id)
+    public function mark_as_auto_deliverable($id, $status)
     {
         $this->db->where('id', $id);
-        return $this->db->update($this->table, array('is_auto_deliverable' => 1));
-
+        return $this->db->update($this->table, array('is_auto_deliverable' => (int) $status)); 
     }
+    
 
     public function rate($id, $ratings)
     {
