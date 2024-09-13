@@ -88,6 +88,7 @@
                                 // Append the row to the table body
                                 tableBody.appendChild(row);
                             });
+                            $('#matching-campaigns').DataTable().destroy();
                             $('#matching-campaigns').DataTable();
                             setTimeout(() => {
 
